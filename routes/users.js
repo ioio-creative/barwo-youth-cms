@@ -17,7 +17,7 @@ const {
   USER_NOT_EXISTS,
   NOT_AUTHORIZED,
   SERVER_ERROR
-} = require('../responseTypes/users');
+} = require('../types/responses/users');
 const { ADMIN } = require('../types/userRoles');
 
 // @route   POST api/users
@@ -90,10 +90,10 @@ router.post(
   }
 );
 
-// @route   PUT api/users/:id
+// @route   PUT api/users/_:id
 // @desc    Update user
 // @access  Private
-router.put('/:id', auth, async (req, res) => {
+router.put('/:_id', auth, async (req, res) => {
   const { name, email, password, role } = req.body;
 
   // Build user object
@@ -110,11 +110,11 @@ router.put('/:id', auth, async (req, res) => {
       return res.status(401).json({ type: NOT_AUTHORIZED });
     }
 
-    let user = await User.findById(req.params.id);
+    let user = await User.findById(req.params._id);
     if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
 
     user = await User.findByIdAndUpdate(
-      req.params.id,
+      req.params._id,
       { $set: userFields },
       { new: true }
     );
@@ -126,17 +126,17 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   DELETE api/users/:id
+// @route   DELETE api/users/:_id
 // @desc    Delete user
 // @access  Private
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:_id', auth, async (req, res) => {
   try {
     // Make sure user's role is ADMIN
     if (req.user.role !== ADMIN) {
       return res.status(401).json({ type: NOT_AUTHORIZED });
     }
 
-    let user = await User.findById(req.params.id);
+    let user = await User.findById(req.params._id);
     if (!user || user.deleteDT)
       return res.status(404).json({ type: USER_NOT_EXISTS });
 
@@ -145,7 +145,7 @@ router.delete('/:id', auth, async (req, res) => {
     };
 
     user = await User.findByIdAndUpdate(
-      req.params.id,
+      req.params._id,
       { $set: userFields },
       { new: true }
     );
