@@ -5,7 +5,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const auth = require('../middleware/auth');
+const isAdmin = require('../middleware/isAdmin');
+const { generalErrorHandle } = require('../utils/errorHandling');
 const User = require('../models/User');
 const {
   USER_DELETED,
@@ -14,11 +15,8 @@ const {
   PASSWORD_INVALID,
   ROLE_REQUIRED,
   USER_ALREADY_EXISTS,
-  USER_NOT_EXISTS,
-  NOT_AUTHORIZED,
-  SERVER_ERROR
+  USER_NOT_EXISTS
 } = require('../types/responses/users');
-const { ADMIN } = require('../types/userRoles');
 
 // @route   POST api/users
 // @desc    Add user
@@ -26,7 +24,7 @@ const { ADMIN } = require('../types/userRoles');
 router.post(
   '/',
   [
-    auth,
+    isAdmin,
     [
       check('name', NAME_REQUIRED).not().isEmpty(),
       check('email', EMAIL_INVALID).isEmail(),
@@ -47,11 +45,6 @@ router.post(
     const { name, email, password, role } = req.body;
 
     try {
-      // Make sure user's role is ADMIN
-      if (req.user.role !== ADMIN) {
-        return res.status(401).json({ msg: NOT_AUTHORIZED });
-      }
-
       let user = await User.findOne({ email });
       if (user) {
         return res.status(400).json({ type: USER_ALREADY_EXISTS });
@@ -84,8 +77,7 @@ router.post(
         }
       );
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send(SERVER_ERROR);
+      generalErrorHandle(err, res);
     }
   }
 );
@@ -93,7 +85,7 @@ router.post(
 // @route   PUT api/users/_:id
 // @desc    Update user
 // @access  Private
-router.put('/:_id', auth, async (req, res) => {
+router.put('/:_id', isAdmin, async (req, res) => {
   const { name, email, password, role } = req.body;
 
   // Build user object
@@ -105,11 +97,6 @@ router.put('/:_id', auth, async (req, res) => {
   userFields.lastModifyDT = new Date();
 
   try {
-    // Make sure user's role is ADMIN
-    if (req.user.role !== ADMIN) {
-      return res.status(401).json({ type: NOT_AUTHORIZED });
-    }
-
     let user = await User.findById(req.params._id);
     if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
 
@@ -121,21 +108,15 @@ router.put('/:_id', auth, async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send(SERVER_ERROR);
+    generalErrorHandle(err, res);
   }
 });
 
 // @route   DELETE api/users/:_id
 // @desc    Delete user
 // @access  Private
-router.delete('/:_id', auth, async (req, res) => {
+router.delete('/:_id', isAdmin, async (req, res) => {
   try {
-    // Make sure user's role is ADMIN
-    if (req.user.role !== ADMIN) {
-      return res.status(401).json({ type: NOT_AUTHORIZED });
-    }
-
     let user = await User.findById(req.params._id);
     if (!user || user.deleteDT)
       return res.status(404).json({ type: USER_NOT_EXISTS });
@@ -152,8 +133,7 @@ router.delete('/:_id', auth, async (req, res) => {
 
     res.json({ type: USER_DELETED });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send(SERVER_ERROR);
+    generalErrorHandle(err, res);
   }
 });
 

@@ -45,5 +45,11 @@ npm run client  # React Client Only :3000
 ### react
 ### axios
 ### react-router-dom
+
+## Frontend not-too-important dependencies
 ### uuid
 ### react-transition-group
+### @fortawesome/fontawesome-svg-core
+### @fortawesome/free-solid-svg-icons
+### @fortawesome/react-fontawesome
+### admin-lte

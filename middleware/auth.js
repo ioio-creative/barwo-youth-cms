@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
+const { NOT_AUTHORIZED } = require('../types/responses/auth');
+
 module.exports = function (req, res, next) {
   // Get token from header
   const token = req.header('x-auth-token');
@@ -8,7 +10,7 @@ module.exports = function (req, res, next) {
   // Check if not token
   if (!token) {
     // 401: unauthorized
-    return res.status(401).json({ msg: 'No token, authorization denied' });
+    return res.status(401).json({ type: NOT_AUTHORIZED });
   }
 
   try {
@@ -16,6 +18,7 @@ module.exports = function (req, res, next) {
     req.user = decoded.user;
     next();
   } catch (err) {
-    res.status(401).json({ msg: 'Token is not valid' });
+    // 401 unauthorized
+    res.status(401).json({ type: NOT_AUTHORIZED });
   }
 };

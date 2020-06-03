@@ -8,6 +8,8 @@ const config = require('config');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
 
+const { INVALID_CREDENTIALS } = require('../types/responses/auth');
+
 // @route   GET api/auth
 // @desc    Get logged in user
 // @access  Private
@@ -43,11 +45,11 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res.status(400).json({ type: INVALID_CREDENTIALS });
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res.status(400).json({ type: INVALID_CREDENTIALS });
       }
 
       const payload = {
