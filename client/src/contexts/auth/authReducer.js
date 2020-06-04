@@ -1,12 +1,10 @@
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_AUTH_ERROR
 } from '../types';
 
 export default (state, action) => {
@@ -15,35 +13,33 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        loading: false,
-        user: action.payload
+        authLoading: false,
+        authUser: action.payload
       };
-    case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         ...action.payload,
         isAuthenticated: true,
-        loading: false
+        authLoading: false
       };
-    case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
       localStorage.removeItem('token');
       return {
         ...state,
-        token: null,
+        authToken: null,
         isAuthenticated: false,
-        loading: false,
-        user: null,
-        error: action.payload
+        authLoading: false,
+        authUser: null,
+        authError: action.payload
       };
-    case CLEAR_ERRORS:
+    case CLEAR_AUTH_ERROR:
       return {
         ...state,
-        error: null
+        authError: null
       };
     default:
       return state;

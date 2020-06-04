@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const isAdmin = require('../middleware/isAdmin');
+const authIsAdmin = require('../middleware/authIsAdmin');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const User = require('../models/User');
 const {
@@ -17,6 +17,24 @@ const {
   USER_ALREADY_EXISTS,
   USER_NOT_EXISTS
 } = require('../types/responses/users');
+const { SERVER_ERROR } = require('../types/responses/general');
+
+// @route   GET api/users
+// @desc    Get all users users
+// @access  Private
+router.get('/', authIsAdmin, async (req, res) => {
+  try {
+    const users = await User.find({}).sort({
+      lastModifyDT: -1
+    });
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({
+      type: SERVER_ERROR
+    });
+  }
+});
 
 // @route   POST api/users
 // @desc    Add user
@@ -24,7 +42,7 @@ const {
 router.post(
   '/',
   [
-    isAdmin,
+    authIsAdmin,
     [
       check('name', NAME_REQUIRED).not().isEmpty(),
       check('email', EMAIL_INVALID).isEmail(),
@@ -85,7 +103,7 @@ router.post(
 // @route   PUT api/users/_:id
 // @desc    Update user
 // @access  Private
-router.put('/:_id', isAdmin, async (req, res) => {
+router.put('/:_id', authIsAdmin, async (req, res) => {
   const { name, email, password, role } = req.body;
 
   // Build user object
@@ -115,7 +133,7 @@ router.put('/:_id', isAdmin, async (req, res) => {
 // @route   DELETE api/users/:_id
 // @desc    Delete user
 // @access  Private
-router.delete('/:_id', isAdmin, async (req, res) => {
+router.delete('/:_id', authIsAdmin, async (req, res) => {
   try {
     let user = await User.findById(req.params._id);
     if (!user || user.deleteDT)

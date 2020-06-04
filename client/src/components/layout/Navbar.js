@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AuthContext from 'contexts/auth/authContext';
+import routes from 'globals/routes';
+import uiWordings from 'globals/uiWordings';
 
 const Navbar = ({ title, icon }) => {
-  const { isAuthenticated, logout, user } = useContext(AuthContext);
+  const { isAuthenticated, logout, authUser, isAuthUserAdmin } = useContext(
+    AuthContext
+  );
 
   const onLogout = _ => {
     logout();
@@ -13,11 +17,18 @@ const Navbar = ({ title, icon }) => {
 
   const authLinks = (
     <>
-      <li>Hello {user && user.name}</li>
+      {isAuthUserAdmin && (
+        <li>
+          <Link to={routes.users(true)}>{uiWordings['Navbar.Users']}</Link>
+        </li>
+      )}
+      {authUser && (
+        <li>{`${authUser.name}, ${uiWordings['Navbar.Greeting']}`}</li>
+      )}
       <li>
         <a href='#!' onClick={onLogout}>
           <FontAwesomeIcon icon='sign-out-alt' />{' '}
-          <span className='hide-sm'>Logout</span>
+          <span className='hide-sm'>{uiWordings['Navbar.Logout']}</span>
         </a>
       </li>
     </>
@@ -26,7 +37,7 @@ const Navbar = ({ title, icon }) => {
   const guestLinks = (
     <>
       <li>
-        <Link to='/login'>Login</Link>
+        <Link to={routes.login(true)}>{uiWordings['Navbar.Login']}</Link>
       </li>
     </>
   );
@@ -50,7 +61,7 @@ Navbar.propTypes = {
 };
 
 Navbar.defaultProps = {
-  title: 'Contact Keeper',
+  title: uiWordings['Navbar.Title'],
   icon: 'id-card-alt'
 };
 

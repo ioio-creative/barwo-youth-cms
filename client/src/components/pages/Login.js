@@ -2,22 +2,24 @@ import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import AuthContext from 'contexts/auth/authContext';
 import { INVALID_CREDENTIALS } from 'types/responses/auth';
+import { goToUrl } from 'utils/history';
+import routes from 'globals/routes';
 
-const Login = ({ history }) => {
+const Login = _ => {
   const { setAlert } = useContext(AlertContext);
-  const { login, isAuthenticated, error, clearErrors } = useContext(
+  const { login, isAuthenticated, error, clearAuthError } = useContext(
     AuthContext
   );
 
   useEffect(
     _ => {
       if (isAuthenticated) {
-        history.push('/');
+        goToUrl(routes.home);
       }
 
-      if (error === INVALID_CREDENTIALS) {
-        setAlert(error, 'danger');
-        clearErrors();
+      if (error === INVALID_CREDENTIALS.type) {
+        setAlert(INVALID_CREDENTIALS.msg, 'danger');
+        clearAuthError();
       }
     },
     // eslint-disable-next-line

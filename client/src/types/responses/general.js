@@ -1,3 +1,4 @@
-module.exports = {
-  SERVER_ERROR: 'SERVER_ERROR'
+export default {
+  type: 'SERVER_ERROR',
+  msg: 'SERVER_ERROR'
 };

@@ -1,4 +1,4 @@
-const auth = require('../middleware/auth');
+const auth = require('./auth');
 const { ADMIN } = require('../types/userRoles');
 const { USER_DOES_NOT_HAVE_RIGHT } = require('../types/responses/users');
 

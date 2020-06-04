@@ -28,28 +28,29 @@ npm run client  # React Client Only :3000
 
 
 ## Backend dependencies:
-### express
-### bcryptjs
-### jsonwebtoken
-### config
-### express-validator
-### mongoose
+* express
+* bcryptjs
+* jsonwebtoken
+* config
+* express-validator
+* mongoose
 
 
 ## Backend dev dependencies:
-### nodemon
-### concurrently
+* nodemon
+* concurrently
 
 
 ## Frontend dependencies:
-### react
-### axios
-### react-router-dom
+* react
+* axios
+* react-router-dom
 
 ## Frontend not-too-important dependencies
-### uuid
-### react-transition-group
-### @fortawesome/fontawesome-svg-core
-### @fortawesome/free-solid-svg-icons
-### @fortawesome/react-fontawesome
-### admin-lte
+* react-loadable
+* uuid
+* @fortawesome/fontawesome-svg-core
+* @fortawesome/free-solid-svg-icons
+* @fortawesome/react-fontawesome
+* admin-lte
+* react-router-global-history
