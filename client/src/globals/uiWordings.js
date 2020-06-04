@@ -12,6 +12,6 @@ export default {
   'UserItem.EditUser': 'Edit',
   'UserItem.DeleteUser': 'Delete',
 
-  'UserForm.EditUserTitle': 'Edit User',
-  'UserForm.AddUserTitle': 'Add User'
+  'UserForm.AddUserTitle': 'Add User',
+  'UserForm.EditUserTitle': 'Edit User'
 };
