@@ -13,7 +13,7 @@ import AlertState from 'contexts/alert/AlertState';
 import AuthState from 'contexts/auth/AuthState';
 import PrivateRoute from 'components/routing/PrivateRoute';
 import Navbar from 'components/layout/Navbar';
-import Sidebar from 'components/layout/Sidebar';
+// import Sidebar from 'components/layout/Sidebar';
 import Alerts from 'components/layout/Alerts';
 /**
  * Would get the following warning if putting result of asyncLoadingComponent(_ => import('components/Main')) into PrivateRoute.
@@ -31,7 +31,7 @@ import Main from 'components/Main';
 import asyncLoadingComponent from 'components/asyncLoading/AsyncLoadingComponent';
 import routes from 'globals/routes';
 import setAuthToken from 'utils/setAuthToken';
-//import './App.css';
+import './App.css';
 
 /* async react components */
 const AsyncLogin = asyncLoadingComponent(_ => import('components/pages/Login'));
@@ -51,10 +51,9 @@ const App = _ => {
       <AlertState>
         <Router>
           <ReactRouterGlobalHistory />
-          {/* <div className='container'> */}
-          <div className='wrapper'>
-            <Navbar />
-            <Sidebar />
+          <Navbar />
+          {/* <Sidebar /> */}
+          <div className='container'>
             <Alerts />
             <Switch>
               <Route exact path={routes.login(false)} component={AsyncLogin} />
