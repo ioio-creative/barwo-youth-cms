@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,9 +11,12 @@ const Navbar = ({ title, icon }) => {
     AuthContext
   );
 
-  const onLogout = _ => {
-    logout();
-  };
+  const onLogout = useCallback(
+    _ => {
+      logout();
+    },
+    [logout]
+  );
 
   const authLinks = (
     <>
