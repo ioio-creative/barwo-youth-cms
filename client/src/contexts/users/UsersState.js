@@ -14,7 +14,8 @@ import {
   CLEAR_USERS,
   CLEAR_FILTER_USERS,
   USERS_ERROR,
-  CLEAR_USERS_ERROR
+  CLEAR_USERS_ERROR,
+  SET_USERS_LOADING
 } from '../types';
 
 const initialState = {
@@ -53,16 +54,19 @@ const UsersState = ({ children }) => {
 
   // Get Users
   const getUsers = useCallback(async _ => {
+    dispatch({ type: SET_USERS_LOADING });
     try {
       const res = await axios.get('/api/users');
       dispatch({ type: GET_USERS, payload: res.data });
     } catch (err) {
-      dispatch({ type: USERS_ERROR, payload: err.response.msg });
+      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
   }, []);
 
   // Add User
   const addUser = useCallback(async user => {
+    let isSuccess = false;
+    dispatch({ type: SET_USERS_LOADING });
     //user._id = uuid();
     const config = {
       headers: {
@@ -72,13 +76,17 @@ const UsersState = ({ children }) => {
     try {
       const res = await axios.post('/api/users', user, config);
       dispatch({ type: ADD_USER, payload: res.data });
+      isSuccess = true;
     } catch (err) {
-      dispatch({ type: USERS_ERROR, payload: err.response.msg });
+      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
+    return isSuccess;
   }, []);
 
   // Update User
   const updateUser = useCallback(async user => {
+    let isSuccess = false;
+    dispatch({ type: SET_USERS_LOADING });
     //user._id = uuid();
     const config = {
       headers: {
@@ -89,18 +97,21 @@ const UsersState = ({ children }) => {
       //console.log(user);
       const res = await axios.put(`/api/users/${user._id}`, user, config);
       dispatch({ type: UPDATE_USER, payload: res.data });
+      isSuccess = true;
     } catch (err) {
-      dispatch({ type: USERS_ERROR, payload: err.response.msg });
+      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
+    return isSuccess;
   }, []);
 
   // Delete User
   const deleteUser = useCallback(async id => {
+    dispatch({ type: SET_USERS_LOADING });
     try {
       await axios.delete(`/api/users/${id}`);
       dispatch({ type: DELETE_USER, payload: id });
     } catch (err) {
-      dispatch({ type: USERS_ERROR, payload: err.response.msg });
+      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
   }, []);
 
@@ -140,7 +151,7 @@ const UsersState = ({ children }) => {
         users: state.users,
         currentUserToEdit: state.currentUserToEdit,
         filteredUsers: state.filteredUsers,
-        usersError: state.error,
+        usersError: state.usersError,
         getUsers,
         addUser,
         updateUser,

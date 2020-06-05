@@ -34,7 +34,7 @@ const UserItem = ({ user }) => {
             }`}
             style={{ float: 'right' }}
           >
-            {userRoles[role].display}
+            {userRoles[role].label}
           </span>
         )}
       </h3>

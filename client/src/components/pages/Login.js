@@ -1,14 +1,29 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import AuthContext from 'contexts/auth/authContext';
-import { INVALID_CREDENTIALS } from 'types/responses/auth';
+import Loading from 'components/layout/loading/DefaultLoading';
+import authResponseTypes from 'types/responses/auth';
 import { goToUrl } from 'utils/history';
 import routes from 'globals/routes';
+import uiWordings from 'globals/uiWordings';
 
 const Login = _ => {
   const { setAlert } = useContext(AlertContext);
-  const { login, isAuthenticated, error, clearAuthError } = useContext(
-    AuthContext
+  const {
+    login,
+    isAuthenticated,
+    authError,
+    authLoading,
+    clearAuthError,
+    removeAuthLoading
+  } = useContext(AuthContext);
+
+  // componentDidMount
+  useEffect(
+    _ => {
+      removeAuthLoading();
+    },
+    [removeAuthLoading]
   );
 
   useEffect(
@@ -16,14 +31,18 @@ const Login = _ => {
       if (isAuthenticated) {
         goToUrl(routes.home);
       }
+    },
+    [isAuthenticated]
+  );
 
-      if (error === INVALID_CREDENTIALS.type) {
-        setAlert(INVALID_CREDENTIALS.msg, 'danger');
+  useEffect(
+    _ => {
+      if (authError) {
+        setAlert(authResponseTypes[authError].msg, 'danger');
         clearAuthError();
       }
     },
-    // eslint-disable-next-line
-    [error, isAuthenticated, history]
+    [authError, setAlert, clearAuthError]
   );
 
   const [user, setUser] = useState({
@@ -43,23 +62,28 @@ const Login = _ => {
   const onSubmit = async e => {
     e.preventDefault();
     if (email === '' || password === '') {
-      setAlert('Please fill in all fields', 'danger');
+      setAlert(uiWordings['Login.FillInAllFieldsMessage'], 'danger');
     } else {
       await login({
         email,
         password
       });
+      goToUrl(routes.home(true));
     }
   };
+
+  if (authLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className='form-container'>
       <h1>
-        Account <span className='text-primary'>Login</span>
+        <span className='text-primary'>{uiWordings['Login.Title']}</span>
       </h1>
       <form onSubmit={onSubmit}>
         <div className='form-group'>
-          <label htmlFor='email'>Email Address</label>
+          <label htmlFor='email'>{uiWordings['Login.EmailLabel']}</label>
           <input
             type='email'
             name='email'
@@ -69,7 +93,7 @@ const Login = _ => {
           />
         </div>
         <div className='form-group'>
-          <label htmlFor='password'>Password</label>
+          <label htmlFor='password'>{uiWordings['Login.PasswordLabel']}</label>
           <input
             type='password'
             name='password'

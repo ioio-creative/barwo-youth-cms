@@ -28,6 +28,10 @@ const UserSchema = mongoose.Schema({
   },
   deleteDT: {
     type: Date
+  },
+  lastModifyUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users'
   }
 });
 

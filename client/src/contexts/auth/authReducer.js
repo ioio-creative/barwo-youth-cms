@@ -4,7 +4,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_AUTH_ERROR
+  CLEAR_AUTH_ERROR,
+  SET_AUTH_LOADING,
+  REMOVE_AUTH_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -40,6 +42,16 @@ export default (state, action) => {
       return {
         ...state,
         authError: null
+      };
+    case SET_AUTH_LOADING:
+      return {
+        ...state,
+        authLoading: true
+      };
+    case REMOVE_AUTH_LOADING:
+      return {
+        ...state,
+        authLoading: false
       };
     default:
       return state;

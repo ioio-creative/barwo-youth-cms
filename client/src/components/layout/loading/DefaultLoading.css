@@ -1,0 +1,6 @@
+.default-loading {
+  position: absolute;
+  top: 50%;
+  height: 50%;
+  transform: translate(-50%, -50%);
+}

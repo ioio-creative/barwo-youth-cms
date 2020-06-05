@@ -1,44 +1,85 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef
+} from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import UserContext from 'contexts/users/usersContext';
-import userRoles from 'types/userRoles';
+import Select from 'components/form/Select';
+import userRoles, { userRoleOptions } from 'types/userRoles';
+import usersResponseTypes from 'types/responses/users';
 import uiWordings from 'globals/uiWordings';
 
-const defaultState = {
+export const defaultState = {
   email: '',
   password: '',
   name: '',
-  role: userRoles.NORMAL_USER._id,
+  role: userRoles.NORMAL_USER.value,
 
   password2: ''
 };
 
-const ContactForm = _ => {
-  const { setAlert } = useContext(AlertContext);
+const UserForm = _ => {
+  const { setAlert, removeAlert } = useContext(AlertContext);
   const {
     currentUserToEdit,
+    usersError,
     addUser,
     updateUser,
-    clearCurrentUserToEdit
+    clearCurrentUserToEdit,
+    clearUsersError
   } = useContext(UserContext);
 
   const [user, setUser] = useState(defaultState);
+  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+  const [isAddUserMode, setIsAddUserMode] = useState(false);
+
+  const alertId = useRef(null);
+
+  // componentDidMount
+  useEffect(_ => {
+    setIsAddUserMode(
+      !(Boolean(currentUserToEdit) && Boolean(currentUserToEdit.email))
+    );
+
+    if (currentUserToEdit) {
+      setUser(currentUserToEdit);
+    } else {
+      setUser(defaultState);
+    }
+
+    return _ => {
+      clearCurrentUserToEdit();
+      clearAlert();
+    };
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(
     _ => {
-      if (currentUserToEdit) {
-        setUser(currentUserToEdit);
-      } else {
-        setUser(defaultState);
+      if (usersError) {
+        setAlert(usersResponseTypes[usersError].msg, 'danger');
+        clearUsersError();
       }
     },
-    [currentUserToEdit, setUser]
+    [usersError, setAlert, clearUsersError]
   );
 
-  const { email, name, password, password2, role } = user;
+  /* event handlers */
+
+  const onBackToUserList = useCallback(
+    _ => {
+      clearCurrentUserToEdit();
+    },
+    [clearCurrentUserToEdit]
+  );
 
   const onChange = useCallback(
     e => {
+      setIsSubmitEnabled(true);
+      clearAlert();
       setUser({ ...user, [e.target.name]: e.target.value });
     },
     [user, setUser]
@@ -47,135 +88,132 @@ const ContactForm = _ => {
   const onSubmit = useCallback(
     async e => {
       e.preventDefault();
-      if (currentUserToEdit) {
-        const { password2, ...cleanedUser } = user;
-        await updateUser(cleanedUser);
+      const { password2, ...cleanedUser } = user;
+      let isSuccess = false;
+      if (isAddUserMode) {
+        isSuccess = await addUser(cleanedUser);
       } else {
-        await addUser(cleanedUser);
+        isSuccess = await updateUser(cleanedUser);
+      }
+      if (isSuccess) {
+        alertId.current = setAlert(
+          isAddUserMode
+            ? uiWordings['UserForm.AddUserSuccessMessage']
+            : uiWordings['UserForm.UpdateUserSuccessMessage'],
+          'success',
+          -1
+        );
+      }
+      setIsSubmitEnabled(false);
+    },
+    [isAddUserMode, updateUser, addUser, user]
+  );
+
+  /* end of event handlers */
+
+  /* methods */
+
+  const clearAlert = useCallback(
+    _ => {
+      if (alertId.current) {
+        removeAlert(alertId.current);
+        alertId.current = null;
       }
     },
-    [currentUserToEdit, updateUser, addUser]
+    [alertId.current]
   );
 
-  const clearAll = useCallback(
-    e => {
-      clearCurrentUserToEdit();
-    },
-    [clearCurrentUserToEdit]
-  );
+  /* end of methods */
+
+  const { email, name, password, password2, role } = user;
 
   return (
-    <div className='form-container'>
-      <h1>
-      {currentUserToEdit
-          ? uiWordings['UserForm.EditUserTitle']
-          : uiWordings['UserForm.AddUserTitle']}
-      </h1>
-      <form onSubmit={onSubmit}>
-        <div className='form-group'>
-          <label htmlFor='name'>Name</label>
-          <input
-            type='text'
-            name='name'
-            value={name}
+    <>
+      <button onClick={onBackToUserList}>
+        {uiWordings['UserForm.BackToUserList']}
+      </button>
+      <div className='form-container'>
+        <h1>
+          {isAddUserMode
+            ? uiWordings['UserForm.AddUserTitle']
+            : uiWordings['UserForm.EditUserTitle']}
+        </h1>
+        <form onSubmit={onSubmit}>
+          <div className='form-group'>
+            <label htmlFor='email'>{uiWordings['UserForm.EmailLabel']}</label>
+            <input
+              type='email'
+              name='email'
+              value={email}
+              onChange={onChange}
+              required
+            />
+          </div>
+          {isAddUserMode && (
+            <>
+              <div className='form-group'>
+                <label htmlFor='password'>
+                  {uiWordings['UserForm.PasswordLabel']}
+                </label>
+                <input
+                  type='password'
+                  name='password'
+                  value={password}
+                  onChange={onChange}
+                  required
+                  minLength='6'
+                />
+              </div>
+              <div className='form-group'>
+                <label htmlFor='password2'>
+                  {uiWordings['UserForm.ConfirmPasswordLabel']}
+                </label>
+                <input
+                  type='password'
+                  name='password2'
+                  value={password2}
+                  onChange={onChange}
+                  required
+                  minLength='6'
+                />
+              </div>
+            </>
+          )}
+          <div className='form-group'>
+            <label htmlFor='name'>{uiWordings['UserForm.NameLabel']}</label>
+            <input
+              type='text'
+              name='name'
+              value={name}
+              onChange={onChange}
+              required
+            />
+          </div>
+          <Select
+            name='role'
+            value={role}
+            options={userRoleOptions}
+            label={uiWordings['UserForm.RoleLabel']}
             onChange={onChange}
-            required
           />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='email'>Email Address</label>
-          <input
-            type='email'
-            name='email'
-            value={email}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='password'>Password</label>
-          <input
-            type='password'
-            name='password'
-            value={password}
-            onChange={onChange}
-            required
-            minLength='6'
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='password2'>Confirm Password</label>
-          <input
-            type='password'
-            name='password2'
-            value={password2}
-            onChange={onChange}
-            required
-            minLength='6'
-          />
-        </div>
-        <input
-          type='submit'
-          value='Register'
-          className='btn btn-primary btn-block'
-        />
-      </form>
-    </div>
-    <form onSubmit={onSubmit}>
-      <h2 className='text-primary'>
-        
-      </h2>
-      <input
-        type='email'
-        placeholder='Email'
-        name='email'
-        value={email}
-        onChange={onChange}
-        required
-      />
-      <input
-        type='text'
-        placeholder='Name'
-        name='name'
-        value={name}
-        onChange={onChange}
-        required
-      />
-      <h5>Contact Type</h5>
-      <input
-        type='radio'
-        name='type'
-        value='personal'
-        checked={type === 'personal'}
-        onChange={onChange}
-        required
-      />{' '}
-      Personal{' '}
-      <input
-        type='radio'
-        name='type'
-        value='professional'
-        checked={type === 'professional'}
-        onChange={onChange}
-      />{' '}
-      Professional
-      <div>
-        <input
-          type='submit'
-          value={current ? 'Update Contact' : 'Add Contact'}
-          className='
-        btn btn-primary btn-block'
-        />
+          <div>
+            <input
+              disabled={!isSubmitEnabled}
+              type='submit'
+              value={
+                isAddUserMode
+                  ? uiWordings['UserForm.AddUserSubmit']
+                  : uiWordings['UserForm.UpdateUserSubmit']
+              }
+              className={`btn btn-primary btn-block ${
+                isSubmitEnabled ? '' : 'disabled'
+              }`}
+            />
+          </div>
+        </form>
       </div>
-      {current && (
-        <div>
-          <button className='btn btn-light btn-block' onClick={clearAll}>
-            Clear
-          </button>
-        </div>
-      )}
-    </form>
+    </>
   );
 };
 
-export default ContactForm;
+export default UserForm;

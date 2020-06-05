@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import UserList from 'components/users/UserList';
-import UserItem from 'components/users/UserItem';
+import UserForm from 'components/users/UserForm';
 import UsersState from 'contexts/users/UsersState';
 import UsersContext from 'contexts/users/usersContext';
 import uiWordings from 'globals/uiWordings';
@@ -13,7 +13,7 @@ const Users = _ => {
       <div>{uiWordings['Users.Title']}</div>
       <div>
         {currentUserToEdit ? (
-          <UserItem user={currentUserToEdit} />
+          <UserForm user={currentUserToEdit} />
         ) : (
           <UserList />
         )}

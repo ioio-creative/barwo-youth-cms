@@ -9,7 +9,8 @@ import {
   CLEAR_USERS,
   CLEAR_FILTER_USERS,
   USERS_ERROR,
-  CLEAR_USERS_ERROR
+  CLEAR_USERS_ERROR,
+  SET_USERS_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -24,8 +25,8 @@ export default (state, action) => {
       return {
         ...state,
         users: [action.payload, ...state.users],
-        currentUserToEdit: null,
-        userLoading: false
+        //currentUserToEdit: null,
+        usersLoading: false
       };
     case UPDATE_USER:
       return {
@@ -33,7 +34,7 @@ export default (state, action) => {
         users: state.users.map(user =>
           user._id === action.payload._id ? action.payload : user
         ),
-        currentUserToEdit: null,
+        //currentUserToEdit: null,
         usersLoading: false
       };
     case DELETE_USER:
@@ -87,6 +88,11 @@ export default (state, action) => {
       return {
         ...state,
         usersError: null
+      };
+    case SET_USERS_LOADING:
+      return {
+        ...state,
+        usersLoading: true
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   NOT_AUTHORIZED: {
     type: 'NOT_AUTHORIZED',
     msg: 'NOT_AUTHORIZED'

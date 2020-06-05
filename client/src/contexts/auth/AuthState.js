@@ -9,13 +9,16 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_AUTH_ERROR
+  CLEAR_AUTH_ERROR,
+  SET_AUTH_LOADING,
+  REMOVE_AUTH_LOADING
 } from '../types';
 import { isAdmin } from 'types/userRoles';
 
 const initialState = {
   authToken: localStorage.getItem('token'),
-  isAuthenticated: null,
+  isAuthenticated: false,
+  // authLoading has to be initially true to be used in PrivateRoute
   authLoading: true,
   authUser: null,
   authError: null
@@ -26,6 +29,8 @@ const AuthState = ({ children }) => {
 
   // Load User
   const loadUser = useCallback(async _ => {
+    dispatch({ type: SET_AUTH_LOADING });
+
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
@@ -41,6 +46,8 @@ const AuthState = ({ children }) => {
   // Login User
   const login = useCallback(
     async formData => {
+      dispatch({ type: SET_AUTH_LOADING });
+
       const config = {
         header: {
           'Content-Type': 'application.json'
@@ -76,6 +83,11 @@ const AuthState = ({ children }) => {
     dispatch({ type: CLEAR_AUTH_ERROR });
   }, []);
 
+  // Remove Loading
+  const removeAuthLoading = useCallback(_ => {
+    dispatch({ type: REMOVE_AUTH_LOADING });
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -88,7 +100,8 @@ const AuthState = ({ children }) => {
         loadUser,
         login,
         logout,
-        clearAuthError
+        clearAuthError,
+        removeAuthLoading
       }}
     >
       {children}

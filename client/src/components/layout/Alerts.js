@@ -12,7 +12,7 @@ const Alerts = _ => {
   return (
     <>
       {alerts.map(alert => (
-        <div key={alert.id} className={`alert alert-${alert.type}`}>
+        <div key={alert._id} className={`alert alert-${alert.type}`}>
           <FontAwesomeIcon icon='info-circle' /> {alert.msg}
         </div>
       ))}

@@ -11,17 +11,27 @@ const AlertState = ({ children }) => {
 
   // Set Alert
   const setAlert = useCallback((msg, type, timeout = 5000) => {
-    const id = uuid();
-    dispatch({ type: SET_ALERT, payload: { msg, type, id } });
+    const _id = uuid();
+    dispatch({ type: SET_ALERT, payload: { msg, type, _id } });
 
-    setTimeout(_ => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
+    if (timeout >= 0) {
+      setTimeout(_ => dispatch({ type: REMOVE_ALERT, payload: _id }), timeout);
+    }
+
+    return _id;
+  }, []);
+
+  // Remove Alert
+  const removeAlert = useCallback(_id => {
+    dispatch({ type: REMOVE_ALERT, payload: _id });
   }, []);
 
   return (
     <AlertContext.Provider
       value={{
         alerts: state,
-        setAlert
+        setAlert,
+        removeAlert
       }}
     >
       {children}

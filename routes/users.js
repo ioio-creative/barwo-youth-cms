@@ -24,7 +24,9 @@ const { SERVER_ERROR } = require('../types/responses/general');
 // @access  Private
 router.get('/', authIsAdmin, async (req, res) => {
   try {
-    const users = await User.find({}).sort({
+    const users = await User.find({
+      deleteDT: { $exists: false }
+    }).sort({
       lastModifyDT: -1
     });
     res.json(users);
@@ -71,7 +73,8 @@ router.post(
         name,
         email,
         password,
-        role
+        role,
+        lastModifyUser: req.user._id
       });
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
@@ -110,9 +113,10 @@ router.put('/:_id', authIsAdmin, async (req, res) => {
   const userFields = {};
   if (name) userFields.name = name;
   if (email) userFields.email = email;
-  if (password) userFields.phone = phone;
-  if (role) userFields.type = type;
+  if (password) userFields.password = password;
+  if (role) userFields.role = role;
   userFields.lastModifyDT = new Date();
+  userFields.lastModifyUser = req.user_id;
 
   try {
     let user = await User.findById(req.params._id);
@@ -140,7 +144,8 @@ router.delete('/:_id', authIsAdmin, async (req, res) => {
       return res.status(404).json({ type: USER_NOT_EXISTS });
 
     const userFields = {
-      deleteDT: new Date()
+      deleteDT: new Date(),
+      lastModifyUser: req.user_id
     };
 
     user = await User.findByIdAndUpdate(

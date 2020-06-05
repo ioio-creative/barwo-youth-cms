@@ -1,10 +1,12 @@
 const userRoles = {
-  ADMIN: { _id: 'ADMIN', display: 'Admin' },
-  NORMAL_USER: { _id: 'NORMAL_USER', display: 'Normal user' }
+  ADMIN: { value: 'ADMIN', label: 'Admin' },
+  NORMAL_USER: { value: 'NORMAL_USER', label: 'Normal user' }
 };
 
 export default userRoles;
 
 export const isAdmin = user => {
-  return user.role === userRoles.ADMIN._id;
+  return user.role === userRoles.ADMIN.value;
 };
+
+export const userRoleOptions = Object.values(userRoles);
