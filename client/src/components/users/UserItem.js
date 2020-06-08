@@ -1,6 +1,5 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserContext from 'contexts/users/usersContext';
 import userRoles, { isAdmin } from 'types/userRoles';
 import uiWordings from 'globals/uiWordings';
@@ -41,7 +40,7 @@ const UserItem = ({ user }) => {
       <ul className='list'>
         {email && (
           <li>
-            <FontAwesomeIcon icon='envelope-open' /> {email}
+            <i className='fas fa-envelope-open' /> {email}
           </li>
         )}
       </ul>

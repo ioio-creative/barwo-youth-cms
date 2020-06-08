@@ -1,11 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import AuthContext from 'contexts/auth/authContext';
+import Alerts from 'components/layout/Alerts';
 import Loading from 'components/layout/loading/DefaultLoading';
+import LabelInputTextPair from 'components/form/LabelInputTextPair';
+import SubmitButton from 'components/form/SubmitButton';
 import authResponseTypes from 'types/responses/auth';
+import alertTypes from 'types/alertTypes';
 import { goToUrl } from 'utils/history';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
+import './Login.css';
 
 const Login = _ => {
   const { setAlert } = useContext(AlertContext);
@@ -22,6 +27,8 @@ const Login = _ => {
   useEffect(
     _ => {
       removeAuthLoading();
+      // test
+      //setAlert('XXXXXXXXXX lsjgfa;sdjgl jads;lgkads', alertTypes.WARNING);
     },
     [removeAuthLoading]
   );
@@ -38,7 +45,7 @@ const Login = _ => {
   useEffect(
     _ => {
       if (authError) {
-        setAlert(authResponseTypes[authError].msg, 'danger');
+        setAlert(authResponseTypes[authError].msg, alertTypes.WARNING);
         clearAuthError();
       }
     },
@@ -62,7 +69,7 @@ const Login = _ => {
   const onSubmit = async e => {
     e.preventDefault();
     if (email === '' || password === '') {
-      setAlert(uiWordings['Login.FillInAllFieldsMessage'], 'danger');
+      setAlert(uiWordings['Login.FillInAllFieldsMessage'], alertTypes.WARNING);
     } else {
       await login({
         email,
@@ -77,37 +84,39 @@ const Login = _ => {
   }
 
   return (
-    <div className='form-container'>
-      <h1>
-        <span className='text-primary'>{uiWordings['Login.Title']}</span>
-      </h1>
-      <form onSubmit={onSubmit}>
-        <div className='form-group'>
-          <label htmlFor='email'>{uiWordings['Login.EmailLabel']}</label>
-          <input
-            type='email'
-            name='email'
-            value={email}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='password'>{uiWordings['Login.PasswordLabel']}</label>
-          <input
-            type='password'
-            name='password'
-            value={password}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <input
-          type='submit'
-          value='Login'
-          className='btn btn-primary btn-block'
-        />
-      </form>
+    <div className='login'>
+      <div className='w3-content form-container'>
+        <form
+          className='w3-card-4 w3-light-grey w3-text-blue w3-margin'
+          onSubmit={onSubmit}
+        >
+          <div className='w3-container'>
+            <h2 className='w3-center'>{uiWordings['Login.Title']}</h2>
+            <Alerts />
+            <LabelInputTextPair
+              name='email'
+              value={email}
+              inputType='email'
+              labelMessage={uiWordings['Login.EmailLabel']}
+              placeholder=''
+              onChange={onChange}
+              required={true}
+            />
+            <LabelInputTextPair
+              name='password'
+              value={password}
+              inputType='password'
+              labelMessage={uiWordings['Login.PasswordLabel']}
+              placeholder=''
+              onChange={onChange}
+              required={true}
+            />
+            <div className='w3-center'>
+              <SubmitButton label={uiWordings['Login.LoginButton']} />
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -5,9 +5,11 @@ export default {
   'Navbar.Greeting': '你好',
   'Navbar.Users': 'Users',
 
+  'Login.Title': 'Account Login',
   'Login.FillInAllFieldsMessage': 'Please fill in all fields',
   'Login.EmailLabel': 'Email',
   'Login.PasswordLabel': 'Password',
+  'Login.LoginButton': 'Login',
 
   'Users.Title': 'Users',
 

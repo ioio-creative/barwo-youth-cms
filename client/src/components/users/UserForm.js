@@ -10,13 +10,14 @@ import UserContext from 'contexts/users/usersContext';
 import Select from 'components/form/Select';
 import userRoles, { userRoleOptions } from 'types/userRoles';
 import usersResponseTypes from 'types/responses/users';
+import alertTypes from 'types/alertTypes';
 import uiWordings from 'globals/uiWordings';
 
 export const defaultState = {
   email: '',
   password: '',
   name: '',
-  role: userRoles.NORMAL_USER.value,
+  role: userRoles.EDITOR.value,
 
   password2: ''
 };
@@ -60,7 +61,7 @@ const UserForm = _ => {
   useEffect(
     _ => {
       if (usersError) {
-        setAlert(usersResponseTypes[usersError].msg, 'danger');
+        setAlert(usersResponseTypes[usersError].msg, alertTypes.WARNING);
         clearUsersError();
       }
     },
@@ -100,7 +101,7 @@ const UserForm = _ => {
           isAddUserMode
             ? uiWordings['UserForm.AddUserSuccessMessage']
             : uiWordings['UserForm.UpdateUserSuccessMessage'],
-          'success',
+          alertTypes.INFO,
           -1
         );
       }

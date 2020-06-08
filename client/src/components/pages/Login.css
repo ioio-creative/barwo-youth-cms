@@ -1,0 +1,14 @@
+.login {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login .form-container {
+  min-width: 450px;
+  max-width: 600px;
+}

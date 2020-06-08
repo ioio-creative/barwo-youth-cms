@@ -1,19 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Fonts, GlobalStyle } from '@buffetjs/styles';
 import { ReactRouterGlobalHistory } from 'react-router-global-history';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faIdCardAlt,
-  faEnvelopeOpen,
-  faPhone,
-  faInfoCircle,
-  faSignOutAlt
-} from '@fortawesome/free-solid-svg-icons';
 import AlertState from 'contexts/alert/AlertState';
 import AuthState from 'contexts/auth/AuthState';
 import PrivateRoute from 'components/routing/PrivateRoute';
-import Navbar from 'components/layout/Navbar';
-// import Sidebar from 'components/layout/Sidebar';
 import Alerts from 'components/layout/Alerts';
 /**
  * Would get the following warning if putting result of asyncLoadingComponent(_ => import('components/Main')) into PrivateRoute.
@@ -36,10 +27,6 @@ import './App.css';
 /* async react components */
 const AsyncLogin = asyncLoadingComponent(_ => import('components/pages/Login'));
 
-/* load font-awesome icons */
-// https://github.com/FortAwesome/react-fontawesome#build-a-library-to-reference-icons-throughout-your-app-more-conveniently
-library.add(faIdCardAlt, faEnvelopeOpen, faPhone, faInfoCircle, faSignOutAlt);
-
 /* set auth token to determine if it's logged in */
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -47,22 +34,21 @@ if (localStorage.token) {
 
 const App = _ => {
   return (
-    <AuthState>
-      <AlertState>
-        <Router>
-          <ReactRouterGlobalHistory />
-          <Navbar />
-          {/* <Sidebar /> */}
-          <div className='container'>
-            <Alerts />
+    <div className='barwo-youth-cms'>
+      <Fonts />
+      <GlobalStyle />
+      <AuthState>
+        <AlertState>
+          <Router>
+            <ReactRouterGlobalHistory />
             <Switch>
               <Route exact path={routes.login(false)} component={AsyncLogin} />
               <PrivateRoute component={Main} />
             </Switch>
-          </div>
-        </Router>
-      </AlertState>
-    </AuthState>
+          </Router>
+        </AlertState>
+      </AuthState>
+    </div>
   );
 };
 
