@@ -7,8 +7,11 @@ const config = require('config');
 
 const User = require('../models/User');
 const auth = require('../middleware/auth');
-
-const { INVALID_CREDENTIALS } = require('../types/responses/auth');
+const { generalErrorHandle } = require('../utils/errorHandling');
+const {
+  INVALID_CREDENTIALS,
+  USER_DOES_NOT_HAVE_RIGHT
+} = require('../types/responses/auth');
 
 // @route   GET api/auth
 // @desc    Get logged in user
@@ -18,8 +21,7 @@ router.get('/', auth, async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
     res.json(user);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    generalErrorHandle(err, res);
   }
 });
 
@@ -47,6 +49,10 @@ router.post(
       if (!user) {
         return res.status(400).json({ type: INVALID_CREDENTIALS });
       }
+      if (user.IsEnabled === false) {
+        // 403 forbidden
+        res.status(403).json({ type: USER_DOES_NOT_HAVE_RIGHT });
+      }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ type: INVALID_CREDENTIALS });
@@ -71,8 +77,7 @@ router.post(
         }
       );
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
+      generalErrorHandle(err, res);
     }
   }
 );

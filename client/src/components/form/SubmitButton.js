@@ -1,11 +1,9 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import Button from './Button';
+import React from 'react';
 
-const SubmitButton = ({ color, textColor, label }) => {
+const SubmitButton = ({ className, color, textColor, label }) => {
   return (
     <input
-      className={`w3-button w3-ripple w3-${color} w3-text-${textColor} w3-margin-bottom`}
+      className={`w3-button w3-ripple w3-${color} w3-text-${textColor} w3-margin ${className}`}
       type='submit'
       value={label}
     />
@@ -13,6 +11,7 @@ const SubmitButton = ({ color, textColor, label }) => {
 };
 
 SubmitButton.defaultProps = {
+  className: '',
   color: 'blue',
   textColor: 'white'
 };

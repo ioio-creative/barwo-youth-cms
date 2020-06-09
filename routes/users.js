@@ -9,7 +9,7 @@ const authIsAdmin = require('../middleware/authIsAdmin');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const User = require('../models/User');
 const {
-  USER_DELETED,
+  //USER_DELETED,
   NAME_REQUIRED,
   EMAIL_INVALID,
   PASSWORD_INVALID,
@@ -17,24 +17,22 @@ const {
   USER_ALREADY_EXISTS,
   USER_NOT_EXISTS
 } = require('../types/responses/users');
-const { SERVER_ERROR } = require('../types/responses/general');
 
 // @route   GET api/users
 // @desc    Get all users users
 // @access  Private
 router.get('/', authIsAdmin, async (req, res) => {
   try {
-    const users = await User.find({
-      deleteDT: { $exists: false }
-    }).sort({
-      lastModifyDT: -1
-    });
+    // https://mongoosejs.com/docs/populate.html
+    const users = await User.find({})
+      .select('-password')
+      .populate('lastModifyUser' /*, 'name'*/)
+      .sort({
+        lastModifyDT: -1
+      });
     res.json(users);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({
-      type: SERVER_ERROR
-    });
+    generalErrorHandle(err, res);
   }
 });
 
@@ -134,30 +132,29 @@ router.put('/:_id', authIsAdmin, async (req, res) => {
   }
 });
 
-// @route   DELETE api/users/:_id
-// @desc    Delete user
-// @access  Private
-router.delete('/:_id', authIsAdmin, async (req, res) => {
-  try {
-    let user = await User.findById(req.params._id);
-    if (!user || user.deleteDT)
-      return res.status(404).json({ type: USER_NOT_EXISTS });
+// // @route   DELETE api/users/:_id
+// // @desc    Delete user
+// // @access  Private
+// router.delete('/:_id', authIsAdmin, async (req, res) => {
+//   try {
+//     let user = await User.findById(req.params._id);
+//     if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
 
-    const userFields = {
-      deleteDT: new Date(),
-      lastModifyUser: req.user_id
-    };
+//     const userFields = {
+//       isEnabled: false,
+//       lastModifyUser: req.user_id
+//     };
 
-    user = await User.findByIdAndUpdate(
-      req.params._id,
-      { $set: userFields },
-      { new: true }
-    );
+//     user = await User.findByIdAndUpdate(
+//       req.params._id,
+//       { $set: userFields },
+//       { new: true }
+//     );
 
-    res.json({ type: USER_DELETED });
-  } catch (err) {
-    generalErrorHandle(err, res);
-  }
-});
+//     res.json({ type: USER_DELETED });
+//   } catch (err) {
+//     generalErrorHandle(err, res);
+//   }
+// });
 
 module.exports = router;

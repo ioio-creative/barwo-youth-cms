@@ -1,42 +1,31 @@
-import React, { useContext, useRef, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import UsersContext from 'contexts/users/usersContext';
 import uiWordings from 'globals/uiWordings';
+import InputText from 'components/form/InputText';
 
 const UserFilter = _ => {
-  const { filteredUsers, filterUsers, clearFilterUsers } = useContext(
-    UsersContext
-  );
-  const text = useRef('');
-
-  useEffect(
-    _ => {
-      if (filteredUsers === null) {
-        text.current.value = '';
-      }
-    },
-    [filteredUsers]
-  );
+  const { filterUsers, clearFilterUsers } = useContext(UsersContext);
+  const [text, setText] = useState('');
 
   const onChange = useCallback(
     e => {
+      console.log(text);
       if (text.current.value !== '') {
         filterUsers(e.target.value);
       } else {
         clearFilterUsers();
       }
     },
-    [text.current.value, filterUsers, clearFilterUsers]
+    [text, filterUsers, clearFilterUsers]
   );
 
   return (
-    <form>
-      <input
-        ref={text}
-        type='text'
-        placeholder={uiWordings['UserFilter.FilterTextPlaceHolder']}
-        onChange={onChange}
-      />
-    </form>
+    <InputText
+      name='userFilter'
+      placeholder={uiWordings['UserFilter.FilterTextPlaceHolder']}
+      onChange={onChange}
+      value={text}
+    />
   );
 };
 

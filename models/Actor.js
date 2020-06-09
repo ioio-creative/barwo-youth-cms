@@ -31,7 +31,7 @@ const ActorSchema = mongoose.Schema({
   },
   lastModifyUser: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'user'
   }
 });
 

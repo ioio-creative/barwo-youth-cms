@@ -26,12 +26,13 @@ const UserSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  deleteDT: {
-    type: Date
-  },
   lastModifyUser: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'user'
+  },
+  isEnabled: {
+    type: Boolean,
+    default: true
   }
 });
 

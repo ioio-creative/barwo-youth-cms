@@ -1,15 +1,8 @@
-/* global variables */
-.barwo-youth-cms {
-  --sideBarWidth: 250px;
-}
+.loading-container {
+  width: 100%;
+  height: 75vh;
 
-/* navbar */
-.barwo-youth-cms #mySidebar {
-  width: var(--sideBarWidth);
-  z-index: 3;
-}
-
-/* main */
-.barwo-youth-cms .main {
-  margin-left: var(--sideBarWidth);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

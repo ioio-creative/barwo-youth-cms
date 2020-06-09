@@ -1,9 +1,10 @@
 import React from 'react';
+import Titlebar from 'components/layout/Titlebar';
 
 const Home = _ => {
   return (
-    <div className='grid-2'>
-      <div>Homepage</div>
+    <div>
+      <Titlebar title='Homepage' />
     </div>
   );
 };

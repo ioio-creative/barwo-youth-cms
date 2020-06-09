@@ -19,7 +19,6 @@ export const REMOVE_AUTH_LOADING = 'REMOVE_AUTH_LOADING';
 // users
 export const GET_USERS = 'GET_USERS';
 export const ADD_USER = 'ADD_USER';
-export const DELETE_USER = 'DELETE_USER';
 export const SET_CURRENT_USER_TO_EDIT = 'SET_CURRENT_USER_TO_EDIT';
 export const CLEAR_CURRENT_USER_TO_EDIT = 'CLEAR_CURRENT_USER_TO_EDIT';
 export const UPDATE_USER = 'UPDATE_USER';

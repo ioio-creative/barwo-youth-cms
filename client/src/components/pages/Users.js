@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Titlebar from 'components/layout/Titlebar';
 import UserList from 'components/users/UserList';
 import UserForm from 'components/users/UserForm';
 import UsersState from 'contexts/users/UsersState';
@@ -9,9 +10,9 @@ const Users = _ => {
   const { currentUserToEdit } = useContext(UsersContext);
 
   return (
-    <div className='grid-2'>
-      <div>{uiWordings['Users.Title']}</div>
-      <div>
+    <div className='users-page'>
+      <Titlebar title={uiWordings['Users.Title']} />
+      <div className='w3-container'>
         {currentUserToEdit ? (
           <UserForm user={currentUserToEdit} />
         ) : (

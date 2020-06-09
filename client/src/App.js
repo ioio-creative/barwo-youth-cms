@@ -5,7 +5,6 @@ import { ReactRouterGlobalHistory } from 'react-router-global-history';
 import AlertState from 'contexts/alert/AlertState';
 import AuthState from 'contexts/auth/AuthState';
 import PrivateRoute from 'components/routing/PrivateRoute';
-import Alerts from 'components/layout/Alerts';
 /**
  * Would get the following warning if putting result of asyncLoadingComponent(_ => import('components/Main')) into PrivateRoute.
  * So I don't async load Main. 

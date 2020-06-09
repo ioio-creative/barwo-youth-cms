@@ -1,5 +1,6 @@
 export default {
-  'Navbar.Title': 'Barwo Youth CMS',
+  'Navbar.Title': '粵劇新秀演出系列',
+  'Navbar.CloseNavbar': 'Close',
   'Navbar.Login': 'Login',
   'Navbar.Logout': 'Logout',
   'Navbar.Greeting': '你好',
@@ -11,22 +12,24 @@ export default {
   'Login.PasswordLabel': 'Password',
   'Login.LoginButton': 'Login',
 
+  'User.NameLabel': 'Name',
+  'User.EmailLabel': 'Email',
+  'User.PasswordLabel': 'Password',
+  'User.RoleLabel': 'Role',
+  'User.CreateDTLabel': 'Create DT',
+  'User.LastModifyDTLabel': 'Last Modify DT',
+  'User.LastModifyUserLabel': 'Last Modify User',
+  'User.IsEnabledLabel': 'Is Enabled ?',
+
   'Users.Title': 'Users',
 
   'UserList.AddUserPrompt': 'Please add a user.',
   'UserList.AddUser': 'Add User',
 
-  'UserItem.EditUser': 'Edit',
-  'UserItem.DeleteUser': 'Delete',
-
   'UserForm.BackToUserList': 'Back to User List',
   'UserForm.AddUserTitle': 'Add User',
   'UserForm.EditUserTitle': 'Edit User',
-  'UserForm.EmailLabel': 'Email Address',
-  'UserForm.PasswordLabel': 'Password',
   'UserForm.ConfirmPasswordLabel': 'Confirm Password',
-  'UserForm.NameLabel': 'Name',
-  'UserForm.RoleLabel': 'Role',
   'UserForm.AddUserSubmit': 'Add User',
   'UserForm.UpdateUserSubmit': 'Update User',
   'UserForm.AddUserSuccessMessage': 'User Added',

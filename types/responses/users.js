@@ -1,6 +1,6 @@
 module.exports = {
   // info messages
-  USER_DELETED: 'USER_DELETED',
+  //USER_DELETED: 'USER_DELETED',
 
   // input validation
   NAME_REQUIRED: 'NAME_REQUIRED',

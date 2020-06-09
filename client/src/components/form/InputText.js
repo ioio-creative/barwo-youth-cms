@@ -3,6 +3,7 @@ import { InputText } from '@buffetjs/core';
 
 // https://www.buffetjs.io/storybook/?path=/story/components--inputtext
 const MyInputText = ({
+  className,
   type,
   name,
   value,
@@ -16,7 +17,7 @@ const MyInputText = ({
   }
   return (
     <InputText
-      className='w3-margin-bottom'
+      className={`w3-margin-bottom ${className}`}
       type={type}
       name={name}
       value={value}
@@ -28,6 +29,7 @@ const MyInputText = ({
 };
 
 MyInputText.defaultProps = {
+  className: '',
   type: 'text',
   placeholder: ''
 };

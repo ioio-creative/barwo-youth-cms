@@ -59,6 +59,7 @@ const UsersState = ({ children }) => {
       const res = await axios.get('/api/users');
       dispatch({ type: GET_USERS, payload: res.data });
     } catch (err) {
+      console.log(err);
       dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
   }, []);
@@ -104,17 +105,6 @@ const UsersState = ({ children }) => {
     return isSuccess;
   }, []);
 
-  // Delete User
-  const deleteUser = useCallback(async id => {
-    dispatch({ type: SET_USERS_LOADING });
-    try {
-      await axios.delete(`/api/users/${id}`);
-      dispatch({ type: DELETE_USER, payload: id });
-    } catch (err) {
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
-    }
-  }, []);
-
   // Clear Users
   const clearUsers = useCallback(_ => {
     dispatch({ type: CLEAR_USERS });
@@ -155,7 +145,6 @@ const UsersState = ({ children }) => {
         getUsers,
         addUser,
         updateUser,
-        deleteUser,
         clearUsers,
         setCurrentUserToEdit,
         clearCurrentUserToEdit,

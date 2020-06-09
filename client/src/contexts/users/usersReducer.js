@@ -1,7 +1,6 @@
 import {
   GET_USERS,
   ADD_USER,
-  DELETE_USER,
   SET_CURRENT_USER_TO_EDIT,
   CLEAR_CURRENT_USER_TO_EDIT,
   UPDATE_USER,
@@ -35,17 +34,6 @@ export default (state, action) => {
           user._id === action.payload._id ? action.payload : user
         ),
         //currentUserToEdit: null,
-        usersLoading: false
-      };
-    case DELETE_USER:
-      return {
-        ...state,
-        users: state.users.filter(user => user._id !== action.payload),
-        currentUserToEdit:
-          state.currentUserToEdit &&
-          state.currentUserToEdit._id === action.payload
-            ? null
-            : state.currentUserToEdit,
         usersLoading: false
       };
     case CLEAR_USERS:

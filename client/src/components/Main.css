@@ -1,0 +1,11 @@
+.main {
+  --navbarWidth: 15%;
+}
+
+.main .my-navbar {
+  width: var(--navbarWidth);
+}
+
+.main .my-main {
+  margin-left: var(--navbarWidth);
+}

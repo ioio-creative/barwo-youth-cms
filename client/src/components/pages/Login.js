@@ -1,8 +1,9 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import AuthContext from 'contexts/auth/authContext';
 import Alerts from 'components/layout/Alerts';
 import Loading from 'components/layout/loading/DefaultLoading';
+import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import SubmitButton from 'components/form/SubmitButton';
 import authResponseTypes from 'types/responses/auth';
@@ -45,6 +46,7 @@ const Login = _ => {
   useEffect(
     _ => {
       if (authError) {
+        console.log(authError);
         setAlert(authResponseTypes[authError].msg, alertTypes.WARNING);
         clearAuthError();
       }
@@ -79,44 +81,41 @@ const Login = _ => {
     }
   };
 
-  if (authLoading) {
-    return <Loading />;
-  }
-
   return (
-    <div className='login'>
-      <div className='w3-content form-container'>
-        <form
-          className='w3-card-4 w3-light-grey w3-text-blue w3-margin'
-          onSubmit={onSubmit}
-        >
-          <div className='w3-container'>
-            <h2 className='w3-center'>{uiWordings['Login.Title']}</h2>
-            <Alerts />
-            <LabelInputTextPair
-              name='email'
-              value={email}
-              inputType='email'
-              labelMessage={uiWordings['Login.EmailLabel']}
-              placeholder=''
-              onChange={onChange}
-              required={true}
-            />
-            <LabelInputTextPair
-              name='password'
-              value={password}
-              inputType='password'
-              labelMessage={uiWordings['Login.PasswordLabel']}
-              placeholder=''
-              onChange={onChange}
-              required={true}
-            />
-            <div className='w3-center'>
-              <SubmitButton label={uiWordings['Login.LoginButton']} />
+    <div className='login-page'>
+      {authLoading ? (
+        <Loading />
+      ) : (
+        <div className='w3-content form-container'>
+          <Form onSubmit={onSubmit} isCard={true}>
+            <div className='w3-container'>
+              <h2 className='w3-center'>{uiWordings['Login.Title']}</h2>
+              <Alerts />
+              <LabelInputTextPair
+                name='email'
+                value={email}
+                inputType='email'
+                labelMessage={uiWordings['Login.EmailLabel']}
+                placeholder=''
+                onChange={onChange}
+                required={true}
+              />
+              <LabelInputTextPair
+                name='password'
+                value={password}
+                inputType='password'
+                labelMessage={uiWordings['Login.PasswordLabel']}
+                placeholder=''
+                onChange={onChange}
+                required={true}
+              />
+              <div className='w3-center'>
+                <SubmitButton label={uiWordings['Login.LoginButton']} />
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </Form>
+        </div>
+      )}
     </div>
   );
 };

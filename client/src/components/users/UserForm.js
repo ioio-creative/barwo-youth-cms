@@ -68,6 +68,20 @@ const UserForm = _ => {
     [usersError, setAlert, clearUsersError]
   );
 
+  /* methods */
+
+  const clearAlert = useCallback(
+    _ => {
+      if (alertId.current) {
+        removeAlert(alertId.current);
+        alertId.current = null;
+      }
+    },
+    [alertId, removeAlert]
+  );
+
+  /* end of methods */
+
   /* event handlers */
 
   const onBackToUserList = useCallback(
@@ -83,7 +97,7 @@ const UserForm = _ => {
       clearAlert();
       setUser({ ...user, [e.target.name]: e.target.value });
     },
-    [user, setUser]
+    [user, setUser, clearAlert]
   );
 
   const onSubmit = useCallback(
@@ -107,24 +121,10 @@ const UserForm = _ => {
       }
       setIsSubmitEnabled(false);
     },
-    [isAddUserMode, updateUser, addUser, user]
+    [isAddUserMode, updateUser, addUser, user, setAlert]
   );
 
   /* end of event handlers */
-
-  /* methods */
-
-  const clearAlert = useCallback(
-    _ => {
-      if (alertId.current) {
-        removeAlert(alertId.current);
-        alertId.current = null;
-      }
-    },
-    [alertId.current]
-  );
-
-  /* end of methods */
 
   const { email, name, password, password2, role } = user;
 
