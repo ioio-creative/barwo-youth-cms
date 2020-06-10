@@ -150,7 +150,7 @@ const UserList = _ => {
 
   const onEditUser = useCallback(user => {
     goToUrl(routes.userEditByIdWithValue(true, user._id));
-  });
+  }, []);
 
   /* end of event handlers */
 
