@@ -9,7 +9,8 @@ const LabelInputTextPair = ({
   labelMessage,
   placeholder,
   onChange,
-  required
+  required,
+  minLength
 }) => {
   return (
     <div className='w3-section'>
@@ -21,6 +22,7 @@ const LabelInputTextPair = ({
         type={inputType}
         value={value}
         required={required}
+        minLength={minLength}
       />
     </div>
   );

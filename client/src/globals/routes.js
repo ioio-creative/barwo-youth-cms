@@ -5,7 +5,14 @@ export default {
   login: function (isLink) {
     return '/login';
   },
-  users: function (isLink) {
-    return '/users';
+  userList: function (isLink) {
+    return '/userList';
+  },
+  userEditById: '/userEdit/:userId',
+  userEditByIdWithValue: function (isLink, userId) {
+    return '/userEdit/' + userId;
+  },
+  userAdd: function (isLink) {
+    return '/userAdd';
   }
 };

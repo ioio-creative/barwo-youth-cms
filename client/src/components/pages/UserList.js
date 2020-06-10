@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useCallback, useState } from 'react';
 import UserContext from 'contexts/users/usersContext';
+import UsersPageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table';
-import Button from 'components/form/Button';
+import LinkButton from 'components/form/LinkButton';
 import Form from 'components/form/Form';
-import UserFilter from './UserFilter';
-import { defaultState as defaultUser } from './UserForm';
+import UserFilter from '../users/UserFilter';
 import isNonEmptyArray from 'utils/array/isNonEmptyArray';
-import sort from 'utils/array/sort';
+import orderBy from 'utils/array/orderBy';
+import { goToUrl } from 'utils/history';
+import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import userRoles from 'types/userRoles';
 
@@ -96,9 +98,12 @@ const UserTable = ({ users, onEditClick }) => {
 
   /* event handlers */
 
-  const onDetailClick = useCallback(data => {
-    onEditClick(data);
-  }, []);
+  const onDetailClick = useCallback(
+    data => {
+      onEditClick(data);
+    },
+    [onEditClick]
+  );
 
   const onChangeSort = useCallback(
     ({ sortBy, isSortEnabled }) => {
@@ -113,7 +118,7 @@ const UserTable = ({ users, onEditClick }) => {
 
   /* end of event handler */
 
-  const sortedRows = sort(rows, [sortParams.sortBy], [sortParams.sortOrder]);
+  const sortedRows = orderBy(rows, [sortParams.sortBy], [sortParams.sortOrder]);
 
   return (
     <Table
@@ -128,13 +133,9 @@ const UserTable = ({ users, onEditClick }) => {
 };
 
 const UserList = _ => {
-  const {
-    users,
-    filteredUsers,
-    usersLoading,
-    getUsers,
-    setCurrentUserToEdit
-  } = useContext(UserContext);
+  const { users, filteredUsers, usersLoading, getUsers } = useContext(
+    UserContext
+  );
 
   // componentDidMount
   useEffect(
@@ -147,19 +148,9 @@ const UserList = _ => {
 
   /* event handlers */
 
-  const onAddUser = useCallback(
-    _ => {
-      setCurrentUserToEdit(defaultUser);
-    },
-    [setCurrentUserToEdit]
-  );
-
-  const onEditUser = useCallback(
-    user => {
-      setCurrentUserToEdit(user);
-    },
-    [setCurrentUserToEdit]
-  );
+  const onEditUser = useCallback(user => {
+    goToUrl(routes.userEditByIdWithValue(true, user._id));
+  });
 
   /* end of event handlers */
 
@@ -172,7 +163,9 @@ const UserList = _ => {
   }
 
   const addUserButton = (
-    <Button onClick={onAddUser}>{uiWordings['UserList.AddUser']}</Button>
+    <LinkButton to={routes.userAdd(true)}>
+      {uiWordings['UserList.AddUser']}
+    </LinkButton>
   );
 
   if (!isNonEmptyArray(users)) {
@@ -199,4 +192,10 @@ const UserList = _ => {
   );
 };
 
-export default UserList;
+const UserListWithContainer = _ => (
+  <UsersPageContainer>
+    <UserList />
+  </UsersPageContainer>
+);
+
+export default UserListWithContainer;

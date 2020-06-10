@@ -8,10 +8,16 @@ import './Main.css';
 
 /* async react components */
 const AsyncHome = asyncLoadingComponent(_ => import('components/pages/Home'));
-const AsyncUsers = asyncLoadingComponent(_ => import('components/pages/Users'));
+const AsyncUserList = asyncLoadingComponent(_ =>
+  import('components/pages/UserList')
+);
+const AsyncUserEdit = asyncLoadingComponent(_ =>
+  import('components/pages/UserEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
+  // componentDidMount
   useEffect(_ => {
     loadUser();
     // eslint-disable-next-line
@@ -22,7 +28,13 @@ const Main = _ => {
       <div className='my-main'>
         <Switch>
           <Route exact path={routes.home(false)} component={AsyncHome} />
-          <Route exact path={routes.users(false)} component={AsyncUsers} />
+          <Route
+            exact
+            path={routes.userList(false)}
+            component={AsyncUserList}
+          />
+          <Route exact path={routes.userEditById} component={AsyncUserEdit} />
+          <Route exact path={routes.userAddById} component={AsyncUserEdit} />
           <Route component={AsyncHome} />
         </Switch>
       </div>

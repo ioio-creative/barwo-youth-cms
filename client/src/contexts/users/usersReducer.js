@@ -1,8 +1,6 @@
 import {
   GET_USERS,
   ADD_USER,
-  SET_CURRENT_USER_TO_EDIT,
-  CLEAR_CURRENT_USER_TO_EDIT,
   UPDATE_USER,
   FILTER_USERS,
   CLEAR_USERS,
@@ -42,16 +40,6 @@ export default (state, action) => {
         users: null,
         filteredUsers: null,
         usersError: null,
-        currentUserToEdit: null
-      };
-    case SET_CURRENT_USER_TO_EDIT:
-      return {
-        ...state,
-        currentUserToEdit: action.payload
-      };
-    case CLEAR_CURRENT_USER_TO_EDIT:
-      return {
-        ...state,
         currentUserToEdit: null
       };
     case FILTER_USERS:

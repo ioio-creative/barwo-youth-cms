@@ -26,14 +26,14 @@ export default {
   'UserList.AddUserPrompt': 'Please add a user.',
   'UserList.AddUser': 'Add User',
 
-  'UserForm.BackToUserList': 'Back to User List',
-  'UserForm.AddUserTitle': 'Add User',
-  'UserForm.EditUserTitle': 'Edit User',
-  'UserForm.ConfirmPasswordLabel': 'Confirm Password',
-  'UserForm.AddUserSubmit': 'Add User',
-  'UserForm.UpdateUserSubmit': 'Update User',
-  'UserForm.AddUserSuccessMessage': 'User Added',
-  'UserForm.UpdateUserSuccessMessage': 'User Updated',
+  'UserEdit.BackToUserList': 'Back to User List',
+  'UserEdit.AddUserTitle': 'Add User',
+  'UserEdit.EditUserTitle': 'Edit User',
+  'UserEdit.ConfirmPasswordLabel': 'Confirm Password',
+  'UserEdit.AddUserSubmit': 'Add User',
+  'UserEdit.UpdateUserSubmit': 'Update User',
+  'UserEdit.AddUserSuccessMessage': 'User Added',
+  'UserEdit.UpdateUserSuccessMessage': 'User Updated',
 
   'UserFilter.FilterTextPlaceHolder': 'Filter Users...'
 };

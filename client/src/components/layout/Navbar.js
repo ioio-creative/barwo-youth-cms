@@ -60,7 +60,7 @@ const Navbar = ({ className }) => {
         <i className='fa fa-sign-out' /> {uiWordings['Navbar.Logout']}
       </NavbarButton>
       {isAuthUserAdmin && (
-        <NavbarLink to={routes.users(true)}>
+        <NavbarLink to={routes.userList(true)}>
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}

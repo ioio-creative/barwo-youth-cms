@@ -1,4 +1,4 @@
-import orderBy from 'lodash/orderBy';
+import orderBy from 'lodash.orderby';
 
 // https://lodash.com/docs/4.17.15#orderBy
 const sort = (collection, iteratees, orders) => {

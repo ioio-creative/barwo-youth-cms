@@ -9,11 +9,15 @@ const MyInputText = ({
   value,
   placeholder,
   onChange,
-  required
+  required,
+  minLength
 }) => {
   const extraProps = {};
   if (required) {
     extraProps.required = true;
+  }
+  if (minLength) {
+    extraProps.minLength = minLength;
   }
   return (
     <InputText

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import UsersContext from 'contexts/users/usersContext';
 import uiWordings from 'globals/uiWordings';
 import InputText from 'components/form/InputText';
@@ -9,14 +9,15 @@ const UserFilter = _ => {
 
   const onChange = useCallback(
     e => {
-      console.log(text);
-      if (text.current.value !== '') {
-        filterUsers(e.target.value);
+      const value = e.target.value;
+      setText(value);
+      if (value !== '') {
+        filterUsers(value);
       } else {
         clearFilterUsers();
       }
     },
-    [text, filterUsers, clearFilterUsers]
+    [setText, filterUsers, clearFilterUsers]
   );
 
   return (

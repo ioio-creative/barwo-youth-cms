@@ -1,38 +1,16 @@
 import React from 'react';
+import { Select } from '@buffetjs/core';
 
-const Option = ({ name, value, checked, label, onChange }) => {
+const MySelect = ({ name, value, options, onChange }) => {
   return (
-    <>
-      <input
-        type='radio'
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-      />
-      {` ${label} `}
-    </>
+    <Select name={name} onChange={onChange} options={options} value={value} />
   );
 };
 
-const Select = ({ name, value, options, label, onChange }) => {
-  return (
-    <>
-      <h5>{label}</h5>
-      {options.map(option => {
-        return (
-          <Option
-            key={option.value}
-            name={name}
-            value={option.value}
-            checked={option.value === value}
-            label={option.label}
-            onChange={onChange}
-          />
-        );
-      })}
-    </>
-  );
+MySelect.defaultProps = {
+  onChange: ({ target: { value } }) => {
+    console.log(value);
+  }
 };
 
-export default Select;
+export default MySelect;

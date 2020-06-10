@@ -6,9 +6,6 @@ import usersReducer from './usersReducer';
 import {
   GET_USERS,
   ADD_USER,
-  DELETE_USER,
-  SET_CURRENT_USER_TO_EDIT,
-  CLEAR_CURRENT_USER_TO_EDIT,
   UPDATE_USER,
   FILTER_USERS,
   CLEAR_USERS,
@@ -43,7 +40,6 @@ const initialState = {
   //   }
   // ],
   users: null,
-  currentUserToEdit: null,
   filteredUsers: null,
   usersError: null,
   usersLoading: false
@@ -110,16 +106,6 @@ const UsersState = ({ children }) => {
     dispatch({ type: CLEAR_USERS });
   }, []);
 
-  // Set Current User to Edit
-  const setCurrentUserToEdit = useCallback(user => {
-    dispatch({ type: SET_CURRENT_USER_TO_EDIT, payload: user });
-  }, []);
-
-  // Clear Current User to Edit
-  const clearCurrentUserToEdit = useCallback(_ => {
-    dispatch({ type: CLEAR_CURRENT_USER_TO_EDIT });
-  }, []);
-
   // Filter Users
   const filterUsers = useCallback(text => {
     dispatch({ type: FILTER_USERS, payload: text });
@@ -139,15 +125,12 @@ const UsersState = ({ children }) => {
     <UsersContext.Provider
       value={{
         users: state.users,
-        currentUserToEdit: state.currentUserToEdit,
         filteredUsers: state.filteredUsers,
         usersError: state.usersError,
         getUsers,
         addUser,
         updateUser,
         clearUsers,
-        setCurrentUserToEdit,
-        clearCurrentUserToEdit,
         filterUsers,
         clearFilterUsers,
         clearUsersError
