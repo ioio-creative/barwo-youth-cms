@@ -10,7 +10,8 @@ const MyInputText = ({
   placeholder,
   onChange,
   required,
-  minLength
+  minLength,
+  disabled
 }) => {
   const extraProps = {};
   if (required) {
@@ -19,9 +20,14 @@ const MyInputText = ({
   if (minLength) {
     extraProps.minLength = minLength;
   }
+  if (disabled) {
+    extraProps.disbled = true;
+  }
   return (
     <InputText
-      className={`w3-margin-bottom ${className}`}
+      className={`w3-margin-bottom ${
+        disabled ? 'w3-light-grey' : ''
+      } ${className}`}
       type={type}
       name={name}
       value={value}

@@ -10,11 +10,13 @@ const LabelInputTextPair = ({
   placeholder,
   onChange,
   required,
-  minLength
+  minLength,
+  disabled,
+  isHalf
 }) => {
   return (
     <div className='w3-row'>
-      <div className='w3-half'>
+      <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label htmlFor={name} message={labelMessage} />
         <InputText
           name={name}
@@ -24,10 +26,15 @@ const LabelInputTextPair = ({
           value={value}
           required={required}
           minLength={minLength}
+          disabled={disabled}
         />
       </div>
     </div>
   );
+};
+
+LabelInputTextPair.defaultProps = {
+  isHalf: true
 };
 
 export default LabelInputTextPair;

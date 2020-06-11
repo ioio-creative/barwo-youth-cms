@@ -1,6 +1,7 @@
 // alert
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
+export const REMOVE_ALERTS = 'REMOVE_ALERTS';
 
 // titlebar
 export const SET_TITLE = 'SET_LOADING';
@@ -18,6 +19,8 @@ export const REMOVE_AUTH_LOADING = 'REMOVE_AUTH_LOADING';
 
 // users
 export const GET_USERS = 'GET_USERS';
+export const GET_USER = 'GET_USER';
+export const CLEAR_USER = 'CLEAR_USER';
 export const ADD_USER = 'ADD_USER';
 export const UPDATE_USER = 'UPDATE_USER';
 export const FILTER_USERS = 'FILTER_USERS';

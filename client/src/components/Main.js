@@ -31,18 +31,28 @@ const Main = _ => {
       <TitlebarState>
         <div className='my-main'>
           <Titlebar />
-          <Alerts />
-          <Switch>
-            <Route exact path={routes.home(false)} component={AsyncHome} />
-            <Route
-              exact
-              path={routes.userList(false)}
-              component={AsyncUserList}
-            />
-            <Route exact path={routes.userEditById} component={AsyncUserEdit} />
-            <Route exact path={routes.userAddById} component={AsyncUserEdit} />
-            <Route component={AsyncHome} />
-          </Switch>
+          <div className='w3-container'>
+            <Alerts />
+            <Switch>
+              <Route exact path={routes.home(false)} component={AsyncHome} />
+              <Route
+                exact
+                path={routes.userList(false)}
+                component={AsyncUserList}
+              />
+              <Route
+                exact
+                path={routes.userEditById}
+                component={AsyncUserEdit}
+              />
+              <Route
+                exact
+                path={routes.userAddById}
+                component={AsyncUserEdit}
+              />
+              <Route component={AsyncHome} />
+            </Switch>
+          </div>
         </div>
       </TitlebarState>
     </div>

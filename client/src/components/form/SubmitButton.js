@@ -7,7 +7,7 @@ const SubmitButton = ({ className, color, textColor, label, disabled }) => {
   }
   return (
     <input
-      className={`w3-button w3-ripple w3-${color} w3-text-${textColor} w3-margin ${className}`}
+      className={`w3-button w3-ripple w3-${color} w3-text-${textColor} w3-section ${className}`}
       type='submit'
       value={label}
       {...extraProps}

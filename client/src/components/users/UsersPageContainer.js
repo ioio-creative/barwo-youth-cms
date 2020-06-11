@@ -60,9 +60,7 @@ const UsersPageContainer = ({ children }) => {
 
   return (
     <UsersState>
-      <div className='users-page-container'>
-        <div className='w3-container'>{children}</div>
-      </div>
+      <div className='users-page-container'>{children}</div>
     </UsersState>
   );
 };

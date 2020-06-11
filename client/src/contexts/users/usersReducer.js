@@ -1,5 +1,7 @@
 import {
   GET_USERS,
+  GET_USER,
+  CLEAR_USER,
   ADD_USER,
   UPDATE_USER,
   FILTER_USERS,
@@ -18,20 +20,25 @@ export default (state, action) => {
         users: action.payload,
         usersLoading: false
       };
+    case GET_USER:
+      return {
+        ...state,
+        user: action.payload,
+        usersLoading: false
+      };
+    case CLEAR_USER:
+      return {
+        ...state,
+        user: null
+      };
     case ADD_USER:
       return {
         ...state,
-        users: [action.payload, ...state.users],
-        //currentUserToEdit: null,
         usersLoading: false
       };
     case UPDATE_USER:
       return {
         ...state,
-        users: state.users.map(user =>
-          user._id === action.payload._id ? action.payload : user
-        ),
-        //currentUserToEdit: null,
         usersLoading: false
       };
     case CLEAR_USERS:

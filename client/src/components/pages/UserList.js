@@ -31,12 +31,12 @@ const headers = [
   },
   // {
   //   name: uiWordings['User.CreateDTLabel'],
-  //   value: 'createDT',
+  //   value: 'createDTDisplay',
   //   isSortEnabled: true
   // },
   {
     name: uiWordings['User.LastModifyDTLabel'],
-    value: 'lastModifyDT',
+    value: 'lastModifyDTDisplay',
     isSortEnabled: true
   },
   {

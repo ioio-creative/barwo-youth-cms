@@ -2,10 +2,17 @@ import React from 'react';
 import Label from './Label';
 import Select from './Select';
 
-const LabelSelectPair = ({ name, value, options, labelMessage, onChange }) => {
+const LabelSelectPair = ({
+  name,
+  value,
+  options,
+  labelMessage,
+  onChange,
+  isHalf
+}) => {
   return (
     <div className='w3-row'>
-      <div className='w3-half'>
+      <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label htmlFor={name} message={labelMessage} />
         <Select
           name={name}
@@ -16,6 +23,10 @@ const LabelSelectPair = ({ name, value, options, labelMessage, onChange }) => {
       </div>
     </div>
   );
+};
+
+LabelSelectPair.defaultProps = {
+  isHalf: true
 };
 
 export default LabelSelectPair;

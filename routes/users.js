@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
+const auth = require('../middleware/auth');
 const authIsAdmin = require('../middleware/authIsAdmin');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const User = require('../models/User');
@@ -26,11 +27,26 @@ router.get('/', authIsAdmin, async (req, res) => {
     // https://mongoosejs.com/docs/populate.html
     const users = await User.find({})
       .select('-password')
-      .populate('lastModifyUser' /*, 'name'*/)
+      .populate('lastModifyUser', 'name')
       .sort({
         lastModifyDT: -1
       });
     res.json(users);
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
+
+// @route   GET api/users/:_id
+// @desc    Get user by id
+// @access  Private
+router.get('/:_id', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params._id)
+      .select('-password')
+      .populate('lastModifyUser', 'name');
+    if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
+    res.json(user);
   } catch (err) {
     generalErrorHandle(err, res);
   }
@@ -60,7 +76,7 @@ router.post(
       });
     }
 
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, isEnabled } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -72,6 +88,7 @@ router.post(
         email,
         password,
         role,
+        isEnabled,
         lastModifyUser: req.user._id
       });
       const salt = await bcrypt.genSalt(10);
@@ -101,11 +118,11 @@ router.post(
   }
 );
 
-// @route   PUT api/users/_:id
+// @route   PUT api/users/:_id
 // @desc    Update user
 // @access  Private
 router.put('/:_id', authIsAdmin, async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, isEnabled } = req.body;
 
   // Build user object
   const userFields = {};
@@ -113,8 +130,9 @@ router.put('/:_id', authIsAdmin, async (req, res) => {
   if (email) userFields.email = email;
   if (password) userFields.password = password;
   if (role) userFields.role = role;
+  if (isEnabled !== undefined) userFields.isEnabled = isEnabled;
   userFields.lastModifyDT = new Date();
-  userFields.lastModifyUser = req.user_id;
+  userFields.lastModifyUser = req.user._id;
 
   try {
     let user = await User.findById(req.params._id);
@@ -142,7 +160,7 @@ router.put('/:_id', authIsAdmin, async (req, res) => {
 
 //     const userFields = {
 //       isEnabled: false,
-//       lastModifyUser: req.user_id
+//       lastModifyUser: req.user._id
 //     };
 
 //     user = await User.findByIdAndUpdate(
