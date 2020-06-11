@@ -48,7 +48,8 @@ router.get('/:_id', auth, async (req, res) => {
     if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
     res.json(user);
   } catch (err) {
-    generalErrorHandle(err, res);
+    //generalErrorHandle(err, res);
+    return res.status(404).json({ type: USER_NOT_EXISTS });
   }
 });
 
@@ -95,23 +96,7 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
       await user.save();
 
-      const payload = {
-        user: {
-          id: user._id
-        }
-      };
-
-      jwt.sign(
-        payload,
-        config.get('jwtSecret'),
-        {
-          expiresIn: 360000
-        },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
+      res.json(user);
     } catch (err) {
       generalErrorHandle(err, res);
     }

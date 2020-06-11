@@ -7,7 +7,7 @@ export default user => {
     roleDisplay: userRoles[user.role].label,
     createDTDisplay: formatDateTimeString(user.createDT),
     lastModifyDTDisplay: formatDateTimeString(user.lastModifyDT),
-    lastModifyUserDisplay: user.lastModifyUser.name,
+    lastModifyUserDisplay: user.lastModifyUser ? user.lastModifyUser.name : '',
     isEnabledDisplay: user.isEnabled.toString()
   };
 };

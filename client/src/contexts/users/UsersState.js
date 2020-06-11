@@ -90,7 +90,7 @@ const UsersState = ({ children }) => {
 
   // Add User
   const addUser = useCallback(async user => {
-    let isSuccess = false;
+    let newUser = null;
     dispatch({ type: SET_USERS_LOADING });
     //user._id = uuid();
     const config = {
@@ -101,16 +101,17 @@ const UsersState = ({ children }) => {
     try {
       const res = await axios.post('/api/users', user, config);
       dispatch({ type: ADD_USER, payload: res.data });
-      isSuccess = true;
+      newUser = res.data;
+      console.log(res.data);
     } catch (err) {
       dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
-    return isSuccess;
+    return newUser;
   }, []);
 
   // Update User
   const updateUser = useCallback(async user => {
-    let isSuccess = false;
+    let newUser = null;
     dispatch({ type: SET_USERS_LOADING });
     //user._id = uuid();
     const config = {
@@ -122,12 +123,12 @@ const UsersState = ({ children }) => {
       //console.log(user);
       const res = await axios.put(`/api/users/${user._id}`, user, config);
       dispatch({ type: UPDATE_USER, payload: res.data });
-      isSuccess = true;
+      newUser = res.data;
     } catch (err) {
       console.log(err);
       dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
-    return isSuccess;
+    return newUser;
   }, []);
 
   // Clear Users

@@ -23,6 +23,7 @@ import usersResponseTypes from 'types/responses/users';
 import alertTypes from 'types/alertTypes';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
+import { goToUrl } from 'utils/history';
 import getUserForDisplay from 'utils/users/getUserForDisplay';
 
 const emptyUser = new User();
@@ -48,19 +49,30 @@ const UserEdit = _ => {
   const [user, setUser] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddUserMode, setIsAddUserMode] = useState(false);
+  const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
   const alertId = useRef(null);
 
   // componentDidMount
   useEffect(_ => {
-    getUser(userId);
-
     return _ => {
       removeAlerts();
-      clearUser();
     };
     // eslint-disable-next-line
   }, []);
+
+  useEffect(
+    _ => {
+      if (userId) {
+        getUser(userId);
+      }
+
+      return _ => {
+        clearUser();
+      };
+    },
+    [userId]
+  );
 
   useEffect(
     _ => {
@@ -80,6 +92,10 @@ const UserEdit = _ => {
           alertTypes.WARNING
         );
         clearUsersError();
+
+        if (usersError === usersResponseTypes.USER_NOT_EXISTS.type) {
+          setIsAbandonEdit(true);
+        }
       }
     },
     [usersError, setAlert, clearUsersError]
@@ -96,6 +112,19 @@ const UserEdit = _ => {
     },
     [alertId, removeAlert]
   );
+
+  const validInput = useCallback(userInput => {
+    if (isAddUserMode) {
+      if (user.password !== user.password2) {
+        alertId.current = setAlert(
+          uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
+          alertTypes.WARNING
+        );
+        return false;
+      }
+    }
+    return true;
+  });
 
   /* end of methods */
 
@@ -115,25 +144,21 @@ const UserEdit = _ => {
       e.preventDefault();
       const { password2, ...cleanedUser } = user;
       let isSuccess = false;
-      if (isAddUserMode) {
-        isSuccess = await addUser(cleanedUser);
-      } else {
-        isSuccess = await updateUser(cleanedUser);
+      let returnedUser = null;
+      isSuccess = validInput();
+      if (isSuccess) {
+        const funcToCall = isAddUserMode ? addUser : updateUser;
+        returnedUser = await funcToCall(cleanedUser);
+        isSuccess = Boolean(returnedUser);
       }
       if (isSuccess) {
         alertId.current = setAlert(
           isAddUserMode
             ? uiWordings['UserEdit.AddUserSuccessMessage']
             : uiWordings['UserEdit.UpdateUserSuccessMessage'],
-          alertTypes.INFO,
-          -1
+          alertTypes.INFO
         );
-        setUser(
-          getUserForDisplay({
-            ...cleanedUser,
-            lastModifyDT: new Date()
-          })
-        );
+        goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
       }
       setIsSubmitEnabled(false);
     },
@@ -146,13 +171,21 @@ const UserEdit = _ => {
     return <Loading />;
   }
 
+  const backToUserListButton = (
+    <Form>
+      <LinkButton to={routes.userList(true)}>
+        {uiWordings['UserEdit.BackToUserList']}
+      </LinkButton>
+    </Form>
+  );
+
+  if (isAbandonEdit) {
+    return <>{backToUserListButton}</>;
+  }
+
   return (
     <>
-      <Form>
-        <LinkButton to={routes.userList(true)}>
-          {uiWordings['UserEdit.BackToUserList']}
-        </LinkButton>
-      </Form>
+      {backToUserListButton}
 
       <Form onSubmit={onSubmit}>
         <h3>

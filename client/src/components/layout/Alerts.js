@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
+import isNonEmptyArray from 'utils/array/isNonEmptyArray';
 import './Alerts.css';
 
 const Alerts = _ => {
   const { alerts } = useContext(AlertContext);
 
-  if (alerts.length === 0) {
+  if (!isNonEmptyArray(alerts)) {
     return null;
   }
 

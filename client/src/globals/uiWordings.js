@@ -35,6 +35,8 @@ export default {
   'UserEdit.UpdateUserSubmit': 'Update User',
   'UserEdit.AddUserSuccessMessage': 'User Added',
   'UserEdit.UpdateUserSuccessMessage': 'User Updated',
+  'UserEdit.ConfirmPasswordDoesNotMatchMessage':
+    'Confirm password does not match',
 
   'UserFilter.FilterTextPlaceHolder': 'Filter Users...'
 };
