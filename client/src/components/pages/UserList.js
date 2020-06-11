@@ -9,9 +9,9 @@ import UserFilter from '../users/UserFilter';
 import isNonEmptyArray from 'utils/array/isNonEmptyArray';
 import orderBy from 'utils/array/orderBy';
 import { goToUrl } from 'utils/history';
+import getUserForDisplay from 'utils/users/getUserForDisplay';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
-import userRoles from 'types/userRoles';
 
 const headers = [
   {
@@ -52,14 +52,7 @@ const headers = [
 ];
 
 const UserTable = ({ users, onEditClick }) => {
-  const rows = users.map(user => {
-    return {
-      ...user,
-      roleDisplay: userRoles[user.role].label,
-      lastModifyUserDisplay: user.lastModifyUser.name,
-      isEnabledDisplay: user.isEnabled.toString()
-    };
-  });
+  const rows = users.map(getUserForDisplay);
 
   const [sortParams, setSortParams] = useState({
     sortBy: 'name',

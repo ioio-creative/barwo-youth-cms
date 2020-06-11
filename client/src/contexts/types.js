@@ -2,9 +2,9 @@
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 
-// loading
-export const SET_LOADING = 'SET_LOADING';
-export const REMOVE_LOADING = 'REMOVE_LOADING';
+// titlebar
+export const SET_TITLE = 'SET_LOADING';
+export const REMOVE_TITLE = 'REMOVE_TITLE';
 
 // auth
 export const USER_LOADED = 'USER_LOADED';

@@ -13,17 +13,19 @@ const LabelInputTextPair = ({
   minLength
 }) => {
   return (
-    <div className='w3-section'>
-      <Label htmlFor={name} message={labelMessage} />
-      <InputText
-        name={name}
-        onChange={onChange}
-        placeholder={placeholder}
-        type={inputType}
-        value={value}
-        required={required}
-        minLength={minLength}
-      />
+    <div className='w3-row'>
+      <div className='w3-half'>
+        <Label htmlFor={name} message={labelMessage} />
+        <InputText
+          name={name}
+          onChange={onChange}
+          placeholder={placeholder}
+          type={inputType}
+          value={value}
+          required={required}
+          minLength={minLength}
+        />
+      </div>
     </div>
   );
 };

@@ -88,30 +88,28 @@ const Login = _ => {
       ) : (
         <div className='w3-content form-container'>
           <Form onSubmit={onSubmit} isCard={true}>
-            <div className='w3-container'>
-              <h2 className='w3-center'>{uiWordings['Login.Title']}</h2>
-              <Alerts />
-              <LabelInputTextPair
-                name='email'
-                value={email}
-                inputType='email'
-                labelMessage={uiWordings['Login.EmailLabel']}
-                placeholder=''
-                onChange={onChange}
-                required={true}
-              />
-              <LabelInputTextPair
-                name='password'
-                value={password}
-                inputType='password'
-                labelMessage={uiWordings['Login.PasswordLabel']}
-                placeholder=''
-                onChange={onChange}
-                required={true}
-              />
-              <div className='w3-center'>
-                <SubmitButton label={uiWordings['Login.LoginButton']} />
-              </div>
+            <h2 className='w3-center'>{uiWordings['Login.Title']}</h2>
+            <Alerts />
+            <LabelInputTextPair
+              name='email'
+              value={email}
+              inputType='email'
+              labelMessage={uiWordings['Login.EmailLabel']}
+              placeholder=''
+              onChange={onChange}
+              required={true}
+            />
+            <LabelInputTextPair
+              name='password'
+              value={password}
+              inputType='password'
+              labelMessage={uiWordings['Login.PasswordLabel']}
+              placeholder=''
+              onChange={onChange}
+              required={true}
+            />
+            <div className='w3-center'>
+              <SubmitButton label={uiWordings['Login.LoginButton']} />
             </div>
           </Form>
         </div>

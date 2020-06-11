@@ -22,6 +22,7 @@ export default {
   'User.IsEnabledLabel': 'Is Enabled ?',
 
   'Users.Title': 'Users',
+  'Users.ForbiddenAccessMessage': 'You are forbidden to access user records.',
 
   'UserList.AddUserPrompt': 'Please add a user.',
   'UserList.AddUser': 'Add User',

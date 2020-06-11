@@ -1,8 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import TitlebarState from 'contexts/titlebar/TitlebarState';
 import AuthContext from 'contexts/auth/authContext';
 import asyncLoadingComponent from 'components/asyncLoading/AsyncLoadingComponent';
 import Navbar from 'components/layout/Navbar';
+import Titlebar from 'components/layout/Titlebar';
+import Alerts from 'components/layout/Alerts';
 import routes from 'globals/routes';
 import './Main.css';
 
@@ -25,19 +28,23 @@ const Main = _ => {
   return (
     <div className='main'>
       <Navbar className='my-navbar' />
-      <div className='my-main'>
-        <Switch>
-          <Route exact path={routes.home(false)} component={AsyncHome} />
-          <Route
-            exact
-            path={routes.userList(false)}
-            component={AsyncUserList}
-          />
-          <Route exact path={routes.userEditById} component={AsyncUserEdit} />
-          <Route exact path={routes.userAddById} component={AsyncUserEdit} />
-          <Route component={AsyncHome} />
-        </Switch>
-      </div>
+      <TitlebarState>
+        <div className='my-main'>
+          <Titlebar />
+          <Alerts />
+          <Switch>
+            <Route exact path={routes.home(false)} component={AsyncHome} />
+            <Route
+              exact
+              path={routes.userList(false)}
+              component={AsyncUserList}
+            />
+            <Route exact path={routes.userEditById} component={AsyncUserEdit} />
+            <Route exact path={routes.userAddById} component={AsyncUserEdit} />
+            <Route component={AsyncHome} />
+          </Switch>
+        </div>
+      </TitlebarState>
     </div>
   );
 };
