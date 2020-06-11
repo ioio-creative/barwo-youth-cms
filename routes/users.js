@@ -2,25 +2,37 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 
 const auth = require('../middleware/auth');
 const authIsAdmin = require('../middleware/authIsAdmin');
 const { generalErrorHandle } = require('../utils/errorHandling');
+const { returnValidationResults } = require('../utils/validationHandling');
 const User = require('../models/User');
 const {
   //USER_DELETED,
+
+  // input validation
   NAME_REQUIRED,
   EMAIL_INVALID,
   PASSWORD_INVALID,
   ROLE_REQUIRED,
   USER_ALREADY_EXISTS,
+
+  // db check
   USER_NOT_EXISTS
 } = require('../types/responses/users');
 
+const userValidationChecks = [
+  check('name', NAME_REQUIRED).not().isEmpty(),
+  check('email', EMAIL_INVALID).isEmail(),
+  check('password', PASSWORD_INVALID).isLength({
+    min: 6
+  }),
+  check('role', ROLE_REQUIRED).not().isEmpty()
+];
+
 // @route   GET api/users
-// @desc    Get all users users
+// @desc    Get all users
 // @access  Private
 router.get('/', authIsAdmin, async (req, res) => {
   try {
@@ -45,7 +57,9 @@ router.get('/:_id', auth, async (req, res) => {
     const user = await User.findById(req.params._id)
       .select('-password')
       .populate('lastModifyUser', 'name');
-    if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
+    if (!user) {
+      return res.status(404).json({ type: USER_NOT_EXISTS });
+    }
     res.json(user);
   } catch (err) {
     //generalErrorHandle(err, res);
@@ -56,57 +70,48 @@ router.get('/:_id', auth, async (req, res) => {
 // @route   POST api/users
 // @desc    Add user
 // @access  Private
-router.post(
-  '/',
-  [
-    authIsAdmin,
-    [
-      check('name', NAME_REQUIRED).not().isEmpty(),
-      check('email', EMAIL_INVALID).isEmail(),
-      check('password', PASSWORD_INVALID).isLength({
-        min: 6
-      }),
-      check('role', ROLE_REQUIRED).not().isEmpty()
-    ]
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array()
-      });
-    }
-
-    const { name, email, password, role, isEnabled } = req.body;
-
-    try {
-      let user = await User.findOne({ email });
-      if (user) {
-        return res.status(400).json({ type: USER_ALREADY_EXISTS });
-      }
-      user = new User({
-        name,
-        email,
-        password,
-        role,
-        isEnabled,
-        lastModifyUser: req.user._id
-      });
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
-      await user.save();
-
-      res.json(user);
-    } catch (err) {
-      generalErrorHandle(err, res);
-    }
+router.post('/', [authIsAdmin, userValidationChecks], async (req, res) => {
+  // validation
+  const isValidationPassed = returnValidationResults(req, res);
+  if (!isValidationPassed) {
+    return;
   }
-);
+
+  const { name, email, password, role, isEnabled } = req.body;
+
+  try {
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ type: USER_ALREADY_EXISTS });
+    }
+    user = new User({
+      name,
+      email,
+      password,
+      role,
+      isEnabled,
+      lastModifyUser: req.user._id
+    });
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
 
 // @route   PUT api/users/:_id
 // @desc    Update user
 // @access  Private
-router.put('/:_id', authIsAdmin, async (req, res) => {
+router.put('/:_id', [authIsAdmin, userValidationChecks], async (req, res) => {
+  // validation
+  const isValidationPassed = returnValidationResults(req, res);
+  if (!isValidationPassed) {
+    return;
+  }
+
   const { name, email, password, role, isEnabled } = req.body;
 
   // Build user object

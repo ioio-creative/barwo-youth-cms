@@ -19,6 +19,12 @@ const {
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');
+
+    if (user.isEnabled === false) {
+      // 403 forbidden
+      return res.status(403).json({ type: USER_DOES_NOT_HAVE_RIGHT });
+    }
+
     res.json(user);
   } catch (err) {
     generalErrorHandle(err, res);
@@ -49,9 +55,9 @@ router.post(
       if (!user) {
         return res.status(400).json({ type: INVALID_CREDENTIALS });
       }
-      if (user.IsEnabled === false) {
+      if (user.isEnabled === false) {
         // 403 forbidden
-        res.status(403).json({ type: USER_DOES_NOT_HAVE_RIGHT });
+        return res.status(403).json({ type: USER_DOES_NOT_HAVE_RIGHT });
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {

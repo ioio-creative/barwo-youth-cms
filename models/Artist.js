@@ -1,22 +1,38 @@
 const mongoose = require('mongoose');
 
-const ActorSchema = mongoose.Schema({
-  name: {
+const ArtistSchema = mongoose.Schema({
+  name_tc: {
     type: String,
     require: true
   },
-  email: {
+  name_sc: {
     type: String,
-    require: true,
-    unique: true
+    require: true
   },
-  password: {
+  name_en: {
+    type: String,
+    require: true
+  },
+  desc_tc: {
+    type: String
+  },
+  desc_sc: {
+    type: String
+  },
+  desc_en: {
+    type: String
+  },
+  type: {
     type: String,
     require: true
   },
   role: {
     type: String,
     require: true
+  },
+  isEnabled: {
+    type: Boolean,
+    default: true
   },
   createDT: {
     type: Date,
@@ -26,13 +42,10 @@ const ActorSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  deleteDT: {
-    type: Date
-  },
   lastModifyUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   }
 });
 
-module.exports = mongoose.model('actor', ActorSchema);
+module.exports = mongoose.model('artist', ArtistSchema);

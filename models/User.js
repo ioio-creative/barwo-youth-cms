@@ -18,6 +18,10 @@ const UserSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  isEnabled: {
+    type: Boolean,
+    default: true
+  },
   createDT: {
     type: Date,
     default: Date.now
@@ -29,10 +33,6 @@ const UserSchema = mongoose.Schema({
   lastModifyUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
-  },
-  isEnabled: {
-    type: Boolean,
-    default: true
   }
 });
 
