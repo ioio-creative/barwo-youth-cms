@@ -3,8 +3,11 @@ import React, { useReducer, useCallback } from 'react';
 import axios from 'axios';
 import UsersContext from './usersContext';
 import usersReducer from './usersReducer';
+import usersResponseTypes from 'types/responses/users';
 import {
   GET_USERS,
+  GET_USER,
+  CLEAR_USER,
   ADD_USER,
   UPDATE_USER,
   FILTER_USERS,
@@ -40,6 +43,7 @@ const initialState = {
   //   }
   // ],
   users: null,
+  user: null,
   filteredUsers: null,
   usersError: null,
   usersLoading: false
@@ -58,6 +62,30 @@ const UsersState = ({ children }) => {
       console.log(err);
       dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
+  }, []);
+
+  // Get User
+  const getUser = useCallback(async userId => {
+    if (!userId) {
+      dispatch({
+        type: USERS_ERROR,
+        payload: usersResponseTypes.USER_NOT_EXISTS.type
+      });
+      return;
+    }
+    dispatch({ type: SET_USERS_LOADING });
+    try {
+      const res = await axios.get(`/api/users/${userId}`);
+      dispatch({ type: GET_USER, payload: res.data });
+    } catch (err) {
+      console.log(err);
+      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+    }
+  }, []);
+
+  // Clear User
+  const clearUser = useCallback(_ => {
+    dispatch({ type: CLEAR_USER });
   }, []);
 
   // Add User
@@ -96,6 +124,7 @@ const UsersState = ({ children }) => {
       dispatch({ type: UPDATE_USER, payload: res.data });
       isSuccess = true;
     } catch (err) {
+      console.log(err);
       dispatch({ type: USERS_ERROR, payload: err.response.data.type });
     }
     return isSuccess;
@@ -125,9 +154,12 @@ const UsersState = ({ children }) => {
     <UsersContext.Provider
       value={{
         users: state.users,
+        user: state.user,
         filteredUsers: state.filteredUsers,
         usersError: state.usersError,
         getUsers,
+        getUser,
+        clearUser,
         addUser,
         updateUser,
         clearUsers,

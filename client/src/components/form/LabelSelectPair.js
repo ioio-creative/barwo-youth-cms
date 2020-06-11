@@ -1,40 +1,32 @@
 import React from 'react';
 import Label from './Label';
-import InputText from './InputText';
+import Select from './Select';
 
-const LabelInputTextPair = ({
+const LabelSelectPair = ({
   name,
   value,
-  inputType,
+  options,
   labelMessage,
-  placeholder,
   onChange,
-  required,
-  minLength,
-  disabled,
   isHalf
 }) => {
   return (
     <div className='w3-row'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label htmlFor={name} message={labelMessage} />
-        <InputText
+        <Select
           name={name}
           onChange={onChange}
-          placeholder={placeholder}
-          type={inputType}
+          options={options}
           value={value}
-          required={required}
-          minLength={minLength}
-          disabled={disabled}
         />
       </div>
     </div>
   );
 };
 
-LabelInputTextPair.defaultProps = {
+LabelSelectPair.defaultProps = {
   isHalf: true
 };
 
-export default LabelInputTextPair;
+export default LabelSelectPair;

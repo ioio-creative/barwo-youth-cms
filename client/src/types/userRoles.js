@@ -1,6 +1,6 @@
 const userRoles = {
   ADMIN: { value: 'ADMIN', label: 'Admin' },
-  EDITOR: { value: 'EDITOR', label: 'Normal user' }
+  EDITOR: { value: 'EDITOR', label: 'Editor' }
 };
 
 export default userRoles;

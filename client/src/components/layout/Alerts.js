@@ -15,7 +15,7 @@ const Alerts = _ => {
         return (
           <div
             key={alert._id}
-            className={`w3-panel w3-${alert.type.color} w3-padding w3-round-large w3-content`}
+            className={`w3-panel w3-${alert.type.color} w3-padding w3-round-large`}
           >
             <i className='fa fa-info-circle' /> {alert.msg}
           </div>

@@ -1,14 +1,19 @@
-import React from 'react';
-import Titlebar from 'components/layout/Titlebar';
-import RichTextbox from 'components/form/RichTextbox';
+import React, { useContext, useEffect } from 'react';
+import TitlebarContext from 'contexts/titlebar/titlebarContext';
 
 const Home = _ => {
-  return (
-    <div>
-      <Titlebar title='Homepage' />
-      <RichTextbox />
-    </div>
-  );
+  const { setTitle, removeTitle } = useContext(TitlebarContext);
+
+  // componentDidMount
+  useEffect(_ => {
+    setTitle('Homepage');
+    return _ => {
+      removeTitle();
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  return <div className='w3-container'>Homepage</div>;
 };
 
 export default Home;

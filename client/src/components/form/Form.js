@@ -5,7 +5,7 @@ const Form = ({ className, onSubmit, children, isCard }) => {
     <form
       className={`${
         isCard ? 'w3-card-4' : ''
-      } w3-light-grey w3-text-blue w3-section ${className}`}
+      } w3-light-grey w3-text-blue w3-section ${className} w3-container`}
       onSubmit={onSubmit}
     >
       {children}
