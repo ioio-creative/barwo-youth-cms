@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  useRef
-} from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import UserContext from 'contexts/users/usersContext';
@@ -22,6 +16,7 @@ import alertTypes from 'types/alertTypes';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
+import isNonEmptyArray from 'utils/array/isNonEmptyArray';
 
 const emptyUser = new User();
 const defaultState = {
@@ -31,24 +26,22 @@ const defaultState = {
 
 const UserEdit = _ => {
   const { userId } = useParams();
-  const { setAlert, removeAlert, removeAlerts } = useContext(AlertContext);
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     user: fetchedUser,
-    usersError,
+    usersErrors,
     usersLoading,
     getUser,
     clearUser,
     addUser,
     updateUser,
-    clearUsersError
+    clearUsersErrors
   } = useContext(UserContext);
 
   const [user, setUser] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddUserMode, setIsAddUserMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
-
-  const alertId = useRef(null);
 
   // componentDidMount
   useEffect(_ => {
@@ -68,7 +61,7 @@ const UserEdit = _ => {
         clearUser();
       };
     },
-    [userId]
+    [userId, getUser, clearUser]
   );
 
   useEffect(
@@ -85,45 +78,45 @@ const UserEdit = _ => {
 
   useEffect(
     _ => {
-      if (usersError) {
-        alertId.current = setAlert(
-          User.usersResponseTypes[usersError].msg,
-          alertTypes.WARNING
+      if (isNonEmptyArray(usersErrors)) {
+        console.log();
+        setAlerts(
+          usersErrors.map(userError => {
+            return {
+              msg: User.usersResponseTypes[userError].msg,
+              type: alertTypes.WARNING
+            };
+          })
         );
-        clearUsersError();
+        clearUsersErrors();
 
-        if (usersError === User.usersResponseTypes.USER_NOT_EXISTS.type) {
+        if (usersErrors === User.usersResponseTypes.USER_NOT_EXISTS.type) {
           setIsAbandonEdit(true);
         }
       }
     },
-    [usersError, setAlert, clearUsersError]
+    [usersErrors, setAlerts, clearUsersErrors]
   );
 
   /* methods */
 
-  const clearAlert = useCallback(
-    _ => {
-      if (alertId.current) {
-        removeAlert(alertId.current);
-        alertId.current = null;
+  const validInput = useCallback(
+    userInput => {
+      if (isAddUserMode) {
+        if (userInput.password !== userInput.password2) {
+          setAlerts([
+            {
+              msg: uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
+              type: alertTypes.WARNING
+            }
+          ]);
+          return false;
+        }
       }
+      return true;
     },
-    [alertId, removeAlert]
+    [isAddUserMode, setAlerts]
   );
-
-  const validInput = useCallback(userInput => {
-    if (isAddUserMode) {
-      if (user.password !== user.password2) {
-        alertId.current = setAlert(
-          uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
-          alertTypes.WARNING
-        );
-        return false;
-      }
-    }
-    return true;
-  });
 
   /* end of methods */
 
@@ -132,36 +125,38 @@ const UserEdit = _ => {
   const onChange = useCallback(
     e => {
       setIsSubmitEnabled(true);
-      clearAlert();
+      removeAlerts();
       setUser({ ...user, [e.target.name]: e.target.value });
     },
-    [user, setUser, clearAlert]
+    [user, setUser, removeAlerts]
   );
 
   const onSubmit = useCallback(
     async e => {
       e.preventDefault();
-      const { password2, ...cleanedUser } = user;
       let isSuccess = false;
       let returnedUser = null;
-      isSuccess = validInput();
+      isSuccess = validInput(user);
+      const { password2, ...cleanedUser } = user;
       if (isSuccess) {
         const funcToCall = isAddUserMode ? addUser : updateUser;
         returnedUser = await funcToCall(cleanedUser);
         isSuccess = Boolean(returnedUser);
       }
       if (isSuccess) {
-        alertId.current = setAlert(
-          isAddUserMode
-            ? uiWordings['UserEdit.AddUserSuccessMessage']
-            : uiWordings['UserEdit.UpdateUserSuccessMessage'],
-          alertTypes.INFO
-        );
+        setAlerts([
+          {
+            msg: isAddUserMode
+              ? uiWordings['UserEdit.AddUserSuccessMessage']
+              : uiWordings['UserEdit.UpdateUserSuccessMessage'],
+            type: alertTypes.INFO
+          }
+        ]);
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
       }
       setIsSubmitEnabled(false);
     },
-    [isAddUserMode, updateUser, addUser, user, setAlert]
+    [isAddUserMode, updateUser, addUser, user, setAlerts, validInput]
   );
 
   /* end of event handlers */
@@ -236,7 +231,7 @@ const UserEdit = _ => {
         <LabelSelectPair
           name='role'
           value={user.role}
-          options={User.userRoleOptionsuserRoleOptions}
+          options={User.userRoleOptions}
           labelMessage={uiWordings['User.RoleLabel']}
           onChange={onChange}
         />

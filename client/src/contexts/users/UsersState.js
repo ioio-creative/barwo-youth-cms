@@ -4,6 +4,7 @@ import axios from 'axios';
 import UsersContext from './usersContext';
 import usersReducer from './usersReducer';
 import User from 'models/user';
+import handleServerError from '../handleServerError';
 import {
   GET_USERS,
   GET_USER,
@@ -13,8 +14,8 @@ import {
   FILTER_USERS,
   CLEAR_USERS,
   CLEAR_FILTER_USERS,
-  USERS_ERROR,
-  CLEAR_USERS_ERROR,
+  USERS_ERRORS,
+  CLEAR_USERS_ERRORS,
   SET_USERS_LOADING
 } from '../types';
 
@@ -45,7 +46,7 @@ const initialState = {
   users: null,
   user: null,
   filteredUsers: null,
-  usersError: null,
+  usersErrors: null,
   usersLoading: false
 };
 
@@ -59,8 +60,7 @@ const UsersState = ({ children }) => {
       const res = await axios.get('/api/users');
       dispatch({ type: GET_USERS, payload: res.data });
     } catch (err) {
-      console.log(err);
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
   }, []);
 
@@ -68,8 +68,8 @@ const UsersState = ({ children }) => {
   const getUser = useCallback(async userId => {
     if (!userId) {
       dispatch({
-        type: USERS_ERROR,
-        payload: User.usersResponseTypes.USER_NOT_EXISTS.type
+        type: USERS_ERRORS,
+        payload: [User.usersResponseTypes.USER_NOT_EXISTS.type]
       });
       return;
     }
@@ -78,8 +78,7 @@ const UsersState = ({ children }) => {
       const res = await axios.get(`/api/users/${userId}`);
       dispatch({ type: GET_USER, payload: res.data });
     } catch (err) {
-      console.log(err);
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
   }, []);
 
@@ -102,9 +101,8 @@ const UsersState = ({ children }) => {
       const res = await axios.post('/api/users', user, config);
       dispatch({ type: ADD_USER, payload: res.data });
       newUser = res.data;
-      console.log(res.data);
     } catch (err) {
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
     return newUser;
   }, []);
@@ -125,8 +123,7 @@ const UsersState = ({ children }) => {
       dispatch({ type: UPDATE_USER, payload: res.data });
       newUser = res.data;
     } catch (err) {
-      console.log(err);
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
     return newUser;
   }, []);
@@ -147,8 +144,8 @@ const UsersState = ({ children }) => {
   }, []);
 
   // Clear Users Error
-  const clearUsersError = useCallback(_ => {
-    dispatch({ type: CLEAR_USERS_ERROR });
+  const clearUsersErrors = useCallback(_ => {
+    dispatch({ type: CLEAR_USERS_ERRORS });
   }, []);
 
   return (
@@ -157,7 +154,7 @@ const UsersState = ({ children }) => {
         users: state.users,
         user: state.user,
         filteredUsers: state.filteredUsers,
-        usersError: state.usersError,
+        usersErrors: state.usersErrors,
         getUsers,
         getUser,
         clearUser,
@@ -166,7 +163,7 @@ const UsersState = ({ children }) => {
         clearUsers,
         filterUsers,
         clearFilterUsers,
-        clearUsersError
+        clearUsersErrors
       }}
     >
       {children}

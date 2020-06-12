@@ -1,10 +1,10 @@
 import {
   USER_LOADED,
-  AUTH_ERROR,
+  AUTH_ERRORS,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_AUTH_ERROR,
+  CLEAR_AUTH_ERRORS,
   SET_AUTH_LOADING,
   REMOVE_AUTH_LOADING
 } from '../types';
@@ -26,7 +26,7 @@ export default (state, action) => {
         isAuthenticated: true,
         authLoading: false
       };
-    case AUTH_ERROR:
+    case AUTH_ERRORS:
     case LOGIN_FAIL:
     case LOGOUT:
       localStorage.removeItem('token');
@@ -36,12 +36,12 @@ export default (state, action) => {
         isAuthenticated: false,
         authLoading: false,
         authUser: null,
-        authError: action.payload
+        authErrors: action.payload
       };
-    case CLEAR_AUTH_ERROR:
+    case CLEAR_AUTH_ERRORS:
       return {
         ...state,
-        authError: null
+        authErrors: null
       };
     case SET_AUTH_LOADING:
       return {

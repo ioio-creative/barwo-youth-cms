@@ -13,7 +13,7 @@ function User() {
 
 /* statics */
 
-User.userResponseTypes = {
+User.usersResponseTypes = {
   // info messages
   USER_DELETED: {
     type: 'USER_DELETED',

@@ -44,14 +44,14 @@ router.get('/:_id', auth, async (req, res) => {
     if (!artist) {
       return res
         .status(404)
-        .json({ type: artistResponseTypes.ARTIST_NOT_EXISTS });
+        .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
     }
     res.json(artist);
   } catch (err) {
     //generalErrorHandle(err, res);
     return res
       .status(404)
-      .json({ type: artistResponseTypes.ARTIST_NOT_EXISTS });
+      .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
   }
 });
 
@@ -139,7 +139,7 @@ router.put('/:_id', [auth, artistValidationChecks], async (req, res) => {
     if (!artist)
       return res
         .status(404)
-        .json({ type: artistResponseTypes.ARTIST_NOT_EXISTS });
+        .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
 
     artist = await Artist.findByIdAndUpdate(
       req.params._id,

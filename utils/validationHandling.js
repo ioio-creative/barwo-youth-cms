@@ -1,12 +1,12 @@
-const { SERVER_ERROR } = require('../types/responses/general');
-
 const { validationResult } = require('express-validator');
 
+// https://express-validator.github.io/docs/
 module.exports.returnValidationResults = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
+  const validationResultObj = validationResult(req);
+  if (!validationResultObj.isEmpty()) {
+    console.error(validationResultObj.array());
     res.status(400).json({
-      errors: errors.array()
+      errors: validationResultObj.array().map(error => error.msg)
     });
     return false;
   }

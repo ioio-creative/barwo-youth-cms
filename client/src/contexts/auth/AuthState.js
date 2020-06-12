@@ -5,14 +5,15 @@ import AuthContext from './authContext';
 import authReducer from './authReducer';
 import {
   USER_LOADED,
-  AUTH_ERROR,
+  AUTH_ERRORS,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_AUTH_ERROR,
+  CLEAR_AUTH_ERRORS,
   SET_AUTH_LOADING,
   REMOVE_AUTH_LOADING
 } from '../types';
+import handleServerError from '../handleServerError';
 import User from 'models/user';
 
 const initialState = {
@@ -21,7 +22,7 @@ const initialState = {
   // authLoading has to be initially true to be used in PrivateRoute
   authLoading: true,
   authUser: null,
-  authError: null
+  authErrors: null
 };
 
 const AuthState = ({ children }) => {
@@ -39,7 +40,7 @@ const AuthState = ({ children }) => {
       const res = await axios.get('/api/auth');
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (err) {
-      dispatch({ type: AUTH_ERROR });
+      handleServerError(err, AUTH_ERRORS, dispatch);
     }
   }, []);
 
@@ -64,10 +65,7 @@ const AuthState = ({ children }) => {
 
         loadUser();
       } catch (err) {
-        dispatch({
-          type: LOGIN_FAIL,
-          payload: err.response.data.type
-        });
+        handleServerError(err, LOGIN_FAIL, dispatch);
       }
     },
     [loadUser]
@@ -79,8 +77,8 @@ const AuthState = ({ children }) => {
   }, []);
 
   // Clear Error
-  const clearAuthError = useCallback(_ => {
-    dispatch({ type: CLEAR_AUTH_ERROR });
+  const clearAuthErrors = useCallback(_ => {
+    dispatch({ type: CLEAR_AUTH_ERRORS });
   }, []);
 
   // Remove Loading
@@ -95,12 +93,12 @@ const AuthState = ({ children }) => {
         isAuthenticated: state.isAuthenticated,
         authLoading: state.authLoading,
         authUser: state.authUser,
-        authError: state.authError,
+        authErrors: state.authErrors,
         isAuthUserAdmin: state.authUser ? User.isAdmin(state.authUser) : false,
         loadUser,
         login,
         logout,
-        clearAuthError,
+        clearAuthErrors,
         removeAuthLoading
       }}
     >

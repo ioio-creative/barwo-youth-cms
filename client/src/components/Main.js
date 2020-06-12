@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import TitlebarState from 'contexts/titlebar/TitlebarState';
 import AuthContext from 'contexts/auth/authContext';
+import AlertContext from 'contexts/alert/alertContext';
 import asyncLoadingComponent from 'components/asyncLoading/AsyncLoadingComponent';
 import Navbar from 'components/layout/Navbar';
 import Titlebar from 'components/layout/Titlebar';
@@ -20,9 +21,13 @@ const AsyncUserEdit = asyncLoadingComponent(_ =>
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
+  const { removeAlerts } = useContext(AlertContext);
   // componentDidMount
   useEffect(_ => {
+    console.log('Main componentDidMount');
     loadUser();
+    // remove alerts lingering from login
+    removeAlerts();
     // eslint-disable-next-line
   }, []);
   return (
