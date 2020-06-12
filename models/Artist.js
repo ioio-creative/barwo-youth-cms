@@ -48,4 +48,30 @@ const ArtistSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('artist', ArtistSchema);
+module.exports.Artist = mongoose.model('artist', ArtistSchema);
+
+module.exports.artistRoles = {
+  NOT_SPECIFIED: 'NOT_SPECIFIED',
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  BOTH: 'BOTH'
+};
+
+module.exports.artistTypes = {
+  ARTISTIC_DIRECTOR: 'ARTISTIC_DIRECTOR',
+  ARTISTIC_DIRECTOR_VISITING: 'ARTISTIC_DIRECTOR_VISITING',
+  ACTOR: 'ACTOR',
+  ACTOR_PAST: 'ACTOR_PAST'
+};
+
+module.exports.artistResponseTypes = {
+  // input validation
+  NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
+  NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
+  NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  TYPE_REQUIRED: 'TYPE_REQUIRED',
+  ROLE_REQUIRED: 'ROLE_REQUIRED',
+
+  // db check
+  ARTIST_NOT_EXISTS: 'ARTIST_NOT_EXISTS'
+};

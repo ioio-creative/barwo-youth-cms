@@ -1,34 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 const auth = require('../middleware/auth');
 const authIsAdmin = require('../middleware/authIsAdmin');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const { returnValidationResults } = require('../utils/validationHandling');
-const User = require('../models/User');
-const {
-  //USER_DELETED,
-
-  // input validation
-  NAME_REQUIRED,
-  EMAIL_INVALID,
-  PASSWORD_INVALID,
-  ROLE_REQUIRED,
-  USER_ALREADY_EXISTS,
-
-  // db check
-  USER_NOT_EXISTS
-} = require('../types/responses/users');
+const { User, userResponseTypes } = require('../models/User');
 
 const userValidationChecks = [
-  check('name', NAME_REQUIRED).not().isEmpty(),
-  check('email', EMAIL_INVALID).isEmail(),
-  check('password', PASSWORD_INVALID).isLength({
+  check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
+  check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
+  check('password', userResponseTypes.PASSWORD_INVALID).isLength({
     min: 6
   }),
-  check('role', ROLE_REQUIRED).not().isEmpty()
+  check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];
 
 // @route   GET api/users
@@ -58,12 +45,12 @@ router.get('/:_id', auth, async (req, res) => {
       .select('-password')
       .populate('lastModifyUser', 'name');
     if (!user) {
-      return res.status(404).json({ type: USER_NOT_EXISTS });
+      return res.status(404).json({ type: userResponseTypes.USER_NOT_EXISTS });
     }
     res.json(user);
   } catch (err) {
     //generalErrorHandle(err, res);
-    return res.status(404).json({ type: USER_NOT_EXISTS });
+    return res.status(404).json({ type: userResponseTypes.USER_NOT_EXISTS });
   }
 });
 
@@ -82,7 +69,9 @@ router.post('/', [authIsAdmin, userValidationChecks], async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ type: USER_ALREADY_EXISTS });
+      return res
+        .status(400)
+        .json({ type: userResponseTypes.USER_ALREADY_EXISTS });
     }
     user = new User({
       name,
@@ -126,7 +115,8 @@ router.put('/:_id', [authIsAdmin, userValidationChecks], async (req, res) => {
 
   try {
     let user = await User.findById(req.params._id);
-    if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
+    if (!user)
+      return res.status(404).json({ type: userResponseTypes.USER_NOT_EXISTS });
 
     user = await User.findByIdAndUpdate(
       req.params._id,
@@ -146,7 +136,7 @@ router.put('/:_id', [authIsAdmin, userValidationChecks], async (req, res) => {
 // router.delete('/:_id', authIsAdmin, async (req, res) => {
 //   try {
 //     let user = await User.findById(req.params._id);
-//     if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
+//     if (!user) return res.status(404).json({ type: userResponseTypes.USER_NOT_EXISTS });
 
 //     const userFields = {
 //       isEnabled: false,

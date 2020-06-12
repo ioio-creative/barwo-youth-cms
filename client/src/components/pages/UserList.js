@@ -9,9 +9,9 @@ import UserFilter from '../users/UserFilter';
 import isNonEmptyArray from 'utils/array/isNonEmptyArray';
 import orderBy from 'utils/array/orderBy';
 import { goToUrl } from 'utils/history';
-import getUserForDisplay from 'utils/users/getUserForDisplay';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
+import User from 'models/user';
 
 const headers = [
   {
@@ -52,7 +52,7 @@ const headers = [
 ];
 
 const UserTable = ({ users, onEditClick }) => {
-  const rows = users.map(getUserForDisplay);
+  const rows = users.map(User.getUserForDisplay);
 
   const [sortParams, setSortParams] = useState({
     sortBy: 'name',

@@ -36,4 +36,24 @@ const UserSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('user', UserSchema);
+module.exports.User = mongoose.model('user', UserSchema);
+
+module.exports.userRoles = {
+  ADMIN: 'ADMIN',
+  EDITOR: 'EDITOR'
+};
+
+module.exports.userResponseTypes = {
+  // info messages
+  //USER_DELETED: 'USER_DELETED',
+
+  // input validation
+  NAME_REQUIRED: 'NAME_REQUIRED',
+  EMAIL_INVALID: 'EMAIL_INVALID',
+  PASSWORD_INVALID: 'PASSWORD_INVALID',
+  ROLE_REQUIRED: 'ROLE_REQUIRED',
+
+  // db check
+  USER_ALREADY_EXISTS: 'USER_ALREADY_EXISTS',
+  USER_NOT_EXISTS: 'USER_NOT_EXISTS'
+};

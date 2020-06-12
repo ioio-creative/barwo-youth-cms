@@ -5,25 +5,14 @@ const { check } = require('express-validator');
 const auth = require('../middleware/auth');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const { returnValidationResults } = require('../utils/validationHandling');
-const Artist = require('../models/Artist');
-const {
-  // input validation
-  NAME_TC_REQUIRED,
-  NAME_SC_REQUIRED,
-  NAME_EN_REQUIRED,
-  TYPE_REQUIRED,
-  ROLE_REQUIRED,
-
-  // db check
-  ARTIST_NOT_EXISTS
-} = require('../types/responses/artists');
+const { Artist, artistResponseTypes } = require('../models/Artist');
 
 const artistValidationChecks = [
-  check('name_tc', NAME_TC_REQUIRED).not().isEmpty(),
-  check('name_sc', NAME_SC_REQUIRED).not().isEmpty(),
-  check('name_en', NAME_EN_REQUIRED).not().isEmpty(),
-  check('type', TYPE_REQUIRED).not().isEmpty(),
-  check('role', ROLE_REQUIRED).not().isEmpty()
+  check('name_tc', artistResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
+  check('name_sc', artistResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
+  check('name_en', artistResponseTypes.NAME_EN_REQUIRED).not().isEmpty(),
+  check('type', artistResponseTypes.TYPE_REQUIRED).not().isEmpty(),
+  check('role', artistResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];
 
 // @route   GET api/artists
@@ -53,12 +42,16 @@ router.get('/:_id', auth, async (req, res) => {
       'name'
     );
     if (!artist) {
-      return res.status(404).json({ type: ARTIST_NOT_EXISTS });
+      return res
+        .status(404)
+        .json({ type: artistResponseTypes.ARTIST_NOT_EXISTS });
     }
     res.json(artist);
   } catch (err) {
     //generalErrorHandle(err, res);
-    return res.status(404).json({ type: ARTIST_NOT_EXISTS });
+    return res
+      .status(404)
+      .json({ type: artistResponseTypes.ARTIST_NOT_EXISTS });
   }
 });
 
@@ -143,7 +136,10 @@ router.put('/:_id', [auth, artistValidationChecks], async (req, res) => {
 
   try {
     let artist = await Artist.findById(req.params._id);
-    if (!artist) return res.status(404).json({ type: ARTIST_NOT_EXISTS });
+    if (!artist)
+      return res
+        .status(404)
+        .json({ type: artistResponseTypes.ARTIST_NOT_EXISTS });
 
     artist = await Artist.findByIdAndUpdate(
       req.params._id,

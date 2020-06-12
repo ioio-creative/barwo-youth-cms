@@ -18,13 +18,11 @@ import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import User from 'models/user';
-import { userRoleOptions } from 'types/userRoles';
 import usersResponseTypes from 'types/responses/users';
 import alertTypes from 'types/alertTypes';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import getUserForDisplay from 'utils/users/getUserForDisplay';
 
 const emptyUser = new User();
 const defaultState = {
@@ -77,7 +75,9 @@ const UserEdit = _ => {
   useEffect(
     _ => {
       if (!usersLoading) {
-        setUser(fetchedUser ? getUserForDisplay(fetchedUser) : defaultState);
+        setUser(
+          fetchedUser ? User.getUserForDisplay(fetchedUser) : defaultState
+        );
         setIsAddUserMode(!fetchedUser);
       }
     },
@@ -237,7 +237,7 @@ const UserEdit = _ => {
         <LabelSelectPair
           name='role'
           value={user.role}
-          options={userRoleOptions}
+          options={User.userRoleOptionsuserRoleOptions}
           labelMessage={uiWordings['User.RoleLabel']}
           onChange={onChange}
         />

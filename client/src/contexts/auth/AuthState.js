@@ -13,7 +13,7 @@ import {
   SET_AUTH_LOADING,
   REMOVE_AUTH_LOADING
 } from '../types';
-import { isAdmin } from 'types/userRoles';
+import User from 'models/user';
 
 const initialState = {
   authToken: localStorage.getItem('token'),
@@ -96,7 +96,7 @@ const AuthState = ({ children }) => {
         authLoading: state.authLoading,
         authUser: state.authUser,
         authError: state.authError,
-        isAuthUserAdmin: state.authUser ? isAdmin(state.authUser) : false,
+        isAuthUserAdmin: state.authUser ? User.isAdmin(state.authUser) : false,
         loadUser,
         login,
         logout,
