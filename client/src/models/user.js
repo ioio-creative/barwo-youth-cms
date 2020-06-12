@@ -1,5 +1,10 @@
 import { formatDateTimeString } from 'utils/datetime';
 
+const userRoles = {
+  ADMIN: { value: 'ADMIN', label: 'Admin' },
+  EDITOR: { value: 'EDITOR', label: 'Editor' }
+};
+
 function User() {
   this.name = '';
   this.email = '';
@@ -15,10 +20,10 @@ function User() {
 
 User.usersResponseTypes = {
   // info messages
-  USER_DELETED: {
-    type: 'USER_DELETED',
-    msg: 'USER_DELETED'
-  },
+  // USER_DELETED: {
+  //   type: 'USER_DELETED',
+  //   msg: 'USER_DELETED'
+  // },
 
   // input validation
   NAME_REQUIRED: {
@@ -49,13 +54,7 @@ User.usersResponseTypes = {
   }
 };
 
-const userRoles = {
-  ADMIN: { value: 'ADMIN', label: 'Admin' },
-  EDITOR: { value: 'EDITOR', label: 'Editor' }
-};
-
 User.userRoles = userRoles;
-
 User.userRoleOptions = Object.values(userRoles);
 
 User.isAdmin = user => {

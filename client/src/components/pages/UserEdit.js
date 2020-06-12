@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import UserContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
@@ -25,6 +25,10 @@ const defaultState = {
 };
 
 const UserEdit = _ => {
+  const match1 = useRouteMatch('/userEdit/:id');
+  const match2 = useRouteMatch('/userAdd');
+  console.log(match1, match2);
+
   const { userId } = useParams();
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -79,18 +83,19 @@ const UserEdit = _ => {
   useEffect(
     _ => {
       if (isNonEmptyArray(usersErrors)) {
-        console.log();
         setAlerts(
-          usersErrors.map(userError => {
+          usersErrors.map(usersError => {
             return {
-              msg: User.usersResponseTypes[userError].msg,
+              msg: User.usersResponseTypes[usersError].msg,
               type: alertTypes.WARNING
             };
           })
         );
         clearUsersErrors();
 
-        if (usersErrors === User.usersResponseTypes.USER_NOT_EXISTS.type) {
+        if (
+          usersErrors.includes(User.usersResponseTypes.USER_NOT_EXISTS.type)
+        ) {
           setIsAbandonEdit(true);
         }
       }

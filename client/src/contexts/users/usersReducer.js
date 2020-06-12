@@ -20,6 +20,13 @@ export default (state, action) => {
         users: action.payload,
         usersLoading: false
       };
+    case CLEAR_USERS:
+      return {
+        ...state,
+        users: null,
+        filteredUsers: null,
+        usersErrors: null
+      };
     case GET_USER:
       return {
         ...state,
@@ -40,14 +47,6 @@ export default (state, action) => {
       return {
         ...state,
         usersLoading: false
-      };
-    case CLEAR_USERS:
-      return {
-        ...state,
-        users: null,
-        filteredUsers: null,
-        usersErrors: null,
-        currentUserToEdit: null
       };
     case FILTER_USERS:
       return {

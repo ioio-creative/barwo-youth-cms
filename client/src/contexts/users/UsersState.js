@@ -64,6 +64,11 @@ const UsersState = ({ children }) => {
     }
   }, []);
 
+  // Clear Users
+  const clearUsers = useCallback(_ => {
+    dispatch({ type: CLEAR_USERS });
+  }, []);
+
   // Get User
   const getUser = useCallback(async userId => {
     if (!userId) {
@@ -128,11 +133,6 @@ const UsersState = ({ children }) => {
     return newUser;
   }, []);
 
-  // Clear Users
-  const clearUsers = useCallback(_ => {
-    dispatch({ type: CLEAR_USERS });
-  }, []);
-
   // Filter Users
   const filterUsers = useCallback(text => {
     dispatch({ type: FILTER_USERS, payload: text });
@@ -156,11 +156,11 @@ const UsersState = ({ children }) => {
         filteredUsers: state.filteredUsers,
         usersErrors: state.usersErrors,
         getUsers,
+        clearUsers,
         getUser,
         clearUser,
         addUser,
         updateUser,
-        clearUsers,
         filterUsers,
         clearFilterUsers,
         clearUsersErrors

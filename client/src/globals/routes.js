@@ -14,5 +14,15 @@ export default {
   },
   userAdd: function (isLink) {
     return '/userAdd';
+  },
+  artistList: function (isLink) {
+    return '/artistList';
+  },
+  artistEditById: '/artistEdit/:artistId',
+  artistEditByIdWithValue: function (isLink, artistId) {
+    return '/artistEdit/' + artistId;
+  },
+  artistAdd: function (isLink) {
+    return '/artistAdd';
   }
 };

@@ -4,7 +4,7 @@ import InputText from './InputText';
 
 const LabelLabelPair = ({ value, labelMessage, isHalf }) => {
   return (
-    <div className='w3-row'>
+    <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label message={labelMessage} />
         <InputText value={value} disabled={true} />

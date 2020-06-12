@@ -18,13 +18,24 @@ export const REMOVE_AUTH_LOADING = 'REMOVE_AUTH_LOADING';
 
 // users
 export const GET_USERS = 'GET_USERS';
+export const CLEAR_USERS = 'CLEAR_USERS';
 export const GET_USER = 'GET_USER';
 export const CLEAR_USER = 'CLEAR_USER';
 export const ADD_USER = 'ADD_USER';
 export const UPDATE_USER = 'UPDATE_USER';
 export const FILTER_USERS = 'FILTER_USERS';
-export const CLEAR_USERS = 'CLEAR_USERS';
 export const CLEAR_FILTER_USERS = 'CLEAR_FILTER_USERS';
 export const USERS_ERRORS = 'USERS_ERRORS';
 export const CLEAR_USERS_ERRORS = 'CLEAR_USERS_ERRORS';
 export const SET_USERS_LOADING = 'SET_USERS_LOADING';
+
+// users
+export const GET_ARTISTS = 'GET_ARTISTS';
+export const CLEAR_ARTISTS = 'CLEAR_ARTISTS';
+export const GET_ARTIST = 'GET_ARTIST';
+export const CLEAR_ARTIST = 'CLEAR_ARTIST';
+export const ADD_ARTIST = 'ADD_ARTIST';
+export const UPDATE_ARTIST = 'UPDATE_ARTIST';
+export const ARTISTS_ERRORS = 'ARTISTS_ERRORS';
+export const CLEAR_ARTISTS_ERRORS = 'CLEAR_ARTISTS_ERRORS';
+export const SET_ARTISTS_LOADING = 'SET_ARTISTS_LOADING';

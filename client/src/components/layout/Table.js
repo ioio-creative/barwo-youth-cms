@@ -72,25 +72,27 @@ const MyTable = ({
       ]
     : null;
   return (
-    <Table
-      headers={headers}
-      rows={rows}
-      sortBy={sortBy}
-      sortOrder={sortOrder}
-      onClickRow={(e, data) => {
-        console.log('onClickRow');
-        onDetailClick && onDetailClick(data);
-      }}
-      onChangeSort={({
-        sortBy,
-        firstElementThatCanBeSorted,
-        isSortEnabled
-      }) => {
-        console.log('onChangeSort');
-        onChangeSort && onChangeSort({ sortBy, isSortEnabled });
-      }}
-      rowLinks={rowLinks}
-    />
+    <div className='w3-margin-bottom'>
+      <Table
+        headers={headers}
+        rows={rows}
+        sortBy={sortBy}
+        sortOrder={sortOrder}
+        onClickRow={(e, data) => {
+          console.log('onClickRow');
+          onDetailClick && onDetailClick(data);
+        }}
+        onChangeSort={({
+          sortBy,
+          firstElementThatCanBeSorted,
+          isSortEnabled
+        }) => {
+          console.log('onChangeSort');
+          onChangeSort && onChangeSort({ sortBy, isSortEnabled });
+        }}
+        rowLinks={rowLinks}
+      />
+    </div>
   );
 };
 

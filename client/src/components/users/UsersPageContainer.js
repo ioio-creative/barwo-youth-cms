@@ -16,7 +16,6 @@ const UsersPageContainer = ({ children }) => {
     setTitle(uiWordings['Users.Title']);
     return _ => {
       removeTitle();
-      removeAlerts();
     };
     // eslint-disable-next-line
   }, []);

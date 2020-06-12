@@ -15,7 +15,7 @@ import uiWordings from 'globals/uiWordings';
 import './Login.css';
 
 const Login = _ => {
-  const { setAlerts, removeAlerts } = useContext(AlertContext);
+  const { setAlerts /*, removeAlerts*/ } = useContext(AlertContext);
   const {
     login,
     isAuthenticated,
@@ -37,6 +37,7 @@ const Login = _ => {
       // as Login will always unmount on submit
       //removeAlerts();
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(

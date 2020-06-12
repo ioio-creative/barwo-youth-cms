@@ -5,6 +5,7 @@ export default {
   'Navbar.Logout': 'Logout',
   'Navbar.Greeting': '你好',
   'Navbar.Users': 'Users',
+  'Navbar.Artists': 'Artists',
 
   'Login.Title': 'Account Login',
   'Login.FillInAllFieldsMessage': 'Please fill in all fields',
@@ -38,5 +39,28 @@ export default {
   'UserEdit.ConfirmPasswordDoesNotMatchMessage':
     'Confirm password does not match',
 
-  'UserFilter.FilterTextPlaceHolder': 'Filter Users...'
+  'UserFilter.FilterTextPlaceHolder': 'Filter Users...',
+
+  'Artists.Title': 'Artists',
+
+  'Artist.NameTcLabel': 'Name TC',
+  'Artist.NameScLabel': 'Name SC',
+  'Artist.NameEnLabel': 'Name EN',
+  'Artist.DescTcLabel': 'Desc TC',
+  'Artist.DescScLabel': 'Desc SC',
+  'Artist.DescEnLabel': 'Desc EN',
+  'Artist.TypeLabel': 'Type',
+  'Artist.RoleLabel': 'Role',
+  'Artist.CreateDTLabel': 'Create DT',
+  'Artist.LastModifyDTLabel': 'Last Modify DT',
+  'Artist.LastModifyUserLabel': 'Last Modify User',
+  'Artist.IsEnabledLabel': 'Is Enabled ?',
+
+  'ArtistEdit.BackToArtistList': 'Back to Artist List',
+  'ArtistEdit.AddArtistTitle': 'Add Artist',
+  'ArtistEdit.EditArtistTitle': 'Edit Artist',
+  'ArtistEdit.AddArtistSubmit': 'Add Artist',
+  'ArtistEdit.UpdateArtistSubmit': 'Update Artist',
+  'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
+  'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated'
 };

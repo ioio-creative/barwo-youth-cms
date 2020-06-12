@@ -11,7 +11,7 @@ const LabelSelectPair = ({
   isHalf
 }) => {
   return (
-    <div className='w3-row'>
+    <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label htmlFor={name} message={labelMessage} />
         <Select

@@ -18,6 +18,12 @@ const AsyncUserList = asyncLoadingComponent(_ =>
 const AsyncUserEdit = asyncLoadingComponent(_ =>
   import('components/pages/UserEdit')
 );
+const AsyncArtistList = asyncLoadingComponent(_ =>
+  import('components/pages/ArtistList')
+);
+const AsyncArtistEdit = asyncLoadingComponent(_ =>
+  import('components/pages/ArtistEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -38,23 +44,30 @@ const Main = _ => {
           <Titlebar />
           <div className='w3-container'>
             <Alerts />
+            {/*
+              Switch component behaves similarly to the "switch" construct
+              in programming. Once a Route is matched, subsequent Routes
+              will be ignored. So we should use "exact" keyword on more
+              generic paths, like "/", or put more generic paths as the
+              later Routes in the Route list.
+            */}
             <Switch>
               <Route exact path={routes.home(false)} component={AsyncHome} />
+
+              <Route path={routes.userList(false)} component={AsyncUserList} />
+              <Route path={routes.userEditById} component={AsyncUserEdit} />
+              <Route path={routes.userAdd(false)} component={AsyncUserEdit} />
+
               <Route
-                exact
-                path={routes.userList(false)}
-                component={AsyncUserList}
+                path={routes.artistList(false)}
+                component={AsyncArtistList}
               />
+              <Route path={routes.artistEditById} component={AsyncArtistEdit} />
               <Route
-                exact
-                path={routes.userEditById}
-                component={AsyncUserEdit}
+                path={routes.artistAdd(false)}
+                component={AsyncArtistEdit}
               />
-              <Route
-                exact
-                path={routes.userAddById}
-                component={AsyncUserEdit}
-              />
+
               <Route component={AsyncHome} />
             </Switch>
           </div>

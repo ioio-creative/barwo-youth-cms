@@ -64,6 +64,9 @@ const Navbar = ({ className }) => {
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}
+      <NavbarLink to={routes.artistList(true)}>
+        {uiWordings['Navbar.Artists']}
+      </NavbarLink>
     </>
   );
 
