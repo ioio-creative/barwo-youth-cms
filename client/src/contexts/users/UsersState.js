@@ -3,7 +3,7 @@ import React, { useReducer, useCallback } from 'react';
 import axios from 'axios';
 import UsersContext from './usersContext';
 import usersReducer from './usersReducer';
-import usersResponseTypes from 'types/responses/users';
+import User from 'models/user';
 import {
   GET_USERS,
   GET_USER,
@@ -69,7 +69,7 @@ const UsersState = ({ children }) => {
     if (!userId) {
       dispatch({
         type: USERS_ERROR,
-        payload: usersResponseTypes.USER_NOT_EXISTS.type
+        payload: User.usersResponseTypes.USER_NOT_EXISTS.type
       });
       return;
     }

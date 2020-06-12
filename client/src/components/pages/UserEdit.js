@@ -18,7 +18,6 @@ import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import User from 'models/user';
-import usersResponseTypes from 'types/responses/users';
 import alertTypes from 'types/alertTypes';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
@@ -88,12 +87,12 @@ const UserEdit = _ => {
     _ => {
       if (usersError) {
         alertId.current = setAlert(
-          usersResponseTypes[usersError].msg,
+          User.usersResponseTypes[usersError].msg,
           alertTypes.WARNING
         );
         clearUsersError();
 
-        if (usersError === usersResponseTypes.USER_NOT_EXISTS.type) {
+        if (usersError === User.usersResponseTypes.USER_NOT_EXISTS.type) {
           setIsAbandonEdit(true);
         }
       }
