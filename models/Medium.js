@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const MediumSchema = mongoose.Schema({
   name: {
@@ -38,6 +39,8 @@ const MediumSchema = mongoose.Schema({
     ref: 'user'
   }
 });
+
+MediumSchema.plugin(mongoosePaginate);
 
 module.exports.Medium = mongoose.model('medium', MediumSchema);
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams, useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import UserContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
@@ -11,8 +11,8 @@ import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import Alert from 'models/alert';
 import User from 'models/user';
-import alertTypes from 'types/alertTypes';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
@@ -25,10 +25,6 @@ const defaultState = {
 };
 
 const UserEdit = _ => {
-  const match1 = useRouteMatch('/userEdit/:id');
-  const match2 = useRouteMatch('/userAdd');
-  console.log(match1, match2);
-
   const { userId } = useParams();
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -85,10 +81,7 @@ const UserEdit = _ => {
       if (isNonEmptyArray(usersErrors)) {
         setAlerts(
           usersErrors.map(usersError => {
-            return {
-              msg: User.usersResponseTypes[usersError].msg,
-              type: alertTypes.WARNING
-            };
+            return new Alert(User.usersResponseTypes[usersError].msg, Alert.alertTypes.WARNING);
           })
         );
         clearUsersErrors();
@@ -109,12 +102,7 @@ const UserEdit = _ => {
     userInput => {
       if (isAddUserMode) {
         if (userInput.password !== userInput.password2) {
-          setAlerts([
-            {
-              msg: uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
-              type: alertTypes.WARNING
-            }
-          ]);
+          setAlerts(new Alert(uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'], Alert.alertTypes.WARNING));
           return false;
         }
       }
@@ -138,6 +126,7 @@ const UserEdit = _ => {
 
   const onSubmit = useCallback(
     async e => {
+      setIsSubmitEnabled(false);
       e.preventDefault();
       let isSuccess = false;
       let returnedUser = null;
@@ -149,17 +138,11 @@ const UserEdit = _ => {
         isSuccess = Boolean(returnedUser);
       }
       if (isSuccess) {
-        setAlerts([
-          {
-            msg: isAddUserMode
-              ? uiWordings['UserEdit.AddUserSuccessMessage']
-              : uiWordings['UserEdit.UpdateUserSuccessMessage'],
-            type: alertTypes.INFO
-          }
-        ]);
+        setAlerts(new Alert(isAddUserMode
+          ? uiWordings['UserEdit.AddUserSuccessMessage']
+          : uiWordings['UserEdit.UpdateUserSuccessMessage'], Alert.alertTypes.INFO));
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
       }
-      setIsSubmitEnabled(false);
     },
     [isAddUserMode, updateUser, addUser, user, setAlerts, validInput]
   );

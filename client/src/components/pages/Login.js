@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import AuthContext from 'contexts/auth/authContext';
+import Alert from 'models/alert';
 import Alerts from 'components/layout/Alerts';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import SubmitButton from 'components/form/SubmitButton';
 import authResponseTypes from 'types/responses/auth';
-import alertTypes from 'types/alertTypes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/array/isNonEmptyArray';
 import routes from 'globals/routes';
@@ -29,7 +29,7 @@ const Login = _ => {
   useEffect(_ => {
     removeAuthLoading();
     // test
-    //setAlerts([{ msg: 'XXXXXXXXXX lsjgfa;sdjgl jads;lgkads', type: alertTypes.WARNING }]);
+    //setAlerts(new Alert('XXXXXXXXXX lsjgfa;sdjgl jads;lgkads', Alert.alertTypes.WARNING));
     console.log('Login componentDidMount');
     return _ => {
       console.log('Login componentWillUnmount');
@@ -54,10 +54,7 @@ const Login = _ => {
       if (isNonEmptyArray(authErrors)) {
         setAlerts(
           authErrors.map(authError => {
-            return {
-              msg: authResponseTypes[authError].msg,
-              type: alertTypes.WARNING
-            };
+            return new Alert(authResponseTypes[authError].msg, Alert.alertTypes.WARNING);
           })
         );
         clearAuthErrors();
@@ -87,12 +84,7 @@ const Login = _ => {
     async e => {
       e.preventDefault();
       if (email === '' || password === '') {
-        setAlerts([
-          {
-            msg: uiWordings['Login.FillInAllFieldsMessage'],
-            type: alertTypes.WARNING
-          }
-        ]);
+        setAlerts(new Alert(uiWordings['Login.FillInAllFieldsMessage'], Alert.alertTypes.WARNING));
       } else {
         await login({
           email,

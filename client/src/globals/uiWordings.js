@@ -1,4 +1,6 @@
 export default {
+  'Table.IndexColumnTitle': 'Idx',
+
   'Navbar.Title': '粵劇新秀演出系列',
   'Navbar.CloseNavbar': 'Close',
   'Navbar.Login': 'Login',
@@ -56,11 +58,14 @@ export default {
   'Artist.LastModifyUserLabel': 'Last Modify User',
   'Artist.IsEnabledLabel': 'Is Enabled ?',
 
+  'ArtistList.AddArtistPrompt': 'Please add a artist.',
+  'ArtistList.AddArtist': 'Add Artist',
+
   'ArtistEdit.BackToArtistList': 'Back to Artist List',
   'ArtistEdit.AddArtistTitle': 'Add Artist',
   'ArtistEdit.EditArtistTitle': 'Edit Artist',
   'ArtistEdit.AddArtistSubmit': 'Add Artist',
   'ArtistEdit.UpdateArtistSubmit': 'Update Artist',
   'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
-  'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated'
+  'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated',  
 };

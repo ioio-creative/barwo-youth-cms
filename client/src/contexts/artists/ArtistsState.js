@@ -18,6 +18,7 @@ import {
 
 const initialState = {
   artists: null,
+  artistsPaginationMeta: null,
   artist: null,
   artistsErrors: null,
   artistsLoading: false
@@ -27,11 +28,21 @@ const ArtistsState = ({ children }) => {
   const [state, dispatch] = useReducer(artistsReducer, initialState);
 
   // Get Artists
-  const getArtists = useCallback(async _ => {
+  const getArtists = useCallback(async (options) => {
     dispatch({ type: SET_ARTISTS_LOADING });
+    let url = '/api/artists?';
+    if (options) {
+      const { page } = options;
+      url += page ? 'page=' + page : '';
+    }
     try {
-      const res = await axios.get('/api/artists');
-      dispatch({ type: GET_ARTISTS, payload: res.data });
+      const res = await axios.get(url);
+      const { docs, ...meta } = res.data;
+      const payload = {
+        artists: docs,
+        meta: meta
+      };
+      dispatch({ type: GET_ARTISTS, payload: payload });
     } catch (err) {
       handleServerError(err, ARTISTS_ERRORS, dispatch);
     }
@@ -75,7 +86,7 @@ const ArtistsState = ({ children }) => {
       }
     };
     try {
-      const res = await axios.post('/api/artist', artist, config);
+      const res = await axios.post('/api/artists', artist, config);
       dispatch({ type: ADD_ARTIST, payload: res.data });
       newArtist = res.data;
     } catch (err) {
@@ -112,6 +123,7 @@ const ArtistsState = ({ children }) => {
     <ArtistsContext.Provider
       value={{
         artists: state.artists,
+        artistsPaginationMeta: state.artistsPaginationMeta,
         artist: state.artist,
         artistsErrors: state.artistsErrors,
         getArtists,

@@ -1,4 +1,5 @@
 {
   "mongoURI": "mongodb+srv://<username>:<password>@cluster0-gkj5l.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSecret": "secret"
+  "jwtSecret": "secret",
+  "tableElementPerPage": 10
 }

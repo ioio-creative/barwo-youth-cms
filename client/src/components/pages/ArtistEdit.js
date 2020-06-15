@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistContext from 'contexts/artists/artistsContext';
 import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
+import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import Form from 'components/form/Form';
@@ -12,7 +13,6 @@ import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
-import alertTypes from 'types/alertTypes';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
@@ -80,10 +80,7 @@ const ArtistEdit = _ => {
       if (isNonEmptyArray(artistsErrors)) {
         setAlerts(
           artistsErrors.map(artistsError => {
-            return {
-              msg: Artist.artistsResponseTypes[artistsError].msg,
-              type: alertTypes.WARNING
-            };
+            return new Alert(Artist.artistsResponseTypes[artistsError].msg, Alert.alertTypes.WARNING);
           })
         );
         clearArtistsErrors();
@@ -100,6 +97,12 @@ const ArtistEdit = _ => {
     [artistsErrors, setAlerts, clearArtistsErrors]
   );
 
+  /* methods */
+
+  const validInput = useCallback(artistInput => {
+    return true;
+  }, []);
+
   /* event handlers */
 
   const onChange = useCallback(
@@ -113,8 +116,9 @@ const ArtistEdit = _ => {
 
   const onSubmit = useCallback(
     async e => {
+      setIsSubmitEnabled(false);
       e.preventDefault();
-      let isSuccess = false;
+      let isSuccess = validInput();
       let returnedArtist = null;
       if (isSuccess) {
         const funcToCall = isAddArtistMode ? addArtist : updateArtist;
@@ -122,19 +126,13 @@ const ArtistEdit = _ => {
         isSuccess = Boolean(returnedArtist);
       }
       if (isSuccess) {
-        setAlerts([
-          {
-            msg: isAddArtistMode
+        setAlerts(new Alert(isAddArtistMode
               ? uiWordings['ArtistEdit.AddArtistSuccessMessage']
-              : uiWordings['ArtistEdit.UpdateArtistSuccessMessage'],
-            type: alertTypes.INFO
-          }
-        ]);
+              : uiWordings['ArtistEdit.UpdateArtistSuccessMessage'], Alert.alertTypes.INFO));
         goToUrl(routes.artistEditByIdWithValue(true, returnedArtist._id));
-      }
-      setIsSubmitEnabled(false);
+      }      
     },
-    [isAddArtistMode, updateArtist, addArtist, artist, setAlerts]
+    [isAddArtistMode, updateArtist, addArtist, artist, setAlerts, validInput]
   );
 
   /* end of event handlers */
@@ -197,7 +195,6 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.DescTcLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
         />
         <LabelInputTextPair
           name='desc_sc'
@@ -205,15 +202,13 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.DescScLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
         />
         <LabelInputTextPair
           name='desc_en'
-          value={artist.name_en}
+          value={artist.desc_en}
           labelMessage={uiWordings['Artist.DescEnLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
         />
 
         <LabelSelectPair

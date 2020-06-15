@@ -13,7 +13,9 @@ const AlertState = ({ children }) => {
   // alerts is array of objects { msg, type }
   const setAlerts = useCallback((alerts, timeout = -1) => {
     //const _id = uuid();
-    dispatch({ type: SET_ALERTS, payload: alerts });
+    
+    const tamperedAlerts = Array.isArray(alerts) ? alerts : [alerts];
+    dispatch({ type: SET_ALERTS, payload: tamperedAlerts });
 
     if (timeout >= 0) {
       setTimeout(_ => dispatch({ type: REMOVE_ALERTS }), timeout);

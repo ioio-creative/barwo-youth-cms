@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from '@buffetjs/core';
+import './Table.css';
 
 const headers = [
   {
@@ -57,11 +58,12 @@ const rows = [
 const MyTable = ({
   headers,
   rows,
-  customRow,
+  paginationMeta,
   sortBy,
   sortOrder,
   onDetailClick,
-  onChangeSort
+  onChangeSort,
+  onPageClick
 }) => {
   const rowLinks = onDetailClick
     ? [
@@ -71,27 +73,50 @@ const MyTable = ({
         }
       ]
     : null;
+  console.log(paginationMeta);
   return (
-    <div className='w3-margin-bottom'>
-      <Table
-        headers={headers}
-        rows={rows}
-        sortBy={sortBy}
-        sortOrder={sortOrder}
-        onClickRow={(e, data) => {
-          console.log('onClickRow');
-          onDetailClick && onDetailClick(data);
-        }}
-        onChangeSort={({
-          sortBy,
-          firstElementThatCanBeSorted,
-          isSortEnabled
-        }) => {
-          console.log('onChangeSort');
-          onChangeSort && onChangeSort({ sortBy, isSortEnabled });
-        }}
-        rowLinks={rowLinks}
-      />
+    <div className='my-table'>
+      <div className='w3-margin-bottom'>
+        <Table
+          headers={headers}
+          rows={rows}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          onClickRow={(e, data) => {
+            console.log('onClickRow');
+            onDetailClick && onDetailClick(data);
+          }}
+          onChangeSort={({
+            sortBy,
+            firstElementThatCanBeSorted,
+            isSortEnabled
+          }) => {
+            console.log('onChangeSort');
+            onChangeSort && onChangeSort({ sortBy, isSortEnabled });
+          }}
+          rowLinks={rowLinks}
+        />
+      </div>
+      {/* https://www.w3schools.com/css/tryit.asp?filename=trycss_ex_pagination_border_round*/}
+      <div className='pagination w3-margin-bottom'>
+        {
+          paginationMeta.hasPrevPage &&
+          <a href="#" disabled>&laquo;</a>
+        }
+        {
+          new Array(paginationMeta.totalPages).fill(undefined).map((_, idx) => {
+            const page = idx + 1;
+            const isSelected = page === paginationMeta.page;
+            return (
+              <a className={`${isSelected ? 'active' : ''}`} onClick={_ => onPageClick(page)}>{page}</a>
+            );
+          })
+        }
+        {
+          paginationMeta.hasNextPage && 
+          <a href="#">&raquo;</a>
+        }
+      </div>
     </div>
   );
 };
@@ -99,9 +124,53 @@ const MyTable = ({
 MyTable.defaultProps = {
   headers,
   rows,
+  paginationMeta: null,
   onDetailClick: data => {
     console.log(data);
-  }
+  }  
 };
+
+MyTable.helperGenerators = {
+  changeSort: function (setSortParams) {
+    return function ({ newSortBy }) {
+      setSortParams(currSortParams => {
+        if (currSortParams.sortBy === newSortBy) {
+          if (currSortParams.sortOrder === 'asc') {
+            return {
+              ...currSortParams,
+              sortOrder: 'desc'
+            };
+          } else {
+            return {
+              ...currSortParams,
+              sortOrder: 'asc'
+            };
+          }
+        } else {
+          return {
+            sortBy: newSortBy,
+            sortOrder: 'asc'
+          };
+        }
+      });
+    };
+  },
+
+  onChangeSort: function (changeSort) {
+    return function ({ sortBy, isSortEnabled }) {
+      if (isSortEnabled) {
+        changeSort({
+          newSortBy: sortBy
+        });
+      }
+    };
+  },
+
+  onDetailClick: function (onEditClick) {
+    return function (data) {
+      onEditClick(data);
+    };
+  }
+}
 
 export default MyTable;

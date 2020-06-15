@@ -1,3 +1,5 @@
+const config = require('config');
+
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
@@ -21,11 +23,20 @@ const artistValidationChecks = [
 router.get('/', auth, async (req, res) => {
   try {
     // https://mongoosejs.com/docs/populate.html
-    const artists = await Artist.find({})
-      .populate('lastModifyUser', 'name')
-      .sort({
-        lastModifyDT: -1
-      });
+    // const artists = await Artist.find({})
+    //   .populate('lastModifyUser', 'name')
+    //   .sort({
+    //     lastModifyDT: -1
+    //   });
+    // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
+    const artists = await Artist.paginate(
+      {},
+      {
+        limit: config.get('tableElementPerPage'),
+        sort: { lastModifyDT: -1 },
+        populate: { path: 'lastModifyUser', select: 'name' }
+      }
+    );
     res.json(artists);
   } catch (err) {
     generalErrorHandle(err, res);

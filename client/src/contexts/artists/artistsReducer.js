@@ -15,13 +15,15 @@ export default (state, action) => {
     case GET_ARTISTS:
       return {
         ...state,
-        artists: action.payload,
+        artists: action.payload.artists,
+        artistsPaginationMeta: action.payload.meta,
         artistsLoading: false
       };
     case CLEAR_ARTISTS:
       return {
         ...state,
         artists: null,
+        artistsPaginationMeta: null,
         artistsErrors: null
       };
     case GET_ARTIST:

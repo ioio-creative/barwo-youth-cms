@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const MediumTagSchema = mongoose.Schema({
   name: {
@@ -13,5 +14,7 @@ const MediumTagSchema = mongoose.Schema({
     }
   ]
 });
+
+MediumTagSchema.plugin(mongoosePaginate);
 
 module.exports.MediumTag = mongoose.model('mediumTag', MediumTagSchema);

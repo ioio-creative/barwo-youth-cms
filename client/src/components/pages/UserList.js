@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useCallback, useState } from 'react';
+import React, { useContext, useEffect, useCallback, useState, useMemo } from 'react';
 import UserContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
@@ -9,11 +9,17 @@ import UserFilter from '../users/UserFilter';
 import isNonEmptyArray from 'utils/array/isNonEmptyArray';
 import orderBy from 'utils/array/orderBy';
 import { goToUrl } from 'utils/history';
+import addIdx from 'utils/array/addIdx';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import User from 'models/user';
 
 const headers = [
+  {
+    name: uiWordings['Table.IndexColumnTitle'],
+    value: 'idx',
+    isSortEnabled: true
+  },
   {
     name: uiWordings['User.NameLabel'],
     value: 'name',
@@ -52,63 +58,25 @@ const headers = [
 ];
 
 const UserTable = ({ users, onEditClick }) => {
-  const rows = users.map(User.getUserForDisplay);
+  const rows = addIdx(users.map(User.getUserForDisplay));
 
   const [sortParams, setSortParams] = useState({
-    sortBy: 'name',
+    sortBy: 'idx',
     sortOrder: 'asc'
   });
 
   /* methods */
 
-  const changeSort = useCallback(
-    ({ newSortBy }) => {
-      setSortParams(currSortParams => {
-        if (currSortParams.sortBy === newSortBy) {
-          if (currSortParams.sortOrder === 'asc') {
-            return {
-              ...currSortParams,
-              sortOrder: 'desc'
-            };
-          } else {
-            return {
-              ...currSortParams,
-              sortOrder: 'asc'
-            };
-          }
-        } else {
-          return {
-            sortBy: newSortBy,
-            sortOrder: 'asc'
-          };
-        }
-      });
-    },
-    [setSortParams]
-  );
+  const changeSort = useMemo(_ => Table.helperGenerators.changeSort(setSortParams), [setSortParams]);
 
   /* end of methods */
 
   /* event handlers */
 
-  const onDetailClick = useCallback(
-    data => {
-      onEditClick(data);
-    },
-    [onEditClick]
-  );
+  const onChangeSort = useMemo(_ => Table.helperGenerators.onChangeSort(changeSort), [changeSort]);
 
-  const onChangeSort = useCallback(
-    ({ sortBy, isSortEnabled }) => {
-      if (isSortEnabled) {
-        changeSort({
-          newSortBy: sortBy
-        });
-      }
-    },
-    [changeSort]
-  );
-
+  const onDetailClick = useMemo(_ => Table.helperGenerators.onDetailClick(onEditClick), [onEditClick]);
+  
   /* end of event handler */
 
   const sortedRows = orderBy(rows, [sortParams.sortBy], [sortParams.sortOrder]);

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const ArtistSchema = mongoose.Schema({
   name_tc: {
@@ -47,6 +48,8 @@ const ArtistSchema = mongoose.Schema({
     ref: 'user'
   }
 });
+
+ArtistSchema.plugin(mongoosePaginate);
 
 module.exports.Artist = mongoose.model('artist', ArtistSchema);
 

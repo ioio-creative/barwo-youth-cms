@@ -14,7 +14,7 @@ const artistRoles = {
   NOT_SPECIFIED: { value: 'NOT_SPECIFIED', label: 'Not specified' },
   MALE: { value: 'MALE', label: 'Male' },
   FEMALE: { value: 'FEMALE', label: 'Female' },
-  BOTH: { value: 'BOTH', label: 'both' }
+  BOTH: { value: 'BOTH', label: 'Both' }
 };
 
 function Artist() {

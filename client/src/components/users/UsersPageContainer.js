@@ -4,7 +4,7 @@ import AuthContext from 'contexts/auth/authContext';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
 import UsersState from 'contexts/users/UsersState';
 import uiWordings from 'globals/uiWordings';
-import alertTypes from 'types/alertTypes';
+import Alert from 'models/alert';
 
 const UsersPageContainer = ({ children }) => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
@@ -23,12 +23,7 @@ const UsersPageContainer = ({ children }) => {
   useEffect(
     _ => {
       if (!isAuthUserAdmin && !authLoading) {
-        setAlerts([
-          {
-            msg: uiWordings['Users.ForbiddenAccessMessage'],
-            type: alertTypes.WARNING
-          }
-        ]);
+        setAlerts(new Alert(uiWordings['Users.ForbiddenAccessMessage'], Alert.alertTypes.WARNING));
       } else {
         removeAlerts();
       }

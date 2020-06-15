@@ -13,12 +13,16 @@ const Alerts = _ => {
   return (
     <>
       {alerts.map(alert => {
+        const {
+          msg,
+          type: { color }
+        } = alert;
         return (
           <div
-            key={alert._id}
-            className={`w3-panel w3-${alert.type.color} w3-padding w3-round-large`}
+            key={msg}
+            className={`w3-panel w3-${color} w3-padding w3-round-large`}
           >
-            <i className='fa fa-info-circle' /> {alert.msg}
+            <i className='fa fa-info-circle' /> {msg}
           </div>
         );
       })}
