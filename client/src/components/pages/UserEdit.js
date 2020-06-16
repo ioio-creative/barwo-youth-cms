@@ -81,7 +81,10 @@ const UserEdit = _ => {
       if (isNonEmptyArray(usersErrors)) {
         setAlerts(
           usersErrors.map(usersError => {
-            return new Alert(User.usersResponseTypes[usersError].msg, Alert.alertTypes.WARNING);
+            return new Alert(
+              User.usersResponseTypes[usersError].msg,
+              Alert.alertTypes.WARNING
+            );
           })
         );
         clearUsersErrors();
@@ -102,7 +105,12 @@ const UserEdit = _ => {
     userInput => {
       if (isAddUserMode) {
         if (userInput.password !== userInput.password2) {
-          setAlerts(new Alert(uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'], Alert.alertTypes.WARNING));
+          setAlerts(
+            new Alert(
+              uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
+              Alert.alertTypes.WARNING
+            )
+          );
           return false;
         }
       }
@@ -138,9 +146,14 @@ const UserEdit = _ => {
         isSuccess = Boolean(returnedUser);
       }
       if (isSuccess) {
-        setAlerts(new Alert(isAddUserMode
-          ? uiWordings['UserEdit.AddUserSuccessMessage']
-          : uiWordings['UserEdit.UpdateUserSuccessMessage'], Alert.alertTypes.INFO));
+        setAlerts(
+          new Alert(
+            isAddUserMode
+              ? uiWordings['UserEdit.AddUserSuccessMessage']
+              : uiWordings['UserEdit.UpdateUserSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
       }
     },
@@ -170,11 +183,11 @@ const UserEdit = _ => {
       {backToUserListButton}
 
       <Form onSubmit={onSubmit}>
-        <h3>
+        <h4>
           {isAddUserMode
             ? uiWordings['UserEdit.AddUserTitle']
             : uiWordings['UserEdit.EditUserTitle']}
-        </h3>
+        </h4>
         <LabelInputTextPair
           name='email'
           value={user.email}

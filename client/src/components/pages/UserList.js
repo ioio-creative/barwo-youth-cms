@@ -162,9 +162,11 @@ const UserList = _ => {
 
   return (
     <>
-      <Form className='w3-half w3-padding'>
-        {addUserButton}
-        <UserFilter />
+      <Form>
+        <div className='w3-half'>
+          <UserFilter />
+        </div>
+        <div className='w3-right'>{addUserButton}</div>
       </Form>
       <UserTable users={usersToFillTable} onEditClick={onEditUser} />
     </>

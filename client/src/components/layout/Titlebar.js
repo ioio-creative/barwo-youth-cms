@@ -10,7 +10,7 @@ const Titlebar = _ => {
 
   return (
     <div className='w3-container w3-teal'>
-      <h3>{title}</h3>
+      <h4>{title}</h4>
     </div>
   );
 };

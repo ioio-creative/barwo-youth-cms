@@ -6,6 +6,7 @@ import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table';
 import LinkButton from 'components/form/LinkButton';
+import Button from 'components/form/Button';
 import Form from 'components/form/Form';
 import isNonEmptyArray from 'utils/array/isNonEmptyArray';
 import { goToUrl } from 'utils/history';
@@ -14,9 +15,14 @@ import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import Artist from 'models/artist';
 import Alert from 'models/alert';
+import InputText from '@buffetjs/styles/dist/components/InputText';
 
 const initialSortBy = 'lastModifyDTDisplay';
 const initialSortOrder = -1;
+
+const emptyFilter = {
+  text: ''
+};
 
 const headers = [
   {
@@ -139,13 +145,57 @@ const ArtistList = _ => {
   } = useContext(ArtistContext);
 
   // query strings
-  const [page, setPage] = useQueryParam('page', NumberParam);
-  const [sortOrder, setSortOrder] = useQueryParam('sortOrder', NumberParam);
-  const [sortBy, setSortBy] = useQueryParam('sortBy', StringParam);
+  const [qsPage, setQsPage] = useQueryParam('page', NumberParam);
+  const [qsSortOrder, setQsSortOrder] = useQueryParam('sortOrder', NumberParam);
+  const [qsSortBy, setQsSortBy] = useQueryParam('sortBy', StringParam);
+  const [qsFilterText, setQsFilterText] = useQueryParam(
+    'filterText',
+    StringParam
+  );
 
   // states
-  const [currPage, setCurrPage] = useState(page);
-  const [currSortParams, setCurrSortParams] = useState({ sortOrder, sortBy });
+  const [currPage, setCurrPage] = useState(qsPage);
+  const [currSortParams, setCurrSortParams] = useState({
+    qsSortOrder,
+    qsSortBy
+  });
+  const [isUseFilter, setIsUseFilter] = useState(false);
+  const [filter, setFilter] = useState({ text: qsFilterText });
+
+  /* methods */
+
+  const prepareGetArtistsOptions = useCallback(
+    _ => {
+      const getArtistsOptions = {
+        page: currPage || 1
+      };
+
+      setQsPage(currPage);
+
+      if (currSortParams) {
+        const currSortOrder = currSortParams.sortOrder || 1;
+        const currSortBy = Artist.cleanSortByString(
+          currSortParams.sortBy || initialSortBy
+        );
+        setQsSortOrder(currSortOrder);
+        setQsSortBy(currSortBy);
+        getArtistsOptions.sortOrder = currSortOrder;
+        getArtistsOptions.sortBy = currSortBy;
+      }
+
+      return getArtistsOptions;
+    },
+    [
+      getArtists,
+      currPage,
+      currSortParams,
+      setQsPage,
+      setQsSortOrder,
+      setQsSortBy
+    ]
+  );
+
+  /* end of methods */
 
   // componentDidMount
   useEffect(
@@ -161,26 +211,27 @@ const ArtistList = _ => {
   // set query string and getArtists
   useEffect(
     _ => {
-      setPage(currPage);
-
-      const getArtistsOptions = {
-        page: currPage || 1
-      };
-
-      if (currSortParams) {
-        const currSortOrder = currSortParams.sortOrder || 1;
-        const currSortBy = Artist.cleanSortByString(
-          currSortParams.sortBy || initialSortBy
-        );
-        setSortOrder(currSortOrder);
-        setSortBy(currSortBy);
-        getArtistsOptions.sortOrder = currSortOrder;
-        getArtistsOptions.sortBy = currSortBy;
-      }
-
+      const getArtistsOptions = prepareGetArtistsOptions();
       getArtists(getArtistsOptions);
     },
-    [getArtists, currPage, currSortParams, setPage, setSortOrder, setSortBy]
+    [prepareGetArtistsOptions, getArtists]
+  );
+
+  // filter and getArtists
+  useEffect(
+    _ => {
+      if (isUseFilter) {
+        const getArtistsOptions = prepareGetArtistsOptions();
+        // allow empty string here
+        if (![null, undefined].includes(filter.text)) {
+          setQsFilterText(filter.text);
+          getArtistsOptions.filterText = filter.text;
+        }
+        getArtists(getArtistsOptions);
+        setIsUseFilter(false);
+      }
+    },
+    [setQsFilterText, isUseFilter, setIsUseFilter, prepareGetArtistsOptions]
   );
 
   // artistsErrors
@@ -224,6 +275,28 @@ const ArtistList = _ => {
     [setCurrSortParams]
   );
 
+  const onFilterChange = useCallback(
+    e => {
+      setFilter({
+        ...filter,
+        [e.target.name]: e.target.value
+      });
+    },
+    [filter, setFilter]
+  );
+
+  const onFilter = useCallback(
+    _ => {
+      setIsUseFilter(true);
+    },
+    [setIsUseFilter]
+  );
+
+  const onClearFilter = useCallback(_ => {
+    setFilter(emptyFilter);
+    setIsUseFilter(true);
+  }, []);
+
   /* end of event handlers */
 
   if (artists === null || artistsLoading) {
@@ -240,18 +313,34 @@ const ArtistList = _ => {
     </LinkButton>
   );
 
-  if (!isNonEmptyArray(artists)) {
-    return (
-      <>
-        <h4>{uiWordings['ArtistList.AddArtistPrompt']}</h4>
-        {addArtistButton}
-      </>
-    );
-  }
-
   return (
     <>
-      <Form className='w3-half w3-padding'>{addArtistButton}</Form>
+      <Form>
+        <div className='w3-half'>
+          <div className='w3-half'>
+            <InputText
+              name='text'
+              className='w3-section w3-white'
+              placeholder={uiWordings['ArtistList.FilterTextPlaceHolder']}
+              onChange={onFilterChange}
+              value={filter.text}
+            />
+          </div>
+          <div className='w3-half w3-container'>
+            <div className='w3-half'>
+              <Button onClick={onFilter}>
+                {uiWordings['ArtistList.FilterButton']}
+              </Button>
+            </div>
+            <div className='w3-half'>
+              <Button onClick={onClearFilter}>
+                {uiWordings['ArtistList.ClearFilterButton']}
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className='w3-right'>{addArtistButton}</div>
+      </Form>
       <ArtistTable
         artists={artists}
         paginationMeta={artistsPaginationMeta}

@@ -108,6 +108,8 @@ const ArtistEdit = _ => {
     return true;
   }, []);
 
+  /* end of methods */
+
   /* event handlers */
 
   const onChange = useCallback(
@@ -168,11 +170,11 @@ const ArtistEdit = _ => {
       {backToArtistListButton}
 
       <Form onSubmit={onSubmit}>
-        <h3>
+        <h4>
           {isAddArtistMode
             ? uiWordings['ArtistEdit.AddArtistTitle']
             : uiWordings['ArtistEdit.EditArtistTitle']}
-        </h3>
+        </h4>
 
         <LabelInputTextPair
           name='name_tc'

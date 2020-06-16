@@ -8,6 +8,7 @@ const auth = require('../middleware/auth');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const { returnValidationResults } = require('../utils/validationHandling');
 const { Artist, artistResponseTypes } = require('../models/Artist');
+const getFindLikeTextRegex = require('../utils/regex/getFindLikeTextRegex');
 
 const artistValidationChecks = [
   check('name_tc', artistResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
@@ -33,6 +34,7 @@ router.get('/', auth, async (req, res) => {
     const page = req.query.page;
     const sortOrder = req.query.sortOrder;
     const sortBy = req.query.sortBy;
+    const filterText = req.query.filterText;
 
     const paginationOptions = {
       limit: config.get('tableElementPerPage'),
@@ -48,10 +50,24 @@ router.get('/', auth, async (req, res) => {
       };
     }
 
-    console.log(sortBy);
+    let findOptions = {};
+    if (!['', null, undefined].includes(filterText)) {
+      const filterTextRegex = getFindLikeTextRegex(filterText);
+      // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
+      findOptions = {
+        $or: [
+          { name_tc: filterTextRegex },
+          { name_sc: filterTextRegex },
+          { name_en: filterTextRegex },
+          { desc_tc: filterTextRegex },
+          { desc_sc: filterTextRegex },
+          { desc_en: filterTextRegex }
+        ]
+      };
+    }
 
     // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
-    const artists = await Artist.paginate({}, paginationOptions);
+    const artists = await Artist.paginate(findOptions, paginationOptions);
     res.json(artists);
   } catch (err) {
     generalErrorHandle(err, res);

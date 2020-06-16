@@ -24,7 +24,7 @@ const UserItem = ({ user }) => {
 
   return (
     <div className='card bg-light'>
-      <h3 className='text-primary text-left'>
+      <h4 className='text-primary text-left'>
         {name}{' '}
         {role && (
           <span
@@ -36,7 +36,7 @@ const UserItem = ({ user }) => {
             {User.userRoles[role].label}
           </span>
         )}
-      </h3>
+      </h4>
       <ul className='list'>
         {email && (
           <li>

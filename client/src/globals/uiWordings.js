@@ -41,7 +41,7 @@ export default {
   'UserEdit.ConfirmPasswordDoesNotMatchMessage':
     'Confirm password does not match',
 
-  'UserFilter.FilterTextPlaceHolder': 'Filter Users...',
+  'UserFilter.FilterTextPlaceHolder': 'Filter Users by name...',
 
   'Artists.Title': 'Artists',
 
@@ -58,8 +58,10 @@ export default {
   'Artist.LastModifyUserLabel': 'Last Modify User',
   'Artist.IsEnabledLabel': 'Is Enabled ?',
 
-  'ArtistList.AddArtistPrompt': 'Please add a artist.',
   'ArtistList.AddArtist': 'Add Artist',
+  'ArtistList.FilterTextPlaceHolder': 'Filter Artists by name...',
+  'ArtistList.FilterButton': 'Filter',
+  'ArtistList.ClearFilterButton': 'Clear Filter',
 
   'ArtistEdit.BackToArtistList': 'Back to Artist List',
   'ArtistEdit.AddArtistTitle': 'Add Artist',
@@ -67,5 +69,5 @@ export default {
   'ArtistEdit.AddArtistSubmit': 'Add Artist',
   'ArtistEdit.UpdateArtistSubmit': 'Update Artist',
   'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
-  'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated',  
+  'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated'
 };

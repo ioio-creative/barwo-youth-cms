@@ -34,12 +34,13 @@ const ArtistsState = ({ children }) => {
     let url = '/api/artists';
     let queryString = '';
     if (options) {
-      const { page, sortOrder, sortBy } = options;
+      const { page, sortOrder, sortBy, filterText } = options;
       queryString = setQueryStringValues(
         {
           page,
           sortOrder,
-          sortBy
+          sortBy,
+          filterText
         },
         ''
       );
