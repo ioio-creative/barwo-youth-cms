@@ -185,14 +185,7 @@ const ArtistList = _ => {
 
       return getArtistsOptions;
     },
-    [
-      getArtists,
-      currPage,
-      currSortParams,
-      setQsPage,
-      setQsSortOrder,
-      setQsSortBy
-    ]
+    [currPage, currSortParams, setQsPage, setQsSortOrder, setQsSortBy]
   );
 
   /* end of methods */
@@ -231,7 +224,14 @@ const ArtistList = _ => {
         setIsUseFilter(false);
       }
     },
-    [setQsFilterText, isUseFilter, setIsUseFilter, prepareGetArtistsOptions]
+    [
+      setQsFilterText,
+      isUseFilter,
+      setIsUseFilter,
+      prepareGetArtistsOptions,
+      getArtists,
+      filter.text
+    ]
   );
 
   // artistsErrors
