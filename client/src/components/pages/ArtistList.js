@@ -161,7 +161,6 @@ const ArtistList = _ => {
   // set query string and getArtists
   useEffect(
     _ => {
-      console.log(currSortParams);
       setPage(currPage);
 
       const getArtistsOptions = {
