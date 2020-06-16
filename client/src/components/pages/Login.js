@@ -54,7 +54,10 @@ const Login = _ => {
       if (isNonEmptyArray(authErrors)) {
         setAlerts(
           authErrors.map(authError => {
-            return new Alert(authResponseTypes[authError].msg, Alert.alertTypes.WARNING);
+            return new Alert(
+              authResponseTypes[authError].msg,
+              Alert.alertTypes.WARNING
+            );
           })
         );
         clearAuthErrors();
@@ -84,7 +87,12 @@ const Login = _ => {
     async e => {
       e.preventDefault();
       if (email === '' || password === '') {
-        setAlerts(new Alert(uiWordings['Login.FillInAllFieldsMessage'], Alert.alertTypes.WARNING));
+        setAlerts(
+          new Alert(
+            uiWordings['Login.FillInAllFieldsMessage'],
+            Alert.alertTypes.WARNING
+          )
+        );
       } else {
         await login({
           email,

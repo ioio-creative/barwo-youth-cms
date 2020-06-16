@@ -28,15 +28,30 @@ router.get('/', auth, async (req, res) => {
     //   .sort({
     //     lastModifyDT: -1
     //   });
+
+    // queries
+    const page = req.query.page;
+    const sortOrder = req.query.sortOrder;
+    const sortBy = req.query.sortBy;
+
+    const paginationOptions = {
+      limit: config.get('tableElementPerPage'),
+      sort: { lastModifyDT: -1 },
+      populate: { path: 'lastModifyUser', select: 'name' }
+    };
+    if (page) {
+      paginationOptions.page = page;
+    }
+    if (sortBy) {
+      paginationOptions.sort = {
+        [sortBy]: sortOrder ? sortOrder : 1
+      };
+    }
+
+    console.log(sortBy);
+
     // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
-    const artists = await Artist.paginate(
-      {},
-      {
-        limit: config.get('tableElementPerPage'),
-        sort: { lastModifyDT: -1 },
-        populate: { path: 'lastModifyUser', select: 'name' }
-      }
-    );
+    const artists = await Artist.paginate({}, paginationOptions);
     res.json(artists);
   } catch (err) {
     generalErrorHandle(err, res);

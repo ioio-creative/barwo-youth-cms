@@ -15,6 +15,7 @@ import {
   CLEAR_ARTISTS_ERRORS,
   SET_ARTISTS_LOADING
 } from '../types';
+import { setQueryStringValues } from 'utils/queryString';
 
 const initialState = {
   artists: null,
@@ -28,15 +29,24 @@ const ArtistsState = ({ children }) => {
   const [state, dispatch] = useReducer(artistsReducer, initialState);
 
   // Get Artists
-  const getArtists = useCallback(async (options) => {
+  const getArtists = useCallback(async options => {
     dispatch({ type: SET_ARTISTS_LOADING });
-    let url = '/api/artists?';
+    let url = '/api/artists';
+    let queryString = '';
     if (options) {
-      const { page } = options;
-      url += page ? 'page=' + page : '';
+      const { page, sortOrder, sortBy } = options;
+      queryString = setQueryStringValues(
+        {
+          page,
+          sortOrder,
+          sortBy
+        },
+        ''
+      );
     }
+    //console.log(url + queryString);
     try {
-      const res = await axios.get(url);
+      const res = await axios.get(url + queryString);
       const { docs, ...meta } = res.data;
       const payload = {
         artists: docs,

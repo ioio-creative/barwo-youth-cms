@@ -10,5 +10,9 @@ export default {
   USER_DOES_NOT_HAVE_RIGHT: {
     type: 'USER_DOES_NOT_HAVE_RIGHT',
     msg: 'USER_DOES_NOT_HAVE_RIGHT'
+  },
+  SERVER_ERROR: {
+    type: 'SERVER_ERROR',
+    msg: 'SERVER_ERROR'
   }
 };

@@ -2,7 +2,7 @@
   display: inline-block;
 }
 
-.my-table .pagination a {
+.my-table .pagination button {
   color: black;
   float: left;
   padding: 8px 16px;
@@ -10,20 +10,22 @@
   border: 1px solid #ddd;
 }
 
-.my-table .pagination a.active {
-  background-color: #4CAF50;
+.my-table .pagination button.active {
+  background-color: #4caf50;
   color: white;
-  border: 1px solid #4CAF50;
+  border: 1px solid #4caf50;
 }
 
-.my-table .pagination a:hover:not(.active) {background-color: #ddd;}
+.my-table .pagination button:hover:not(.active) {
+  background-color: #ddd;
+}
 
-.my-table .pagination a:first-child {
+.my-table .pagination button:first-child {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
-.my-table .pagination a:last-child {
+.my-table .pagination button:last-child {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
+import mapSortOrderStrToNum from 'utils/array/mapSortOrderStrToNum';
 import { Table } from '@buffetjs/core';
 import './Table.css';
 
@@ -62,8 +63,8 @@ const MyTable = ({
   sortBy,
   sortOrder,
   onDetailClick,
-  onChangeSort,
-  onPageClick
+  onPageClick,
+  setSortParamsFunc
 }) => {
   const rowLinks = onDetailClick
     ? [
@@ -73,7 +74,87 @@ const MyTable = ({
         }
       ]
     : null;
-  console.log(paginationMeta);
+
+  /* methods */
+
+  const changeSort = useMemo(
+    _ => MyTable.helperGenerators.changeSort(setSortParamsFunc),
+    [setSortParamsFunc]
+  );
+
+  /* end of methods */
+
+  /* event handlers */
+
+  const onChangeSort = useMemo(
+    _ => MyTable.helperGenerators.onChangeSort(changeSort),
+    [changeSort]
+  );
+
+  const onFirstPageClick = useCallback(
+    _ => {
+      onPageClick(1);
+    },
+    [onPageClick]
+  );
+
+  const onPrevPageClick = useCallback(
+    _ => {
+      onPageClick(paginationMeta.page - 1);
+    },
+    [onPageClick, paginationMeta]
+  );
+
+  const onNextPageClick = useCallback(
+    _ => {
+      onPageClick(paginationMeta.page + 1);
+    },
+    [onPageClick, paginationMeta]
+  );
+
+  const onLastPageClick = useCallback(
+    _ => {
+      onPageClick(paginationMeta.totalPages);
+    },
+    [onPageClick, paginationMeta]
+  );
+
+  /* end of event handlers */
+
+  const firstPageBtnExtraProps = {};
+  const prevPageBtnExtraProps = {};
+  const nextPageBtnExtraProps = {};
+  const lastPageBtnExtraProps = {};
+
+  let isEnableFirstPageBtn;
+  let isEnablePrevPageBtn;
+  let isEnableNextPageBtn;
+  let isEnableLastPageBtn;
+
+  if (paginationMeta) {
+    isEnableFirstPageBtn = paginationMeta.page !== 1;
+    if (!isEnableFirstPageBtn) {
+      firstPageBtnExtraProps.disabled = true;
+    }
+
+    isEnablePrevPageBtn = paginationMeta.hasPrevPage;
+    if (!isEnablePrevPageBtn) {
+      prevPageBtnExtraProps.disabled = true;
+    }
+
+    isEnableNextPageBtn = paginationMeta.hasNextPage;
+    if (!isEnableNextPageBtn) {
+      nextPageBtnExtraProps.disabled = true;
+    }
+
+    isEnableLastPageBtn = paginationMeta.page < paginationMeta.totalPages;
+    if (!isEnableLastPageBtn) {
+      lastPageBtnExtraProps.disabled = true;
+    }
+  }
+
+  //console.log(paginationMeta);
+
   return (
     <div className='my-table'>
       <div className='w3-margin-bottom'>
@@ -81,7 +162,7 @@ const MyTable = ({
           headers={headers}
           rows={rows}
           sortBy={sortBy}
-          sortOrder={sortOrder}
+          sortOrder={mapSortOrderStrToNum(sortOrder)}
           onClickRow={(e, data) => {
             console.log('onClickRow');
             onDetailClick && onDetailClick(data);
@@ -98,25 +179,53 @@ const MyTable = ({
         />
       </div>
       {/* https://www.w3schools.com/css/tryit.asp?filename=trycss_ex_pagination_border_round*/}
-      <div className='pagination w3-margin-bottom'>
-        {
-          paginationMeta.hasPrevPage &&
-          <a href="#" disabled>&laquo;</a>
-        }
-        {
-          new Array(paginationMeta.totalPages).fill(undefined).map((_, idx) => {
-            const page = idx + 1;
-            const isSelected = page === paginationMeta.page;
-            return (
-              <a className={`${isSelected ? 'active' : ''}`} onClick={_ => onPageClick(page)}>{page}</a>
-            );
-          })
-        }
-        {
-          paginationMeta.hasNextPage && 
-          <a href="#">&raquo;</a>
-        }
-      </div>
+      {paginationMeta && (
+        <div className='pagination w3-margin-bottom'>
+          <button
+            className={`${isEnableFirstPageBtn ? '' : 'w3-disabled'}`}
+            onClick={onFirstPageClick}
+            {...firstPageBtnExtraProps}
+          >
+            |&lt;
+          </button>
+          <button
+            className={`${isEnablePrevPageBtn ? '' : 'w3-disabled'}`}
+            onClick={onPrevPageClick}
+            {...prevPageBtnExtraProps}
+          >
+            &lt;
+          </button>
+          {new Array(paginationMeta.totalPages)
+            .fill(undefined)
+            .map((_, idx) => {
+              const page = idx + 1;
+              const isSelected = page === paginationMeta.page;
+              return (
+                <button
+                  key={page}
+                  className={`${isSelected ? 'active' : ''}`}
+                  onClick={_ => onPageClick(page)}
+                >
+                  {page}
+                </button>
+              );
+            })}
+          <button
+            className={`${isEnableNextPageBtn ? '' : 'w3-disabled'}`}
+            onClick={onNextPageClick}
+            {...nextPageBtnExtraProps}
+          >
+            &gt;
+          </button>
+          <button
+            className={`${isEnableLastPageBtn ? '' : 'w3-disabled'}`}
+            onClick={onLastPageClick}
+            {...lastPageBtnExtraProps}
+          >
+            &gt;|
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -127,7 +236,7 @@ MyTable.defaultProps = {
   paginationMeta: null,
   onDetailClick: data => {
     console.log(data);
-  }  
+  }
 };
 
 MyTable.helperGenerators = {
@@ -135,21 +244,21 @@ MyTable.helperGenerators = {
     return function ({ newSortBy }) {
       setSortParams(currSortParams => {
         if (currSortParams.sortBy === newSortBy) {
-          if (currSortParams.sortOrder === 'asc') {
+          if (currSortParams.sortOrder === 1) {
             return {
               ...currSortParams,
-              sortOrder: 'desc'
+              sortOrder: -1
             };
           } else {
             return {
               ...currSortParams,
-              sortOrder: 'asc'
+              sortOrder: 1
             };
           }
         } else {
           return {
             sortBy: newSortBy,
-            sortOrder: 'asc'
+            sortOrder: 1
           };
         }
       });
@@ -164,13 +273,7 @@ MyTable.helperGenerators = {
         });
       }
     };
-  },
-
-  onDetailClick: function (onEditClick) {
-    return function (data) {
-      onEditClick(data);
-    };
   }
-}
+};
 
 export default MyTable;

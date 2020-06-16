@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
 import { Fonts, GlobalStyle } from '@buffetjs/styles';
 import { ReactRouterGlobalHistory } from 'react-router-global-history';
 import AlertState from 'contexts/alert/AlertState';
@@ -39,11 +40,17 @@ const App = _ => {
       <AuthState>
         <AlertState>
           <Router>
-            <ReactRouterGlobalHistory />
-            <Switch>
-              <Route exact path={routes.login(false)} component={AsyncLogin} />
-              <PrivateRoute component={Main} />
-            </Switch>
+            <QueryParamProvider>
+              <ReactRouterGlobalHistory />
+              <Switch>
+                <Route
+                  exact
+                  path={routes.login(false)}
+                  component={AsyncLogin}
+                />
+                <PrivateRoute component={Main} />
+              </Switch>
+            </QueryParamProvider>
           </Router>
         </AlertState>
       </AuthState>

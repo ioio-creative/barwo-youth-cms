@@ -1,4 +1,6 @@
 import { formatDateTimeString } from 'utils/datetime';
+import generalResponseTypes from 'types/responses/general';
+import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 const userRoles = {
   ADMIN: { value: 'ADMIN', label: 'Admin' },
@@ -51,7 +53,11 @@ User.usersResponseTypes = {
   USER_NOT_EXISTS: {
     type: 'USER_NOT_EXISTS',
     msg: 'USER_NOT_EXISTS'
-  }
+  },
+
+  // general
+  SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
+  CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
 User.userRoles = userRoles;
@@ -71,6 +77,16 @@ User.getUserForDisplay = user => {
     isEnabledDisplay: user.isEnabled.toString()
   };
 };
+
+const displayFieldNames = [
+  'roleDisplay',
+  'createDTDisplay',
+  'lastModifyDTDisplay',
+  'lastModifyUserDisplay',
+  'isEnabledDisplay'
+];
+
+User.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
 
 /* end of statics */
 

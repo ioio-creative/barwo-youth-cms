@@ -61,6 +61,7 @@ const ArtistEdit = _ => {
     [artistId, getArtist, clearArtist]
   );
 
+  // fetchedArtist
   useEffect(
     _ => {
       if (!artistsLoading) {
@@ -75,12 +76,16 @@ const ArtistEdit = _ => {
     [artistsLoading, fetchedArtist, setArtist]
   );
 
+  // artistsErrors
   useEffect(
     _ => {
       if (isNonEmptyArray(artistsErrors)) {
         setAlerts(
           artistsErrors.map(artistsError => {
-            return new Alert(Artist.artistsResponseTypes[artistsError].msg, Alert.alertTypes.WARNING);
+            return new Alert(
+              Artist.artistsResponseTypes[artistsError].msg,
+              Alert.alertTypes.WARNING
+            );
           })
         );
         clearArtistsErrors();
@@ -126,11 +131,16 @@ const ArtistEdit = _ => {
         isSuccess = Boolean(returnedArtist);
       }
       if (isSuccess) {
-        setAlerts(new Alert(isAddArtistMode
+        setAlerts(
+          new Alert(
+            isAddArtistMode
               ? uiWordings['ArtistEdit.AddArtistSuccessMessage']
-              : uiWordings['ArtistEdit.UpdateArtistSuccessMessage'], Alert.alertTypes.INFO));
+              : uiWordings['ArtistEdit.UpdateArtistSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
         goToUrl(routes.artistEditByIdWithValue(true, returnedArtist._id));
-      }      
+      }
     },
     [isAddArtistMode, updateArtist, addArtist, artist, setAlerts, validInput]
   );

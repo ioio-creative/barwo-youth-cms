@@ -1,4 +1,6 @@
 import { formatDateTimeString } from 'utils/datetime';
+import generalResponseTypes from 'types/responses/general';
+import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 const artistTypes = {
   ARTISTIC_DIRECTOR: { value: 'ARTISTIC_DIRECTOR', label: 'Artistic director' },
@@ -61,7 +63,11 @@ Artist.artistsResponseTypes = {
   ARTIST_NOT_EXISTS: {
     type: 'ARTIST_NOT_EXISTS',
     msg: 'ARTIST_NOT_EXISTS'
-  }
+  },
+
+  // general
+  SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
+  CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
 Artist.artistTypes = artistTypes;
@@ -83,6 +89,17 @@ Artist.getArtistForDisplay = artist => {
     isEnabledDisplay: artist.isEnabled.toString()
   };
 };
+
+const displayFieldNames = [
+  'typeDisplay',
+  'roleDisplay',
+  'createDTDisplay',
+  'lastModifyDTDisplay',
+  'lastModifyUserDisplay',
+  'isEnabledDisplay'
+];
+
+Artist.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
 
 /* end of statics */
 

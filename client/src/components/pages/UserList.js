@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useCallback, useState, useMemo } from 'react';
+import React, { useContext, useEffect, useCallback, useState } from 'react';
+import AlertContext from 'contexts/alert/alertContext';
 import UserContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
@@ -13,6 +14,10 @@ import addIdx from 'utils/array/addIdx';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import User from 'models/user';
+import Alert from 'models/alert';
+
+const initialSortBy = 'lastModifyDTDisplay';
+const initialSortOrder = -1;
 
 const headers = [
   {
@@ -61,23 +66,9 @@ const UserTable = ({ users, onEditClick }) => {
   const rows = addIdx(users.map(User.getUserForDisplay));
 
   const [sortParams, setSortParams] = useState({
-    sortBy: 'idx',
-    sortOrder: 'asc'
+    sortBy: initialSortBy,
+    sortOrder: initialSortOrder
   });
-
-  /* methods */
-
-  const changeSort = useMemo(_ => Table.helperGenerators.changeSort(setSortParams), [setSortParams]);
-
-  /* end of methods */
-
-  /* event handlers */
-
-  const onChangeSort = useMemo(_ => Table.helperGenerators.onChangeSort(changeSort), [changeSort]);
-
-  const onDetailClick = useMemo(_ => Table.helperGenerators.onDetailClick(onEditClick), [onEditClick]);
-  
-  /* end of event handler */
 
   const sortedRows = orderBy(rows, [sortParams.sortBy], [sortParams.sortOrder]);
 
@@ -87,24 +78,51 @@ const UserTable = ({ users, onEditClick }) => {
       rows={sortedRows}
       sortBy={sortParams.sortBy}
       sortOrder={sortParams.sortOrder}
-      onDetailClick={onDetailClick}
-      onChangeSort={onChangeSort}
+      onDetailClick={onEditClick}
+      setSortParamsFunc={setSortParams}
     />
   );
 };
 
 const UserList = _ => {
-  const { users, filteredUsers, usersLoading, getUsers } = useContext(
-    UserContext
-  );
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
+  const {
+    users,
+    filteredUsers,
+    usersLoading,
+    usersErrors,
+    clearUsersErrors,
+    getUsers
+  } = useContext(UserContext);
 
   // componentDidMount
   useEffect(
     _ => {
       getUsers();
+      return _ => {
+        removeAlerts();
+      };
     },
     // eslint-disable-next-line
     []
+  );
+
+  // usersErrors
+  useEffect(
+    _ => {
+      if (isNonEmptyArray(usersErrors)) {
+        setAlerts(
+          usersErrors.map(usersError => {
+            return new Alert(
+              User.usersResponseTypes[usersError].msg,
+              Alert.alertTypes.WARNING
+            );
+          })
+        );
+        clearUsersErrors();
+      }
+    },
+    [usersErrors, setAlerts, clearUsersErrors]
   );
 
   /* event handlers */
