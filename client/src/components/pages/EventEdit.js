@@ -5,7 +5,6 @@ import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
-import LabelSelectPair from 'components/form/LabelSelectPair';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';

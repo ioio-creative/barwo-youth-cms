@@ -81,7 +81,7 @@ const MyTable = ({
   const changeSort = useMemo(
     _ =>
       MyTable.helperGenerators.changeSort(sortOrder, sortBy, setSortParamsFunc),
-    [setSortParamsFunc]
+    [setSortParamsFunc, sortOrder, sortBy]
   );
 
   /* end of methods */
