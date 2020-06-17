@@ -7,8 +7,8 @@ const config = require('config');
 
 const { User } = require('../models/User');
 const auth = require('../middleware/auth');
+const validationHandling = require('../middleware/validationHandling');
 const { generalErrorHandle } = require('../utils/errorHandling');
-const { returnValidationResults } = require('../utils/validationHandling');
 const {
   INVALID_CREDENTIALS,
   USER_DOES_NOT_HAVE_RIGHT
@@ -38,16 +38,13 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/',
   [
-    check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Password is required').exists()
+    [
+      check('email', 'Please include a valid email').isEmail(),
+      check('password', 'Password is required').exists()
+    ],
+    validationHandling
   ],
   async (req, res) => {
-    // validation
-    const isValidationPassed = returnValidationResults(req, res);
-    if (!isValidationPassed) {
-      return;
-    }
-
     const { email, password } = req.body;
 
     try {

@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs');
 
 const auth = require('../middleware/auth');
 const authIsAdmin = require('../middleware/authIsAdmin');
+const validationHandling = require('../middleware/validationHandling');
 const { generalErrorHandle } = require('../utils/errorHandling');
-const { returnValidationResults } = require('../utils/validationHandling');
 const { User, userResponseTypes } = require('../models/User');
 
 const userValidationChecksForAddUser = [
@@ -69,14 +69,8 @@ router.get('/:_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [authIsAdmin, userValidationChecksForAddUser],
+  [authIsAdmin, userValidationChecksForAddUser, validationHandling],
   async (req, res) => {
-    // validation
-    const isValidationPassed = returnValidationResults(req, res);
-    if (!isValidationPassed) {
-      return;
-    }
-
     const { name, email, password, role, isEnabled } = req.body;
 
     try {
@@ -110,14 +104,8 @@ router.post(
 // @access  Private
 router.put(
   '/:_id',
-  [authIsAdmin, userValidationChecksForUpdateUser],
+  [authIsAdmin, userValidationChecksForUpdateUser, validationHandling],
   async (req, res) => {
-    // validation
-    const isValidationPassed = returnValidationResults(req, res);
-    if (!isValidationPassed) {
-      return;
-    }
-
     const { name, email, password, role, isEnabled } = req.body;
 
     // Build user object
