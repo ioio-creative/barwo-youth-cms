@@ -149,7 +149,7 @@ const ArtistList = _ => {
     sortOrder: qsSortOrder,
     sortBy: qsSortBy
   });
-  const [isUseFilter, setIsUseFilter] = useState(false);
+  const [isUseFilter, setIsUseFilter] = useState(true); // allow first time filter by query string value
   const [filter, setFilter] = useState({ text: qsFilterText });
 
   /* methods */
