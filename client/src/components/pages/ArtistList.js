@@ -17,8 +17,8 @@ import Artist from 'models/artist';
 import Alert from 'models/alert';
 import InputText from '@buffetjs/styles/dist/components/InputText';
 
-const initialSortBy = 'lastModifyDTDisplay';
-const initialSortOrder = -1;
+const defaultInitialSortBy = 'lastModifyDTDisplay';
+const defaultInitialSortOrder = -1;
 
 const emptyFilter = {
   text: ''
@@ -97,32 +97,22 @@ const ArtistTable = ({
   paginationMeta,
   onEditClick,
   onPageClick,
-  onSortParamsChanged
+  sortBy,
+  sortOrder,
+  setSortParamsFunc
 }) => {
   const rows = addIdx(artists.map(Artist.getArtistForDisplay));
-
-  const [sortParams, setSortParams] = useState({
-    sortBy: initialSortBy,
-    sortOrder: initialSortOrder
-  });
-
-  useEffect(
-    _ => {
-      onSortParamsChanged(sortParams);
-    },
-    [onSortParamsChanged, sortParams]
-  );
 
   return (
     <Table
       headers={headers}
       rows={rows}
       paginationMeta={paginationMeta}
-      sortBy={sortParams.sortBy}
-      sortOrder={sortParams.sortOrder}
+      sortBy={sortBy}
+      sortOrder={sortOrder}
       onDetailClick={onEditClick}
       onPageClick={onPageClick}
-      setSortParamsFunc={setSortParams}
+      setSortParamsFunc={setSortParamsFunc}
     />
   );
 };
@@ -156,8 +146,8 @@ const ArtistList = _ => {
   // states
   const [currPage, setCurrPage] = useState(qsPage);
   const [currSortParams, setCurrSortParams] = useState({
-    qsSortOrder,
-    qsSortBy
+    sortOrder: qsSortOrder,
+    sortBy: qsSortBy
   });
   const [isUseFilter, setIsUseFilter] = useState(false);
   const [filter, setFilter] = useState({ text: qsFilterText });
@@ -173,9 +163,10 @@ const ArtistList = _ => {
       setQsPage(currPage);
 
       if (currSortParams) {
-        const currSortOrder = currSortParams.sortOrder || 1;
+        const currSortOrder =
+          currSortParams.sortOrder || defaultInitialSortOrder;
         const currSortBy = Artist.cleanSortByString(
-          currSortParams.sortBy || initialSortBy
+          currSortParams.sortBy || defaultInitialSortBy
         );
         setQsSortOrder(currSortOrder);
         setQsSortBy(currSortBy);
@@ -265,14 +256,21 @@ const ArtistList = _ => {
     [setCurrPage]
   );
 
-  const onSortParamsChanged = useCallback(
+  const onSetSortParams = useCallback(
     sortParams => {
-      setCurrSortParams(sortParams);
-
-      // sort from page 1
-      setCurrPage(1);
+      setCurrSortParams(lastSortParams => {
+        if (
+          lastSortParams.sortOrder === sortParams.sortOrder &&
+          lastSortParams.sortBy === sortParams.sortBy
+        ) {
+          return lastSortParams;
+        }
+        // sort from page 1
+        setCurrPage(1);
+        return sortParams;
+      });
     },
-    [setCurrSortParams]
+    [setCurrSortParams, setCurrPage]
   );
 
   const onFilterChange = useCallback(
@@ -346,7 +344,9 @@ const ArtistList = _ => {
         paginationMeta={artistsPaginationMeta}
         onEditClick={onEditArtist}
         onPageClick={onPageClick}
-        onSortParamsChanged={onSortParamsChanged}
+        sortBy={currSortParams.sortBy}
+        sortOrder={currSortParams.sortOrder}
+        setSortParamsFunc={onSetSortParams}
       />
     </>
   );
