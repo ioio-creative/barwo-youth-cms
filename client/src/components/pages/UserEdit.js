@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
-import UserContext from 'contexts/users/usersContext';
+import UsersContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import LabelSelectPair from 'components/form/LabelSelectPair';
@@ -16,7 +16,7 @@ import User from 'models/user';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import isNonEmptyArray from 'utils/array/isNonEmptyArray';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const emptyUser = new User();
 const defaultState = {
@@ -36,7 +36,7 @@ const UserEdit = _ => {
     addUser,
     updateUser,
     clearUsersErrors
-  } = useContext(UserContext);
+  } = useContext(UsersContext);
 
   const [user, setUser] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);

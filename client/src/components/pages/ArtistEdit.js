@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
-import ArtistContext from 'contexts/artists/artistsContext';
+import ArtistsContext from 'contexts/artists/artistsContext';
 import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
@@ -16,7 +16,7 @@ import Artist from 'models/artist';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import isNonEmptyArray from 'utils/array/isNonEmptyArray';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const emptyArtist = new Artist();
 const defaultState = emptyArtist;
@@ -33,7 +33,7 @@ const ArtistEdit = _ => {
     addArtist,
     updateArtist,
     clearArtistsErrors
-  } = useContext(ArtistContext);
+  } = useContext(ArtistsContext);
 
   const [artist, setArtist] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);

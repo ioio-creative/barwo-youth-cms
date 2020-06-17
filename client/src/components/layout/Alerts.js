@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
-import isNonEmptyArray from 'utils/array/isNonEmptyArray';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import './Alerts.css';
 
 const Alerts = _ => {

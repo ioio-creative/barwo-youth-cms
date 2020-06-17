@@ -1,4 +1,4 @@
-import isNonEmptyArray from 'utils/array/isNonEmptyArray';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import generalResponses from 'types/responses/general';
 
 const handleServerError = (err, dispatchType, dispatchFunc) => {

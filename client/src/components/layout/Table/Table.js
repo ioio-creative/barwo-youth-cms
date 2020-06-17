@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
-import mapSortOrderStrToNum from 'utils/array/mapSortOrderStrToNum';
+import mapSortOrderStrToNum from 'utils/js/array/mapSortOrderStrToNum';
+import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 import { Table } from '@buffetjs/core';
 import './Table.css';
 
@@ -78,7 +79,8 @@ const MyTable = ({
   /* methods */
 
   const changeSort = useMemo(
-    _ => MyTable.helperGenerators.changeSort(setSortParamsFunc),
+    _ =>
+      MyTable.helperGenerators.changeSort(sortOrder, sortBy, setSortParamsFunc),
     [setSortParamsFunc]
   );
 
@@ -89,6 +91,14 @@ const MyTable = ({
   const onChangeSort = useMemo(
     _ => MyTable.helperGenerators.onChangeSort(changeSort),
     [changeSort]
+  );
+
+  const onClickRow = useCallback(
+    (e, data) => {
+      console.log('onClickRow');
+      invokeIfIsFunction(onDetailClick, data);
+    },
+    [onDetailClick]
   );
 
   const onFirstPageClick = useCallback(
@@ -163,18 +173,8 @@ const MyTable = ({
           rows={rows}
           sortBy={sortBy}
           sortOrder={mapSortOrderStrToNum(sortOrder)}
-          onClickRow={(e, data) => {
-            console.log('onClickRow');
-            onDetailClick && onDetailClick(data);
-          }}
-          onChangeSort={({
-            sortBy,
-            firstElementThatCanBeSorted,
-            isSortEnabled
-          }) => {
-            console.log('onChangeSort');
-            onChangeSort && onChangeSort({ sortBy, isSortEnabled });
-          }}
+          onClickRow={onClickRow}
+          onChangeSort={onChangeSort}
           rowLinks={rowLinks}
         />
       </div>
@@ -246,35 +246,36 @@ MyTable.defaultProps = {
 };
 
 MyTable.helperGenerators = {
-  changeSort: function (setSortParams) {
+  changeSort: function (currSortOrder, currSortBy, setSortParams) {
     return function ({ newSortBy }) {
-      setSortParams(currSortParams => {
-        if (currSortParams.sortBy === newSortBy) {
-          if (currSortParams.sortOrder === 1) {
-            return {
-              ...currSortParams,
-              sortOrder: -1
-            };
-          } else {
-            return {
-              ...currSortParams,
-              sortOrder: 1
-            };
-          }
+      let newSortParams = {};
+      if (currSortBy === newSortBy) {
+        if (currSortOrder === 1) {
+          newSortParams = {
+            sortBy: currSortBy,
+            sortOrder: -1
+          };
         } else {
-          return {
-            sortBy: newSortBy,
+          newSortParams = {
+            sortBy: currSortBy,
             sortOrder: 1
           };
         }
-      });
+      } else {
+        newSortParams = {
+          sortBy: newSortBy,
+          sortOrder: 1
+        };
+      }
+      invokeIfIsFunction(setSortParams, newSortParams);
     };
   },
 
   onChangeSort: function (changeSort) {
-    return function ({ sortBy, isSortEnabled }) {
+    return function ({ sortBy, isSortEnabled, firstElementThatCanBeSorted }) {
+      console.log('onChangeSort');
       if (isSortEnabled) {
-        changeSort({
+        invokeIfIsFunction(changeSort, {
           newSortBy: sortBy
         });
       }

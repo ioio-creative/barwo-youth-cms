@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useCallback, useState } from 'react';
-import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
+import { useQueryParam, StringParam } from 'use-query-params';
 import AlertContext from 'contexts/alert/alertContext';
 import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
-import Table from 'components/layout/Table';
+import Table from 'components/layout/Table/Table';
+import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
 import LinkButton from 'components/form/LinkButton';
 import Button from 'components/form/Button';
 import InputText from 'components/form/InputText';
 import Form from 'components/form/Form';
-import isNonEmptyArray from 'utils/array/isNonEmptyArray';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import { goToUrl } from 'utils/history';
-import addIdx from 'utils/array/addIdx';
+import addIdx from 'utils/js/array/addIdx';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import Event from 'models/event';
@@ -117,94 +118,6 @@ const headers = [
   }
 ];
 
-const usePaginationAndSortForTable = clearnSortByStringFunc => {
-  // query strings
-  const [qsPage, setQsPage] = useQueryParam('page', NumberParam);
-  const [qsSortOrder, setQsSortOrder] = useQueryParam('sortOrder', NumberParam);
-  const [qsSortBy, setQsSortBy] = useQueryParam('sortBy', StringParam);
-
-  const [currPage, setCurrPage] = useState(qsPage);
-  const [currSortParams, setCurrSortParams] = useState({
-    sortOrder: qsSortOrder,
-    sortBy: qsSortBy
-  });
-
-  /* methods */
-
-  const prepareGetOptions = useCallback(
-    _ => {
-      const getOptions = {
-        page: currPage || 1
-      };
-
-      setQsPage(currPage);
-
-      if (currSortParams) {
-        const currSortOrder =
-          currSortParams.sortOrder || defaultInitialSortOrder;
-        const currSortBy = clearnSortByStringFunc(
-          currSortParams.sortBy || defaultInitialSortBy
-        );
-        setQsSortOrder(currSortOrder);
-        setQsSortBy(currSortBy);
-        getOptions.sortOrder = currSortOrder;
-        getOptions.sortBy = currSortBy;
-      }
-
-      return getOptions;
-    },
-    [
-      currPage,
-      currSortParams,
-      setQsPage,
-      setQsSortOrder,
-      setQsSortBy,
-      clearnSortByStringFunc
-    ]
-  );
-
-  /* end of methods */
-
-  /* event handlers */
-
-  const onPageClick = useCallback(
-    pageNum => {
-      setCurrPage(pageNum);
-    },
-    [setCurrPage]
-  );
-
-  const onSetSortParams = useCallback(
-    sortParams => {
-      setCurrSortParams(lastSortParams => {
-        if (
-          lastSortParams.sortOrder === sortParams.sortOrder &&
-          lastSortParams.sortBy === sortParams.sortBy
-        ) {
-          return lastSortParams;
-        }
-        // sort from page 1
-        setCurrPage(1);
-        return sortParams;
-      });
-    },
-    [setCurrSortParams, setCurrPage]
-  );
-
-  /* end of event handlers */
-
-  return {
-    qsPage: { qsPage, setQsPage },
-    qsSortOrder: { qsSortOrder, setQsSortOrder },
-    qsSortBy: { qsSortBy, setQsSortBy },
-    currPage: { currPage, setCurrPage },
-    currSortParams: { currSortParams, setCurrSortParams },
-    prepareGetOptions,
-    onPageClick,
-    onSetSortParams
-  };
-};
-
 const EventList = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -216,62 +129,29 @@ const EventList = _ => {
     getEvents
   } = useContext(EventsContext);
   const {
-    qsPage: { qsPage, setQsPage },
-    qsSortOrder: { qsSortOrder, setQsSortOrder },
-    qsSortBy: { qsSortBy, setQsSortBy },
-    currPage: { currPage, setCurrPage },
-    currSortParams: { currSortParams, setCurrSortParams },
+    // qsPage: { qsPage, setQsPage },
+    // qsSortOrder: { qsSortOrder, setQsSortOrder },
+    // qsSortBy: { qsSortBy, setQsSortBy },
+    // currPage: { currPage, setCurrPage },
+    currSortParams: { currSortParams /*, setCurrSortParams*/ },
     prepareGetOptions,
-    onPageClick,
+    onSetPage,
     onSetSortParams
-  } = usePaginationAndSortForTable(Event.cleanSortByString);
-  // query strings
-  // const [qsPage, setQsPage] = useQueryParam('page', NumberParam);
-  // const [qsSortOrder, setQsSortOrder] = useQueryParam('sortOrder', NumberParam);
-  // const [qsSortBy, setQsSortBy] = useQueryParam('sortBy', StringParam);
+  } = usePaginationAndSortForTable(
+    defaultInitialSortBy,
+    defaultInitialSortOrder,
+    Event.cleanSortByString
+  );
 
+  // query strings
   const [qsFilterText, setQsFilterText] = useQueryParam(
     'filterText',
     StringParam
   );
 
   // states
-  // const [currPage, setCurrPage] = useState(qsPage);
-  // const [currSortParams, setCurrSortParams] = useState({
-  //   sortOrder: qsSortOrder,
-  //   sortBy: qsSortBy
-  // });
   const [isUseFilter, setIsUseFilter] = useState(true); // allow first time filter by query string value
   const [filter, setFilter] = useState({ text: qsFilterText });
-
-  /* methods */
-
-  // const prepareGetOptions = useCallback(
-  //   _ => {
-  //     const getOptions = {
-  //       page: currPage || 1
-  //     };
-
-  //     setQsPage(currPage);
-
-  //     if (currSortParams) {
-  //       const currSortOrder =
-  //         currSortParams.sortOrder || defaultInitialSortOrder;
-  //       const currSortBy = Event.cleanSortByString(
-  //         currSortParams.sortBy || defaultInitialSortBy
-  //       );
-  //       setQsSortOrder(currSortOrder);
-  //       setQsSortBy(currSortBy);
-  //       getOptions.sortOrder = currSortOrder;
-  //       getOptions.sortBy = currSortBy;
-  //     }
-
-  //     return getOptions;
-  //   },
-  //   [currPage, currSortParams, setQsPage, setQsSortOrder, setQsSortBy]
-  // );
-
-  /* end of methods */
 
   // componentDidMount
   useEffect(
@@ -339,30 +219,6 @@ const EventList = _ => {
   const onEditEvent = useCallback(event => {
     goToUrl(routes.eventEditByIdWithValue(true, event._id));
   }, []);
-
-  // const onPageClick = useCallback(
-  //   pageNum => {
-  //     setCurrPage(pageNum);
-  //   },
-  //   [setCurrPage]
-  // );
-
-  // const onSetSortParams = useCallback(
-  //   sortParams => {
-  //     setCurrSortParams(lastSortParams => {
-  //       if (
-  //         lastSortParams.sortOrder === sortParams.sortOrder &&
-  //         lastSortParams.sortBy === sortParams.sortBy
-  //       ) {
-  //         return lastSortParams;
-  //       }
-  //       // sort from page 1
-  //       setCurrPage(1);
-  //       return sortParams;
-  //     });
-  //   },
-  //   [setCurrSortParams, setCurrPage]
-  // );
 
   const onFilterChange = useCallback(
     e => {
@@ -439,7 +295,7 @@ const EventList = _ => {
         sortBy={currSortParams.sortBy}
         sortOrder={currSortParams.sortOrder}
         onDetailClick={onEditEvent}
-        onPageClick={onPageClick}
+        onPageClick={onSetPage}
         setSortParamsFunc={onSetSortParams}
       />
     </>
