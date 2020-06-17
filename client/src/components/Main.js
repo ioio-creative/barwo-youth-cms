@@ -11,6 +11,7 @@ import routes from 'globals/routes';
 import './Main.css';
 
 /* async react components */
+// https://objectpartners.com/2018/12/05/migrate-from-react-loadable-to-react-suspense/
 const AsyncHome = asyncLoadingComponent(_ => import('components/pages/Home'));
 const AsyncUserList = asyncLoadingComponent(_ =>
   import('components/pages/UserList')

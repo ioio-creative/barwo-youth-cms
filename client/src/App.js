@@ -7,6 +7,7 @@ import AlertState from 'contexts/alert/AlertState';
 import AuthState from 'contexts/auth/AuthState';
 import PrivateRoute from 'components/routing/PrivateRoute';
 /**
+ * !!! Obsolete !!! as I have already migrated from react-loadable to React.Suspense (https://objectpartners.com/2018/12/05/migrate-from-react-loadable-to-react-suspense/)
  * Would get the following warning if putting result of asyncLoadingComponent(_ => import('components/Main')) into PrivateRoute.
  * So I don't async load Main. 
  * 
