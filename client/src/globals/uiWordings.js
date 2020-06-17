@@ -8,6 +8,7 @@ export default {
   'Navbar.Greeting': '你好',
   'Navbar.Users': 'Users',
   'Navbar.Artists': 'Artists',
+  'Navbar.Events': 'Events',
 
   'Login.Title': 'Account Login',
   'Login.FillInAllFieldsMessage': 'Please fill in all fields',
@@ -69,5 +70,38 @@ export default {
   'ArtistEdit.AddArtistSubmit': 'Add Artist',
   'ArtistEdit.UpdateArtistSubmit': 'Update Artist',
   'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
-  'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated'
+  'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated',
+
+  'Events.Title': 'Events',
+
+  'Event.NameTcLabel': 'Name TC',
+  'Event.NameScLabel': 'Name SC',
+  'Event.NameEnLabel': 'Name EN',
+  'Event.DescTcLabel': 'Desc TC',
+  'Event.DescScLabel': 'Desc SC',
+  'Event.DescEnLabel': 'Desc EN',
+  'Event.RemarksTcLabel': 'Remarks TC',
+  'Event.RemarksScLabel': 'Remarks SC',
+  'Event.RemarksEnLabel': 'Remarks EN',
+  'Event.WriterTcLabel': 'Writer TC',
+  'Event.WriterScLabel': 'Writer SC',
+  'Event.WriterEnLabel': 'Writer EN',
+  'Event.ArtDirectorsLabel': 'Art Directors',
+  'Event.CreateDTLabel': 'Create DT',
+  'Event.LastModifyDTLabel': 'Last Modify DT',
+  'Event.LastModifyUserLabel': 'Last Modify User',
+  'Event.IsEnabledLabel': 'Is Enabled ?',
+
+  'EventList.AddEvent': 'Add Event',
+  'EventList.FilterTextPlaceHolder': 'Filter Events by name...',
+  'EventList.FilterButton': 'Filter',
+  'EventList.ClearFilterButton': 'Clear Filter',
+
+  'EventEdit.BackToEventList': 'Back to Event List',
+  'EventEdit.AddEventTitle': 'Add Event',
+  'EventEdit.EditEventTitle': 'Edit Event',
+  'EventEdit.AddEventSubmit': 'Add Event',
+  'EventEdit.UpdateEventSubmit': 'Update Event',
+  'EventEdit.AddEventSuccessMessage': 'Event Added',
+  'EventEdit.UpdateEventSuccessMessage': 'Event Updated'
 };

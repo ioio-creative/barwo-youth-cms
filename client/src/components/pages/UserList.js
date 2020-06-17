@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useCallback, useState } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
-import UserContext from 'contexts/users/usersContext';
+import UsersContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table';
@@ -93,7 +93,7 @@ const UserList = _ => {
     usersErrors,
     clearUsersErrors,
     getUsers
-  } = useContext(UserContext);
+  } = useContext(UsersContext);
 
   // componentDidMount
   useEffect(

@@ -26,7 +26,12 @@ NavbarButton.defaultProps = {
 
 const NavbarLink = ({ className, children, to, isSelected }) => {
   return (
-    <Link className={`w3-bar-item w3-button ${isSelected ? 'w3-teal' : ''} ${className}`} to={to}>
+    <Link
+      className={`w3-bar-item w3-button ${
+        isSelected ? 'w3-teal' : ''
+      } ${className}`}
+      to={to}
+    >
       {children}
     </Link>
   );
@@ -42,6 +47,8 @@ const Navbar = ({ className }) => {
   const isUserEdit = useRouteMatch(routes.userEditById);
   const isArtistList = useRouteMatch(routes.artistList(false));
   const isArtistEdit = useRouteMatch(routes.artistEditById);
+  const isEventList = useRouteMatch(routes.eventList(false));
+  const isEventEdit = useRouteMatch(routes.eventEditById);
 
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
 
@@ -65,12 +72,24 @@ const Navbar = ({ className }) => {
         <i className='fa fa-sign-out' /> {uiWordings['Navbar.Logout']}
       </NavbarButton>
       {isAuthUserAdmin && (
-        <NavbarLink to={routes.userList(true)} isSelected={isUserList || isUserEdit}>
+        <NavbarLink
+          to={routes.userList(true)}
+          isSelected={isUserList || isUserEdit}
+        >
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}
-      <NavbarLink to={routes.artistList(true)} isSelected={isArtistList || isArtistEdit}>
+      <NavbarLink
+        to={routes.artistList(true)}
+        isSelected={isArtistList || isArtistEdit}
+      >
         {uiWordings['Navbar.Artists']}
+      </NavbarLink>
+      <NavbarLink
+        to={routes.eventList(true)}
+        isSelected={isEventList || isEventEdit}
+      >
+        {uiWordings['Navbar.Events']}
       </NavbarLink>
     </>
   );

@@ -25,6 +25,12 @@ const AsyncArtistList = asyncLoadingComponent(_ =>
 const AsyncArtistEdit = asyncLoadingComponent(_ =>
   import('components/pages/ArtistEdit')
 );
+const AsyncEventList = asyncLoadingComponent(_ =>
+  import('components/pages/EventList')
+);
+const AsyncEventEdit = asyncLoadingComponent(_ =>
+  import('components/pages/EventEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -68,6 +74,13 @@ const Main = _ => {
                 path={routes.artistAdd(false)}
                 component={AsyncArtistEdit}
               />
+
+              <Route
+                path={routes.eventList(false)}
+                component={AsyncEventList}
+              />
+              <Route path={routes.eventEditById} component={AsyncEventEdit} />
+              <Route path={routes.eventAdd(false)} component={AsyncEventEdit} />
 
               <Route component={AsyncHome} />
             </Switch>

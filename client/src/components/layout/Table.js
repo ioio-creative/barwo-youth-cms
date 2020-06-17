@@ -236,6 +236,12 @@ MyTable.defaultProps = {
   paginationMeta: null,
   onDetailClick: data => {
     console.log(data);
+  },
+  onPageClick: pageNum => {
+    console.log(pageNum);
+  },
+  setSortParamsFunc: sortParams => {
+    console.log(sortParams);
   }
 };
 

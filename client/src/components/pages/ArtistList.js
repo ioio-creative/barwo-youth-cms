@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useCallback, useState } from 'react';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
 import AlertContext from 'contexts/alert/alertContext';
-import ArtistContext from 'contexts/artists/artistsContext';
+import ArtistsContext from 'contexts/artists/artistsContext';
 import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table';
 import LinkButton from 'components/form/LinkButton';
 import Button from 'components/form/Button';
+import InputText from 'components/form/InputText';
 import Form from 'components/form/Form';
 import isNonEmptyArray from 'utils/array/isNonEmptyArray';
 import { goToUrl } from 'utils/history';
@@ -15,7 +16,6 @@ import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import Artist from 'models/artist';
 import Alert from 'models/alert';
-import InputText from '@buffetjs/styles/dist/components/InputText';
 
 const defaultInitialSortBy = 'lastModifyDTDisplay';
 const defaultInitialSortOrder = -1;
@@ -92,37 +92,6 @@ const headers = [
   }
 ];
 
-const ArtistTable = ({
-  artists,
-  paginationMeta,
-  onEditClick,
-  onPageClick,
-  sortBy,
-  sortOrder,
-  setSortParamsFunc
-}) => {
-  const rows = addIdx(artists.map(Artist.getArtistForDisplay));
-
-  return (
-    <Table
-      headers={headers}
-      rows={rows}
-      paginationMeta={paginationMeta}
-      sortBy={sortBy}
-      sortOrder={sortOrder}
-      onDetailClick={onEditClick}
-      onPageClick={onPageClick}
-      setSortParamsFunc={setSortParamsFunc}
-    />
-  );
-};
-
-ArtistTable.defaultProps = {
-  onSortParamsChanged: sortParams => {
-    console.log(sortParams);
-  }
-};
-
 const ArtistList = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -132,7 +101,7 @@ const ArtistList = _ => {
     artistsErrors,
     clearArtistsErrors,
     getArtists
-  } = useContext(ArtistContext);
+  } = useContext(ArtistsContext);
 
   // query strings
   const [qsPage, setQsPage] = useQueryParam('page', NumberParam);
@@ -154,9 +123,9 @@ const ArtistList = _ => {
 
   /* methods */
 
-  const prepareGetArtistsOptions = useCallback(
+  const prepareGetOptions = useCallback(
     _ => {
-      const getArtistsOptions = {
+      const getOptions = {
         page: currPage || 1
       };
 
@@ -170,11 +139,11 @@ const ArtistList = _ => {
         );
         setQsSortOrder(currSortOrder);
         setQsSortBy(currSortBy);
-        getArtistsOptions.sortOrder = currSortOrder;
-        getArtistsOptions.sortBy = currSortBy;
+        getOptions.sortOrder = currSortOrder;
+        getOptions.sortBy = currSortBy;
       }
 
-      return getArtistsOptions;
+      return getOptions;
     },
     [currPage, currSortParams, setQsPage, setQsSortOrder, setQsSortBy]
   );
@@ -195,23 +164,22 @@ const ArtistList = _ => {
   // set query string and getArtists
   useEffect(
     _ => {
-      const getArtistsOptions = prepareGetArtistsOptions();
-      getArtists(getArtistsOptions);
+      getArtists(prepareGetOptions());
     },
-    [prepareGetArtistsOptions, getArtists]
+    [prepareGetOptions, getArtists]
   );
 
   // filter and getArtists
   useEffect(
     _ => {
       if (isUseFilter) {
-        const getArtistsOptions = prepareGetArtistsOptions();
+        const getOptions = prepareGetOptions();
         // allow empty string here
         if (![null, undefined].includes(filter.text)) {
           setQsFilterText(filter.text);
-          getArtistsOptions.filterText = filter.text;
+          getOptions.filterText = filter.text;
         }
-        getArtists(getArtistsOptions);
+        getArtists(getOptions);
         setIsUseFilter(false);
       }
     },
@@ -219,7 +187,7 @@ const ArtistList = _ => {
       setQsFilterText,
       isUseFilter,
       setIsUseFilter,
-      prepareGetArtistsOptions,
+      prepareGetOptions,
       getArtists,
       filter.text
     ]
@@ -311,6 +279,8 @@ const ArtistList = _ => {
     </LinkButton>
   );
 
+  const rows = addIdx(artists.map(Artist.getArtistForDisplay));
+
   return (
     <>
       <Form>
@@ -318,7 +288,7 @@ const ArtistList = _ => {
           <div className='w3-half'>
             <InputText
               name='text'
-              className='w3-section w3-white'
+              className='w3-section'
               placeholder={uiWordings['ArtistList.FilterTextPlaceHolder']}
               onChange={onFilterChange}
               value={filter.text}
@@ -339,13 +309,14 @@ const ArtistList = _ => {
         </div>
         <div className='w3-right'>{addArtistButton}</div>
       </Form>
-      <ArtistTable
-        artists={artists}
+      <Table
+        headers={headers}
+        rows={rows}
         paginationMeta={artistsPaginationMeta}
-        onEditClick={onEditArtist}
-        onPageClick={onPageClick}
         sortBy={currSortParams.sortBy}
         sortOrder={currSortParams.sortOrder}
+        onDetailClick={onEditArtist}
+        onPageClick={onPageClick}
         setSortParamsFunc={onSetSortParams}
       />
     </>
