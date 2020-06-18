@@ -15,7 +15,7 @@ import uiWordings from 'globals/uiWordings';
 import './Login.css';
 
 const Login = _ => {
-  const { setAlerts /*, removeAlerts*/ } = useContext(AlertContext);
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     login,
     isAuthenticated,
@@ -54,6 +54,7 @@ const Login = _ => {
       if (isNonEmptyArray(authErrors)) {
         setAlerts(
           authErrors.map(authError => {
+            console.log(authError);
             return new Alert(
               authResponseTypes[authError].msg,
               Alert.alertTypes.WARNING
@@ -85,6 +86,7 @@ const Login = _ => {
 
   const onSubmit = useCallback(
     async e => {
+      removeAlerts();
       e.preventDefault();
       if (email === '' || password === '') {
         setAlerts(
@@ -101,7 +103,7 @@ const Login = _ => {
         goToUrl(routes.home(true));
       }
     },
-    [email, password, setAlerts, login]
+    [email, password, setAlerts, login, removeAlerts]
   );
 
   return (

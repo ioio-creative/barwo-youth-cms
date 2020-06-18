@@ -13,7 +13,9 @@ import {
   UPDATE_ARTIST,
   ARTISTS_ERRORS,
   CLEAR_ARTISTS_ERRORS,
-  SET_ARTISTS_LOADING
+  SET_ARTISTS_LOADING,
+  GET_ART_DIRECTORS,
+  CLEAR_ART_DIRECTORS
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -22,7 +24,8 @@ const initialState = {
   artistsPaginationMeta: null,
   artist: null,
   artistsErrors: null,
-  artistsLoading: false
+  artistsLoading: false,
+  artDirectors: null
 };
 
 const ArtistsState = ({ children }) => {
@@ -130,6 +133,22 @@ const ArtistsState = ({ children }) => {
     dispatch({ type: CLEAR_ARTISTS_ERRORS });
   }, []);
 
+  // Get Art Directors
+  const getArtDirectors = useCallback(async _ => {
+    dispatch({ type: SET_ARTISTS_LOADING });
+    try {
+      const res = await axios.get('/api/artDirectors');
+      dispatch({ type: GET_ART_DIRECTORS, payload: res.data });
+    } catch (err) {
+      handleServerError(err, ARTISTS_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Clear Art Directors
+  const clearArtDirectors = useCallback(_ => {
+    dispatch({ type: CLEAR_ART_DIRECTORS });
+  }, []);
+
   return (
     <ArtistsContext.Provider
       value={{
@@ -137,13 +156,16 @@ const ArtistsState = ({ children }) => {
         artistsPaginationMeta: state.artistsPaginationMeta,
         artist: state.artist,
         artistsErrors: state.artistsErrors,
+        artDirectors: state.artDirectors,
         getArtists,
         clearArtists,
         getArtist,
         clearArtist,
         addArtist,
         updateArtist,
-        clearArtistsErrors
+        clearArtistsErrors,
+        getArtDirectors,
+        clearArtDirectors
       }}
     >
       {children}

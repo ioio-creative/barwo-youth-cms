@@ -3,9 +3,9 @@ import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 const artistTypes = {
-  ARTISTIC_DIRECTOR: { value: 'ARTISTIC_DIRECTOR', label: 'Artistic director' },
-  ARTISTIC_DIRECTOR_VISITING: {
-    value: 'ARTISTIC_DIRECTOR_VISITING',
+  ART_DIRECTOR: { value: 'ART_DIRECTOR', label: 'Artistic director' },
+  ART_DIRECTOR_VISITING: {
+    value: 'ART_DIRECTOR_VISITING',
     label: 'Artistic director visiting'
   },
   ACTOR: { value: 'ACTOR', label: 'Actor' },

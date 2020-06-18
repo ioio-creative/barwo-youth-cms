@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
+import ArtistState from 'contexts/artists/ArtistsState';
+import ArtistsContext from 'contexts/artists/artistsContext';
 import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
 import Alert from 'models/alert';
@@ -11,6 +13,7 @@ import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import Artist from 'models/artist';
 import Event from 'models/event';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
@@ -23,6 +26,13 @@ const defaultState = emptyEvent;
 const EventEdit = _ => {
   const { eventId } = useParams();
   const { setAlerts, removeAlerts } = useContext(AlertContext);
+  const {
+    artistsErrors,
+    clearArtistsErrors,
+    artDirectors,
+    getArtDirectors,
+    clearArtDirectors
+  } = useContext(ArtistsContext);
   const {
     event: fetchedEvent,
     eventsErrors,
@@ -39,9 +49,13 @@ const EventEdit = _ => {
   const [isAddEventMode, setIsAddEventMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
+  console.log(artDirectors);
+
   // componentDidMount
   useEffect(_ => {
+    getArtDirectors();
     return _ => {
+      clearArtDirectors();
       removeAlerts();
     };
     // eslint-disable-next-line
@@ -95,6 +109,24 @@ const EventEdit = _ => {
       }
     },
     [eventsErrors, setAlerts, clearEventsErrors]
+  );
+
+  // artistsErrors
+  useEffect(
+    _ => {
+      if (isNonEmptyArray(artistsErrors)) {
+        setAlerts(
+          artistsErrors.map(artistsError => {
+            return new Alert(
+              Artist.artistsResponseTypes[artistsError].msg,
+              Alert.alertTypes.WARNING
+            );
+          })
+        );
+        clearArtistsErrors();
+      }
+    },
+    [artistsErrors, setAlerts, clearArtistsErrors]
   );
 
   /* methods */
@@ -278,7 +310,9 @@ const EventEdit = _ => {
 
 const EventEditWithContainer = _ => (
   <EventsPageContainer>
-    <EventEdit />
+    <ArtistState>
+      <EventEdit />
+    </ArtistState>
   </EventsPageContainer>
 );
 

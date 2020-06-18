@@ -1,3 +1,5 @@
+import generalResponseTypes from 'types/responses/general';
+
 export default {
   NOT_AUTHORIZED: {
     type: 'NOT_AUTHORIZED',
@@ -11,8 +13,8 @@ export default {
     type: 'USER_DOES_NOT_HAVE_RIGHT',
     msg: 'USER_DOES_NOT_HAVE_RIGHT'
   },
-  SERVER_ERROR: {
-    type: 'SERVER_ERROR',
-    msg: 'SERVER_ERROR'
-  }
+
+  // general
+  SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
+  CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };

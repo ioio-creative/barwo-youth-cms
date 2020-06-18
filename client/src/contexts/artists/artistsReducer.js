@@ -7,7 +7,9 @@ import {
   UPDATE_ARTIST,
   ARTISTS_ERRORS,
   CLEAR_ARTISTS_ERRORS,
-  SET_ARTISTS_LOADING
+  SET_ARTISTS_LOADING,
+  GET_ART_DIRECTORS,
+  CLEAR_ART_DIRECTORS
 } from '../types';
 
 export default (state, action) => {
@@ -61,6 +63,18 @@ export default (state, action) => {
       return {
         ...state,
         artistsLoading: true
+      };
+    case GET_ART_DIRECTORS:
+      return {
+        ...state,
+        artDirectors: action.payload,
+        artistsLoading: false
+      };
+    case CLEAR_ART_DIRECTORS:
+      return {
+        ...state,
+        artDirectors: null,
+        artistsErrors: null
       };
     default:
       return state;
