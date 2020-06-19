@@ -1,19 +1,30 @@
 import React, { useContext, useEffect, useCallback, useState } from 'react';
-import UserContext from 'contexts/users/usersContext';
+import AlertContext from 'contexts/alert/alertContext';
+import UsersContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
-import Table from 'components/layout/Table';
+import Table from 'components/layout/Table/Table';
 import LinkButton from 'components/form/LinkButton';
 import Form from 'components/form/Form';
 import UserFilter from '../users/UserFilter';
-import isNonEmptyArray from 'utils/array/isNonEmptyArray';
-import orderBy from 'utils/array/orderBy';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import orderBy from 'utils/js/array/orderBy';
 import { goToUrl } from 'utils/history';
-import getUserForDisplay from 'utils/users/getUserForDisplay';
+import addIdx from 'utils/js/array/addIdx';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
+import User from 'models/user';
+import Alert from 'models/alert';
+
+const initialSortBy = 'lastModifyDTDisplay';
+const initialSortOrder = -1;
 
 const headers = [
+  {
+    name: uiWordings['Table.IndexColumnTitle'],
+    value: 'idx',
+    isSortEnabled: true
+  },
   {
     name: uiWordings['User.NameLabel'],
     value: 'name',
@@ -52,64 +63,12 @@ const headers = [
 ];
 
 const UserTable = ({ users, onEditClick }) => {
-  const rows = users.map(getUserForDisplay);
+  const rows = addIdx(users.map(User.getUserForDisplay));
 
   const [sortParams, setSortParams] = useState({
-    sortBy: 'name',
-    sortOrder: 'asc'
+    sortBy: initialSortBy,
+    sortOrder: initialSortOrder
   });
-
-  /* methods */
-
-  const changeSort = useCallback(
-    ({ newSortBy }) => {
-      setSortParams(currSortParams => {
-        if (currSortParams.sortBy === newSortBy) {
-          if (currSortParams.sortOrder === 'asc') {
-            return {
-              ...currSortParams,
-              sortOrder: 'desc'
-            };
-          } else {
-            return {
-              ...currSortParams,
-              sortOrder: 'asc'
-            };
-          }
-        } else {
-          return {
-            sortBy: newSortBy,
-            sortOrder: 'asc'
-          };
-        }
-      });
-    },
-    [setSortParams]
-  );
-
-  /* end of methods */
-
-  /* event handlers */
-
-  const onDetailClick = useCallback(
-    data => {
-      onEditClick(data);
-    },
-    [onEditClick]
-  );
-
-  const onChangeSort = useCallback(
-    ({ sortBy, isSortEnabled }) => {
-      if (isSortEnabled) {
-        changeSort({
-          newSortBy: sortBy
-        });
-      }
-    },
-    [changeSort]
-  );
-
-  /* end of event handler */
 
   const sortedRows = orderBy(rows, [sortParams.sortBy], [sortParams.sortOrder]);
 
@@ -119,24 +78,51 @@ const UserTable = ({ users, onEditClick }) => {
       rows={sortedRows}
       sortBy={sortParams.sortBy}
       sortOrder={sortParams.sortOrder}
-      onDetailClick={onDetailClick}
-      onChangeSort={onChangeSort}
+      onDetailClick={onEditClick}
+      setSortParamsFunc={setSortParams}
     />
   );
 };
 
 const UserList = _ => {
-  const { users, filteredUsers, usersLoading, getUsers } = useContext(
-    UserContext
-  );
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
+  const {
+    users,
+    filteredUsers,
+    usersLoading,
+    usersErrors,
+    clearUsersErrors,
+    getUsers
+  } = useContext(UsersContext);
 
   // componentDidMount
   useEffect(
     _ => {
       getUsers();
+      return _ => {
+        removeAlerts();
+      };
     },
     // eslint-disable-next-line
     []
+  );
+
+  // usersErrors
+  useEffect(
+    _ => {
+      if (isNonEmptyArray(usersErrors)) {
+        setAlerts(
+          usersErrors.map(usersError => {
+            return new Alert(
+              User.usersResponseTypes[usersError].msg,
+              Alert.alertTypes.WARNING
+            );
+          })
+        );
+        clearUsersErrors();
+      }
+    },
+    [usersErrors, setAlerts, clearUsersErrors]
   );
 
   /* event handlers */
@@ -176,9 +162,11 @@ const UserList = _ => {
 
   return (
     <>
-      <Form className='w3-half w3-padding'>
-        {addUserButton}
-        <UserFilter />
+      <Form>
+        <div className='w3-half'>
+          <UserFilter />
+        </div>
+        <div className='w3-right'>{addUserButton}</div>
       </Form>
       <UserTable users={usersToFillTable} onEditClick={onEditUser} />
     </>

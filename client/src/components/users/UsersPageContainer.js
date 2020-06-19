@@ -1,24 +1,21 @@
-import React, { useContext, useRef, useEffect, useCallback } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import AuthContext from 'contexts/auth/authContext';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
 import UsersState from 'contexts/users/UsersState';
 import uiWordings from 'globals/uiWordings';
-import alertTypes from 'types/alertTypes';
+import Alert from 'models/alert';
 
 const UsersPageContainer = ({ children }) => {
-  const { setAlert, removeAlert } = useContext(AlertContext);
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
   const { isAuthUserAdmin, authLoading } = useContext(AuthContext);
   const { setTitle, removeTitle } = useContext(TitlebarContext);
-
-  const alertId = useRef(null);
 
   // componentDidMount
   useEffect(_ => {
     setTitle(uiWordings['Users.Title']);
     return _ => {
       removeTitle();
-      clearAlert();
     };
     // eslint-disable-next-line
   }, []);
@@ -26,33 +23,13 @@ const UsersPageContainer = ({ children }) => {
   useEffect(
     _ => {
       if (!isAuthUserAdmin && !authLoading) {
-        if (!alertId.current) {
-          alertId.current = setAlert(
-            uiWordings['Users.ForbiddenAccessMessage'],
-            alertTypes.WARNING,
-            -1
-          );
-        }
+        setAlerts(new Alert(uiWordings['Users.ForbiddenAccessMessage'], Alert.alertTypes.WARNING));
       } else {
-        clearAlert();
+        removeAlerts();
       }
     },
-    [isAuthUserAdmin, authLoading]
+    [isAuthUserAdmin, authLoading, setAlerts, removeAlerts]
   );
-
-  /* methods */
-
-  const clearAlert = useCallback(
-    _ => {
-      if (alertId.current) {
-        removeAlert(alertId.current);
-        alertId.current = null;
-      }
-    },
-    [alertId, removeAlert]
-  );
-
-  /* end of methods */
 
   if (!isAuthUserAdmin) {
     return null;

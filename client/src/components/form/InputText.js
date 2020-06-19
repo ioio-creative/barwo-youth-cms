@@ -25,9 +25,7 @@ const MyInputText = ({
   }
   return (
     <InputText
-      className={`w3-margin-bottom ${
-        disabled ? 'w3-light-grey' : ''
-      } ${className}`}
+      className={`${disabled ? 'w3-light-grey' : ''} ${className}`}
       type={type}
       name={name}
       value={value}
@@ -40,6 +38,7 @@ const MyInputText = ({
 
 MyInputText.defaultProps = {
   className: '',
+  name: '',
   type: 'text',
   placeholder: ''
 };

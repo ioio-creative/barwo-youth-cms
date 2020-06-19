@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import TitlebarState from 'contexts/titlebar/TitlebarState';
 import AuthContext from 'contexts/auth/authContext';
+import AlertContext from 'contexts/alert/alertContext';
 import asyncLoadingComponent from 'components/asyncLoading/AsyncLoadingComponent';
 import Navbar from 'components/layout/Navbar';
 import Titlebar from 'components/layout/Titlebar';
@@ -10,6 +11,7 @@ import routes from 'globals/routes';
 import './Main.css';
 
 /* async react components */
+// https://objectpartners.com/2018/12/05/migrate-from-react-loadable-to-react-suspense/
 const AsyncHome = asyncLoadingComponent(_ => import('components/pages/Home'));
 const AsyncUserList = asyncLoadingComponent(_ =>
   import('components/pages/UserList')
@@ -17,12 +19,28 @@ const AsyncUserList = asyncLoadingComponent(_ =>
 const AsyncUserEdit = asyncLoadingComponent(_ =>
   import('components/pages/UserEdit')
 );
+const AsyncArtistList = asyncLoadingComponent(_ =>
+  import('components/pages/ArtistList')
+);
+const AsyncArtistEdit = asyncLoadingComponent(_ =>
+  import('components/pages/ArtistEdit')
+);
+const AsyncEventList = asyncLoadingComponent(_ =>
+  import('components/pages/EventList')
+);
+const AsyncEventEdit = asyncLoadingComponent(_ =>
+  import('components/pages/EventEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
+  const { removeAlerts } = useContext(AlertContext);
   // componentDidMount
   useEffect(_ => {
+    console.log('Main componentDidMount');
     loadUser();
+    // remove alerts lingering from login
+    removeAlerts();
     // eslint-disable-next-line
   }, []);
   return (
@@ -33,23 +51,37 @@ const Main = _ => {
           <Titlebar />
           <div className='w3-container'>
             <Alerts />
+            {/*
+              Switch component behaves similarly to the "switch" construct
+              in programming. Once a Route is matched, subsequent Routes
+              will be ignored. So we should use "exact" keyword on more
+              generic paths, like "/", or put more generic paths as the
+              later Routes in the Route list.
+            */}
             <Switch>
               <Route exact path={routes.home(false)} component={AsyncHome} />
+
+              <Route path={routes.userList(false)} component={AsyncUserList} />
+              <Route path={routes.userEditById} component={AsyncUserEdit} />
+              <Route path={routes.userAdd(false)} component={AsyncUserEdit} />
+
               <Route
-                exact
-                path={routes.userList(false)}
-                component={AsyncUserList}
+                path={routes.artistList(false)}
+                component={AsyncArtistList}
               />
+              <Route path={routes.artistEditById} component={AsyncArtistEdit} />
               <Route
-                exact
-                path={routes.userEditById}
-                component={AsyncUserEdit}
+                path={routes.artistAdd(false)}
+                component={AsyncArtistEdit}
               />
+
               <Route
-                exact
-                path={routes.userAddById}
-                component={AsyncUserEdit}
+                path={routes.eventList(false)}
+                component={AsyncEventList}
               />
+              <Route path={routes.eventEditById} component={AsyncEventEdit} />
+              <Route path={routes.eventAdd(false)} component={AsyncEventEdit} />
+
               <Route component={AsyncHome} />
             </Switch>
           </div>

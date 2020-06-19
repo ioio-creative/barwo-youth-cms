@@ -7,8 +7,8 @@ import {
   FILTER_USERS,
   CLEAR_USERS,
   CLEAR_FILTER_USERS,
-  USERS_ERROR,
-  CLEAR_USERS_ERROR,
+  USERS_ERRORS,
+  CLEAR_USERS_ERRORS,
   SET_USERS_LOADING
 } from '../types';
 
@@ -19,6 +19,13 @@ export default (state, action) => {
         ...state,
         users: action.payload,
         usersLoading: false
+      };
+    case CLEAR_USERS:
+      return {
+        ...state,
+        users: null,
+        filteredUsers: null,
+        usersErrors: null
       };
     case GET_USER:
       return {
@@ -41,14 +48,6 @@ export default (state, action) => {
         ...state,
         usersLoading: false
       };
-    case CLEAR_USERS:
-      return {
-        ...state,
-        users: null,
-        filteredUsers: null,
-        usersError: null,
-        currentUserToEdit: null
-      };
     case FILTER_USERS:
       return {
         ...state,
@@ -62,15 +61,15 @@ export default (state, action) => {
         ...state,
         filteredUsers: null
       };
-    case USERS_ERROR:
+    case USERS_ERRORS:
       return {
         ...state,
-        usersError: action.payload
+        usersErrors: action.payload
       };
-    case CLEAR_USERS_ERROR:
+    case CLEAR_USERS_ERRORS:
       return {
         ...state,
-        usersError: null
+        usersErrors: null
       };
     case SET_USERS_LOADING:
       return {

@@ -15,13 +15,17 @@ export default ({ isLoading, error }) => {
   }
   // Handle the error state
   else if (error) {
+    // the following should be handled by Error Boundary
+
     //alert(error);
-    console.error(error);
-    loadScreen = (
-      <div className='loading-error'>
-        Sorry, there was a problem loading the page.
-      </div>
-    );
+    //console.error(error);
+    // loadScreen = (
+    //   <div className='loading-error'>
+    //     Sorry, there was a problem loading the page.
+    //   </div>
+    // );
+
+    loadScreen = null;
   } else {
     return null;
   }

@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import AuthContext from 'contexts/auth/authContext';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
@@ -24,9 +24,14 @@ NavbarButton.defaultProps = {
   className: ''
 };
 
-const NavbarLink = ({ className, children, to }) => {
+const NavbarLink = ({ className, children, to, isSelected }) => {
   return (
-    <Link className={`w3-bar-item w3-button ${className}`} to={to}>
+    <Link
+      className={`w3-bar-item w3-button ${
+        isSelected ? 'w3-teal' : ''
+      } ${className}`}
+      to={to}
+    >
       {children}
     </Link>
   );
@@ -38,6 +43,13 @@ NavbarLink.defaultProps = {
 
 // https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_sidebar
 const Navbar = ({ className }) => {
+  const isUserList = useRouteMatch(routes.userList(false));
+  const isUserEdit = useRouteMatch(routes.userEditById);
+  const isArtistList = useRouteMatch(routes.artistList(false));
+  const isArtistEdit = useRouteMatch(routes.artistEditById);
+  const isEventList = useRouteMatch(routes.eventList(false));
+  const isEventEdit = useRouteMatch(routes.eventEditById);
+
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
 
   /* event handlers */
@@ -60,10 +72,25 @@ const Navbar = ({ className }) => {
         <i className='fa fa-sign-out' /> {uiWordings['Navbar.Logout']}
       </NavbarButton>
       {isAuthUserAdmin && (
-        <NavbarLink to={routes.userList(true)}>
+        <NavbarLink
+          to={routes.userList(true)}
+          isSelected={isUserList || isUserEdit}
+        >
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}
+      <NavbarLink
+        to={routes.artistList(true)}
+        isSelected={isArtistList || isArtistEdit}
+      >
+        {uiWordings['Navbar.Artists']}
+      </NavbarLink>
+      <NavbarLink
+        to={routes.eventList(true)}
+        isSelected={isEventList || isEventEdit}
+      >
+        {uiWordings['Navbar.Events']}
+      </NavbarLink>
     </>
   );
 

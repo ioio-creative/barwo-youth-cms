@@ -1,6 +1,8 @@
 const express = require('express');
-const connectDB = require('./config/db');
 const path = require('path');
+
+const connectDB = require('./config/db');
+const { generalErrorHandle } = require('./utils/errorHandling');
 
 const app = express();
 
@@ -11,8 +13,11 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 // Define Routes
-app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/artists', require('./routes/artists'));
+app.use('/api/events', require('./routes/events'));
+app.use('/api/artDirectors', require('./routes/artDirectors'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -22,6 +27,12 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
+
+// Override Express default error handling
+// https://expressjs.com/en/guide/error-handling.html
+app.use(function (err, req, res, next) {
+  generalErrorHandle(err, res);
+});
 
 const PORT = process.env.PORT || 5000;
 

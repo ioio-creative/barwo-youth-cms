@@ -1,11 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
 import { Fonts, GlobalStyle } from '@buffetjs/styles';
 import { ReactRouterGlobalHistory } from 'react-router-global-history';
 import AlertState from 'contexts/alert/AlertState';
 import AuthState from 'contexts/auth/AuthState';
 import PrivateRoute from 'components/routing/PrivateRoute';
 /**
+ * !!! Obsolete !!! as I have already migrated from react-loadable to React.Suspense (https://objectpartners.com/2018/12/05/migrate-from-react-loadable-to-react-suspense/)
  * Would get the following warning if putting result of asyncLoadingComponent(_ => import('components/Main')) into PrivateRoute.
  * So I don't async load Main. 
  * 
@@ -39,12 +41,17 @@ const App = _ => {
       <AuthState>
         <AlertState>
           <Router>
-            <ReactRouterGlobalHistory />
-            <Switch>
-              <Route exact path={routes.login(false)} component={AsyncLogin} />
-              {/* <PrivateRoute exact path={} component={Main} /> */}
-              <PrivateRoute component={Main} />
-            </Switch>
+            <QueryParamProvider>
+              <ReactRouterGlobalHistory />
+              <Switch>
+                <Route
+                  exact
+                  path={routes.login(false)}
+                  component={AsyncLogin}
+                />
+                <PrivateRoute component={Main} />
+              </Switch>
+            </QueryParamProvider>
           </Router>
         </AlertState>
       </AuthState>

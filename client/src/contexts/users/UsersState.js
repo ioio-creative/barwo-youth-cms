@@ -3,7 +3,8 @@ import React, { useReducer, useCallback } from 'react';
 import axios from 'axios';
 import UsersContext from './usersContext';
 import usersReducer from './usersReducer';
-import usersResponseTypes from 'types/responses/users';
+import User from 'models/user';
+import handleServerError from '../handleServerError';
 import {
   GET_USERS,
   GET_USER,
@@ -13,8 +14,8 @@ import {
   FILTER_USERS,
   CLEAR_USERS,
   CLEAR_FILTER_USERS,
-  USERS_ERROR,
-  CLEAR_USERS_ERROR,
+  USERS_ERRORS,
+  CLEAR_USERS_ERRORS,
   SET_USERS_LOADING
 } from '../types';
 
@@ -45,7 +46,7 @@ const initialState = {
   users: null,
   user: null,
   filteredUsers: null,
-  usersError: null,
+  usersErrors: null,
   usersLoading: false
 };
 
@@ -59,17 +60,21 @@ const UsersState = ({ children }) => {
       const res = await axios.get('/api/users');
       dispatch({ type: GET_USERS, payload: res.data });
     } catch (err) {
-      console.log(err);
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
+  }, []);
+
+  // Clear Users
+  const clearUsers = useCallback(_ => {
+    dispatch({ type: CLEAR_USERS });
   }, []);
 
   // Get User
   const getUser = useCallback(async userId => {
     if (!userId) {
       dispatch({
-        type: USERS_ERROR,
-        payload: usersResponseTypes.USER_NOT_EXISTS.type
+        type: USERS_ERRORS,
+        payload: [User.usersResponseTypes.USER_NOT_EXISTS.type]
       });
       return;
     }
@@ -78,8 +83,7 @@ const UsersState = ({ children }) => {
       const res = await axios.get(`/api/users/${userId}`);
       dispatch({ type: GET_USER, payload: res.data });
     } catch (err) {
-      console.log(err);
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
   }, []);
 
@@ -90,7 +94,7 @@ const UsersState = ({ children }) => {
 
   // Add User
   const addUser = useCallback(async user => {
-    let isSuccess = false;
+    let newUser = null;
     dispatch({ type: SET_USERS_LOADING });
     //user._id = uuid();
     const config = {
@@ -101,16 +105,16 @@ const UsersState = ({ children }) => {
     try {
       const res = await axios.post('/api/users', user, config);
       dispatch({ type: ADD_USER, payload: res.data });
-      isSuccess = true;
+      newUser = res.data;
     } catch (err) {
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
-    return isSuccess;
+    return newUser;
   }, []);
 
   // Update User
   const updateUser = useCallback(async user => {
-    let isSuccess = false;
+    let newUser = null;
     dispatch({ type: SET_USERS_LOADING });
     //user._id = uuid();
     const config = {
@@ -122,17 +126,11 @@ const UsersState = ({ children }) => {
       //console.log(user);
       const res = await axios.put(`/api/users/${user._id}`, user, config);
       dispatch({ type: UPDATE_USER, payload: res.data });
-      isSuccess = true;
+      newUser = res.data;
     } catch (err) {
-      console.log(err);
-      dispatch({ type: USERS_ERROR, payload: err.response.data.type });
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
-    return isSuccess;
-  }, []);
-
-  // Clear Users
-  const clearUsers = useCallback(_ => {
-    dispatch({ type: CLEAR_USERS });
+    return newUser;
   }, []);
 
   // Filter Users
@@ -146,8 +144,8 @@ const UsersState = ({ children }) => {
   }, []);
 
   // Clear Users Error
-  const clearUsersError = useCallback(_ => {
-    dispatch({ type: CLEAR_USERS_ERROR });
+  const clearUsersErrors = useCallback(_ => {
+    dispatch({ type: CLEAR_USERS_ERRORS });
   }, []);
 
   return (
@@ -156,16 +154,16 @@ const UsersState = ({ children }) => {
         users: state.users,
         user: state.user,
         filteredUsers: state.filteredUsers,
-        usersError: state.usersError,
+        usersErrors: state.usersErrors,
         getUsers,
+        clearUsers,
         getUser,
         clearUser,
         addUser,
         updateUser,
-        clearUsers,
         filterUsers,
         clearFilterUsers,
-        clearUsersError
+        clearUsersErrors
       }}
     >
       {children}

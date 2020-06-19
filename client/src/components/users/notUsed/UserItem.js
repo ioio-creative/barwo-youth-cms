@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import UserContext from 'contexts/users/usersContext';
-import userRoles, { isAdmin } from 'types/userRoles';
+import User from 'models/user';
 import uiWordings from 'globals/uiWordings';
 
 const UserItem = ({ user }) => {
@@ -24,19 +24,19 @@ const UserItem = ({ user }) => {
 
   return (
     <div className='card bg-light'>
-      <h3 className='text-primary text-left'>
+      <h4 className='text-primary text-left'>
         {name}{' '}
         {role && (
           <span
             className={`badge ${
-              isAdmin(user) ? 'badge-success' : 'badge-primary'
+              User.isAdmin(user) ? 'badge-success' : 'badge-primary'
             }`}
             style={{ float: 'right' }}
           >
-            {userRoles[role].label}
+            {User.userRoles[role].label}
           </span>
         )}
-      </h3>
+      </h4>
       <ul className='list'>
         {email && (
           <li>

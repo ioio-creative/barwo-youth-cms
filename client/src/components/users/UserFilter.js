@@ -23,6 +23,7 @@ const UserFilter = _ => {
   return (
     <InputText
       name='userFilter'
+      className='w3-section'
       placeholder={uiWordings['UserFilter.FilterTextPlaceHolder']}
       onChange={onChange}
       value={text}

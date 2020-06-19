@@ -1,13 +1,7 @@
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  useRef
-} from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
-import UserContext from 'contexts/users/usersContext';
+import UsersContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import LabelSelectPair from 'components/form/LabelSelectPair';
@@ -17,13 +11,12 @@ import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import Alert from 'models/alert';
 import User from 'models/user';
-import { userRoleOptions } from 'types/userRoles';
-import usersResponseTypes from 'types/responses/users';
-import alertTypes from 'types/alertTypes';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
-import getUserForDisplay from 'utils/users/getUserForDisplay';
+import { goToUrl } from 'utils/history';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const emptyUser = new User();
 const defaultState = {
@@ -33,39 +26,50 @@ const defaultState = {
 
 const UserEdit = _ => {
   const { userId } = useParams();
-  const { setAlert, removeAlert, removeAlerts } = useContext(AlertContext);
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     user: fetchedUser,
-    usersError,
+    usersErrors,
     usersLoading,
     getUser,
     clearUser,
     addUser,
     updateUser,
-    clearUsersError
-  } = useContext(UserContext);
+    clearUsersErrors
+  } = useContext(UsersContext);
 
   const [user, setUser] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddUserMode, setIsAddUserMode] = useState(false);
-
-  const alertId = useRef(null);
+  const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
   // componentDidMount
   useEffect(_ => {
-    getUser(userId);
-
     return _ => {
       removeAlerts();
-      clearUser();
     };
     // eslint-disable-next-line
   }, []);
 
   useEffect(
     _ => {
+      if (userId) {
+        getUser(userId);
+      }
+
+      return _ => {
+        clearUser();
+      };
+    },
+    [userId, getUser, clearUser]
+  );
+
+  useEffect(
+    _ => {
       if (!usersLoading) {
-        setUser(fetchedUser ? getUserForDisplay(fetchedUser) : defaultState);
+        setUser(
+          fetchedUser ? User.getUserForDisplay(fetchedUser) : defaultState
+        );
         setIsAddUserMode(!fetchedUser);
       }
     },
@@ -74,27 +78,45 @@ const UserEdit = _ => {
 
   useEffect(
     _ => {
-      if (usersError) {
-        alertId.current = setAlert(
-          usersResponseTypes[usersError].msg,
-          alertTypes.WARNING
+      if (isNonEmptyArray(usersErrors)) {
+        setAlerts(
+          usersErrors.map(usersError => {
+            return new Alert(
+              User.usersResponseTypes[usersError].msg,
+              Alert.alertTypes.WARNING
+            );
+          })
         );
-        clearUsersError();
+        clearUsersErrors();
+
+        if (
+          usersErrors.includes(User.usersResponseTypes.USER_NOT_EXISTS.type)
+        ) {
+          setIsAbandonEdit(true);
+        }
       }
     },
-    [usersError, setAlert, clearUsersError]
+    [usersErrors, setAlerts, clearUsersErrors]
   );
 
   /* methods */
 
-  const clearAlert = useCallback(
-    _ => {
-      if (alertId.current) {
-        removeAlert(alertId.current);
-        alertId.current = null;
+  const validInput = useCallback(
+    userInput => {
+      if (isAddUserMode) {
+        if (userInput.password !== userInput.password2) {
+          setAlerts(
+            new Alert(
+              uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
+              Alert.alertTypes.WARNING
+            )
+          );
+          return false;
+        }
       }
+      return true;
     },
-    [alertId, removeAlert]
+    [isAddUserMode, setAlerts]
   );
 
   /* end of methods */
@@ -104,40 +126,38 @@ const UserEdit = _ => {
   const onChange = useCallback(
     e => {
       setIsSubmitEnabled(true);
-      clearAlert();
+      removeAlerts();
       setUser({ ...user, [e.target.name]: e.target.value });
     },
-    [user, setUser, clearAlert]
+    [user, setUser, removeAlerts]
   );
 
   const onSubmit = useCallback(
     async e => {
+      setIsSubmitEnabled(false);
       e.preventDefault();
-      const { password2, ...cleanedUser } = user;
       let isSuccess = false;
-      if (isAddUserMode) {
-        isSuccess = await addUser(cleanedUser);
-      } else {
-        isSuccess = await updateUser(cleanedUser);
+      let returnedUser = null;
+      isSuccess = validInput(user);
+      const { password2, ...cleanedUser } = user;
+      if (isSuccess) {
+        const funcToCall = isAddUserMode ? addUser : updateUser;
+        returnedUser = await funcToCall(cleanedUser);
+        isSuccess = Boolean(returnedUser);
       }
       if (isSuccess) {
-        alertId.current = setAlert(
-          isAddUserMode
-            ? uiWordings['UserEdit.AddUserSuccessMessage']
-            : uiWordings['UserEdit.UpdateUserSuccessMessage'],
-          alertTypes.INFO,
-          -1
+        setAlerts(
+          new Alert(
+            isAddUserMode
+              ? uiWordings['UserEdit.AddUserSuccessMessage']
+              : uiWordings['UserEdit.UpdateUserSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
         );
-        setUser(
-          getUserForDisplay({
-            ...cleanedUser,
-            lastModifyDT: new Date()
-          })
-        );
+        goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
       }
-      setIsSubmitEnabled(false);
     },
-    [isAddUserMode, updateUser, addUser, user, setAlert]
+    [isAddUserMode, updateUser, addUser, user, setAlerts, validInput]
   );
 
   /* end of event handlers */
@@ -146,20 +166,28 @@ const UserEdit = _ => {
     return <Loading />;
   }
 
+  const backToUserListButton = (
+    <Form>
+      <LinkButton to={routes.userList(true)}>
+        {uiWordings['UserEdit.BackToUserList']}
+      </LinkButton>
+    </Form>
+  );
+
+  if (isAbandonEdit) {
+    return <>{backToUserListButton}</>;
+  }
+
   return (
     <>
-      <Form>
-        <LinkButton to={routes.userList(true)}>
-          {uiWordings['UserEdit.BackToUserList']}
-        </LinkButton>
-      </Form>
+      {backToUserListButton}
 
       <Form onSubmit={onSubmit}>
-        <h3>
+        <h4>
           {isAddUserMode
             ? uiWordings['UserEdit.AddUserTitle']
             : uiWordings['UserEdit.EditUserTitle']}
-        </h3>
+        </h4>
         <LabelInputTextPair
           name='email'
           value={user.email}
@@ -204,7 +232,7 @@ const UserEdit = _ => {
         <LabelSelectPair
           name='role'
           value={user.role}
-          options={userRoleOptions}
+          options={User.userRoleOptions}
           labelMessage={uiWordings['User.RoleLabel']}
           onChange={onChange}
         />

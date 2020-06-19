@@ -5,8 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const User = require('../models/User');
+const { User } = require('../models/User');
 const auth = require('../middleware/auth');
+const validationHandling = require('../middleware/validationHandling');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const {
   INVALID_CREDENTIALS,
@@ -19,6 +20,12 @@ const {
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');
+
+    if (user.isEnabled === false) {
+      // 403 forbidden
+      return res.status(403).json({ errors: [USER_DOES_NOT_HAVE_RIGHT] });
+    }
+
     res.json(user);
   } catch (err) {
     generalErrorHandle(err, res);
@@ -31,31 +38,28 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/',
   [
-    check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Password is required').exists()
+    [
+      check('email', 'Please include a valid email').isEmail(),
+      check('password', 'Password is required').exists()
+    ],
+    validationHandling
   ],
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array()
-      });
-    }
-
+    console.log('reach here');
     const { email, password } = req.body;
 
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ type: INVALID_CREDENTIALS });
+        return res.status(400).json({ errors: [INVALID_CREDENTIALS] });
       }
-      if (user.IsEnabled === false) {
+      if (user.isEnabled === false) {
         // 403 forbidden
-        res.status(403).json({ type: USER_DOES_NOT_HAVE_RIGHT });
+        return res.status(403).json({ errors: [USER_DOES_NOT_HAVE_RIGHT] });
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ type: INVALID_CREDENTIALS });
+        return res.status(400).json({ errors: [INVALID_CREDENTIALS] });
       }
 
       const payload = {

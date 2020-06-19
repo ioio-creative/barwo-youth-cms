@@ -1,26 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 
 const auth = require('../middleware/auth');
 const authIsAdmin = require('../middleware/authIsAdmin');
+const validationHandling = require('../middleware/validationHandling');
 const { generalErrorHandle } = require('../utils/errorHandling');
-const User = require('../models/User');
-const {
-  //USER_DELETED,
-  NAME_REQUIRED,
-  EMAIL_INVALID,
-  PASSWORD_INVALID,
-  ROLE_REQUIRED,
-  USER_ALREADY_EXISTS,
-  USER_NOT_EXISTS
-} = require('../types/responses/users');
+const { User, userResponseTypes } = require('../models/User');
+
+const userValidationChecksForAddUser = [
+  check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
+  check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
+  check('password', userResponseTypes.PASSWORD_INVALID).isLength({
+    min: 6
+  }),
+  check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
+];
+
+const userValidationChecksForUpdateUser = [
+  check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
+  check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
+  check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
+];
 
 // @route   GET api/users
-// @desc    Get all users users
+// @desc    Get all users
 // @access  Private
 router.get('/', authIsAdmin, async (req, res) => {
   try {
@@ -45,10 +50,17 @@ router.get('/:_id', auth, async (req, res) => {
     const user = await User.findById(req.params._id)
       .select('-password')
       .populate('lastModifyUser', 'name');
-    if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ errors: [userResponseTypes.USER_NOT_EXISTS] });
+    }
     res.json(user);
   } catch (err) {
-    generalErrorHandle(err, res);
+    //generalErrorHandle(err, res);
+    return res
+      .status(404)
+      .json({ errors: [userResponseTypes.USER_NOT_EXISTS] });
   }
 });
 
@@ -57,31 +69,16 @@ router.get('/:_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [
-    authIsAdmin,
-    [
-      check('name', NAME_REQUIRED).not().isEmpty(),
-      check('email', EMAIL_INVALID).isEmail(),
-      check('password', PASSWORD_INVALID).isLength({
-        min: 6
-      }),
-      check('role', ROLE_REQUIRED).not().isEmpty()
-    ]
-  ],
+  [authIsAdmin, userValidationChecksForAddUser, validationHandling],
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array()
-      });
-    }
-
     const { name, email, password, role, isEnabled } = req.body;
 
     try {
       let user = await User.findOne({ email });
       if (user) {
-        return res.status(400).json({ type: USER_ALREADY_EXISTS });
+        return res
+          .status(400)
+          .json({ errors: [userResponseTypes.USER_ALREADY_EXISTS] });
       }
       user = new User({
         name,
@@ -95,23 +92,7 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
       await user.save();
 
-      const payload = {
-        user: {
-          id: user._id
-        }
-      };
-
-      jwt.sign(
-        payload,
-        config.get('jwtSecret'),
-        {
-          expiresIn: 360000
-        },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
+      res.json(user);
     } catch (err) {
       generalErrorHandle(err, res);
     }
@@ -121,34 +102,41 @@ router.post(
 // @route   PUT api/users/:_id
 // @desc    Update user
 // @access  Private
-router.put('/:_id', authIsAdmin, async (req, res) => {
-  const { name, email, password, role, isEnabled } = req.body;
+router.put(
+  '/:_id',
+  [authIsAdmin, userValidationChecksForUpdateUser, validationHandling],
+  async (req, res) => {
+    const { name, email, password, role, isEnabled } = req.body;
 
-  // Build user object
-  const userFields = {};
-  if (name) userFields.name = name;
-  if (email) userFields.email = email;
-  if (password) userFields.password = password;
-  if (role) userFields.role = role;
-  if (isEnabled !== undefined) userFields.isEnabled = isEnabled;
-  userFields.lastModifyDT = new Date();
-  userFields.lastModifyUser = req.user._id;
+    // Build user object
+    const userFields = {};
+    if (name) userFields.name = name;
+    if (email) userFields.email = email;
+    if (password) userFields.password = password;
+    if (role) userFields.role = role;
+    if (isEnabled !== undefined) userFields.isEnabled = isEnabled;
+    userFields.lastModifyDT = new Date();
+    userFields.lastModifyUser = req.user._id;
 
-  try {
-    let user = await User.findById(req.params._id);
-    if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
+    try {
+      let user = await User.findById(req.params._id);
+      if (!user)
+        return res
+          .status(404)
+          .json({ errors: [userResponseTypes.USER_NOT_EXISTS] });
 
-    user = await User.findByIdAndUpdate(
-      req.params._id,
-      { $set: userFields },
-      { new: true }
-    );
+      user = await User.findByIdAndUpdate(
+        req.params._id,
+        { $set: userFields },
+        { new: true }
+      );
 
-    res.json(user);
-  } catch (err) {
-    generalErrorHandle(err, res);
+      res.json(user);
+    } catch (err) {
+      generalErrorHandle(err, res);
+    }
   }
-});
+);
 
 // // @route   DELETE api/users/:_id
 // // @desc    Delete user
@@ -156,7 +144,7 @@ router.put('/:_id', authIsAdmin, async (req, res) => {
 // router.delete('/:_id', authIsAdmin, async (req, res) => {
 //   try {
 //     let user = await User.findById(req.params._id);
-//     if (!user) return res.status(404).json({ type: USER_NOT_EXISTS });
+//     if (!user) return res.status(404).json({ errors: [userResponseTypes.USER_NOT_EXISTS] });
 
 //     const userFields = {
 //       isEnabled: false,

@@ -1,26 +1,27 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import AuthContext from 'contexts/auth/authContext';
+import Alert from 'models/alert';
 import Alerts from 'components/layout/Alerts';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import SubmitButton from 'components/form/SubmitButton';
 import authResponseTypes from 'types/responses/auth';
-import alertTypes from 'types/alertTypes';
 import { goToUrl } from 'utils/history';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import './Login.css';
 
 const Login = _ => {
-  const { setAlert, removeAlerts } = useContext(AlertContext);
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     login,
     isAuthenticated,
-    authError,
+    authErrors,
     authLoading,
-    clearAuthError,
+    clearAuthErrors,
     removeAuthLoading
   } = useContext(AuthContext);
 
@@ -28,11 +29,15 @@ const Login = _ => {
   useEffect(_ => {
     removeAuthLoading();
     // test
-    //setAlert('XXXXXXXXXX lsjgfa;sdjgl jads;lgkads', alertTypes.WARNING);
-
+    //setAlerts(new Alert('XXXXXXXXXX lsjgfa;sdjgl jads;lgkads', Alert.alertTypes.WARNING));
+    console.log('Login componentDidMount');
     return _ => {
-      removeAlerts();
+      console.log('Login componentWillUnmount');
+      // !!!Importanta!!! should not call removeAlerts here
+      // as Login will always unmount on submit
+      //removeAlerts();
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(
@@ -46,13 +51,20 @@ const Login = _ => {
 
   useEffect(
     _ => {
-      if (authError) {
-        console.log(authError);
-        setAlert(authResponseTypes[authError].msg, alertTypes.WARNING);
-        clearAuthError();
+      if (isNonEmptyArray(authErrors)) {
+        setAlerts(
+          authErrors.map(authError => {
+            console.log(authError);
+            return new Alert(
+              authResponseTypes[authError].msg,
+              Alert.alertTypes.WARNING
+            );
+          })
+        );
+        clearAuthErrors();
       }
     },
-    [authError, setAlert, clearAuthError]
+    [authErrors, setAlerts, clearAuthErrors]
   );
 
   const [user, setUser] = useState({
@@ -62,25 +74,37 @@ const Login = _ => {
 
   const { email, password } = user;
 
-  const onChange = e => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const onSubmit = async e => {
-    e.preventDefault();
-    if (email === '' || password === '') {
-      setAlert(uiWordings['Login.FillInAllFieldsMessage'], alertTypes.WARNING);
-    } else {
-      await login({
-        email,
-        password
+  const onChange = useCallback(
+    e => {
+      setUser({
+        ...user,
+        [e.target.name]: e.target.value
       });
-      goToUrl(routes.home(true));
-    }
-  };
+    },
+    [user, setUser]
+  );
+
+  const onSubmit = useCallback(
+    async e => {
+      removeAlerts();
+      e.preventDefault();
+      if (email === '' || password === '') {
+        setAlerts(
+          new Alert(
+            uiWordings['Login.FillInAllFieldsMessage'],
+            Alert.alertTypes.WARNING
+          )
+        );
+      } else {
+        await login({
+          email,
+          password
+        });
+        goToUrl(routes.home(true));
+      }
+    },
+    [email, password, setAlerts, login, removeAlerts]
+  );
 
   return (
     <div className='login-page'>
