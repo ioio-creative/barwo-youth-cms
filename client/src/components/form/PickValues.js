@@ -1,5 +1,6 @@
 import React from 'react';
 import LabelAsyncSelectPair from 'components/form/LabelAsyncSelectPair';
+import SortableList from './SortableList';
 
 const PickValues = ({
   isHalf,
@@ -9,7 +10,10 @@ const PickValues = ({
   selectLoadOptions,
   selectOnInputChange,
   selectClassName,
-  selectPlaceholder
+  selectPlaceholder,
+  pickedItems,
+  pickedItemRender,
+  onPickedItemDragEnd
 }) => {
   return (
     <>
@@ -22,6 +26,11 @@ const PickValues = ({
         selectClassName={selectClassName}
         selectPlaceholder={selectPlaceholder}
         isHalf={isHalf}
+      />
+      <SortableList
+        items={pickedItems}
+        itemRender={pickedItemRender}
+        onDragEnd={onPickedItemDragEnd}
       />
     </>
   );

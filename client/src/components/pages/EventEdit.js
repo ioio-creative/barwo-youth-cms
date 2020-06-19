@@ -13,6 +13,7 @@ import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelAsyncSelectPair from 'components/form/LabelAsyncSelectPair';
 import SortableList from 'components/form/SortableList';
+import PickValues from 'components/form/PickValues';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
@@ -51,7 +52,7 @@ const EventEdit = _ => {
   const [isAddEventMode, setIsAddEventMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
-  console.log(artDirectors);
+  //console.log(artDirectors);
 
   // componentDidMount
   useEffect(_ => {
@@ -283,7 +284,7 @@ const EventEdit = _ => {
 
         <LabelAsyncSelectPair />
 
-        <SortableList />
+        <PickValues />
 
         {!isAddEventMode && (
           <>

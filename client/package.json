@@ -10,7 +10,7 @@
     "@ckeditor/ckeditor5-ckfinder": "^19.0.1",
     "@ckeditor/ckeditor5-react": "^2.1.0",
     "axios": "^0.19.2",
-    "ckeditor4-react": "^1.1.0",
+    "ckeditor4-react": "^1.1.1",
     "dayjs": "^1.8.28",
     "lodash.orderby": "^4.6.0",
     "prop-types": "^15.7.2",

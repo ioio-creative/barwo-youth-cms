@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 // ckeditor
 
 // import CKEditor from '@ckeditor/ckeditor5-react';
@@ -16,26 +16,27 @@ import CKEditor from 'ckeditor4-react';
 
 const Hello = () => {
   const toolbarEl = useRef(null);
-  const setToolbar = (ref) => {
+  const setToolbar = ref => {
     toolbarEl.current = ref;
-  }
-  return <>
-    <div id="toolbar" ref={setToolbar} />
-    <div id="editableArea">
-      <CKEditor
-        onChange={(event) => console.log( event )}
-        data="<p>CKEditor 4 example</p>"
-        type="classic"
-        config={{
-          filebrowserBrowseUrl: '/browser/browse.php',
-          // filebrowserUploadUrl: '/uploader/upload.php'
-        }}
-      />
-    </div>
-    <></>
-  </>;
-}
-
+  };
+  return (
+    <>
+      <div id='toolbar' ref={setToolbar} />
+      <div id='editableArea'>
+        <CKEditor
+          onChange={event => console.log(event)}
+          data='<p>CKEditor 4 example</p>'
+          type='classic'
+          config={{
+            filebrowserBrowseUrl: '/browser/browse.php'
+            // filebrowserUploadUrl: '/uploader/upload.php'
+          }}
+        />
+      </div>
+      <></>
+    </>
+  );
+};
 
 // proseMirror
 // import {EditorState} from "prosemirror-state"
@@ -83,4 +84,3 @@ const Hello = () => {
 // }
 
 export default Hello;
-

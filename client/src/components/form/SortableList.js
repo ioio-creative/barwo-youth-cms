@@ -2,11 +2,15 @@ import React, { useState, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 // fake data generator
-const getItems = count =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k}`,
-    content: `item ${k}`
-  }));
+function Item(_id, content) {
+  this._id = _id;
+  this.content = content;
+}
+
+const getItemsExample = count =>
+  Array.from({ length: count }, (v, k) => k).map(
+    k => new Item(`item-${k}`, `item ${k}`)
+  );
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -19,7 +23,7 @@ const reorder = (list, startIndex, endIndex) => {
 
 const grid = 8;
 
-const getItemStyle = (isDragging, draggableStyle) => ({
+const getItemStyleExample = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
   padding: grid * 2,
@@ -38,64 +42,71 @@ const getListStyle = isDraggingOver => ({
   width: 250
 });
 
-// https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/about/examples.md
-const SortableList = ({}) => {
-  const [state, setState] = useState({
-    items: getItems(10)
-  });
+const itemRenderExample = ({ _id, content }, index) => (
+  <Draggable key={_id} draggableId={_id} index={index}>
+    {(provided, snapshot) => (
+      <div
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        style={getItemStyleExample(
+          snapshot.isDragging,
+          provided.draggableProps.style
+        )}
+      >
+        {content}
+      </div>
+    )}
+  </Draggable>
+);
 
-  const onDragEnd = useCallback(
+const onDragEndExample = reorderedItems => {
+  console.log('onDragEnd:', reorderedItems);
+};
+
+// https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/about/examples.md
+const SortableList = ({ _id, items, itemRender, onDragEnd }) => {
+  const handleDragEnd = useCallback(
     result => {
       // dropped outside the list
       if (!result.destination) {
         return;
       }
 
-      const items = reorder(
-        state.items,
+      const reorderedItems = reorder(
+        items,
         result.source.index,
         result.destination.index
       );
 
-      setState({
-        items
-      });
+      onDragEnd(reorderedItems);
     },
-    [state, setState]
+    [items]
   );
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId='droppable'>
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Droppable droppableId={_id}>
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
             style={getListStyle(snapshot.isDraggingOver)}
           >
-            {state.items.map((item, index) => (
-              <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={getItemStyle(
-                      snapshot.isDragging,
-                      provided.draggableProps.style
-                    )}
-                  >
-                    {item.content}
-                  </div>
-                )}
-              </Draggable>
-            ))}
+            {items.map(itemRender)}
             {provided.placeholder}
           </div>
         )}
       </Droppable>
     </DragDropContext>
   );
+};
+
+SortableList.defaultProps = {
+  droppableId: Date.now(), //'droppable',
+  items: getItemsExample(10),
+  itemRender: itemRenderExample,
+  onDragEnd: onDragEndExample
 };
 
 export default SortableList;
