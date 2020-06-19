@@ -1,8 +1,18 @@
 import React, { useState, useRef } from 'react';
 // ckeditor
 
-import CKEditor from '@ckeditor/ckeditor5-react';
-import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+// import CKEditor from '@ckeditor/ckeditor5-react';
+// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+
+import CKEditor from 'ckeditor4-react';
+// import Editor from '@ckeditor/ckeditor5-core/src/editor/editor';
+// import DataApiMixin from '@ckeditor/ckeditor5-core/src/editor/utils/dataapimixin';
+// import HtmlDataProcessor from '@ckeditor/ckeditor5-engine/src/dataprocessor/htmldataprocessor';
+// import getDataFromElement from '@ckeditor/ckeditor5-utils/src/dom/getdatafromelement';
+// import setDataInElement from '@ckeditor/ckeditor5-utils/src/dom/setdatainelement';
+// import mix from '@ckeditor/ckeditor5-utils/src/mix';
+// import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
+// import './ckfinder.js';
 
 const Hello = () => {
   const toolbarEl = useRef(null);
@@ -11,23 +21,18 @@ const Hello = () => {
   }
   return <>
     <div id="toolbar" ref={setToolbar} />
-    <div id="editableArea" style={{
-      height: 500
-    }}>
+    <div id="editableArea">
       <CKEditor
-        onInit={ editor => {
-            console.log( 'Editor is ready to use!', editor );
-            toolbarEl.current.append( editor.ui.view.toolbar.element );
-        } }
-        style={{
-          height: '100%'
+        onChange={(event) => console.log( event )}
+        data="<p>CKEditor 4 example</p>"
+        type="classic"
+        config={{
+          filebrowserBrowseUrl: '/browser/browse.php',
+          // filebrowserUploadUrl: '/uploader/upload.php'
         }}
-        onChange={ ( event, editor ) => console.log( { event, editor } ) }
-        editor={ DecoupledEditor }
-        data="<p>Hello from CKEditor 5's DecoupledEditor!</p>"
-        config={ /* the editor configuration */ }
       />
     </div>
+    <></>
   </>;
 }
 
