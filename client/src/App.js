@@ -42,6 +42,7 @@ const App = _ => {
             <ReactRouterGlobalHistory />
             <Switch>
               <Route exact path={routes.login(false)} component={AsyncLogin} />
+              {/* <PrivateRoute exact path={} component={Main} /> */}
               <PrivateRoute component={Main} />
             </Switch>
           </Router>
