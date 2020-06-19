@@ -11,7 +11,8 @@ import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
-import DragAndDrop from 'components/form/DragAndDrop';
+import LabelAsyncSelectPair from 'components/form/LabelAsyncSelectPair';
+import SortableList from 'components/form/SortableList';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
@@ -280,7 +281,9 @@ const EventEdit = _ => {
           onChange={onChange}
         />
 
-        <DragAndDrop />
+        <LabelAsyncSelectPair />
+
+        <SortableList />
 
         {!isAddEventMode && (
           <>
