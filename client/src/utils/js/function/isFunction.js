@@ -22,6 +22,20 @@ function invokeIfIsFunction(obj) {
   }
 }
 
+async function invokeAsyncIfIsFunction(obj) {
+  if (isFunction(obj)) {
+    if (arguments.length > 1) {
+      const argumentsArray = Array.prototype.slice.call(arguments);
+      const argumentsForFunc = argumentsArray.slice(1);
+      return await obj(...argumentsForFunc);
+    } else {
+      return await obj();
+    }
+  } else {
+    return null;
+  }
+}
+
 export default isFunction;
 
-export { invokeIfIsFunction };
+export { invokeIfIsFunction, invokeAsyncIfIsFunction };

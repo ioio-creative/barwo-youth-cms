@@ -1,4 +1,10 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, {
+  useContext,
+  useState,
+  useMemo,
+  useEffect,
+  useCallback
+} from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistState from 'contexts/artists/ArtistsState';
@@ -11,8 +17,6 @@ import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
-import LabelAsyncSelectPair from 'components/form/LabelAsyncSelectPair';
-import SortableList from 'components/form/SortableList';
 import PickValues from 'components/form/PickValues';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
@@ -52,7 +56,18 @@ const EventEdit = _ => {
   const [isAddEventMode, setIsAddEventMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
-  //console.log(artDirectors);
+  const artDirectorOptions = useMemo(
+    _ => {
+      return (isNonEmptyArray(artDirectors) ? artDirectors : []).map(
+        artDirector => ({
+          ...artDirector,
+          value: artDirector._id,
+          label: artDirector.name_tc
+        })
+      );
+    },
+    [artDirectors]
+  );
 
   // componentDidMount
   useEffect(_ => {
@@ -150,6 +165,10 @@ const EventEdit = _ => {
     },
     [event, setEvent, removeAlerts]
   );
+
+  const onArtDirectorsInputChange = useCallback(input => {
+    console.log(input);
+  });
 
   const onSubmit = useCallback(
     async e => {
@@ -282,9 +301,15 @@ const EventEdit = _ => {
           onChange={onChange}
         />
 
-        <LabelAsyncSelectPair />
-
-        <PickValues />
+        <PickValues
+          name='artDirectors'
+          labelMessage={uiWordings['Event.ArtDirectorsLabel']}
+          selectOptions={artDirectorOptions}
+          onSelectInputChange={onArtDirectorsInputChange}
+          selectPlaceholder={
+            uiWordings['EventEdit.SelectArtDirectorsPlaceholder']
+          }
+        />
 
         {!isAddEventMode && (
           <>

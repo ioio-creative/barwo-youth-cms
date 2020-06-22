@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import AsyncSelect from 'react-select/async';
+import Select from 'react-select';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 
 const optionsExample = [
@@ -8,16 +9,12 @@ const optionsExample = [
   { value: 'vanilla', label: 'Vanilla' }
 ];
 
-const filterOptionsExample = inputValue => {
-  return optionsExample.filter(i =>
-    i.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
-};
-
-const loadOptionsExample = (inputValue, callback) => {
-  setTimeout(() => {
-    callback(filterOptionsExample(inputValue));
-  }, 1000);
+// https://react-select.com/styles
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided
+    //backgroundColor: 'white'
+  })
 };
 
 // https://react-select.com/propss
@@ -26,11 +23,13 @@ const MyAsyncSelect = ({
   className,
   name,
   value,
-  loadOptions,
+  options,
+  onChange,
   onInputChange,
   placeholder
 }) => {
   const [inputValue, setInputValue] = useState('');
+
   const handleInputChange = useCallback(
     newValue => {
       const newInputValue = newValue.replace(/\W/g, '');
@@ -42,23 +41,27 @@ const MyAsyncSelect = ({
   );
 
   return (
-    <AsyncSelect
+    <Select
+      styles={customStyles}
       className={className}
       name={name}
       value={value}
-      cacheOptions
-      loadOptions={loadOptions}
-      defaultOptions
+      options={options}
+      isLoading={!isNonEmptyArray(options)}
+      onChange={onChange}
       onInputChange={handleInputChange}
-      placehold={placeholder}
+      placeholder={placeholder}
     />
   );
 };
 
 MyAsyncSelect.defaultProps = {
-  loadOptions: loadOptionsExample,
+  options: optionsExample,
   onInputChange: input => {
     console.log(input);
+  },
+  onChange: selectedOption => {
+    console.log(selectedOption);
   },
   placeholder: 'Select...'
 };

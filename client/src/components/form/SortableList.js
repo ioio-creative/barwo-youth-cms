@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 // fake data generator
 function Item(_id, content) {
@@ -84,6 +85,10 @@ const SortableList = ({ _id, items, itemRender, onDragEnd }) => {
     [items]
   );
 
+  if (!isNonEmptyArray(items)) {
+    return null;
+  }
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId={_id}>
@@ -103,10 +108,12 @@ const SortableList = ({ _id, items, itemRender, onDragEnd }) => {
 };
 
 SortableList.defaultProps = {
-  droppableId: Date.now(), //'droppable',
+  _id: Date.now().toString(), //'droppable',
   items: getItemsExample(10),
   itemRender: itemRenderExample,
   onDragEnd: onDragEndExample
 };
+
+SortableList.Item = Item;
 
 export default SortableList;
