@@ -3,9 +3,7 @@ import React, {
   useState,
   useMemo,
   useEffect,
-  useCallback,
-  useImperativeHandle,
-  forwardRef
+  useCallback
 } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import ArtistsContext from 'contexts/artists/artistsContext';
@@ -14,7 +12,7 @@ import AsyncSelect from 'components/form/AsyncSelect';
 import InputText from 'components/form/InputText';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
-import isFunction from 'utils/js/function/isFunction';
+import isFunction, { invokeIfIsFunction } from 'utils/js/function/isFunction';
 
 const mapArtistToListItem = artist => {
   return {
@@ -108,7 +106,12 @@ const getListStyle = isDraggingOver => ({
 });
 
 // https://reactjs.org/docs/hooks-reference.html#useimperativehandle
-const MyItem = ({ controlledArtistInEvent, handleItemRemoved, index }, ref) => {
+const Item = ({
+  controlledArtistInEvent,
+  handleItemRemoved,
+  handleItemChange,
+  index
+}) => {
   const [artistInEvent, setArtistInEvent] = useState({
     role_tc: '',
     role_sc: '',
@@ -117,12 +120,6 @@ const MyItem = ({ controlledArtistInEvent, handleItemRemoved, index }, ref) => {
       _id: Date.now().toString()
     }
   });
-
-  useImperativeHandle(ref, _ => ({
-    getItem: _ => {
-      return artistInEvent;
-    }
-  }));
 
   useEffect(
     _ => {
@@ -137,22 +134,26 @@ const MyItem = ({ controlledArtistInEvent, handleItemRemoved, index }, ref) => {
 
   const onChange = useCallback(
     e => {
-      setArtistInEvent({
+      const newArtistInEvent = {
         ...artistInEvent,
         [e.target.name]: e.target.value
-      });
+      };
+      setArtistInEvent(newArtistInEvent);
+      handleItemChange(newArtistInEvent);
     },
-    [artistInEvent, setArtistInEvent]
+    [artistInEvent, setArtistInEvent, handleItemChange]
   );
 
   const onGetArtistSelected = useCallback(
     artistSelected => {
-      return {
+      const newArtistInEvent = {
         ...artistInEvent,
         artist: artistSelected
       };
+      setArtistInEvent(newArtistInEvent);
+      handleItemChange(newArtistInEvent);
     },
-    [artistInEvent, setArtistInEvent]
+    [artistInEvent, setArtistInEvent, handleItemChange]
   );
 
   /* end of event handlers */
@@ -224,18 +225,16 @@ const MyItem = ({ controlledArtistInEvent, handleItemRemoved, index }, ref) => {
   );
 };
 
-const Item = forwardRef(MyItem);
-
 const itemRender = (
-  { handleItemRemoved, itemRef, ...artistInEvent },
+  { handleItemRemoved, handleItemChange, ...artistInEvent },
   index
 ) => {
   return (
     <Item
-      ref={itemRef}
       key={index}
       controlledArtistInEvent={artistInEvent}
       handleItemRemoved={handleItemRemoved}
+      handleItemChange={handleItemChange}
       index={index}
     />
   );
@@ -303,6 +302,7 @@ const EventEditArtistSelect = ({ initialArtistsPicked }) => {
 
   const onGetPickedItems = useCallback(
     newItemList => {
+      console.log(newItemList);
       setArtistsPicked(newItemList);
     },
     [setArtistsPicked]

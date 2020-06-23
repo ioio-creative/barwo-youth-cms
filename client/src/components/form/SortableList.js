@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useMemo,
-  createRef,
-  useImperativeHandle,
-  forwardRef
-} from 'react';
+import React, { useCallback, useMemo, createRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
@@ -85,7 +79,8 @@ const SortableList = ({
   itemRender,
   getListStyle,
   onDragEnd,
-  onItemRemoved
+  onItemRemoved,
+  onItemChange
 }) => {
   /* event handlers */
 
@@ -119,27 +114,36 @@ const SortableList = ({
     [items, onItemRemoved]
   );
 
+  const handleItemChange = useMemo(
+    _ => {
+      return isFunction(onItemChange)
+        ? (newItem, newItemIdx) => {
+            const newItems = items.map((item, idx) => {
+              if (idx !== newItemIdx) {
+                return item;
+              }
+              return newItem;
+            });
+            onItemChange(newItems);
+          }
+        : null;
+    },
+    [onItemChange]
+  );
+
   /* end of event handlers */
 
   /* values derived from props */
 
-  // https://stackoverflow.com/questions/59411210/array-of-refs-in-functional-component-to-change-classnames-of-individual-items-v
-  const itemRefs = useMemo(
-    _ => {
-      return [...Array(items.length)].map(_ => createRef());
-    },
-    [items]
-  );
-
   const expandedItems = useMemo(
     _ => {
-      return items.map((item, idx) => ({
+      return items.map(item => ({
         ...item,
         handleItemRemoved,
-        itemRef: itemRefs[idx]
+        handleItemChange
       }));
     },
-    [items, itemRefs, handleItemRemoved]
+    [items, handleItemRemoved, handleItemChange]
   );
 
   /* end of values derived from props */

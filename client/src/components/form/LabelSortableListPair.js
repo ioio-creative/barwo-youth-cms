@@ -54,6 +54,13 @@ const LabelSortableListPair = ({
     [handleNewItemList]
   );
 
+  const handleSortableListItemChange = useCallback(
+    newItemList => {
+      handleNewItemList(newItemList);
+    },
+    [handleNewItemList]
+  );
+
   /* end of event handlers */
 
   return (
@@ -70,6 +77,7 @@ const LabelSortableListPair = ({
           getListStyle={getListStyle}
           onDragEnd={handleSortableListDragEnd}
           onItemRemoved={handleSortableListItemRemoved}
+          onItemChange={handleSortableListItemChange}
         />
       </div>
     </div>
