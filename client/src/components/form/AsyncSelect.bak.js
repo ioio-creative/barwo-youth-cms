@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import Select from 'react-select';
+import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 import './AsyncSelect.css';
 
 const optionsExample = [
@@ -24,19 +25,48 @@ const MyAsyncSelect = ({
   options,
   isLoading,
   onChange,
+  onInputChange,
   placeholder
 }) => {
+  const selectRef = useRef(null);
+
+  const handleInputChange = useCallback(
+    newValue => {
+      const newInputValue = newValue.replace(/\W/g, '');
+      invokeIfIsFunction(onInputChange, newInputValue);
+      return newInputValue;
+    },
+    [onInputChange]
+  );
+
+  /**
+   * !!!Important!!!
+   * binding to selectRef onInputChange permits input of Chinese characters
+   * https://react-select.com/advanced#accessing-internals
+   */
+  useEffect(
+    _ => {
+      if (selectRef.current) {
+        selectRef.current.onInputChange(input => {
+          handleInputChange(input);
+        });
+      }
+    },
+    [handleInputChange]
+  );
+
   return (
     <div className='async-select'>
       <Select
+        ref={selectRef}
         styles={customStyles}
         className={className}
         name={name}
         value={value}
         options={options}
         isLoading={isLoading}
-        placeholder={placeholder}
         onChange={onChange}
+        placeholder={placeholder}
       />
     </div>
   );
@@ -44,6 +74,9 @@ const MyAsyncSelect = ({
 
 MyAsyncSelect.defaultProps = {
   options: optionsExample,
+  onInputChange: input => {
+    console.log(input);
+  },
   onChange: selectedOption => {
     console.log(selectedOption);
   },

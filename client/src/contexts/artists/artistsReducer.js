@@ -9,7 +9,11 @@ import {
   CLEAR_ARTISTS_ERRORS,
   SET_ARTISTS_LOADING,
   GET_ART_DIRECTORS,
-  CLEAR_ART_DIRECTORS
+  CLEAR_ART_DIRECTORS,
+  SET_ART_DIRECTORS_LOADING,
+  GET_EVENT_ARTISTS,
+  CLEAR_EVENT_ARTISTS,
+  SET_EVENT_ARTISTS_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -37,7 +41,8 @@ export default (state, action) => {
     case CLEAR_ARTIST:
       return {
         ...state,
-        artist: null
+        artist: null,
+        artistsErrors: null
       };
     case ADD_ARTIST:
       return {
@@ -68,13 +73,35 @@ export default (state, action) => {
       return {
         ...state,
         artDirectors: action.payload,
-        artistsLoading: false
+        artDirectorsLoading: false
       };
     case CLEAR_ART_DIRECTORS:
       return {
         ...state,
         artDirectors: null,
         artistsErrors: null
+      };
+    case SET_ART_DIRECTORS_LOADING:
+      return {
+        ...state,
+        artDirectorsLoading: true
+      };
+    case GET_EVENT_ARTISTS:
+      return {
+        ...state,
+        eventArtists: action.payload,
+        eventArtistsLoading: false
+      };
+    case CLEAR_EVENT_ARTISTS:
+      return {
+        ...state,
+        eventArtists: null,
+        artistsErrors: null
+      };
+    case SET_EVENT_ARTISTS_LOADING:
+      return {
+        ...state,
+        eventArtistsLoading: true
       };
     default:
       return state;

@@ -1,8 +1,7 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import LabelAsyncSelectPair from 'components/form/LabelAsyncSelectPair';
 import SortableList from './SortableList';
-import { invokeIfIsFunction } from 'utils/js/function/isFunction';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 
 const PickValues = ({
   isHalf,
@@ -12,52 +11,84 @@ const PickValues = ({
   onSelectInputChange,
   selectClassName,
   selectPlaceholder,
+  selectIsLoading,
   pickedItemRender,
+  pickedItems,
   getPickedItems
 }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectValue, setSelectValue] = useState('');
   const [selectedOptions, setSelectedOptions] = useState([]);
 
-  const selectedOptionIds = useMemo(
+  useEffect(
     _ => {
-      return selectedOptions.map(option => option._id);
+      setSelectedOptions(getArraySafe(pickedItems));
+    },
+    [pickedItems, setSelectedOptions]
+  );
+
+  const selectedOptionValues = useMemo(
+    _ => {
+      return selectedOptions.map(option => option.value);
     },
     [selectedOptions]
   );
 
   // remove selectedOptions from selectOptions
-  const options = isNonEmptyArray(selectOptions)
-    ? selectOptions.filter(option => !selectedOptionIds.includes(option._id))
-    : [selectOptions, selectedOptionIds];
+  const options = useMemo(
+    _ => {
+      return getArraySafe(selectOptions).filter(
+        option => !selectedOptionValues.includes(option.value)
+      );
+    },
+    [selectOptions, selectedOptionValues]
+  );
 
   /* event handlers */
 
-  const onGetPickedItems = useCallback(
+  const handleGetPickedItems = useCallback(
     pickedItems => {
-      invokeIfIsFunction(getPickedItems, pickedItems);
+      getPickedItems(pickedItems);
     },
     [getPickedItems]
   );
 
-  const onSelectChange = useCallback(
-    option => {
-      //setSelectedOption(option);
-      const newSelectedOptions = [
-        ...selectedOptions,
-        new SortableList.Item(option.value, option.label)
-      ];
-      setSelectedOptions(newSelectedOptions);
-      onGetPickedItems(newSelectedOptions);
+  const handleNewItemList = useCallback(
+    newItemList => {
+      setSelectedOptions(newItemList);
+      handleGetPickedItems(newItemList);
     },
-    [selectedOptions, setSelectedOptions, onGetPickedItems]
+    [setSelectedOptions, handleGetPickedItems]
   );
 
-  const onSortableListDragEnd = useCallback(
-    reorderedItems => {
-      setSelectedOptions(reorderedItems);
-      onGetPickedItems(reorderedItems);
+  const handleSelectChange = useCallback(
+    option => {
+      setSelectValue(null);
+      const newSelectedOptions = [...selectedOptions, option];
+      handleNewItemList(newSelectedOptions);
     },
-    [setSelectedOptions, onGetPickedItems]
+    [selectedOptions, handleNewItemList, setSelectValue]
+  );
+
+  const handleSelectInputChange = useCallback(
+    input => {
+      setSelectValue(input);
+      onSelectInputChange(input);
+    },
+    [setSelectValue, onSelectInputChange]
+  );
+
+  const handleSortableListDragEnd = useCallback(
+    reorderedItems => {
+      handleNewItemList(reorderedItems);
+    },
+    [handleNewItemList]
+  );
+
+  const handleSortableListItemRemoved = useCallback(
+    newItemList => {
+      handleNewItemList(newItemList);
+    },
+    [handleNewItemList]
   );
 
   /* end of event handlers */
@@ -66,22 +97,32 @@ const PickValues = ({
     <>
       <LabelAsyncSelectPair
         name={name}
-        value={selectedOption}
+        value={selectValue}
         labelMessage={labelMessage}
         options={options}
-        onChange={onSelectChange}
-        onInputChange={onSelectInputChange}
+        onChange={handleSelectChange}
+        onInputChange={handleSelectInputChange}
         selectClassName={selectClassName}
         selectPlaceholder={selectPlaceholder}
+        selectIsLoading={selectIsLoading}
         isHalf={isHalf}
       />
       <SortableList
         items={selectedOptions}
         itemRender={pickedItemRender}
-        onDragEnd={onSortableListDragEnd}
+        isShowRemoveButton={true}
+        onDragEnd={handleSortableListDragEnd}
+        onItemRemoved={handleSortableListItemRemoved}
       />
     </>
   );
+};
+
+PickValues.defaultProps = {
+  pickedItems: [],
+  getPickedItems: items => {
+    console.log(items);
+  }
 };
 
 export default PickValues;

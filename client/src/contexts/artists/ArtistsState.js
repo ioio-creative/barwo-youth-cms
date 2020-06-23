@@ -15,7 +15,11 @@ import {
   CLEAR_ARTISTS_ERRORS,
   SET_ARTISTS_LOADING,
   GET_ART_DIRECTORS,
-  CLEAR_ART_DIRECTORS
+  CLEAR_ART_DIRECTORS,
+  SET_ART_DIRECTORS_LOADING,
+  GET_EVENT_ARTISTS,
+  CLEAR_EVENT_ARTISTS,
+  SET_EVENT_ARTISTS_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -25,7 +29,10 @@ const initialState = {
   artist: null,
   artistsErrors: null,
   artistsLoading: false,
-  artDirectors: null
+  artDirectors: null,
+  artDirectorsLoading: null,
+  eventArtists: null,
+  eventArtistsLoading: null
 };
 
 const ArtistsState = ({ children }) => {
@@ -135,7 +142,7 @@ const ArtistsState = ({ children }) => {
 
   // Get Art Directors
   const getArtDirectors = useCallback(async _ => {
-    dispatch({ type: SET_ARTISTS_LOADING });
+    dispatch({ type: SET_ART_DIRECTORS_LOADING });
     try {
       const res = await axios.get('/api/artDirectors');
       dispatch({ type: GET_ART_DIRECTORS, payload: res.data });
@@ -149,6 +156,22 @@ const ArtistsState = ({ children }) => {
     dispatch({ type: CLEAR_ART_DIRECTORS });
   }, []);
 
+  // Get Event Artists
+  const getEventArtists = useCallback(async _ => {
+    dispatch({ type: SET_EVENT_ARTISTS_LOADING });
+    try {
+      const res = await axios.get('/api/eventArtists');
+      dispatch({ type: GET_EVENT_ARTISTS, payload: res.data });
+    } catch (err) {
+      handleServerError(err, ARTISTS_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Clear Event Artists
+  const clearEventArtists = useCallback(_ => {
+    dispatch({ type: CLEAR_EVENT_ARTISTS });
+  }, []);
+
   return (
     <ArtistsContext.Provider
       value={{
@@ -157,6 +180,9 @@ const ArtistsState = ({ children }) => {
         artist: state.artist,
         artistsErrors: state.artistsErrors,
         artDirectors: state.artDirectors,
+        artDirectorsLoading: state.artDirectorsLoading,
+        eventArtists: state.eventArtists,
+        eventArtistsLoading: state.eventArtistsLoading,
         getArtists,
         clearArtists,
         getArtist,
@@ -165,7 +191,9 @@ const ArtistsState = ({ children }) => {
         updateArtist,
         clearArtistsErrors,
         getArtDirectors,
-        clearArtDirectors
+        clearArtDirectors,
+        getEventArtists,
+        clearEventArtists
       }}
     >
       {children}

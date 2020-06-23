@@ -1,16 +1,20 @@
-import React, { useCallback } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  createRef,
+  useImperativeHandle,
+  forwardRef
+} from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isFunction from 'utils/js/function/isFunction';
+import ListItem from './models/ListItem';
+import './SortableList.css';
 
 // fake data generator
-function Item(_id, content) {
-  this._id = _id;
-  this.content = content;
-}
-
 const getItemsExample = count =>
   Array.from({ length: count }, (v, k) => k).map(
-    k => new Item(`item-${k}`, `item ${k}`)
+    k => new ListItem(`item-${k}`, `item ${k}`)
   );
 
 // a little function to help us with reordering the result
@@ -27,26 +31,27 @@ const grid = 8;
 const getItemStyleExample = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
+  padding: grid, //grid * 2,
+  margin: `0 0 ${grid}px 0`, //`0 0 ${grid}px 0`,
 
   // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
+  background: isDragging ? 'lightgreen' : 'white', //isDragging ? 'lightgreen' : 'grey',
 
   // styles we need to apply on draggables
   ...draggableStyle
 });
 
-const getListStyle = isDraggingOver => ({
+const getListStyleExample = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: grid,
+  padding: `${grid}px ${grid}px ${grid * 0.5}px ${grid}px`,
   width: 250
 });
 
-const itemRenderExample = ({ _id, content }, index) => (
-  <Draggable key={_id} draggableId={_id} index={index}>
+const itemRenderExample = ({ value, label, handleItemRemoved }, index) => (
+  <Draggable key={value} draggableId={value} index={index}>
     {(provided, snapshot) => (
       <div
+        className='sortable-list-item'
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
@@ -55,7 +60,15 @@ const itemRenderExample = ({ _id, content }, index) => (
           provided.draggableProps.style
         )}
       >
-        {content}
+        {label}
+        {isFunction(handleItemRemoved) ? (
+          <span
+            className='w3-right remove-btn'
+            onClick={_ => handleItemRemoved(index)}
+          >
+            <i className='fa fa-times' />
+          </span>
+        ) : null}
       </div>
     )}
   </Draggable>
@@ -66,7 +79,16 @@ const onDragEndExample = reorderedItems => {
 };
 
 // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/about/examples.md
-const SortableList = ({ _id, items, itemRender, onDragEnd }) => {
+const SortableList = ({
+  _id,
+  items,
+  itemRender,
+  getListStyle,
+  onDragEnd,
+  onItemRemoved
+}) => {
+  /* event handlers */
+
   const handleDragEnd = useCallback(
     result => {
       // dropped outside the list
@@ -82,8 +104,45 @@ const SortableList = ({ _id, items, itemRender, onDragEnd }) => {
 
       onDragEnd(reorderedItems);
     },
+    [items, onDragEnd]
+  );
+
+  const handleItemRemoved = useMemo(
+    _ => {
+      return isFunction(onItemRemoved)
+        ? idxRemoved => {
+            const newItems = items.filter((_, idx) => idx !== idxRemoved);
+            onItemRemoved(newItems);
+          }
+        : null;
+    },
+    [items, onItemRemoved]
+  );
+
+  /* end of event handlers */
+
+  /* values derived from props */
+
+  // https://stackoverflow.com/questions/59411210/array-of-refs-in-functional-component-to-change-classnames-of-individual-items-v
+  const itemRefs = useMemo(
+    _ => {
+      return [...Array(items.length)].map(_ => createRef());
+    },
     [items]
   );
+
+  const expandedItems = useMemo(
+    _ => {
+      return items.map((item, idx) => ({
+        ...item,
+        handleItemRemoved,
+        itemRef: itemRefs[idx]
+      }));
+    },
+    [items, itemRefs, handleItemRemoved]
+  );
+
+  /* end of values derived from props */
 
   if (!isNonEmptyArray(items)) {
     return null;
@@ -94,11 +153,12 @@ const SortableList = ({ _id, items, itemRender, onDragEnd }) => {
       <Droppable droppableId={_id}>
         {(provided, snapshot) => (
           <div
+            className='sortable-list'
             {...provided.droppableProps}
             ref={provided.innerRef}
             style={getListStyle(snapshot.isDraggingOver)}
           >
-            {items.map(itemRender)}
+            {expandedItems.map(itemRender)}
             {provided.placeholder}
           </div>
         )}
@@ -111,9 +171,8 @@ SortableList.defaultProps = {
   _id: Date.now().toString(), //'droppable',
   items: getItemsExample(10),
   itemRender: itemRenderExample,
+  getListStyle: getListStyleExample,
   onDragEnd: onDragEndExample
 };
-
-SortableList.Item = Item;
 
 export default SortableList;

@@ -87,6 +87,7 @@ export default {
   'Event.WriterScLabel': 'Writer SC',
   'Event.WriterEnLabel': 'Writer EN',
   'Event.ArtDirectorsLabel': 'Art Directors',
+  'Event.ArtistsLabel': 'Cast',
   'Event.CreateDTLabel': 'Create DT',
   'Event.LastModifyDTLabel': 'Last Modify DT',
   'Event.LastModifyUserLabel': 'Last Modify User',
@@ -104,5 +105,9 @@ export default {
   'EventEdit.UpdateEventSubmit': 'Update Event',
   'EventEdit.AddEventSuccessMessage': 'Event Added',
   'EventEdit.UpdateEventSuccessMessage': 'Event Updated',
-  'EventEdit.SelectArtDirectorsPlaceholder': 'Select Art Directors...'
+  'EventEdit.SelectArtDirectorsPlaceholder': 'Select Art Directors...',
+  'EventEdit.Artist.RoleTcPlaceholder': 'Role TC',
+  'EventEdit.Artist.RoleScPlaceholder': 'Role SC',
+  'EventEdit.Artist.RoleEnPlaceholder': 'Role EN',
+  'EventEdit.Artist.ArtistPlaceholder': 'Select Artist...'
 };
