@@ -12,7 +12,7 @@ import AsyncSelect from 'components/form/AsyncSelect';
 import InputText from 'components/form/InputText';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
-import isFunction, { invokeIfIsFunction } from 'utils/js/function/isFunction';
+import isFunction from 'utils/js/function/isFunction';
 
 const mapArtistToListItem = artist => {
   return {
@@ -30,13 +30,20 @@ const mapArtistInEventToListItem = artistInEvent => {
 
 /* ArtistSelect */
 
-const ArtistSelect = ({ controlledArtistSelected, onGetArtistSelected }) => {
+const ArtistSelect = ({ artistSelected, onGetArtistSelected }) => {
   const { eventArtists: fetchedEventArtists, eventArtistsLoading } = useContext(
     ArtistsContext
   );
 
-  const [artistSelected, setArtistSelected] = useState(null);
   const [artists, setArtists] = useState([]);
+
+  // artist in event
+  const artistInEventSelected = useMemo(
+    _ => {
+      return artistSelected ? mapArtistToListItem(artistSelected) : null;
+    },
+    [artistSelected]
+  );
 
   // artist options
   const artistOptions = useMemo(
@@ -44,16 +51,6 @@ const ArtistSelect = ({ controlledArtistSelected, onGetArtistSelected }) => {
       return getArraySafe(artists).map(mapArtistToListItem);
     },
     [artists, mapArtistToListItem]
-  );
-
-  // controlledArtistSelected
-  useEffect(
-    _ => {
-      if (controlledArtistSelected) {
-        setArtistSelected(mapArtistToListItem(controlledArtistSelected));
-      }
-    },
-    [controlledArtistSelected]
   );
 
   // fetchedEventArtists
@@ -72,10 +69,9 @@ const ArtistSelect = ({ controlledArtistSelected, onGetArtistSelected }) => {
 
   const handleSelectChange = useCallback(
     option => {
-      setArtistSelected(option);
       onGetArtistSelected(option);
     },
-    [setArtistSelected, onGetArtistSelected]
+    [onGetArtistSelected]
   );
 
   /* end of event handlers */
@@ -83,7 +79,7 @@ const ArtistSelect = ({ controlledArtistSelected, onGetArtistSelected }) => {
   return (
     <AsyncSelect
       name='artist'
-      value={artistSelected}
+      value={artistInEventSelected}
       options={artistOptions}
       isLoading={eventArtistsLoading}
       placeholder={uiWordings['EventEdit.Artist.ArtistPlaceholder']}
@@ -117,37 +113,18 @@ const getListStyle = isDraggingOver => ({
 
 // https://reactjs.org/docs/hooks-reference.html#useimperativehandle
 const Item = ({
-  controlledArtistInEvent,
+  artistInEvent,
   handleItemRemoved,
   handleItemChange,
   index
 }) => {
-  const [artistInEvent, setArtistInEvent] = useState({
-    role_tc: '',
-    role_sc: '',
-    role_en: '',
-    artist: {
-      _id: Date.now().toString()
-    }
-  });
-
-  useEffect(
-    _ => {
-      if (controlledArtistInEvent) {
-        setArtistInEvent(controlledArtistInEvent);
-      }
-    },
-    [controlledArtistInEvent, setArtistInEvent]
-  );
-
   /* methods */
 
   const dealWithItemChange = useCallback(
     newArtistInEvent => {
-      setArtistInEvent(newArtistInEvent);
       handleItemChange(newArtistInEvent, index);
     },
-    [setArtistInEvent, handleItemChange, index]
+    [handleItemChange, index]
   );
 
   /* event handlers */
@@ -160,7 +137,7 @@ const Item = ({
       };
       dealWithItemChange(newArtistInEvent);
     },
-    [artistInEvent, setArtistInEvent, dealWithItemChange]
+    [artistInEvent, dealWithItemChange]
   );
 
   const onGetArtistSelected = useCallback(
@@ -171,7 +148,7 @@ const Item = ({
       };
       dealWithItemChange(newArtistInEvent);
     },
-    [artistInEvent, setArtistInEvent, dealWithItemChange]
+    [artistInEvent, dealWithItemChange]
   );
 
   /* end of event handlers */
@@ -221,7 +198,7 @@ const Item = ({
             </div>
             <div className='w3-col m3'>
               <ArtistSelect
-                controlledArtistSelected={artist}
+                artistSelected={artist}
                 onGetArtistSelected={onGetArtistSelected}
               />
             </div>
@@ -249,7 +226,7 @@ const itemRender = (
   return (
     <Item
       key={index}
-      controlledArtistInEvent={artistInEvent}
+      artistInEvent={artistInEvent}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -257,23 +234,27 @@ const itemRender = (
   );
 };
 
-const EventEditArtistSelect = ({ initialArtistsPicked }) => {
-  // artists in picked list
-  const [artistsPicked, setArtistsPicked] = useState([]);
-
+const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
   const artistsInPickedList = useMemo(
     _ => {
-      return artistsPicked.map(mapArtistInEventToListItem);
+      return getArraySafe(artistsPicked).map(mapArtistInEventToListItem);
     },
     [artistsPicked, mapArtistInEventToListItem]
   );
 
   /* methods */
 
+  const dealWithGetArtistsPicked = useCallback(
+    newItemList => {
+      onGetArtistsPicked(newItemList);
+    },
+    [onGetArtistsPicked]
+  );
+
   const addArtistInEvent = useCallback(
     _ => {
-      setArtistsPicked([
-        ...artistsPicked,
+      dealWithGetArtistsPicked([
+        ...getArraySafe(artistsPicked),
         {
           role_tc: '',
           role_sc: '',
@@ -282,20 +263,10 @@ const EventEditArtistSelect = ({ initialArtistsPicked }) => {
         }
       ]);
     },
-    [artistsPicked, setArtistsPicked]
+    [artistsPicked, dealWithGetArtistsPicked]
   );
 
   /* end of methods */
-
-  // initialArtistsPicked
-  useEffect(
-    _ => {
-      if (isNonEmptyArray(initialArtistsPicked)) {
-        setArtistsPicked(initialArtistsPicked);
-      }
-    },
-    [initialArtistsPicked, setArtistsPicked]
-  );
 
   // artistsPicked
   useEffect(
@@ -318,9 +289,9 @@ const EventEditArtistSelect = ({ initialArtistsPicked }) => {
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      setArtistsPicked(newItemList);
+      dealWithGetArtistsPicked(newItemList);
     },
-    [setArtistsPicked]
+    [dealWithGetArtistsPicked]
   );
 
   /* end of event handlers */
@@ -332,7 +303,7 @@ const EventEditArtistSelect = ({ initialArtistsPicked }) => {
         labelMessage={uiWordings['Event.ArtistsLabel']}
         pickedItemRender={itemRender}
         getListStyle={getListStyle}
-        controlledPickedItems={artistsInPickedList}
+        pickedItems={artistsInPickedList}
         getPickedItems={onGetPickedItems}
         onAddButtonClick={onAddButtonClick}
       />

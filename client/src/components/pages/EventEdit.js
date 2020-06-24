@@ -1,16 +1,11 @@
-import React, {
-  useContext,
-  useState,
-  useMemo,
-  useEffect,
-  useCallback
-} from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistState from 'contexts/artists/ArtistsState';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
+import EventEditArtDirectorSelect from 'components/events/EventEditArtDirectorSelect';
 import EventEditArtistSelect from 'components/events/EventEditArtistSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
@@ -18,7 +13,6 @@ import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
-import PickValues from 'components/form/PickValues';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
@@ -26,7 +20,7 @@ import Event from 'models/event';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const emptyEvent = new Event();
 const defaultState = emptyEvent;
@@ -37,10 +31,8 @@ const EventEdit = _ => {
   const {
     artistsErrors,
     clearArtistsErrors,
-    artDirectors,
     getArtDirectors,
     clearArtDirectors,
-    artDirectorsLoading,
     getEventArtists,
     clearEventArtists
   } = useContext(ArtistsContext);
@@ -61,38 +53,11 @@ const EventEdit = _ => {
   const [isAddEventMode, setIsAddEventMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
-  // art directors
-  // art directors owned by current event
+  // art directors in event
   const [artDirectorsPicked, setArtDirectorsPicked] = useState([]);
-  // art directors in the filtered select list
-  const [filteredArtDirectors, setFilteredArtDirectors] = useState([]);
 
   // artists in event
   const [artistsPicked, setArtistsPicked] = useState([]);
-
-  const mapArtistToListItem = useCallback(artist => {
-    return {
-      ...artist,
-      value: artist._id,
-      label: artist.name_tc
-    };
-  }, []);
-
-  // art director options
-  const artDirectorOptions = useMemo(
-    _ => {
-      return getArraySafe(filteredArtDirectors).map(mapArtistToListItem);
-    },
-    [filteredArtDirectors, mapArtistToListItem]
-  );
-
-  // art directors in picked list
-  const artDirectorsInPickedList = useMemo(
-    _ => {
-      return artDirectorsPicked.map(mapArtistToListItem);
-    },
-    [artDirectorsPicked, mapArtistToListItem]
-  );
 
   // componentDidMount
   useEffect(_ => {
@@ -182,14 +147,6 @@ const EventEdit = _ => {
     [artistsErrors, setAlerts, clearArtistsErrors]
   );
 
-  // artDirectors
-  useEffect(
-    _ => {
-      setFilteredArtDirectors(artDirectors);
-    },
-    [artDirectors, setFilteredArtDirectors]
-  );
-
   /* methods */
 
   const validInput = useCallback(eventInput => {
@@ -209,23 +166,19 @@ const EventEdit = _ => {
     [event, setEvent, removeAlerts]
   );
 
-  const onArtDirectorsInputChange = useCallback(
-    input => {
-      setFilteredArtDirectors(
-        getArraySafe(artDirectors).filter(artDirector => {
-          if (!input) {
-            return true;
-          }
-          return artDirector.name_tc.includes(input);
-        })
-      );
+  const onGetArtDirectorsPicked = useCallback(
+    newItemList => {
+      setArtDirectorsPicked(newItemList);
     },
-    [artDirectors, setFilteredArtDirectors]
+    [setArtDirectorsPicked]
   );
 
-  const onArtDirectorsGetPickedItems = useCallback(newItemList => {
-    setArtDirectorsPicked(newItemList);
-  }, []);
+  const onGetArtistsPicked = useCallback(
+    newItemList => {
+      setArtistsPicked(newItemList);
+    },
+    [setArtistsPicked]
+  );
 
   const onSubmit = useCallback(
     async e => {
@@ -329,18 +282,10 @@ const EventEdit = _ => {
           onChange={onChange}
         />
 
-        {/* <PickValues
-          name='artDirectors'
-          labelMessage={uiWordings['Event.ArtDirectorsLabel']}
-          selectOptions={artDirectorOptions}
-          selectIsLoading={artDirectorsLoading}
-          selectPlaceholder={
-            uiWordings['EventEdit.SelectArtDirectorsPlaceholder']
-          }
-          onSelectInputChange={onArtDirectorsInputChange}
-          pickedItems={artDirectorsInPickedList}
-          getPickedItems={onArtDirectorsGetPickedItems}
-        /> */}
+        <EventEditArtDirectorSelect
+          controlledArtDirectorsPicked={artDirectorsPicked}
+          onGetArtDirectorsPicked={onGetArtDirectorsPicked}
+        />
 
         <LabelInputTextPair
           name='writer_tc'
@@ -364,7 +309,10 @@ const EventEdit = _ => {
           onChange={onChange}
         />
 
-        <EventEditArtistSelect initialArtistsPicked={artistsPicked} />
+        <EventEditArtistSelect
+          artistsPicked={artistsPicked}
+          onGetArtistsPicked={onGetArtistsPicked}
+        />
 
         <LabelTogglePair
           name='isEnabled'

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, createRef } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';

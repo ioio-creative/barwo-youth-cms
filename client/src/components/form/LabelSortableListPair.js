@@ -10,19 +10,10 @@ const LabelSortableListPair = ({
   labelMessage,
   pickedItemRender,
   getListStyle,
-  controlledPickedItems,
+  pickedItems,
   getPickedItems,
   onAddButtonClick
 }) => {
-  const [pickedItems, setPickedItems] = useState([]);
-
-  useEffect(
-    _ => {
-      setPickedItems(getArraySafe(controlledPickedItems));
-    },
-    [controlledPickedItems, setPickedItems]
-  );
-
   /* event handlers */
 
   const handleGetPickedItems = useCallback(
@@ -34,10 +25,9 @@ const LabelSortableListPair = ({
 
   const handleNewItemList = useCallback(
     newItemList => {
-      setPickedItems(newItemList);
       handleGetPickedItems(newItemList);
     },
-    [setPickedItems, handleGetPickedItems]
+    [handleGetPickedItems]
   );
 
   const handleSortableListDragEnd = useCallback(
@@ -86,7 +76,7 @@ const LabelSortableListPair = ({
 
 LabelSortableListPair.defaultProps = {
   isHalf: true,
-  controlledPickedItems: [],
+  pickedItems: [],
   getPickedItems: items => {
     console.log(items);
   },

@@ -8,7 +8,6 @@ const PickValues = ({
   name,
   labelMessage,
   selectOptions,
-  onSelectInputChange,
   selectClassName,
   selectPlaceholder,
   selectIsLoading,
@@ -17,6 +16,7 @@ const PickValues = ({
   getPickedItems
 }) => {
   const [selectValue, setSelectValue] = useState('');
+  // note selectedOptions is different from selectOptions
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   useEffect(
@@ -43,52 +43,40 @@ const PickValues = ({
     [selectOptions, selectedOptionValues]
   );
 
-  /* event handlers */
+  /* methods */
 
-  const handleGetPickedItems = useCallback(
-    pickedItems => {
-      getPickedItems(pickedItems);
+  const dealWithNewPickedItems = useCallback(
+    newPickedItems => {
+      getPickedItems(newPickedItems);
     },
     [getPickedItems]
   );
 
-  const handleNewItemList = useCallback(
-    newItemList => {
-      setSelectedOptions(newItemList);
-      handleGetPickedItems(newItemList);
-    },
-    [setSelectedOptions, handleGetPickedItems]
-  );
+  /* end of methods */
+
+  /* event handlers */
 
   const handleSelectChange = useCallback(
     option => {
       setSelectValue(null);
       const newSelectedOptions = [...selectedOptions, option];
-      handleNewItemList(newSelectedOptions);
+      dealWithNewPickedItems(newSelectedOptions);
     },
-    [selectedOptions, handleNewItemList, setSelectValue]
-  );
-
-  const handleSelectInputChange = useCallback(
-    input => {
-      setSelectValue(input);
-      onSelectInputChange(input);
-    },
-    [setSelectValue, onSelectInputChange]
+    [selectedOptions, dealWithNewPickedItems, setSelectValue]
   );
 
   const handleSortableListDragEnd = useCallback(
     reorderedItems => {
-      handleNewItemList(reorderedItems);
+      dealWithNewPickedItems(reorderedItems);
     },
-    [handleNewItemList]
+    [dealWithNewPickedItems]
   );
 
   const handleSortableListItemRemoved = useCallback(
     newItemList => {
-      handleNewItemList(newItemList);
+      dealWithNewPickedItems(newItemList);
     },
-    [handleNewItemList]
+    [dealWithNewPickedItems]
   );
 
   /* end of event handlers */
@@ -101,7 +89,6 @@ const PickValues = ({
         labelMessage={labelMessage}
         options={options}
         onChange={handleSelectChange}
-        onInputChange={handleSelectInputChange}
         selectClassName={selectClassName}
         selectPlaceholder={selectPlaceholder}
         selectIsLoading={selectIsLoading}

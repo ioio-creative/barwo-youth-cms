@@ -8,7 +8,6 @@ const LabelAsyncSelectPair = ({
   labelMessage,
   options,
   onChange,
-  onInputChange,
   selectClassName,
   selectPlaceholder,
   selectIsLoading,
@@ -25,7 +24,6 @@ const LabelAsyncSelectPair = ({
           options={options}
           isLoading={selectIsLoading}
           onChange={onChange}
-          onInputChange={onInputChange}
           placeholder={selectPlaceholder}
         />
       </div>
