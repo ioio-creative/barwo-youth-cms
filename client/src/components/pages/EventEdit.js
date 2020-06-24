@@ -246,6 +246,7 @@ const EventEdit = _ => {
       artDirectorsPicked,
       artistsPicked,
       setAlerts,
+      removeAlerts,
       validInput
     ]
   );
