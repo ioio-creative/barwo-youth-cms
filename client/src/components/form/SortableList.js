@@ -128,7 +128,7 @@ const SortableList = ({
           }
         : null;
     },
-    [onItemChange]
+    [items, onItemChange]
   );
 
   /* end of event handlers */

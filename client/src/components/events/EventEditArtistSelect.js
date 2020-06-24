@@ -30,7 +30,7 @@ const mapArtistInEventToListItem = artistInEvent => {
 
 /* ArtistSelect */
 
-const ArtistSelect = ({ onGetArtistSelected }) => {
+const ArtistSelect = ({ controlledArtistSelected, onGetArtistSelected }) => {
   const { eventArtists: fetchedEventArtists, eventArtistsLoading } = useContext(
     ArtistsContext
   );
@@ -44,6 +44,16 @@ const ArtistSelect = ({ onGetArtistSelected }) => {
       return getArraySafe(artists).map(mapArtistToListItem);
     },
     [artists, mapArtistToListItem]
+  );
+
+  // controlledArtistSelected
+  useEffect(
+    _ => {
+      if (controlledArtistSelected) {
+        setArtistSelected(mapArtistToListItem(controlledArtistSelected));
+      }
+    },
+    [controlledArtistSelected]
   );
 
   // fetchedEventArtists
@@ -127,7 +137,17 @@ const Item = ({
         setArtistInEvent(controlledArtistInEvent);
       }
     },
-    [controlledArtistInEvent]
+    [controlledArtistInEvent, setArtistInEvent]
+  );
+
+  /* methods */
+
+  const dealWithItemChange = useCallback(
+    newArtistInEvent => {
+      setArtistInEvent(newArtistInEvent);
+      handleItemChange(newArtistInEvent, index);
+    },
+    [setArtistInEvent, handleItemChange, index]
   );
 
   /* event handlers */
@@ -138,10 +158,9 @@ const Item = ({
         ...artistInEvent,
         [e.target.name]: e.target.value
       };
-      setArtistInEvent(newArtistInEvent);
-      handleItemChange(newArtistInEvent);
+      dealWithItemChange(newArtistInEvent);
     },
-    [artistInEvent, setArtistInEvent, handleItemChange]
+    [artistInEvent, setArtistInEvent, dealWithItemChange]
   );
 
   const onGetArtistSelected = useCallback(
@@ -150,10 +169,9 @@ const Item = ({
         ...artistInEvent,
         artist: artistSelected
       };
-      setArtistInEvent(newArtistInEvent);
-      handleItemChange(newArtistInEvent);
+      dealWithItemChange(newArtistInEvent);
     },
-    [artistInEvent, setArtistInEvent, handleItemChange]
+    [artistInEvent, setArtistInEvent, dealWithItemChange]
   );
 
   /* end of event handlers */
@@ -161,11 +179,7 @@ const Item = ({
   const { role_tc, role_sc, role_en, artist } = artistInEvent;
 
   return (
-    <Draggable
-      key={artistInEvent.artist._id}
-      draggableId={artistInEvent.artist._id}
-      index={index}
-    >
+    <Draggable key={artist._id} draggableId={artist._id} index={index}>
       {(provided, snapshot) => (
         <div
           className='w3-row list-item'
@@ -206,7 +220,10 @@ const Item = ({
               />
             </div>
             <div className='w3-col m3'>
-              <ArtistSelect onGetArtistSelected={onGetArtistSelected} />
+              <ArtistSelect
+                controlledArtistSelected={artist}
+                onGetArtistSelected={onGetArtistSelected}
+              />
             </div>
           </div>
           <div className='w3-rest'>
@@ -255,7 +272,6 @@ const EventEditArtistSelect = ({ initialArtistsPicked }) => {
 
   const addArtistInEvent = useCallback(
     _ => {
-      //console.log('reach here');
       setArtistsPicked([
         ...artistsPicked,
         {
@@ -302,7 +318,6 @@ const EventEditArtistSelect = ({ initialArtistsPicked }) => {
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      console.log(newItemList);
       setArtistsPicked(newItemList);
     },
     [setArtistsPicked]
