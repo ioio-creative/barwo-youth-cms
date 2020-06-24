@@ -11,7 +11,7 @@ const optionsExample = [
 const customStyles = {
   menu: (provided, state) => ({
     ...provided,
-    position: 'relative',
+    position: 'absolute',
     zIndex: 2
   })
 };

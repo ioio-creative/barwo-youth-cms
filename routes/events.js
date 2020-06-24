@@ -10,11 +10,40 @@ const getFindLikeTextRegex = require('../utils/regex/getFindLikeTextRegex');
 const { getArraySafe } = require('../utils/js/array/isNonEmptyArray');
 const { Event, eventResponseTypes } = require('../models/Event');
 
+const eventPopulationList = [
+  {
+    path: 'lastModifyUser',
+    select: 'name'
+  },
+  {
+    path: 'artists.artist',
+    select: 'name_tc'
+  },
+  {
+    path: 'artDirectors',
+    select: 'name_tc'
+  }
+];
+
 const eventValidationChecks = [
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
   check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
   check('name_en', eventResponseTypes.NAME_EN_REQUIRED).not().isEmpty()
 ];
+
+const eventArtDirectorsValidation = artDirectors => {
+  for (const artDirector of getArraySafe(artDirectors)) {
+    if (!artDirector) {
+      // 400 bad request
+      res.status(400).json({
+        errors: [eventeventResponseTypes.EVENT_ART_DIRECTOR_REQUIRED]
+      });
+      return false;
+    }
+  }
+
+  return true;
+};
 
 const eventArtistsValidation = artists => {
   for (const artist of getArraySafe(artists)) {
@@ -46,7 +75,10 @@ const eventArtistsValidation = artists => {
 // @access  Private
 router.get('/', [auth, listPathHandling], async (req, res) => {
   try {
-    const paginationOptions = req.paginationOptions;
+    const options = {
+      ...req.paginationOptions,
+      populate: eventPopulationList
+    };
 
     // queries
     const filterText = req.query.filterText;
@@ -68,7 +100,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
     }
 
     // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
-    const events = await Event.paginate(findOptions, paginationOptions);
+    const events = await Event.paginate(findOptions, options);
     res.json(events);
   } catch (err) {
     generalErrorHandle(err, res);
@@ -81,15 +113,9 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
 router.get('/:_id', auth, async (req, res) => {
   try {
     // https://mongoosejs.com/docs/populate.html#populating-multiple-paths
-    const event = await Event.findById(req.params._id)
-      .populate({
-        path: 'lastModifyUser',
-        select: 'name'
-      })
-      .populate({
-        path: 'artists.artist',
-        select: 'name_tc'
-      });
+    const event = await Event.findById(req.params._id).populate(
+      eventPopulationList
+    );
     if (!event) {
       return res
         .status(404)
@@ -181,6 +207,10 @@ router.put(
 
     // customed validations
     let isSuccess;
+    isSuccess = eventArtDirectorsValidation();
+    if (!isSuccess) {
+      return;
+    }
     isSuccess = eventArtistsValidation();
     if (!isSuccess) {
       return;

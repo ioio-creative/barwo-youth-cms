@@ -81,19 +81,19 @@ const headers = [
     value: 'writer_tc',
     isSortEnabled: true
   },
-  {
-    name: uiWordings['Event.WriterScLabel'],
-    value: 'writer_sc',
-    isSortEnabled: true
-  },
-  {
-    name: uiWordings['Event.WriterEnLabel'],
-    value: 'writer_en',
-    isSortEnabled: true
-  },
+  // {
+  //   name: uiWordings['Event.WriterScLabel'],
+  //   value: 'writer_sc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.WriterEnLabel'],
+  //   value: 'writer_en',
+  //   isSortEnabled: true
+  // },
   {
     name: uiWordings['Event.ArtDirectorsLabel'],
-    value: 'artDirectors',
+    value: 'artDirectorsDisplay',
     isSortEnabled: true
   },
   // {
