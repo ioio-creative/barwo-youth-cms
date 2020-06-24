@@ -45,7 +45,6 @@ router.post(
     validationHandling
   ],
   async (req, res) => {
-    console.log('reach here');
     const { email, password } = req.body;
 
     try {

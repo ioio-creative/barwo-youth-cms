@@ -7,6 +7,7 @@ const validationHandling = require('../middleware/validationHandling');
 const listPathHandling = require('../middleware/listingPathHandling');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const getFindLikeTextRegex = require('../utils/regex/getFindLikeTextRegex');
+const { isNonEmptyArray } = require('../utils/js/array/isNonEmptyArray');
 const { Event, eventResponseTypes } = require('../models/Event');
 
 const eventValidationChecks = [
@@ -141,7 +142,9 @@ router.put(
       writer_tc,
       writer_sc,
       writer_en,
-      isEnabled
+      isEnabled,
+      artDirectors,
+      artists
     } = req.body;
 
     // Build event object
@@ -159,6 +162,8 @@ router.put(
     if (writer_sc) eventFields.writer_sc = writer_sc;
     if (writer_en) eventFields.writer_en = writer_en;
     if (isEnabled !== undefined) eventFields.isEnabled = isEnabled;
+    if (isNonEmptyArray(artDirectors)) eventFields.artists = artists;
+    if (isNonEmptyArray(artists)) eventFields.artists = artists;
     eventFields.lastModifyDT = new Date();
     eventFields.lastModifyUser = req.user._id;
 

@@ -5,15 +5,14 @@ import ArtistState from 'contexts/artists/ArtistsState';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
+import EventEditArtDirectorSelect from 'components/events/EventEditArtDirectorSelect';
+import EventEditArtistSelect from 'components/events/EventEditArtistSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
-import LabelAsyncSelectPair from 'components/form/LabelAsyncSelectPair';
-import SortableList from 'components/form/SortableList';
-import PickValues from 'components/form/PickValues';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
@@ -21,7 +20,7 @@ import Event from 'models/event';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 
 const emptyEvent = new Event();
 const defaultState = emptyEvent;
@@ -32,9 +31,10 @@ const EventEdit = _ => {
   const {
     artistsErrors,
     clearArtistsErrors,
-    artDirectors,
     getArtDirectors,
-    clearArtDirectors
+    clearArtDirectors,
+    getEventArtists,
+    clearEventArtists
   } = useContext(ArtistsContext);
   const {
     event: fetchedEvent,
@@ -47,18 +47,25 @@ const EventEdit = _ => {
     clearEventsErrors
   } = useContext(EventsContext);
 
+  // event
   const [event, setEvent] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddEventMode, setIsAddEventMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
-  //console.log(artDirectors);
+  // art directors in event
+  const [artDirectorsPicked, setArtDirectorsPicked] = useState([]);
+
+  // artists in event
+  const [artistsPicked, setArtistsPicked] = useState([]);
 
   // componentDidMount
   useEffect(_ => {
     getArtDirectors();
+    getEventArtists();
     return _ => {
       clearArtDirectors();
+      clearEventArtists();
       removeAlerts();
     };
     // eslint-disable-next-line
@@ -84,6 +91,14 @@ const EventEdit = _ => {
         setEvent(
           fetchedEvent ? Event.getEventForDisplay(fetchedEvent) : defaultState
         );
+        if (fetchedEvent) {
+          if (isNonEmptyArray(fetchedEvent.artDirectors)) {
+            setArtDirectorsPicked(fetchedEvent.artDirectors);
+          }
+          if (isNonEmptyArray(fetchedEvent.artists)) {
+            setArtistsPicked(fetchedEvent.artists);
+          }
+        }
         setIsAddEventMode(!fetchedEvent);
       }
     },
@@ -134,9 +149,23 @@ const EventEdit = _ => {
 
   /* methods */
 
-  const validInput = useCallback(eventInput => {
-    return true;
-  }, []);
+  const validInput = useCallback(
+    eventInput => {
+      for (const artist of eventInput.artists) {
+        if (!artist._id) {
+          setAlerts(
+            new Alert(
+              Event.eventsResponseTypes.EVENT_ARTIST_REQUIRED.msg,
+              Alert.alertTypes.WARNING
+            )
+          );
+          return false;
+        }
+      }
+      return true;
+    },
+    [setAlerts]
+  );
 
   /* end of methods */
 
@@ -151,12 +180,45 @@ const EventEdit = _ => {
     [event, setEvent, removeAlerts]
   );
 
+  const onGetArtDirectorsPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setArtDirectorsPicked(newItemList);
+    },
+    [setArtDirectorsPicked]
+  );
+
+  const onGetArtistsPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setArtistsPicked(newItemList);
+    },
+    [setArtistsPicked]
+  );
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
       e.preventDefault();
-      let isSuccess = validInput();
+
+      // add art directors
+      event.artDirectors = getArraySafe(artDirectorsPicked).map(
+        artDirector => artDirector._id
+      );
+
+      // add artists
+      event.artists = getArraySafe(
+        artistsPicked.map(({ role_tc, role_sc, role_en, artist: { _id } }) => ({
+          role_tc,
+          role_sc,
+          role_en,
+          artist: _id
+        }))
+      );
+
+      let isSuccess = validInput(event);
       let returnedEvent = null;
+
       if (isSuccess) {
         const funcToCall = isAddEventMode ? addEvent : updateEvent;
         returnedEvent = await funcToCall(event);
@@ -174,7 +236,16 @@ const EventEdit = _ => {
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
       }
     },
-    [isAddEventMode, updateEvent, addEvent, event, setAlerts, validInput]
+    [
+      isAddEventMode,
+      updateEvent,
+      addEvent,
+      event,
+      artDirectorsPicked,
+      artistsPicked,
+      setAlerts,
+      validInput
+    ]
   );
 
   /* end of event handlers */
@@ -253,6 +324,11 @@ const EventEdit = _ => {
           onChange={onChange}
         />
 
+        <EventEditArtDirectorSelect
+          controlledArtDirectorsPicked={artDirectorsPicked}
+          onGetArtDirectorsPicked={onGetArtDirectorsPicked}
+        />
+
         <LabelInputTextPair
           name='writer_tc'
           value={event.writer_tc}
@@ -275,16 +351,17 @@ const EventEdit = _ => {
           onChange={onChange}
         />
 
+        <EventEditArtistSelect
+          artistsPicked={artistsPicked}
+          onGetArtistsPicked={onGetArtistsPicked}
+        />
+
         <LabelTogglePair
           name='isEnabled'
           value={event.isEnabled}
           labelMessage={uiWordings['Event.IsEnabledLabel']}
           onChange={onChange}
         />
-
-        <LabelAsyncSelectPair />
-
-        <PickValues />
 
         {!isAddEventMode && (
           <>

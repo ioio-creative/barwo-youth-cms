@@ -16,6 +16,7 @@ function Event() {
   this.writer_sc = '';
   this.writer_en = '';
   this.artDirectors = [];
+  this.artists = [];
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
@@ -37,6 +38,22 @@ Event.eventsResponseTypes = {
   NAME_EN_REQUIRED: {
     type: 'NAME_EN_REQUIRED',
     msg: 'NAME_EN_REQUIRED'
+  },
+  EVENT_ARTIST_ROLE_TC_REQUIRED: {
+    type: 'EVENT_ARTIST_ROLE_TC_REQUIRED',
+    msg: 'EVENT_ARTIST_ROLE_TC_REQUIRED'
+  },
+  EVENT_ARTIST_ROLE_SC_REQUIRED: {
+    type: 'EVENT_ARTIST_ROLE_SC_REQUIRED',
+    msg: 'EVENT_ARTIST_ROLE_SC_REQUIRED'
+  },
+  EVENT_ARTIST_ROLE_EN_REQUIRED: {
+    type: 'EVENT_ARTIST_ROLE_EN_REQUIRED',
+    msg: 'EVENT_ARTIST_ROLE_EN_REQUIRED'
+  },
+  EVENT_ARTIST_REQUIRED: {
+    type: 'EVENT_ARTIST_REQUIRED',
+    msg: 'One of the event artist is missing'
   },
 
   // db check

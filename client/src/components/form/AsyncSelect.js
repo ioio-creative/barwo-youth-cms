@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
-import AsyncSelect from 'react-select/async';
-import { invokeIfIsFunction } from 'utils/js/function/isFunction';
+import React from 'react';
+import Select from 'react-select';
+import './AsyncSelect.css';
 
 const optionsExample = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -8,16 +8,11 @@ const optionsExample = [
   { value: 'vanilla', label: 'Vanilla' }
 ];
 
-const filterOptionsExample = inputValue => {
-  return optionsExample.filter(i =>
-    i.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
-};
-
-const loadOptionsExample = (inputValue, callback) => {
-  setTimeout(() => {
-    callback(filterOptionsExample(inputValue));
-  }, 1000);
+// https://react-select.com/styles
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided
+  })
 };
 
 // https://react-select.com/propss
@@ -26,39 +21,31 @@ const MyAsyncSelect = ({
   className,
   name,
   value,
-  loadOptions,
-  onInputChange,
+  options,
+  isLoading,
+  onChange,
   placeholder
 }) => {
-  const [inputValue, setInputValue] = useState('');
-  const handleInputChange = useCallback(
-    newValue => {
-      const newInputValue = newValue.replace(/\W/g, '');
-      setInputValue(newInputValue);
-      invokeIfIsFunction(onInputChange, newInputValue);
-      return newInputValue;
-    },
-    [setInputValue, onInputChange]
-  );
-
   return (
-    <AsyncSelect
-      className={className}
-      name={name}
-      value={value}
-      cacheOptions
-      loadOptions={loadOptions}
-      defaultOptions
-      onInputChange={handleInputChange}
-      placehold={placeholder}
-    />
+    <div className='async-select'>
+      <Select
+        styles={customStyles}
+        className={className}
+        name={name}
+        value={value}
+        options={options}
+        isLoading={isLoading}
+        placeholder={placeholder}
+        onChange={onChange}
+      />
+    </div>
   );
 };
 
 MyAsyncSelect.defaultProps = {
-  loadOptions: loadOptionsExample,
-  onInputChange: input => {
-    console.log(input);
+  options: optionsExample,
+  onChange: selectedOption => {
+    console.log(selectedOption);
   },
   placeholder: 'Select...'
 };

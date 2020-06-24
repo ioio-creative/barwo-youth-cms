@@ -1,0 +1,14 @@
+.sortable-list {
+}
+
+.sortable-list .sortable-list-item {
+}
+
+.sortable-list .sortable-list-item .remove-btn {
+  --size: 20px;
+
+  cursor: pointer;
+
+  width: var(--size);
+  height: var(--size);
+}
