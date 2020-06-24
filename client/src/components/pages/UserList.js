@@ -15,6 +15,7 @@ import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import User from 'models/user';
 import Alert from 'models/alert';
+import { generatePath } from 'react-router-dom';
 
 const initialSortBy = 'lastModifyDTDisplay';
 const initialSortOrder = -1;
@@ -128,7 +129,8 @@ const UserList = _ => {
   /* event handlers */
 
   const onEditUser = useCallback(user => {
-    goToUrl(routes.userEditByIdWithValue(true, user._id));
+    goToUrl(generatePath(routes.userEditById, { userId: user._id }));
+    // goToUrl(routes.userEditByIdWithValue(true, user._id));
   }, []);
 
   /* end of event handlers */

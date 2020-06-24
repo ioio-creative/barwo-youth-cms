@@ -29,7 +29,7 @@ const NavbarLink = ({ className, children, to, isSelected }) => {
     <Link
       className={`w3-bar-item w3-button ${
         isSelected ? 'w3-teal' : ''
-      } ${className}`}
+        } ${className}`}
       to={to}
     >
       {children}
@@ -49,6 +49,7 @@ const Navbar = ({ className }) => {
   const isArtistEdit = useRouteMatch(routes.artistEditById);
   const isEventList = useRouteMatch(routes.eventList(false));
   const isEventEdit = useRouteMatch(routes.eventEditById);
+  const isTesting = useRouteMatch(routes.testing);
 
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
 
@@ -90,6 +91,12 @@ const Navbar = ({ className }) => {
         isSelected={isEventList || isEventEdit}
       >
         {uiWordings['Navbar.Events']}
+      </NavbarLink>
+      <NavbarLink
+        to={routes.testing}
+        isSelected={isTesting}
+      >
+        {uiWordings['Navbar.Testing']}
       </NavbarLink>
     </>
   );

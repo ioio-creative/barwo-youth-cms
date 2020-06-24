@@ -31,6 +31,12 @@ const AsyncEventList = asyncLoadingComponent(_ =>
 const AsyncEventEdit = asyncLoadingComponent(_ =>
   import('components/pages/EventEdit')
 );
+const AsyncTesting = asyncLoadingComponent(_ =>
+  import('components/pages/Testing')
+);
+const AsyncFileManager = asyncLoadingComponent(_ =>
+  import('components/pages/FileManager')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -81,6 +87,9 @@ const Main = _ => {
               />
               <Route path={routes.eventEditById} component={AsyncEventEdit} />
               <Route path={routes.eventAdd(false)} component={AsyncEventEdit} />
+
+              <Route path={routes.testing} component={AsyncTesting} />
+              <Route path={routes.fileManager} component={AsyncFileManager} />
 
               <Route component={AsyncHome} />
             </Switch>

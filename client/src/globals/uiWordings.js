@@ -103,5 +103,8 @@ export default {
   'EventEdit.AddEventSubmit': 'Add Event',
   'EventEdit.UpdateEventSubmit': 'Update Event',
   'EventEdit.AddEventSuccessMessage': 'Event Added',
-  'EventEdit.UpdateEventSuccessMessage': 'Event Updated'
+  'EventEdit.UpdateEventSuccessMessage': 'Event Updated',
+
+
+  'Navbar.Testing': 'Testing Page'
 };

@@ -1,86 +1,63 @@
-import React, { useRef } from 'react';
-// ckeditor
-
-// import CKEditor from '@ckeditor/ckeditor5-react';
-// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-
+import React, { useState, useRef, useEffect } from 'react';
 import CKEditor from 'ckeditor4-react';
-// import Editor from '@ckeditor/ckeditor5-core/src/editor/editor';
-// import DataApiMixin from '@ckeditor/ckeditor5-core/src/editor/utils/dataapimixin';
-// import HtmlDataProcessor from '@ckeditor/ckeditor5-engine/src/dataprocessor/htmldataprocessor';
-// import getDataFromElement from '@ckeditor/ckeditor5-utils/src/dom/getdatafromelement';
-// import setDataInElement from '@ckeditor/ckeditor5-utils/src/dom/setdatainelement';
-// import mix from '@ckeditor/ckeditor5-utils/src/mix';
-// import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
-// import './ckfinder.js';
 
-const Hello = () => {
-  const toolbarEl = useRef(null);
-  const setToolbar = ref => {
-    toolbarEl.current = ref;
-  };
-  return (
-    <>
-      <div id='toolbar' ref={setToolbar} />
-      <div id='editableArea'>
-        <CKEditor
-          onChange={event => console.log(event)}
-          data='<p>CKEditor 4 example</p>'
-          type='classic'
-          config={{
-            filebrowserBrowseUrl: '/browser/browse.php'
-            // filebrowserUploadUrl: '/uploader/upload.php'
-          }}
-        />
-      </div>
-      <></>
-    </>
-  );
-};
+const RichTextbox = ({
+  className,
+  type,
+  name,
+  value: rawValue,
+  onChange = () => { },
+  required,
+  minLength,
+  disabled,
+  filebrowserBrowseUrl,
+  debug = false,
+  config = {
+    uiColor: '#f8f8f8',
+    // removeButtons: 'Source, Styles, wsc, spellchecker, Scayt',
+    // https://stackoverflow.com/questions/23538462/how-to-remove-buttons-from-ckeditor-4
+    toolbar: [
+      { name: 'document', groups: ['mode', 'document', 'doctools'], items: ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'] },
+      { name: 'clipboard', groups: ['clipboard', 'undo'], items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+      { name: 'editing', groups: ['find', 'selection', 'spellchecker'], items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+      { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+      '/',
+      { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+      { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+      { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+      { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+      '/',
+      { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+      { name: 'colors', items: ['TextColor', 'BGColor'] },
+      { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+      { name: 'others', items: ['-'] },
+      { name: 'about', items: ['About'] }
+    ]
+  }
+}) => {
+  const [value, setValue] = useState(rawValue);
+  useEffect(() => {
+    onChange({
+      value: value
+    })
+  }, [value]);
+  return <>
+    <div className={`editableArea ${className}`}>
+      <textarea name={name} value={value} onChange={onChange} hidden={!debug} />
+      <CKEditor
+        onChange={(event) => {
+          setValue(event.editor.getData());
+        }}
+        data={value}
+        type="classic"
+        config={{
+          filebrowserBrowseUrl: filebrowserBrowseUrl, //'/browser/browse.php',
+          // filebrowserUploadUrl: '/uploader/upload.php'
+          ...config
+        }}
+      />
+    </div>
+  </>;
+}
 
-// proseMirror
-// import {EditorState} from "prosemirror-state"
-// import {EditorView} from "prosemirror-view"
-// import {Schema, DOMParser} from "prosemirror-model"
-// import {schema} from "prosemirror-schema-basic"
-// import {addListNodes} from "prosemirror-schema-list"
-// import {exampleSetup} from "prosemirror-example-setup"
-
-// const Hello = () => {
-//   const [editorState, setEditorState] = useState(null);
-//   const contentEl = useRef(null);
-//   const editorEl = useRef(null);
-//   const mySchema = new Schema({
-//     nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
-//     marks: schema.spec.marks
-//   })
-//   const initEditor = () => {
-//     if (contentEl.current !== null && editorEl.current != null) {
-//       new EditorView(editorEl.current, {
-//         state: EditorState.create({
-//           doc: DOMParser.fromSchema(mySchema).parse(contentEl.current),
-//           // plugins: exampleSetup({schema: mySchema})
-//         }),
-//         // dispatchTransaction: this.dispatchTransaction,
-//       });
-//     }
-//   }
-//   const setContentEl = (elementRef) => {
-//     contentEl.current = elementRef;
-//     initEditor();
-//   }
-//   const setEditorEl = (elementRef) => {
-//     editorEl.current = elementRef;
-//     initEditor();
-//   }
-//   return <div id="editorWrapper">
-//     <div ref={setEditorEl} />
-//     <div ref={setContentEl} />
-//     {/* <EditorView
-//       editorState={editorState}
-//       onEditorState={setEditorState}
-//     /> */}
-//   </div>;
-// }
-
-export default Hello;
+export default RichTextbox;

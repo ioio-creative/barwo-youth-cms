@@ -1,22 +1,23 @@
 import React, { useContext, useEffect } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
-import RichTextbox from 'components/form/RichTextbox';
+import FileManagerComponent from 'components/form/FileManager';
+import routes from 'globals/routes';
 
-const Home = _ => {
+const FileManager = _ => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
 
   // componentDidMount
   useEffect(_ => {
-    setTitle('Homepage');
+    setTitle('Testing - File Manager');
     return _ => {
       removeTitle();
     };
     // eslint-disable-next-line
   }, []);
 
-  return <div className='w3-container'>Homepage
-    {/* <RichTextbox /> */}
+  return <div className='w3-container'>
+    <FileManagerComponent />
   </div>;
 };
 
-export default Home;
+export default FileManager;

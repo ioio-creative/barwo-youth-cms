@@ -34,5 +34,7 @@ export default {
   },
   eventAdd: function (isLink) {
     return '/eventAdd';
-  }
+  },
+  testing: '/testing',
+  fileManager: '/fileManager'
 };
