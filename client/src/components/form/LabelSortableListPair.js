@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import Label from 'components/form/Label';
 import Button from 'components/form/Button';
 import SortableList from './SortableList';
-import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 
 const LabelSortableListPair = ({
   isHalf,

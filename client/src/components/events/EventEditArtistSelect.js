@@ -24,7 +24,11 @@ const mapArtistToListItem = artist => {
 
 const mapArtistInEventToListItem = artistInEvent => {
   return {
-    ...artistInEvent
+    ...artistInEvent,
+    draggableId:
+      artistInEvent.draggableId ||
+      artistInEvent.artist._id ||
+      Date.now().toString()
   };
 };
 
@@ -50,7 +54,7 @@ const ArtistSelect = ({ artistSelected, onGetArtistSelected }) => {
     _ => {
       return getArraySafe(artists).map(mapArtistToListItem);
     },
-    [artists, mapArtistToListItem]
+    [artists]
   );
 
   // fetchedEventArtists
@@ -153,10 +157,10 @@ const Item = ({
 
   /* end of event handlers */
 
-  const { role_tc, role_sc, role_en, artist } = artistInEvent;
+  const { role_tc, role_sc, role_en, artist, draggableId } = artistInEvent;
 
   return (
-    <Draggable key={artist._id} draggableId={artist._id} index={index}>
+    <Draggable key={draggableId} draggableId={draggableId} index={index}>
       {(provided, snapshot) => (
         <div
           className='w3-row list-item'
@@ -176,6 +180,7 @@ const Item = ({
                 value={role_tc}
                 placeholder={uiWordings['EventEdit.Artist.RoleTcPlaceholder']}
                 onChange={onChange}
+                required={true}
               />
             </div>
             <div className='w3-col m3'>
@@ -185,6 +190,7 @@ const Item = ({
                 value={role_sc}
                 placeholder={uiWordings['EventEdit.Artist.RoleScPlaceholder']}
                 onChange={onChange}
+                required={true}
               />
             </div>
             <div className='w3-col m3'>
@@ -194,6 +200,7 @@ const Item = ({
                 value={role_en}
                 placeholder={uiWordings['EventEdit.Artist.RoleEnPlaceholder']}
                 onChange={onChange}
+                required={true}
               />
             </div>
             <div className='w3-col m3'>
@@ -239,7 +246,7 @@ const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
     _ => {
       return getArraySafe(artistsPicked).map(mapArtistInEventToListItem);
     },
-    [artistsPicked, mapArtistInEventToListItem]
+    [artistsPicked]
   );
 
   /* methods */
@@ -259,7 +266,7 @@ const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
           role_tc: '',
           role_sc: '',
           role_en: '',
-          artist: { _id: Date.now().toString() }
+          artist: { _id: '' }
         }
       ]);
     },
@@ -268,15 +275,15 @@ const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
 
   /* end of methods */
 
-  // artistsPicked
-  useEffect(
-    _ => {
-      if (!isNonEmptyArray(artistsPicked)) {
-        addArtistInEvent();
-      }
-    },
-    [artistsPicked, addArtistInEvent]
-  );
+  // // artistsPicked
+  // useEffect(
+  //   _ => {
+  //     if (!isNonEmptyArray(artistsPicked)) {
+  //       addArtistInEvent();
+  //     }
+  //   },
+  //   [artistsPicked, addArtistInEvent]
+  // );
 
   /* event handlers */
 

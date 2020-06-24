@@ -53,7 +53,7 @@ Event.eventsResponseTypes = {
   },
   EVENT_ARTIST_REQUIRED: {
     type: 'EVENT_ARTIST_REQUIRED',
-    msg: 'EVENT_ARTIST_REQUIRED'
+    msg: 'One of the event artist is missing'
   },
 
   // db check

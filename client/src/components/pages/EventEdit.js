@@ -20,7 +20,7 @@ import Event from 'models/event';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 
 const emptyEvent = new Event();
 const defaultState = emptyEvent;
@@ -149,9 +149,23 @@ const EventEdit = _ => {
 
   /* methods */
 
-  const validInput = useCallback(eventInput => {
-    return true;
-  }, []);
+  const validInput = useCallback(
+    eventInput => {
+      for (const artist of eventInput.artists) {
+        if (!artist._id) {
+          setAlerts(
+            new Alert(
+              Event.eventsResponseTypes.EVENT_ARTIST_REQUIRED.msg,
+              Alert.alertTypes.WARNING
+            )
+          );
+          return false;
+        }
+      }
+      return true;
+    },
+    [setAlerts]
+  );
 
   /* end of methods */
 
@@ -168,6 +182,7 @@ const EventEdit = _ => {
 
   const onGetArtDirectorsPicked = useCallback(
     newItemList => {
+      setIsSubmitEnabled(true);
       setArtDirectorsPicked(newItemList);
     },
     [setArtDirectorsPicked]
@@ -175,6 +190,7 @@ const EventEdit = _ => {
 
   const onGetArtistsPicked = useCallback(
     newItemList => {
+      setIsSubmitEnabled(true);
       setArtistsPicked(newItemList);
     },
     [setArtistsPicked]
@@ -184,8 +200,25 @@ const EventEdit = _ => {
     async e => {
       setIsSubmitEnabled(false);
       e.preventDefault();
-      let isSuccess = validInput();
+
+      // add art directors
+      event.artDirectors = getArraySafe(artDirectorsPicked).map(
+        artDirector => artDirector._id
+      );
+
+      // add artists
+      event.artists = getArraySafe(
+        artistsPicked.map(({ role_tc, role_sc, role_en, artist: { _id } }) => ({
+          role_tc,
+          role_sc,
+          role_en,
+          artist: _id
+        }))
+      );
+
+      let isSuccess = validInput(event);
       let returnedEvent = null;
+
       if (isSuccess) {
         const funcToCall = isAddEventMode ? addEvent : updateEvent;
         returnedEvent = await funcToCall(event);
@@ -203,7 +236,16 @@ const EventEdit = _ => {
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
       }
     },
-    [isAddEventMode, updateEvent, addEvent, event, setAlerts, validInput]
+    [
+      isAddEventMode,
+      updateEvent,
+      addEvent,
+      event,
+      artDirectorsPicked,
+      artistsPicked,
+      setAlerts,
+      validInput
+    ]
   );
 
   /* end of event handlers */

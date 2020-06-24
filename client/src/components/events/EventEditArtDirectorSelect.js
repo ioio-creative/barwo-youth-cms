@@ -28,7 +28,7 @@ const EventEditArtDirectorSelect = ({
     _ => {
       return getArraySafe(artDirectors).map(mapArtistToListItem);
     },
-    [artDirectors, mapArtistToListItem]
+    [artDirectors]
   );
 
   // art directors in picked list
@@ -37,7 +37,7 @@ const EventEditArtDirectorSelect = ({
     _ => {
       return artDirectorsPicked.map(mapArtistToListItem);
     },
-    [artDirectorsPicked, mapArtistToListItem]
+    [artDirectorsPicked]
   );
 
   // controlledArtDirectorsPicked
