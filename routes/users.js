@@ -125,6 +125,8 @@ router.put(
           .status(404)
           .json({ errors: [userResponseTypes.USER_NOT_EXISTS] });
 
+      // You should set the new option to true to return the document after update was applied.
+      // https://mongoosejs.com/docs/tutorials/findoneandupdate.html
       user = await User.findByIdAndUpdate(
         req.params._id,
         { $set: userFields },

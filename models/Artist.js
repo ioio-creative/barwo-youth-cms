@@ -31,6 +31,8 @@ const ArtistSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
+  eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   isEnabled: {
     type: Boolean,
     default: true

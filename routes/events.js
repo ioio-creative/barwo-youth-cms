@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const { check } = require('express-validator');
 
@@ -9,6 +10,7 @@ const { generalErrorHandle } = require('../utils/errorHandling');
 const getFindLikeTextRegex = require('../utils/regex/getFindLikeTextRegex');
 const { getArraySafe } = require('../utils/js/array/isNonEmptyArray');
 const { Event, eventResponseTypes } = require('../models/Event');
+const { Artist } = require('../models/Artist');
 
 const eventPopulationList = [
   {
@@ -31,12 +33,12 @@ const eventValidationChecks = [
   check('name_en', eventResponseTypes.NAME_EN_REQUIRED).not().isEmpty()
 ];
 
-const eventArtDirectorsValidation = artDirectors => {
+const eventArtDirectorsValidation = (artDirectors, res) => {
   for (const artDirector of getArraySafe(artDirectors)) {
     if (!artDirector) {
       // 400 bad request
       res.status(400).json({
-        errors: [eventeventResponseTypes.EVENT_ART_DIRECTOR_REQUIRED]
+        errors: [eventResponseTypes.EVENT_ART_DIRECTOR_REQUIRED]
       });
       return false;
     }
@@ -45,19 +47,19 @@ const eventArtDirectorsValidation = artDirectors => {
   return true;
 };
 
-const eventArtistsValidation = artists => {
+const eventArtistsValidation = (artists, res) => {
   for (const artist of getArraySafe(artists)) {
     let errorType = '';
 
     if (!artist.artist) {
       // 400 bad request
-      errorType = eventeventResponseTypes.EVENT_ARTIST_REQUIRED;
+      errorType = eventResponseTypes.EVENT_ARTIST_REQUIRED;
     } else if (!artist.role_tc) {
-      errorType = eventeventResponseTypes.EVENT_ARTIST_ROLE_TC_REQUIRED;
+      errorType = eventResponseTypes.EVENT_ARTIST_ROLE_TC_REQUIRED;
     } else if (!artist.role_sc) {
-      errorType = eventeventResponseTypes.EVENT_ARTIST_ROLE_SC_REQUIRED;
+      errorType = eventResponseTypes.EVENT_ARTIST_ROLE_SC_REQUIRED;
     } else if (!artist.role_en) {
-      errorType = eventeventResponseTypes.EVENT_ARTIST_ROLE_EN_REQUIRED;
+      errorType = eventResponseTypes.EVENT_ARTIST_ROLE_EN_REQUIRED;
     }
 
     if (errorType) {
@@ -68,6 +70,76 @@ const eventArtistsValidation = artists => {
   }
 
   return true;
+};
+
+const setEventsInvolvedForArtDirectorsAndArtists = async (
+  eventId,
+  artDirectors,
+  artists,
+  session
+) => {
+  // https://stackoverflow.com/questions/55264112/mongoose-many-to-many-relations
+
+  const options = { session };
+
+  // set art director's eventsDirected
+  for (const artDirector of getArraySafe(artDirectors)) {
+    // artDirector is artist's _id
+    await Artist.findByIdAndUpdate(
+      artDirector,
+      {
+        $addToSet: {
+          eventsDirected: eventId
+        }
+      },
+      options
+    );
+  }
+
+  // set artist's eventsPerformed
+  for (const artist of getArraySafe(artists)) {
+    // artist.artist is artist's _id
+    await Artist.findByIdAndUpdate(
+      artist.artist,
+      {
+        $addToSet: {
+          eventsPerformed: eventId
+        }
+      },
+      options
+    );
+  }
+};
+
+const removeEventsInvolvedForArtDirectorsAndArtists = async (
+  event,
+  session
+) => {
+  const options = { session };
+
+  for (const artDirector of getArraySafe(event.artDirectors)) {
+    await Artist.findByIdAndUpdate(
+      artDirector,
+      {
+        $pull: {
+          eventsDirected: event._id
+        }
+      },
+      options
+    );
+  }
+
+  for (const artist of getArraySafe(event.artists)) {
+    await Artist.findByIdAndUpdate(
+      artist.artist,
+      {
+        $pull: {
+          eventsPerformed: event._id
+        }
+      },
+      options
+    );
+  }
 };
 
 // @route   GET api/events
@@ -121,7 +193,6 @@ router.get('/:_id', auth, async (req, res) => {
         .status(404)
         .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
     }
-    console.log(event);
     res.json(event);
   } catch (err) {
     //generalErrorHandle(err, res);
@@ -151,8 +222,25 @@ router.post(
       writer_tc,
       writer_sc,
       writer_en,
-      isEnabled
+      isEnabled,
+      artDirectors,
+      artists
     } = req.body;
+
+    // customed validations
+    let isSuccess;
+    isSuccess = eventArtDirectorsValidation(artDirectors, res);
+    if (!isSuccess) {
+      return;
+    }
+    isSuccess = eventArtistsValidation(artists, res);
+    if (!isSuccess) {
+      return;
+    }
+
+    // https://stackoverflow.com/questions/51228059/mongo-db-4-0-transactions-with-mongoose-nodejs-express
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
     try {
       const event = new Event({
@@ -169,13 +257,28 @@ router.post(
         writer_sc,
         writer_en,
         isEnabled,
-        lastModifyUser: req.user._id
+        lastModifyUser: req.user._id,
+        artDirectors,
+        artists
       });
-      await event.save();
+
+      await event.save({ session });
+
+      await setEventsInvolvedForArtDirectorsAndArtists(
+        event._id,
+        artDirectors,
+        artists,
+        session
+      );
+
+      await session.commitTransaction();
 
       res.json(event);
     } catch (err) {
+      await session.abortTransaction();
       generalErrorHandle(err, res);
+    } finally {
+      session.endSession();
     }
   }
 );
@@ -207,11 +310,11 @@ router.put(
 
     // customed validations
     let isSuccess;
-    isSuccess = eventArtDirectorsValidation();
+    isSuccess = eventArtDirectorsValidation(artDirectors, res);
     if (!isSuccess) {
       return;
     }
-    isSuccess = eventArtistsValidation();
+    isSuccess = eventArtistsValidation(artists, res);
     if (!isSuccess) {
       return;
     }
@@ -238,22 +341,41 @@ router.put(
     eventFields.lastModifyDT = new Date();
     eventFields.lastModifyUser = req.user._id;
 
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    const eventId = req.params._id;
+
     try {
-      let event = await Event.findById(req.params._id);
-      if (!event)
+      const oldEvent = await Event.findById(eventId).session(session);
+      if (!oldEvent)
         return res
           .status(404)
           .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
 
-      event = await Event.findByIdAndUpdate(
-        req.params._id,
+      await removeEventsInvolvedForArtDirectorsAndArtists(oldEvent, session);
+
+      const newEvent = await Event.findByIdAndUpdate(
+        eventId,
         { $set: eventFields },
-        { new: true }
+        { session, new: true }
       );
 
-      res.json(event);
+      await setEventsInvolvedForArtDirectorsAndArtists(
+        eventId,
+        newEvent.artDirectors,
+        newEvent.artists,
+        session
+      );
+
+      await session.commitTransaction();
+
+      res.json(newEvent);
     } catch (err) {
+      await session.abortTransaction();
       generalErrorHandle(err, res);
+    } finally {
+      session.endSession();
     }
   }
 );

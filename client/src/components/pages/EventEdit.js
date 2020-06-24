@@ -200,6 +200,7 @@ const EventEdit = _ => {
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
+      removeAlerts();
       e.preventDefault();
 
       // add art directors

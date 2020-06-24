@@ -165,6 +165,8 @@ const ArtistEdit = _ => {
     return <>{backToArtistListButton}</>;
   }
 
+  console.log(artist);
+
   return (
     <>
       {backToArtistListButton}

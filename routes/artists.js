@@ -17,12 +17,20 @@ const artistValidationChecks = [
   check('role', artistResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];
 
+const artistSelect = {
+  eventsDirected: 0,
+  eventsPerformed: 0
+};
+
 // @route   GET api/artists
 // @desc    Get all artists
 // @access  Private
 router.get('/', [auth, listPathHandling], async (req, res) => {
   try {
-    const paginationOptions = req.paginationOptions;
+    const options = {
+      ...req.paginationOptions,
+      select: artistSelect
+    };
 
     // queries
     const filterText = req.query.filterText;
@@ -44,7 +52,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
     }
 
     // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
-    const artists = await Artist.paginate(findOptions, paginationOptions);
+    const artists = await Artist.paginate(findOptions, options);
     res.json(artists);
   } catch (err) {
     generalErrorHandle(err, res);
@@ -56,10 +64,9 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
 // @access  Private
 router.get('/:_id', auth, async (req, res) => {
   try {
-    const artist = await Artist.findById(req.params._id).populate(
-      'lastModifyUser',
-      'name'
-    );
+    const artist = await Artist.findById(req.params._id)
+      .select(artistSelect)
+      .populate('lastModifyUser', 'name');
     if (!artist) {
       return res
         .status(404)

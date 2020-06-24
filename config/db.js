@@ -4,11 +4,17 @@ const db = config.get('mongoURI');
 
 const connectDB = async _ => {
   try {
+    if (config.get('isMongooseDebug')) {
+      mongoose.set('debug', true);
+    }
+
     await mongoose.connect(db, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      // https://medium.com/cashpositive/the-hitchhikers-guide-to-mongodb-transactions-with-mongoose-5bf8a6e22033
+      replicaSet: 'rs'
     });
     console.log('MongoDB Connected...');
   } catch (err) {
