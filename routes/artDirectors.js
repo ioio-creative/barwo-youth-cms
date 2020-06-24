@@ -23,7 +23,7 @@ router.get('/', auth, async (req, res) => {
         name_tc: 1
       })
       .sort({
-        lastModifyDT: -1
+        name_tc: 1
       });
     res.json(artDirectors);
   } catch (err) {

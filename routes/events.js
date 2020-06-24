@@ -7,7 +7,7 @@ const validationHandling = require('../middleware/validationHandling');
 const listPathHandling = require('../middleware/listingPathHandling');
 const { generalErrorHandle } = require('../utils/errorHandling');
 const getFindLikeTextRegex = require('../utils/regex/getFindLikeTextRegex');
-const { isNonEmptyArray } = require('../utils/js/array/isNonEmptyArray');
+const { getArraySafe } = require('../utils/js/array/isNonEmptyArray');
 const { Event, eventResponseTypes } = require('../models/Event');
 
 const eventValidationChecks = [
@@ -15,6 +15,31 @@ const eventValidationChecks = [
   check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
   check('name_en', eventResponseTypes.NAME_EN_REQUIRED).not().isEmpty()
 ];
+
+const eventArtistsValidation = artists => {
+  for (const artist of getArraySafe(artists)) {
+    let errorType = '';
+
+    if (!artist.artist) {
+      // 400 bad request
+      errorType = eventeventResponseTypes.EVENT_ARTIST_REQUIRED;
+    } else if (!artist.role_tc) {
+      errorType = eventeventResponseTypes.EVENT_ARTIST_ROLE_TC_REQUIRED;
+    } else if (!artist.role_sc) {
+      errorType = eventeventResponseTypes.EVENT_ARTIST_ROLE_SC_REQUIRED;
+    } else if (!artist.role_en) {
+      errorType = eventeventResponseTypes.EVENT_ARTIST_ROLE_EN_REQUIRED;
+    }
+
+    if (errorType) {
+      // 400 bad request
+      res.status(400).json({ errors: [errorType] });
+      return false;
+    }
+  }
+
+  return true;
+};
 
 // @route   GET api/events
 // @desc    Get all events
@@ -55,15 +80,22 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
 // @access  Private
 router.get('/:_id', auth, async (req, res) => {
   try {
-    const event = await Event.findById(req.params._id).populate(
-      'lastModifyUser',
-      'name'
-    );
+    // https://mongoosejs.com/docs/populate.html#populating-multiple-paths
+    const event = await Event.findById(req.params._id)
+      .populate({
+        path: 'lastModifyUser',
+        select: 'name'
+      })
+      .populate({
+        path: 'artists.artist',
+        select: 'name_tc'
+      });
     if (!event) {
       return res
         .status(404)
         .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
     }
+    console.log(event);
     res.json(event);
   } catch (err) {
     //generalErrorHandle(err, res);
@@ -147,23 +179,32 @@ router.put(
       artists
     } = req.body;
 
+    // customed validations
+    let isSuccess;
+    isSuccess = eventArtistsValidation();
+    if (!isSuccess) {
+      return;
+    }
+
     // Build event object
+    // Note:
+    // non-required fields do not need null check
     const eventFields = {};
     if (name_tc) eventFields.name_tc = name_tc;
     if (name_sc) eventFields.name_sc = name_sc;
     if (name_en) eventFields.name_en = name_en;
-    if (desc_tc) eventFields.desc_tc = desc_tc;
-    if (desc_sc) eventFields.desc_sc = desc_sc;
-    if (desc_en) eventFields.desc_en = desc_en;
-    if (remarks_tc) eventFields.remarks_tc = remarks_tc;
-    if (remarks_sc) eventFields.remarks_sc = remarks_sc;
-    if (remarks_en) eventFields.remarks_en = remarks_en;
-    if (writer_tc) eventFields.writer_tc = writer_tc;
-    if (writer_sc) eventFields.writer_sc = writer_sc;
-    if (writer_en) eventFields.writer_en = writer_en;
+    eventFields.desc_tc = desc_tc;
+    eventFields.desc_sc = desc_sc;
+    eventFields.desc_en = desc_en;
+    eventFields.remarks_tc = remarks_tc;
+    eventFields.remarks_sc = remarks_sc;
+    eventFields.remarks_en = remarks_en;
+    eventFields.writer_tc = writer_tc;
+    eventFields.writer_sc = writer_sc;
+    eventFields.writer_en = writer_en;
     if (isEnabled !== undefined) eventFields.isEnabled = isEnabled;
-    if (isNonEmptyArray(artDirectors)) eventFields.artists = artists;
-    if (isNonEmptyArray(artists)) eventFields.artists = artists;
+    eventFields.artDirectors = getArraySafe(artDirectors);
+    eventFields.artists = getArraySafe(artists);
     eventFields.lastModifyDT = new Date();
     eventFields.lastModifyUser = req.user._id;
 
@@ -172,7 +213,7 @@ router.put(
       if (!event)
         return res
           .status(404)
-          .json({ errors: [eventeventResponseTypes.EVENT_NOT_EXISTS] });
+          .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
 
       event = await Event.findByIdAndUpdate(
         req.params._id,

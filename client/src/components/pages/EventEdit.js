@@ -152,7 +152,8 @@ const EventEdit = _ => {
   const validInput = useCallback(
     eventInput => {
       for (const artist of eventInput.artists) {
-        if (!artist._id) {
+        // artist is acutally a string, which is artistId
+        if (!artist) {
           setAlerts(
             new Alert(
               Event.eventsResponseTypes.EVENT_ARTIST_REQUIRED.msg,

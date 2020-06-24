@@ -1,6 +1,5 @@
 import React from 'react';
 import Select from 'react-select';
-import './AsyncSelect.css';
 
 const optionsExample = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -10,8 +9,10 @@ const optionsExample = [
 
 // https://react-select.com/styles
 const customStyles = {
-  option: (provided, state) => ({
-    ...provided
+  menu: (provided, state) => ({
+    ...provided,
+    position: 'relative',
+    zIndex: 2
   })
 };
 
@@ -27,7 +28,7 @@ const MyAsyncSelect = ({
   placeholder
 }) => {
   return (
-    <div className='async-select'>
+    <div>
       <Select
         styles={customStyles}
         className={className}

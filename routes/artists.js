@@ -135,6 +135,8 @@ router.put(
     } = req.body;
 
     // Build artist object
+    // Note:
+    // non-required fields do not need null check
     const artistFields = {};
     if (name_tc) artistFields.name_tc = name_tc;
     if (name_sc) artistFields.name_sc = name_sc;
@@ -142,7 +144,7 @@ router.put(
     if (desc_tc) artistFields.desc_tc = desc_tc;
     if (desc_sc) artistFields.desc_sc = desc_sc;
     if (desc_en) artistFields.desc_en = desc_en;
-    if (type) artistFields.type = type;
+    artistFields.type = type;
     if (role) artistFields.role = role;
     if (isEnabled !== undefined) artistFields.isEnabled = isEnabled;
     artistFields.lastModifyDT = new Date();
