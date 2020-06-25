@@ -3,11 +3,11 @@ const router = express.Router();
 const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
-const auth = require('../middleware/auth');
-const authIsAdmin = require('../middleware/authIsAdmin');
-const validationHandling = require('../middleware/validationHandling');
-const { generalErrorHandle } = require('../utils/errorHandling');
-const { User, userResponseTypes } = require('../models/User');
+const auth = require('../../../middleware/auth');
+const authIsAdmin = require('../../../middleware/authIsAdmin');
+const validationHandling = require('../../../middleware/validationHandling');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
+const { User, userResponseTypes } = require('../../../models/User');
 
 const userValidationChecksForAddUser = [
   check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
@@ -24,7 +24,7 @@ const userValidationChecksForUpdateUser = [
   check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];
 
-// @route   GET api/users
+// @route   GET api/backend/users/users
 // @desc    Get all users
 // @access  Private
 router.get('/', authIsAdmin, async (req, res) => {
@@ -42,7 +42,7 @@ router.get('/', authIsAdmin, async (req, res) => {
   }
 });
 
-// @route   GET api/users/:_id
+// @route   GET api/backend/users/users/:_id
 // @desc    Get user by id
 // @access  Private
 router.get('/:_id', auth, async (req, res) => {
@@ -64,7 +64,7 @@ router.get('/:_id', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/users
+// @route   POST api/backend/users/users
 // @desc    Add user
 // @access  Private
 router.post(
@@ -99,7 +99,7 @@ router.post(
   }
 );
 
-// @route   PUT api/users/:_id
+// @route   PUT api/backend/users/users/:_id
 // @desc    Update user
 // @access  Private
 router.put(
@@ -140,7 +140,7 @@ router.put(
   }
 );
 
-// // @route   DELETE api/users/:_id
+// // @route   DELETE api/backend/users/users/:_id
 // // @desc    Delete user
 // // @access  Private
 // router.delete('/:_id', authIsAdmin, async (req, res) => {

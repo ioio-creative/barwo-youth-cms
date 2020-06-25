@@ -31,7 +31,7 @@ const EventsState = ({ children }) => {
   // Get Events
   const getEvents = useCallback(async options => {
     dispatch({ type: SET_EVENTS_LOADING });
-    let url = '/api/events';
+    let url = '/api/backend/events/events';
     let queryString = '';
     if (options) {
       const { page, sortOrder, sortBy, filterText } = options;
@@ -75,7 +75,7 @@ const EventsState = ({ children }) => {
     }
     dispatch({ type: SET_EVENTS_LOADING });
     try {
-      const res = await axios.get(`/api/events/${eventId}`);
+      const res = await axios.get(`/api/backend/events/events/${eventId}`);
       dispatch({ type: GET_EVENT, payload: res.data });
     } catch (err) {
       handleServerError(err, EVENTS_ERRORS, dispatch);
@@ -97,7 +97,7 @@ const EventsState = ({ children }) => {
       }
     };
     try {
-      const res = await axios.post('/api/events', event, config);
+      const res = await axios.post('/api/backend/events/events', event, config);
       dispatch({ type: ADD_EVENT, payload: res.data });
       newEvent = res.data;
     } catch (err) {
@@ -116,7 +116,11 @@ const EventsState = ({ children }) => {
       }
     };
     try {
-      const res = await axios.put(`/api/events/${event._id}`, event, config);
+      const res = await axios.put(
+        `/api/backend/events/events/${event._id}`,
+        event,
+        config
+      );
       dispatch({ type: UPDATE_EVENT, payload: res.data });
       newEvent = res.data;
     } catch (err) {

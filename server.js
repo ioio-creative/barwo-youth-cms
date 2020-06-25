@@ -13,12 +13,24 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 // Define Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/artists', require('./routes/artists'));
-app.use('/api/events', require('./routes/events'));
-app.use('/api/artDirectors', require('./routes/artDirectors'));
-app.use('/api/eventArtists', require('./routes/eventArtists'));
+app.use('/api/backend/auth/auth', require('./routes/backend/auth/auth'));
+app.use('/api/backend/users/users', require('./routes/backend/users/users'));
+app.use(
+  '/api/backend/artists/artists',
+  require('./routes/backend/artists/artists')
+);
+app.use(
+  '/api/backend/artists/artDirectors',
+  require('./routes/backend/artists/artDirectors')
+);
+app.use(
+  '/api/backend/artists/eventArtists',
+  require('./routes/backend/artists/eventArtists')
+);
+app.use(
+  '/api/backend/events/events',
+  require('./routes/backend/events/events')
+);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

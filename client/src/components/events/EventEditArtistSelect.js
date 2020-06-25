@@ -94,24 +94,12 @@ const ArtistSelect = ({ artistSelected, onGetArtistSelected }) => {
 
 /* EventEditArtistSelect */
 
-const grid = 8;
-
 const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
-  padding: grid, //grid * 2,
-  margin: `0 0 ${grid}px 0`, //`0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'white', //isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
-  ...draggableStyle
+  ...LabelSortableListPair.getItemStyleDefault(isDragging, draggableStyle)
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: `${grid}px ${grid}px ${grid * 0.5}px ${grid}px`,
+  ...LabelSortableListPair.getListStyleDefault(isDraggingOver),
   width: 650
 });
 
@@ -153,6 +141,13 @@ const Item = ({
       dealWithItemChange(newArtistInEvent);
     },
     [artistInEvent, dealWithItemChange]
+  );
+
+  const onRemoveButtonClick = useCallback(
+    _ => {
+      handleItemRemoved(index);
+    },
+    [handleItemRemoved, index]
   );
 
   /* end of event handlers */
@@ -212,12 +207,10 @@ const Item = ({
           </div>
           <div className='w3-rest'>
             {isFunction(handleItemRemoved) ? (
-              <span
-                className='w3-right remove-btn'
-                onClick={_ => handleItemRemoved(index)}
-              >
-                <i className='fa fa-times' />
-              </span>
+              <LabelSortableListPair.ItemRemoveButton
+                className='w3-right'
+                onClick={onRemoveButtonClick}
+              />
             ) : null}
           </div>
         </div>
@@ -304,17 +297,15 @@ const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
   /* end of event handlers */
 
   return (
-    <div className='event-edit-artist-select'>
-      <LabelSortableListPair
-        name='artists'
-        labelMessage={uiWordings['Event.ArtistsLabel']}
-        pickedItemRender={itemRender}
-        getListStyle={getListStyle}
-        pickedItems={artistsInPickedList}
-        getPickedItems={onGetPickedItems}
-        onAddButtonClick={onAddButtonClick}
-      />
-    </div>
+    <LabelSortableListPair
+      name='artists'
+      labelMessage={uiWordings['Event.ArtistsLabel']}
+      pickedItemRender={itemRender}
+      getListStyle={getListStyle}
+      pickedItems={artistsInPickedList}
+      getPickedItems={onGetPickedItems}
+      onAddButtonClick={onAddButtonClick}
+    />
   );
 };
 

@@ -54,7 +54,6 @@ const Login = _ => {
       if (isNonEmptyArray(authErrors)) {
         setAlerts(
           authErrors.map(authError => {
-            console.log(authError);
             return new Alert(
               authResponseTypes[authError].msg,
               Alert.alertTypes.WARNING

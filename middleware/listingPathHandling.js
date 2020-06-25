@@ -9,7 +9,7 @@ module.exports = function (req, res, next) {
     const sortBy = req.query.sortBy;
 
     const paginationOptions = {
-      limit: config.get('tableElementPerPage'),
+      limit: config.get('Pagination_ElementsPerPage'),
       sort: { lastModifyDT: -1 },
       populate: { path: 'lastModifyUser', select: 'name' }
     };

@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const { check } = require('express-validator');
 
-const auth = require('../middleware/auth');
-const validationHandling = require('../middleware/validationHandling');
-const listPathHandling = require('../middleware/listingPathHandling');
-const { generalErrorHandle } = require('../utils/errorHandling');
-const getFindLikeTextRegex = require('../utils/regex/getFindLikeTextRegex');
-const { getArraySafe } = require('../utils/js/array/isNonEmptyArray');
-const { Event, eventResponseTypes } = require('../models/Event');
-const { Artist } = require('../models/Artist');
+const auth = require('../../../middleware/auth');
+const validationHandling = require('../../../middleware/validationHandling');
+const listPathHandling = require('../../../middleware/listingPathHandling');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
+const getFindLikeTextRegex = require('../../../utils/regex/getFindLikeTextRegex');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const { Event, eventResponseTypes } = require('../../../models/Event');
+const { Artist } = require('../../../models/Artist');
 
 const eventPopulationList = [
   {
@@ -142,7 +142,7 @@ const removeEventsInvolvedForArtDirectorsAndArtists = async (
   }
 };
 
-// @route   GET api/events
+// @route   GET api/backend/events/events
 // @desc    Get all events
 // @access  Private
 router.get('/', [auth, listPathHandling], async (req, res) => {
@@ -179,7 +179,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
   }
 });
 
-// @route   GET api/events/:_id
+// @route   GET api/backend/events/events/:_id
 // @desc    Get event by id
 // @access  Private
 router.get('/:_id', auth, async (req, res) => {
@@ -202,7 +202,7 @@ router.get('/:_id', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/events
+// @route   POST api/backend/events/events
 // @desc    Add event
 // @access  Private
 router.post(
@@ -283,7 +283,7 @@ router.post(
   }
 );
 
-// @route   PUT api/events/:_id
+// @route   PUT api/backend/events/events/:_id
 // @desc    Update event
 // @access  Private
 router.put(

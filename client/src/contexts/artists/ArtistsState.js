@@ -41,7 +41,7 @@ const ArtistsState = ({ children }) => {
   // Get Artists
   const getArtists = useCallback(async options => {
     dispatch({ type: SET_ARTISTS_LOADING });
-    let url = '/api/artists';
+    let url = '/api/backend/artists/artists';
     let queryString = '';
     if (options) {
       const { page, sortOrder, sortBy, filterText } = options;
@@ -85,7 +85,7 @@ const ArtistsState = ({ children }) => {
     }
     dispatch({ type: SET_ARTISTS_LOADING });
     try {
-      const res = await axios.get(`/api/artists/${artistId}`);
+      const res = await axios.get(`/api/backend/artists/artists/${artistId}`);
       dispatch({ type: GET_ARTIST, payload: res.data });
     } catch (err) {
       handleServerError(err, ARTISTS_ERRORS, dispatch);
@@ -107,7 +107,11 @@ const ArtistsState = ({ children }) => {
       }
     };
     try {
-      const res = await axios.post('/api/artists', artist, config);
+      const res = await axios.post(
+        '/api/backend/artists/artists',
+        artist,
+        config
+      );
       dispatch({ type: ADD_ARTIST, payload: res.data });
       newArtist = res.data;
     } catch (err) {
@@ -126,7 +130,11 @@ const ArtistsState = ({ children }) => {
       }
     };
     try {
-      const res = await axios.put(`/api/artists/${artist._id}`, artist, config);
+      const res = await axios.put(
+        `/api/backend/artists/artists/${artist._id}`,
+        artist,
+        config
+      );
       dispatch({ type: UPDATE_ARTIST, payload: res.data });
       newArtist = res.data;
     } catch (err) {
@@ -144,7 +152,7 @@ const ArtistsState = ({ children }) => {
   const getArtDirectors = useCallback(async _ => {
     dispatch({ type: SET_ART_DIRECTORS_LOADING });
     try {
-      const res = await axios.get('/api/artDirectors');
+      const res = await axios.get('/api/backend/artists/artDirectors');
       dispatch({ type: GET_ART_DIRECTORS, payload: res.data });
     } catch (err) {
       handleServerError(err, ARTISTS_ERRORS, dispatch);
@@ -160,7 +168,7 @@ const ArtistsState = ({ children }) => {
   const getEventArtists = useCallback(async _ => {
     dispatch({ type: SET_EVENT_ARTISTS_LOADING });
     try {
-      const res = await axios.get('/api/eventArtists');
+      const res = await axios.get('/api/backend/artists/eventArtists');
       dispatch({ type: GET_EVENT_ARTISTS, payload: res.data });
     } catch (err) {
       handleServerError(err, ARTISTS_ERRORS, dispatch);

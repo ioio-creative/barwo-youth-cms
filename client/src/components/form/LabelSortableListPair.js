@@ -84,4 +84,8 @@ LabelSortableListPair.defaultProps = {
   }
 };
 
+LabelSortableListPair.getListStyleDefault = SortableList.getListStyleDefault;
+LabelSortableListPair.getItemStyleDefault = SortableList.getItemStyleDefault;
+LabelSortableListPair.ItemRemoveButton = SortableList.ItemRemoveButton;
+
 export default LabelSortableListPair;

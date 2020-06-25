@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const auth = require('../middleware/auth');
-const { generalErrorHandle } = require('../utils/errorHandling');
-const { Artist, artistTypes } = require('../models/Artist');
+const auth = require('../../../middleware/auth');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
+const { Artist, artistTypes } = require('../../../models/Artist');
 
-// @route   GET api/artDirectors
+// @route   GET api/backend/artists/artDirectors
 // @desc    Get all art directors
 // @access  Private
 router.get('/', auth, async (req, res) => {

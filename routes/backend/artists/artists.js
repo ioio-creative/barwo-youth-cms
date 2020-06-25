@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
 
-const auth = require('../middleware/auth');
-const validationHandling = require('../middleware/validationHandling');
-const listPathHandling = require('../middleware/listingPathHandling');
-const { generalErrorHandle } = require('../utils/errorHandling');
-const getFindLikeTextRegex = require('../utils/regex/getFindLikeTextRegex');
-const { Artist, artistResponseTypes } = require('../models/Artist');
+const auth = require('../../../middleware/auth');
+const validationHandling = require('../../../middleware/validationHandling');
+const listPathHandling = require('../../../middleware/listingPathHandling');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
+const getFindLikeTextRegex = require('../../../utils/regex/getFindLikeTextRegex');
+const { Artist, artistResponseTypes } = require('../../../models/Artist');
 
 const artistValidationChecks = [
   check('name_tc', artistResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
@@ -22,7 +22,7 @@ const artistSelect = {
   eventsPerformed: 0
 };
 
-// @route   GET api/artists
+// @route   GET api/backend/artists/artists
 // @desc    Get all artists
 // @access  Private
 router.get('/', [auth, listPathHandling], async (req, res) => {
@@ -59,7 +59,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
   }
 });
 
-// @route   GET api/artists/:_id
+// @route   GET api/backend/artists/artists/:_id
 // @desc    Get artist by id
 // @access  Private
 router.get('/:_id', auth, async (req, res) => {
@@ -81,7 +81,7 @@ router.get('/:_id', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/artists
+// @route   POST api/backend/artists/artists
 // @desc    Add artist
 // @access  Private
 router.post(
@@ -122,7 +122,7 @@ router.post(
   }
 );
 
-// @route   PUT api/artists/:_id
+// @route   PUT api/backend/artists/artists/:_id
 // @desc    Update artist
 // @access  Private
 router.put(

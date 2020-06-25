@@ -20,6 +20,14 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
+const ItemRemoveButton = ({ className, onClick }) => {
+  return (
+    <span className={`remove-btn ${className || ''}`} onClick={onClick}>
+      <i className='fa fa-times' />
+    </span>
+  );
+};
+
 const grid = 8;
 
 const getItemStyleExample = (isDragging, draggableStyle) => ({
@@ -41,32 +49,31 @@ const getListStyleExample = isDraggingOver => ({
   width: 250
 });
 
-const itemRenderExample = ({ value, label, handleItemRemoved }, index) => (
-  <Draggable key={value} draggableId={value} index={index}>
-    {(provided, snapshot) => (
-      <div
-        className='sortable-list-item'
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-        style={getItemStyleExample(
-          snapshot.isDragging,
-          provided.draggableProps.style
-        )}
-      >
-        {label}
-        {isFunction(handleItemRemoved) ? (
-          <span
-            className='w3-right remove-btn'
-            onClick={_ => handleItemRemoved(index)}
-          >
-            <i className='fa fa-times' />
-          </span>
-        ) : null}
-      </div>
-    )}
-  </Draggable>
-);
+const itemRenderExample = ({ value, label, handleItemRemoved }, index) => {
+  return (
+    <Draggable key={value} draggableId={value} index={index}>
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          style={getItemStyleExample(
+            snapshot.isDragging,
+            provided.draggableProps.style
+          )}
+        >
+          {label}
+          {isFunction(handleItemRemoved) ? (
+            <ItemRemoveButton
+              className='w3-right'
+              onClick={_ => handleItemRemoved(index)}
+            />
+          ) : null}
+        </div>
+      )}
+    </Draggable>
+  );
+};
 
 const onDragEndExample = reorderedItems => {
   console.log('onDragEnd:', reorderedItems);
@@ -178,5 +185,9 @@ SortableList.defaultProps = {
   getListStyle: getListStyleExample,
   onDragEnd: onDragEndExample
 };
+
+SortableList.getListStyleDefault = getListStyleExample;
+SortableList.getItemStyleDefault = getItemStyleExample;
+SortableList.ItemRemoveButton = ItemRemoveButton;
 
 export default SortableList;

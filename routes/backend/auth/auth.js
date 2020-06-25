@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const { User } = require('../models/User');
-const auth = require('../middleware/auth');
-const validationHandling = require('../middleware/validationHandling');
-const { generalErrorHandle } = require('../utils/errorHandling');
+const { User } = require('../../../models/User');
+const auth = require('../../../middleware/auth');
+const validationHandling = require('../../../middleware/validationHandling');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
 const {
   INVALID_CREDENTIALS,
   USER_DOES_NOT_HAVE_RIGHT
-} = require('../types/responses/auth');
+} = require('../../../types/responses/auth');
 
-// @route   GET api/auth
+// @route   GET api/backend/auth/auth
 // @desc    Get logged in user
 // @access  Private
 router.get('/', auth, async (req, res) => {
@@ -32,7 +32,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/auth
+// @route   POST api/backend/auth/auth
 // @desc    Auth user & get token
 // @access  Public
 router.post(
@@ -70,7 +70,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        config.get('Jwt_Secret'),
         {
           expiresIn: 360000
         },

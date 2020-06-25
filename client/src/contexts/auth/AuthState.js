@@ -37,7 +37,7 @@ const AuthState = ({ children }) => {
     }
 
     try {
-      const res = await axios.get('/api/auth');
+      const res = await axios.get('/api/backend/auth/auth');
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (err) {
       handleServerError(err, AUTH_ERRORS, dispatch);
@@ -56,7 +56,11 @@ const AuthState = ({ children }) => {
       };
 
       try {
-        const res = await axios.post('/api/auth', formData, config);
+        const res = await axios.post(
+          '/api/backend/auth/auth',
+          formData,
+          config
+        );
 
         dispatch({
           type: LOGIN_SUCCESS,

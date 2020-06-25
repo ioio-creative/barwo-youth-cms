@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const config = require('config');
-const db = config.get('mongoURI');
+const db = config.get('Database_ConnectionString');
 
 const connectDB = async _ => {
   try {
-    if (config.get('isMongooseDebug')) {
+    if (config.get('Database_IsDebug')) {
       mongoose.set('debug', true);
     }
 
