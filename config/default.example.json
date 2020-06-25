@@ -4,5 +4,7 @@
 
   "Jwt_Secret": "secret",
 
-  "Pagination_ElementsPerPage": 10
+  "Pagination_ElementsPerPage": 10,
+
+  "User_Password_MinLength": 6
 }

@@ -12,7 +12,8 @@ const handleServerError = (err, dispatchType, dispatchFunc) => {
   ) {
     dispatchContent.payload = err.response.data.errors;
   } else {
-    console.log(JSON.stringify(err, null, 2));
+    console.log(error);
+    //console.log(JSON.stringify(err, null, 2));
     let error = generalResponses.CLIENT_ERROR;
     if (err.message.includes('500')) {
       error = generalResponses.SERVER_ERROR;

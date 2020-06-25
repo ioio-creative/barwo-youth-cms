@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import guid from 'utils/guid';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
 import ListItem from './models/ListItem';
@@ -179,7 +180,7 @@ const SortableList = ({
 };
 
 SortableList.defaultProps = {
-  _id: Date.now().toString(), //'droppable',
+  _id: guid(), //'droppable',
   items: getItemsExample(10),
   itemRender: itemRenderExample,
   getListStyle: getListStyleExample,

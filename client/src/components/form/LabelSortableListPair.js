@@ -22,32 +22,25 @@ const LabelSortableListPair = ({
     [getPickedItems]
   );
 
-  const handleNewItemList = useCallback(
+  const handleSortableListDragEnd = useCallback(
+    reorderedItems => {
+      handleGetPickedItems(reorderedItems);
+    },
+    [handleGetPickedItems]
+  );
+
+  const handleSortableListItemRemoved = useCallback(
     newItemList => {
       handleGetPickedItems(newItemList);
     },
     [handleGetPickedItems]
   );
 
-  const handleSortableListDragEnd = useCallback(
-    reorderedItems => {
-      handleNewItemList(reorderedItems);
-    },
-    [handleNewItemList]
-  );
-
-  const handleSortableListItemRemoved = useCallback(
-    newItemList => {
-      handleNewItemList(newItemList);
-    },
-    [handleNewItemList]
-  );
-
   const handleSortableListItemChange = useCallback(
     newItemList => {
-      handleNewItemList(newItemList);
+      handleGetPickedItems(newItemList);
     },
-    [handleNewItemList]
+    [handleGetPickedItems]
   );
 
   /* end of event handlers */

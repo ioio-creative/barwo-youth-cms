@@ -7,6 +7,7 @@ import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
 import EventEditArtDirectorSelect from 'components/events/EventEditArtDirectorSelect';
 import EventEditArtistSelect from 'components/events/EventEditArtistSelect';
+import EventEditShowSelect from 'components/events/EventEditShowSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
@@ -20,10 +21,33 @@ import Event from 'models/event';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
+import { compareForStringsAscending } from 'utils/js/string/compareForStrings';
+import { compareForDatesAscending, formatDateString } from 'utils/datetime';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 
 const emptyEvent = new Event();
 const defaultState = emptyEvent;
+
+/* shows related utils */
+
+const cleanShow = show => ({
+  date: formatDateString(show.date),
+  startTime: show.startTime.toString().substr(0, 'HH:mm'.length)
+});
+
+const compareShows = (show1, show2) => {
+  const compareDateResult = compareForDatesAscending(show1.date, show2.date);
+  if (compareDateResult !== 0) {
+    return compareDateResult;
+  }
+  return compareForStringsAscending(show1.startTime, show2.startTime);
+};
+
+const sortShows = shows => {
+  return getArraySafe(shows).sort(compareShows);
+};
+
+/* end of shows related utils */
 
 const EventEdit = _ => {
   const { eventId } = useParams();
@@ -58,6 +82,9 @@ const EventEdit = _ => {
 
   // artists in event
   const [artistsPicked, setArtistsPicked] = useState([]);
+
+  // shows in event
+  const [showsPicked, setShowsPicked] = useState([]);
 
   // componentDidMount
   useEffect(_ => {
@@ -97,6 +124,9 @@ const EventEdit = _ => {
           }
           if (isNonEmptyArray(fetchedEvent.artists)) {
             setArtistsPicked(fetchedEvent.artists);
+          }
+          if (isNonEmptyArray(fetchedEvent.shows)) {
+            setShowsPicked(fetchedEvent.shows);
           }
         }
         setIsAddEventMode(!fetchedEvent);
@@ -178,7 +208,7 @@ const EventEdit = _ => {
       removeAlerts();
       setEvent({ ...event, [e.target.name]: e.target.value });
     },
-    [event, setEvent, removeAlerts]
+    [event, setEvent, removeAlerts, setIsSubmitEnabled]
   );
 
   const onGetArtDirectorsPicked = useCallback(
@@ -186,7 +216,7 @@ const EventEdit = _ => {
       setIsSubmitEnabled(true);
       setArtDirectorsPicked(newItemList);
     },
-    [setArtDirectorsPicked]
+    [setArtDirectorsPicked, setIsSubmitEnabled]
   );
 
   const onGetArtistsPicked = useCallback(
@@ -194,7 +224,15 @@ const EventEdit = _ => {
       setIsSubmitEnabled(true);
       setArtistsPicked(newItemList);
     },
-    [setArtistsPicked]
+    [setArtistsPicked, setIsSubmitEnabled]
+  );
+
+  const onGetShowsPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setShowsPicked(newItemList);
+    },
+    [setShowsPicked, setIsSubmitEnabled]
   );
 
   const onSubmit = useCallback(
@@ -218,6 +256,19 @@ const EventEdit = _ => {
         }))
       );
 
+      // add shows
+      const cleanedShows = getArraySafe(
+        showsPicked.map(({ date, startTime }) =>
+          cleanShow({
+            date,
+            startTime
+          })
+        )
+      );
+      // note: backend will sort the shows as well
+      // so no need to sort before submit
+      event.shows = cleanedShows;
+
       let isSuccess = validInput(event);
       let returnedEvent = null;
 
@@ -235,6 +286,10 @@ const EventEdit = _ => {
             Alert.alertTypes.INFO
           )
         );
+        // can only sort cleaned shows
+        // as "raw" shows date and startTime fields contain extra info
+        // which affect sorting
+        setShowsPicked(sortShows(event.shows));
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
       }
     },
@@ -245,6 +300,7 @@ const EventEdit = _ => {
       event,
       artDirectorsPicked,
       artistsPicked,
+      showsPicked,
       setAlerts,
       removeAlerts,
       validInput
@@ -327,8 +383,35 @@ const EventEdit = _ => {
           onChange={onChange}
         />
 
+        <EventEditShowSelect
+          shows={showsPicked}
+          onGetShows={onGetShowsPicked}
+        />
+
+        <LabelInputTextPair
+          name='remarks_tc'
+          value={event.remarks_tc}
+          labelMessage={uiWordings['Event.RemarksTcLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='remarks_sc'
+          value={event.remarks_sc}
+          labelMessage={uiWordings['Event.RemarksScLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='remarks_en'
+          value={event.remarks_en}
+          labelMessage={uiWordings['Event.RemarksEnLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+
         <EventEditArtDirectorSelect
-          controlledArtDirectorsPicked={artDirectorsPicked}
+          artDirectorsPicked={artDirectorsPicked}
           onGetArtDirectorsPicked={onGetArtDirectorsPicked}
         />
 

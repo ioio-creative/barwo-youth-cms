@@ -13,6 +13,16 @@ import InputText from 'components/form/InputText';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
+import guid from 'utils/guid';
+
+/* constants */
+
+const emptyArtistInEventForAdd = {
+  role_tc: '',
+  role_sc: '',
+  role_en: '',
+  artist: { _id: '' }
+};
 
 const mapArtistToListItem = artist => {
   return {
@@ -25,12 +35,11 @@ const mapArtistToListItem = artist => {
 const mapArtistInEventToListItem = artistInEvent => {
   return {
     ...artistInEvent,
-    draggableId:
-      artistInEvent.draggableId ||
-      artistInEvent.artist._id ||
-      Date.now().toString()
+    draggableId: artistInEvent.draggableId || artistInEvent._id || guid()
   };
 };
+
+/* end of constants */
 
 /* ArtistSelect */
 
@@ -103,7 +112,6 @@ const getListStyle = isDraggingOver => ({
   width: 650
 });
 
-// https://reactjs.org/docs/hooks-reference.html#useimperativehandle
 const Item = ({
   artistInEvent,
   handleItemRemoved,
@@ -158,7 +166,7 @@ const Item = ({
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
       {(provided, snapshot) => (
         <div
-          className='w3-row list-item'
+          className='w3-row'
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -255,12 +263,7 @@ const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
     _ => {
       dealWithGetArtistsPicked([
         ...getArraySafe(artistsPicked),
-        {
-          role_tc: '',
-          role_sc: '',
-          role_en: '',
-          artist: { _id: '' }
-        }
+        emptyArtistInEventForAdd
       ]);
     },
     [artistsPicked, dealWithGetArtistsPicked]

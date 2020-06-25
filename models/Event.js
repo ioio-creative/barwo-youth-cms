@@ -20,6 +20,17 @@ const EventArtistSchema = mongoose.Schema({
   }
 });
 
+const EventShowSchema = mongoose.Schema({
+  date: {
+    type: Date,
+    require: true
+  },
+  startTime: {
+    type: String,
+    require: true
+  }
+});
+
 const EventSchema = mongoose.Schema({
   name_tc: {
     type: String,
@@ -62,6 +73,7 @@ const EventSchema = mongoose.Schema({
   },
   artDirectors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'artist' }],
   artists: [EventArtistSchema],
+  shows: [EventShowSchema],
   isEnabled: {
     type: Boolean,
     default: true
@@ -94,6 +106,8 @@ module.exports.eventResponseTypes = {
   EVENT_ARTIST_ROLE_SC_REQUIRED: 'EVENT_ARTIST_ROLE_SC_REQUIRED',
   EVENT_ARTIST_ROLE_EN_REQUIRED: 'EVENT_ARTIST_ROLE_EN_REQUIRED',
   EVENT_ARTIST_REQUIRED: 'EVENT_ARTIST_REQUIRED',
+  EVENT_SHOW_DATE_REQUIRED: 'EVENT_SHOW_DATE_REQUIRED',
+  EVENT_SHOW_START_TIME_REQUIRED: 'EVENT_SHOW_START_TIME_REQUIRED',
 
   // db check
   EVENT_NOT_EXISTS: 'EVENT_NOT_EXISTS'

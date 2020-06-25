@@ -43,10 +43,10 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
         $or: [
           { name_tc: filterTextRegex },
           { name_sc: filterTextRegex },
-          { name_en: filterTextRegex },
-          { desc_tc: filterTextRegex },
-          { desc_sc: filterTextRegex },
-          { desc_en: filterTextRegex }
+          { name_en: filterTextRegex }
+          // { desc_tc: filterTextRegex },
+          // { desc_sc: filterTextRegex },
+          // { desc_en: filterTextRegex }
         ]
       };
     }

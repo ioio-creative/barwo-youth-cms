@@ -1,5 +1,5 @@
 import React, { useReducer, useCallback } from 'react';
-//import { v4 as uuid } from 'uuid';
+//import guid from 'utils/guid';
 import axios from 'axios';
 import UsersContext from './usersContext';
 import usersReducer from './usersReducer';
@@ -57,7 +57,7 @@ const UsersState = ({ children }) => {
   const getUsers = useCallback(async _ => {
     dispatch({ type: SET_USERS_LOADING });
     try {
-      const res = await axios.get('/api/users');
+      const res = await axios.get('/api/backend/users/users');
       dispatch({ type: GET_USERS, payload: res.data });
     } catch (err) {
       handleServerError(err, USERS_ERRORS, dispatch);
@@ -80,7 +80,7 @@ const UsersState = ({ children }) => {
     }
     dispatch({ type: SET_USERS_LOADING });
     try {
-      const res = await axios.get(`/api/users/${userId}`);
+      const res = await axios.get(`/api/backend/users/users/${userId}`);
       dispatch({ type: GET_USER, payload: res.data });
     } catch (err) {
       handleServerError(err, USERS_ERRORS, dispatch);
@@ -96,14 +96,14 @@ const UsersState = ({ children }) => {
   const addUser = useCallback(async user => {
     let newUser = null;
     dispatch({ type: SET_USERS_LOADING });
-    //user._id = uuid();
+    //user._id = guid();
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     };
     try {
-      const res = await axios.post('/api/users', user, config);
+      const res = await axios.post('/api/backend/users/users', user, config);
       dispatch({ type: ADD_USER, payload: res.data });
       newUser = res.data;
     } catch (err) {
@@ -116,7 +116,7 @@ const UsersState = ({ children }) => {
   const updateUser = useCallback(async user => {
     let newUser = null;
     dispatch({ type: SET_USERS_LOADING });
-    //user._id = uuid();
+    //user._id = guid();
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -124,7 +124,11 @@ const UsersState = ({ children }) => {
     };
     try {
       //console.log(user);
-      const res = await axios.put(`/api/users/${user._id}`, user, config);
+      const res = await axios.put(
+        `/api/backend/users/users/${user._id}`,
+        user,
+        config
+      );
       dispatch({ type: UPDATE_USER, payload: res.data });
       newUser = res.data;
     } catch (err) {

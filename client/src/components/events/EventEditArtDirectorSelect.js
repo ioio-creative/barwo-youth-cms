@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useState,
-  useMemo,
-  useEffect,
-  useCallback
-} from 'react';
+import React, { useContext, useMemo, useCallback } from 'react';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import PickValues from 'components/form/PickValues';
 import uiWordings from 'globals/uiWordings';
@@ -19,7 +13,7 @@ const mapArtistToListItem = artist => {
 };
 
 const EventEditArtDirectorSelect = ({
-  controlledArtDirectorsPicked,
+  artDirectorsPicked,
   onGetArtDirectorsPicked
 }) => {
   // art director options
@@ -32,20 +26,11 @@ const EventEditArtDirectorSelect = ({
   );
 
   // art directors in picked list
-  const [artDirectorsPicked, setArtDirectorsPicked] = useState([]);
   const artDirectorsInPickedList = useMemo(
     _ => {
       return artDirectorsPicked.map(mapArtistToListItem);
     },
     [artDirectorsPicked]
-  );
-
-  // controlledArtDirectorsPicked
-  useEffect(
-    _ => {
-      setArtDirectorsPicked(controlledArtDirectorsPicked);
-    },
-    [controlledArtDirectorsPicked, setArtDirectorsPicked]
   );
 
   /* methods */

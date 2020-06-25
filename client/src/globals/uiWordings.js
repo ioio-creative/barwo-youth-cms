@@ -88,6 +88,7 @@ export default {
   'Event.WriterEnLabel': 'Writer EN',
   'Event.ArtDirectorsLabel': 'Art Directors',
   'Event.ArtistsLabel': 'Cast',
+  'Event.ShowsLabel': 'Shows',
   'Event.CreateDTLabel': 'Create DT',
   'Event.LastModifyDTLabel': 'Last Modify DT',
   'Event.LastModifyUserLabel': 'Last Modify User',
@@ -112,6 +113,5 @@ export default {
   'EventEdit.Artist.RoleEnPlaceholder': 'Role EN',
   'EventEdit.Artist.ArtistPlaceholder': 'Select Artist...',
 
-  'Navbar.Testing': 'Testing Page',
-
+  'Navbar.Testing': 'Testing Page'
 };

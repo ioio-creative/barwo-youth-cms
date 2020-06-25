@@ -1,5 +1,5 @@
 import React, { useReducer, useCallback } from 'react';
-//import { v4 as uuid } from 'uuid';
+//import guid from 'utils/guid';
 import AlertContext from './alertContext';
 import alertReducer from './alertReducer';
 import { SET_ALERTS, REMOVE_ALERTS } from '../types';
@@ -12,8 +12,8 @@ const AlertState = ({ children }) => {
   // Set Alert
   // alerts is array of objects { msg, type }
   const setAlerts = useCallback((alerts, timeout = -1) => {
-    //const _id = uuid();
-    
+    //const _id = guid();
+
     const tamperedAlerts = Array.isArray(alerts) ? alerts : [alerts];
     dispatch({ type: SET_ALERTS, payload: tamperedAlerts });
 

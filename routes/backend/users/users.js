@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const config = require('config');
 
 const auth = require('../../../middleware/auth');
 const authIsAdmin = require('../../../middleware/authIsAdmin');
@@ -13,7 +14,7 @@ const userValidationChecksForAddUser = [
   check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
   check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
   check('password', userResponseTypes.PASSWORD_INVALID).isLength({
-    min: 6
+    min: config.get('User_Password_MinLength')
   }),
   check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];

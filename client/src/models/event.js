@@ -1,4 +1,4 @@
-import { formatDateTimeString } from 'utils/datetime';
+import { formatDateTimeString, formatDateString } from 'utils/datetime';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
@@ -10,14 +10,15 @@ function Event() {
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
-  this.desc_tc = '';
-  this.desc_sc = '';
-  this.desc_en = '';
+  this.remarks_tc = '';
+  this.remarks_sc = '';
+  this.remarks_en = '';
   this.writer_tc = '';
   this.writer_sc = '';
   this.writer_en = '';
   this.artDirectors = [];
   this.artists = [];
+  this.shows = [];
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
@@ -60,6 +61,14 @@ Event.eventsResponseTypes = {
     type: 'EVENT_ARTIST_REQUIRED',
     msg: 'One of the event artists is missing.'
   },
+  EVENT_SHOW_DATE_REQUIRED: {
+    type: 'EVENT_SHOW_DATE_REQUIRED',
+    msg: 'One of the event show date is missing.'
+  },
+  EVENT_SHOW_START_TIME_REQUIRED: {
+    type: 'EVENT_SHOW_START_TIME_REQUIRED',
+    msg: 'One of the event show start time is missing.'
+  },
 
   // db check
   EVENT_NOT_EXISTS: {
@@ -82,7 +91,12 @@ Event.getEventForDisplay = event => {
       : '',
     isEnabledDisplay: event.isEnabled.toString(),
     artDirectorsDisplay: firstOrDefault(event.artDirectors, { name_tc: '' })
-      .name_tc
+      .name_tc,
+    artistsDisplay: firstOrDefault(event.artists, { artist: { name_tc: '' } })
+      .artist.name_tc,
+    showsDisplay: formatDateString(
+      firstOrDefault(event.shows, { date: null }).date
+    )
   };
 };
 

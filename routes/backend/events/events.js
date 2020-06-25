@@ -9,23 +9,34 @@ const listPathHandling = require('../../../middleware/listingPathHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const getFindLikeTextRegex = require('../../../utils/regex/getFindLikeTextRegex');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  compareForStringsAscending
+} = require('../../../utils/js/string/compareForStrings');
+const { compareForDatesAscending } = require('../../../utils/datetime');
 const { Event, eventResponseTypes } = require('../../../models/Event');
 const { Artist } = require('../../../models/Artist');
 
-const eventPopulationList = [
+/* utilities */
+
+const eventPopulationListForFindAll = [
   {
     path: 'lastModifyUser',
     select: 'name'
+  },
+  {
+    path: 'artDirectors',
+    select: 'name_tc'
   },
   {
     path: 'artists.artist',
     select: 'name_tc'
   },
   {
-    path: 'artDirectors',
-    select: 'name_tc'
+    path: 'shows'
   }
 ];
+
+const eventPopulationListForFindOne = [...eventPopulationListForFindAll];
 
 const eventValidationChecks = [
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
@@ -36,23 +47,17 @@ const eventValidationChecks = [
 const eventArtDirectorsValidation = (artDirectors, res) => {
   for (const artDirector of getArraySafe(artDirectors)) {
     if (!artDirector) {
-      // 400 bad request
-      res.status(400).json({
-        errors: [eventResponseTypes.EVENT_ART_DIRECTOR_REQUIRED]
-      });
-      return false;
+      return eventResponseTypes.EVENT_ART_DIRECTOR_REQUIRED;
     }
   }
-
-  return true;
+  return null;
 };
 
 const eventArtistsValidation = (artists, res) => {
   for (const artist of getArraySafe(artists)) {
-    let errorType = '';
+    let errorType = null;
 
     if (!artist.artist) {
-      // 400 bad request
       errorType = eventResponseTypes.EVENT_ARTIST_REQUIRED;
     } else if (!artist.role_tc) {
       errorType = eventResponseTypes.EVENT_ARTIST_ROLE_TC_REQUIRED;
@@ -63,10 +68,57 @@ const eventArtistsValidation = (artists, res) => {
     }
 
     if (errorType) {
-      // 400 bad request
-      res.status(400).json({ errors: [errorType] });
-      return false;
+      return errorType;
     }
+  }
+
+  return null;
+};
+
+const eventShowsValidation = (shows, res) => {
+  for (const show of getArraySafe(shows)) {
+    let errorType = null;
+
+    if (!show.date) {
+      errorType = eventResponseTypes.EVENT_SHOW_DATE_REQUIRED;
+    } else if (!show.startTime) {
+      errorType = eventResponseTypes.EVENT_SHOW_START_TIME_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
+const handleEventRelationshipsValidationError = (errorType, res) => {
+  // 400 bad request
+  res.status(400).json({
+    errors: [errorType]
+  });
+};
+
+const eventRelationshipsValidation = (artDirectors, artists, shows, res) => {
+  let errorType = null;
+
+  errorType = eventArtDirectorsValidation(artDirectors, res);
+  if (errorType) {
+    handleEventRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  errorType = eventArtistsValidation(artists, res);
+  if (errorType) {
+    handleEventRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  errorType = eventShowsValidation(shows, res);
+  if (errorType) {
+    handleEventRelationshipsValidationError(errorType, res);
+    return false;
   }
 
   return true;
@@ -142,6 +194,20 @@ const removeEventsInvolvedForArtDirectorsAndArtists = async (
   }
 };
 
+const compareShows = (show1, show2) => {
+  const compareDateResult = compareForDatesAscending(show1.date, show2.date);
+  if (compareDateResult !== 0) {
+    return compareDateResult;
+  }
+  return compareForStringsAscending(show1.startTime, show2.startTime);
+};
+
+const sortShows = shows => {
+  return getArraySafe(shows).sort(compareShows);
+};
+
+/* end of utilities */
+
 // @route   GET api/backend/events/events
 // @desc    Get all events
 // @access  Private
@@ -149,7 +215,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
   try {
     const options = {
       ...req.paginationOptions,
-      populate: eventPopulationList
+      populate: eventPopulationListForFindAll
     };
 
     // queries
@@ -158,16 +224,15 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
     let findOptions = {};
     if (!['', null, undefined].includes(filterText)) {
       const filterTextRegex = getFindLikeTextRegex(filterText);
-      // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
       findOptions = {
-        // $or: [
-        //   { name_tc: filterTextRegex },
-        //   { name_sc: filterTextRegex },
-        //   { name_en: filterTextRegex },
-        //   { desc_tc: filterTextRegex },
-        //   { desc_sc: filterTextRegex },
-        //   { desc_en: filterTextRegex }
-        // ]
+        $or: [
+          { name_tc: filterTextRegex },
+          { name_sc: filterTextRegex },
+          { name_en: filterTextRegex }
+          // { desc_tc: filterTextRegex },
+          // { desc_sc: filterTextRegex },
+          // { desc_en: filterTextRegex }
+        ]
       };
     }
 
@@ -186,7 +251,7 @@ router.get('/:_id', auth, async (req, res) => {
   try {
     // https://mongoosejs.com/docs/populate.html#populating-multiple-paths
     const event = await Event.findById(req.params._id).populate(
-      eventPopulationList
+      eventPopulationListForFindOne
     );
     if (!event) {
       return res
@@ -224,16 +289,17 @@ router.post(
       writer_en,
       isEnabled,
       artDirectors,
-      artists
+      artists,
+      shows
     } = req.body;
 
     // customed validations
-    let isSuccess;
-    isSuccess = eventArtDirectorsValidation(artDirectors, res);
-    if (!isSuccess) {
-      return;
-    }
-    isSuccess = eventArtistsValidation(artists, res);
+    let isSuccess = eventRelationshipsValidation(
+      artDirectors,
+      artists,
+      shows,
+      res
+    );
     if (!isSuccess) {
       return;
     }
@@ -259,7 +325,8 @@ router.post(
         isEnabled,
         lastModifyUser: req.user._id,
         artDirectors,
-        artists
+        artists,
+        shows
       });
 
       await event.save({ session });
@@ -305,16 +372,17 @@ router.put(
       writer_en,
       isEnabled,
       artDirectors,
-      artists
+      artists,
+      shows
     } = req.body;
 
     // customed validations
-    let isSuccess;
-    isSuccess = eventArtDirectorsValidation(artDirectors, res);
-    if (!isSuccess) {
-      return;
-    }
-    isSuccess = eventArtistsValidation(artists, res);
+    let isSuccess = eventRelationshipsValidation(
+      artDirectors,
+      artists,
+      shows,
+      res
+    );
     if (!isSuccess) {
       return;
     }
@@ -338,6 +406,7 @@ router.put(
     if (isEnabled !== undefined) eventFields.isEnabled = isEnabled;
     eventFields.artDirectors = getArraySafe(artDirectors);
     eventFields.artists = getArraySafe(artists);
+    eventFields.shows = sortShows(shows);
     eventFields.lastModifyDT = new Date();
     eventFields.lastModifyUser = req.user._id;
 

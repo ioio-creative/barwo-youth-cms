@@ -77,6 +77,11 @@ const headers = [
   //   isSortEnabled: true
   // },
   {
+    name: uiWordings['Event.ArtDirectorsLabel'],
+    value: 'artDirectorsDisplay',
+    isSortEnabled: true
+  },
+  {
     name: uiWordings['Event.WriterTcLabel'],
     value: 'writer_tc',
     isSortEnabled: true
@@ -92,8 +97,13 @@ const headers = [
   //   isSortEnabled: true
   // },
   {
-    name: uiWordings['Event.ArtDirectorsLabel'],
-    value: 'artDirectorsDisplay',
+    name: uiWordings['Event.ArtistsLabel'],
+    value: 'artistsDisplay',
+    isSortEnabled: true
+  },
+  {
+    name: uiWordings['Event.ShowsLabel'],
+    value: 'showsDisplay',
     isSortEnabled: true
   },
   // {

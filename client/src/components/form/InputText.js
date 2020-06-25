@@ -39,6 +39,7 @@ const MyInputText = ({
 MyInputText.defaultProps = {
   className: '',
   name: '',
+  value: '',
   type: 'text',
   placeholder: ''
 };
