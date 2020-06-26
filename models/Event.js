@@ -32,6 +32,11 @@ const EventShowSchema = mongoose.Schema({
 });
 
 const EventSchema = mongoose.Schema({
+  label: {
+    type: String,
+    require: true,
+    unique: true
+  },
   name_tc: {
     type: String,
     require: true
@@ -98,6 +103,8 @@ module.exports.Event = mongoose.model('event', EventSchema);
 
 module.exports.eventResponseTypes = {
   // input validation
+  LABEL_REQUIRED: 'LABEL_REQUIRED',
+  LABEL_ALREADY_EXISTS: 'LABEL_ALREADY_EXISTS',
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
