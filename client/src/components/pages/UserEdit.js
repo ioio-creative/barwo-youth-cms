@@ -46,7 +46,7 @@ const UserEdit = _ => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddUserMode, setIsAddUserMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
-  const [isChangePW, setIsChangePW] = useState(false);
+  const [isChangePassword, setIsChangePassword] = useState(false);
 
   // componentDidMount
   useEffect(_ => {
@@ -119,9 +119,18 @@ const UserEdit = _ => {
           return false;
         }
       }
+      if (userInput.password1 !== userInput.password2) {
+        setAlerts(
+          new Alert(
+            uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
+            Alert.alertTypes.WARNING
+          )
+        );
+        return false;
+      }
       return true;
     },
-    [isAddUserMode, setAlerts]
+    [isAddUserMode, isChangePassword, setAlerts]
   );
 
   /* end of methods */
@@ -228,6 +237,30 @@ const UserEdit = _ => {
             />
           </>
         )}
+        <LabelInputTextPair
+          name='password1'
+          value={user.password1}
+          inputType='password'
+          labelMessage={uiWordings['UserEdit.NewPasswordLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+          minLength='6'
+        />
+        <LabelInputTextPair
+          name='password2'
+          value={user.password2}
+          inputType='password'
+          labelMessage={uiWordings['UserEdit.ConfirmPasswordLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+          minLength='6'
+        />
+        <SubmitButton
+          disabled={!isSubmitEnabled}
+          label={uiWordings['UserEdit.ChangePassword']}
+        />
         <LabelInputTextPair
           name='name'
           value={user.name}

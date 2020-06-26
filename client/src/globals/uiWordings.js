@@ -37,6 +37,7 @@ export default {
   'UserEdit.EditUserTitle': 'Edit User',
   'UserEdit.NewPasswordLabel': 'New Password',
   'UserEdit.ConfirmPasswordLabel': 'Confirm Password',
+  'UserEdit.ChangePassword': 'Change Password',
   'UserEdit.AddUserSubmit': 'Add User',
   'UserEdit.UpdateUserSubmit': 'Update User',
   'UserEdit.AddUserSuccessMessage': 'User Added',
