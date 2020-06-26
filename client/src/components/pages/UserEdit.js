@@ -23,6 +23,7 @@ const passwordMinLength = process.env.REACT_APP_USER_PASSWORD_MIN_LENGTH;
 const emptyUser = new User();
 const defaultState = {
   ...emptyUser,
+  password1: '',
   password2: ''
 };
 
@@ -44,6 +45,7 @@ const UserEdit = _ => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddUserMode, setIsAddUserMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
+  const [isChangePW, setIsChangePW] = useState(false);
 
   // componentDidMount
   useEffect(_ => {
