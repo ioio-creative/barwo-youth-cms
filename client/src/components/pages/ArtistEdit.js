@@ -6,6 +6,7 @@ import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import LabelSelectPair from 'components/form/LabelSelectPair';
+import LabelRichTextbox from '../form/LabelRichTextbox';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
@@ -200,27 +201,32 @@ const ArtistEdit = _ => {
           onChange={onChange}
           required={true}
         />
-
-        <LabelInputTextPair
+        <LabelRichTextbox
           name='desc_tc'
           value={artist.desc_tc}
           labelMessage={uiWordings['Artist.DescTcLabel']}
-          placeholder=''
+          // placeholder=''
           onChange={onChange}
+          className={'w3-half'}
+          filebrowserBrowseUrl={routes.fileManager}
         />
-        <LabelInputTextPair
+        <LabelRichTextbox
           name='desc_sc'
           value={artist.desc_sc}
           labelMessage={uiWordings['Artist.DescScLabel']}
-          placeholder=''
+          // placeholder=''
           onChange={onChange}
+          className={'w3-half'}
+          filebrowserBrowseUrl={routes.fileManager}
         />
-        <LabelInputTextPair
+        <LabelRichTextbox
           name='desc_en'
           value={artist.desc_en}
           labelMessage={uiWordings['Artist.DescEnLabel']}
-          placeholder=''
+          // placeholder=''
           onChange={onChange}
+          className={'w3-half'}
+          filebrowserBrowseUrl={routes.fileManager}
         />
 
         <LabelSelectPair
