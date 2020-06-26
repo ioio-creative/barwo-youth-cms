@@ -35,6 +35,16 @@ export default {
   eventAdd: function (isLink) {
     return '/eventAdd';
   },
+  phaseList: function (isLink) {
+    return '/phaseList';
+  },
+  phaseEditById: '/phaseEdit/:phaseId',
+  phaseEditByIdWithValue: function (isLink, phaseId) {
+    return './phaseEdit/' + phaseId;
+  },
+  phaseAdd: function (isLink) {
+    return '/phaseAdd';
+  },
   testing: '/testing',
   fileManager: '/fileManager'
 };

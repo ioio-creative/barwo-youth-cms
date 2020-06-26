@@ -31,6 +31,10 @@ app.use(
   '/api/backend/events/events',
   require('./routes/backend/events/events')
 );
+app.use(
+  '/api/backend/phases/phases',
+  require('./routes/backend/phases/phases')
+);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

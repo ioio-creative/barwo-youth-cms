@@ -31,6 +31,12 @@ const AsyncEventList = asyncLoadingComponent(_ =>
 const AsyncEventEdit = asyncLoadingComponent(_ =>
   import('components/pages/EventEdit')
 );
+const AsyncPhaseList = asyncLoadingComponent(_ =>
+  import('components/pages/PhaseList')
+);
+const AsyncPhaseEdit = asyncLoadingComponent(_ =>
+  import('components/pages/PhaseEdit')
+);
 const AsyncTesting = asyncLoadingComponent(_ =>
   import('components/pages/Testing')
 );
@@ -87,6 +93,13 @@ const Main = _ => {
               />
               <Route path={routes.eventEditById} component={AsyncEventEdit} />
               <Route path={routes.eventAdd(false)} component={AsyncEventEdit} />
+
+              <Route
+                path={routes.phaseList(false)}
+                component={AsyncPhaseList}
+              />
+              <Route path={routes.phaseEditById} component={AsyncPhaseEdit} />
+              <Route path={routes.phaseAdd(false)} component={AsyncPhaseEdit} />
 
               <Route path={routes.testing} component={AsyncTesting} />
               <Route path={routes.fileManager} component={AsyncFileManager} />

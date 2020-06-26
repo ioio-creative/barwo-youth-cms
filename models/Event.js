@@ -79,6 +79,7 @@ const EventSchema = mongoose.Schema({
   artDirectors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'artist' }],
   artists: [EventArtistSchema],
   shows: [EventShowSchema],
+  phasesInvolved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'phase' }],
   isEnabled: {
     type: Boolean,
     default: true
@@ -104,7 +105,6 @@ module.exports.Event = mongoose.model('event', EventSchema);
 module.exports.eventResponseTypes = {
   // input validation
   LABEL_REQUIRED: 'LABEL_REQUIRED',
-  LABEL_ALREADY_EXISTS: 'LABEL_ALREADY_EXISTS',
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
@@ -117,5 +117,6 @@ module.exports.eventResponseTypes = {
   EVENT_SHOW_START_TIME_REQUIRED: 'EVENT_SHOW_START_TIME_REQUIRED',
 
   // db check
-  EVENT_NOT_EXISTS: 'EVENT_NOT_EXISTS'
+  EVENT_NOT_EXISTS: 'EVENT_NOT_EXISTS',
+  LABEL_ALREADY_EXISTS: 'LABEL_ALREADY_EXISTS'
 };

@@ -113,7 +113,10 @@ const displayFieldNames = [
   'createDTDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',
-  'isEnabledDisplay'
+  'isEnabledDisplay',
+  'artDirectorsDisplay',
+  'artistsDisplay',
+  'showsDisplay'
 ];
 
 Event.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);

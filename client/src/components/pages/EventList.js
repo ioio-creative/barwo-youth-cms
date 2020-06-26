@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useState,
+  useMemo
+} from 'react';
 import { useQueryParam, StringParam } from 'use-query-params';
 import AlertContext from 'contexts/alert/alertContext';
 import EventsContext from 'contexts/events/eventsContext';
@@ -30,6 +36,11 @@ const headers = [
     name: uiWordings['Table.IndexColumnTitle'],
     value: 'idx',
     isSortEnabled: false
+  },
+  {
+    name: uiWordings['Event.LabelLabel'],
+    value: 'label',
+    isSortEnabled: true
   },
   {
     name: uiWordings['Event.NameTcLabel'],
@@ -226,7 +237,7 @@ const EventList = _ => {
 
   /* event handlers */
 
-  const onEditEvent = useCallback(event => {
+  const onEdit = useCallback(event => {
     goToUrl(routes.eventEditByIdWithValue(true, event._id));
   }, []);
 
@@ -254,21 +265,22 @@ const EventList = _ => {
 
   /* end of event handlers */
 
+  const rows = useMemo(
+    _ => {
+      return addIdx(events.map(Event.getEventForDisplay));
+    },
+    [events]
+  );
+
   if (events === null || eventsLoading) {
-    return (
-      <div className='loading-container'>
-        <Loading />
-      </div>
-    );
+    return <Loading />;
   }
 
-  const addEventButton = (
+  const addButton = (
     <LinkButton to={routes.eventAdd(true)}>
       {uiWordings['EventList.AddEvent']}
     </LinkButton>
   );
-
-  const rows = addIdx(events.map(Event.getEventForDisplay));
 
   return (
     <>
@@ -296,7 +308,7 @@ const EventList = _ => {
             </div>
           </div>
         </div>
-        <div className='w3-right'>{addEventButton}</div>
+        <div className='w3-right'>{addButton}</div>
       </Form>
       <Table
         headers={headers}
@@ -304,7 +316,7 @@ const EventList = _ => {
         paginationMeta={eventsPaginationMeta}
         sortBy={currSortParams.sortBy}
         sortOrder={currSortParams.sortOrder}
-        onDetailClick={onEditEvent}
+        onDetailClick={onEdit}
         onPageClick={onSetPage}
         setSortParamsFunc={onSetSortParams}
       />

@@ -7,8 +7,8 @@ import React, {
 } from 'react';
 import { useQueryParam, StringParam } from 'use-query-params';
 import AlertContext from 'contexts/alert/alertContext';
-import ArtistsContext from 'contexts/artists/artistsContext';
-import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
+import PhasesContext from 'contexts/phases/phasesContext';
+import PhasesPageContainer from 'components/phases/PhasesPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table/Table';
 import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
@@ -21,11 +21,11 @@ import { goToUrl } from 'utils/history';
 import addIdx from 'utils/js/array/addIdx';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
-import Artist from 'models/artist';
+import Phase from 'models/phase';
 import Alert from 'models/alert';
 
-const defaultInitialSortBy = 'lastModifyDTDisplay';
-const defaultInitialSortOrder = -1;
+const defaultInitialSortBy = 'derivedLabel';
+const defaultInitialSortOrder = 1;
 
 const emptyFilter = {
   text: ''
@@ -33,82 +33,62 @@ const emptyFilter = {
 
 const headers = [
   {
-    name: uiWordings['Table.IndexColumnTitle'],
+    name: uiWordings['Table.IndexColumnTitle.IndexColumnTitle'],
     value: 'idx',
     isSortEnabled: false
   },
   {
-    name: uiWordings['Artist.NameTcLabel'],
-    value: 'name_tc',
-    isSortEnabled: true
-  },
-  // {
-  //   name: uiWordings['Artist.NameScLabel'],
-  //   value: 'name_sc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Artist.NameEnLabel'],
-  //   value: 'name_en',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Artist.DescTcLabel'],
-  //   value: 'desc_tc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Artist.DescScLabel'],
-  //   value: 'desc_sc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Artist.DescEnLabel'],
-  //   value: 'desc_en',
-  //   isSortEnabled: true
-  // },
-  {
-    name: uiWordings['Artist.TypeLabel'],
-    value: 'typeDisplay',
+    name: uiWordings['Phase.DerivedLabelLabel'],
+    value: 'derivedLabel',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Artist.RoleLabel'],
-    value: 'roleDisplay',
+    name: uiWordings['Phase.YearLabel'],
+    value: 'yearDisplay',
+    isSortEnabled: true
+  },
+  {
+    name: uiWordings['Phase.PhaseNumberLabel'],
+    value: 'phaseNumber',
+    isSortEnabled: true
+  },
+  {
+    name: uiWordings['Phase.EventsLabel'],
+    value: 'eventsDisplay',
     isSortEnabled: true
   },
   // {
-  //   name: uiWordings['Artist.CreateDTLabel'],
+  //   name: uiWordings['Phase.CreateDTLabel'],
   //   value: 'createDTDisplay',
   //   isSortEnabled: true
   // },
   {
-    name: uiWordings['Artist.LastModifyDTLabel'],
+    name: uiWordings['Phase.LastModifyDTLabel'],
     value: 'lastModifyDTDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Artist.LastModifyUserLabel'],
+    name: uiWordings['Phase.LastModifyUserLabel'],
     value: 'lastModifyUserDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Artist.IsEnabledLabel'],
+    name: uiWordings['Phase.IsEnabledLabel'],
     value: 'isEnabledDisplay',
     isSortEnabled: true
   }
 ];
 
-const ArtistList = _ => {
+const PhaseList = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
-    artists,
-    artistsPaginationMeta,
-    artistsLoading,
-    artistsErrors,
-    clearArtistsErrors,
-    getArtists
-  } = useContext(ArtistsContext);
+    phases,
+    phasesPaginationMeta,
+    phasesLoading,
+    phasesErrors,
+    clearPhasesErrors,
+    getPhases
+  } = useContext(PhasesContext);
   const {
     // qsPage: { qsPage, setQsPage },
     // qsSortOrder: { qsSortOrder, setQsSortOrder },
@@ -121,7 +101,7 @@ const ArtistList = _ => {
   } = usePaginationAndSortForTable(
     defaultInitialSortBy,
     defaultInitialSortOrder,
-    Artist.cleanSortByString
+    Phase.cleanSortByString
   );
 
   // query strings
@@ -145,15 +125,15 @@ const ArtistList = _ => {
     []
   );
 
-  // set query string and getArtists
+  // set query string and getPhases
   useEffect(
     _ => {
-      getArtists(prepareGetOptions());
+      getPhases(prepareGetOptions());
     },
-    [prepareGetOptions, getArtists]
+    [prepareGetOptions, getPhases]
   );
 
-  // filter and getArtists
+  // filter and getPhases
   useEffect(
     _ => {
       if (isUseFilter) {
@@ -163,7 +143,7 @@ const ArtistList = _ => {
           setQsFilterText(filter.text);
           getOptions.filterText = filter.text;
         }
-        getArtists(getOptions);
+        getPhases(getOptions);
         setIsUseFilter(false);
       }
     },
@@ -172,33 +152,33 @@ const ArtistList = _ => {
       isUseFilter,
       setIsUseFilter,
       prepareGetOptions,
-      getArtists,
+      getPhases,
       filter.text
     ]
   );
 
-  // artistsErrors
+  // phasesErrors
   useEffect(
     _ => {
-      if (isNonEmptyArray(artistsErrors)) {
+      if (isNonEmptyArray(phasesErrors)) {
         setAlerts(
-          artistsErrors.map(artistsError => {
+          phasesErrors.map(phasesError => {
             return new Alert(
-              Artist.artistsResponseTypes[artistsError].msg,
+              Phase.phasesResponseTypes[phasesError].msg,
               Alert.alertTypes.WARNING
             );
           })
         );
-        clearArtistsErrors();
+        clearPhasesErrors();
       }
     },
-    [artistsErrors, setAlerts, clearArtistsErrors]
+    [phasesErrors, setAlerts, clearPhasesErrors]
   );
 
   /* event handlers */
 
-  const onEdit = useCallback(artist => {
-    goToUrl(routes.artistEditByIdWithValue(true, artist._id));
+  const onEdit = useCallback(phase => {
+    goToUrl(routes.phaseEditByIdWithValue(true, phase._id));
   }, []);
 
   const onFilterChange = useCallback(
@@ -227,18 +207,18 @@ const ArtistList = _ => {
 
   const rows = useMemo(
     _ => {
-      return addIdx(artists.map(Artist.getArtistForDisplay));
+      return addIdx(phases.map(Phase.getPhaseForDisplay));
     },
-    [artists]
+    [phases]
   );
 
-  if (artists === null || artistsLoading) {
+  if (phases === null || phasesLoading) {
     return <Loading />;
   }
 
   const addButton = (
-    <LinkButton to={routes.artistAdd(true)}>
-      {uiWordings['ArtistList.AddArtist']}
+    <LinkButton to={routes.phaseAdd(true)}>
+      {uiWordings['PhaseList.AddPhase']}
     </LinkButton>
   );
 
@@ -250,7 +230,7 @@ const ArtistList = _ => {
             <InputText
               name='text'
               className='w3-section'
-              placeholder={uiWordings['ArtistList.FilterTextPlaceHolder']}
+              placeholder={uiWordings['PhaseList.FilterTextPlaceHolder']}
               onChange={onFilterChange}
               value={filter.text}
             />
@@ -258,12 +238,12 @@ const ArtistList = _ => {
           <div className='w3-half w3-container'>
             <div className='w3-half'>
               <Button onClick={onFilter}>
-                {uiWordings['ArtistList.FilterButton']}
+                {uiWordings['PhaseList.FilterButton']}
               </Button>
             </div>
             <div className='w3-half'>
               <Button onClick={onClearFilter}>
-                {uiWordings['ArtistList.ClearFilterButton']}
+                {uiWordings['PhaseList.ClearFilterButton']}
               </Button>
             </div>
           </div>
@@ -273,7 +253,7 @@ const ArtistList = _ => {
       <Table
         headers={headers}
         rows={rows}
-        paginationMeta={artistsPaginationMeta}
+        paginationMeta={phasesPaginationMeta}
         sortBy={currSortParams.sortBy}
         sortOrder={currSortParams.sortOrder}
         onDetailClick={onEdit}
@@ -284,10 +264,10 @@ const ArtistList = _ => {
   );
 };
 
-const ArtistListWithContainer = _ => (
-  <ArtistsPageContainer>
-    <ArtistList />
-  </ArtistsPageContainer>
+const PhaseListWithContainer = _ => (
+  <PhasesPageContainer>
+    <PhaseList />
+  </PhasesPageContainer>
 );
 
-export default ArtistListWithContainer;
+export default PhaseListWithContainer;

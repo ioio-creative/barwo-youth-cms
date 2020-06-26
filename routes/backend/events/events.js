@@ -39,6 +39,7 @@ const eventPopulationListForFindAll = [
 const eventPopulationListForFindOne = [...eventPopulationListForFindAll];
 
 const eventValidationChecks = [
+  check('label', eventResponseTypes.LABEL_REQUIRED).not().isEmpty(),
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
   check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
   check('name_en', eventResponseTypes.NAME_EN_REQUIRED).not().isEmpty()
@@ -206,6 +207,23 @@ const sortShows = shows => {
   return getArraySafe(shows).sort(compareShows);
 };
 
+const handleEventLabelDuplicateKeyError = (error, res) => {
+  console.log(JSON.stringify(error, null, 2));
+  const { code, keyPattern } = error;
+  const isDuplicateKeyError =
+    code === 11000 && keyPattern && Object.keys(keyPattern).includes('label');
+
+  if (isDuplicateKeyError) {
+    // bad request
+    res.status(400).json({
+      errors: [eventResponseTypes.LABEL_ALREADY_EXISTS]
+    });
+  }
+
+  const isErrorHandled = isDuplicateKeyError;
+  return isErrorHandled;
+};
+
 /* end of utilities */
 
 // @route   GET api/backend/events/events
@@ -345,7 +363,9 @@ router.post(
       res.json(event);
     } catch (err) {
       await session.abortTransaction();
-      generalErrorHandle(err, res);
+      if (!handleEventLabelDuplicateKeyError(err, res)) {
+        generalErrorHandle(err, res);
+      }
     } finally {
       session.endSession();
     }
@@ -446,7 +466,9 @@ router.put(
       res.json(newEvent);
     } catch (err) {
       await session.abortTransaction();
-      generalErrorHandle(err, res);
+      if (!handleEventLabelDuplicateKeyError(err, res)) {
+        generalErrorHandle(err, res);
+      }
     } finally {
       session.endSession();
     }

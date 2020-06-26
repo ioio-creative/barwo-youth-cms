@@ -24,6 +24,7 @@ import { goToUrl } from 'utils/history';
 import { compareForStringsAscending } from 'utils/js/string/compareForStrings';
 import { compareForDatesAscending, formatDateString } from 'utils/datetime';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyEvent = new Event();
 const defaultState = emptyEvent;
@@ -292,6 +293,8 @@ const EventEdit = _ => {
         setShowsPicked(sortShows(event.shows));
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
       }
+
+      scrollToTop();
     },
     [
       isAddEventMode,
@@ -336,6 +339,14 @@ const EventEdit = _ => {
             : uiWordings['EventEdit.EditEventTitle']}
         </h4>
 
+        <LabelInputTextPair
+          name='label'
+          value={event.label}
+          labelMessage={uiWordings['Event.LabelLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+        />
         <LabelInputTextPair
           name='name_tc'
           value={event.name_tc}

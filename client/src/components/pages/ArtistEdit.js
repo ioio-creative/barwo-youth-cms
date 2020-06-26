@@ -17,6 +17,7 @@ import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyArtist = new Artist();
 const defaultState = emptyArtist;
@@ -143,6 +144,8 @@ const ArtistEdit = _ => {
         );
         goToUrl(routes.artistEditByIdWithValue(true, returnedArtist._id));
       }
+
+      scrollToTop();
     },
     [isAddArtistMode, updateArtist, addArtist, artist, setAlerts, validInput]
   );
