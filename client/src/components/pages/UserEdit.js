@@ -18,6 +18,8 @@ import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
+const passwordMinLength = process.env.REACT_APP_USER_PASSWORD_MIN_LENGTH;
+
 const emptyUser = new User();
 const defaultState = {
   ...emptyUser,
@@ -218,7 +220,7 @@ const UserEdit = _ => {
               placeholder=''
               onChange={onChange}
               required={true}
-              minLength='6'
+              minLength={passwordMinLength}
             />
             <LabelInputTextPair
               name='password2'
@@ -228,7 +230,7 @@ const UserEdit = _ => {
               placeholder=''
               onChange={onChange}
               required={true}
-              minLength='6'
+              minLength={passwordMinLength}
             />
           </>
         )}
