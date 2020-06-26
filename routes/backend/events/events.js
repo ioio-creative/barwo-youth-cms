@@ -244,6 +244,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
       const filterTextRegex = getFindLikeTextRegex(filterText);
       findOptions = {
         $or: [
+          { label: filterTextRegex },
           { name_tc: filterTextRegex },
           { name_sc: filterTextRegex },
           { name_en: filterTextRegex }

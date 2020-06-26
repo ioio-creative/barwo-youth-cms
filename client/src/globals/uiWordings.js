@@ -9,6 +9,7 @@ export default {
   'Navbar.Users': 'Users',
   'Navbar.Artists': 'Artists',
   'Navbar.Events': 'Events',
+  'Navbar.Phases': 'Phases',
   'Navbar.Testing': 'Testing Page',
 
   'Login.Title': 'Account Login',

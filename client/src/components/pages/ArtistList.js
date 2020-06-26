@@ -16,7 +16,7 @@ import LinkButton from 'components/form/LinkButton';
 import Button from 'components/form/Button';
 import InputText from 'components/form/InputText';
 import Form from 'components/form/Form';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import { goToUrl } from 'utils/history';
 import addIdx from 'utils/js/array/addIdx';
 import routes from 'globals/routes';
@@ -227,7 +227,7 @@ const ArtistList = _ => {
 
   const rows = useMemo(
     _ => {
-      return addIdx(artists.map(Artist.getArtistForDisplay));
+      return addIdx(getArraySafe(artists).map(Artist.getArtistForDisplay));
     },
     [artists]
   );

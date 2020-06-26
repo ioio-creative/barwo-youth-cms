@@ -98,7 +98,7 @@ const Navbar = ({ className }) => {
         to={routes.phaseList(true)}
         isSelected={isPhaseList || isPhaseEdit}
       >
-        {uiWordings['Navbar.Events']}
+        {uiWordings['Navbar.Phases']}
       </NavbarLink>
       <NavbarLink to={routes.testing} isSelected={isTesting}>
         {uiWordings['Navbar.Testing']}
