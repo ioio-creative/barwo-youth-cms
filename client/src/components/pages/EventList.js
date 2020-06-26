@@ -1,17 +1,11 @@
-import React, {
-  useContext,
-  useEffect,
-  useCallback,
-  useState,
-  useMemo
-} from 'react';
-import { useQueryParam, StringParam } from 'use-query-params';
+import React, { useContext, useEffect, useCallback, useMemo } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table/Table';
 import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
+import useFilterForTable from 'components/layout/Table/useFilterForTable';
 import LinkButton from 'components/form/LinkButton';
 import Button from 'components/form/Button';
 import InputText from 'components/form/InputText';
@@ -26,10 +20,6 @@ import Alert from 'models/alert';
 
 const defaultInitialSortBy = 'lastModifyDTDisplay';
 const defaultInitialSortOrder = -1;
-
-const emptyFilter = {
-  text: ''
-};
 
 const headers = [
   {
@@ -155,7 +145,7 @@ const EventList = _ => {
     // qsSortBy: { qsSortBy, setQsSortBy },
     // currPage: { currPage, setCurrPage },
     currSortParams: { currSortParams /*, setCurrSortParams*/ },
-    prepareGetOptions,
+    prepareGetOptions: prepareGetOptionsForPaginationAndSort,
     onSetPage,
     onSetSortParams
   } = usePaginationAndSortForTable(
@@ -163,16 +153,15 @@ const EventList = _ => {
     defaultInitialSortOrder,
     Event.cleanSortByString
   );
-
-  // query strings
-  const [qsFilterText, setQsFilterText] = useQueryParam(
-    'filterText',
-    StringParam
-  );
-
-  // states
-  const [isUseFilter, setIsUseFilter] = useState(true); // allow first time filter by query string value
-  const [filter, setFilter] = useState({ text: qsFilterText });
+  const {
+    isUseFilter,
+    setIsUseFilter,
+    prepareGetOptions: prepareGetOptionsForFilter,
+    filterText,
+    setFilterText,
+    turnOnFilter,
+    turnOffFilter
+  } = useFilterForTable();
 
   // componentDidMount
   useEffect(
@@ -188,32 +177,29 @@ const EventList = _ => {
   // set query string and getEvents
   useEffect(
     _ => {
-      getEvents(prepareGetOptions());
+      getEvents(prepareGetOptionsForPaginationAndSort());
     },
-    [prepareGetOptions, getEvents]
+    [prepareGetOptionsForPaginationAndSort, getEvents]
   );
 
   // filter and getEvents
   useEffect(
     _ => {
       if (isUseFilter) {
-        const getOptions = prepareGetOptions();
-        // allow empty string here
-        if (![null, undefined].includes(filter.text)) {
-          setQsFilterText(filter.text);
-          getOptions.filterText = filter.text;
-        }
+        const getOptions = {
+          ...prepareGetOptionsForPaginationAndSort(),
+          ...prepareGetOptionsForFilter()
+        };
         getEvents(getOptions);
         setIsUseFilter(false);
       }
     },
     [
-      setQsFilterText,
       isUseFilter,
       setIsUseFilter,
-      prepareGetOptions,
-      getEvents,
-      filter.text
+      prepareGetOptionsForPaginationAndSort,
+      prepareGetOptionsForFilter,
+      getEvents
     ]
   );
 
@@ -243,25 +229,10 @@ const EventList = _ => {
 
   const onFilterChange = useCallback(
     e => {
-      setFilter({
-        ...filter,
-        [e.target.name]: e.target.value
-      });
+      setFilterText(e.target.value);
     },
-    [filter, setFilter]
+    [setFilterText]
   );
-
-  const onFilter = useCallback(
-    _ => {
-      setIsUseFilter(true);
-    },
-    [setIsUseFilter]
-  );
-
-  const onClearFilter = useCallback(_ => {
-    setFilter(emptyFilter);
-    setIsUseFilter(true);
-  }, []);
 
   /* end of event handlers */
 
@@ -292,17 +263,17 @@ const EventList = _ => {
               className='w3-section'
               placeholder={uiWordings['EventList.FilterTextPlaceHolder']}
               onChange={onFilterChange}
-              value={filter.text}
+              value={filterText}
             />
           </div>
           <div className='w3-half w3-container'>
             <div className='w3-half'>
-              <Button onClick={onFilter}>
+              <Button onClick={turnOnFilter}>
                 {uiWordings['EventList.FilterButton']}
               </Button>
             </div>
             <div className='w3-half'>
-              <Button onClick={onClearFilter}>
+              <Button onClick={turnOffFilter}>
                 {uiWordings['EventList.ClearFilterButton']}
               </Button>
             </div>

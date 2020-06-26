@@ -6,7 +6,6 @@ const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const listPathHandling = require('../../../middleware/listingPathHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const getFindLikeTextRegex = require('../../../utils/regex/getFindLikeTextRegex');
 const { Artist, artistResponseTypes } = require('../../../models/Artist');
 
 const artistValidationChecks = [
@@ -32,12 +31,9 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
       select: artistSelect
     };
 
-    // queries
-    const filterText = req.query.filterText;
-
     let findOptions = {};
-    if (!['', null, undefined].includes(filterText)) {
-      const filterTextRegex = getFindLikeTextRegex(filterText);
+    const filterTextRegex = req.filterTextRegex;
+    if (filterTextRegex) {
       // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
       findOptions = {
         $or: [

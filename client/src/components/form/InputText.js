@@ -28,7 +28,7 @@ const MyInputText = ({
       className={`${disabled ? 'w3-light-grey' : ''} ${className}`}
       type={type}
       name={name}
-      value={value}
+      value={value || ''}
       placeholder={placeholder}
       onChange={onChange}
       {...extraProps}

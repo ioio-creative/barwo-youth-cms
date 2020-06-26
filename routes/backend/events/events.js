@@ -7,7 +7,6 @@ const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const listPathHandling = require('../../../middleware/listingPathHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const getFindLikeTextRegex = require('../../../utils/regex/getFindLikeTextRegex');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const {
   compareForStringsAscending
@@ -236,12 +235,9 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
       populate: eventPopulationListForFindAll
     };
 
-    // queries
-    const filterText = req.query.filterText;
-
     let findOptions = {};
-    if (!['', null, undefined].includes(filterText)) {
-      const filterTextRegex = getFindLikeTextRegex(filterText);
+    const filterTextRegex = req.filterTextRegex;
+    if (filterTextRegex) {
       findOptions = {
         $or: [
           { label: filterTextRegex },

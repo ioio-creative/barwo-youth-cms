@@ -6,7 +6,6 @@ const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const listPathHandling = require('../../../middleware/listingPathHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const getFindLikeTextRegex = require('../../../utils/regex/getFindLikeTextRegex');
 const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const { Event } = require('../../../models/Event');
 
@@ -106,12 +105,9 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
       populate: phasePopulationListForFindAll
     };
 
-    // queries
-    const filterText = req.query.filterText;
-
     let findOptions = {};
-    if (!['', null, undefined].includes(filterText)) {
-      const filterTextRegex = getFindLikeTextRegex(filterText);
+    const filterTextRegex = req.filterTextRegex;
+    if (filterTextRegex) {
       findOptions = {
         $or: [{ derivedLabel: filterTextRegex }]
       };
