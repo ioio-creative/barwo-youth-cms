@@ -14,6 +14,7 @@ import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
+import LabelRichTextbox from '../form/LabelRichTextbox';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
@@ -360,27 +361,37 @@ const EventEdit = _ => {
           onChange={onChange}
           required={true}
         />
-
-        <LabelInputTextPair
+        {/* <LabelInputTextPair
           name='desc_tc'
           value={event.desc_tc}
           labelMessage={uiWordings['Event.DescTcLabel']}
           placeholder=''
           onChange={onChange}
+          required={true}
+        /> */}
+        <LabelRichTextbox
+          name='desc_tc'
+          value={event.desc_tc}
+          labelMessage={uiWordings['Event.DescTcLabel']}
+          onChange={onChange}
+          className={'w3-half'}
+          filebrowserBrowseUrl={routes.fileManager}
         />
-        <LabelInputTextPair
+        <LabelRichTextbox
           name='desc_sc'
           value={event.desc_sc}
           labelMessage={uiWordings['Event.DescScLabel']}
-          placeholder=''
           onChange={onChange}
+          className={'w3-half'}
+          filebrowserBrowseUrl={routes.fileManager}
         />
-        <LabelInputTextPair
+        <LabelRichTextbox
           name='desc_en'
           value={event.desc_en}
           labelMessage={uiWordings['Event.DescEnLabel']}
-          placeholder=''
           onChange={onChange}
+          className={'w3-half'}
+          filebrowserBrowseUrl={routes.fileManager}
         />
 
         <EventEditShowSelect
