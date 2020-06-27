@@ -17,8 +17,8 @@ import User from 'models/user';
 import Alert from 'models/alert';
 import { generatePath } from 'react-router-dom';
 
-const initialSortBy = 'lastModifyDTDisplay';
-const initialSortOrder = -1;
+const initialSortBy = 'name';
+const initialSortOrder = 1;
 
 const headers = [
   {

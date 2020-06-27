@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const ArtistSchema = mongoose.Schema({
+  label: {
+    type: String,
+    require: true,
+    unique: true
+  },
   name_tc: {
     type: String,
     require: true
@@ -71,6 +76,7 @@ module.exports.artistTypes = {
 
 module.exports.artistResponseTypes = {
   // input validation
+  LABEL_REQUIRED: 'LABEL_REQUIRED',
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
@@ -78,5 +84,6 @@ module.exports.artistResponseTypes = {
   ROLE_REQUIRED: 'ROLE_REQUIRED',
 
   // db check
-  ARTIST_NOT_EXISTS: 'ARTIST_NOT_EXISTS'
+  ARTIST_NOT_EXISTS: 'ARTIST_NOT_EXISTS',
+  LABEL_ALREADY_EXISTS: 'LABEL_ALREADY_EXISTS'
 };

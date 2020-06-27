@@ -7,8 +7,13 @@ const config = require('config');
 const auth = require('../../../middleware/auth');
 const authIsAdmin = require('../../../middleware/authIsAdmin');
 const validationHandling = require('../../../middleware/validationHandling');
-const { generalErrorHandle } = require('../../../utils/errorHandling');
+const {
+  generalErrorHandle,
+  duplicateKeyErrorHandle
+} = require('../../../utils/errorHandling');
 const { User, userResponseTypes } = require('../../../models/User');
+
+/* utilites */
 
 const userValidationChecksForAddUser = [
   check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
@@ -24,6 +29,44 @@ const userValidationChecksForUpdateUser = [
   check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
   check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];
+
+const handleUserNameDuplicateKeyError = (err, res) => {
+  const isErrorHandled = duplicateKeyErrorHandle(
+    err,
+    'name',
+    userResponseTypes.NAME_ALREADY_EXISTS,
+    res
+  );
+  return isErrorHandled;
+};
+
+const handleUserEmailDuplicateKeyError = (err, res) => {
+  const isErrorHandled = duplicateKeyErrorHandle(
+    err,
+    'email',
+    userResponseTypes.EMAIL_ALREADY_EXISTS,
+    res
+  );
+  return isErrorHandled;
+};
+
+const handleUserNameAndEmailDuplicateKeyError = (err, res) => {
+  let isErrorHandled = false;
+
+  isErrorHandled = handleUserEmailDuplicateKeyError(err, res);
+  if (isErrorHandled) {
+    return true;
+  }
+
+  isErrorHandled = handleUserNameDuplicateKeyError(err, res);
+  if (isErrorHandled) {
+    return true;
+  }
+
+  return false;
+};
+
+/* end of utilites */
 
 // @route   GET api/backend/users/users
 // @desc    Get all users
@@ -75,12 +118,15 @@ router.post(
     const { name, email, password, role, isEnabled } = req.body;
 
     try {
-      let user = await User.findOne({ email });
-      if (user) {
-        return res
-          .status(400)
-          .json({ errors: [userResponseTypes.USER_ALREADY_EXISTS] });
-      }
+      // check duplicate key error instead of using User.findOne first
+
+      // let user = await User.findOne({ email });
+      // if (user) {
+      //   return res
+      //     .status(400)
+      //     .json({ errors: [userResponseTypes.USER_ALREADY_EXISTS] });
+      // }
+
       user = new User({
         name,
         email,
@@ -95,7 +141,9 @@ router.post(
 
       res.json(user);
     } catch (err) {
-      generalErrorHandle(err, res);
+      if (!handleUserNameAndEmailDuplicateKeyError(err, res)) {
+        generalErrorHandle(err, res);
+      }
     }
   }
 );
@@ -136,7 +184,9 @@ router.put(
 
       res.json(user);
     } catch (err) {
-      generalErrorHandle(err, res);
+      if (!handleUserNameAndEmailDuplicateKeyError(err, res)) {
+        generalErrorHandle(err, res);
+      }
     }
   }
 );

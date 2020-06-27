@@ -181,6 +181,15 @@ const ArtistEdit = _ => {
         </h4>
 
         <LabelInputTextPair
+          name='label'
+          value={artist.label}
+          labelMessage={uiWordings['Artist.LabelLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+        />
+
+        <LabelInputTextPair
           name='name_tc'
           value={artist.name_tc}
           labelMessage={uiWordings['Artist.NameTcLabel']}

@@ -8,8 +8,8 @@ const userRoles = {
 };
 
 function User() {
-  this.name = '';
   this.email = '';
+  this.name = '';
   this.password = '';
   this.role = userRoles.EDITOR.value;
   this.isEnabled = true;
@@ -46,13 +46,17 @@ User.usersResponseTypes = {
   },
 
   // db check
-  USER_ALREADY_EXISTS: {
-    type: 'USER_ALREADY_EXISTS',
-    msg: 'USER_ALREADY_EXISTS'
-  },
   USER_NOT_EXISTS: {
     type: 'USER_NOT_EXISTS',
     msg: 'USER_NOT_EXISTS'
+  },
+  EMAIL_ALREADY_EXISTS: {
+    type: 'EMAIL_ALREADY_EXISTS',
+    msg: 'EMAIL_ALREADY_EXISTS'
+  },
+  NAME_ALREADY_EXISTS: {
+    type: 'NAME_ALREADY_EXISTS',
+    msg: 'NAME_ALREADY_EXISTS'
   },
 
   // general

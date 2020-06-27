@@ -120,15 +120,15 @@ const UserEdit = _ => {
           return false;
         }
       }
-      if (userInput.password1 !== userInput.password2) {
-        setAlerts(
-          new Alert(
-            uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
-            Alert.alertTypes.WARNING
-          )
-        );
-        return false;
-      }
+      // if (userInput.password1 !== userInput.password2) {
+      //   setAlerts(
+      //     new Alert(
+      //       uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
+      //       Alert.alertTypes.WARNING
+      //     )
+      //   );
+      //   return false;
+      // }
       return true;
     },
     [isAddUserMode, isChangePassword, setAlerts]
@@ -214,6 +214,15 @@ const UserEdit = _ => {
           onChange={onChange}
           required={true}
         />
+        <LabelInputTextPair
+          name='name'
+          value={user.name}
+          labelMessage={uiWordings['User.NameLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+        />
+
         {isAddUserMode && (
           <>
             <LabelInputTextPair
@@ -238,7 +247,7 @@ const UserEdit = _ => {
             />
           </>
         )}
-        <LabelInputTextPair
+        {/* <LabelInputTextPair
           name='password1'
           value={user.password1}
           inputType='password'
@@ -246,7 +255,7 @@ const UserEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
-          minLength='6'
+          minLength={passwordMinLength}
         />
         <LabelInputTextPair
           name='password2'
@@ -256,20 +265,15 @@ const UserEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
-          minLength='6'
-        />
-        <SubmitButton
+          minLength={passwordMinLength}
+        /> */}
+
+        {/* TODO: should not use SubmitButton here, should just use Button */}
+        {/* <SubmitButton
           disabled={!isSubmitEnabled}
           label={uiWordings['UserEdit.ChangePassword']}
-        />
-        <LabelInputTextPair
-          name='name'
-          value={user.name}
-          labelMessage={uiWordings['User.NameLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        />
+        /> */}
+
         <LabelSelectPair
           name='role'
           value={user.role}

@@ -50,6 +50,7 @@ export default {
 
   'Artists.Title': 'Artists',
 
+  'Artist.LabelLabel': 'Label',
   'Artist.NameTcLabel': 'Name TC',
   'Artist.NameScLabel': 'Name SC',
   'Artist.NameEnLabel': 'Name EN',

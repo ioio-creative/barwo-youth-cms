@@ -20,6 +20,7 @@ const artistRoles = {
 };
 
 function Artist() {
+  this.label = '';
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
@@ -38,6 +39,10 @@ function Artist() {
 
 Artist.artistsResponseTypes = {
   // input validation
+  LABEL_REQUIRED: {
+    type: 'LABEL_REQUIRED',
+    msg: 'LABEL_REQUIRED'
+  },
   NAME_TC_REQUIRED: {
     type: 'NAME_TC_REQUIRED',
     msg: 'NAME_TC_REQUIRED'
@@ -63,6 +68,10 @@ Artist.artistsResponseTypes = {
   ARTIST_NOT_EXISTS: {
     type: 'ARTIST_NOT_EXISTS',
     msg: 'ARTIST_NOT_EXISTS'
+  },
+  LABEL_ALREADY_EXISTS: {
+    type: 'LABEL_ALREADY_EXISTS',
+    msg: 'LABEL_ALREADY_EXISTS'
   },
 
   // general

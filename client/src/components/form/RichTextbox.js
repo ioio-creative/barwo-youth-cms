@@ -126,7 +126,7 @@ const RichTextbox = ({
   }
 }) => {
   const [value, setValue] = useState(rawValue);
-  console.log(rawValue);
+  //console.log(rawValue);
   useEffect(() => {
     onChange({
       value: value

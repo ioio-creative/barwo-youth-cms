@@ -18,14 +18,19 @@ import uiWordings from 'globals/uiWordings';
 import Artist from 'models/artist';
 import Alert from 'models/alert';
 
-const defaultInitialSortBy = 'lastModifyDTDisplay';
-const defaultInitialSortOrder = -1;
+const defaultInitialSortBy = 'label';
+const defaultInitialSortOrder = 1;
 
 const headers = [
   {
     name: uiWordings['Table.IndexColumnTitle'],
     value: 'idx',
     isSortEnabled: false
+  },
+  {
+    name: uiWordings['Artist.LabelLabel'],
+    value: 'label',
+    isSortEnabled: true
   },
   {
     name: uiWordings['Artist.NameTcLabel'],

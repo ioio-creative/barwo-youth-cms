@@ -18,8 +18,8 @@ import uiWordings from 'globals/uiWordings';
 import Event from 'models/event';
 import Alert from 'models/alert';
 
-const defaultInitialSortBy = 'lastModifyDTDisplay';
-const defaultInitialSortOrder = -1;
+const defaultInitialSortBy = 'label';
+const defaultInitialSortOrder = 1;
 
 const headers = [
   {

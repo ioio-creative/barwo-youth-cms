@@ -20,10 +20,10 @@ router.get('/', auth, async (req, res) => {
       }
     })
       .select({
-        name_tc: 1
+        label: 1
       })
       .sort({
-        name_tc: 1
+        label: 1
       });
     res.json(artDirectors);
   } catch (err) {

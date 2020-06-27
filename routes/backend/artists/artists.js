@@ -5,10 +5,16 @@ const { check } = require('express-validator');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const listPathHandling = require('../../../middleware/listingPathHandling');
-const { generalErrorHandle } = require('../../../utils/errorHandling');
+const {
+  generalErrorHandle,
+  duplicateKeyErrorHandle
+} = require('../../../utils/errorHandling');
 const { Artist, artistResponseTypes } = require('../../../models/Artist');
 
+/* utilities */
+
 const artistValidationChecks = [
+  check('label', artistResponseTypes.LABEL_REQUIRED).not().isEmpty(),
   check('name_tc', artistResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
   check('name_sc', artistResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
   check('name_en', artistResponseTypes.NAME_EN_REQUIRED).not().isEmpty(),
@@ -20,6 +26,18 @@ const artistSelect = {
   eventsDirected: 0,
   eventsPerformed: 0
 };
+
+const handleArtistLabelDuplicateKeyError = (err, res) => {
+  const isErrorHandled = duplicateKeyErrorHandle(
+    err,
+    'label',
+    artistResponseTypes.LABEL_ALREADY_EXISTS,
+    res
+  );
+  return isErrorHandled;
+};
+
+/* end of utilites */
 
 // @route   GET api/backend/artists/artists
 // @desc    Get all artists
@@ -37,6 +55,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
       // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
       findOptions = {
         $or: [
+          { label: filterTextRegex },
           { name_tc: filterTextRegex },
           { name_sc: filterTextRegex },
           { name_en: filterTextRegex }
@@ -85,6 +104,7 @@ router.post(
   [auth, artistValidationChecks, validationHandling],
   async (req, res) => {
     const {
+      label,
       name_tc,
       name_sc,
       name_en,
@@ -98,6 +118,7 @@ router.post(
 
     try {
       const artist = new Artist({
+        label,
         name_tc,
         name_sc,
         name_en,
@@ -113,7 +134,9 @@ router.post(
 
       res.json(artist);
     } catch (err) {
-      generalErrorHandle(err, res);
+      if (!handleArtistLabelDuplicateKeyError(err, res)) {
+        generalErrorHandle(err, res);
+      }
     }
   }
 );
@@ -126,6 +149,7 @@ router.put(
   [auth, artistValidationChecks, validationHandling],
   async (req, res) => {
     const {
+      label,
       name_tc,
       name_sc,
       name_en,
@@ -141,6 +165,7 @@ router.put(
     // Note:
     // non-required fields do not need null check
     const artistFields = {};
+    if (label) artistFields.label = label;
     if (name_tc) artistFields.name_tc = name_tc;
     if (name_sc) artistFields.name_sc = name_sc;
     if (name_en) artistFields.name_en = name_en;
@@ -168,7 +193,9 @@ router.put(
 
       res.json(artist);
     } catch (err) {
-      generalErrorHandle(err, res);
+      if (!handleArtistLabelDuplicateKeyError(err, res)) {
+        generalErrorHandle(err, res);
+      }
     }
   }
 );

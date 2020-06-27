@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const UserSchema = mongoose.Schema({
-  name: {
-    type: String,
-    require: true
-  },
   email: {
+    type: String,
+    require: true,
+    unique: true
+  },
+  name: {
     type: String,
     require: true,
     unique: true
@@ -57,6 +58,7 @@ module.exports.userResponseTypes = {
   ROLE_REQUIRED: 'ROLE_REQUIRED',
 
   // db check
-  USER_ALREADY_EXISTS: 'USER_ALREADY_EXISTS',
-  USER_NOT_EXISTS: 'USER_NOT_EXISTS'
+  USER_NOT_EXISTS: 'USER_NOT_EXISTS',
+  EMAIL_ALREADY_EXISTS: 'EMAIL_ALREADY_EXISTS',
+  NAME_ALREADY_EXISTS: 'NAME_ALREADY_EXISTS'
 };

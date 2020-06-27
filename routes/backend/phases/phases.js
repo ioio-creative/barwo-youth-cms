@@ -5,7 +5,10 @@ const { check } = require('express-validator');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const listPathHandling = require('../../../middleware/listingPathHandling');
-const { generalErrorHandle } = require('../../../utils/errorHandling');
+const {
+  generalErrorHandle,
+  duplicateKeyErrorHandle
+} = require('../../../utils/errorHandling');
 const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const { Event } = require('../../../models/Event');
 
@@ -73,22 +76,13 @@ const getDerivedLabel = (year, phaseNumber) => {
   );
 };
 
-const handlePhaseDerivedLabelDuplicateKeyError = (error, res) => {
-  console.log(JSON.stringify(error, null, 2));
-  const { code, keyPattern } = error;
-  const isDuplicateKeyError =
-    code === 11000 &&
-    keyPattern &&
-    Object.keys(keyPattern).includes('derivedLabel');
-
-  if (isDuplicateKeyError) {
-    // bad request
-    res.status(400).json({
-      errors: [phaseResponseTypes.PHASE_YEAR_NUMBER_COMBO_ALREADY_EXISTS]
-    });
-  }
-
-  const isErrorHandled = isDuplicateKeyError;
+const handlePhaseDerivedLabelDuplicateKeyError = (err, res) => {
+  const isErrorHandled = duplicateKeyErrorHandle(
+    err,
+    'derivedLabel',
+    phaseResponseTypes.PHASE_YEAR_NUMBER_COMBO_ALREADY_EXISTS,
+    res
+  );
   return isErrorHandled;
 };
 

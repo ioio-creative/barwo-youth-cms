@@ -8,7 +8,7 @@ const mapArtistToListItem = artist => {
   return {
     ...artist,
     value: artist._id,
-    label: artist.name_tc
+    label: artist.label
   };
 };
 
