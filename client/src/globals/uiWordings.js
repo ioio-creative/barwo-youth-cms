@@ -132,5 +132,15 @@ export default {
   'PhaseList.AddPhase': 'Add Phase',
   'PhaseList.FilterTextPlaceHolder': 'Filter Phases by year...',
   'PhaseList.FilterButton': 'Filter',
-  'PhaseList.ClearFilterButton': 'Clear Filter'
+  'PhaseList.ClearFilterButton': 'Clear Filter',
+
+  'PhaseEdit.BackToPhaseList': 'Back to Phase List',
+  'PhaseEdit.AddPhaseTitle': 'Add Phase',
+  'PhaseEdit.EditPhaseTitle': 'Edit Phase',
+  'PhaseEdit.AddPhaseSubmit': 'Add Phase',
+  'PhaseEdit.UpdatePhaseSubmit': 'Update Phase',
+  'PhaseEdit.AddPhaseSuccessMessage': 'Phase Added',
+  'PhaseEdit.UpdatePhaseSuccessMessage': 'Phase Updated',
+
+  'PhaseEdit.SelectEventsPlaceholder': 'Select Events...'
 };

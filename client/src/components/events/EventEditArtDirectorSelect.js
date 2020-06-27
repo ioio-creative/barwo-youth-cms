@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useCallback } from 'react';
+import React, { useContext, useMemo } from 'react';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import PickValues from 'components/form/PickValues';
 import uiWordings from 'globals/uiWordings';
@@ -16,54 +16,35 @@ const EventEditArtDirectorSelect = ({
   artDirectorsPicked,
   onGetArtDirectorsPicked
 }) => {
-  // art director options
-  const { artDirectors, artDirectorsLoading } = useContext(ArtistsContext);
-  const artDirectorOptions = useMemo(
+  // fetched options
+  const {
+    artDirectors: fetchedOptions,
+    artDirectorsLoading: fetchedOptionsLoading
+  } = useContext(ArtistsContext);
+  const options = useMemo(
     _ => {
-      return getArraySafe(artDirectors).map(mapArtistToListItem);
+      return getArraySafe(fetchedOptions).map(mapArtistToListItem);
     },
-    [artDirectors]
+    [fetchedOptions]
   );
 
-  // art directors in picked list
-  const artDirectorsInPickedList = useMemo(
+  // picked list
+  const pickedList = useMemo(
     _ => {
       return artDirectorsPicked.map(mapArtistToListItem);
     },
     [artDirectorsPicked]
   );
 
-  /* methods */
-
-  const dealWithGetArtDirectorsPicked = useCallback(
-    newItemList => {
-      onGetArtDirectorsPicked(newItemList);
-    },
-    [onGetArtDirectorsPicked]
-  );
-
-  /* end of methods */
-
-  /* event handlers */
-
-  const onGetPickedItems = useCallback(
-    newItemList => {
-      dealWithGetArtDirectorsPicked(newItemList);
-    },
-    [dealWithGetArtDirectorsPicked]
-  );
-
-  /* end of event handlers */
-
   return (
     <PickValues
       name='artDirectors'
       labelMessage={uiWordings['Event.ArtDirectorsLabel']}
-      selectOptions={artDirectorOptions}
-      selectIsLoading={artDirectorsLoading}
+      selectOptions={options}
+      selectIsLoading={fetchedOptionsLoading}
       selectPlaceholder={uiWordings['EventEdit.SelectArtDirectorsPlaceholder']}
-      pickedItems={artDirectorsInPickedList}
-      getPickedItems={onGetPickedItems}
+      pickedItems={pickedList}
+      getPickedItems={onGetArtDirectorsPicked}
     />
   );
 };

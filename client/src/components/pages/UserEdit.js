@@ -45,7 +45,7 @@ const UserEdit = _ => {
 
   const [user, setUser] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
-  const [isAddUserMode, setIsAddUserMode] = useState(false);
+  const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
   const [isChangePassword, setIsChangePassword] = useState(false);
 
@@ -57,6 +57,7 @@ const UserEdit = _ => {
     // eslint-disable-next-line
   }, []);
 
+  // userId
   useEffect(
     _ => {
       if (userId) {
@@ -70,18 +71,20 @@ const UserEdit = _ => {
     [userId, getUser, clearUser]
   );
 
+  // fetchedUser
   useEffect(
     _ => {
       if (!usersLoading) {
         setUser(
           fetchedUser ? User.getUserForDisplay(fetchedUser) : defaultState
         );
-        setIsAddUserMode(!fetchedUser);
+        setIsAddMode(!fetchedUser);
       }
     },
-    [usersLoading, fetchedUser, setUser]
+    [usersLoading, fetchedUser, setUser, setIsAddMode]
   );
 
+  // usersErrors
   useEffect(
     _ => {
       if (isNonEmptyArray(usersErrors)) {
@@ -109,7 +112,7 @@ const UserEdit = _ => {
 
   const validInput = useCallback(
     userInput => {
-      if (isAddUserMode) {
+      if (isAddMode) {
         if (userInput.password !== userInput.password2) {
           setAlerts(
             new Alert(
@@ -131,7 +134,7 @@ const UserEdit = _ => {
       // }
       return true;
     },
-    [isAddUserMode, isChangePassword, setAlerts]
+    [isAddMode, isChangePassword, setAlerts]
   );
 
   /* end of methods */
@@ -156,14 +159,14 @@ const UserEdit = _ => {
       isSuccess = validInput(user);
       const { password2, ...cleanedUser } = user;
       if (isSuccess) {
-        const funcToCall = isAddUserMode ? addUser : updateUser;
+        const funcToCall = isAddMode ? addUser : updateUser;
         returnedUser = await funcToCall(cleanedUser);
         isSuccess = Boolean(returnedUser);
       }
       if (isSuccess) {
         setAlerts(
           new Alert(
-            isAddUserMode
+            isAddMode
               ? uiWordings['UserEdit.AddUserSuccessMessage']
               : uiWordings['UserEdit.UpdateUserSuccessMessage'],
             Alert.alertTypes.INFO
@@ -176,7 +179,7 @@ const UserEdit = _ => {
 
       scrollToTop();
     },
-    [isAddUserMode, updateUser, addUser, user, setAlerts, validInput]
+    [isAddMode, updateUser, addUser, setUser, user, setAlerts, validInput]
   );
 
   /* end of event handlers */
@@ -203,7 +206,7 @@ const UserEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <h4>
-          {isAddUserMode
+          {isAddMode
             ? uiWordings['UserEdit.AddUserTitle']
             : uiWordings['UserEdit.EditUserTitle']}
         </h4>
@@ -225,7 +228,7 @@ const UserEdit = _ => {
           required={true}
         />
 
-        {isAddUserMode && (
+        {isAddMode && (
           <>
             <LabelInputTextPair
               name='password'
@@ -289,7 +292,7 @@ const UserEdit = _ => {
           labelMessage={uiWordings['User.IsEnabledLabel']}
           onChange={onChange}
         />
-        {!isAddUserMode && (
+        {!isAddMode && (
           <>
             <LabelLabelPair
               value={user.createDTDisplay}
@@ -308,7 +311,7 @@ const UserEdit = _ => {
         <SubmitButton
           disabled={!isSubmitEnabled}
           label={
-            isAddUserMode
+            isAddMode
               ? uiWordings['UserEdit.AddUserSubmit']
               : uiWordings['UserEdit.UpdateUserSubmit']
           }

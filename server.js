@@ -33,6 +33,10 @@ app.use(
   require('./routes/backend/events/events')
 );
 app.use(
+  '/api/backend/events/phaseEvents',
+  require('./routes/backend/events/phaseEvents')
+);
+app.use(
   '/api/backend/phases/phases',
   require('./routes/backend/phases/phases')
 );

@@ -13,7 +13,10 @@ import {
   UPDATE_EVENT,
   EVENTS_ERRORS,
   CLEAR_EVENTS_ERRORS,
-  SET_EVENTS_LOADING
+  SET_EVENTS_LOADING,
+  GET_PHASE_EVENTS,
+  CLEAR_PHASE_EVENTS,
+  SET_PHASE_EVENTS_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -22,7 +25,9 @@ const initialState = {
   eventsPaginationMeta: null,
   event: null,
   eventsErrors: null,
-  eventsLoading: false
+  eventsLoading: false,
+  phaseEvents: null,
+  phaseEventsLoading: null
 };
 
 const EventsState = ({ children }) => {
@@ -134,6 +139,22 @@ const EventsState = ({ children }) => {
     dispatch({ type: CLEAR_EVENTS_ERRORS });
   }, []);
 
+  // Get Phase Events
+  const getPhaseEvents = useCallback(async _ => {
+    dispatch({ type: SET_PHASE_EVENTS_LOADING });
+    try {
+      const res = await axios.get('/api/backend/events/phaseEvents');
+      dispatch({ type: GET_PHASE_EVENTS, payload: res.data });
+    } catch (err) {
+      handleServerError(err, EVENTS_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Clear Phase Events
+  const clearPhaseEvents = useCallback(_ => {
+    dispatch({ type: CLEAR_PHASE_EVENTS });
+  }, []);
+
   return (
     <EventsContext.Provider
       value={{
@@ -141,13 +162,17 @@ const EventsState = ({ children }) => {
         eventsPaginationMeta: state.eventsPaginationMeta,
         event: state.event,
         eventsErrors: state.eventsErrors,
+        phaseEvents: state.phaseEvents,
+        phaseEventsLoading: state.phaseEventsLoading,
         getEvents,
         clearEvents,
         getEvent,
         clearEvent,
         addEvent,
         updateEvent,
-        clearEventsErrors
+        clearEventsErrors,
+        getPhaseEvents,
+        clearPhaseEvents
       }}
     >
       {children}

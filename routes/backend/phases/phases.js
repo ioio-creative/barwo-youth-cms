@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
@@ -9,6 +10,7 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const { Event } = require('../../../models/Event');
 
@@ -206,6 +208,7 @@ router.put(
 
     try {
       const oldPhase = await Phase.findById(phaseId).session(session);
+
       if (!oldPhase)
         return res
           .status(404)

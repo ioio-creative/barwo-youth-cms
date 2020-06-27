@@ -1,9 +1,18 @@
 const { SERVER_ERROR } = require('../types/responses/general');
 const prettyStringify = require('./JSON/prettyStringify');
+const { isNonEmptyArray } = require('./js/array/isNonEmptyArray');
+
+const prettyPrintError = err => {
+  let thingToPrint = err;
+  if (isNonEmptyArray(Object.keys(err))) {
+    thingToPrint = prettyStringify(err);
+  }
+  console.error(thingToPrint);
+};
 
 module.exports.generalErrorHandle = (err, res) => {
   console.error('generalErrorHandle:');
-  console.error(prettyStringify(err));
+  prettyPrintError(err);
   res.status(500).json({ errors: [SERVER_ERROR] });
 };
 
@@ -14,7 +23,7 @@ module.exports.duplicateKeyErrorHandle = (
   res
 ) => {
   console.error('duplicateKeyErrorHandle:');
-  console.log(prettyStringify(err));
+  prettyPrintError(err);
   const { code, keyPattern } = err;
   const isDuplicateKeyError =
     code === 11000 && keyPattern && Object.keys(keyPattern).includes(fieldName);

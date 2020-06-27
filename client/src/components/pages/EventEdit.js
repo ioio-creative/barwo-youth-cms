@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
-import ArtistState from 'contexts/artists/ArtistsState';
+import ArtistsState from 'contexts/artists/ArtistsState';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
@@ -63,7 +63,7 @@ const EventEdit = _ => {
   // event
   const [event, setEvent] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
-  const [isAddEventMode, setIsAddEventMode] = useState(false);
+  const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
   // art directors in event
@@ -87,6 +87,7 @@ const EventEdit = _ => {
     // eslint-disable-next-line
   }, []);
 
+  // eventId
   useEffect(
     _ => {
       if (eventId) {
@@ -118,10 +119,10 @@ const EventEdit = _ => {
             setShowsPicked(fetchedEvent.shows);
           }
         }
-        setIsAddEventMode(!fetchedEvent);
+        setIsAddMode(!fetchedEvent);
       }
     },
-    [eventsLoading, fetchedEvent, setEvent]
+    [eventsLoading, fetchedEvent, setEvent, setIsAddMode]
   );
 
   // eventsErrors
@@ -262,14 +263,14 @@ const EventEdit = _ => {
       let returnedEvent = null;
 
       if (isSuccess) {
-        const funcToCall = isAddEventMode ? addEvent : updateEvent;
+        const funcToCall = isAddMode ? addEvent : updateEvent;
         returnedEvent = await funcToCall(event);
         isSuccess = Boolean(returnedEvent);
       }
       if (isSuccess) {
         setAlerts(
           new Alert(
-            isAddEventMode
+            isAddMode
               ? uiWordings['EventEdit.AddEventSuccessMessage']
               : uiWordings['EventEdit.UpdateEventSuccessMessage'],
             Alert.alertTypes.INFO
@@ -283,9 +284,10 @@ const EventEdit = _ => {
       scrollToTop();
     },
     [
-      isAddEventMode,
+      isAddMode,
       updateEvent,
       addEvent,
+      setEvent,
       event,
       artDirectorsPicked,
       artistsPicked,
@@ -320,7 +322,7 @@ const EventEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <h4>
-          {isAddEventMode
+          {isAddMode
             ? uiWordings['EventEdit.AddEventTitle']
             : uiWordings['EventEdit.EditEventTitle']}
         </h4>
@@ -453,7 +455,7 @@ const EventEdit = _ => {
           onChange={onChange}
         />
 
-        {!isAddEventMode && (
+        {!isAddMode && (
           <>
             <LabelLabelPair
               value={event.createDTDisplay}
@@ -472,7 +474,7 @@ const EventEdit = _ => {
         <SubmitButton
           disabled={!isSubmitEnabled}
           label={
-            isAddEventMode
+            isAddMode
               ? uiWordings['EventEdit.AddEventSubmit']
               : uiWordings['EventEdit.UpdateEventSubmit']
           }
@@ -484,9 +486,9 @@ const EventEdit = _ => {
 
 const EventEditWithContainer = _ => (
   <EventsPageContainer>
-    <ArtistState>
+    <ArtistsState>
       <EventEdit />
-    </ArtistState>
+    </ArtistsState>
   </EventsPageContainer>
 );
 

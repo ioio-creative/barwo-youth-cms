@@ -40,7 +40,7 @@ export default {
   },
   phaseEditById: '/phaseEdit/:phaseId',
   phaseEditByIdWithValue: function (isLink, phaseId) {
-    return './phaseEdit/' + phaseId;
+    return '/phaseEdit/' + phaseId;
   },
   phaseAdd: function (isLink) {
     return '/phaseAdd';

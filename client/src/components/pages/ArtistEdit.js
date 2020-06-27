@@ -39,7 +39,7 @@ const ArtistEdit = _ => {
 
   const [artist, setArtist] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
-  const [isAddArtistMode, setIsAddArtistMode] = useState(false);
+  const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
   // componentDidMount
@@ -50,6 +50,7 @@ const ArtistEdit = _ => {
     // eslint-disable-next-line
   }, []);
 
+  // artistId
   useEffect(
     _ => {
       if (artistId) {
@@ -72,10 +73,10 @@ const ArtistEdit = _ => {
             ? Artist.getArtistForDisplay(fetchedArtist)
             : defaultState
         );
-        setIsAddArtistMode(!fetchedArtist);
+        setIsAddMode(!fetchedArtist);
       }
     },
-    [artistsLoading, fetchedArtist, setArtist]
+    [artistsLoading, fetchedArtist, setArtist, setIsAddMode]
   );
 
   // artistsErrors
@@ -130,14 +131,14 @@ const ArtistEdit = _ => {
       let isSuccess = validInput();
       let returnedArtist = null;
       if (isSuccess) {
-        const funcToCall = isAddArtistMode ? addArtist : updateArtist;
+        const funcToCall = isAddMode ? addArtist : updateArtist;
         returnedArtist = await funcToCall(artist);
         isSuccess = Boolean(returnedArtist);
       }
       if (isSuccess) {
         setAlerts(
           new Alert(
-            isAddArtistMode
+            isAddMode
               ? uiWordings['ArtistEdit.AddArtistSuccessMessage']
               : uiWordings['ArtistEdit.UpdateArtistSuccessMessage'],
             Alert.alertTypes.INFO
@@ -150,7 +151,15 @@ const ArtistEdit = _ => {
 
       scrollToTop();
     },
-    [isAddArtistMode, updateArtist, addArtist, artist, setAlerts, validInput]
+    [
+      isAddMode,
+      updateArtist,
+      addArtist,
+      setArtist,
+      artist,
+      setAlerts,
+      validInput
+    ]
   );
 
   /* end of event handlers */
@@ -177,7 +186,7 @@ const ArtistEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <h4>
-          {isAddArtistMode
+          {isAddMode
             ? uiWordings['ArtistEdit.AddArtistTitle']
             : uiWordings['ArtistEdit.EditArtistTitle']}
         </h4>
@@ -262,7 +271,7 @@ const ArtistEdit = _ => {
           onChange={onChange}
         />
 
-        {!isAddArtistMode && (
+        {!isAddMode && (
           <>
             <LabelLabelPair
               value={artist.createDTDisplay}
@@ -281,7 +290,7 @@ const ArtistEdit = _ => {
         <SubmitButton
           disabled={!isSubmitEnabled}
           label={
-            isAddArtistMode
+            isAddMode
               ? uiWordings['ArtistEdit.AddArtistSubmit']
               : uiWordings['ArtistEdit.UpdateArtistSubmit']
           }

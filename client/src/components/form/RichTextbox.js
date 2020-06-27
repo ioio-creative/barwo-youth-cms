@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import CKEditor from 'ckeditor4-react';
 
 const RichTextbox = ({
@@ -131,7 +131,7 @@ const RichTextbox = ({
     onChange({
       value: value
     });
-  }, [value]);
+  }, [value, onChange]);
   return (
     <>
       <div className={`editableArea ${className}`}>

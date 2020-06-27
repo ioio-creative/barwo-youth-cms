@@ -7,7 +7,10 @@ import {
   UPDATE_EVENT,
   EVENTS_ERRORS,
   CLEAR_EVENTS_ERRORS,
-  SET_EVENTS_LOADING
+  SET_EVENTS_LOADING,
+  GET_PHASE_EVENTS,
+  CLEAR_PHASE_EVENTS,
+  SET_PHASE_EVENTS_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -61,6 +64,23 @@ export default (state, action) => {
       return {
         ...state,
         eventsLoading: true
+      };
+    case GET_PHASE_EVENTS:
+      return {
+        ...state,
+        phaseEvents: action.payload,
+        phaseEventsLoading: false
+      };
+    case CLEAR_PHASE_EVENTS:
+      return {
+        ...state,
+        phaseEvents: null,
+        eventsErrors: null
+      };
+    case SET_PHASE_EVENTS_LOADING:
+      return {
+        ...state,
+        phaseEventsLoading: true
       };
     default:
       return state;
