@@ -14,7 +14,7 @@ import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
-import LabelRichTextbox from '../form/LabelRichTextbox';
+import LabelRichTextbox from 'components/form/LabelRichTextbox';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
