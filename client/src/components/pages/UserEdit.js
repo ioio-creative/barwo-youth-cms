@@ -18,8 +18,9 @@ import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
+import config from 'config/default.json';
 
-const passwordMinLength = process.env.REACT_APP_USER_PASSWORD_MIN_LENGTH;
+const passwordMinLength = config.User.password.minLength;
 
 const emptyUser = new User();
 const defaultState = {

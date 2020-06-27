@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import config from 'config/default.json';
 
-const element =
-  Number(process.env.REACT_APP_REACT_IS_STRICT_MODE) === 1 ? (
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  ) : (
+const element = config.React.isStrictMode ? (
+  <React.StrictMode>
     <App />
-  );
+  </React.StrictMode>
+) : (
+  <App />
+);
 
 ReactDOM.render(element, document.getElementById('root'));
 
