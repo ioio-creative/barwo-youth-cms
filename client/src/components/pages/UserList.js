@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useState,
+  useMemo
+} from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import UsersContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
@@ -64,19 +70,28 @@ const headers = [
 ];
 
 const UserTable = ({ users, onEditClick }) => {
-  const rows = addIdx(users.map(User.getUserForDisplay));
-
   const [sortParams, setSortParams] = useState({
     sortBy: initialSortBy,
     sortOrder: initialSortOrder
   });
 
-  const sortedRows = orderBy(rows, [sortParams.sortBy], [sortParams.sortOrder]);
+  const sortedRowsWithIndices = useMemo(
+    _ => {
+      const rows = users.map(User.getUserForDisplay);
+      const sortedRows = orderBy(
+        rows,
+        [sortParams.sortBy],
+        [sortParams.sortOrder]
+      );
+      return addIdx(sortedRows);
+    },
+    [users, sortParams]
+  );
 
   return (
     <Table
       headers={headers}
-      rows={sortedRows}
+      rows={sortedRowsWithIndices}
       sortBy={sortParams.sortBy}
       sortOrder={sortParams.sortOrder}
       onDetailClick={onEditClick}

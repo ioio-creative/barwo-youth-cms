@@ -22,8 +22,7 @@ import Event from 'models/event';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import { compareForStringsAscending } from 'utils/js/string/compareForStrings';
-import { compareForDatesAscending, formatDateString } from 'utils/datetime';
+import { formatDateString } from 'utils/datetime';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
 
@@ -36,18 +35,6 @@ const cleanShow = show => ({
   date: formatDateString(show.date),
   startTime: show.startTime.toString().substr(0, 'HH:mm'.length)
 });
-
-const compareShows = (show1, show2) => {
-  const compareDateResult = compareForDatesAscending(show1.date, show2.date);
-  if (compareDateResult !== 0) {
-    return compareDateResult;
-  }
-  return compareForStringsAscending(show1.startTime, show2.startTime);
-};
-
-const sortShows = shows => {
-  return getArraySafe(shows).sort(compareShows);
-};
 
 /* end of shows related utils */
 
@@ -288,11 +275,9 @@ const EventEdit = _ => {
             Alert.alertTypes.INFO
           )
         );
-        // can only sort cleaned shows
-        // as "raw" shows date and startTime fields contain extra info
-        // which affect sorting
-        setShowsPicked(sortShows(event.shows));
+
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
+        getEvent(returnedEvent._id);
       }
 
       scrollToTop();

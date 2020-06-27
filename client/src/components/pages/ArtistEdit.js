@@ -143,7 +143,9 @@ const ArtistEdit = _ => {
             Alert.alertTypes.INFO
           )
         );
+
         goToUrl(routes.artistEditByIdWithValue(true, returnedArtist._id));
+        getArtist(returnedArtist._id);
       }
 
       scrollToTop();

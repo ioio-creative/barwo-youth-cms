@@ -169,7 +169,9 @@ const UserEdit = _ => {
             Alert.alertTypes.INFO
           )
         );
+
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
+        getUser(returnedUser._id);
       }
 
       scrollToTop();
