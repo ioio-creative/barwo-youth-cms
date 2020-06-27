@@ -145,7 +145,7 @@ const ArtistEdit = _ => {
         );
 
         goToUrl(routes.artistEditByIdWithValue(true, returnedArtist._id));
-        getArtist(returnedArtist._id);
+        setArtist(returnedArtist);
       }
 
       scrollToTop();
@@ -221,7 +221,6 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.DescTcLabel']}
           // placeholder=''
           onChange={onChange}
-          className={'w3-half'}
           filebrowserBrowseUrl={routes.fileManager}
         />
         <LabelRichTextbox
@@ -230,7 +229,6 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.DescScLabel']}
           // placeholder=''
           onChange={onChange}
-          className={'w3-half'}
           filebrowserBrowseUrl={routes.fileManager}
         />
         <LabelRichTextbox
@@ -239,7 +237,6 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.DescEnLabel']}
           // placeholder=''
           onChange={onChange}
-          className={'w3-half'}
           filebrowserBrowseUrl={routes.fileManager}
         />
 

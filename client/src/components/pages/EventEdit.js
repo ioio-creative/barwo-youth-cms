@@ -277,7 +277,7 @@ const EventEdit = _ => {
         );
 
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
-        getEvent(returnedEvent._id);
+        setEvent(returnedEvent);
       }
 
       scrollToTop();
@@ -370,7 +370,6 @@ const EventEdit = _ => {
           value={event.desc_tc}
           labelMessage={uiWordings['Event.DescTcLabel']}
           onChange={onChange}
-          className={'w3-half'}
           filebrowserBrowseUrl={routes.fileManager}
         />
         <LabelRichTextbox
@@ -378,7 +377,6 @@ const EventEdit = _ => {
           value={event.desc_sc}
           labelMessage={uiWordings['Event.DescScLabel']}
           onChange={onChange}
-          className={'w3-half'}
           filebrowserBrowseUrl={routes.fileManager}
         />
         <LabelRichTextbox
@@ -386,7 +384,6 @@ const EventEdit = _ => {
           value={event.desc_en}
           labelMessage={uiWordings['Event.DescEnLabel']}
           onChange={onChange}
-          className={'w3-half'}
           filebrowserBrowseUrl={routes.fileManager}
         />
 
