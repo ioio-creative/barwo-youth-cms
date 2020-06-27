@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const config = require('config');
 
 const connectDB = require('./config/db');
 const { generalErrorHandle } = require('./utils/errorHandling');
@@ -51,7 +52,7 @@ app.use(function (err, req, res, next) {
   generalErrorHandle(err, res);
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = config.get('Network.port') || process.env.PORT || 5000;
 
 app.listen(PORT, _ => {
   console.log(`Server started on ${PORT}`);

@@ -14,7 +14,7 @@ const userValidationChecksForAddUser = [
   check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
   check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
   check('password', userResponseTypes.PASSWORD_INVALID).isLength({
-    min: config.get('User_Password_MinLength')
+    min: config.get('User.password.minLength')
   }),
   check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];

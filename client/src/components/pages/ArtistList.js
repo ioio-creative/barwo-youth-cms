@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useCallback, useMemo } from 'react';
-import { useQueryParam, StringParam } from 'use-query-params';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
@@ -21,10 +20,6 @@ import Alert from 'models/alert';
 
 const defaultInitialSortBy = 'lastModifyDTDisplay';
 const defaultInitialSortOrder = -1;
-
-const emptyFilter = {
-  text: ''
-};
 
 const headers = [
   {
