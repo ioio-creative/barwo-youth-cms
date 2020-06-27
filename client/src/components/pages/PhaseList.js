@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useCallback, useMemo } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
-import EventsContext from 'contexts/events/eventsContext';
-import EventsPageContainer from 'components/events/EventsPageContainer';
+import PhasesContext from 'contexts/phases/phasesContext';
+import PhasesPageContainer from 'components/phases/PhasesPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table/Table';
 import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
@@ -15,130 +15,70 @@ import { goToUrl } from 'utils/history';
 import addIdx from 'utils/js/array/addIdx';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
-import Event from 'models/event';
+import Phase from 'models/phase';
 import Alert from 'models/alert';
 
-const defaultInitialSortBy = 'lastModifyDTDisplay';
-const defaultInitialSortOrder = -1;
+const defaultInitialSortBy = 'derivedLabel';
+const defaultInitialSortOrder = 1;
 
 const headers = [
   {
-    name: uiWordings['Table.IndexColumnTitle'],
+    name: uiWordings['Table.IndexColumnTitle.IndexColumnTitle'],
     value: 'idx',
     isSortEnabled: false
   },
   {
-    name: uiWordings['Event.LabelLabel'],
-    value: 'label',
+    name: uiWordings['Phase.DerivedLabelLabel'],
+    value: 'derivedLabel',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Event.NameTcLabel'],
-    value: 'name_tc',
-    isSortEnabled: true
-  },
-  // {
-  //   name: uiWordings['Event.NameScLabel'],
-  //   value: 'name_sc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.NameEnLabel'],
-  //   value: 'name_en',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.DescTcLabel'],
-  //   value: 'desc_tc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.DescScLabel'],
-  //   value: 'desc_sc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.DescEnLabel'],
-  //   value: 'desc_en',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.RemarksTcLabel'],
-  //   value: 'remarks_tc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.RemarksScLabel'],
-  //   value: 'remarks_sc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.RemarksEnLabel'],
-  //   value: 'remarks_en',
-  //   isSortEnabled: true
-  // },
-  {
-    name: uiWordings['Event.ArtDirectorsLabel'],
-    value: 'artDirectorsDisplay',
+    name: uiWordings['Phase.YearLabel'],
+    value: 'yearDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Event.WriterTcLabel'],
-    value: 'writer_tc',
-    isSortEnabled: true
-  },
-  // {
-  //   name: uiWordings['Event.WriterScLabel'],
-  //   value: 'writer_sc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.WriterEnLabel'],
-  //   value: 'writer_en',
-  //   isSortEnabled: true
-  // },
-  {
-    name: uiWordings['Event.ArtistsLabel'],
-    value: 'artistsDisplay',
+    name: uiWordings['Phase.PhaseNumberLabel'],
+    value: 'phaseNumber',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Event.ShowsLabel'],
-    value: 'showsDisplay',
+    name: uiWordings['Phase.EventsLabel'],
+    value: 'eventsDisplay',
     isSortEnabled: true
   },
   // {
-  //   name: uiWordings['Event.CreateDTLabel'],
+  //   name: uiWordings['Phase.CreateDTLabel'],
   //   value: 'createDTDisplay',
   //   isSortEnabled: true
   // },
   {
-    name: uiWordings['Event.LastModifyDTLabel'],
+    name: uiWordings['Phase.LastModifyDTLabel'],
     value: 'lastModifyDTDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Event.LastModifyUserLabel'],
+    name: uiWordings['Phase.LastModifyUserLabel'],
     value: 'lastModifyUserDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Event.IsEnabledLabel'],
+    name: uiWordings['Phase.IsEnabledLabel'],
     value: 'isEnabledDisplay',
     isSortEnabled: true
   }
 ];
 
-const EventList = _ => {
+const PhaseList = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
-    events,
-    eventsPaginationMeta,
-    eventsLoading,
-    eventsErrors,
-    clearEventsErrors,
-    getEvents
-  } = useContext(EventsContext);
+    phases,
+    phasesPaginationMeta,
+    phasesLoading,
+    phasesErrors,
+    clearPhasesErrors,
+    getPhases
+  } = useContext(PhasesContext);
   const {
     // qsPage: { qsPage, setQsPage },
     // qsSortOrder: { qsSortOrder, setQsSortOrder },
@@ -151,7 +91,7 @@ const EventList = _ => {
   } = usePaginationAndSortForTable(
     defaultInitialSortBy,
     defaultInitialSortOrder,
-    Event.cleanSortByString
+    Phase.cleanSortByString
   );
   const {
     isUseFilter,
@@ -174,15 +114,15 @@ const EventList = _ => {
     []
   );
 
-  // set query string and getEvents
+  // set query string and getPhases
   useEffect(
     _ => {
-      getEvents(prepareGetOptionsForPaginationAndSort());
+      getPhases(prepareGetOptionsForPaginationAndSort());
     },
-    [prepareGetOptionsForPaginationAndSort, getEvents]
+    [prepareGetOptionsForPaginationAndSort, getPhases]
   );
 
-  // filter and getEvents
+  // filter and getPhases
   useEffect(
     _ => {
       if (isUseFilter) {
@@ -190,7 +130,7 @@ const EventList = _ => {
           ...prepareGetOptionsForPaginationAndSort(),
           ...prepareGetOptionsForFilter()
         };
-        getEvents(getOptions);
+        getPhases(getOptions);
         setIsUseFilter(false);
       }
     },
@@ -199,32 +139,32 @@ const EventList = _ => {
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,
       prepareGetOptionsForFilter,
-      getEvents
+      getPhases
     ]
   );
 
-  // eventsErrors
+  // phasesErrors
   useEffect(
     _ => {
-      if (isNonEmptyArray(eventsErrors)) {
+      if (isNonEmptyArray(phasesErrors)) {
         setAlerts(
-          eventsErrors.map(eventsError => {
+          phasesErrors.map(phasesError => {
             return new Alert(
-              Event.eventsResponseTypes[eventsError].msg,
+              Phase.phasesResponseTypes[phasesError].msg,
               Alert.alertTypes.WARNING
             );
           })
         );
-        clearEventsErrors();
+        clearPhasesErrors();
       }
     },
-    [eventsErrors, setAlerts, clearEventsErrors]
+    [phasesErrors, setAlerts, clearPhasesErrors]
   );
 
   /* event handlers */
 
-  const onEdit = useCallback(event => {
-    goToUrl(routes.eventEditByIdWithValue(true, event._id));
+  const onEdit = useCallback(phase => {
+    goToUrl(routes.phaseEditByIdWithValue(true, phase._id));
   }, []);
 
   const onFilterChange = useCallback(
@@ -238,18 +178,18 @@ const EventList = _ => {
 
   const rows = useMemo(
     _ => {
-      return addIdx(getArraySafe(events).map(Event.getEventForDisplay));
+      return addIdx(getArraySafe(phases).map(Phase.getPhaseForDisplay));
     },
-    [events]
+    [phases]
   );
 
-  if (events === null || eventsLoading) {
+  if (phases === null || phasesLoading) {
     return <Loading />;
   }
 
   const addButton = (
-    <LinkButton to={routes.eventAdd(true)}>
-      {uiWordings['EventList.AddEvent']}
+    <LinkButton to={routes.phaseAdd(true)}>
+      {uiWordings['PhaseList.AddPhase']}
     </LinkButton>
   );
 
@@ -261,7 +201,7 @@ const EventList = _ => {
             <InputText
               name='text'
               className='w3-section'
-              placeholder={uiWordings['EventList.FilterTextPlaceHolder']}
+              placeholder={uiWordings['PhaseList.FilterTextPlaceHolder']}
               onChange={onFilterChange}
               value={filterText}
             />
@@ -269,12 +209,12 @@ const EventList = _ => {
           <div className='w3-half w3-container'>
             <div className='w3-half'>
               <Button onClick={turnOnFilter}>
-                {uiWordings['EventList.FilterButton']}
+                {uiWordings['PhaseList.FilterButton']}
               </Button>
             </div>
             <div className='w3-half'>
               <Button onClick={turnOffFilter}>
-                {uiWordings['EventList.ClearFilterButton']}
+                {uiWordings['PhaseList.ClearFilterButton']}
               </Button>
             </div>
           </div>
@@ -284,7 +224,7 @@ const EventList = _ => {
       <Table
         headers={headers}
         rows={rows}
-        paginationMeta={eventsPaginationMeta}
+        paginationMeta={phasesPaginationMeta}
         sortBy={currSortParams.sortBy}
         sortOrder={currSortParams.sortOrder}
         onDetailClick={onEdit}
@@ -295,10 +235,10 @@ const EventList = _ => {
   );
 };
 
-const EventListWithContainer = _ => (
-  <EventsPageContainer>
-    <EventList />
-  </EventsPageContainer>
+const PhaseListWithContainer = _ => (
+  <PhasesPageContainer>
+    <PhaseList />
+  </PhasesPageContainer>
 );
 
-export default EventListWithContainer;
+export default PhaseListWithContainer;

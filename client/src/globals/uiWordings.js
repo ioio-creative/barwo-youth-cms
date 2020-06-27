@@ -9,6 +9,8 @@ export default {
   'Navbar.Users': 'Users',
   'Navbar.Artists': 'Artists',
   'Navbar.Events': 'Events',
+  'Navbar.Phases': 'Phases',
+  'Navbar.Testing': 'Testing Page',
 
   'Login.Title': 'Account Login',
   'Login.FillInAllFieldsMessage': 'Please fill in all fields',
@@ -76,6 +78,7 @@ export default {
 
   'Events.Title': 'Events',
 
+  'Event.LabelLabel': 'Label',
   'Event.NameTcLabel': 'Name TC',
   'Event.NameScLabel': 'Name SC',
   'Event.NameEnLabel': 'Name EN',
@@ -115,5 +118,18 @@ export default {
   'EventEdit.Artist.RoleEnPlaceholder': 'Role EN',
   'EventEdit.Artist.ArtistPlaceholder': 'Select Artist...',
 
-  'Navbar.Testing': 'Testing Page'
+  'Phases.Title': 'Phases',
+  'Phase.DerivedLabelLabel': 'Label',
+  'Phase.YearLabel': 'Year',
+  'Phase.PhaseNumberLabel': 'Phase Number',
+  'Phase.EventsLabel': 'Events',
+  'Phase.CreateDTLabel': 'Create DT',
+  'Phase.LastModifyDTLabel': 'Last Modify DT',
+  'Phase.LastModifyUserLabel': 'Last Modify User',
+  'Phase.IsEnabledLabel': 'Is Enabled ?',
+
+  'PhaseList.AddPhase': 'Add Phase',
+  'PhaseList.FilterTextPlaceHolder': 'Filter Phases by year...',
+  'PhaseList.FilterButton': 'Filter',
+  'PhaseList.ClearFilterButton': 'Clear Filter'
 };

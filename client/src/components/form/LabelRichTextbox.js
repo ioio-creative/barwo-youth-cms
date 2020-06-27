@@ -34,13 +34,12 @@ const LabelRichTextbox = ({
   );
 };
 
-{
-  /* <RichTextbox
+/* <RichTextbox
       // debug={true}
       onChange={(e) => console.log(e)}
       filebrowserBrowseUrl={routes.fileManager}
       className={'w3-half'}
   />
     <FileManager /> */
-}
+
 export default LabelRichTextbox;

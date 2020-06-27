@@ -17,6 +17,7 @@ import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import scrollToTop from 'utils/ui/scrollToTop';
 
 const passwordMinLength = process.env.REACT_APP_USER_PASSWORD_MIN_LENGTH;
 
@@ -169,6 +170,8 @@ const UserEdit = _ => {
         );
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
       }
+
+      scrollToTop();
     },
     [isAddUserMode, updateUser, addUser, user, setAlerts, validInput]
   );

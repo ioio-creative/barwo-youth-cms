@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useCallback, useState } from 'react';
+import React, { useContext, useEffect, useCallback, useMemo } from 'react';
 import { useQueryParam, StringParam } from 'use-query-params';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsContext from 'contexts/artists/artistsContext';
@@ -6,11 +6,12 @@ import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table/Table';
 import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
+import useFilterForTable from 'components/layout/Table/useFilterForTable';
 import LinkButton from 'components/form/LinkButton';
 import Button from 'components/form/Button';
 import InputText from 'components/form/InputText';
 import Form from 'components/form/Form';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import { goToUrl } from 'utils/history';
 import addIdx from 'utils/js/array/addIdx';
 import routes from 'globals/routes';
@@ -109,7 +110,7 @@ const ArtistList = _ => {
     // qsSortBy: { qsSortBy, setQsSortBy },
     // currPage: { currPage, setCurrPage },
     currSortParams: { currSortParams /*, setCurrSortParams*/ },
-    prepareGetOptions,
+    prepareGetOptions: prepareGetOptionsForPaginationAndSort,
     onSetPage,
     onSetSortParams
   } = usePaginationAndSortForTable(
@@ -117,16 +118,15 @@ const ArtistList = _ => {
     defaultInitialSortOrder,
     Artist.cleanSortByString
   );
-
-  // query strings
-  const [qsFilterText, setQsFilterText] = useQueryParam(
-    'filterText',
-    StringParam
-  );
-
-  // states
-  const [isUseFilter, setIsUseFilter] = useState(true); // allow first time filter by query string value
-  const [filter, setFilter] = useState({ text: qsFilterText });
+  const {
+    isUseFilter,
+    setIsUseFilter,
+    prepareGetOptions: prepareGetOptionsForFilter,
+    filterText,
+    setFilterText,
+    turnOnFilter,
+    turnOffFilter
+  } = useFilterForTable();
 
   // componentDidMount
   useEffect(
@@ -142,32 +142,29 @@ const ArtistList = _ => {
   // set query string and getArtists
   useEffect(
     _ => {
-      getArtists(prepareGetOptions());
+      getArtists(prepareGetOptionsForPaginationAndSort());
     },
-    [prepareGetOptions, getArtists]
+    [prepareGetOptionsForPaginationAndSort, getArtists]
   );
 
   // filter and getArtists
   useEffect(
     _ => {
       if (isUseFilter) {
-        const getOptions = prepareGetOptions();
-        // allow empty string here
-        if (![null, undefined].includes(filter.text)) {
-          setQsFilterText(filter.text);
-          getOptions.filterText = filter.text;
-        }
+        const getOptions = {
+          ...prepareGetOptionsForPaginationAndSort(),
+          ...prepareGetOptionsForFilter()
+        };
         getArtists(getOptions);
         setIsUseFilter(false);
       }
     },
     [
-      setQsFilterText,
       isUseFilter,
       setIsUseFilter,
-      prepareGetOptions,
-      getArtists,
-      filter.text
+      prepareGetOptionsForPaginationAndSort,
+      prepareGetOptionsForFilter,
+      getArtists
     ]
   );
 
@@ -191,49 +188,35 @@ const ArtistList = _ => {
 
   /* event handlers */
 
-  const onEditArtist = useCallback(artist => {
+  const onEdit = useCallback(artist => {
     goToUrl(routes.artistEditByIdWithValue(true, artist._id));
   }, []);
 
   const onFilterChange = useCallback(
     e => {
-      setFilter({
-        ...filter,
-        [e.target.name]: e.target.value
-      });
+      setFilterText(e.target.value);
     },
-    [filter, setFilter]
+    [setFilterText]
   );
-
-  const onFilter = useCallback(
-    _ => {
-      setIsUseFilter(true);
-    },
-    [setIsUseFilter]
-  );
-
-  const onClearFilter = useCallback(_ => {
-    setFilter(emptyFilter);
-    setIsUseFilter(true);
-  }, []);
 
   /* end of event handlers */
 
+  const rows = useMemo(
+    _ => {
+      return addIdx(getArraySafe(artists).map(Artist.getArtistForDisplay));
+    },
+    [artists]
+  );
+
   if (artists === null || artistsLoading) {
-    return (
-      <div className='loading-container'>
-        <Loading />
-      </div>
-    );
+    return <Loading />;
   }
 
-  const addArtistButton = (
+  const addButton = (
     <LinkButton to={routes.artistAdd(true)}>
       {uiWordings['ArtistList.AddArtist']}
     </LinkButton>
   );
-
-  const rows = addIdx(artists.map(Artist.getArtistForDisplay));
 
   return (
     <>
@@ -245,23 +228,23 @@ const ArtistList = _ => {
               className='w3-section'
               placeholder={uiWordings['ArtistList.FilterTextPlaceHolder']}
               onChange={onFilterChange}
-              value={filter.text}
+              value={filterText}
             />
           </div>
           <div className='w3-half w3-container'>
             <div className='w3-half'>
-              <Button onClick={onFilter}>
+              <Button onClick={turnOnFilter}>
                 {uiWordings['ArtistList.FilterButton']}
               </Button>
             </div>
             <div className='w3-half'>
-              <Button onClick={onClearFilter}>
+              <Button onClick={turnOffFilter}>
                 {uiWordings['ArtistList.ClearFilterButton']}
               </Button>
             </div>
           </div>
         </div>
-        <div className='w3-right'>{addArtistButton}</div>
+        <div className='w3-right'>{addButton}</div>
       </Form>
       <Table
         headers={headers}
@@ -269,7 +252,7 @@ const ArtistList = _ => {
         paginationMeta={artistsPaginationMeta}
         sortBy={currSortParams.sortBy}
         sortOrder={currSortParams.sortOrder}
-        onDetailClick={onEditArtist}
+        onDetailClick={onEdit}
         onPageClick={onSetPage}
         setSortParamsFunc={onSetSortParams}
       />

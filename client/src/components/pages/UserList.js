@@ -128,7 +128,7 @@ const UserList = _ => {
 
   /* event handlers */
 
-  const onEditUser = useCallback(user => {
+  const onEdit = useCallback(user => {
     goToUrl(generatePath(routes.userEditById, { userId: user._id }));
     // goToUrl(routes.userEditByIdWithValue(true, user._id));
   }, []);
@@ -143,7 +143,7 @@ const UserList = _ => {
     );
   }
 
-  const addUserButton = (
+  const addButton = (
     <LinkButton to={routes.userAdd(true)}>
       {uiWordings['UserList.AddUser']}
     </LinkButton>
@@ -153,7 +153,7 @@ const UserList = _ => {
     return (
       <>
         <h4>{uiWordings['UserList.AddUserPrompt']}</h4>
-        {addUserButton}
+        {addButton}
       </>
     );
   }
@@ -168,9 +168,9 @@ const UserList = _ => {
         <div className='w3-half'>
           <UserFilter />
         </div>
-        <div className='w3-right'>{addUserButton}</div>
+        <div className='w3-right'>{addButton}</div>
       </Form>
-      <UserTable users={usersToFillTable} onEditClick={onEditUser} />
+      <UserTable users={usersToFillTable} onEditClick={onEdit} />
     </>
   );
 };

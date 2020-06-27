@@ -2,10 +2,20 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const PhaseSchema = mongoose.Schema({
-  name: {
-    type: String,
+  year: {
+    type: Number,
     require: true
   },
+  phaseNumber: {
+    type: Number,
+    require: true
+  },
+  derivedLabel: {
+    type: String,
+    require: true,
+    unique: true
+  },
+  events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   isEnabled: {
     type: Boolean,
     default: true
@@ -23,3 +33,18 @@ const PhaseSchema = mongoose.Schema({
     ref: 'user'
   }
 });
+
+PhaseSchema.plugin(mongoosePaginate);
+
+module.exports.Phase = mongoose.model('phase', PhaseSchema);
+
+module.exports.phaseResponseTypes = {
+  // input validation
+  YEAR_REQUIRED: 'YEAR_REQUIRED',
+  PHASE_NUMBER_REQUIRED: 'PHASE_NUMBER_REQUIRED',
+
+  // db check
+  PHASE_NOT_EXISTS: 'PHASE_NOT_EXISTS',
+  PHASE_YEAR_NUMBER_COMBO_ALREADY_EXISTS:
+    'PHASE_YEAR_NUMBER_COMBO_ALREADY_EXISTS'
+};

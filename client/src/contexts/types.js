@@ -56,3 +56,14 @@ export const UPDATE_EVENT = 'UPDATE_EVENT';
 export const EVENTS_ERRORS = 'EVENTS_ERRORS';
 export const CLEAR_EVENTS_ERRORS = 'CLEAR_EVENTS_ERRORS';
 export const SET_EVENTS_LOADING = 'SET_EVENTS_LOADING';
+
+// phases
+export const GET_PHASES = 'GET_PHASES';
+export const CLEAR_PHASES = 'CLEAR_PHASES';
+export const GET_PHASE = 'GET_PHASE';
+export const CLEAR_PHASE = 'CLEAR_PHASE';
+export const ADD_PHASE = 'ADD_PHASE';
+export const UPDATE_PHASE = 'UPDATE_PHASE';
+export const PHASES_ERRORS = 'PHASES_ERRORS';
+export const CLEAR_PHASES_ERRORS = 'CLEAR_PHASES_ERRORS';
+export const SET_PHASES_LOADING = 'SET_PHASES_LOADING';
