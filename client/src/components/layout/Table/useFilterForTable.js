@@ -2,10 +2,10 @@ import { useCallback, useState } from 'react';
 import { useQueryParam, StringParam } from 'use-query-params';
 
 const emptyFilter = {
-  text: ''
+  filterText: ''
 };
 
-const useFilterForTable = () => {
+const useFilterForTable = _ => {
   // query strings
   const [qsFilterText, setQsFilterText] = useQueryParam(
     'filterText',
@@ -14,17 +14,18 @@ const useFilterForTable = () => {
 
   // states
   const [isUseFilter, setIsUseFilter] = useState(true); // allow first time filter by query string value
-  const [filter, setFilter] = useState({ text: qsFilterText });
+  const [filter, setFilter] = useState({ filterText: qsFilterText });
 
   /* methods */
 
   const prepareGetOptions = useCallback(
     _ => {
       const getOptions = {};
+      const { filterText } = filter;
       // allow empty string here
-      if (![null, undefined].includes(filter.text)) {
-        setQsFilterText(filter.text);
-        getOptions.filterText = filter.text;
+      if (![null, undefined].includes(filterText)) {
+        setQsFilterText(filterText);
+        getOptions.filterText = filterText;
       }
       return getOptions;
     },
@@ -35,7 +36,7 @@ const useFilterForTable = () => {
     text => {
       setFilter({
         ...filter,
-        text: text
+        filterText: text
       });
     },
     [filter, setFilter]
@@ -58,7 +59,7 @@ const useFilterForTable = () => {
 
   /* end of methods */
 
-  const filterText = filter.text;
+  const { filterText } = filter;
 
   return {
     isUseFilter,

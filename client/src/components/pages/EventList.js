@@ -247,19 +247,13 @@ const EventList = _ => {
     return <Loading />;
   }
 
-  const addButton = (
-    <LinkButton to={routes.eventAdd(true)}>
-      {uiWordings['EventList.AddEvent']}
-    </LinkButton>
-  );
-
   return (
     <>
       <Form>
         <div className='w3-half'>
           <div className='w3-half'>
             <InputText
-              name='text'
+              name='filterText'
               className='w3-section'
               placeholder={uiWordings['EventList.FilterTextPlaceHolder']}
               onChange={onFilterChange}
@@ -279,7 +273,11 @@ const EventList = _ => {
             </div>
           </div>
         </div>
-        <div className='w3-right'>{addButton}</div>
+        <div className='w3-right'>
+          <LinkButton to={routes.eventAdd(true)}>
+            {uiWordings['EventList.AddEvent']}
+          </LinkButton>
+        </div>
       </Form>
       <Table
         headers={headers}

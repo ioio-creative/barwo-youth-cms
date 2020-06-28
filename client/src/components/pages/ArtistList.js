@@ -131,6 +131,7 @@ const ArtistList = _ => {
   // componentDidMount
   useEffect(
     _ => {
+      console.log('component did mount');
       return _ => {
         removeAlerts();
       };
@@ -212,19 +213,13 @@ const ArtistList = _ => {
     return <Loading />;
   }
 
-  const addButton = (
-    <LinkButton to={routes.artistAdd(true)}>
-      {uiWordings['ArtistList.AddArtist']}
-    </LinkButton>
-  );
-
   return (
     <>
       <Form>
         <div className='w3-half'>
           <div className='w3-half'>
             <InputText
-              name='text'
+              name='filterText'
               className='w3-section'
               placeholder={uiWordings['ArtistList.FilterTextPlaceHolder']}
               onChange={onFilterChange}
@@ -244,7 +239,11 @@ const ArtistList = _ => {
             </div>
           </div>
         </div>
-        <div className='w3-right'>{addButton}</div>
+        <div className='w3-right'>
+          <LinkButton to={routes.artistAdd(true)}>
+            {uiWordings['ArtistList.AddArtist']}
+          </LinkButton>
+        </div>
       </Form>
       <Table
         headers={headers}

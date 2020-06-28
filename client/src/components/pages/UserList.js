@@ -151,11 +151,7 @@ const UserList = _ => {
   /* end of event handlers */
 
   if (users === null || usersLoading) {
-    return (
-      <div className='loading-container'>
-        <Loading />
-      </div>
-    );
+    return <Loading />;
   }
 
   const addButton = (

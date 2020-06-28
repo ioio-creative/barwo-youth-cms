@@ -1,5 +1,3 @@
-import './AsyncLoading.css';
-
 import React from 'react';
 import Loading from 'components/layout/loading/DefaultLoading';
 
@@ -7,11 +5,7 @@ export default ({ isLoading, error }) => {
   let loadScreen;
   // Handle the loading state
   if (isLoading) {
-    loadScreen = (
-      <div className='loading-screen'>
-        <Loading />
-      </div>
-    );
+    loadScreen = <Loading />;
   }
   // Handle the error state
   else if (error) {
@@ -30,5 +24,5 @@ export default ({ isLoading, error }) => {
     return null;
   }
 
-  return <div className='default-loading'>{loadScreen}</div>;
+  return <div className='async-loading'>{loadScreen}</div>;
 };
