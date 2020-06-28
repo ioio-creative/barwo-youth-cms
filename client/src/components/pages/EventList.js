@@ -249,28 +249,24 @@ const EventList = _ => {
 
   return (
     <>
-      <Form>
-        <div className='w3-half'>
-          <div className='w3-half'>
-            <InputText
-              name='filterText'
-              className='w3-section'
-              placeholder={uiWordings['EventList.FilterTextPlaceHolder']}
-              onChange={onFilterChange}
-              value={filterText}
-            />
-          </div>
-          <div className='w3-half w3-container'>
-            <div className='w3-half'>
-              <Button onClick={turnOnFilter}>
-                {uiWordings['EventList.FilterButton']}
-              </Button>
-            </div>
-            <div className='w3-half'>
-              <Button onClick={turnOffFilter}>
-                {uiWordings['EventList.ClearFilterButton']}
-              </Button>
-            </div>
+      <Form onSubmit={turnOnFilter}>
+        <div className='w3-quarter'>
+          <InputText
+            name='filterText'
+            className='w3-section'
+            placeholder={uiWordings['EventList.FilterTextPlaceHolder']}
+            onChange={onFilterChange}
+            value={filterText}
+          />
+        </div>
+        <div className='w3-show-inline-block'>
+          <div className='w3-bar'>
+            <Button className='w3-margin-left' onClick={turnOnFilter}>
+              {uiWordings['EventList.FilterButton']}
+            </Button>
+            <Button className='w3-margin-left' onClick={turnOffFilter}>
+              {uiWordings['EventList.ClearFilterButton']}
+            </Button>
           </div>
         </div>
         <div className='w3-right'>

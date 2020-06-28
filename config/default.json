@@ -7,7 +7,10 @@
     "connectionString": "mongodb+srv://<username>:<password>@cluster0-gkj5l.mongodb.net/test?retryWrites=true&w=majority"
   },
   "Jwt": {
-    "secret": "secret"
+    "secret": "secret",
+    // https://www.npmjs.com/package/jsonwebtoken
+    // in seconds
+    "expireIn": 86400
   },
   "Pagination": {
     "elementsPerPage": 10

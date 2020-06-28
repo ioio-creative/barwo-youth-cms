@@ -1,21 +1,12 @@
 import React from 'react';
+import GroupContainer from 'components/layout/GroupContainer';
 
 const Form = ({ className, onSubmit, children, isCard }) => {
   return (
-    <form
-      className={`${
-        isCard ? 'w3-card-4' : ''
-      } w3-light-grey w3-text-blue w3-section ${className} w3-container`}
-      onSubmit={onSubmit}
-    >
-      {children}
-    </form>
+    <GroupContainer className={className} isCard={isCard}>
+      <form onSubmit={onSubmit}>{children}</form>
+    </GroupContainer>
   );
-};
-
-Form.defaultProps = {
-  className: '',
-  isCard: false
 };
 
 export default Form;

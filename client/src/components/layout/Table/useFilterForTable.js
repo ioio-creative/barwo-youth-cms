@@ -43,7 +43,10 @@ const useFilterForTable = _ => {
   );
 
   const turnOnFilter = useCallback(
-    _ => {
+    e => {
+      if (e && e.preventDefault) {
+        e.preventDefault();
+      }
       setIsUseFilter(true);
     },
     [setIsUseFilter]

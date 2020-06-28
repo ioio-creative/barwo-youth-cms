@@ -176,7 +176,7 @@ const UserList = _ => {
   return (
     <>
       <Form>
-        <div className='w3-half'>
+        <div className='w3-quarter'>
           <UserFilter />
         </div>
         <div className='w3-right'>{addButton}</div>

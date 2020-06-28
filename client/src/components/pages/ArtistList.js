@@ -131,7 +131,6 @@ const ArtistList = _ => {
   // componentDidMount
   useEffect(
     _ => {
-      console.log('component did mount');
       return _ => {
         removeAlerts();
       };
@@ -215,28 +214,24 @@ const ArtistList = _ => {
 
   return (
     <>
-      <Form>
-        <div className='w3-half'>
-          <div className='w3-half'>
-            <InputText
-              name='filterText'
-              className='w3-section'
-              placeholder={uiWordings['ArtistList.FilterTextPlaceHolder']}
-              onChange={onFilterChange}
-              value={filterText}
-            />
-          </div>
-          <div className='w3-half w3-container'>
-            <div className='w3-half'>
-              <Button onClick={turnOnFilter}>
-                {uiWordings['ArtistList.FilterButton']}
-              </Button>
-            </div>
-            <div className='w3-half'>
-              <Button onClick={turnOffFilter}>
-                {uiWordings['ArtistList.ClearFilterButton']}
-              </Button>
-            </div>
+      <Form onSubmit={turnOnFilter}>
+        <div className='w3-quarter'>
+          <InputText
+            name='filterText'
+            className='w3-section'
+            placeholder={uiWordings['ArtistList.FilterTextPlaceHolder']}
+            onChange={onFilterChange}
+            value={filterText}
+          />
+        </div>
+        <div className='w3-show-inline-block'>
+          <div className='w3-bar'>
+            <Button className='w3-margin-left' onClick={turnOnFilter}>
+              {uiWordings['ArtistList.FilterButton']}
+            </Button>
+            <Button className='w3-margin-left' onClick={turnOffFilter}>
+              {uiWordings['ArtistList.ClearFilterButton']}
+            </Button>
           </div>
         </div>
         <div className='w3-right'>
