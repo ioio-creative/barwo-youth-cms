@@ -18,3 +18,12 @@ const MediumTagSchema = mongoose.Schema({
 MediumTagSchema.plugin(mongoosePaginate);
 
 module.exports.MediumTag = mongoose.model('mediumTag', MediumTagSchema);
+
+module.exports.mediumTagResponseTypes = {
+  // input validation
+  NAME_REQUIRED: 'NAME_REQUIRED',
+
+  // db check
+  MEDIUM_TAG_NOT_EXISTS: 'MEDIUM_NOT_EXISTS',
+  NAME_ALREADY_EXISTS: 'NAME_ALREADY_EXISTS'
+};

@@ -14,6 +14,8 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 // Define Routes
+
+// backend apis
 app.use('/api/backend/auth/auth', require('./routes/backend/auth/auth'));
 app.use('/api/backend/users/users', require('./routes/backend/users/users'));
 app.use(
@@ -40,6 +42,8 @@ app.use(
   '/api/backend/phases/phases',
   require('./routes/backend/phases/phases')
 );
+// media api
+app.use('/api/backend/media', require('./routes/backend/media/media'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

@@ -15,6 +15,21 @@ const { User, userResponseTypes } = require('../../../models/User');
 
 /* utilites */
 
+const userSelectForFindAll = {
+  password: 0
+};
+
+const userSelectForFindOne = { ...userSelectForFindAll };
+
+const userPopulationListForFindAll = [
+  {
+    path: 'lastModifyUser',
+    select: 'name'
+  }
+];
+
+const userPopulationListForFindOne = [...userPopulationListForFindAll];
+
 const userValidationChecksForAddUser = [
   check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
   check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
@@ -75,10 +90,10 @@ router.get('/', authIsAdmin, async (req, res) => {
   try {
     // https://mongoosejs.com/docs/populate.html
     const users = await User.find({})
-      .select('-password')
-      .populate('lastModifyUser', 'name')
+      .select(userSelectForFindAll)
+      .populate(userPopulationListForFindAll)
       .sort({
-        lastModifyDT: -1
+        name: 1
       });
     res.json(users);
   } catch (err) {
@@ -92,8 +107,8 @@ router.get('/', authIsAdmin, async (req, res) => {
 router.get('/:_id', auth, async (req, res) => {
   try {
     const user = await User.findById(req.params._id)
-      .select('-password')
-      .populate('lastModifyUser', 'name');
+      .select(userSelectForFindOne)
+      .populate(userPopulationListForFindOne);
     if (!user) {
       return res
         .status(404)

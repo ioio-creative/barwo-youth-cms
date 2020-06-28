@@ -4,22 +4,29 @@ const getFindLikeTextRegex = require('../utils/regex/getFindLikeTextRegex');
 
 module.exports = function (req, res, next) {
   try {
-    // pagination related queries
-    const page = req.query.page;
-    const sortOrder = req.query.sortOrder;
-    const sortBy = req.query.sortBy;
+    const query = req.query;
 
-    const paginationOptions = {
-      limit: config.get('Pagination.elementsPerPage'),
-      sort: { lastModifyDT: -1 },
-      populate: { path: 'lastModifyUser', select: 'name' }
-    };
+    // pagination related queries
+    const page = query.page;
+    const limit = query.limit;
+    const sortOrder = query.sortOrder;
+    const sortBy = query.sortBy;
+
+    // const paginationOptions = {
+    //   limit: config.get('Pagination.elementsPerPage'),
+    //   sort: { lastModifyDT: -1 },
+    //   populate: { path: 'lastModifyUser', select: 'name' }
+    // };
+    const paginationOptions = {};
+
     if (page) {
       paginationOptions.page = page;
+      paginationOptions.limit =
+        limit || config.get('Pagination.elementsPerPage');
     }
     if (sortBy) {
       paginationOptions.sort = {
-        [sortBy]: sortOrder ? sortOrder : 1
+        [sortBy]: sortOrder || 1
       };
     }
 
@@ -27,7 +34,7 @@ module.exports = function (req, res, next) {
     req.paginationOptions = paginationOptions;
 
     // filter related queries
-    const filterText = req.query.filterText;
+    const filterText = query.filterText;
 
     let filterTextRegex = null;
     if (!['', null, undefined].includes(filterText)) {

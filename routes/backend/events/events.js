@@ -20,6 +20,10 @@ const { Artist } = require('../../../models/Artist');
 
 /* utilities */
 
+const eventSelectForFindAll = {};
+
+const eventSelectForFindOne = { ...eventSelectForFindAll };
+
 const eventPopulationListForFindAll = [
   {
     path: 'lastModifyUser',
@@ -228,6 +232,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
   try {
     const options = {
       ...req.paginationOptions,
+      select: eventSelectForFindAll,
       populate: eventPopulationListForFindAll
     };
 
@@ -261,9 +266,9 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
 router.get('/:_id', auth, async (req, res) => {
   try {
     // https://mongoosejs.com/docs/populate.html#populating-multiple-paths
-    const event = await Event.findById(req.params._id).populate(
-      eventPopulationListForFindOne
-    );
+    const event = await Event.findById(req.params._id)
+      .select(eventSelectForFindOne)
+      .populate(eventPopulationListForFindOne);
     if (!event) {
       return res
         .status(404)

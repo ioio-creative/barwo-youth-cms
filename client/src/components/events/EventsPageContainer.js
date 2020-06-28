@@ -10,6 +10,7 @@ const EventsPageContainer = ({ children }) => {
   useEffect(_ => {
     setTitle(uiWordings['Events.Title']);
     return _ => {
+      console.log('EventsPageContainer componentWillUnmount');
       removeTitle();
     };
     // eslint-disable-next-line

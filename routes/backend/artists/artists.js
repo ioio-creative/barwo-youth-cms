@@ -13,6 +13,22 @@ const { Artist, artistResponseTypes } = require('../../../models/Artist');
 
 /* utilities */
 
+const artistSelectForFindAll = {
+  eventsDirected: 0,
+  eventsPerformed: 0
+};
+
+const artistSelectForFindOne = { ...artistSelectForFindAll };
+
+const artistPopulationListForFindAll = [
+  {
+    path: 'lastModifyUser',
+    select: 'name'
+  }
+];
+
+const artistPopulationListForFindOne = [...artistPopulationListForFindAll];
+
 const artistValidationChecks = [
   check('label', artistResponseTypes.LABEL_REQUIRED).not().isEmpty(),
   check('name_tc', artistResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
@@ -21,11 +37,6 @@ const artistValidationChecks = [
   check('type', artistResponseTypes.TYPE_REQUIRED).not().isEmpty(),
   check('role', artistResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];
-
-const artistSelect = {
-  eventsDirected: 0,
-  eventsPerformed: 0
-};
 
 const handleArtistLabelDuplicateKeyError = (err, res) => {
   const isErrorHandled = duplicateKeyErrorHandle(
@@ -46,7 +57,8 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
   try {
     const options = {
       ...req.paginationOptions,
-      select: artistSelect
+      select: artistSelectForFindAll,
+      populate: artistPopulationListForFindAll
     };
 
     let findOptions = {};
@@ -80,8 +92,8 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
 router.get('/:_id', auth, async (req, res) => {
   try {
     const artist = await Artist.findById(req.params._id)
-      .select(artistSelect)
-      .populate('lastModifyUser', 'name');
+      .select(artistSelectForFindOne)
+      .populate(artistPopulationListForFindOne);
     if (!artist) {
       return res
         .status(404)

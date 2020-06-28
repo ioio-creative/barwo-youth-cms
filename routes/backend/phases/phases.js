@@ -16,7 +16,9 @@ const { Event } = require('../../../models/Event');
 
 /* utilities */
 
-const phaseSelect = {};
+const phaseSelectForFindAll = {};
+
+const phaseSelectForFindOne = { ...phaseSelectForFindAll };
 
 const phasePopulationListForFindAll = [
   {
@@ -97,7 +99,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
   try {
     const options = {
       ...req.paginationOptions,
-      select: phaseSelect,
+      select: phaseSelectForFindAll,
       populate: phasePopulationListForFindAll
     };
 
@@ -121,9 +123,9 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
 // @access  Private
 router.get('/:_id', auth, async (req, res) => {
   try {
-    const phase = await Phase.findById(req.params._id).populate(
-      phasePopulationListForFindOne
-    );
+    const phase = await Phase.findById(req.params._id)
+      .select(phaseSelectForFindOne)
+      .populate(phasePopulationListForFindOne);
     if (!phase) {
       return res
         .status(404)
