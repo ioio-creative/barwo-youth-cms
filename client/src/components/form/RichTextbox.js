@@ -6,7 +6,7 @@ const RichTextbox = ({
   type,
   name,
   value: rawValue,
-  onChange = () => {},
+  onChange = () => { },
   required,
   minLength,
   disabled,
@@ -135,6 +135,10 @@ const RichTextbox = ({
       }
     });
   }, [value, onChange]);
+
+  useEffect(() => {
+    setValue(rawValue);
+  }, [rawValue]);
   return (
     <>
       <div className={`editableArea ${className}`}>

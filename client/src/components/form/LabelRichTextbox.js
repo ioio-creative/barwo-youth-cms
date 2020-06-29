@@ -14,6 +14,7 @@ const LabelRichTextbox = ({
   filebrowserBrowseUrl,
   isHalf
 }) => {
+  console.log(value);
   return (
     <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
@@ -23,7 +24,7 @@ const LabelRichTextbox = ({
           className={className}
           name={name}
           value={value}
-          onChange={onChange}
+          // onChange={onChange}
           // debug={true}
           disabled={disabled}
           filebrowserBrowseUrl={filebrowserBrowseUrl}

@@ -190,7 +190,6 @@ const ArtistEdit = _ => {
             ? uiWordings['ArtistEdit.AddArtistTitle']
             : uiWordings['ArtistEdit.EditArtistTitle']}
         </h4>
-
         <LabelInputTextPair
           name='label'
           value={artist.label}
@@ -199,7 +198,6 @@ const ArtistEdit = _ => {
           onChange={onChange}
           required={true}
         />
-
         <LabelInputTextPair
           name='name_tc'
           value={artist.name_tc}

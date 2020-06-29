@@ -217,7 +217,6 @@ const UserEdit = _ => {
   if (isAbandonEdit) {
     return <>{backToUserListButton}</>;
   }
-  console.log(user.password);
   return (
     <>
       {backToUserListButton}
@@ -268,13 +267,13 @@ const UserEdit = _ => {
               minLength={passwordMinLength}
             />
             <Button onClick={onChangePasswordButtonClick}>
-              {uiWordings['UserEdit.CancelChangePassword']}
+              {uiWordings['UserEdit.CancelChangePasswordLabel']}
             </Button>
           </>
         )}
         {!isChangePassword && (
           <Button onClick={onChangePasswordButtonClick}>
-            {uiWordings['UserEdit.ChangePassword']}
+            {uiWordings['UserEdit.ChangePasswordLabel']}
           </Button>
         )}
         <LabelSelectPair

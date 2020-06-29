@@ -46,5 +46,9 @@ export default {
     return '/phaseAdd';
   },
   testing: '/testing',
-  fileManager: '/fileManager'
+  fileManager: '/fileManager',
+  passwordChange: '/changePassword'
+  // passwordChangebyID: function (isLink, userID) {
+  //   return '/changePassword' + userID;
+  // }
 };

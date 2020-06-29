@@ -43,6 +43,9 @@ const AsyncTesting = asyncLoadingComponent(_ =>
 const AsyncFileManager = asyncLoadingComponent(_ =>
   import('components/pages/FileManager')
 );
+const AsyncPasswordChange = asyncLoadingComponent(_ =>
+  import('components/pages/PasswordEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -72,6 +75,12 @@ const Main = _ => {
             */}
             <Switch>
               <Route exact path={routes.home(false)} component={AsyncHome} />
+
+              <Route
+                exact
+                path={routes.passwordChange}
+                component={AsyncPasswordChange}
+              />
 
               <Route path={routes.userList(false)} component={AsyncUserList} />
               <Route path={routes.userEditById} component={AsyncUserEdit} />
