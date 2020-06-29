@@ -4,7 +4,7 @@
   },
   "Database": {
     "isDebug": false,
-    "connectionString": "mongodb+srv://<username>:<password>@cluster0-gkj5l.mongodb.net/test?retryWrites=true&w=majority"
+    "connectionString": "mongodb+srv://IoioSa:<password>@barwocluster0-3phxk.azure.mongodb.net/<dbname>?retryWrites=true&w=majority"
   },
   "Jwt": {
     "secret": "secret",

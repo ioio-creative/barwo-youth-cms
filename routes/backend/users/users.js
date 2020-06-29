@@ -176,7 +176,11 @@ router.put(
     const userFields = {};
     if (name) userFields.name = name;
     if (email) userFields.email = email;
-    if (password) userFields.password = password;
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      userFields.password = await bcrypt.hash(password, salt);
+      console.log(password, bcrypt.hash(password, salt));
+    }
     if (role) userFields.role = role;
     if (isEnabled !== undefined) userFields.isEnabled = isEnabled;
     userFields.lastModifyDT = new Date();

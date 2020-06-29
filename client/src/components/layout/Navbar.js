@@ -71,6 +71,7 @@ const Navbar = ({ className }) => {
       {authUser && (
         <NavbarItem>{`${authUser.name}, ${uiWordings['Navbar.Greeting']}`}</NavbarItem>
       )}
+      <NavbarButton>{uiWordings['Navbar.ChangePasswoed']}</NavbarButton>
       <NavbarButton className='w3-border-bottom' onClick={onLogout}>
         <i className='fa fa-sign-out' /> {uiWordings['Navbar.Logout']}
       </NavbarButton>
