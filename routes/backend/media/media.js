@@ -1,7 +1,13 @@
+const util = require('util');
+const path = require('path');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
+const config = require('config');
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
 
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
@@ -14,6 +20,47 @@ const {
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { Medium, mediumResponseTypes } = require('../../../models/Medium');
 const { MediumTag } = require('../../../models/MediumTag');
+
+/* s3 utils */
+// https://www.npmjs.com/package/multer-s3
+
+const s3 = new aws.S3({
+  accessKeyId: config.get('Aws.s3.accessKeyId'),
+  secretAccessKey: config.get('Aws.s3.secretAccessKey'),
+  region: config.get('Aws.s3.region')
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: config.get('Aws.s3.bucket'),
+    acl: 'public-read',
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    // https://stackoverflow.com/questions/44028876/how-to-specify-upload-directory-in-multer-s3-for-aws-s3-bucket
+    key: function (req, file, cb) {
+      const extWithDot = path.extname(file.originalname);
+      const fileNameWithoutExt = file.originalname.substr(
+        0,
+        file.originalname.lastIndexOf('.')
+      );
+      const fullPath = `files/${
+        req.mediumType.route
+      }/${fileNameWithoutExt}-${Date.now()}${extWithDot}`;
+      cb(null, fullPath);
+    }
+  }),
+  // https://www.npmjs.com/package/multer#limits
+  limits: {
+    // https://stackoverflow.com/questions/56640410/cant-upload-large-files-to-aws-with-multer-s3-nodejs
+    fileSize: config.get('Aws.s3.limits.fileSizeInMBs') * 1024 * 1024,
+    files: config.get('Aws.s3.limits.files')
+  }
+});
+
+const getUploadFilesMiddleware = fieldName =>
+  util.promisify(upload.array(fieldName, config.get('Aws.s3.limits.files')));
+
+/* end of s3 utils */
 
 /* utilities */
 
@@ -79,11 +126,11 @@ const removeMediumForTags = async (medium, session) => {
 
 /* end of utilities */
 
-// @route   GET api/backend/media/:mediaType
-// @desc    Get all media of a particular mediaType, e.g. 'images', 'videos', etc.
+// @route   GET api/backend/media/:mediumType
+// @desc    Get all media of a particular mediumType, e.g. 'images', 'videos', etc.
 // @access  Private
 router.get(
-  '/:mediaType',
+  '/:mediumType',
   [mediumTypeValidate, auth, listPathHandling],
   async (req, res) => {
     try {
@@ -112,86 +159,115 @@ router.get(
   }
 );
 
-// @route   GET api/backend/media/:mediaType/:_id
-// @desc    Get medium of a particular mediaType, e.g. 'images', 'videos', etc, by id
+// @route   GET api/backend/media/:mediumType/:_id
+// @desc    Get medium of a particular mediumType, e.g. 'images', 'videos', etc, by id
 // @access  Private
-router.get('/:mediaType/:_id', [mediumTypeValidate, auth], async (req, res) => {
-  const mediumTypeFromUrl = req.mediumType;
-  const mediumIdFromUrl = req.params._id;
+router.get(
+  '/:mediumType/:_id',
+  [mediumTypeValidate, auth],
+  async (req, res) => {
+    const mediumTypeFromUrl = req.mediumType;
+    const mediumIdFromUrl = req.params._id;
 
-  try {
-    const medium = await Medium.findById(mediumIdFromUrl)
-      .select(mediumSelectForFindOne)
-      .populate(mediumPopulationListForFindOne);
-    if (!medium || medium.type !== mediumTypeFromUrl.type) {
+    try {
+      const medium = await Medium.findById(mediumIdFromUrl)
+        .select(mediumSelectForFindOne)
+        .populate(mediumPopulationListForFindOne);
+      if (!medium || medium.type !== mediumTypeFromUrl.type) {
+        return res
+          .status(404)
+          .json({ errors: [mediumResponseTypes.MEDIUM_NOT_EXISTS] });
+      }
+      res.json(medium);
+    } catch (err) {
+      //generalErrorHandle(err, res);
       return res
         .status(404)
         .json({ errors: [mediumResponseTypes.MEDIUM_NOT_EXISTS] });
     }
-    res.json(medium);
-  } catch (err) {
-    //generalErrorHandle(err, res);
-    return res
-      .status(404)
-      .json({ errors: [mediumResponseTypes.MEDIUM_NOT_EXISTS] });
-  }
-});
-
-// @route   POST api/backend/media/:mediaType
-// @desc    Add medium of a particular mediaType, e.g. 'images', 'videos', etc.
-// @access  Private
-router.post(
-  '/:mediaType',
-  [mediumTypeValidate, auth, mediumValidationChecks, validationHandling],
-  async (req, res) => {
-    const {
-      name,
-      alernativeText,
-      url,
-      tags,
-      //usages,
-      isEnabled
-    } = req.body;
-    const type = req.mediumType.type;
-
-    const session = await mongoose.startSession();
-    session.startTransaction();
-
-    try {
-      const medium = new Medium({
-        name,
-        alernativeText,
-        type,
-        url,
-        tags,
-        //usages,
-        isEnabled,
-        lastModifyUser: req.user._id
-      });
-
-      await medium.save({ session });
-
-      await setMediumForTags(medium._id, tags, session);
-
-      await session.commitTransaction();
-
-      res.json(medium);
-    } catch (err) {
-      await session.abortTransaction();
-      if (!handleMediumNameDuplicateKeyError(err, res)) {
-        generalErrorHandle(err, res);
-      }
-    } finally {
-      session.endSession();
-    }
   }
 );
 
+// @route   POST api/backend/media/:mediumType
+// @desc    Add medium of a particular mediumType, e.g. 'images', 'videos', etc.
+// @access  Private
+router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
+  const uploadFilesMiddleware = getUploadFilesMiddleware('media');
+  try {
+    await uploadFilesMiddleware(req, res);
+    console.log(req.files);
+
+    if (req.files.length <= 0) {
+      return res.send('You must select at least 1 file.');
+    }
+
+    return res.send('Files has been uploaded.');
+  } catch (err) {
+    console.error(err);
+    console.error(JSON.stringify(err, null, 2));
+
+    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+      return res.send('Too many files to upload.');
+    }
+    return res.send(`Error when trying upload many files: ${error}`);
+  }
+});
+
+// // @route   POST api/backend/media/:mediumType
+// // @desc    Add medium of a particular mediumType, e.g. 'images', 'videos', etc.
+// // @access  Private
+// router.post(
+//   '/:mediumType',
+//   [mediumTypeValidate, auth, mediumValidationChecks, validationHandling],
+//   async (req, res) => {
+//     const {
+//       name,
+//       alernativeText,
+//       url,
+//       tags,
+//       //usages,
+//       isEnabled
+//     } = req.body;
+//     const type = req.mediumType.type;
+
+//     const session = await mongoose.startSession();
+//     session.startTransaction();
+
+//     try {
+//       const medium = new Medium({
+//         name,
+//         alernativeText,
+//         type,
+//         url,
+//         tags,
+//         //usages,
+//         isEnabled,
+//         lastModifyUser: req.user._id
+//       });
+
+//       await medium.save({ session });
+
+//       await setMediumForTags(medium._id, tags, session);
+
+//       await session.commitTransaction();
+
+//       res.json(medium);
+//     } catch (err) {
+//       await session.abortTransaction();
+//       if (!handleMediumNameDuplicateKeyError(err, res)) {
+//         generalErrorHandle(err, res);
+//       }
+//     } finally {
+//       session.endSession();
+//     }
+//   }
+// );
+
 // @route   PUT api/backend/media/:mediumType/:_id
-// @desc    Update medium of a particular mediaType, e.g. 'images', 'videos', etc.
+// @desc    Update medium of a particular mediumType, e.g. 'images', 'videos', etc.
 // @access  Private
 router.put(
-  '/:mediaType/:_id',
+  '/:mediumType/:_id',
   [mediumTypeValidate, auth, mediumValidationChecks, validationHandling],
   async (req, res) => {
     const {

@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
-import RichTextbox from 'components/form/RichTextbox';
+
+import TestFileUpload from 'components/testing/TestFileUpload';
 
 const Home = _ => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
@@ -14,9 +15,11 @@ const Home = _ => {
     // eslint-disable-next-line
   }, []);
 
-  return <div className='w3-container'>Homepage
-    {/* <RichTextbox /> */}
-  </div>;
+  return (
+    <div className='w3-container'>
+      <TestFileUpload />
+    </div>
+  );
 };
 
 export default Home;

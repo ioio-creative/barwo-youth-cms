@@ -6,6 +6,19 @@
     "isDebug": false,
     "connectionString": "mongodb+srv://IoioSa:<password>@barwocluster0-3phxk.azure.mongodb.net/<dbname>?retryWrites=true&w=majority"
   },
+  "Aws": {
+    "s3": {
+      "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
+      "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      "region": "ap-east-1",
+      "bucket": "XXX",
+      // https://www.npmjs.com/package/multer#limits
+      "limits": {
+        "fileSizeInMBs": 20,
+        "files": 10
+      }
+    }
+  },
   "Jwt": {
     "secret": "secret",
     // https://www.npmjs.com/package/jsonwebtoken

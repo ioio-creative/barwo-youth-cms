@@ -70,7 +70,9 @@ module.exports.routesOfMediumTypes = Object.keys(mediumTypes).map(
 );
 
 module.exports.getMediumTypeFromRoute = route => {
-  return mediumTypes.find(mediumType => mediumType.route === route);
+  return Object.values(mediumTypes).find(
+    mediumType => mediumType.route === route
+  );
 };
 
 module.exports.mediumUsageEntityTypes = {
