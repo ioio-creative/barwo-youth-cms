@@ -15,6 +15,11 @@ const { User, userResponseTypes } = require('../../../models/User');
 
 /* utilites */
 
+const hashPasswordInput = async passwordInput => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(passwordInput, salt);
+};
+
 const userSelectForFindAll = {
   password: 0
 };
@@ -150,8 +155,7 @@ router.post(
         isEnabled,
         lastModifyUser: req.user._id
       });
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
+      user.password = await hashPasswordInput(password);
       await user.save();
 
       res.json(user);
@@ -176,11 +180,7 @@ router.put(
     const userFields = {};
     if (name) userFields.name = name;
     if (email) userFields.email = email;
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      userFields.password = await bcrypt.hash(password, salt);
-      console.log(password, bcrypt.hash(password, salt));
-    }
+    if (password) userFields.password = hashPasswordInput(password);
     if (role) userFields.role = role;
     if (isEnabled !== undefined) userFields.isEnabled = isEnabled;
     userFields.lastModifyDT = new Date();
