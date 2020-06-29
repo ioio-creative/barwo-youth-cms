@@ -180,7 +180,7 @@ router.put(
     const userFields = {};
     if (name) userFields.name = name;
     if (email) userFields.email = email;
-    if (password) userFields.password = hashPasswordInput(password);
+    if (password) userFields.password = await hashPasswordInput(password);
     if (role) userFields.role = role;
     if (isEnabled !== undefined) userFields.isEnabled = isEnabled;
     userFields.lastModifyDT = new Date();
