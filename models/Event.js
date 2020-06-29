@@ -111,7 +111,7 @@ const EventSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  //prices: [Number],
+  // prices: [Number],
   priceRemarks_tc: {
     type: String
   },
@@ -121,7 +121,7 @@ const EventSchema = mongoose.Schema({
   priceRemarks_en: {
     type: String
   },
-  //phones: [EventTicketPhoneSchema],
+  // phones: [EventTicketPhoneSchema],
   ticketUrl: {
     type: String
   },

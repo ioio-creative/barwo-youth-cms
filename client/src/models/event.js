@@ -20,6 +20,15 @@ function Event() {
   this.artDirectors = [];
   this.artists = [];
   this.shows = [];
+  this.venue_tc = [];
+  this.venue_sc = [];
+  this.venue_en = [];
+  // this.prices = [];
+  this.priceRemarks_tc = [];
+  this.priceRemarks_sc = [];
+  this.priceRemarks_en = [];
+  // this.phones = [];
+  this.ticketUrl = [];
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;

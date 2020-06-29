@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import UsersContext from 'contexts/users/usersContext';
-import UsersPageContainer from 'components/users/UsersPageContainer';
+import PasswordChangePageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import Form from 'components/form/Form';
@@ -31,7 +31,7 @@ const defaultState = {
 
 const PasswordEdit = () => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
-  const { getUser, updateUser } = useContext(UsersContext);
+  const { updateUser } = useContext(UsersContext);
   // const updateUser = () => {};
 
   const [user, setUser] = useState(defaultState);
@@ -60,35 +60,36 @@ const PasswordEdit = () => {
     },
     [setIsChangePassword, isChangePassword]
   );
+  const onSubmit = () => {};
 
-  const onSubmit = useCallback(
-    async e => {
-      e.preventDefault();
-      setIsChangePassword(true);
-      let isSuccess = false;
-      let returnedUser = null;
-      isSuccess = validInput(user);
-      const { password2, ...cleanedUser } = user;
-      if (isSuccess) {
-        const funcToCall = updateUser;
-        returnedUser = await funcToCall(cleanedUser);
-        isSuccess = Boolean(returnedUser);
-      }
-      if (isSuccess) {
-        setAlerts(
-          new Alert(
-            uiWordings['UserEdit.UpdateUserSuccessMessage'],
-            Alert.alertTypes.INFO
-          )
-        );
-        goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
-        setUser(returnedUser);
-      }
+  // const onSubmit = useCallback(
+  //   async e => {
+  //     e.preventDefault();
+  //     setIsChangePassword(true);
+  //     let isSuccess = false;
+  //     let returnedUser = null;
+  //     isSuccess = validInput(user);
+  //     const { password2, ...cleanedUser } = user;
+  //     if (isSuccess) {
+  //       const funcToCall = updateUser;
+  //       returnedUser = await funcToCall(cleanedUser);
+  //       isSuccess = Boolean(returnedUser);
+  //     }
+  //     if (isSuccess) {
+  //       setAlerts(
+  //         new Alert(
+  //           uiWordings['UserEdit.UpdateUserSuccessMessage'],
+  //           Alert.alertTypes.INFO
+  //         )
+  //       );
+  //       goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
+  //       setUser(returnedUser);
+  //     }
 
-      scrollToTop();
-    },
-    [setIsChangePassword, isChangePassword]
-  );
+  //     scrollToTop();
+  //   },
+  //   [setIsChangePassword, isChangePassword]
+  // );
   return (
     <>
       <Form onSubmit={onSubmit}>
@@ -129,4 +130,10 @@ const PasswordEdit = () => {
   );
 };
 
-export default PasswordEdit;
+const PasswordEditWithContainer = _ => (
+  <PasswordChangePageContainer>
+    <PasswordEdit />
+  </PasswordChangePageContainer>
+);
+
+export default PasswordEditWithContainer;

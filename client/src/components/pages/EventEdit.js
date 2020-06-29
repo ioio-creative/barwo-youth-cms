@@ -359,14 +359,6 @@ const EventEdit = _ => {
           onChange={onChange}
           required={true}
         />
-        {/* <LabelInputTextPair
-          name='desc_tc'
-          value={event.desc_tc}
-          labelMessage={uiWordings['Event.DescTcLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        /> */}
         <LabelRichTextbox
           name='desc_tc'
           value={event.desc_tc}
@@ -446,6 +438,76 @@ const EventEdit = _ => {
         <EventEditArtistSelect
           artistsPicked={artistsPicked}
           onGetArtistsPicked={onGetArtistsPicked}
+        />
+
+        <LabelInputTextPair
+          name='venue_tc'
+          required={true}
+          value={event.venue_tc}
+          labelMessage={uiWordings['Event.VenueTcLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='venue_sc'
+          required={true}
+          value={event.venue_sc}
+          labelMessage={uiWordings['Event.VenueScLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='venue_en'
+          required={true}
+          value={event.venue_en}
+          labelMessage={uiWordings['Event.VenueEnLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='prices'
+          required={true}
+          value={event.prices}
+          labelMessage={uiWordings['Event.PricesLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+
+        <LabelRichTextbox
+          name='priceRemarks_tc'
+          value={event.priceRemarks_tc}
+          labelMessage={uiWordings['Event.PriceRemarksTcLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
+        />
+        <LabelRichTextbox
+          name='priceRemarks_sc'
+          value={event.priceRemarks_sc}
+          labelMessage={uiWordings['Event.PriceRemarksScLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
+        />
+        <LabelRichTextbox
+          name='priceRemarks_en'
+          value={event.priceRemarks_en}
+          labelMessage={uiWordings['Event.PriceRemarksEnLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
+        />
+
+        <LabelInputTextPair
+          name='phones'
+          value={event.phones}
+          labelMessage={uiWordings['Event.PhoneLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='ticketUrl'
+          value={event.ticketUrl}
+          labelMessage={uiWordings['Event.TicketUrlLabel']}
+          placeholder=''
+          onChange={onChange}
         />
 
         <LabelTogglePair
