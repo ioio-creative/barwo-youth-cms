@@ -98,34 +98,34 @@ const EventSchema = mongoose.Schema({
   artDirectors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'artist' }],
   artists: [EventArtistSchema],
   shows: [EventShowSchema],
-  // /* ticketing */
-  // venue_tc: {
-  //   type: String,
-  //   require: true
-  // },
-  // venue_sc: {
-  //   type: String,
-  //   require: true
-  // },
-  // venue_en: {
-  //   type: String,
-  //   require: true
-  // },
-  // prices: [Number],
-  // priceRemarks_tc: {
-  //   type: String
-  // },
-  // priceRemarks_sc: {
-  //   type: String
-  // },
-  // priceRemarks_en: {
-  //   type: String
-  // },
-  // phones: [EventTicketPhoneSchema],
-  // ticketUrl: {
-  //   type: String
-  // },
-  // /* end of ticketing */
+  /* ticketing */
+  venue_tc: {
+    type: String,
+    require: true
+  },
+  venue_sc: {
+    type: String,
+    require: true
+  },
+  venue_en: {
+    type: String,
+    require: true
+  },
+  //prices: [Number],
+  priceRemarks_tc: {
+    type: String
+  },
+  priceRemarks_sc: {
+    type: String
+  },
+  priceRemarks_en: {
+    type: String
+  },
+  //phones: [EventTicketPhoneSchema],
+  ticketUrl: {
+    type: String
+  },
+  /* end of ticketing */
   phasesInvolved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'phase' }],
   isEnabled: {
     type: Boolean,

@@ -129,7 +129,10 @@ const RichTextbox = ({
   //console.log(rawValue);
   useEffect(() => {
     onChange({
-      value: value
+      target: {
+        name: name,
+        value: value
+      }
     });
   }, [value, onChange]);
   return (
