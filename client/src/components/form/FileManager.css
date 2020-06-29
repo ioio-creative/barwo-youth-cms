@@ -1,0 +1,56 @@
+.fileManager.show {
+  padding-bottom: 400px;
+}
+.fileManager .image-wrapper {
+  position: relative;
+  padding-top: 56.25%;
+}
+.fileManager .image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fileManager .media-details {
+  position: fixed;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: 0px;
+  overflow: hidden;
+  background-color: #ccc;
+  border-top: 1px solid #FFF;
+}
+.fileManager.show .media-details {
+  height: 400px;
+}
+.media-details-wrapper {
+  height: 400px;
+  position: relative;
+  overflow: auto;
+}
+.fileManager .media-details-toggle-btn {
+  position: fixed;
+  right: 0;
+  bottom: -1px;
+  padding: 5px 15px;
+  background-color: #ccc;
+  border-top-left-radius: 5px;
+  border-top: 1px solid #FFF;
+  border-left: 1px solid #FFF;
+  z-index: 1;
+}
+.fileManager.show .media-details-toggle-btn {
+  right: 0;
+  bottom: 399px;
+}
+.fileManager.show .media-details-toggle-btn .fa-caret-up,
+.fileManager .media-details-toggle-btn .fa-caret-down {
+  display: none;
+}
+.fileManager .media-details-toggle-btn .fa-caret-up,
+.fileManager.show .media-details-toggle-btn .fa-caret-down {
+  display: block;
+}

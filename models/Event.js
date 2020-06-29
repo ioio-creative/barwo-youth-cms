@@ -31,6 +31,25 @@ const EventShowSchema = mongoose.Schema({
   }
 });
 
+const EventTicketPhoneSchema = mongoose.Schema({
+  label_tc: {
+    type: String,
+    require: true
+  },
+  label_sc: {
+    type: String,
+    require: true
+  },
+  label_en: {
+    type: String,
+    require: true
+  },
+  phone: {
+    type: String,
+    require: true
+  }
+});
+
 const EventSchema = mongoose.Schema({
   label: {
     type: String,
@@ -79,6 +98,34 @@ const EventSchema = mongoose.Schema({
   artDirectors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'artist' }],
   artists: [EventArtistSchema],
   shows: [EventShowSchema],
+  // /* ticketing */
+  // venue_tc: {
+  //   type: String,
+  //   require: true
+  // },
+  // venue_sc: {
+  //   type: String,
+  //   require: true
+  // },
+  // venue_en: {
+  //   type: String,
+  //   require: true
+  // },
+  // prices: [Number],
+  // priceRemarks_tc: {
+  //   type: String
+  // },
+  // priceRemarks_sc: {
+  //   type: String
+  // },
+  // priceRemarks_en: {
+  //   type: String
+  // },
+  // phones: [EventTicketPhoneSchema],
+  // ticketUrl: {
+  //   type: String
+  // },
+  // /* end of ticketing */
   phasesInvolved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'phase' }],
   isEnabled: {
     type: Boolean,
@@ -115,6 +162,13 @@ module.exports.eventResponseTypes = {
   EVENT_ARTIST_REQUIRED: 'EVENT_ARTIST_REQUIRED',
   EVENT_SHOW_DATE_REQUIRED: 'EVENT_SHOW_DATE_REQUIRED',
   EVENT_SHOW_START_TIME_REQUIRED: 'EVENT_SHOW_START_TIME_REQUIRED',
+  VENUE_TC_REQUIRED: 'VENUE_TC_REQUIRED',
+  VENUE_SC_REQUIRED: 'VENUE_SC_REQUIRED',
+  VENUE_EN_REQUIRED: 'VENUE_EN_REQUIRED',
+  EVENT_PHONE_LABEL_TC_REQUIRED: 'EVENT_PHONE_LABEL_TC_REQUIRED',
+  EVENT_PHONE_LABEL_SC_REQUIRED: 'EVENT_PHONE_LABEL_SC_REQUIRED',
+  EVENT_PHONE_LABEL_EN_REQUIRED: 'EVENT_PHONE_LABEL_EN_REQUIRED',
+  EVENT_PHONE_PHONE_REQUIRED: 'EVENT_PHONE_PHONE_REQUIRED',
 
   // db check
   EVENT_NOT_EXISTS: 'EVENT_NOT_EXISTS',
