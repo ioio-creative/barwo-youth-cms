@@ -19,13 +19,13 @@ import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
 import config from 'config/default.json';
+import Button from 'components/form/Button';
 
 const passwordMinLength = config.User.password.minLength;
 
 const emptyUser = new User();
 const defaultState = {
   ...emptyUser,
-  password1: '',
   password2: ''
 };
 
@@ -112,7 +112,7 @@ const UserEdit = _ => {
 
   const validInput = useCallback(
     userInput => {
-      if (isAddMode) {
+      if (isAddMode || isChangePassword) {
         if (userInput.password !== userInput.password2) {
           setAlerts(
             new Alert(
@@ -123,15 +123,6 @@ const UserEdit = _ => {
           return false;
         }
       }
-      // if (userInput.password1 !== userInput.password2) {
-      //   setAlerts(
-      //     new Alert(
-      //       uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
-      //       Alert.alertTypes.WARNING
-      //     )
-      //   );
-      //   return false;
-      // }
       return true;
     },
     [isAddMode, isChangePassword, setAlerts]
@@ -140,6 +131,18 @@ const UserEdit = _ => {
   /* end of methods */
 
   /* event handlers */
+
+  const onChangePasswordButtonClick = useCallback(
+    _ => {
+      console.log(user);
+      setUser({
+        ...user,
+        password: ''
+      });
+      setIsChangePassword(!isChangePassword);
+    },
+    [setIsChangePassword, isChangePassword, setUser, user]
+  );
 
   const onChange = useCallback(
     e => {
@@ -158,11 +161,16 @@ const UserEdit = _ => {
       let returnedUser = null;
       isSuccess = validInput(user);
       const { password2, ...cleanedUser } = user;
+      if (!isAddMode && !isChangePassword) {
+        cleanedUser.password = null;
+      }
+      console.log(user);
       if (isSuccess) {
         const funcToCall = isAddMode ? addUser : updateUser;
         returnedUser = await funcToCall(cleanedUser);
         isSuccess = Boolean(returnedUser);
       }
+      console.log(returnedUser);
       if (isSuccess) {
         setAlerts(
           new Alert(
@@ -175,11 +183,21 @@ const UserEdit = _ => {
 
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
         setUser(returnedUser);
+        setIsChangePassword(false);
       }
 
       scrollToTop();
     },
-    [isAddMode, updateUser, addUser, setUser, user, setAlerts, validInput]
+    [
+      isAddMode,
+      updateUser,
+      addUser,
+      setUser,
+      user,
+      setAlerts,
+      validInput,
+      isChangePassword
+    ]
   );
 
   /* end of event handlers */
@@ -199,7 +217,7 @@ const UserEdit = _ => {
   if (isAbandonEdit) {
     return <>{backToUserListButton}</>;
   }
-
+  console.log(user.password);
   return (
     <>
       {backToUserListButton}
@@ -227,8 +245,7 @@ const UserEdit = _ => {
           onChange={onChange}
           required={true}
         />
-
-        {isAddMode && (
+        {(isAddMode || isChangePassword) && (
           <>
             <LabelInputTextPair
               name='password'
@@ -250,35 +267,16 @@ const UserEdit = _ => {
               required={true}
               minLength={passwordMinLength}
             />
+            <Button onClick={onChangePasswordButtonClick}>
+              {uiWordings['UserEdit.CancelChangePassword']}
+            </Button>
           </>
         )}
-        {/* <LabelInputTextPair
-          name='password1'
-          value={user.password1}
-          inputType='password'
-          labelMessage={uiWordings['UserEdit.NewPasswordLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-          minLength={passwordMinLength}
-        />
-        <LabelInputTextPair
-          name='password2'
-          value={user.password2}
-          inputType='password'
-          labelMessage={uiWordings['UserEdit.ConfirmPasswordLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-          minLength={passwordMinLength}
-        /> */}
-
-        {/* TODO: should not use SubmitButton here, should just use Button */}
-        {/* <SubmitButton
-          disabled={!isSubmitEnabled}
-          label={uiWordings['UserEdit.ChangePassword']}
-        /> */}
-
+        {!isChangePassword && (
+          <Button onClick={onChangePasswordButtonClick}>
+            {uiWordings['UserEdit.ChangePassword']}
+          </Button>
+        )}
         <LabelSelectPair
           name='role'
           value={user.role}
