@@ -32,10 +32,7 @@ const TestFileUpload = _ => {
     }
 
     try {
-      const res = await axios.post(
-        'http://localhost:5000/api/backend/media/images',
-        formData
-      );
+      const res = await axios.post('/api/backend/media/images', formData);
       console.log('returnedMedium:');
       console.log(res.data);
     } catch (err) {
@@ -45,9 +42,7 @@ const TestFileUpload = _ => {
 
   const onGetMedia = async _ => {
     try {
-      const res = await axios.get(
-        'http://localhost:5000/api/backend/media/images'
-      );
+      const res = await axios.get('/api/backend/media/images');
       const { docs, ...meta } = res.data;
       console.log('returnedMedia:');
       console.log(docs);
@@ -61,7 +56,7 @@ const TestFileUpload = _ => {
   const onGetOneMedium = async _ => {
     try {
       const res = await axios.get(
-        'http://localhost:5000/api/backend/media/images/5efaf014e6aa1118748b1ab0'
+        '/api/backend/media/images/5efaf014e6aa1118748b1ab0'
       );
       console.log('returnedMedia:');
       console.log(res.data);
