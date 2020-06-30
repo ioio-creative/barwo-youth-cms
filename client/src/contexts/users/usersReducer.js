@@ -9,7 +9,10 @@ import {
   CLEAR_FILTER_USERS,
   USERS_ERRORS,
   CLEAR_USERS_ERRORS,
-  SET_USERS_LOADING
+  SET_USERS_LOADING,
+  EDIT_USER_PASSWORD,
+  USER_PASSWORD_ERRORS,
+  SET_USER_PASSWORD_LOADING
 } from '../types';
 
 export default (state, action) => {

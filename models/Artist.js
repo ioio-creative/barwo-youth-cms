@@ -19,6 +19,26 @@ const ArtistSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  type: {
+    type: String,
+    require: true
+  },
+  role: {
+    type: String,
+    require: true
+  },
+  featuredImage: {
+    type: String
+  },
+  withoutMaskImage: {
+    type: String
+  },
+  gallery: {
+    type: [String]
+  },
+  sound: {
+    type: String
+  },
   desc_tc: {
     type: String
   },
@@ -28,13 +48,23 @@ const ArtistSchema = mongoose.Schema({
   desc_en: {
     type: String
   },
-  type: {
-    type: String,
-    require: true
+  question_tc: {
+    type: [String]
   },
-  role: {
-    type: String,
-    require: true
+  answer_tc: {
+    type: [String]
+  },
+  question_sc: {
+    type: [String]
+  },
+  answer_sc: {
+    type: [String]
+  },
+  question_en: {
+    type: [String]
+  },
+  answer_en: {
+    type: [String]
   },
   eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],

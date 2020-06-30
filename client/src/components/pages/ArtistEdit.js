@@ -19,6 +19,7 @@ import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
+import Button from '@buffetjs/styles/dist/components/Button';
 
 const emptyArtist = new Artist();
 const defaultState = emptyArtist;
@@ -222,6 +223,25 @@ const ArtistEdit = _ => {
           onChange={onChange}
           required={true}
         />
+        <LabelSelectPair
+          name='role'
+          value={artist.role}
+          options={Artist.artistRoleOptions}
+          labelMessage={uiWordings['Artist.RoleLabel']}
+          onChange={onChange}
+        />
+        <LabelSelectPair
+          name='type'
+          value={artist.type}
+          options={Artist.artistTypeOptions}
+          labelMessage={uiWordings['Artist.TypeLabel']}
+          onChange={onChange}
+        />
+        {/*featuredImage
+          withoutMaskImage
+          gallery
+          sound*/}
+
         <LabelRichTextbox
           name='desc_tc'
           value={artist.desc_tc}
@@ -234,7 +254,6 @@ const ArtistEdit = _ => {
           name='desc_sc'
           value={artist.desc_sc}
           labelMessage={uiWordings['Artist.DescScLabel']}
-          // placeholder=''
           onChange={onChange}
           filebrowserBrowseUrl={routes.fileManager}
         />
@@ -242,26 +261,57 @@ const ArtistEdit = _ => {
           name='desc_en'
           value={artist.desc_en}
           labelMessage={uiWordings['Artist.DescEnLabel']}
-          // placeholder=''
           onChange={onChange}
           filebrowserBrowseUrl={routes.fileManager}
         />
-
-        <LabelSelectPair
-          name='type'
-          value={artist.type}
-          options={Artist.artistTypeOptions}
-          labelMessage={uiWordings['Artist.TypeLabel']}
+        <LabelInputTextPair
+          name='question_tc'
+          value={artist.question_tc}
+          labelMessage={uiWordings['Artist.QuestionTcLabel']}
+          placeholder=''
           onChange={onChange}
+          required={false}
         />
-        <LabelSelectPair
-          name='role'
-          value={artist.role}
-          options={Artist.artistRoleOptions}
-          labelMessage={uiWordings['Artist.RoleLabel']}
+        <LabelRichTextbox
+          name='answer_tc'
+          value={artist.answer_tc}
+          labelMessage={uiWordings['Artist.AnswerTcLabel']}
           onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
         />
-
+        <LabelInputTextPair
+          name='question_sc'
+          value={artist.question_sc}
+          labelMessage={uiWordings['Artist.QuestionScLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={false}
+        />
+        <LabelRichTextbox
+          name='answer_sc'
+          value={artist.answer_sc}
+          labelMessage={uiWordings['Artist.AnswerScLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
+        />
+        <LabelInputTextPair
+          name='question_en'
+          value={artist.question_en}
+          labelMessage={uiWordings['Artist.QuestionEnLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={false}
+        />
+        <LabelRichTextbox
+          name='answer_en'
+          value={artist.answer_en}
+          labelMessage={uiWordings['Artist.AnswerEnLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
+        />
+        {/* <Button onClick={onAddQuestionClick}>
+              {uiWordings['Artist.AddQuestion']}
+        </Button> */}
         <LabelTogglePair
           name='isEnabled'
           value={artist.isEnabled}
