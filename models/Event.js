@@ -100,10 +100,11 @@ const EventSchema = mongoose.Schema({
     type: String
   },
   featuredImages: {
-    type: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
   },
   gallery: {
-    type: [String]
+    type: [mongoose.Schema.Types.ObjectId]
   },
 
   artDirectors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'artist' }],

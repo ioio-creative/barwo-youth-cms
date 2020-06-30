@@ -163,6 +163,8 @@ const ArtistEdit = _ => {
     ]
   );
 
+  const onAddQuestionClick = () => {};
+
   /* end of event handlers */
 
   if (artistsLoading) {
@@ -237,11 +239,38 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.TypeLabel']}
           onChange={onChange}
         />
-        {/*featuredImage
-          withoutMaskImage
-          gallery
-          sound*/}
-
+        <LabelInputTextPair
+          name='featuredImage'
+          value={artist.featuredImage}
+          labelMessage={uiWordings['Artist.FeaturedImageLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={false}
+        />
+        <LabelInputTextPair
+          name='withoutMaskImage'
+          value={artist.withoutMaskImage}
+          labelMessage={uiWordings['Artist.WithoutMaskImageLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={false}
+        />
+        <LabelInputTextPair
+          name='gallery'
+          value={artist.gallery}
+          labelMessage={uiWordings['Artist.GalleryLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={false}
+        />
+        <LabelInputTextPair
+          name='sound'
+          value={artist.sound}
+          labelMessage={uiWordings['Artist.SoundLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={false}
+        />
         <LabelRichTextbox
           name='desc_tc'
           value={artist.desc_tc}
@@ -309,9 +338,9 @@ const ArtistEdit = _ => {
           onChange={onChange}
           filebrowserBrowseUrl={routes.fileManager}
         />
-        {/* <Button onClick={onAddQuestionClick}>
-              {uiWordings['Artist.AddQuestion']}
-        </Button> */}
+        <Button onClick={onAddQuestionClick}>
+          {uiWordings['Artist.AddQuestion']}
+        </Button>
         <LabelTogglePair
           name='isEnabled'
           value={artist.isEnabled}

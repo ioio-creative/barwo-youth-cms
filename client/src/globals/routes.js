@@ -15,7 +15,7 @@ export default {
   userAdd: function (isLink) {
     return '/userAdd';
   },
-  editPassword: '/editPassword/:userId',
+  editPassword: '/editPassword/',
   editPasswordWithValue: function (isLink, userId) {
     return '/editPassword/' + userId;
   },

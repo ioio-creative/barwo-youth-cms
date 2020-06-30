@@ -8,7 +8,7 @@ function Event() {
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
-  this.themeColour = '';
+  this.themeColor = '';
   this.artDirectors = [];
   this.shows = [];
   this.writer_tc = '';

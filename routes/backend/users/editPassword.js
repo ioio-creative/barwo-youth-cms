@@ -29,7 +29,6 @@ router.put(
     // Build user object
     const userFields = {};
     if (password) userFields.password = await hashPasswordInput(password);
-    userFields.lastModifyDT = new Date();
     userFields.lastModifyUser = req.user._id;
 
     try {

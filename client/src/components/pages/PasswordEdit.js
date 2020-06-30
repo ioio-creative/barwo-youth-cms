@@ -12,7 +12,7 @@ import uiWordings from 'globals/uiWordings';
 import config from 'config/default.json';
 import { goToUrl } from 'utils/history';
 import routes from 'globals/routes';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import AuthContext from 'contexts/auth/authContext';
 
 const passwordMinLength = config.User.password.minLength;
 
@@ -25,18 +25,11 @@ const defaultState = {
 
 const PasswordEdit = () => {
   const { userId } = useParams();
+  const { authUser } = useContext(AuthContext);
   const { setAlerts, removeAlerts } = useContext(AlertContext);
-  const {
-    user: fetchedUser,
-    usersErrors,
-    usersLoading,
-    getUser,
-    clearUser,
-    addUser,
-    updateUser,
-    clearUsersErrors,
-    editPassword
-  } = useContext(UsersContext);
+  const { getUser, clearUser, updateUser, editPassword } = useContext(
+    UsersContext
+  );
 
   const [user, setUser] = useState(defaultState);
 
@@ -53,15 +46,14 @@ const PasswordEdit = () => {
   // userId
   useEffect(
     _ => {
-      if (userId) {
-        getUser(userId);
+      if (authUser) {
+        setUser(authUser);
       }
-
       return _ => {
         clearUser();
       };
     },
-    [userId, getUser, clearUser]
+    [userId, getUser, clearUser, authUser]
   );
 
   const onChange = useCallback(
