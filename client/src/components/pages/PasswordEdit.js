@@ -34,24 +34,25 @@ const PasswordEdit = () => {
     [user, setUser, removeAlerts]
   );
 
-  const validInput = useCallback(
-    userInput => {
-      if (
-        userInput.password !== user.password ||
-        userInput.password1 !== userInput.password2
-      ) {
-        setAlerts(
-          new Alert(
-            uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
-            Alert.alertTypes.WARNING
-          )
-        );
-        return false;
-      }
-      return true;
-    },
-    [setIsChangePassword, isChangePassword]
-  );
+  // const validInput = useCallback(
+  //   userInput => {
+  //     if (
+  //       // userInput.password !== user.password ||
+  //       userInput.password1 !== userInput.password2
+  //     ) {
+  //       setAlerts(
+  //         new Alert(
+  //           uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
+  //           Alert.alertTypes.WARNING
+  //         )
+  //       );
+  //       return false;
+  //     }
+  //     return true;
+  //   },
+  //   [setIsChangePassword, isChangePassword]
+  // );
+
   const onSubmit = () => {};
 
   // const onSubmit = useCallback(
