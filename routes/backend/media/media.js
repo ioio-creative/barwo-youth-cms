@@ -200,10 +200,16 @@ router.get(
       const medium = await Medium.findById(mediumIdFromUrl)
         .select(mediumSelectForFindOne)
         .populate(mediumPopulationListForFindOne);
-      if (!medium || medium.type !== mediumTypeFromUrl.type) {
+      if (!medium) {
         return res
           .status(404)
           .json({ errors: [mediumResponseTypes.MEDIUM_NOT_EXISTS] });
+      }
+      if (medium.type !== mediumTypeFromUrl.type) {
+        // 400 bad request
+        return res.status(400).json({
+          errors: [mediumResponseTypes.WRONG_TYPE]
+        });
       }
       res.json(medium);
     } catch (err) {
@@ -311,56 +317,6 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
   }
 });
 
-// // @route   POST api/backend/media/:mediumType
-// // @desc    Add medium of a particular mediumType, e.g. 'images', 'videos', etc.
-// // @access  Private
-// router.post(
-//   '/:mediumType',
-//   [mediumTypeValidate, auth, mediumValidationChecks, validationHandling],
-//   async (req, res) => {
-//     const {
-//       name,
-//       alernativeText,
-//       url,
-//       tags,
-//       //usages,
-//       isEnabled
-//     } = req.body;
-//     const type = req.mediumType.type;
-
-//     const session = await mongoose.startSession();
-//     session.startTransaction();
-
-//     try {
-//       const medium = new Medium({
-//         name,
-//         alernativeText,
-//         type,
-//         url,
-//         tags,
-//         //usages,
-//         isEnabled,
-//         lastModifyUser: req.user._id
-//       });
-
-//       await medium.save({ session });
-
-//       await setMediumForTags(medium._id, tags, session);
-
-//       await session.commitTransaction();
-
-//       res.json(medium);
-//     } catch (err) {
-//       await session.abortTransaction();
-//       if (!handleMediumNameDuplicateKeyError(err, res)) {
-//         generalErrorHandle(err, res);
-//       }
-//     } finally {
-//       session.endSession();
-//     }
-//   }
-// );
-
 // @route   PUT api/backend/media/:mediumType/:_id
 // @desc    Update medium of a particular mediumType, e.g. 'images', 'videos', etc.
 // @access  Private
@@ -371,12 +327,14 @@ router.put(
     const {
       name,
       alernativeText,
-      url,
+      //type,
       tags,
+      //url,
       //usages,
       isEnabled
     } = req.body;
-    const type = req.mediumType.type;
+
+    const mediumTypeFromUrl = req.mediumType;
 
     // Build medium object
     // Note:
@@ -384,9 +342,7 @@ router.put(
     const mediumFields = {};
     if (name) mediumFields.name = name;
     mediumFields.alernativeText = alernativeText;
-    if (url) mediumFields.url = url;
     mediumFields.tags = tags;
-    //mediumFields.usages = usages;
     if (isEnabled !== undefined) mediumFields.isEnabled = isEnabled;
     mediumFields.lastModifyDT = new Date();
     mediumFields.lastModifyUser = req.user._id;
@@ -402,6 +358,12 @@ router.put(
         return res
           .status(404)
           .json({ errors: [mediumResponseTypes.MEDIUM_NOT_EXISTS] });
+      if (oldMedium.type !== mediumTypeFromUrl.type) {
+        // 400 bad request
+        return res.status(400).json({
+          errors: [mediumResponseTypes.WRONG_TYPE]
+        });
+      }
 
       await removeMediumForTags(oldMedium, session);
 

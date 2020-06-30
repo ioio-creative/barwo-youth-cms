@@ -29,6 +29,7 @@ Medium.mediumResponseTypes = {
   // input validation
   NAME_REQUIRED: { type: 'NAME_REQUIRED', msg: 'NAME_REQUIRED' },
   TYPE_REQUIRED: { type: 'TYPE_REQUIRED', msg: 'TYPE_REQUIRED' },
+  WRONG_TYPE: { type: 'WRONG_TYPE', msg: 'WRONG_TYPE' },
   URL_REQUIRED: { type: 'URL_REQUIRED', msg: 'URL_REQUIRED' },
 
   // db check

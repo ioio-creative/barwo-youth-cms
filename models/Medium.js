@@ -104,6 +104,7 @@ module.exports.mediumResponseTypes = {
   // input validation
   NAME_REQUIRED: 'NAME_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
+  WRONG_TYPE: 'WRONG_TYPE',
   URL_REQUIRED: 'URL_REQUIRED',
 
   // db check
