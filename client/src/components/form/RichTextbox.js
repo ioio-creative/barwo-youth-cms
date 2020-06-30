@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import CKEditor from 'ckeditor4-react';
+import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 
 const RichTextbox = ({
   className,
   type,
   name,
-  value: rawValue,
-  onChange = () => { },
+  value,
+  onChange,
   required,
   minLength,
   disabled,
@@ -125,38 +126,31 @@ const RichTextbox = ({
     ]
   }
 }) => {
-  const [value, setValue] = useState(rawValue);
-  //console.log(rawValue);
-  useEffect(() => {
-    onChange({
-      target: {
-        name: name,
-        value: value
-      }
-    });
-  }, [value, onChange]);
-
-  useEffect(() => {
-    setValue(rawValue);
-  }, [rawValue]);
   return (
     <>
       <div className={`editableArea ${className}`}>
         <textarea
           name={name}
           value={value}
-          onChange={onChange}
           hidden={!debug}
         />
         <CKEditor
           onChange={event => {
-            setValue(event.editor.getData());
+            invokeIfIsFunction(
+              onChange,
+              {
+                target: {
+                  name: name,
+                  value: event.editor.getData()
+                }
+              }
+            )
           }}
+          ref={ref => console.log(ref)}
           data={value}
           type='classic'
           config={{
-            filebrowserBrowseUrl: filebrowserBrowseUrl, //'/browser/browse.php',
-            // filebrowserUploadUrl: '/uploader/upload.php'
+            filebrowserBrowseUrl: filebrowserBrowseUrl,
             ...config
           }}
         />

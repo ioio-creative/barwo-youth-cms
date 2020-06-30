@@ -20,7 +20,9 @@ const { Artist } = require('../../../models/Artist');
 
 /* utilities */
 
-const eventSelectForFindAll = {};
+const eventSelectForFindAll = {
+  phasesInvolved: 0
+};
 
 const eventSelectForFindOne = { ...eventSelectForFindAll };
 

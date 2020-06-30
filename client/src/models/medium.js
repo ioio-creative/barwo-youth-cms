@@ -18,9 +18,18 @@ function Medium() {
 /* statics */
 
 Medium.mediumResponseTypes = {
+  // MulterError
+  TOO_MANY_FILES: { type: 'TOO_MANY_FILES', msg: 'TOO_MANY_FILES' },
+  FILE_TOO_LARGE: { type: 'FILE_TOO_LARGE', msg: 'FILE_TOO_LARGE' },
+  NO_FILE_UPLOADED_OR_OF_WRONG_TYPE: {
+    type: 'NO_FILE_UPLOADED_OR_OF_WRONG_TYPE',
+    msg: 'NO_FILE_UPLOADED_OR_OF_WRONG_TYPE'
+  },
+
   // input validation
   NAME_REQUIRED: { type: 'NAME_REQUIRED', msg: 'NAME_REQUIRED' },
   TYPE_REQUIRED: { type: 'TYPE_REQUIRED', msg: 'TYPE_REQUIRED' },
+  WRONG_TYPE: { type: 'WRONG_TYPE', msg: 'WRONG_TYPE' },
   URL_REQUIRED: { type: 'URL_REQUIRED', msg: 'URL_REQUIRED' },
 
   // db check

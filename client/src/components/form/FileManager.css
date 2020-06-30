@@ -1,11 +1,70 @@
+.fileManager {
+  position: relative;
+  height: calc(100vh - 51px);
+}
 .fileManager.show {
   padding-bottom: 400px;
 }
+.fileManager .search-bar {
+  position: relative;
+  z-index: 1;
+}
+.fileManager .search-bar > .w3-container {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+}
+.fileManager .tags {
+  display: flex;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.fileManager .tags .tag {
+  flex: 0 0 auto;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+.fileManager .tags:hover {
+  display: flex;
+  overflow: hidden;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-self: flex-start;
+  background-color: #FFF;
+  padding-top: 5px;
+}
+.fileManager .media-list {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  overflow: auto;
+}
+.fileManager .medium-item {
+  padding: 8px;
+}
+.fileManager .medium-item {
+  padding: 8px;
+}
+.fileManager .medium-item.selected {
+  padding: 4px;
+  border: 4px solid #fafafb;
+  background-color: #0073aa;
+  color: #fafafb;
+  border-radius: 8px;
+  margin: 0px;
+}
+.fileManager .medium-item.hidden {
+  display: none;
+}
+
 .fileManager .image-wrapper {
   position: relative;
-  padding-top: 56.25%;
+  padding-top: 100%;
 }
-.fileManager .image-wrapper img {
+.fileManager .image-wrapper img,
+.fileManager .image-wrapper video {
   position: absolute;
   top: 0;
   left: 0;
@@ -13,44 +72,51 @@
   height: 100%;
   object-fit: cover;
 }
+.fileManager .image-wrapper .fa {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .fileManager .media-details {
-  position: fixed;
-  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0px;
   bottom: 0px;
-  width: 100%;
-  height: 0px;
-  overflow: hidden;
-  background-color: #ccc;
-  border-top: 1px solid #FFF;
+  /* overflow: auto; */
+  background-color: #fafafb;
+  border-left: 1px solid #f1f1f1;
+  padding-bottom: 50px;
 }
-.fileManager.show .media-details {
-  height: 400px;
-}
-.media-details-wrapper {
-  height: 400px;
-  position: relative;
+.fileManager .media-details > .w3-container {
+  height: 100%;
   overflow: auto;
 }
-.fileManager .media-details-toggle-btn {
-  position: fixed;
-  right: 0;
-  bottom: -1px;
-  padding: 5px 15px;
-  background-color: #ccc;
-  border-top-left-radius: 5px;
-  border-top: 1px solid #FFF;
-  border-left: 1px solid #FFF;
-  z-index: 1;
+.fileManager .media-details .media-preview {
+  width: 100%;
+  outline: 0;
 }
-.fileManager.show .media-details-toggle-btn {
-  right: 0;
-  bottom: 399px;
+.fileManager .media-details .media-preview.pdf {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
 }
-.fileManager.show .media-details-toggle-btn .fa-caret-up,
-.fileManager .media-details-toggle-btn .fa-caret-down {
-  display: none;
+.fileManager .media-details .media-preview.pdf .fa {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.fileManager .media-details-toggle-btn .fa-caret-up,
-.fileManager.show .media-details-toggle-btn .fa-caret-down {
+.fileManager .media-details .media-link {
+  width: 100%;
   display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.fileManager .media-details .select-btn {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
 }

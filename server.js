@@ -58,6 +58,10 @@ app.use(
   '/api/backend/phases/phases',
   require('./routes/backend/phases/phases')
 );
+app.use(
+  '/api/backend/landingPage/landingPage',
+  require('./routes/backend/landingPage/landingPage')
+);
 // media api
 app.use('/api/backend/media', require('./routes/backend/media/media'));
 
