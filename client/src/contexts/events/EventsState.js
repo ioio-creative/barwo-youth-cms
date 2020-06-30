@@ -27,7 +27,7 @@ const initialState = {
   eventsErrors: null,
   eventsLoading: false,
   phaseEvents: null,
-  phaseEventsLoading: null
+  phaseEventsLoading: false
 };
 
 const EventsState = ({ children }) => {

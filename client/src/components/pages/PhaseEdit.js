@@ -117,7 +117,7 @@ const PhaseEdit = _ => {
         }
       }
     },
-    [phasesErrors, setAlerts, clearPhasesErrors]
+    [phasesErrors, setAlerts, clearPhasesErrors, setIsAbandonEdit]
   );
 
   // eventsErrors

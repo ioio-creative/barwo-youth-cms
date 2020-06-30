@@ -105,7 +105,7 @@ const UserEdit = _ => {
         }
       }
     },
-    [usersErrors, setAlerts, clearUsersErrors]
+    [usersErrors, setAlerts, clearUsersErrors, setIsAbandonEdit]
   );
 
   /* methods */

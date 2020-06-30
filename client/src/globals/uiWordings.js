@@ -73,7 +73,6 @@ export default {
   'Artist.AnswerTcLabel': 'Answer TC',
   'Artist.AnswerScLabel': 'Answer SC',
   'Artist.AnswerEnLabel': 'Answer EN',
-  'Artist.AddQuestion': 'Add Questions',
   'Artist.CreateDTLabel': 'Create DT',
   'Artist.LastModifyDTLabel': 'Last Modify DT',
   'Artist.LastModifyUserLabel': 'Last Modify User',
@@ -175,6 +174,12 @@ export default {
   'PhaseEdit.SelectEventsPlaceholder': 'Select Events...',
 
   'LandingPage.Title': 'Landing Page',
+  'LandingPage.LastModifyDTLabel': 'Last Modify DT',
+  'LandingPage.LastModifyUserLabel': 'Last Modify User',
+
+  'LandingPageEdit.EditLandingPageTitle': 'Edit Landing Page',
+  'LandingPageEdit.UpdateLandingPageSubmit': 'Update Landing Page',
+  'LandingPageEdit.UpdateLandingPageSuccessMessage': 'Landing Page Updated',
 
   'FileManager.SelectFile': 'Select File'
 };

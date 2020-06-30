@@ -38,7 +38,6 @@ const AuthState = ({ children }) => {
 
     try {
       const res = await axios.get('/api/backend/auth/auth');
-      console.log(res.data);
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (err) {
       handleServerError(err, AUTH_ERRORS, dispatch);

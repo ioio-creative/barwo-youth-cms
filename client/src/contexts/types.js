@@ -74,6 +74,17 @@ export const GET_PHASE_EVENTS = 'GET_PHASE_EVENTS';
 export const CLEAR_PHASE_EVENTS = 'CLEAR_PHASE_EVENTS';
 export const SET_PHASE_EVENTS_LOADING = 'SET_PHASE_EVENTS_LOADING';
 
+// media
+export const GET_MEDIA = 'GET_MEDIA';
+export const CLEAR_MEDIA = 'CLEAR_MEDIA';
+export const GET_MEDIUM = 'GET_MEDIUM';
+export const CLEAR_MEDIUM = 'CLEAR_MEDIUM';
+export const ADD_MEDIUM = 'ADD_MEDIUM';
+export const UPDATE_MEDIUM = 'UPDATE_MEDIUM';
+export const MEDIA_ERRORS = 'MEDIA_ERRORS';
+export const CLEAR_MEDIA_ERRORS = 'CLEAR_MEDIA_ERRORS';
+export const SET_MEDIA_LOADING = 'SET_MEDIA_LOADING';
+
 // landing page
 export const GET_LANDING_PAGE = 'GET_LANDING_PAGE';
 export const CLEAR_LANDING_PAGE = 'CLEAR_LANDING_PAGE';

@@ -146,7 +146,7 @@ const EventEdit = _ => {
         }
       }
     },
-    [eventsErrors, setAlerts, clearEventsErrors]
+    [eventsErrors, setAlerts, clearEventsErrors, setIsAbandonEdit]
   );
 
   // artistsErrors

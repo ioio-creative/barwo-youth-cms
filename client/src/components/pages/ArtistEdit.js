@@ -19,7 +19,6 @@ import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
-import Button from '@buffetjs/styles/dist/components/Button';
 
 const emptyArtist = new Artist();
 const defaultState = emptyArtist;
@@ -103,7 +102,7 @@ const ArtistEdit = _ => {
         }
       }
     },
-    [artistsErrors, setAlerts, clearArtistsErrors]
+    [artistsErrors, setAlerts, clearArtistsErrors, setIsAbandonEdit]
   );
 
   /* methods */
@@ -129,7 +128,7 @@ const ArtistEdit = _ => {
     async e => {
       setIsSubmitEnabled(false);
       e.preventDefault();
-      let isSuccess = validInput();
+      let isSuccess = validInput(artist);
       let returnedArtist = null;
       if (isSuccess) {
         const funcToCall = isAddMode ? addArtist : updateArtist;
@@ -162,8 +161,6 @@ const ArtistEdit = _ => {
       validInput
     ]
   );
-
-  const onAddQuestionClick = () => {};
 
   /* end of event handlers */
 
@@ -338,9 +335,6 @@ const ArtistEdit = _ => {
           onChange={onChange}
           filebrowserBrowseUrl={routes.fileManager}
         />
-        <Button onClick={onAddQuestionClick}>
-          {uiWordings['Artist.AddQuestion']}
-        </Button>
         <LabelTogglePair
           name='isEnabled'
           value={artist.isEnabled}

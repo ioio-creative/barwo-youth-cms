@@ -15,7 +15,10 @@ LandingPage.landingPageResponseTypes = {
   // input validation
 
   // db check
-  LANDING_PAGE_NOT_EXISTS: 'LANDING_PAGE_NOT_EXISTS',
+  LANDING_PAGE_NOT_EXISTS: {
+    type: 'LANDING_PAGE_NOT_EXISTS',
+    msg: 'LANDING_PAGE_NOT_EXISTS'
+  },
 
   // general
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,

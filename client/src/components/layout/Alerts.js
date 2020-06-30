@@ -19,7 +19,7 @@ const Alerts = _ => {
         } = alert;
         return (
           <div
-            key={msg}
+            key={msg || Date.now()}
             className={`w3-panel w3-${color} w3-padding w3-round-large`}
           >
             <i className='fa fa-info-circle' /> {msg}

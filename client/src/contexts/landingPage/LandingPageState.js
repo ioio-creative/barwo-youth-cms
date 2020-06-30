@@ -13,9 +13,9 @@ import {
 } from '../types';
 
 const initialState = {
-  landingPage,
-  landingPageErrors,
-  landingPageLoading
+  landingPage: null,
+  landingPageErrors: null,
+  landingPageLoading: false
 };
 
 const LandingPageState = ({ children }) => {

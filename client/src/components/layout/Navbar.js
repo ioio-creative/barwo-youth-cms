@@ -89,6 +89,7 @@ const Navbar = ({ className }) => {
         </NavbarLink>
       )}
       <NavbarLink
+        className='w3-border-bottom'
         to={routes.landingPageEdit(true)}
         isSelected={isLandingPageEdit}
       >

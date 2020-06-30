@@ -1,8 +1,54 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import axios from 'axios';
+import MediaContext from 'contexts/media/mediaContext';
+import MediaState from 'contexts/media/MediaState';
+import Medium from 'models/medium';
 
 const TestFileUpload = _ => {
+  const {
+    media: fetchedMedia,
+    getMedia,
+    clearMedia,
+    medium: fetchedMedium,
+    getMedium,
+    clearMedium,
+    addMedium
+  } = useContext(MediaContext);
+
   const filesRef = useRef();
+
+  // componentDidMount
+  useEffect(_ => {
+    return _ => {
+      clearMedia();
+      clearMedium();
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  // fetchedMedia
+  useEffect(
+    _ => {
+      if (fetchedMedia) {
+        console.log('returnedMedia:');
+        console.log(fetchedMedia);
+      }
+    },
+    [fetchedMedia]
+  );
+
+  // fetchedMedium
+  useEffect(
+    _ => {
+      if (fetchedMedium) {
+        console.log('returnedMedium:');
+        console.log(fetchedMedium);
+      }
+    },
+    [fetchedMedium]
+  );
+
+  /* event handlers */
 
   const onUploadMedia = async e => {
     e.preventDefault();
@@ -16,7 +62,6 @@ const TestFileUpload = _ => {
     }
 
     const additonalFormData = {
-      //name: Date.now().toString(),
       alernativeText: 'alt',
       tags: [],
       isEnabled: true
@@ -31,39 +76,34 @@ const TestFileUpload = _ => {
       console.log(pair[0] + ', ' + pair[1]);
     }
 
-    try {
-      const res = await axios.post('/api/backend/media/images', formData);
-      console.log('returnedMedium:');
-      console.log(res.data);
-    } catch (err) {
-      console.error(err);
-    }
+    const newMedium = await addMedium(Medium.mediumTypes.IMAGE, formData);
+    console.log('newMedium:');
+    console.log(newMedium);
   };
 
-  const onGetMedia = async _ => {
-    try {
-      const res = await axios.get('/api/backend/media/images');
-      const { docs, ...meta } = res.data;
-      console.log('returnedMedia:');
-      console.log(docs);
-      console.log('returnedMedia meta:');
-      console.log(meta);
-    } catch (err) {
-      console.error(err);
-    }
+  const onGetMedia = _ => {
+    getMedia(Medium.mediumTypes.IMAGE, {
+      // page,
+      // sortOrder,
+      // sortBy,
+      // filterText
+    });
   };
 
   const onGetOneMedium = async _ => {
-    try {
-      const res = await axios.get(
-        '/api/backend/media/images/5efaf014e6aa1118748b1ab0'
-      );
-      console.log('returnedMedia:');
-      console.log(res.data);
-    } catch (err) {
-      console.error(err);
-    }
+    getMedium(Medium.mediumTypes.IMAGE, '5efaf014e6aa1118748b1ab0');
+    // try {
+    //   const res = await axios.get(
+    //     '/api/backend/media/images/5efaf014e6aa1118748b1ab0'
+    //   );
+    //   console.log('returnedMedia:');
+    //   console.log(res.data);
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
+
+  /* end of event handlers */
 
   return (
     <div>
@@ -84,4 +124,12 @@ const TestFileUpload = _ => {
   );
 };
 
-export default TestFileUpload;
+const TestFileUploadWithContainer = _ => {
+  return (
+    <MediaState>
+      <TestFileUpload />
+    </MediaState>
+  );
+};
+
+export default TestFileUploadWithContainer;

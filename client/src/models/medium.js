@@ -17,7 +17,7 @@ function Medium() {
 
 /* statics */
 
-Medium.mediumResponseTypes = {
+Medium.mediaResponseTypes = {
   // MulterError
   TOO_MANY_FILES: { type: 'TOO_MANY_FILES', msg: 'TOO_MANY_FILES' },
   FILE_TOO_LARGE: { type: 'FILE_TOO_LARGE', msg: 'FILE_TOO_LARGE' },
@@ -52,21 +52,21 @@ Medium.mediumResponseTypes = {
 };
 
 Medium.mediumTypes = {
-  IMAGE: { value: 'IMAGE', label: 'image' },
-  VIDEO: { value: 'VIDEO', label: 'video' },
-  AUDIO: { value: 'AUDIO', label: 'audio' },
-  BOTH: { value: 'PDF', label: 'pdf' }
+  IMAGE: { value: 'IMAGE', label: 'image', apiRoute: 'images' },
+  VIDEO: { value: 'VIDEO', label: 'video', apiRoute: 'videos' },
+  AUDIO: { value: 'AUDIO', label: 'audio', apiRoute: 'audios' },
+  BOTH: { value: 'PDF', label: 'pdf', apiRoute: 'pdfs' }
 };
 
-Medium.getPhaseForDisplay = medium => {
+Medium.getMediumForDisplay = medium => {
   return {
     ...medium,
-    createDTDisplay: formatDateTimeString(phase.createDT),
-    lastModifyDTDisplay: formatDateTimeString(phase.lastModifyDT),
-    lastModifyUserDisplay: phase.lastModifyUser
-      ? phase.lastModifyUser.name
+    createDTDisplay: formatDateTimeString(medium.createDT),
+    lastModifyDTDisplay: formatDateTimeString(medium.lastModifyDT),
+    lastModifyUserDisplay: medium.lastModifyUser
+      ? medium.lastModifyUser.name
       : '',
-    isEnabledDisplay: phase.isEnabled.toString()
+    isEnabledDisplay: medium.isEnabled.toString()
   };
 };
 
