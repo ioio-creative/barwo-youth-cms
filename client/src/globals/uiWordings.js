@@ -162,5 +162,7 @@ export default {
   'PhaseEdit.AddPhaseSuccessMessage': 'Phase Added',
   'PhaseEdit.UpdatePhaseSuccessMessage': 'Phase Updated',
 
-  'PhaseEdit.SelectEventsPlaceholder': 'Select Events...'
+  'PhaseEdit.SelectEventsPlaceholder': 'Select Events...',
+
+  'FileManager.SelectFile': 'Select File'
 };

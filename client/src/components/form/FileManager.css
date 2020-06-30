@@ -24,6 +24,11 @@
   flex: 0 0 auto;
   margin-bottom: 5px;
   margin-right: 5px;
+  order: 1;
+  transition: all 0.2s;
+}
+.fileManager .tags .tag.w3-blue {
+  order: 0;
 }
 .fileManager .tags:hover {
   display: flex;
@@ -32,7 +37,10 @@
   align-items: flex-start;
   align-self: flex-start;
   background-color: #FFF;
-  padding-top: 5px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  max-height: 50vh;
+  overflow: auto;
 }
 .fileManager .media-list {
   position: absolute;
@@ -119,4 +127,13 @@
   bottom: 5px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.fileManager .upload-btn {
+  position: relative;
+}
+.fileManager .upload-btn input {
+  position: absolute;
+  bottom: 100%;
+  right: 100%;
 }

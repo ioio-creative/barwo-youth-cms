@@ -5,6 +5,7 @@ import './FileManager.css';
 import LabelInputTextPair from './LabelInputTextPair';
 import MyLabel from './Label';
 import MyInputText from './InputText';
+import uiWordings from 'globals/uiWordings';
 
 // routes //
 // images
@@ -22,14 +23,14 @@ const paramsToType = {
 
 const media = [
   {
-    "name": "Image 1 (a, b)",
+    "name": "Image 01",
     "alt": "this is a sample image",
     "type": "image",
     "tags": ["aaa", "bbb"],
     "src": "http://placehold.it/300x200?text=Image 1",
   },
   {
-    "name": "Video 1 (a, b)",
+    "name": "Video 01",
     "alt": "this is a sample video",
     "type": "video",
     "tags": ["aaa", "bbb"],
@@ -43,8 +44,8 @@ const media = [
     "src": "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
   },
   {
-    "name": "Image 3 (b, c)",
-    "alt": "this is a sample image",
+    "name": "PDF 01",
+    "alt": "this is a sample pdf",
     "type": "pdf",
     "tags": ["ccc", "bbb"],
     "src": "http://placehold.it/400x300?text=Image 3",
@@ -449,7 +450,8 @@ const media = [
     "src": "http://placehold.it/300x200?text=Image 6",
   },
 ]
-const tags = ["aaa", "bbb", "ccc"];
+const tags = [];
+// const tags = ["aaa", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc"];
 
 const FileManager = () => {
   const [showDetails, setShowDetails] = useState(false);
@@ -461,17 +463,21 @@ const FileManager = () => {
   const searchParams = new URLSearchParams(searchQuery);
   const CKEditorFuncNum = searchParams.get('CKEditorFuncNum');
 
-  const { fileType: mediaType } = useParams();
+  const { fileType: mediaType, additionalCallbackParam } = useParams();
   console.log(mediaType);
 
-  const returnFileUrl = (fileUrl) => {
-    if (window.opener && window.opener.CKEDITOR && window.opener.CKEDITOR.tools) {
-      // const fileUrl = ;
-      window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, fileUrl);
-      window.close();
-    } else {
+  const returnFileUrl = (medium) => {
+    if (window.opener && window.opener.getMediaData) {
       // not in file selecting window?
+      window.opener.getMediaData({
+        additionalCallbackParam,
+        medium
+      });
+    } else if (window.opener && window.opener.CKEDITOR && window.opener.CKEDITOR.tools) {
+      // const medium = ;
+      window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium['src']);
     }
+    window.close();
   }
   const selectTag = (tagName) => {
     // send request to server?
@@ -498,14 +504,17 @@ const FileManager = () => {
   return <div className={`w3-stretch fileManager`}>
     <div className="search-bar w3-col s9">
       <div className="w3-container">
-        <div className="w3-col s9 tags">
+        {tags.length > 0 && <div className="w3-col s9 tags">
           {tags.map(tag => {
             return <div className={`w3-border w3-btn${selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''} tag`} key={tag} onClick={() => selectTag(tag)}>
               {tag}
             </div>
           })}
+        </div>}
+        <div className={`w3-col s${tags.length > 0 ? 3 : 6}`}><MyInputText placeholder="Search media items..." /></div>
+        <div className="w3-col s6 w3-right-align">
+          <label class="w3-btn w3-blue upload-btn">upload <input type="file" /></label>
         </div>
-        <div className="w3-col s3"><MyInputText placeholder="Search media items..." /></div>
       </div>
     </div>
     <div className={`w3-col s9 media-list`}>
@@ -518,7 +527,7 @@ const FileManager = () => {
                 <div key={idx} className={`w3-col s3 medium-item${selectedTag.length === 0 || medium['tags'].some(r => selectedTag.indexOf(r) >= 0) ? '' : ' hidden'}${idx === selectedFile ? ' selected' : ''}`}
                   // onClick={() => setSelectedFile(medium['src'])}
                   onClick={() => selectedFile === idx ? setSelectedFile(-1) : setSelectedFile(idx)}
-                  onDoubleClick={() => returnFileUrl(medium['src'])}
+                  onDoubleClick={() => returnFileUrl(medium)}
                 >
                   <div className="image-wrapper">
                     {{
@@ -573,7 +582,7 @@ const FileManager = () => {
           // onChange direct update
           />
         </div>
-        <div className="select-btn w3-btn w3-blue">Select File</div>
+        <div className="select-btn w3-btn w3-blue">{uiWordings['FileManager.SelectFile']}</div>
       </>
       }
     </div>

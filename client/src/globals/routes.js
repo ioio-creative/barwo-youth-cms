@@ -50,6 +50,6 @@ export default {
     return '/phaseAdd';
   },
   testing: '/testing',
-  fileManager: '/fileManager'
+  fileManager: '/fileManager/:fileType/:additionalCallbackParam?'
   // passwordChange: '/changePassword'
 };
