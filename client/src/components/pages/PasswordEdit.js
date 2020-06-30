@@ -1,40 +1,29 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useState, useCallback } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import UsersContext from 'contexts/users/usersContext';
 import PasswordChangePageContainer from 'components/users/UsersPageContainer';
-import Loading from 'components/layout/loading/DefaultLoading';
-import LabelSelectPair from 'components/form/LabelSelectPair';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import LabelTogglePair from 'components/form/LabelTogglePair';
-import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
-import LinkButton from 'components/form/LinkButton';
 import Alert from 'models/alert';
 import User from 'models/user';
 import uiWordings from 'globals/uiWordings';
-import routes from 'globals/routes';
-import { goToUrl } from 'utils/history';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
-import scrollToTop from 'utils/ui/scrollToTop';
 import config from 'config/default.json';
-import Button from 'components/form/Button';
+import { goToUrl } from 'utils/history';
+import routes from 'globals/routes';
 
 const passwordMinLength = config.User.password.minLength;
-
-const emptyUser = new User();
-const defaultState = {
-  ...emptyUser,
-  password2: ''
-};
 
 const PasswordEdit = () => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const { updateUser } = useContext(UsersContext);
-  // const updateUser = () => {};
 
-  const [user, setUser] = useState(defaultState);
+  const [user, setUser] = useState({
+    password: '',
+    password1: '',
+    password2: ''
+  });
+
   const [isChangePassword, setIsChangePassword] = useState(false);
 
   const onChange = useCallback(
@@ -47,7 +36,10 @@ const PasswordEdit = () => {
 
   const validInput = useCallback(
     userInput => {
-      if (userInput.password !== userInput.password2) {
+      if (
+        userInput.password !== user.password ||
+        userInput.password1 !== userInput.password2
+      ) {
         setAlerts(
           new Alert(
             uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
@@ -64,7 +56,16 @@ const PasswordEdit = () => {
 
   // const onSubmit = useCallback(
   //   async e => {
+  //     removeAlerts();
   //     e.preventDefault();
+  //     if (password === '') {
+  //       setAlerts(
+  //         new Alert(
+  //           uiWordings['Login.FillInAllFieldsMessage'],
+  //           Alert.alertTypes.WARNING
+  //         )
+  //       );
+  //     } else {
   //     setIsChangePassword(true);
   //     let isSuccess = false;
   //     let returnedUser = null;
@@ -82,20 +83,18 @@ const PasswordEdit = () => {
   //           Alert.alertTypes.INFO
   //         )
   //       );
-  //       goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
+  //       goToUrl(routes.passwordChange()));
   //       setUser(returnedUser);
   //     }
-
-  //     scrollToTop();
   //   },
-  //   [setIsChangePassword, isChangePassword]
+  //   [email, password, setAlerts, login, removeAlerts, setIsChangePassword, isChangePassword]
   // );
   return (
     <>
       <Form onSubmit={onSubmit}>
         <h4>{uiWordings['UserEdit.ChangePasswordLabel']}</h4>
         <LabelInputTextPair
-          name='password0'
+          name='password'
           value={user.password}
           inputType='password'
           labelMessage={uiWordings['UserEdit.OldPasswordLabel']}
@@ -106,7 +105,7 @@ const PasswordEdit = () => {
         />
         <LabelInputTextPair
           name='password1'
-          value={user.password2}
+          value={user.password1}
           inputType='password'
           labelMessage={uiWordings['UserEdit.NewPasswordLabel']}
           placeholder=''

@@ -48,7 +48,4 @@ export default {
   testing: '/testing',
   fileManager: '/fileManager',
   passwordChange: '/changePassword'
-  // passwordChangebyID: function (isLink, userID) {
-  //   return '/changePassword' + userID;
-  // }
 };
