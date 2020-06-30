@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const ArtistQnASchema = mongoose.Schema({
+  question: {
+    type: [String]
+  },
+  answer: {
+    type: [String]
+  }
+});
+
 const ArtistSchema = mongoose.Schema({
   label: {
     type: String,
@@ -27,14 +36,16 @@ const ArtistSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  featuredImage: {
-    type: String
+  featuredImages: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
   },
   withoutMaskImage: {
-    type: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
   },
   gallery: {
-    type: [String]
+    type: [mongoose.Schema.Types.ObjectId]
   },
   sound: {
     type: String
@@ -48,24 +59,9 @@ const ArtistSchema = mongoose.Schema({
   desc_en: {
     type: String
   },
-  question_tc: {
-    type: [String]
-  },
-  answer_tc: {
-    type: [String]
-  },
-  question_sc: {
-    type: [String]
-  },
-  answer_sc: {
-    type: [String]
-  },
-  question_en: {
-    type: [String]
-  },
-  answer_en: {
-    type: [String]
-  },
+  qna_tc: [ArtistQnASchema],
+  qna_sc: [ArtistQnASchema],
+  qna_en: [ArtistQnASchema],
   eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   isEnabled: {

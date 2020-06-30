@@ -359,60 +359,22 @@ const EventEdit = _ => {
           onChange={onChange}
           required={true}
         />
-        <LabelRichTextbox
-          name='desc_tc'
-          value={event.desc_tc}
-          labelMessage={uiWordings['Event.DescTcLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
-        <LabelRichTextbox
-          name='desc_sc'
-          value={event.desc_sc}
-          labelMessage={uiWordings['Event.DescScLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
-        <LabelRichTextbox
-          name='desc_en'
-          value={event.desc_en}
-          labelMessage={uiWordings['Event.DescEnLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
-
-        <EventEditShowSelect
-          shows={showsPicked}
-          onGetShows={onGetShowsPicked}
-        />
-
         <LabelInputTextPair
-          name='remarks_tc'
-          value={event.remarks_tc}
-          labelMessage={uiWordings['Event.RemarksTcLabel']}
+          name='themeColor'
+          value={event.themeColor}
+          labelMessage={uiWordings['Event.ThemeColorLabel']}
           placeholder=''
           onChange={onChange}
+          required={true}
         />
-        <LabelInputTextPair
-          name='remarks_sc'
-          value={event.remarks_sc}
-          labelMessage={uiWordings['Event.RemarksScLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='remarks_en'
-          value={event.remarks_en}
-          labelMessage={uiWordings['Event.RemarksEnLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-
         <EventEditArtDirectorSelect
           artDirectorsPicked={artDirectorsPicked}
           onGetArtDirectorsPicked={onGetArtDirectorsPicked}
         />
-
+        <EventEditShowSelect
+          shows={showsPicked}
+          onGetShows={onGetShowsPicked}
+        />
         <LabelInputTextPair
           name='writer_tc'
           value={event.writer_tc}
@@ -434,12 +396,89 @@ const EventEdit = _ => {
           placeholder=''
           onChange={onChange}
         />
-
+        <LabelInputTextPair
+          name='heading_tc'
+          value={event.heading_tc}
+          labelMessage={uiWordings['Event.HeadingTcLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='heading_sc'
+          value={event.heading_sc}
+          labelMessage={uiWordings['Event.HeadingScLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='heading_en'
+          value={event.heading_en}
+          labelMessage={uiWordings['Event.HeadingEnLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='desc_tc'
+          value={event.desc_tc}
+          labelMessage={uiWordings['Event.DescTcLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
+        />
+        <LabelRichTextbox
+          name='desc_sc'
+          value={event.desc_sc}
+          labelMessage={uiWordings['Event.DescScLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
+        />
+        <LabelRichTextbox
+          name='desc_en'
+          value={event.desc_en}
+          labelMessage={uiWordings['Event.DescEnLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={routes.fileManager}
+        />
+        <LabelInputTextPair
+          name='remarks_tc'
+          value={event.remarks_tc}
+          labelMessage={uiWordings['Event.RemarksTcLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='remarks_sc'
+          value={event.remarks_sc}
+          labelMessage={uiWordings['Event.RemarksScLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='remarks_en'
+          value={event.remarks_en}
+          labelMessage={uiWordings['Event.RemarksEnLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='featuredImage'
+          value={event.featuredImage}
+          labelMessage={uiWordings['Event.FeaturedImageLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={false}
+        />
+        <LabelInputTextPair
+          name='gallery'
+          value={event.gallery}
+          labelMessage={uiWordings['Event.GalleryLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={false}
+        />
         <EventEditArtistSelect
           artistsPicked={artistsPicked}
           onGetArtistsPicked={onGetArtistsPicked}
         />
-
         <LabelInputTextPair
           name='venue_tc'
           required={true}
