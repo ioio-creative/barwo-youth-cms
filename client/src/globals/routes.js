@@ -15,6 +15,10 @@ export default {
   userAdd: function (isLink) {
     return '/userAdd';
   },
+  editPassword: '/editPassword/:userId',
+  editPasswordWithValue: function (isLink, userId) {
+    return '/editPassword/' + userId;
+  },
   artistList: function (isLink) {
     return '/artistList';
   },
@@ -46,6 +50,6 @@ export default {
     return '/phaseAdd';
   },
   testing: '/testing',
-  fileManager: '/fileManager',
-  passwordChange: '/changePassword'
+  fileManager: '/fileManager'
+  // passwordChange: '/changePassword'
 };

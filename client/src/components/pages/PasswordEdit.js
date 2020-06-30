@@ -1,4 +1,5 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import UsersContext from 'contexts/users/usersContext';
 import PasswordChangePageContainer from 'components/users/UsersPageContainer';
@@ -11,20 +12,57 @@ import uiWordings from 'globals/uiWordings';
 import config from 'config/default.json';
 import { goToUrl } from 'utils/history';
 import routes from 'globals/routes';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const passwordMinLength = config.User.password.minLength;
 
-const PasswordEdit = () => {
-  const { setAlerts, removeAlerts } = useContext(AlertContext);
-  const { updateUser } = useContext(UsersContext);
+const emptyUser = new User();
+const defaultState = {
+  ...emptyUser,
+  password1: '',
+  password2: ''
+};
 
-  const [user, setUser] = useState({
-    password: '',
-    password1: '',
-    password2: ''
-  });
+const PasswordEdit = () => {
+  const { userId } = useParams();
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
+  const {
+    user: fetchedUser,
+    usersErrors,
+    usersLoading,
+    getUser,
+    clearUser,
+    addUser,
+    updateUser,
+    clearUsersErrors,
+    editPassword
+  } = useContext(UsersContext);
+
+  const [user, setUser] = useState(defaultState);
 
   const [isChangePassword, setIsChangePassword] = useState(false);
+
+  // componentDidMount
+  useEffect(_ => {
+    return _ => {
+      removeAlerts();
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  // userId
+  useEffect(
+    _ => {
+      if (userId) {
+        getUser(userId);
+      }
+
+      return _ => {
+        clearUser();
+      };
+    },
+    [userId, getUser, clearUser]
+  );
 
   const onChange = useCallback(
     e => {
@@ -34,62 +72,61 @@ const PasswordEdit = () => {
     [user, setUser, removeAlerts]
   );
 
-  // const validInput = useCallback(
-  //   userInput => {
-  //     if (
-  //       // userInput.password !== user.password ||
-  //       userInput.password1 !== userInput.password2
-  //     ) {
-  //       setAlerts(
-  //         new Alert(
-  //           uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
-  //           Alert.alertTypes.WARNING
-  //         )
-  //       );
-  //       return false;
-  //     }
-  //     return true;
-  //   },
-  //   [setIsChangePassword, isChangePassword]
-  // );
+  const validInput = useCallback(
+    userInput => {
+      if (
+        // userInput.password !== user.password ||
+        userInput.password1 !== userInput.password2
+      ) {
+        setAlerts(
+          new Alert(
+            uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
+            Alert.alertTypes.WARNING
+          )
+        );
+        return false;
+      }
+      return true;
+    },
+    [setIsChangePassword, isChangePassword, setAlerts]
+  );
 
-  const onSubmit = () => {};
+  // const onSubmit = () => {};
 
-  // const onSubmit = useCallback(
-  //   async e => {
-  //     removeAlerts();
-  //     e.preventDefault();
-  //     if (password === '') {
-  //       setAlerts(
-  //         new Alert(
-  //           uiWordings['Login.FillInAllFieldsMessage'],
-  //           Alert.alertTypes.WARNING
-  //         )
-  //       );
-  //     } else {
-  //     setIsChangePassword(true);
-  //     let isSuccess = false;
-  //     let returnedUser = null;
-  //     isSuccess = validInput(user);
-  //     const { password2, ...cleanedUser } = user;
-  //     if (isSuccess) {
-  //       const funcToCall = updateUser;
-  //       returnedUser = await funcToCall(cleanedUser);
-  //       isSuccess = Boolean(returnedUser);
-  //     }
-  //     if (isSuccess) {
-  //       setAlerts(
-  //         new Alert(
-  //           uiWordings['UserEdit.UpdateUserSuccessMessage'],
-  //           Alert.alertTypes.INFO
-  //         )
-  //       );
-  //       goToUrl(routes.passwordChange()));
-  //       setUser(returnedUser);
-  //     }
-  //   },
-  //   [email, password, setAlerts, login, removeAlerts, setIsChangePassword, isChangePassword]
-  // );
+  const onSubmit = useCallback(
+    async e => {
+      removeAlerts();
+      e.preventDefault();
+      let isSuccess = false;
+      let returnedUser = null;
+      isSuccess = validInput(user);
+      console.log(isSuccess);
+      const { password2, password1, ...cleanedUser } = user;
+      if (isSuccess) {
+        console.log(user.password1);
+        cleanedUser.password = user.password1;
+        console.log(cleanedUser);
+        // const funcToCall = editPassword;
+        const funcToCall = updateUser;
+        returnedUser = await funcToCall(cleanedUser);
+        isSuccess = Boolean(returnedUser);
+      }
+      console.log(returnedUser);
+      if (isSuccess) {
+        setAlerts(
+          new Alert(
+            uiWordings['UserEdit.ChangePasswordSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+        goToUrl(routes.editPasswordWithValue(true, returnedUser._id));
+        setUser(returnedUser);
+        setIsChangePassword(false);
+      }
+    },
+    [user, removeAlerts, setIsChangePassword, isChangePassword]
+  );
+
   return (
     <>
       <Form onSubmit={onSubmit}>

@@ -79,6 +79,21 @@ export default (state, action) => {
         ...state,
         usersLoading: true
       };
+    case EDIT_USER_PASSWORD:
+      return {
+        ...state,
+        usersLoading: false
+      };
+    case USER_PASSWORD_ERRORS:
+      return {
+        ...state,
+        usersErrors: action.payload
+      };
+    case SET_USER_PASSWORD_LOADING:
+      return {
+        ...state,
+        usersLoading: true
+      };
     default:
       return state;
   }

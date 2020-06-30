@@ -43,7 +43,7 @@ const AsyncTesting = asyncLoadingComponent(_ =>
 const AsyncFileManager = asyncLoadingComponent(_ =>
   import('components/pages/FileManager')
 );
-const AsyncPasswordChange = asyncLoadingComponent(_ =>
+const AsyncEditPassword = asyncLoadingComponent(_ =>
   import('components/pages/PasswordEdit')
 );
 
@@ -78,8 +78,8 @@ const Main = _ => {
 
               <Route
                 exact
-                path={routes.passwordChange}
-                component={AsyncPasswordChange}
+                path={routes.editPassword}
+                component={AsyncEditPassword}
               />
 
               <Route path={routes.userList(false)} component={AsyncUserList} />

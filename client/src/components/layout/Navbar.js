@@ -52,7 +52,7 @@ const Navbar = ({ className }) => {
   const isPhaseList = useRouteMatch(routes.phaseList(false));
   const isPhaseEdit = useRouteMatch(routes.phaseEditById);
   const isTesting = useRouteMatch(routes.testing);
-  const isPasswordChange = useRouteMatch(routes.passwordChange);
+  const isPasswordChange = useRouteMatch(routes.editPassword);
 
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
 
@@ -72,7 +72,7 @@ const Navbar = ({ className }) => {
       {authUser && (
         <NavbarItem>{`${authUser.name}, ${uiWordings['Navbar.Greeting']}`}</NavbarItem>
       )}
-      <NavbarLink to={routes.passwordChange} isSelected={isPasswordChange}>
+      <NavbarLink to={routes.editPassword} isSelected={isPasswordChange}>
         {uiWordings['Navbar.ChangePasswoed']}
       </NavbarLink>
       <NavbarButton className='w3-border-bottom' onClick={onLogout}>
