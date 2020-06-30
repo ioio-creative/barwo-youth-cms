@@ -18,6 +18,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const prettyStringify = require('../../../utils/JSON/prettyStringify');
 const { Medium, mediumResponseTypes } = require('../../../models/Medium');
 const { MediumTag } = require('../../../models/MediumTag');
 
@@ -54,11 +55,35 @@ const upload = multer({
     // https://stackoverflow.com/questions/56640410/cant-upload-large-files-to-aws-with-multer-s3-nodejs
     fileSize: config.get('Aws.s3.limits.fileSizeInMBs') * 1024 * 1024,
     files: config.get('Aws.s3.limits.files')
+  },
+  // https://www.npmjs.com/package/multer
+  fileFilter: async function (req, file, cb) {
+    let isAllowed = false;
+
+    const mediumTypeFromUrl = req.mediumType;
+
+    if (mediumTypeFromUrl.allowedMimeTypes.includes(file.mimetype)) {
+      isAllowed = true;
+    } else {
+      console.log('mime types allowed:');
+      console.log(mediumTypeFromUrl.allowedMimeTypes);
+      console.log('file uploaded:');
+      console.log(file);
+    }
+
+    cb(null, isAllowed);
   }
 });
 
-const getUploadFilesMiddleware = fieldName =>
+const getUploadMultipleFilesMiddleware = fieldName =>
   util.promisify(upload.array(fieldName, config.get('Aws.s3.limits.files')));
+
+const getUploadSingleFilesMiddleware = fieldName =>
+  util.promisify(upload.single(fieldName, config.get('Aws.s3.limits.files')));
+
+const uploadMultipleFilesMiddleware = getUploadMultipleFilesMiddleware('media');
+
+const uploadSingleFilesMiddleware = getUploadSingleFilesMiddleware('media');
 
 /* end of s3 utils */
 
@@ -192,24 +217,97 @@ router.get(
 // @desc    Add medium of a particular mediumType, e.g. 'images', 'videos', etc.
 // @access  Private
 router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
-  const uploadFilesMiddleware = getUploadFilesMiddleware('media');
   try {
-    await uploadFilesMiddleware(req, res);
-    console.log(req.files);
+    /* upload to s3 */
 
-    if (req.files.length <= 0) {
-      return res.send('You must select at least 1 file.');
+    //await uploadMultipleFilesMiddleware(req, res);
+    await uploadSingleFilesMiddleware(req, res);
+
+    //const files = req.files;
+    const file = req.file;
+
+    console.log('files uploaded to s3:');
+    console.log(file);
+
+    console.log(req.body);
+
+    if (!file) {
+      // 400 badrequest
+      return res.status(400).json({
+        errors: [mediumResponseTypes.NO_FILE_UPLOADED_OR_OF_WRONG_TYPE]
+      });
     }
 
-    return res.send('Files has been uploaded.');
+    /* save to db */
+
+    const {
+      name,
+      alernativeText,
+      tags,
+      //usages,
+      isEnabled
+    } = req.body;
+    const type = req.mediumType.type;
+    const url = file.location;
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+      const medium = new Medium({
+        name,
+        alernativeText,
+        type,
+        url,
+        tags: getArraySafe(tags),
+        //usages,
+        isEnabled,
+        lastModifyUser: req.user._id
+      });
+
+      await medium.save({ session });
+
+      await setMediumForTags(medium._id, tags, session);
+
+      await session.commitTransaction();
+
+      res.json(medium);
+    } catch (err) {
+      await session.abortTransaction();
+      if (!handleMediumNameDuplicateKeyError(err, res)) {
+        generalErrorHandle(err, res);
+      }
+    } finally {
+      session.endSession();
+    }
   } catch (err) {
-    console.error(err);
-    console.error(JSON.stringify(err, null, 2));
+    console.error(prettyStringify(err));
 
-    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
-      return res.send('Too many files to upload.');
+    const badRequestCode = 400;
+    let errorType = null;
+
+    // https://www.npmjs.com/package/multer
+    if (err instanceof multer.MulterError) {
+      switch (err.code) {
+        case 'LIMIT_FILE_COUNT':
+          errorType = mediumResponseTypes.TOO_MANY_FILES;
+          break;
+        case 'LIMIT_FILE_SIZE':
+          errorType = mediumReponseType.FILE_TOO_LARGE;
+        default:
+          break;
+      }
+
+      if (errorType) {
+        return res.status(badRequestCode).json({
+          errors: [errorType]
+        });
+      }
     }
-    return res.send(`Error when trying upload many files: ${error}`);
+
+    if (!errorType) {
+      generalErrorHandle(err, res);
+    }
   }
 });
 

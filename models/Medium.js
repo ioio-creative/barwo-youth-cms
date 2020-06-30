@@ -56,11 +56,26 @@ MediumSchema.plugin(mongoosePaginate);
 
 module.exports.Medium = mongoose.model('medium', MediumSchema);
 
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+// https://www.iana.org/assignments/media-types/media-types.xhtml
 const mediumTypes = {
-  IMAGE: { type: 'IMAGE', route: 'images' },
-  VIDEO: { type: 'VIDEO', route: 'videos' },
-  AUDIO: { type: 'AUDIO', route: 'audios' },
-  PDF: { type: 'PDF', route: 'pdfs' }
+  IMAGE: {
+    type: 'IMAGE',
+    route: 'images',
+    allowedMimeTypes: ['image/png', 'image/gif', 'image/jpeg', 'image/webp']
+  },
+  VIDEO: {
+    type: 'VIDEO',
+    route: 'videos',
+    allowedMimeTypes: ['video/mpeg', 'video/webm', 'video/mp4']
+  },
+  AUDIO: {
+    type: 'AUDIO',
+    route: 'audios',
+    allowedMimeTypes: ['audio/mpeg', 'audio/ogg', 'audio/wav']
+  },
+  PDF: { type: 'PDF', route: 'pdfs', allowedMimeTypes: ['application/pdf'] }
 };
 
 module.exports.mediumTypes = mediumTypes;
@@ -81,6 +96,11 @@ module.exports.mediumUsageEntityTypes = {
 };
 
 module.exports.mediumResponseTypes = {
+  // MulterError
+  TOO_MANY_FILES: 'TOO_MANY_FILES',
+  FILE_TOO_LARGE: 'FILE_TOO_LARGE',
+  NO_FILE_UPLOADED_OR_OF_WRONG_TYPE: 'NO_FILE_UPLOADED_OR_OF_WRONG_TYPE',
+
   // input validation
   NAME_REQUIRED: 'NAME_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
