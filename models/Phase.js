@@ -1,10 +1,25 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const PhaseShowSchema = mongoose.Schema({
+  date: {
+    type: Date,
+    require: true
+  },
+  startTime: {
+    type: String,
+    require: true
+  }
+});
+
 const PhaseSchema = mongoose.Schema({
   year: {
     type: Number,
     require: true
+  },
+  shows: [PhaseShowSchema],
+  time: {
+    type: String
   },
   phaseNumber: {
     type: Number,

@@ -46,6 +46,6 @@ export default {
     return '/phaseAdd';
   },
   testing: '/testing',
-  fileManager: '/fileManager',
+  fileManager: '/fileManager/:fileType',
   passwordChange: '/changePassword'
 };

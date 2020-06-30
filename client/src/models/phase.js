@@ -8,6 +8,9 @@ const mapYearToDisplay = year => `${year}-${year + 1}`;
 
 function Phase() {
   this.year = new Date().getFullYear();
+  this.themeColour = '';
+  this.shows = [];
+  this.time = '';
   this.phaseNumber = 1;
   this.events = [];
   this.isEnabled = true;

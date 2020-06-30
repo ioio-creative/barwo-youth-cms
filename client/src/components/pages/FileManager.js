@@ -15,7 +15,7 @@ const FileManager = _ => {
     // eslint-disable-next-line
   }, []);
 
-  return <div className='w3-container'>
+  return <div className=''>
     <FileManagerComponent />
   </div>;
 };
