@@ -18,6 +18,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const prettyStringify = require('../../../utils/JSON/prettyStringify');
 const { Medium, mediumResponseTypes } = require('../../../models/Medium');
 const { MediumTag } = require('../../../models/MediumTag');
 
@@ -59,6 +60,8 @@ const upload = multer({
 
 const getUploadFilesMiddleware = fieldName =>
   util.promisify(upload.array(fieldName, config.get('Aws.s3.limits.files')));
+
+const uploadFilesMiddleware = getUploadFilesMiddleware('media');
 
 /* end of s3 utils */
 
@@ -192,24 +195,48 @@ router.get(
 // @desc    Add medium of a particular mediumType, e.g. 'images', 'videos', etc.
 // @access  Private
 router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
-  const uploadFilesMiddleware = getUploadFilesMiddleware('media');
   try {
     await uploadFilesMiddleware(req, res);
-    console.log(req.files);
+
+    const files = req.files;
+    console.log(files);
 
     if (req.files.length <= 0) {
-      return res.send('You must select at least 1 file.');
+      // 400 badrequest
+      return res.status(400).json({
+        errors: [mediumResponseTypes.NO_FILE_UPLOADED]
+      });
     }
 
     return res.send('Files has been uploaded.');
   } catch (err) {
-    console.error(err);
-    console.error(JSON.stringify(err, null, 2));
+    console.error(prettyStringify(err));
 
-    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
-      return res.send('Too many files to upload.');
+    const badRequestCode = 400;
+    let errorType = null;
+
+    // https://www.npmjs.com/package/multer
+    if (err instanceof multer.MulterError) {
+      switch (err.code) {
+        case 'LIMIT_FILE_COUNT':
+          errorType = mediumResponseTypes.TOO_MANY_FILES;
+          break;
+        case 'LIMIT_FILE_SIZE':
+          errorType = mediumReponseType.FILE_TOO_LARGE;
+        default:
+          break;
+      }
+
+      if (errorType) {
+        return res.status(badRequestCode).json({
+          errors: [errorType]
+        });
+      }
     }
-    return res.send(`Error when trying upload many files: ${error}`);
+
+    if (!errorType) {
+      generalErrorHandle(err, res);
+    }
   }
 });
 

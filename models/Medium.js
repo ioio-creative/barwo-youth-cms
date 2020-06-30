@@ -81,6 +81,11 @@ module.exports.mediumUsageEntityTypes = {
 };
 
 module.exports.mediumResponseTypes = {
+  // MulterError
+  TOO_MANY_FILES: 'TOO_MANY_FILES',
+  FILE_TOO_LARGE: 'FILE_TOO_LARGE',
+  NO_FILE_UPLOADED: 'NO_FILE_UPLOADED',
+
   // input validation
   NAME_REQUIRED: 'NAME_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
