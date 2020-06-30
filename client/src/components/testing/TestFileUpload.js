@@ -15,19 +15,29 @@ const TestFileUpload = _ => {
       formData.append('media', file);
     }
 
-    formData.append('someAttribute', 'name');
+    const additonalFormData = {
+      name: Date.now().toString(),
+      alernativeText: 'alt',
+      tags: [],
+      isEnabled: true
+    };
 
+    for (const pair of Object.entries(additonalFormData)) {
+      formData.append(pair[0], pair[1]);
+    }
+
+    console.log('formData to upload:');
     for (const pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
-
-    const config = {};
 
     try {
       const res = await axios.post(
         'http://localhost:5000/api/backend/media/images',
         formData
       );
+      console.log('returnedMedium:');
+      console.log(res.data);
     } catch (err) {
       console.error(err);
     }
