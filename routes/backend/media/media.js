@@ -25,6 +25,12 @@ const { MediumTag } = require('../../../models/MediumTag');
 /* s3 utils */
 // https://www.npmjs.com/package/multer-s3
 
+const changeFileName = originalName => {
+  const extWithDot = path.extname(originalName);
+  const nameWithoutExt = originalName.substr(0, originalName.lastIndexOf('.'));
+  return `${nameWithoutExt}-${Date.now()}${extWithDot}`;
+};
+
 const s3 = new aws.S3({
   accessKeyId: config.get('Aws.s3.accessKeyId'),
   secretAccessKey: config.get('Aws.s3.secretAccessKey'),
@@ -39,14 +45,8 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE,
     // https://stackoverflow.com/questions/44028876/how-to-specify-upload-directory-in-multer-s3-for-aws-s3-bucket
     key: function (req, file, cb) {
-      const extWithDot = path.extname(file.originalname);
-      const fileNameWithoutExt = file.originalname.substr(
-        0,
-        file.originalname.lastIndexOf('.')
-      );
-      const fullPath = `files/${
-        req.mediumType.route
-      }/${fileNameWithoutExt}-${Date.now()}${extWithDot}`;
+      const changedFileName = changeFileName(file.originalname);
+      const fullPath = `files/${req.mediumType.route}/${changedFileName}`;
       cb(null, fullPath);
     }
   }),
@@ -89,7 +89,9 @@ const uploadSingleFilesMiddleware = getUploadSingleFilesMiddleware('media');
 
 /* utilities */
 
-const mediumSelectForFindAll = {};
+const mediumSelectForFindAll = {
+  usages: 0
+};
 const mediumSelectForFindOne = { ...mediumSelectForFindAll };
 const mediumPopulationListForFindAll = [
   {
@@ -229,8 +231,6 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
     console.log('files uploaded to s3:');
     console.log(file);
 
-    console.log(req.body);
-
     if (!file) {
       // 400 badrequest
       return res.status(400).json({
@@ -241,12 +241,12 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
     /* save to db */
 
     const {
-      name,
       alernativeText,
       tags,
       //usages,
       isEnabled
     } = req.body;
+    const name = path.basename(file.key);
     const type = req.mediumType.type;
     const url = file.location;
 
