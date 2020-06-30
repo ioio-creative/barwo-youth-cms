@@ -5,6 +5,8 @@ import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 function LandingPage() {
   this.featuredVideo = '';
   this.featuredVideo2 = '';
+  this.lastModifyDT = null;
+  this.lastModifyUser = null;
 }
 
 /* statics */
@@ -22,11 +24,15 @@ LandingPage.landingPageResponseTypes = {
 
 LandingPage.getLandingPageForDisplay = landingPage => {
   return {
-    ...landingPage
+    ...landingPage,
+    lastModifyDTDisplay: formatDateTimeString(landingPage.lastModifyDT),
+    lastModifyUserDisplay: landingPage.lastModifyUser
+      ? landingPage.lastModifyUser.name
+      : ''
   };
 };
 
-const displayFieldNames = [];
+const displayFieldNames = ['lastModifyDTDisplay', 'lastModifyUserDisplay'];
 
 LandingPage.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
 

@@ -49,6 +49,9 @@ export default {
   phaseAdd: function (isLink) {
     return '/phaseAdd';
   },
+  landingPageEdit: function (isLink) {
+    return '/landingPageEdit';
+  },
   testing: '/testing',
   fileManager: '/fileManager/:fileType/:additionalCallbackParam?'
   // passwordChange: '/changePassword'

@@ -1,15 +1,10 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
-
-import AuthContext from 'contexts/auth/authContext';
 
 import TestFileUpload from 'components/testing/TestFileUpload';
 
 const Home = _ => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
-  const { authUser } = useContext(AuthContext);
-
-  console.log(authUser);
 
   // componentDidMount
   useEffect(_ => {

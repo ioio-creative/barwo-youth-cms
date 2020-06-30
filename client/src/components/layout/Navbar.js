@@ -43,16 +43,17 @@ NavbarLink.defaultProps = {
 
 // https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_sidebar
 const Navbar = ({ className }) => {
+  const isPasswordChange = useRouteMatch(routes.editPassword);
   const isUserList = useRouteMatch(routes.userList(false));
   const isUserEdit = useRouteMatch(routes.userEditById);
-  const isArtistList = useRouteMatch(routes.artistList(false));
-  const isArtistEdit = useRouteMatch(routes.artistEditById);
-  const isEventList = useRouteMatch(routes.eventList(false));
-  const isEventEdit = useRouteMatch(routes.eventEditById);
+  const isLandingPageEdit = useRouteMatch(routes.landingPageEdit(false));
   const isPhaseList = useRouteMatch(routes.phaseList(false));
   const isPhaseEdit = useRouteMatch(routes.phaseEditById);
+  const isEventList = useRouteMatch(routes.eventList(false));
+  const isEventEdit = useRouteMatch(routes.eventEditById);
+  const isArtistList = useRouteMatch(routes.artistList(false));
+  const isArtistEdit = useRouteMatch(routes.artistEditById);
   const isTesting = useRouteMatch(routes.testing);
-  const isPasswordChange = useRouteMatch(routes.editPassword);
 
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
 
@@ -80,17 +81,21 @@ const Navbar = ({ className }) => {
       </NavbarButton>
       {isAuthUserAdmin && (
         <NavbarLink
+          className='w3-border-bottom'
           to={routes.userList(true)}
           isSelected={isUserList || isUserEdit}
         >
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}
+      <Navbar to={routes.landingPageEdit(true)} isSelected={isLandingPageEdit}>
+        {uiWordings['Navbar.LandingPage']}
+      </Navbar>
       <NavbarLink
-        to={routes.artistList(true)}
-        isSelected={isArtistList || isArtistEdit}
+        to={routes.phaseList(true)}
+        isSelected={isPhaseList || isPhaseEdit}
       >
-        {uiWordings['Navbar.Artists']}
+        {uiWordings['Navbar.Phases']}
       </NavbarLink>
       <NavbarLink
         to={routes.eventList(true)}
@@ -99,10 +104,11 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.Events']}
       </NavbarLink>
       <NavbarLink
-        to={routes.phaseList(true)}
-        isSelected={isPhaseList || isPhaseEdit}
+        className='w3-border-bottom'
+        to={routes.artistList(true)}
+        isSelected={isArtistList || isArtistEdit}
       >
-        {uiWordings['Navbar.Phases']}
+        {uiWordings['Navbar.Artists']}
       </NavbarLink>
       <NavbarLink to={routes.testing} isSelected={isTesting}>
         {uiWordings['Navbar.Testing']}

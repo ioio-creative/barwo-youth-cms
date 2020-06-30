@@ -2,7 +2,6 @@ export default {
   'Table.IndexColumnTitle': 'Idx',
 
   'Navbar.Title': '粵劇新秀演出系列',
-  'Navbar.CloseNavbar': 'Close',
   'Navbar.Login': 'Login',
   'Navbar.Logout': 'Logout',
   'Navbar.Greeting': '你好',
@@ -11,6 +10,7 @@ export default {
   'Navbar.Artists': 'Artists',
   'Navbar.Events': 'Events',
   'Navbar.Phases': 'Phases',
+  'Navbar.LandingPage': 'Landing Page',
   'Navbar.Testing': 'Testing Page',
 
   'Login.Title': 'Account Login',
@@ -173,6 +173,8 @@ export default {
   'PhaseEdit.UpdatePhaseSuccessMessage': 'Phase Updated',
 
   'PhaseEdit.SelectEventsPlaceholder': 'Select Events...',
+
+  'LandingPage.Title': 'Landing Page',
 
   'FileManager.SelectFile': 'Select File'
 };

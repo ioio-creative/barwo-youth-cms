@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import CKEditor from 'ckeditor4-react';
 import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 
 const RichTextbox = ({
   className,
-  type,
   name,
   value,
   onChange,
@@ -126,26 +125,24 @@ const RichTextbox = ({
     ]
   }
 }) => {
+  const handleChange = useCallback(
+    event => {
+      invokeIfIsFunction(onChange, {
+        target: {
+          name: name,
+          value: event.editor.getData()
+        }
+      });
+    },
+    [onChange]
+  );
+
   return (
     <>
       <div className={`editableArea ${className}`}>
-        <textarea
-          name={name}
-          value={value}
-          hidden={!debug}
-        />
+        <textarea name={name} value={value} hidden={!debug} />
         <CKEditor
-          onChange={event => {
-            invokeIfIsFunction(
-              onChange,
-              {
-                target: {
-                  name: name,
-                  value: event.editor.getData()
-                }
-              }
-            )
-          }}
+          onChange={handleChange}
           ref={ref => console.log(ref)}
           data={value}
           type='classic'
