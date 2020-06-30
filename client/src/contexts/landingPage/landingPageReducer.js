@@ -5,7 +5,7 @@ import {
   LANDING_PAGE_ERRORS,
   CLEAR_LANDING_PAGE_ERRORS,
   SET_LANDING_PAGE_LOADING
-} from '..types';
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {

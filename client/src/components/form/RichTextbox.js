@@ -134,7 +134,7 @@ const RichTextbox = ({
         }
       });
     },
-    [onChange]
+    [name, onChange]
   );
 
   return (

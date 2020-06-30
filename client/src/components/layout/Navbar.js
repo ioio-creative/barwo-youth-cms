@@ -88,9 +88,12 @@ const Navbar = ({ className }) => {
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}
-      <Navbar to={routes.landingPageEdit(true)} isSelected={isLandingPageEdit}>
+      <NavbarLink
+        to={routes.landingPageEdit(true)}
+        isSelected={isLandingPageEdit}
+      >
         {uiWordings['Navbar.LandingPage']}
-      </Navbar>
+      </NavbarLink>
       <NavbarLink
         to={routes.phaseList(true)}
         isSelected={isPhaseList || isPhaseEdit}

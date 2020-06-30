@@ -46,6 +46,9 @@ const AsyncFileManager = asyncLoadingComponent(_ =>
 const AsyncEditPassword = asyncLoadingComponent(_ =>
   import('components/pages/PasswordEdit')
 );
+const AsyncLandingPage = asyncLoadingComponent(_ =>
+  import('components/pages/LandingPageEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -109,6 +112,11 @@ const Main = _ => {
               />
               <Route path={routes.phaseEditById} component={AsyncPhaseEdit} />
               <Route path={routes.phaseAdd(false)} component={AsyncPhaseEdit} />
+
+              <Route
+                path={routes.landingPageEdit(false)}
+                component={AsyncLandingPage}
+              />
 
               <Route path={routes.testing} component={AsyncTesting} />
               <Route path={routes.fileManager} component={AsyncFileManager} />

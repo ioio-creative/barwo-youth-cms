@@ -27,13 +27,9 @@ const PasswordEdit = () => {
   const { userId } = useParams();
   const { authUser } = useContext(AuthContext);
   const { setAlerts, removeAlerts } = useContext(AlertContext);
-  const { getUser, clearUser, updateUser, editPassword } = useContext(
-    UsersContext
-  );
+  const { getUser, clearUser, updateUser } = useContext(UsersContext);
 
   const [user, setUser] = useState(defaultState);
-
-  const [isChangePassword, setIsChangePassword] = useState(false);
 
   // componentDidMount
   useEffect(_ => {
@@ -80,7 +76,7 @@ const PasswordEdit = () => {
       }
       return true;
     },
-    [setIsChangePassword, isChangePassword, setAlerts]
+    [setAlerts]
   );
 
   // const onSubmit = () => {};
@@ -113,10 +109,9 @@ const PasswordEdit = () => {
         );
         goToUrl(routes.editPasswordWithValue(true, returnedUser._id));
         setUser(returnedUser);
-        setIsChangePassword(false);
       }
     },
-    [user, removeAlerts, setIsChangePassword, isChangePassword]
+    [user, removeAlerts, setAlerts, updateUser, validInput]
   );
 
   return (
