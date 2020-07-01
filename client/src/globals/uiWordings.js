@@ -97,9 +97,9 @@ export default {
   'Event.NameTcLabel': 'Name TC',
   'Event.NameScLabel': 'Name SC',
   'Event.NameEnLabel': 'Name EN',
-  'Event.ThemeColorLabel': 'Theme Color',
   'Event.ArtDirectorsLabel': 'Art Directors',
   'Event.ShowsLabel': 'Shows',
+  'Event.ScenaristsLabel': 'Scenarists',
   'Event.WriterTcLabel': 'Writer TC',
   'Event.WriterScLabel': 'Writer SC',
   'Event.WriterEnLabel': 'Writer EN',
@@ -124,6 +124,7 @@ export default {
   'Event.PriceRemarksEnLabel': 'Price Remarks EN',
   'Event.PhoneLabel': 'Phone',
   'Event.TicketUrlLabel': 'Ticket Url',
+  'Event.ThemeColorLabel': 'Theme Color',
   'Event.CreateDTLabel': 'Create DT',
   'Event.LastModifyDTLabel': 'Last Modify DT',
   'Event.LastModifyUserLabel': 'Last Modify User',
@@ -148,10 +149,19 @@ export default {
   'EventEdit.Artist.RoleEnPlaceholder': 'Role EN',
   'EventEdit.Artist.ArtistPlaceholder': 'Select Artist...',
 
+  'EventEdit.Scenarist.TcPlaceholder': 'Scenarist TC',
+  'EventEdit.Scenarist.ScPlaceholder': 'Scenarist SC',
+  'EventEdit.Scenarist.EnPlaceholder': 'Scenarist EN',
+
+  'PhaseEdit.Show.SelectDatePlaceholder': 'Click to select date',
+
   'Phases.Title': 'Phases',
   'Phase.DerivedLabelLabel': 'Label',
   'Phase.YearLabel': 'Year',
   'Phase.PhaseNumberLabel': 'Phase Number',
+  'Phase.ThemeColorLabel': 'Theme Color',
+  'Phase.FromDateLabel': 'From Date',
+  'Phase.ToDateLabel': 'To Date',
   'Phase.EventsLabel': 'Events',
   'Phase.CreateDTLabel': 'Create DT',
   'Phase.LastModifyDTLabel': 'Last Modify DT',
@@ -172,6 +182,8 @@ export default {
   'PhaseEdit.UpdatePhaseSuccessMessage': 'Phase Updated',
 
   'PhaseEdit.SelectEventsPlaceholder': 'Select Events...',
+  'PhaseEdit.SelectFromDatePlaceholder': 'Click to select date',
+  'PhaseEdit.SelectToDatePlaceholder': 'Click to select date',
 
   'LandingPage.Title': 'Landing Page',
   'LandingPage.LastModifyDTLabel': 'Last Modify DT',

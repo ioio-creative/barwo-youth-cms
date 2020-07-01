@@ -108,6 +108,11 @@ const headers = [
     isSortEnabled: true
   },
   // {
+  //   name: uiWordings['Event.ThemeColorLabel'],
+  //   value: 'themeColor',
+  //   isSortEnabled: true
+  // },
+  // {
   //   name: uiWordings['Event.CreateDTLabel'],
   //   value: 'createDTDisplay',
   //   isSortEnabled: true

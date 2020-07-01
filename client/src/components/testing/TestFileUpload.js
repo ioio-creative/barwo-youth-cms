@@ -1,5 +1,4 @@
 import React, { useRef, useContext, useEffect } from 'react';
-import axios from 'axios';
 import MediaContext from 'contexts/media/mediaContext';
 import MediaState from 'contexts/media/MediaState';
 import Medium from 'models/medium';

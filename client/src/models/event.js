@@ -35,6 +35,7 @@ function Event() {
   this.priceRemarks_en = [];
   // this.phones = [];
   this.ticketUrl = [];
+  this.themeColor = null;
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;

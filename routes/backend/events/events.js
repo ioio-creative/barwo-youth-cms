@@ -309,7 +309,8 @@ router.post(
       isEnabled,
       artDirectors,
       artists,
-      shows
+      shows,
+      themeColor
     } = req.body;
 
     // customed validations
@@ -346,7 +347,8 @@ router.post(
         lastModifyUser: req.user._id,
         artDirectors,
         artists,
-        shows
+        shows,
+        themeColor
       });
 
       await event.save({ session });
@@ -396,7 +398,8 @@ router.put(
       isEnabled,
       artDirectors,
       artists,
-      shows
+      shows,
+      themeColor
     } = req.body;
 
     // customed validations
@@ -431,6 +434,7 @@ router.put(
     eventFields.artDirectors = getArraySafe(artDirectors);
     eventFields.artists = getArraySafe(artists);
     eventFields.shows = sortShows(shows);
+    eventFields.themeColor = themeColor;
     eventFields.lastModifyDT = new Date();
     eventFields.lastModifyUser = req.user._id;
 

@@ -1,42 +1,69 @@
 import React, { useCallback } from 'react';
-import { DatePicker } from '@buffetjs/core';
-import { dateTimeLibrary } from 'utils/datetime';
+//import { DatePicker } from '@buffetjs/core';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './DatePicker.css';
+
+const nullDateValue = new Date('31 Dec 2099 12:00:00');
+const isNullDate = dateObj => {
+  if (!(dateObj instanceof Date)) {
+    return true;
+  }
+  return dateObj.getFullYear() === nullDateValue.getFullYear();
+};
 
 /**
- * !!!Important!!!
- * have to use the moment library with the value supplied to DatePicker
+ * https://www.npmjs.com/package/react-datepicker
+  Keyboard support
+  Left: Move to the previous day.
+  Right: Move to the next day.
+  Up: Move to the previous week.
+  Down: Move to the next week.
+  PgUp: Move to the previous month.
+  PgDn: Move to the next month.
+  Home: Move to the previous year.
+  End: Move to the next year.
+  Enter/Esc/Tab: close the calendar. (Enter & Esc calls preventDefault)}
  */
 
-const MyDatePicker = ({ name, value, onChange }) => {
+const MyDatePicker = ({ name, value, onChange, dateFormat, placeholder }) => {
   const handleChange = useCallback(
-    e => {
-      //console.log(e.target.value);
+    newValue => {
       onChange({
-        ...e,
         target: {
-          ...e.target,
-          // https://momentjs.com/docs/#/displaying/as-javascript-date/
-          value: e.target.value.toDate()
+          name: name,
+          value: isNullDate(newValue) ? null : newValue
         }
       });
     },
-    [onChange]
+    [name, onChange]
   );
+
+  let cleanedValue;
+  if ([undefined, null].includes(value)) {
+    cleanedValue = nullDateValue;
+  } else {
+    cleanedValue = new Date(value);
+  }
+
   return (
     <DatePicker
       name={name}
-      value={dateTimeLibrary(value)}
+      selected={cleanedValue}
       onChange={handleChange}
+      dateFormat={dateFormat}
+      placeholderText={placeholder}
     />
   );
 };
 
 MyDatePicker.defaultProps = {
   name: 'date',
-  value: new Date(),
   onChange: ({ target }) => {
     console.log(target.value);
-  }
+  },
+  dateFormat: 'yyyy-MM-dd',
+  placeholder: 'Click to select a date'
 };
 
 export default MyDatePicker;

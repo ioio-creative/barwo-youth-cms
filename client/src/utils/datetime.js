@@ -1,6 +1,6 @@
-import moment from 'moment';
+import dayjs from 'moment';
 
-export const dateTimeLibrary = moment;
+export const dateTimeLibrary = dayjs;
 
 /* constants */
 

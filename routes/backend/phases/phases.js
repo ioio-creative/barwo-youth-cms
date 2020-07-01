@@ -147,7 +147,15 @@ router.post(
   '/',
   [auth, phaseValidationChecks, validationHandling],
   async (req, res) => {
-    const { year, phaseNumber, events, isEnabled } = req.body;
+    const {
+      year,
+      phaseNumber,
+      events,
+      themeColor,
+      fromDate,
+      toDate,
+      isEnabled
+    } = req.body;
 
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -158,6 +166,9 @@ router.post(
         phaseNumber,
         derivedLabel: getDerivedLabel(year, phaseNumber),
         events,
+        themeColor,
+        fromDate,
+        toDate,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -187,7 +198,15 @@ router.put(
   '/:_id',
   [auth, phaseValidationChecks, validationHandling],
   async (req, res) => {
-    const { year, phaseNumber, events, isEnabled } = req.body;
+    const {
+      year,
+      phaseNumber,
+      events,
+      themeColor,
+      fromDate,
+      toDate,
+      isEnabled
+    } = req.body;
 
     // Build phase object
     // Note:
@@ -199,6 +218,9 @@ router.put(
       phaseFields.derivedLabel = getDerivedLabel(year, phaseNumber);
     }
     phaseFields.events = getArraySafe(events);
+    phaseFields.themeColor = themeColor;
+    phaseFields.fromDate = fromDate;
+    phaseFields.toDate = toDate;
     if (isEnabled !== undefined) phaseFields.isEnabled = isEnabled;
     phaseFields.lastModifyDT = new Date();
     phaseFields.lastModifyUser = req.user._id;

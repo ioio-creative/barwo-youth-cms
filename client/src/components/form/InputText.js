@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputText } from '@buffetjs/core';
+import cleanValueForTextInput from './utils/cleanValueForTextInput';
 
 // https://www.buffetjs.io/storybook/?path=/story/components--inputtext
 const MyInputText = ({
@@ -23,12 +24,13 @@ const MyInputText = ({
   if (disabled) {
     extraProps.disbled = true;
   }
+
   return (
     <InputText
       className={`${disabled ? 'w3-light-grey' : ''} ${className}`}
       type={type}
       name={name}
-      value={value || ''}
+      value={cleanValueForTextInput(value)}
       placeholder={placeholder}
       onChange={onChange}
       {...extraProps}

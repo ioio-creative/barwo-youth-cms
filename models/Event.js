@@ -68,9 +68,6 @@ const EventSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  themeColour: {
-    type: String
-  },
   shows: [EventShowSchema],
   writer_tc: {
     type: String
@@ -106,7 +103,6 @@ const EventSchema = mongoose.Schema({
   gallery: {
     type: [mongoose.Schema.Types.ObjectId]
   },
-
   artDirectors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'artist' }],
   artists: [EventArtistSchema],
   /* ticketing */
@@ -138,6 +134,9 @@ const EventSchema = mongoose.Schema({
   },
   /* end of ticketing */
   phasesInvolved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'phase' }],
+  themeColour: {
+    type: String
+  },
   isEnabled: {
     type: Boolean,
     default: true

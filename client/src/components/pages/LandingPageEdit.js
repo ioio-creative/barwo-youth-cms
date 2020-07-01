@@ -9,8 +9,6 @@ import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LandingPage from 'models/landingPage';
 import uiWordings from 'globals/uiWordings';
-import routes from 'globals/routes';
-import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
 
@@ -93,14 +91,14 @@ const LandingPageEdit = _ => {
 
   /* event handlers */
 
-  const onChange = useCallback(
-    e => {
-      setIsSubmitEnabled(true);
-      removeAlerts();
-      setLandingPage({ ...landingPage, [e.target.name]: e.target.value });
-    },
-    [landingPage, setLandingPage, removeAlerts]
-  );
+  // const onChange = useCallback(
+  //   e => {
+  //     setIsSubmitEnabled(true);
+  //     removeAlerts();
+  //     setLandingPage({ ...landingPage, [e.target.name]: e.target.value });
+  //   },
+  //   [landingPage, setLandingPage, removeAlerts]
+  // );
 
   const onSubmit = useCallback(
     async e => {

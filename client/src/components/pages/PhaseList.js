@@ -42,6 +42,21 @@ const headers = [
     value: 'phaseNumber',
     isSortEnabled: true
   },
+  // {
+  //   name: uiWordings['Phase.ThemeColorLabel'],
+  //   value: 'themeColor',
+  //   isSortEnabled: true
+  // },
+  {
+    name: uiWordings['Phase.FromDateLabel'],
+    value: 'fromDateDisplay',
+    isSortEnabled: true
+  },
+  {
+    name: uiWordings['Phase.ToDateLabel'],
+    value: 'toDateDisplay',
+    isSortEnabled: true
+  },
   {
     name: uiWordings['Phase.EventsLabel'],
     value: 'eventsDisplay',

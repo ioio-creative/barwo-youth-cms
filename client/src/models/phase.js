@@ -1,4 +1,4 @@
-import { formatDateTimeString } from 'utils/datetime';
+import { formatDateTimeString, formatDateString } from 'utils/datetime';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
 import range from 'utils/js/number/range';
 import generalResponseTypes from 'types/responses/general';
@@ -8,11 +8,11 @@ const mapYearToDisplay = year => `${year}-${year + 1}`;
 
 function Phase() {
   this.year = new Date().getFullYear();
-  this.themeColour = '';
-  this.shows = [];
-  this.time = '';
   this.phaseNumber = 1;
   this.events = [];
+  this.themeColor = null;
+  this.fromDate = null;
+  this.toDate = null;
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
@@ -66,6 +66,8 @@ Phase.getPhaseForDisplay = phase => {
     ...phase,
     yearDisplay: mapYearToDisplay(phase.year),
     eventsDisplay: firstOrDefault(phase.events, { label: '' }).label,
+    fromDateDisplay: phase.fromDate ? formatDateString(phase.fromDate) : null,
+    toDateDisplay: phase.toDate ? formatDateString(phase.toDate) : null,
     createDTDisplay: formatDateTimeString(phase.createDT),
     lastModifyDTDisplay: formatDateTimeString(phase.lastModifyDT),
     lastModifyUserDisplay: phase.lastModifyUser
@@ -78,6 +80,8 @@ Phase.getPhaseForDisplay = phase => {
 const displayFieldNames = [
   'yearDisplay',
   'eventsDisplay',
+  'fromDateDisplay',
+  'toDateDisplay',
   'createDTDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',

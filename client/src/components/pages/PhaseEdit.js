@@ -10,6 +10,8 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
+import LabelColorPickerPair from 'components/form/LabelColorPickerPair';
+import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
@@ -19,6 +21,7 @@ import Phase from 'models/phase';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
+import { formatDateString } from 'utils/datetime';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
 
@@ -174,6 +177,10 @@ const PhaseEdit = _ => {
       // add events
       phase.events = getArraySafe(eventsPicked).map(event => event._id);
 
+      // format dates
+      phase.fromDate = formatDateString(phase.fromDate);
+      phase.toDate = formatDateString(phase.toDate);
+
       let isSuccess = validInput(phase);
       let returnedPhase = null;
 
@@ -255,9 +262,31 @@ const PhaseEdit = _ => {
           onChange={onChange}
         />
 
+        <LabelDatePickerPair
+          name='fromDate'
+          value={phase.fromDate}
+          labelMessage={uiWordings['Phase.FromDateLabel']}
+          placeholder={uiWordings['PhaseEdit.SelectFromDatePlaceholder']}
+          onChange={onChange}
+        />
+        <LabelDatePickerPair
+          name='toDate'
+          value={phase.toDate}
+          labelMessage={uiWordings['Phase.ToDateLabel']}
+          placeholder={uiWordings['PhaseEdit.SelectToDatePlaceholder']}
+          onChange={onChange}
+        />
+
         <PhaseEditEventSelect
           eventsPicked={eventsPicked}
           onGetEventsPicked={onGetEventsPicked}
+        />
+
+        <LabelColorPickerPair
+          name='themeColor'
+          value={phase.themeColor || defaultState.themeColor}
+          labelMessage={uiWordings['Phase.ThemeColorLabel']}
+          onChange={onChange}
         />
 
         <LabelTogglePair

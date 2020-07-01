@@ -8,6 +8,7 @@ import EventsPageContainer from 'components/events/EventsPageContainer';
 import EventEditArtDirectorSelect from 'components/events/EventEditArtDirectorSelect';
 import EventEditArtistSelect from 'components/events/EventEditArtistSelect';
 import EventEditShowSelect from 'components/events/EventEditShowSelect';
+import EventEditScenaristSelect from 'components/events/EventEditScenaristSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
@@ -15,6 +16,7 @@ import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from 'components/form/LabelRichTextbox';
+import LabelColorPickerPair from 'components/form/LabelColorPickerPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
@@ -75,6 +77,9 @@ const EventEdit = _ => {
   // shows in event
   const [showsPicked, setShowsPicked] = useState([]);
 
+  // scenarists in event
+  const [scenaristsPicked, setScenaristsPicked] = useState([]);
+
   // componentDidMount
   useEffect(_ => {
     getArtDirectors();
@@ -118,11 +123,23 @@ const EventEdit = _ => {
           if (isNonEmptyArray(fetchedEvent.shows)) {
             setShowsPicked(fetchedEvent.shows);
           }
+          if (isNonEmptyArray(fetchedEvent.scenarists)) {
+            setScenaristsPicked(fetchedEvent.scenarists);
+          }
         }
         setIsAddMode(!fetchedEvent);
       }
     },
-    [eventsLoading, fetchedEvent, setEvent, setIsAddMode]
+    [
+      eventsLoading,
+      fetchedEvent,
+      setEvent,
+      setIsAddMode,
+      setArtDirectorsPicked,
+      setArtistsPicked,
+      setShowsPicked,
+      setScenaristsPicked
+    ]
   );
 
   // eventsErrors
@@ -223,6 +240,14 @@ const EventEdit = _ => {
       setShowsPicked(newItemList);
     },
     [setShowsPicked, setIsSubmitEnabled]
+  );
+
+  const onGetScenaristsPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setScenaristsPicked(newItemList);
+    },
+    [setScenaristsPicked, setIsSubmitEnabled]
   );
 
   const onSubmit = useCallback(
@@ -359,17 +384,13 @@ const EventEdit = _ => {
           onChange={onChange}
           required={true}
         />
-        <LabelInputTextPair
-          name='themeColor'
-          value={event.themeColor}
-          labelMessage={uiWordings['Event.ThemeColorLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        />
         <EventEditArtDirectorSelect
           artDirectorsPicked={artDirectorsPicked}
           onGetArtDirectorsPicked={onGetArtDirectorsPicked}
+        />
+        <EventEditScenaristSelect
+          scenarists={scenaristsPicked}
+          onGetScenarists={onGetScenaristsPicked}
         />
         <EventEditShowSelect
           shows={showsPicked}
@@ -546,6 +567,13 @@ const EventEdit = _ => {
           value={event.ticketUrl}
           labelMessage={uiWordings['Event.TicketUrlLabel']}
           placeholder=''
+          onChange={onChange}
+        />
+
+        <LabelColorPickerPair
+          name='themeColor'
+          value={event.themeColor || defaultState.themeColor}
+          labelMessage={uiWordings['Event.ThemeColorLabel']}
           onChange={onChange}
         />
 

@@ -1,24 +1,23 @@
 import React, { useMemo, useCallback } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
-import DatePicker from 'components/form/DatePicker';
-import TimePicker from 'components/form/TimePicker';
-import uiWordings from 'globals/uiWordings';
+import InputText from 'components/form/InputText';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
 import guid from 'utils/guid';
 
+/* globals */
+
+let inputTextType = 'text';
+
+/* end of globals */
+
 /* constants */
 
-const emptyShowForAdd = {
-  date: new Date(),
-  startTime: '19:30'
-};
-
-const mapShowToListItem = show => {
+const mapTextToListItem = text => {
   return {
-    ...show,
-    draggableId: show.draggableId || show._id || guid()
+    text: text,
+    draggableId: guid()
   };
 };
 
@@ -35,12 +34,12 @@ const getListStyle = isDraggingOver => ({
 
 /* item */
 
-const Item = ({ show, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({ text, handleItemRemoved, handleItemChange, index }) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
-    newShow => {
-      handleItemChange(newShow, index);
+    newText => {
+      handleItemChange(newText, index);
     },
     [handleItemChange, index]
   );
@@ -49,13 +48,10 @@ const Item = ({ show, handleItemRemoved, handleItemChange, index }) => {
 
   const onChange = useCallback(
     e => {
-      const newShow = {
-        ...show,
-        [e.target.name]: e.target.value
-      };
-      dealWithItemChange(newShow);
+      const newText = e.target.value;
+      dealWithItemChange(newText);
     },
-    [show, dealWithItemChange]
+    [dealWithItemChange]
   );
 
   const onRemoveButtonClick = useCallback(
@@ -66,8 +62,6 @@ const Item = ({ show, handleItemRemoved, handleItemChange, index }) => {
   );
 
   /* end of event handlers */
-
-  const { date, startTime, draggableId } = show;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -82,19 +76,13 @@ const Item = ({ show, handleItemRemoved, handleItemChange, index }) => {
             provided.draggableProps.style
           )}
         >
-          <div className='w3-show-inline-block'>
-            <DatePicker
-              name='date'
-              value={date}
+          <div className='w3-show-inline-block w3-margin-right'>
+            <InputText
+              name='text'
+              value={text}
+              type={inputTextType}
               onChange={onChange}
-              placeholder={uiWordings['PhaseEdit.Show.SelectDatePlaceholder']}
-            />
-          </div>
-          <div className='w3-show-inline-block w3-margin-left'>
-            <TimePicker
-              name='startTime'
-              value={startTime}
-              onChange={onChange}
+              required={true}
             />
           </div>
           <div className='w3-right'>
@@ -111,13 +99,13 @@ const Item = ({ show, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...show },
+  { handleItemRemoved, handleItemChange, ...text },
   index
 ) => {
   return (
     <Item
       key={index}
-      show={show}
+      text={text}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -127,71 +115,78 @@ const itemRender = (
 
 /* end of item */
 
-const EventEditShowSelect = ({ shows, onGetShows }) => {
-  const showsInPickedList = useMemo(
-    _ => {
-      return getArraySafe(shows).map(mapShowToListItem);
-    },
-    [shows]
-  );
+const TextList = ({ name, labelMessage, inputType, texts, onGetTexts, emptyTextForAdd }) => {
+  const textsInPickedList = useMemo(_ => {
+    return getArraySafe(texts).map(mapTextToListItem);
+  }, [texts])
+
+  // inputType
+  useEffect(_ => {
+    inputTextType = inputType;
+  }, [inputType]);
 
   /* methods */
 
-  const dealWithGetShows = useCallback(
+  const dealWithGetTexts = useCallback(
     newItemList => {
-      onGetShows(newItemList);
+      onGetTexts(newItemList);
     },
-    [onGetShows]
+    [onGetTexts]
   );
 
-  const addShow = useCallback(
+  const addText = useCallback(
     _ => {
-      dealWithGetShows([...getArraySafe(shows), emptyShowForAdd]);
+      dealWithGetTexts([...getArraySafe(texts), emptyTextForAdd]);
     },
-    [shows, dealWithGetShows]
+    [texts, dealWithGetTexts]
   );
 
   /* end of methods */
 
-  // // shows
-  // useEffect(
-  //   _ => {
-  //     if (!isNonEmptyArray(shows)) {
-  //       addShow();
-  //     }
-  //   },
-  //   [shows, addShow]
-  // );
+  // texts
+  useEffect(
+    _ => {
+      if (!isNonEmptyArray(texts)) {
+        addText();
+      }
+    },
+    [texts, addText]
+  );
 
   /* event handlers */
 
   const onAddButtonClick = useCallback(
     _ => {
-      addShow();
+      addText();
     },
-    [addShow]
+    [addText]
   );
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      dealWithGetShows(newItemList);
+      dealWithGetTexts(newItemList);
     },
-    [dealWithGetShows]
+    [dealWithGetTexts]
   );
 
   /* end of event handlers */
 
   return (
     <LabelSortableListPair
-      name='shows'
-      labelMessage={uiWordings['Event.ShowsLabel']}
+      name={name}
+      labelMessage={labelMessage}
       pickedItemRender={itemRender}
       getListStyle={getListStyle}
-      pickedItems={showsInPickedList}
+      pickedItems={textsInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
 };
 
-export default EventEditShowSelect;
+TextList.defaultProps = {
+  name='texts',
+  emptyTextForAdd: ''
+};
+
+export default TextList;

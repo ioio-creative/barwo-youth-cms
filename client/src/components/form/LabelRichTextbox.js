@@ -7,20 +7,19 @@ const LabelRichTextbox = ({
   name,
   value,
   labelMessage,
-  onChange = () => { },
+  onChange = () => {},
   // required,
   // minLength,
   disabled,
   filebrowserBrowseUrl,
   isHalf
 }) => {
-  console.log(value);
+  //console.log(value);
   return (
     <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label htmlFor={name} message={labelMessage} />
         <RichTextbox
-          className={'w3-row'}
           name={name}
           value={value}
           onChange={onChange}
