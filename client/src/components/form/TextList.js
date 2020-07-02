@@ -115,15 +115,28 @@ const itemRender = (
 
 /* end of item */
 
-const TextList = ({ name, labelMessage, inputType, texts, onGetTexts, emptyTextForAdd }) => {
-  const textsInPickedList = useMemo(_ => {
-    return getArraySafe(texts).map(mapTextToListItem);
-  }, [texts])
+const TextList = ({
+  name,
+  labelMessage,
+  inputType,
+  texts,
+  onGetTexts,
+  emptyTextForAdd
+}) => {
+  const textsInPickedList = useMemo(
+    _ => {
+      return getArraySafe(texts).map(mapTextToListItem);
+    },
+    [texts]
+  );
 
   // inputType
-  useEffect(_ => {
-    inputTextType = inputType;
-  }, [inputType]);
+  useEffect(
+    _ => {
+      inputTextType = inputType;
+    },
+    [inputType]
+  );
 
   /* methods */
 
@@ -185,7 +198,7 @@ const TextList = ({ name, labelMessage, inputType, texts, onGetTexts, emptyTextF
 };
 
 TextList.defaultProps = {
-  name='texts',
+  name: 'texts',
   emptyTextForAdd: ''
 };
 
