@@ -27,7 +27,9 @@ const PasswordEdit = () => {
   const { userId } = useParams();
   const { authUser } = useContext(AuthContext);
   const { setAlerts, removeAlerts } = useContext(AlertContext);
-  const { getUser, clearUser, updateUser } = useContext(UsersContext);
+  const { getUser, clearUser, updateUser, editPassword } = useContext(
+    UsersContext
+  );
 
   const [user, setUser] = useState(defaultState);
 
@@ -44,6 +46,7 @@ const PasswordEdit = () => {
     _ => {
       if (authUser) {
         setUser(authUser);
+        goToUrl(routes.editPasswordWithId(true, authUser._id));
       }
       return _ => {
         clearUser();
@@ -62,18 +65,19 @@ const PasswordEdit = () => {
 
   const validInput = useCallback(
     userInput => {
-      if (
-        // userInput.password !== user.password ||
-        userInput.password1 !== userInput.password2
-      ) {
+      if (userInput.password1 !== userInput.password2) {
         setAlerts(
           new Alert(
             uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
             Alert.alertTypes.WARNING
           )
         );
+        console.log(userInput.password, authUser);
+        console.log(userInput.password1, userInput.password2);
         return false;
       }
+      console.log(userInput.password, user.password);
+      console.log(userInput.password1, userInput.password2);
       return true;
     },
     [setAlerts]
@@ -89,13 +93,14 @@ const PasswordEdit = () => {
       let returnedUser = null;
       isSuccess = validInput(user);
       console.log(isSuccess);
-      const { password2, password1, ...cleanedUser } = user;
+      // const { password2, password1, ...cleanedUser } = user;
+      const { password2, ...cleanedUser } = user;
       if (isSuccess) {
         console.log(user.password1);
-        cleanedUser.password = user.password1;
+        // cleanedUser.password = user.password1;
         console.log(cleanedUser);
-        // const funcToCall = editPassword;
-        const funcToCall = updateUser;
+        const funcToCall = editPassword;
+        // const funcToCall = updateUser;
         returnedUser = await funcToCall(cleanedUser);
         isSuccess = Boolean(returnedUser);
       }
@@ -107,8 +112,13 @@ const PasswordEdit = () => {
             Alert.alertTypes.INFO
           )
         );
-        goToUrl(routes.editPasswordWithValue(true, returnedUser._id));
-        setUser(returnedUser);
+        goToUrl(routes.editPasswordWithId(true, returnedUser._id));
+        setUser({
+          ...user,
+          password: '',
+          password1: '',
+          password2: ''
+        });
       }
     },
     [user, removeAlerts, setAlerts, updateUser, validInput]

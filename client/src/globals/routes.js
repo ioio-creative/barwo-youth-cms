@@ -15,8 +15,8 @@ export default {
   userAdd: function (isLink) {
     return '/userAdd';
   },
-  editPassword: '/editPassword/',
-  editPasswordWithValue: function (isLink, userId) {
+  editPassword: '/editPassword/:userId',
+  editPasswordWithId: function (isLink, userId) {
     return '/editPassword/' + userId;
   },
   artistList: function (isLink) {
