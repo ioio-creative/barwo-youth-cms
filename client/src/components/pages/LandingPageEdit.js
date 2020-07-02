@@ -6,6 +6,7 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
+import FileUpload from 'components/form/FileUpload';
 import SubmitButton from 'components/form/SubmitButton';
 import LandingPage from 'models/landingPage';
 import uiWordings from 'globals/uiWordings';
@@ -135,6 +136,11 @@ const LandingPageEdit = _ => {
   return (
     <Form onSubmit={onSubmit}>
       <h4>{uiWordings['LandingPageEdit.EditLandingPageTitle']}</h4>
+
+      <FileUpload
+        name='featuredVideo'
+        labelMessage={uiWordings['LandingPage.FeaturedVideoLabel']}
+      />
 
       {!isAddMode && (
         <>

@@ -529,7 +529,7 @@ const FileManager = () => {
           </div>
           <div className='w3-col s6 w3-right-align'>
             <label class='w3-btn w3-blue upload-btn'>
-              upload <input type='file' />
+              {uiWordings['FileManager.UploadButton']} <input type='file' />
             </label>
           </div>
         </div>

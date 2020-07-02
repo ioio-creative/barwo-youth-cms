@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { generatePath } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import InputText from 'components/form/InputText';
@@ -184,16 +185,20 @@ const FileUpload = ({
 
   const onAddButtonClick = useCallback(
     _ => {
+      window.getMediaData = ({ file }) => {
+        console.log(file);
+        window.getMediaData = null;
+      };
+
       window.open(
         generatePath(routes.fileManager, {
-          fileType: 'videos',
-          additionalCallbackParam: 'btn2'
+          fileType: mediumType.apiRoute
         })
       );
 
       //addFile();
     },
-    [addFile]
+    [addFile, mediumType]
   );
 
   const onGetPickedItems = useCallback(
@@ -220,7 +225,8 @@ const FileUpload = ({
 
 FileUpload.defaultProps = {
   name: 'files',
-  mediumType: defaultMediumFileType
+  mediumType: defaultMediumFileType,
+  isMultiple: false
 };
 
 export default FileUpload;

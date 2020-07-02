@@ -186,6 +186,8 @@ export default {
   'PhaseEdit.SelectToDatePlaceholder': 'Click to select date',
 
   'LandingPage.Title': 'Landing Page',
+  'LandingPage.FeaturedVideoLabel': 'Featured Video',
+  'LandingPage.FeaturedVideo2Label': 'Featured Video 2',
   'LandingPage.LastModifyDTLabel': 'Last Modify DT',
   'LandingPage.LastModifyUserLabel': 'Last Modify User',
 
@@ -193,5 +195,6 @@ export default {
   'LandingPageEdit.UpdateLandingPageSubmit': 'Update Landing Page',
   'LandingPageEdit.UpdateLandingPageSuccessMessage': 'Landing Page Updated',
 
-  'FileManager.SelectFile': 'Select File'
+  'FileManager.SelectFile': 'Select File',
+  'FileManager.UploadButton': 'Upload'
 };
