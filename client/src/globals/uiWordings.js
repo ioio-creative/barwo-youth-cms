@@ -100,12 +100,9 @@ export default {
   'Event.ArtDirectorsLabel': 'Art Directors',
   'Event.ShowsLabel': 'Shows',
   'Event.ScenaristsLabel': 'Scenarists',
-  'Event.WriterTcLabel': 'Writer TC',
-  'Event.WriterScLabel': 'Writer SC',
-  'Event.WriterEnLabel': 'Writer EN',
-  'Event.HeadingTcLabel': 'Heading TC',
-  'Event.HeadingScLabel': 'Heading SC',
-  'Event.HeadingEnLabel': 'Heading EN',
+  'Event.DescHeadlineTcLabel': 'Desc Headline TC',
+  'Event.DescHeadlineScLabel': 'Desc Headline SC',
+  'Event.DescHeadlineEnLabel': 'Desc Headline EN',
   'Event.DescTcLabel': 'Desc TC',
   'Event.DescScLabel': 'Desc SC',
   'Event.DescEnLabel': 'Desc EN',
@@ -122,7 +119,7 @@ export default {
   'Event.PriceRemarksTcLabel': 'Price Remarks TC',
   'Event.PriceRemarksScLabel': 'Price Remarks SC',
   'Event.PriceRemarksEnLabel': 'Price Remarks EN',
-  'Event.PhoneLabel': 'Phone',
+  'Event.PhonesLabel': 'Phones',
   'Event.TicketUrlLabel': 'Ticket Url',
   'Event.ThemeColorLabel': 'Theme Color',
   'Event.CreateDTLabel': 'Create DT',
@@ -149,9 +146,20 @@ export default {
   'EventEdit.Artist.RoleEnPlaceholder': 'Role EN',
   'EventEdit.Artist.ArtistPlaceholder': 'Select Artist...',
 
-  'EventEdit.Scenarist.TcPlaceholder': 'Scenarist TC',
-  'EventEdit.Scenarist.ScPlaceholder': 'Scenarist SC',
-  'EventEdit.Scenarist.EnPlaceholder': 'Scenarist EN',
+  'EventEdit.Scenarist.NameTcPlaceholder': 'Name TC',
+  'EventEdit.Scenarist.NameScPlaceholder': 'Name SC',
+  'EventEdit.Scenarist.NameEnPlaceholder': 'Name EN',
+
+  'EventEdit.Price.PriceTcPlaceholder': 'Price TC',
+  'EventEdit.Price.PriceScPlaceholder': 'Price SC',
+  'EventEdit.Price.PriceEnPlaceholder': 'Price EN',
+
+  'EventEdit.Phone.LabelTcPlaceholder': 'Label TC',
+  'EventEdit.Phone.LabelScPlaceholder': 'Label SC',
+  'EventEdit.Phone.LabelEnPlaceholder': 'Label EN',
+  'EventEdit.Phone.PhonePlaceholder': 'Phone',
+
+  'EventEdit.Ticket.Title': 'Ticketing',
 
   'PhaseEdit.Show.SelectDatePlaceholder': 'Click to select date',
 

@@ -11,12 +11,10 @@ function Event() {
   this.themeColor = '';
   this.artDirectors = [];
   this.shows = [];
-  this.writer_tc = '';
-  this.writer_sc = '';
-  this.writer_en = '';
-  this.heading_tc = '';
-  this.heading_sc = '';
-  this.heading_en = '';
+  this.scenarists = [];
+  this.descHeadline_tc = '';
+  this.descHeadline_sc = '';
+  this.descHeadline_en = '';
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
@@ -29,12 +27,12 @@ function Event() {
   this.venue_tc = [];
   this.venue_sc = [];
   this.venue_en = [];
-  // this.prices = [];
+  this.prices = [];
   this.priceRemarks_tc = [];
   this.priceRemarks_sc = [];
   this.priceRemarks_en = [];
-  // this.phones = [];
-  this.ticketUrl = [];
+  this.phones = [];
+  this.ticketUrl = '';
   this.themeColor = null;
   this.isEnabled = true;
   this.createDT = null;
@@ -109,6 +107,30 @@ Event.eventsResponseTypes = {
     type: 'EVENT_PHONE_PHONE_REQUIRED',
     msg: 'EVENT_PHONE_PHONE_REQUIRED'
   },
+  EVENT_SCENARIST_NAME_TC_REQUIRED: {
+    type: 'EVENT_SCENARIST_NAME_TC_REQUIRED',
+    msg: 'EVENT_SCENARIST_NAME_TC_REQUIRED'
+  },
+  EVENT_SCENARIST_NAME_SC_REQUIRED: {
+    type: 'EVENT_SCENARIST_NAME_SC_REQUIRED',
+    msg: 'EVENT_SCENARIST_NAME_SC_REQUIRED'
+  },
+  EVENT_SCENARIST_NAME_EN_REQUIRED: {
+    type: 'EVENT_SCENARIST_NAME_EN_REQUIRED',
+    msg: 'EVENT_SCENARIST_NAME_EN_REQUIRED'
+  },
+  EVENT_PRICE_PRICE_TC_REQUIRED: {
+    type: 'EVENT_PRICE_PRICE_TC_REQUIRED',
+    msg: 'EVENT_PRICE_PRICE_TC_REQUIRED'
+  },
+  EVENT_PRICE_PRICE_SC_REQUIRED: {
+    type: 'EVENT_PRICE_PRICE_SC_REQUIRED',
+    msg: 'EVENT_PRICE_PRICE_SC_REQUIRED'
+  },
+  EVENT_PRICE_PRICE_EN_REQUIRED: {
+    type: 'EVENT_PRICE_PRICE_EN_REQUIRED',
+    msg: 'EVENT_PRICE_PRICE_EN_REQUIRED'
+  },
 
   // db check
   EVENT_NOT_EXISTS: {
@@ -134,13 +156,17 @@ Event.getEventForDisplay = event => {
       ? event.lastModifyUser.name
       : '',
     isEnabledDisplay: event.isEnabled.toString(),
-    artDirectorsDisplay: firstOrDefault(event.artDirectors, { name_tc: '' })
+    artDirectorsDisplay: firstOrDefault(event.artDirectors, { label: '' })
       .name_tc,
-    artistsDisplay: firstOrDefault(event.artists, { artist: { name_tc: '' } })
+    artistsDisplay: firstOrDefault(event.artists, { artist: { label: '' } })
       .artist.name_tc,
     showsDisplay: formatDateString(
       firstOrDefault(event.shows, { date: null }).date
-    )
+    ),
+    scenaristsDisplay: firstOrDefault(event.scenarists, { name_tc: '' })
+      .name_tc,
+    pricesDisplay: firstOrDefault(event.prices, { price_tc: '' }).price_tc,
+    phonesDisplay: firstOrDefault(event.phones, { phone: '' }).phone
   };
 };
 
