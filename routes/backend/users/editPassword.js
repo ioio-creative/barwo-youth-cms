@@ -22,7 +22,7 @@ const hashPasswordInput = async passwordInput => {
 // @access  Private
 router.put(
   '/editPassword:_id',
-  [userValidationChecksForUpdateUser, validationHandling],
+  [auth, userValidationChecksForUpdateUser, validationHandling],
   async (req, res) => {
     const { password } = req.body;
 
