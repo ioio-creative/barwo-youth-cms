@@ -177,7 +177,10 @@ const displayFieldNames = [
   'isEnabledDisplay',
   'artDirectorsDisplay',
   'artistsDisplay',
-  'showsDisplay'
+  'showsDisplay',
+  'scenaristsDisplay',
+  'pricesDisplay',
+  'phonesDisplay'
 ];
 
 Event.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);

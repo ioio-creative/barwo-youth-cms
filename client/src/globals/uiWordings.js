@@ -67,12 +67,7 @@ export default {
   'Artist.DescTcLabel': 'Desc TC',
   'Artist.DescScLabel': 'Desc SC',
   'Artist.DescEnLabel': 'Desc EN',
-  'Artist.QuestionTcLabel': 'Question TC',
-  'Artist.QuestionScLabel': 'Question SC',
-  'Artist.QuestionEnLabel': 'Question En',
-  'Artist.AnswerTcLabel': 'Answer TC',
-  'Artist.AnswerScLabel': 'Answer SC',
-  'Artist.AnswerEnLabel': 'Answer EN',
+  'Artist.QnasLabel': 'Q & As',
   'Artist.CreateDTLabel': 'Create DT',
   'Artist.LastModifyDTLabel': 'Last Modify DT',
   'Artist.LastModifyUserLabel': 'Last Modify User',
@@ -90,6 +85,13 @@ export default {
   'ArtistEdit.UpdateArtistSubmit': 'Update Artist',
   'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
   'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated',
+
+  'ArtistEdit.Qna.QuestionTcPlaceholder': 'Question TC',
+  'ArtistEdit.Qna.AnswerTcPlaceholder': 'Answer TC',
+  'ArtistEdit.Qna.QuestionScPlaceholder': 'Question SC',
+  'ArtistEdit.Qna.AnswerScPlaceholder': 'Answer SC',
+  'ArtistEdit.Qna.QuestionEnPlaceholder': 'Question EN',
+  'ArtistEdit.Qna.AnswerEnPlaceholder': 'Answer EN',
 
   'Events.Title': 'Events',
 
