@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  useContext
+} from 'react';
 import { useParams } from 'react-router-dom';
 
 import MediaState from 'contexts/media/MediaState';
@@ -463,9 +469,7 @@ const UploadingElement = ({
   file,
   onComplete
 }) => {
-  const {
-    addMedium
-  } = useContext(MediaContext);
+  const { addMedium } = useContext(MediaContext);
   const [uploadedPercent, setUploadedPercent] = useState(0);
 
   useEffect(() => {
@@ -491,32 +495,36 @@ const UploadingElement = ({
       console.log(pair[0] + ', ' + pair[1]);
     }
     const addMediumPromise = addMedium(Medium.mediumTypes.IMAGE, formData, {
-      onUploadProgress: (event) => {
-        setUploadedPercent(event.loaded / event.total * 100);
+      onUploadProgress: event => {
+        setUploadedPercent((event.loaded / event.total) * 100);
       }
-    })
-    addMediumPromise.then((newMedium) => {
+    });
+    addMediumPromise.then(newMedium => {
       onComplete(newMedium);
     });
     // console.log('newMedium:');
     // console.log(newMedium);
-  }, [file])
-  return <>
-    {uploadedPercent < 100 ?
-      <div className={`w3-col s3 medium-item uploading`}>
-        <div className='medium-wrapper'>
-          <i className="fa fa-upload fa-2x" />
-          <div className="progress-bar">
-            <div className="uploaded-progress w3-blue" style={{
-              width: uploadedPercent + '%'
-            }} />
+  }, [file]);
+  return (
+    <>
+      {uploadedPercent < 100 ? (
+        <div className={`w3-col s3 medium-item uploading`}>
+          <div className='medium-wrapper'>
+            <i className='fa fa-upload fa-2x' />
+            <div className='progress-bar'>
+              <div
+                className='uploaded-progress w3-blue'
+                style={{
+                  width: uploadedPercent + '%'
+                }}
+              />
+            </div>
           </div>
         </div>
-      </div> :
-      null
-    }
-  </>
-}
+      ) : null}
+    </>
+  );
+};
 
 const FileManager = () => {
   //const [showDetails, setShowDetails] = useState(false);
@@ -531,7 +539,7 @@ const FileManager = () => {
 
   const {
     media: fetchedMedia,
-    getMedia,
+    getMedia
     // clearMedia,
     // medium: fetchedMedium,
     // getMedium,
@@ -546,7 +554,7 @@ const FileManager = () => {
   const { fileType: mediaType, additionalCallbackParam } = useParams();
   // console.log(mediaType);
   const fileManagerEl = useRef(null);
-  const setFileManagerEl = useCallback((ref) => {
+  const setFileManagerEl = useCallback(ref => {
     fileManagerEl.current = ref;
     console.log('setFileManagerEl', ref);
   }, []);
@@ -558,16 +566,16 @@ const FileManager = () => {
     getMedia(Medium.mediumTypes.IMAGE, {
       // page,
       sortOrder: -1,
-      sortBy: 'createDT',
+      sortBy: 'createDT'
       // filterText
-    })
+    });
     return () => {
       document.removeEventListener('dragenter', handleDragEnter, false);
       document.removeEventListener('dragover', handleDragOver, false);
       document.removeEventListener('dragleave', handleDragLeave, false);
       document.removeEventListener('drop', handleDropUpload, false);
-    }
-  }, [])
+    };
+  }, []);
   // useEffect(() => {
   //   console.log(fetchedMedia);
   // }, [fetchedMedia]);
@@ -604,55 +612,49 @@ const FileManager = () => {
       }
     });
   };
-  const addMedium = (newMedium) => {
+  const addMedium = newMedium => {
     console.log(newMedium);
-    setUploadedQueue((prevUploadedQueue) => {
-      return [
-        newMedium,
-        ...prevUploadedQueue
-      ]
+    setUploadedQueue(prevUploadedQueue => {
+      return [newMedium, ...prevUploadedQueue];
     });
-  }
-  const handleDropUpload = (e) => {
+  };
+  const handleDropUpload = e => {
     const dataTransfer = e.dataTransfer;
     const files = dataTransfer.files;
     document.body.classList.remove('dragEnter');
     handleUpload(files);
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
   };
-  const handleInputUpload = (e) => {
+  const handleInputUpload = e => {
     const target = e.target;
     const files = target.files;
     handleUpload(files);
     // console.log(e.target.files);
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
   };
-  const handleUpload = (files) => {
+  const handleUpload = files => {
     const newQueue = [];
     Array.from(files).forEach(file => {
       newQueue.push(
         <UploadingElement key={Date.now()} file={file} onComplete={addMedium} />
       );
     });
-    setUploadingQueue((prevUploadingQueue) => {
-      return [
-        ...prevUploadingQueue,
-        ...newQueue
-      ]
+    setUploadingQueue(prevUploadingQueue => {
+      return [...prevUploadingQueue, ...newQueue];
     });
-  }
-  const handleDragEnter = (e) => {
+  };
+  const handleDragEnter = e => {
     document.body.classList.add('dragEnter');
     e.preventDefault();
     e.stopPropagation();
   };
-  const handleDragOver = (e) => {
+  const handleDragOver = e => {
     e.preventDefault();
     e.stopPropagation();
   };
-  const handleDragLeave = (e) => {
+  const handleDragLeave = e => {
     if (e.target === document.body) {
       document.body.classList.remove('dragEnter');
     }
@@ -660,10 +662,8 @@ const FileManager = () => {
     e.stopPropagation();
   };
   return (
-    <div className={`w3-stretch fileManager`}
-      ref={setFileManagerEl}
-    >
-      <div className="dragFileOverlay"></div>
+    <div className={`w3-stretch fileManager`} ref={setFileManagerEl}>
+      <div className='dragFileOverlay'></div>
       <div className='search-bar w3-col s9'>
         <div className='w3-container'>
           {tags.length > 0 && (
@@ -673,7 +673,7 @@ const FileManager = () => {
                   <div
                     className={`w3-border w3-btn${
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
-                      } tag`}
+                    } tag`}
                     key={tag}
                     onClick={() => selectTag(tag)}
                   >
@@ -688,7 +688,8 @@ const FileManager = () => {
           </div>
           <div className='w3-col s6 w3-right-align'>
             <label className='w3-btn w3-blue upload-btn'>
-              {uiWordings['FileManager.UploadButton']} <input type='file' onChange={handleInputUpload} multiple />
+              {uiWordings['FileManager.UploadButton']}{' '}
+              <input type='file' onChange={handleInputUpload} multiple />
             </label>
           </div>
         </div>
@@ -696,66 +697,21 @@ const FileManager = () => {
       <div className={`w3-col s9 media-list`}>
         <div className='w3-container'>
           <div className='w3-row-padding w3-section w3-stretch media'>
-            {uploadingQueue && uploadingQueue.map((el) => el)}
+            {uploadingQueue && uploadingQueue.map(el => el)}
             {/* <UploadingElement uploadedPercent={30} /> */}
             {/* copy of the normal media list */}
-            {uploadedQueue && uploadedQueue.map((medium, idx) => {
-              return (
-                // https://stackoverflow.com/a/25926600
-                <div
-                  key={idx}
-                  className={`w3-col s3 medium-item${
-                    selectedTag.length === 0 ||
-                      medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
-                      ? ''
-                      : ' hidden'
-                    }${idx === selectedFile ? ' selected' : ''}`}
-                  // onClick={() => setSelectedFile(medium['src'])}
-                  onClick={() =>
-                    selectedFile === idx
-                      ? setSelectedFile(-1)
-                      : setSelectedFile(idx)
-                  }
-                  onDoubleClick={() => returnFileUrl(medium)}
-                >
-                  <div className='medium-wrapper'>
-                    {
-                      {
-                        IMAGE: (
-                          <img
-                            className='media-preview'
-                            src={medium['url']}
-                            alt={medium['alt']}
-                          />
-                        ),
-                        VIDEO: (
-                          <video
-                            className='media-preview'
-                            src={medium['url']}
-                            alt={medium['alt']}
-                            preload='metadata'
-                          />
-                        ),
-                        AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
-                        PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
-                      }[medium['type']]
-                    }
-                  </div>
-                </div>
-              );
-            })}
-            {fetchedMedia && fetchedMedia.map((medium, idx) => {
-              if (medium['type'] === paramsToType[mediaType]) {
+            {uploadedQueue &&
+              uploadedQueue.map((medium, idx) => {
                 return (
                   // https://stackoverflow.com/a/25926600
                   <div
                     key={idx}
                     className={`w3-col s3 medium-item${
                       selectedTag.length === 0 ||
-                        medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
+                      medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
                         ? ''
                         : ' hidden'
-                      }${idx === selectedFile ? ' selected' : ''}`}
+                    }${idx === selectedFile ? ' selected' : ''}`}
                     // onClick={() => setSelectedFile(medium['src'])}
                     onClick={() =>
                       selectedFile === idx
@@ -789,10 +745,57 @@ const FileManager = () => {
                     </div>
                   </div>
                 );
-              } else {
-                return null;
-              }
-            })}
+              })}
+            {fetchedMedia &&
+              fetchedMedia.map((medium, idx) => {
+                if (medium['type'] === paramsToType[mediaType]) {
+                  return (
+                    // https://stackoverflow.com/a/25926600
+                    <div
+                      key={idx}
+                      className={`w3-col s3 medium-item${
+                        selectedTag.length === 0 ||
+                        medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
+                          ? ''
+                          : ' hidden'
+                      }${idx === selectedFile ? ' selected' : ''}`}
+                      // onClick={() => setSelectedFile(medium['src'])}
+                      onClick={() =>
+                        selectedFile === idx
+                          ? setSelectedFile(-1)
+                          : setSelectedFile(idx)
+                      }
+                      onDoubleClick={() => returnFileUrl(medium)}
+                    >
+                      <div className='medium-wrapper'>
+                        {
+                          {
+                            IMAGE: (
+                              <img
+                                className='media-preview'
+                                src={medium['url']}
+                                alt={medium['alt']}
+                              />
+                            ),
+                            VIDEO: (
+                              <video
+                                className='media-preview'
+                                src={medium['url']}
+                                alt={medium['alt']}
+                                preload='metadata'
+                              />
+                            ),
+                            AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
+                            PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
+                          }[medium['type']]
+                        }
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return null;
+                }
+              })}
           </div>
         </div>
       </div>
@@ -808,15 +811,15 @@ const FileManager = () => {
                     image: (
                       <img
                         className='media-preview'
-                        src={media[selectedFile]['url']}
-                        alt={media[selectedFile]['alt']}
+                        src={fetchedMedia[selectedFile]['url']}
+                        alt={fetchedMedia[selectedFile]['alt']}
                       />
                     ),
                     video: (
                       <video
                         className='media-preview'
-                        src={media[selectedFile]['url']}
-                        alt={media[selectedFile]['alt']}
+                        src={fetchedMedia[selectedFile]['url']}
+                        alt={fetchedMedia[selectedFile]['alt']}
                         controls
                         controlsList='nodownload'
                         disablePictureInPicture
@@ -825,8 +828,8 @@ const FileManager = () => {
                     audio: (
                       <audio
                         className='media-preview'
-                        src={media[selectedFile]['url']}
-                        alt={media[selectedFile]['alt']}
+                        src={fetchedMedia[selectedFile]['url']}
+                        alt={fetchedMedia[selectedFile]['alt']}
                         controls
                         controlsList='nodownload'
                       />
@@ -836,36 +839,39 @@ const FileManager = () => {
                         <i class='fa fa-file-pdf-o fa-2x'></i>
                       </div>
                     )
-                  }[media[selectedFile]['type']]
+                  }[fetchedMedia[selectedFile]['type']]
                 }
               </div>
               <div className='w3-row w3-section'>
                 <MyLabel message='Media Url' />
                 <a
-                  href={media[selectedFile]['url']}
+                  href={fetchedMedia[selectedFile]['url']}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='w3-bar w3-button w3-white w3-border media-link'
                 >
-                  {media[selectedFile]['url']}
+                  {fetchedMedia[selectedFile]['url']}
                 </a>
               </div>
               <LabelInputTextPair
                 labelMessage='Name'
                 name='name'
                 isHalf={false}
-                value={media[selectedFile]['name']}
-              // onChange direct update
+                value={fetchedMedia[selectedFile]['name']}
+                // onChange direct update
               />
               <LabelInputTextPair
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
-                value={media[selectedFile]['alt']}
-              // onChange direct update
+                value={fetchedMedia[selectedFile]['alt']}
+                // onChange direct update
               />
             </div>
-            <div className='select-btn w3-btn w3-blue' onClick={() => returnFileUrl(media[selectedFile])}>
+            <div
+              className='select-btn w3-btn w3-blue'
+              onClick={() => returnFileUrl(fetchedMedia[selectedFile])}
+            >
               {uiWordings['FileManager.SelectFile']}
             </div>
           </>
