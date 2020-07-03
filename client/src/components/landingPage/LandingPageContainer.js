@@ -3,7 +3,7 @@ import TitlebarContext from 'contexts/titlebar/titlebarContext';
 import LandingPageState from 'contexts/landingPage/LandingPageState';
 import uiWordings from 'globals/uiWordings';
 
-const ArtistsPageContainer = ({ children }) => {
+const LandingPageContainer = ({ children }) => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
 
   // componentDidMount
@@ -22,4 +22,4 @@ const ArtistsPageContainer = ({ children }) => {
   );
 };
 
-export default ArtistsPageContainer;
+export default LandingPageContainer;

@@ -185,8 +185,8 @@ const FileUpload = ({
 
   const onAddButtonClick = useCallback(
     _ => {
-      window.getMediaData = ({ file }) => {
-        console.log(file);
+      window.getMediaData = ({ additionalCallbackParam, medium }) => {
+        console.log(medium);
         window.getMediaData = null;
       };
 
