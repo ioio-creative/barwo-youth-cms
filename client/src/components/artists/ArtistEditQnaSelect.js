@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback /*, useEffect*/ } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
-import InputText from 'components/form/InputText';
+import TextArea from 'components/form/TextArea';
 import uiWordings from 'globals/uiWordings';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
@@ -32,7 +32,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 const getListStyle = isDraggingOver => ({
   ...LabelSortableListPair.getListStyleDefault(isDraggingOver),
-  width: 450
+  width: 650
 });
 
 /* end of constants */
@@ -97,7 +97,7 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
           <div className='w3-col m11'>
             <div className='w3-row'>
               <div className='w3-col m6'>
-                <InputText
+                <TextArea
                   className='w3-margin-right'
                   name='question_tc'
                   value={question_tc}
@@ -109,7 +109,7 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
                 />
               </div>
               <div className='w3-col m6'>
-                <InputText
+                <TextArea
                   className='w3-margin-right'
                   name='answer_tc'
                   value={answer_tc}
@@ -121,7 +121,7 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
             </div>
             <div className='w3-row'>
               <div className='w3-col m6'>
-                <InputText
+                <TextArea
                   className='w3-margin-right'
                   name='question_sc'
                   value={question_sc}
@@ -133,7 +133,7 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
                 />
               </div>
               <div className='w3-col m6'>
-                <InputText
+                <TextArea
                   className='w3-margin-right'
                   name='answer_sc'
                   value={answer_sc}
@@ -145,7 +145,7 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
             </div>
             <div className='w3-row'>
               <div className='w3-col m6'>
-                <InputText
+                <TextArea
                   className='w3-margin-right'
                   name='question_en'
                   value={question_en}
@@ -157,7 +157,7 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
                 />
               </div>
               <div className='w3-col m6'>
-                <InputText
+                <TextArea
                   className='w3-margin-right'
                   name='answer_en'
                   value={answer_en}
