@@ -1,25 +1,31 @@
-import React, { useMemo, useCallback /*, useEffect*/ } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { generatePath } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import InputText from 'components/form/InputText';
 import uiWordings from 'globals/uiWordings';
+import routes from 'globals/routes';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
-//import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import guid from 'utils/guid';
+import Medium from 'models/medium';
+
+/* globals */
+
+const defaultMediumFileType = Medium.mediumTypes.IMAGE;
+let mediumFileType = defaultMediumFileType;
+
+/* end of globals */
 
 /* constants */
 
-const emptyScenaristForAdd = {
-  name_tc: '',
-  name_sc: '',
-  name_en: ''
-};
+const emptyFileForAdd = {};
 
-const mapScenaristToListItem = scenarist => {
+const mapFileToListItem = file => {
   return {
-    ...scenarist,
-    draggableId: scenarist.draggableId || scenarist._id || guid()
+    ...file,
+    draggableId: file.draggableId || file._id || guid()
   };
 };
 
@@ -36,12 +42,12 @@ const getListStyle = isDraggingOver => ({
 
 /* item */
 
-const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
-    newScenarist => {
-      handleItemChange(newScenarist, index);
+    newFile => {
+      handleItemChange(newFile, index);
     },
     [handleItemChange, index]
   );
@@ -50,13 +56,13 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 
   const onChange = useCallback(
     e => {
-      const newScenarist = {
-        ...scenarist,
+      const newFile = {
+        ...file,
         [e.target.name]: e.target.value
       };
-      dealWithItemChange(newScenarist);
+      dealWithItemChange(newFile);
     },
-    [scenarist, dealWithItemChange]
+    [file, dealWithItemChange]
   );
 
   const onRemoveButtonClick = useCallback(
@@ -68,7 +74,7 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 
   /* end of event handlers */
 
-  const { name_tc, name_sc, name_en, draggableId } = scenarist;
+  const { draggableId } = file;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -83,44 +89,35 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
             provided.draggableProps.style
           )}
         >
-          <div className='w3-col m11 w3-row'>
+          {/* <div className='w3-col m11 w3-row'>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='name_tc'
-                value={name_tc}
+                name='scenarist_tc'
+                value={scenarist_tc}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameTcPlaceholder']
-                }
-                required={true}
+                placeholder={uiWordings['EventEdit.Scenarist.NameTcPlaceholder']}
               />
             </div>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='name_sc'
-                value={name_sc}
+                name='scenarist_sc'
+                value={scenarist_sc}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameScPlaceholder']
-                }
-                required={true}
+                placeholder={uiWordings['EventEdit.Scenarist.NameScPlaceholder']}
               />
             </div>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='name_en'
-                value={name_en}
+                name='scenarist_en'
+                value={scenarist_en}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameEnPlaceholder']
-                }
-                required={true}
+                placeholder={uiWordings['EventEdit.Scenarist.NameEnPlaceholder']}
               />
             </div>
-          </div>
+          </div> */}
           <div className='w3-right'>
             {isFunction(handleItemRemoved) ? (
               <LabelSortableListPair.ItemRemoveButton
@@ -135,13 +132,13 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...scenarist },
+  { handleItemRemoved, handleItemChange, ...file },
   index
 ) => {
   return (
     <Item
       key={index}
-      scenarist={scenarist}
+      file={file}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -151,74 +148,85 @@ const itemRender = (
 
 /* end of item */
 
-const EventEditScenaristSelect = ({ scenarists, onGetScenarists }) => {
-  const scenaristsInPickedList = useMemo(
+const FileUpload = ({
+  name,
+  labelMessage,
+  files,
+  onGetFiles,
+  mediumType,
+  isMultiple
+}) => {
+  const filesInPickedList = useMemo(
     _ => {
-      return getArraySafe(scenarists).map(mapScenaristToListItem);
+      return getArraySafe(files).map(mapFileToListItem);
     },
-    [scenarists]
+    [files]
   );
 
   /* methods */
 
-  const dealWithGetScenarists = useCallback(
+  const dealWithGetFiles = useCallback(
     newItemList => {
-      onGetScenarists(newItemList);
+      onGetFiles(newItemList);
     },
-    [onGetScenarists]
+    [onGetFiles]
   );
 
-  const addScenarist = useCallback(
+  const addFile = useCallback(
     _ => {
-      dealWithGetScenarists([
-        ...getArraySafe(scenarists),
-        emptyScenaristForAdd
-      ]);
+      dealWithGetFiles([...getArraySafe(files), emptyFileForAdd]);
     },
-    [scenarists, dealWithGetScenarists]
+    [files, dealWithGetFiles]
   );
 
   /* end of methods */
-
-  // // scenarists
-  // useEffect(
-  //   _ => {
-  //     if (!isNonEmptyArray(scenarists)) {
-  //       addScenarist();
-  //     }
-  //   },
-  //   [scenarists, addScenarist]
-  // );
 
   /* event handlers */
 
   const onAddButtonClick = useCallback(
     _ => {
-      addScenarist();
+      window.getMediaData = ({ file }) => {
+        console.log(file);
+        window.getMediaData = null;
+      };
+
+      window.open(
+        generatePath(routes.fileManager, {
+          fileType: mediumType.apiRoute
+        })
+      );
+
+      //addFile();
     },
-    [addScenarist]
+    [addFile, mediumType]
   );
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      dealWithGetScenarists(newItemList);
+      dealWithGetFiles(newItemList);
     },
-    [dealWithGetScenarists]
+    [dealWithGetFiles]
   );
 
   /* end of event handlers */
 
   return (
     <LabelSortableListPair
-      name='scenarists'
-      labelMessage={uiWordings['Event.ScenaristsLabel']}
+      name={name}
+      labelMessage={labelMessage}
       pickedItemRender={itemRender}
       getListStyle={getListStyle}
-      pickedItems={scenaristsInPickedList}
+      pickedItems={filesInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
 };
 
-export default EventEditScenaristSelect;
+FileUpload.defaultProps = {
+  name: 'files',
+  mediumType: defaultMediumFileType,
+  isMultiple: false
+};
+
+export default FileUpload;

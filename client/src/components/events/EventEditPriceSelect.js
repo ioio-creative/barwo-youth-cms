@@ -10,16 +10,16 @@ import guid from 'utils/guid';
 
 /* constants */
 
-const emptyScenaristForAdd = {
-  name_tc: '',
-  name_sc: '',
-  name_en: ''
+const emptyPriceForAdd = {
+  price_tc: '',
+  price_sc: '',
+  price_en: ''
 };
 
-const mapScenaristToListItem = scenarist => {
+const mapPriceToListItem = price => {
   return {
-    ...scenarist,
-    draggableId: scenarist.draggableId || scenarist._id || guid()
+    ...price,
+    draggableId: price.draggableId || price._id || guid()
   };
 };
 
@@ -36,12 +36,12 @@ const getListStyle = isDraggingOver => ({
 
 /* item */
 
-const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({ price, handleItemRemoved, handleItemChange, index }) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
-    newScenarist => {
-      handleItemChange(newScenarist, index);
+    newPrice => {
+      handleItemChange(newPrice, index);
     },
     [handleItemChange, index]
   );
@@ -50,13 +50,13 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 
   const onChange = useCallback(
     e => {
-      const newScenarist = {
-        ...scenarist,
+      const newPrice = {
+        ...price,
         [e.target.name]: e.target.value
       };
-      dealWithItemChange(newScenarist);
+      dealWithItemChange(newPrice);
     },
-    [scenarist, dealWithItemChange]
+    [price, dealWithItemChange]
   );
 
   const onRemoveButtonClick = useCallback(
@@ -68,7 +68,7 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 
   /* end of event handlers */
 
-  const { name_tc, name_sc, name_en, draggableId } = scenarist;
+  const { price_tc, price_sc, price_en, draggableId } = price;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -87,36 +87,30 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='name_tc'
-                value={name_tc}
+                name='price_tc'
+                value={price_tc}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameTcPlaceholder']
-                }
+                placeholder={uiWordings['EventEdit.Price.PriceTcPlaceholder']}
                 required={true}
               />
             </div>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='name_sc'
-                value={name_sc}
+                name='price_sc'
+                value={price_sc}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameScPlaceholder']
-                }
+                placeholder={uiWordings['EventEdit.Price.PriceScPlaceholder']}
                 required={true}
               />
             </div>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='name_en'
-                value={name_en}
+                name='price_en'
+                value={price_en}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameEnPlaceholder']
-                }
+                placeholder={uiWordings['EventEdit.Price.PriceEnPlaceholder']}
                 required={true}
               />
             </div>
@@ -135,13 +129,13 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...scenarist },
+  { handleItemRemoved, handleItemChange, ...price },
   index
 ) => {
   return (
     <Item
       key={index}
-      scenarist={scenarist}
+      price={price}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -151,74 +145,71 @@ const itemRender = (
 
 /* end of item */
 
-const EventEditScenaristSelect = ({ scenarists, onGetScenarists }) => {
-  const scenaristsInPickedList = useMemo(
+const EventEditPriceSelect = ({ prices, onGetPrices }) => {
+  const pricesInPickedList = useMemo(
     _ => {
-      return getArraySafe(scenarists).map(mapScenaristToListItem);
+      return getArraySafe(prices).map(mapPriceToListItem);
     },
-    [scenarists]
+    [prices]
   );
 
   /* methods */
 
-  const dealWithGetScenarists = useCallback(
+  const dealWithGetPrices = useCallback(
     newItemList => {
-      onGetScenarists(newItemList);
+      onGetPrices(newItemList);
     },
-    [onGetScenarists]
+    [onGetPrices]
   );
 
-  const addScenarist = useCallback(
+  const addPrice = useCallback(
     _ => {
-      dealWithGetScenarists([
-        ...getArraySafe(scenarists),
-        emptyScenaristForAdd
-      ]);
+      dealWithGetPrices([...getArraySafe(prices), emptyPriceForAdd]);
     },
-    [scenarists, dealWithGetScenarists]
+    [prices, dealWithGetPrices]
   );
 
   /* end of methods */
 
-  // // scenarists
+  // // prices
   // useEffect(
   //   _ => {
-  //     if (!isNonEmptyArray(scenarists)) {
-  //       addScenarist();
+  //     if (!isNonEmptyArray(prices)) {
+  //       addPrice();
   //     }
   //   },
-  //   [scenarists, addScenarist]
+  //   [prices, addPrice]
   // );
 
   /* event handlers */
 
   const onAddButtonClick = useCallback(
     _ => {
-      addScenarist();
+      addPrice();
     },
-    [addScenarist]
+    [addPrice]
   );
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      dealWithGetScenarists(newItemList);
+      dealWithGetPrices(newItemList);
     },
-    [dealWithGetScenarists]
+    [dealWithGetPrices]
   );
 
   /* end of event handlers */
 
   return (
     <LabelSortableListPair
-      name='scenarists'
-      labelMessage={uiWordings['Event.ScenaristsLabel']}
+      name='prices'
+      labelMessage={uiWordings['Event.PricesLabel']}
       pickedItemRender={itemRender}
       getListStyle={getListStyle}
-      pickedItems={scenaristsInPickedList}
+      pickedItems={pricesInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
 };
 
-export default EventEditScenaristSelect;
+export default EventEditPriceSelect;

@@ -178,6 +178,7 @@ const UsersState = ({ children }) => {
   const clearUsersErrors = useCallback(_ => {
     dispatch({ type: CLEAR_USERS_ERRORS });
   }, []);
+  console.log(state.usersErrors);
 
   return (
     <UsersContext.Provider

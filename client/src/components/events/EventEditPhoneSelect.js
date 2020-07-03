@@ -10,16 +10,17 @@ import guid from 'utils/guid';
 
 /* constants */
 
-const emptyScenaristForAdd = {
-  name_tc: '',
-  name_sc: '',
-  name_en: ''
+const emptyPhoneForAdd = {
+  label_tc: '',
+  label_sc: '',
+  label_en: '',
+  phone: ''
 };
 
-const mapScenaristToListItem = scenarist => {
+const mapPhoneToListItem = phone => {
   return {
-    ...scenarist,
-    draggableId: scenarist.draggableId || scenarist._id || guid()
+    ...phone,
+    draggableId: phone.draggableId || phone._id || guid()
   };
 };
 
@@ -29,19 +30,19 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 const getListStyle = isDraggingOver => ({
   ...LabelSortableListPair.getListStyleDefault(isDraggingOver),
-  width: 500
+  width: 650
 });
 
 /* end of constants */
 
 /* item */
 
-const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({ phone, handleItemRemoved, handleItemChange, index }) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
-    newScenarist => {
-      handleItemChange(newScenarist, index);
+    newPhone => {
+      handleItemChange(newPhone, index);
     },
     [handleItemChange, index]
   );
@@ -50,13 +51,13 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 
   const onChange = useCallback(
     e => {
-      const newScenarist = {
-        ...scenarist,
+      const newPhone = {
+        ...phone,
         [e.target.name]: e.target.value
       };
-      dealWithItemChange(newScenarist);
+      dealWithItemChange(newPhone);
     },
-    [scenarist, dealWithItemChange]
+    [phone, dealWithItemChange]
   );
 
   const onRemoveButtonClick = useCallback(
@@ -68,7 +69,7 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 
   /* end of event handlers */
 
-  const { name_tc, name_sc, name_en, draggableId } = scenarist;
+  const { label_tc, label_sc, label_en, phone: phoneNum, draggableId } = phone;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -84,39 +85,43 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
           )}
         >
           <div className='w3-col m11 w3-row'>
-            <div className='w3-col m4'>
+            <div className='w3-col m3'>
               <InputText
                 className='w3-margin-right'
-                name='name_tc'
-                value={name_tc}
+                name='label_tc'
+                value={label_tc}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameTcPlaceholder']
-                }
+                placeholder={uiWordings['EventEdit.Phone.LabelTcPlaceholder']}
                 required={true}
               />
             </div>
-            <div className='w3-col m4'>
+            <div className='w3-col m3'>
               <InputText
                 className='w3-margin-right'
-                name='name_sc'
-                value={name_sc}
+                name='label_sc'
+                value={label_sc}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameScPlaceholder']
-                }
+                placeholder={uiWordings['EventEdit.Phone.LabelScPlaceholder']}
                 required={true}
               />
             </div>
-            <div className='w3-col m4'>
+            <div className='w3-col m3'>
               <InputText
                 className='w3-margin-right'
-                name='name_en'
-                value={name_en}
+                name='label_en'
+                value={label_en}
                 onChange={onChange}
-                placeholder={
-                  uiWordings['EventEdit.Scenarist.NameEnPlaceholder']
-                }
+                placeholder={uiWordings['EventEdit.Phone.LabelEnPlaceholder']}
+                required={true}
+              />
+            </div>
+            <div className='w3-col m3'>
+              <InputText
+                className='w3-margin-right'
+                name='phone'
+                value={phoneNum}
+                onChange={onChange}
+                placeholder={uiWordings['EventEdit.Phone.PhonePlaceholder']}
                 required={true}
               />
             </div>
@@ -135,13 +140,13 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...scenarist },
+  { handleItemRemoved, handleItemChange, ...phone },
   index
 ) => {
   return (
     <Item
       key={index}
-      scenarist={scenarist}
+      phone={phone}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -151,74 +156,71 @@ const itemRender = (
 
 /* end of item */
 
-const EventEditScenaristSelect = ({ scenarists, onGetScenarists }) => {
-  const scenaristsInPickedList = useMemo(
+const EventEditPhoneSelect = ({ phones, onGetPhones }) => {
+  const phonesInPickedList = useMemo(
     _ => {
-      return getArraySafe(scenarists).map(mapScenaristToListItem);
+      return getArraySafe(phones).map(mapPhoneToListItem);
     },
-    [scenarists]
+    [phones]
   );
 
   /* methods */
 
-  const dealWithGetScenarists = useCallback(
+  const dealWithGetPhones = useCallback(
     newItemList => {
-      onGetScenarists(newItemList);
+      onGetPhones(newItemList);
     },
-    [onGetScenarists]
+    [onGetPhones]
   );
 
-  const addScenarist = useCallback(
+  const addPhone = useCallback(
     _ => {
-      dealWithGetScenarists([
-        ...getArraySafe(scenarists),
-        emptyScenaristForAdd
-      ]);
+      dealWithGetPhones([...getArraySafe(phones), emptyPhoneForAdd]);
     },
-    [scenarists, dealWithGetScenarists]
+    [phones, dealWithGetPhones]
   );
 
   /* end of methods */
 
-  // // scenarists
+  // // phones
   // useEffect(
   //   _ => {
-  //     if (!isNonEmptyArray(scenarists)) {
-  //       addScenarist();
+  //     if (!isNonEmptyArray(phones)) {
+  //       addPhone();
   //     }
   //   },
-  //   [scenarists, addScenarist]
+  //   [phones, addPhone]
   // );
 
   /* event handlers */
 
   const onAddButtonClick = useCallback(
     _ => {
-      addScenarist();
+      addPhone();
     },
-    [addScenarist]
+    [addPhone]
   );
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      dealWithGetScenarists(newItemList);
+      dealWithGetPhones(newItemList);
     },
-    [dealWithGetScenarists]
+    [dealWithGetPhones]
   );
 
   /* end of event handlers */
 
   return (
     <LabelSortableListPair
-      name='scenarists'
-      labelMessage={uiWordings['Event.ScenaristsLabel']}
+      name='phones'
+      labelMessage={uiWordings['Event.PhonesLabel']}
       pickedItemRender={itemRender}
       getListStyle={getListStyle}
-      pickedItems={scenaristsInPickedList}
+      pickedItems={phonesInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
 };
 
-export default EventEditScenaristSelect;
+export default EventEditPhoneSelect;

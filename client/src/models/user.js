@@ -58,6 +58,10 @@ User.usersResponseTypes = {
     type: 'NAME_ALREADY_EXISTS',
     msg: 'NAME_ALREADY_EXISTS'
   },
+  PASSWORD_CHANGE_OLD_PASSWORD_INVALID: {
+    type: 'PASSWORD_CHANGE_OLD_PASSWORD_INVALID',
+    msg: 'PASSWORD_CHANGE_OLD_PASSWORD_INVALID'
+  },
 
   // general
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,

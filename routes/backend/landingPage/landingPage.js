@@ -16,6 +16,26 @@ const landingPopulationList = [
   {
     path: 'lastModifyUser',
     select: 'name'
+  },
+  {
+    path: 'featuredVideo',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
+  },
+  {
+    path: 'featuredVideo2',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
   }
 ];
 

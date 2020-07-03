@@ -83,6 +83,7 @@ const TestFileUpload = _ => {
   const onGetMedia = _ => {
     getMedia(Medium.mediumTypes.IMAGE, {
       // page,
+      // limit,
       // sortOrder,
       // sortBy,
       // filterText

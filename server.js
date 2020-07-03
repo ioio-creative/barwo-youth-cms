@@ -30,10 +30,10 @@ app.use(function (req, res, next) {
 // backend apis
 app.use('/api/backend/auth/auth', require('./routes/backend/auth/auth'));
 app.use('/api/backend/users/users', require('./routes/backend/users/users'));
-// app.use(
-//   '/api/backend/users/editPassword',
-//   require('./routes/backend/users/editPassword')
-// );
+app.use(
+  '/api/backend/users/editPassword',
+  require('./routes/backend/users/editPassword')
+);
 app.use(
   '/api/backend/artists/artists',
   require('./routes/backend/artists/artists')

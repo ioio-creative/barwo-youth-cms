@@ -67,12 +67,7 @@ export default {
   'Artist.DescTcLabel': 'Desc TC',
   'Artist.DescScLabel': 'Desc SC',
   'Artist.DescEnLabel': 'Desc EN',
-  'Artist.QuestionTcLabel': 'Question TC',
-  'Artist.QuestionScLabel': 'Question SC',
-  'Artist.QuestionEnLabel': 'Question En',
-  'Artist.AnswerTcLabel': 'Answer TC',
-  'Artist.AnswerScLabel': 'Answer SC',
-  'Artist.AnswerEnLabel': 'Answer EN',
+  'Artist.QnasLabel': 'Q & As',
   'Artist.CreateDTLabel': 'Create DT',
   'Artist.LastModifyDTLabel': 'Last Modify DT',
   'Artist.LastModifyUserLabel': 'Last Modify User',
@@ -91,6 +86,13 @@ export default {
   'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
   'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated',
 
+  'ArtistEdit.Qna.QuestionTcPlaceholder': 'Question TC',
+  'ArtistEdit.Qna.AnswerTcPlaceholder': 'Answer TC',
+  'ArtistEdit.Qna.QuestionScPlaceholder': 'Question SC',
+  'ArtistEdit.Qna.AnswerScPlaceholder': 'Answer SC',
+  'ArtistEdit.Qna.QuestionEnPlaceholder': 'Question EN',
+  'ArtistEdit.Qna.AnswerEnPlaceholder': 'Answer EN',
+
   'Events.Title': 'Events',
 
   'Event.LabelLabel': 'Label',
@@ -100,12 +102,9 @@ export default {
   'Event.ArtDirectorsLabel': 'Art Directors',
   'Event.ShowsLabel': 'Shows',
   'Event.ScenaristsLabel': 'Scenarists',
-  'Event.WriterTcLabel': 'Writer TC',
-  'Event.WriterScLabel': 'Writer SC',
-  'Event.WriterEnLabel': 'Writer EN',
-  'Event.HeadingTcLabel': 'Heading TC',
-  'Event.HeadingScLabel': 'Heading SC',
-  'Event.HeadingEnLabel': 'Heading EN',
+  'Event.DescHeadlineTcLabel': 'Desc Headline TC',
+  'Event.DescHeadlineScLabel': 'Desc Headline SC',
+  'Event.DescHeadlineEnLabel': 'Desc Headline EN',
   'Event.DescTcLabel': 'Desc TC',
   'Event.DescScLabel': 'Desc SC',
   'Event.DescEnLabel': 'Desc EN',
@@ -122,7 +121,7 @@ export default {
   'Event.PriceRemarksTcLabel': 'Price Remarks TC',
   'Event.PriceRemarksScLabel': 'Price Remarks SC',
   'Event.PriceRemarksEnLabel': 'Price Remarks EN',
-  'Event.PhoneLabel': 'Phone',
+  'Event.PhonesLabel': 'Phones',
   'Event.TicketUrlLabel': 'Ticket Url',
   'Event.ThemeColorLabel': 'Theme Color',
   'Event.CreateDTLabel': 'Create DT',
@@ -149,9 +148,20 @@ export default {
   'EventEdit.Artist.RoleEnPlaceholder': 'Role EN',
   'EventEdit.Artist.ArtistPlaceholder': 'Select Artist...',
 
-  'EventEdit.Scenarist.TcPlaceholder': 'Scenarist TC',
-  'EventEdit.Scenarist.ScPlaceholder': 'Scenarist SC',
-  'EventEdit.Scenarist.EnPlaceholder': 'Scenarist EN',
+  'EventEdit.Scenarist.NameTcPlaceholder': 'Name TC',
+  'EventEdit.Scenarist.NameScPlaceholder': 'Name SC',
+  'EventEdit.Scenarist.NameEnPlaceholder': 'Name EN',
+
+  'EventEdit.Price.PriceTcPlaceholder': 'Price TC',
+  'EventEdit.Price.PriceScPlaceholder': 'Price SC',
+  'EventEdit.Price.PriceEnPlaceholder': 'Price EN',
+
+  'EventEdit.Phone.LabelTcPlaceholder': 'Label TC',
+  'EventEdit.Phone.LabelScPlaceholder': 'Label SC',
+  'EventEdit.Phone.LabelEnPlaceholder': 'Label EN',
+  'EventEdit.Phone.PhonePlaceholder': 'Phone',
+
+  'EventEdit.Ticket.Title': 'Ticketing',
 
   'PhaseEdit.Show.SelectDatePlaceholder': 'Click to select date',
 
@@ -186,6 +196,8 @@ export default {
   'PhaseEdit.SelectToDatePlaceholder': 'Click to select date',
 
   'LandingPage.Title': 'Landing Page',
+  'LandingPage.FeaturedVideoLabel': 'Featured Video',
+  'LandingPage.FeaturedVideo2Label': 'Featured Video 2',
   'LandingPage.LastModifyDTLabel': 'Last Modify DT',
   'LandingPage.LastModifyUserLabel': 'Last Modify User',
 
@@ -193,5 +205,6 @@ export default {
   'LandingPageEdit.UpdateLandingPageSubmit': 'Update Landing Page',
   'LandingPageEdit.UpdateLandingPageSuccessMessage': 'Landing Page Updated',
 
-  'FileManager.SelectFile': 'Select File'
+  'FileManager.SelectFile': 'Select File',
+  'FileManager.UploadButton': 'Upload'
 };

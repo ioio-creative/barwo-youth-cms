@@ -672,7 +672,7 @@ const FileManager = () => {
           </div>
           <div className='w3-col s6 w3-right-align'>
             <label className='w3-btn w3-blue upload-btn'>
-              upload <input type='file' onChange={handleInputUpload} multiple />
+              {uiWordings['FileManager.UploadButton']} <input type='file' onChange={handleInputUpload} multiple />
             </label>
           </div>
         </div>

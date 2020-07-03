@@ -1,35 +1,60 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const bcrypt = require('bcryptjs');
 const config = require('config');
 
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
-const {
-  generalErrorHandle,
-  duplicateKeyErrorHandle
-} = require('../../../utils/errorHandling');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { User, userResponseTypes } = require('../../../models/User');
+const hashPasswordInput = require('../../../../barwo-youth-cms/utils/password/hashPasswordInput');
 
-const hashPasswordInput = async passwordInput => {
-  const salt = await bcrypt.genSalt(10);
-  return await bcrypt.hash(passwordInput, salt);
+const userValidationChecks = [
+  check('password', userResponseTypes.PASSWORD_INVALID).isLength({
+    min: config.get('User.password.minLength')
+  }),
+  check('password1', userResponseTypes.PASSWORD_INVALID).isLength({
+    min: config.get('User.password.minLength')
+  })
+];
+
+const handleUserNameAndEmailDuplicateKeyError = (err, res) => {
+  let isErrorHandled = false;
+
+  isErrorHandled = handleUserEmailDuplicateKeyError(err, res);
+  if (isErrorHandled) {
+    return true;
+  }
+
+  isErrorHandled = handleUserNameDuplicateKeyError(err, res);
+  if (isErrorHandled) {
+    return true;
+  }
+
+  return false;
 };
 
 // @route   GET api/backend/users/users/editPassword/:_id
 // @desc    Update user
 // @access  Private
 router.put(
-  '/editPassword:_id',
-  [userValidationChecksForUpdateUser, validationHandling],
+  '/:_id',
+  [auth, userValidationChecks, validationHandling],
   async (req, res) => {
-    const { password } = req.body;
+    const { password, password1 } = req.body;
+    console.log(req.body);
 
-    // Build user object
+    // Check Old Password
     const userFields = {};
-    if (password) userFields.password = await hashPasswordInput(password);
-    userFields.lastModifyUser = req.user._id;
+    if (userFields.password === (await hashPasswordInput(password))) {
+      // Change Password
+      if (password1) userFields.password = await hashPasswordInput(password1);
+      userFields.lastModifyUser = req.user._id;
+    } else {
+      return res.status(403).json({
+        errors: [userResponseTypes.PASSWORD_CHANGE_OLD_PASSWORD_INVALID]
+      });
+    }
 
     try {
       let user = await User.findById(req.params._id);
@@ -44,6 +69,11 @@ router.put(
       );
 
       res.json(user);
+      // if (userFields.password !== (await hashPasswordInput(password))) {
+      //   return res.status(403).json({
+      //     errors: [userResponseTypes.PASSWORD_CHANGE_OLD_PASSWORD_INVALID]
+      //   });
+      // }
     } catch (err) {
       if (!handleUserNameAndEmailDuplicateKeyError(err, res)) {
         generalErrorHandle(err, res);
@@ -51,3 +81,5 @@ router.put(
     }
   }
 );
+
+module.exports = router;

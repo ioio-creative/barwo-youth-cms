@@ -73,6 +73,11 @@ const headers = [
     isSortEnabled: true
   },
   // {
+  //   name: uiWordings['Artist.QnasLabel'],
+  //   value: 'qnasDisplay',
+  //   isSortEnabled: false
+  // },
+  // {
   //   name: uiWordings['Artist.CreateDTLabel'],
   //   value: 'createDTDisplay',
   //   isSortEnabled: true

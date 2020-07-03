@@ -12,13 +12,9 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { User, userResponseTypes } = require('../../../models/User');
+const hashPasswordInput = require('../../../../barwo-youth-cms/utils/password/hashPasswordInput');
 
 /* utilites */
-
-const hashPasswordInput = async passwordInput => {
-  const salt = await bcrypt.genSalt(10);
-  return await bcrypt.hash(passwordInput, salt);
-};
 
 const userSelectForFindAll = {
   password: 0
