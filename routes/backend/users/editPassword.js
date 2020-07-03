@@ -1,18 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const bcrypt = require('bcryptjs');
 const config = require('config');
 
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { User, userResponseTypes } = require('../../../models/User');
-
-const hashPasswordInput = async passwordInput => {
-  const salt = await bcrypt.genSalt(10);
-  return await bcrypt.hash(passwordInput, salt);
-};
+const hashPasswordInput = require('../../../../barwo-youth-cms/utils/password/hashPasswordInput');
 
 const userValidationChecks = [
   check('password', userResponseTypes.PASSWORD_INVALID).isLength({
@@ -23,6 +18,22 @@ const userValidationChecks = [
   })
 ];
 
+const handleUserNameAndEmailDuplicateKeyError = (err, res) => {
+  let isErrorHandled = false;
+
+  isErrorHandled = handleUserEmailDuplicateKeyError(err, res);
+  if (isErrorHandled) {
+    return true;
+  }
+
+  isErrorHandled = handleUserNameDuplicateKeyError(err, res);
+  if (isErrorHandled) {
+    return true;
+  }
+
+  return false;
+};
+
 // @route   GET api/backend/users/users/editPassword/:_id
 // @desc    Update user
 // @access  Private
@@ -31,7 +42,7 @@ router.put(
   [auth, userValidationChecks, validationHandling],
   async (req, res) => {
     const { password, password1 } = req.body;
-    console.log(req.body, password, password1);
+    console.log(req.body);
 
     // Check Old Password
     const userFields = {};
@@ -58,6 +69,11 @@ router.put(
       );
 
       res.json(user);
+      // if (userFields.password !== (await hashPasswordInput(password))) {
+      //   return res.status(403).json({
+      //     errors: [userResponseTypes.PASSWORD_CHANGE_OLD_PASSWORD_INVALID]
+      //   });
+      // }
     } catch (err) {
       if (!handleUserNameAndEmailDuplicateKeyError(err, res)) {
         generalErrorHandle(err, res);
