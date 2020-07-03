@@ -46,6 +46,9 @@ const Navbar = ({ className }) => {
   const isPasswordChange = useRouteMatch(routes.editPassword);
   const isUserList = useRouteMatch(routes.userList(false));
   const isUserEdit = useRouteMatch(routes.userEditById);
+  const isGlobalConstantsEdit = useRouteMatch(
+    routes.globalConstantsEdit(false)
+  );
   const isLandingPageEdit = useRouteMatch(routes.landingPageEdit(false));
   const isPhaseList = useRouteMatch(routes.phaseList(false));
   const isPhaseEdit = useRouteMatch(routes.phaseEditById);
@@ -88,6 +91,13 @@ const Navbar = ({ className }) => {
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}
+      <NavbarLink
+        // className='w3-border-bottom'
+        to={routes.globalConstantsEdit(true)}
+        isSelected={isGlobalConstantsEdit}
+      >
+        {uiWordings['Navbar.GlobalConstants']}
+      </NavbarLink>
       <NavbarLink
         className='w3-border-bottom'
         to={routes.landingPageEdit(true)}

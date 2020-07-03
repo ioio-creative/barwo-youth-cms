@@ -62,6 +62,10 @@ app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );
+app.use(
+  '/api/backend/globalConstantsPage/globalConstantsPage',
+  require('./routes/backend/globalConstants/globalConstants')
+);
 // media api
 app.use('/api/backend/media', require('./routes/backend/media/media'));
 

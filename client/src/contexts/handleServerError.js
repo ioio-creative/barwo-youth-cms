@@ -10,10 +10,8 @@ const handleServerError = (err, dispatchType, dispatchFunc) => {
     err.response.data &&
     isNonEmptyArray(err.response.data.errors)
   ) {
-    console.log('here 1');
     dispatchContent.payload = err.response.data.errors;
   } else {
-    console.log('here2');
     console.error(err);
     //console.error(JSON.stringify(err, null, 2));
     let error = generalResponses.CLIENT_ERROR;
