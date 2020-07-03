@@ -6,10 +6,7 @@ const config = require('config');
 
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
-const {
-  generalErrorHandle,
-  duplicateKeyErrorHandle
-} = require('../../../utils/errorHandling');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { User, userResponseTypes } = require('../../../models/User');
 
 const hashPasswordInput = async passwordInput => {
@@ -38,13 +35,14 @@ router.put(
 
     // Check Old Password
     const userFields = {};
-    if ((userFields.password = await hashPasswordInput(password))) {
+    if (userFields.password === (await hashPasswordInput(password))) {
       // Change Password
       if (password1) userFields.password = await hashPasswordInput(password1);
       userFields.lastModifyUser = req.user._id;
     } else {
-      return res.status(403);
-      // .json({ errors: [userResponseTypes.USER_NOT_EXISTS] });
+      return res.status(403).json({
+        errors: [userResponseTypes.PASSWORD_CHANGE_OLD_PASSWORD_INVALID]
+      });
     }
 
     try {
