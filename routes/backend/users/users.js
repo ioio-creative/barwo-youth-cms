@@ -12,7 +12,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { User, userResponseTypes } = require('../../../models/User');
-const hashPasswordInput = require('../../../../barwo-youth-cms/utils/password/hashPasswordInput');
+const hashPasswordInput = require('../../../utils/password/hashPasswordInput');
 
 /* utilites */
 

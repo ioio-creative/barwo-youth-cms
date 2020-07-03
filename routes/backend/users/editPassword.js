@@ -7,7 +7,7 @@ const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { User, userResponseTypes } = require('../../../models/User');
-const hashPasswordInput = require('../../../../barwo-youth-cms/utils/password/hashPasswordInput');
+const hashPasswordInput = require('../../../utils/password/hashPasswordInput');
 
 const userValidationChecks = [
   check('password', userResponseTypes.PASSWORD_INVALID).isLength({
