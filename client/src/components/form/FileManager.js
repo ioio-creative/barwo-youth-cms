@@ -460,7 +460,8 @@ const tags = [];
 
 const UploadingElement = ({
   // uploadedPercent,
-  file
+  file,
+  onComplete
 }) => {
   const {
     addMedium
@@ -489,24 +490,32 @@ const UploadingElement = ({
     for (const pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
-    const newMedium = addMedium(Medium.mediumTypes.IMAGE, formData, {
+    const addMediumPromise = addMedium(Medium.mediumTypes.IMAGE, formData, {
       onUploadProgress: (event) => {
         setUploadedPercent(event.loaded / event.total * 100);
       }
+    })
+    addMediumPromise.then((newMedium) => {
+      onComplete(newMedium);
     });
-    console.log('newMedium:');
-    console.log(newMedium);
+    // console.log('newMedium:');
+    // console.log(newMedium);
   }, [file])
-  return <div className={`w3-col s3 medium-item uploading`}>
-    <div className='medium-wrapper'>
-      <i className="fa fa-upload fa-2x" />
-      <div className="progress-bar">
-        <div className="uploaded-progress w3-blue" style={{
-          width: uploadedPercent + '%'
-        }} />
-      </div>
-    </div>
-  </div>
+  return <>
+    {uploadedPercent < 100 ?
+      <div className={`w3-col s3 medium-item uploading`}>
+        <div className='medium-wrapper'>
+          <i className="fa fa-upload fa-2x" />
+          <div className="progress-bar">
+            <div className="uploaded-progress w3-blue" style={{
+              width: uploadedPercent + '%'
+            }} />
+          </div>
+        </div>
+      </div> :
+      null
+    }
+  </>
 }
 
 const FileManager = () => {
@@ -518,6 +527,7 @@ const FileManager = () => {
   const [dragEnter, setDragEnter] = useState(false);
 
   const [uploadingQueue, setUploadingQueue] = useState([]);
+  const [uploadedQueue, setUploadedQueue] = useState([]);
 
   const {
     media: fetchedMedia,
@@ -547,8 +557,8 @@ const FileManager = () => {
     document.addEventListener('drop', handleDropUpload, false);
     getMedia(Medium.mediumTypes.IMAGE, {
       // page,
-      // sortOrder: 'createDT desc',
-      // sortBy,
+      sortOrder: -1,
+      sortBy: 'createDT',
       // filterText
     })
     return () => {
@@ -595,7 +605,13 @@ const FileManager = () => {
     });
   };
   const addMedium = (newMedium) => {
-
+    console.log(newMedium);
+    setUploadedQueue((prevUploadedQueue) => {
+      return [
+        newMedium,
+        ...prevUploadedQueue
+      ]
+    });
   }
   const handleDropUpload = (e) => {
     const dataTransfer = e.dataTransfer;
@@ -617,7 +633,7 @@ const FileManager = () => {
     const newQueue = [];
     Array.from(files).forEach(file => {
       newQueue.push(
-        <UploadingElement file={file} />
+        <UploadingElement key={Date.now()} file={file} onComplete={addMedium} />
       );
     });
     setUploadingQueue((prevUploadingQueue) => {
@@ -682,6 +698,52 @@ const FileManager = () => {
           <div className='w3-row-padding w3-section w3-stretch media'>
             {uploadingQueue && uploadingQueue.map((el) => el)}
             {/* <UploadingElement uploadedPercent={30} /> */}
+            {/* copy of the normal media list */}
+            {uploadedQueue && uploadedQueue.map((medium, idx) => {
+              return (
+                // https://stackoverflow.com/a/25926600
+                <div
+                  key={idx}
+                  className={`w3-col s3 medium-item${
+                    selectedTag.length === 0 ||
+                      medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
+                      ? ''
+                      : ' hidden'
+                    }${idx === selectedFile ? ' selected' : ''}`}
+                  // onClick={() => setSelectedFile(medium['src'])}
+                  onClick={() =>
+                    selectedFile === idx
+                      ? setSelectedFile(-1)
+                      : setSelectedFile(idx)
+                  }
+                  onDoubleClick={() => returnFileUrl(medium)}
+                >
+                  <div className='medium-wrapper'>
+                    {
+                      {
+                        IMAGE: (
+                          <img
+                            className='media-preview'
+                            src={medium['url']}
+                            alt={medium['alt']}
+                          />
+                        ),
+                        VIDEO: (
+                          <video
+                            className='media-preview'
+                            src={medium['url']}
+                            alt={medium['alt']}
+                            preload='metadata'
+                          />
+                        ),
+                        AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
+                        PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
+                      }[medium['type']]
+                    }
+                  </div>
+                </div>
+              );
+            })}
             {fetchedMedia && fetchedMedia.map((medium, idx) => {
               if (medium['type'] === paramsToType[mediaType]) {
                 return (
