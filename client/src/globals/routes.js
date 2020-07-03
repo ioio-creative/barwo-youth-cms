@@ -49,6 +49,9 @@ export default {
   phaseAdd: function (isLink) {
     return '/phaseAdd';
   },
+  globalConstantsEdit: function (isLink) {
+    return '/globalConstantsEdit';
+  },
   landingPageEdit: function (isLink) {
     return '/landingPageEdit';
   },
