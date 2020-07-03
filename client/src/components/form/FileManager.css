@@ -67,12 +67,12 @@
   display: none;
 }
 
-.fileManager .image-wrapper {
+.fileManager .medium-wrapper {
   position: relative;
   padding-top: 100%;
 }
-.fileManager .image-wrapper img,
-.fileManager .image-wrapper video {
+.fileManager .medium-wrapper img,
+.fileManager .medium-wrapper video {
   position: absolute;
   top: 0;
   left: 0;
@@ -80,7 +80,7 @@
   height: 100%;
   object-fit: cover;
 }
-.fileManager .image-wrapper .fa {
+.fileManager .medium-wrapper .fa {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -136,4 +136,40 @@
   position: absolute;
   bottom: 100%;
   right: 100%;
+}
+.fileManager .dragFileOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #FFF;
+  display: none;
+  z-index: 999;
+}
+body.dragEnter .fileManager .dragFileOverlay {
+  display: block;
+}
+
+body.dragEnter * {
+  pointer-events: none;
+}
+
+/* uploading */
+.fileManager .medium-item.uploading .medium-wrapper {
+  background-color: #ccc;
+}
+.fileManager .medium-item .progress-bar {
+  position: absolute;
+  bottom: 15%;
+  left: 10%;
+  width: 80%;
+  height: 10%;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.fileManager .medium-item .progress-bar .uploaded-progress {
+  height: 100%;
+  transition: all 0.4s;
 }

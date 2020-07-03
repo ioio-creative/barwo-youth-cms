@@ -90,13 +90,14 @@ const MediaState = ({ children }) => {
   }, []);
 
   // Add Medium
-  const addMedium = useCallback(async (mediumType, medium) => {
+  const addMedium = useCallback(async (mediumType, medium, userConfig) => {
     let newMedium = null;
     dispatch({ type: SET_MEDIA_LOADING });
     const config = {
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      ...userConfig
     };
     try {
       const res = await axios.post(

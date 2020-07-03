@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+
+import MediaState from 'contexts/media/MediaState';
+import MediaContext from 'contexts/media/mediaContext';
+import Medium from 'models/medium';
 
 import './FileManager.css';
 import LabelInputTextPair from './LabelInputTextPair';
@@ -15,7 +19,7 @@ import uiWordings from 'globals/uiWordings';
 // find by name //
 // filterText
 const paramsToType = {
-  images: 'image',
+  images: 'IMAGE',
   videos: 'video',
   audios: 'audio',
   pdfs: 'pdf'
@@ -454,19 +458,109 @@ const media = [
 const tags = [];
 // const tags = ["aaa", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc"];
 
+const UploadingElement = ({
+  // uploadedPercent,
+  file
+}) => {
+  const {
+    addMedium
+  } = useContext(MediaContext);
+  const [uploadedPercent, setUploadedPercent] = useState(0);
+
+  useEffect(() => {
+    const formData = new FormData();
+
+    // https://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
+    // for (const file of files) {
+    formData.append('media', file);
+    // }
+
+    const additonalFormData = {
+      alernativeText: 'alt',
+      tags: [],
+      isEnabled: true
+    };
+
+    for (const pair of Object.entries(additonalFormData)) {
+      formData.append(pair[0], pair[1]);
+    }
+
+    console.log('formData to upload:');
+    for (const pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
+    const newMedium = addMedium(Medium.mediumTypes.IMAGE, formData, {
+      onUploadProgress: (event) => {
+        setUploadedPercent(event.loaded / event.total * 100);
+      }
+    });
+    console.log('newMedium:');
+    console.log(newMedium);
+  }, [file])
+  return <div className={`w3-col s3 medium-item uploading`}>
+    <div className='medium-wrapper'>
+      <i className="fa fa-upload fa-2x" />
+      <div className="progress-bar">
+        <div className="uploaded-progress w3-blue" style={{
+          width: uploadedPercent + '%'
+        }} />
+      </div>
+    </div>
+  </div>
+}
+
 const FileManager = () => {
   //const [showDetails, setShowDetails] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
   const [selectedFile, setSelectedFile] = useState(-1);
   // const [showDetails, setShowDetails] = useState(false);
+  const [dragEnter, setDragEnter] = useState(false);
+
+  const [uploadingQueue, setUploadingQueue] = useState([]);
+
+  const {
+    media: fetchedMedia,
+    getMedia,
+    // clearMedia,
+    // medium: fetchedMedium,
+    // getMedium,
+    // clearMedium,
+    // addMedium
+  } = useContext(MediaContext);
+
   const searchQuery = document.location.search;
   const searchParams = new URLSearchParams(searchQuery);
   const CKEditorFuncNum = searchParams.get('CKEditorFuncNum');
 
   const { fileType: mediaType, additionalCallbackParam } = useParams();
-  console.log(mediaType);
-
+  // console.log(mediaType);
+  const fileManagerEl = useRef(null);
+  const setFileManagerEl = useCallback((ref) => {
+    fileManagerEl.current = ref;
+    console.log('setFileManagerEl', ref);
+  }, []);
+  useEffect(() => {
+    document.addEventListener('dragenter', handleDragEnter, false);
+    document.addEventListener('dragover', handleDragOver, false);
+    document.addEventListener('dragleave', handleDragLeave, false);
+    document.addEventListener('drop', handleDropUpload, false);
+    getMedia(Medium.mediumTypes.IMAGE, {
+      // page,
+      // sortOrder: 'createDT desc',
+      // sortBy,
+      // filterText
+    })
+    return () => {
+      document.removeEventListener('dragenter', handleDragEnter, false);
+      document.removeEventListener('dragover', handleDragOver, false);
+      document.removeEventListener('dragleave', handleDragLeave, false);
+      document.removeEventListener('drop', handleDropUpload, false);
+    }
+  }, [])
+  // useEffect(() => {
+  //   console.log(fetchedMedia);
+  // }, [fetchedMedia]);
   const returnFileUrl = medium => {
     if (window.opener && window.opener.getMediaData) {
       // not in file selecting window?
@@ -500,11 +594,60 @@ const FileManager = () => {
       }
     });
   };
-  // const toggleDetails = () => {
-  //   setShowDetails(prevShowDetails => !prevShowDetails);
-  // };
+  const addMedium = (newMedium) => {
+
+  }
+  const handleDropUpload = (e) => {
+    const dataTransfer = e.dataTransfer;
+    const files = dataTransfer.files;
+    document.body.classList.remove('dragEnter');
+    handleUpload(files);
+    e.preventDefault();
+    e.stopPropagation()
+  };
+  const handleInputUpload = (e) => {
+    const target = e.target;
+    const files = target.files;
+    handleUpload(files);
+    // console.log(e.target.files);
+    e.preventDefault();
+    e.stopPropagation()
+  };
+  const handleUpload = (files) => {
+    const newQueue = [];
+    Array.from(files).forEach(file => {
+      newQueue.push(
+        <UploadingElement file={file} />
+      );
+    });
+    setUploadingQueue((prevUploadingQueue) => {
+      return [
+        ...prevUploadingQueue,
+        ...newQueue
+      ]
+    });
+  }
+  const handleDragEnter = (e) => {
+    document.body.classList.add('dragEnter');
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const handleDragLeave = (e) => {
+    if (e.target === document.body) {
+      document.body.classList.remove('dragEnter');
+    }
+    e.preventDefault();
+    e.stopPropagation();
+  };
   return (
-    <div className={`w3-stretch fileManager`}>
+    <div className={`w3-stretch fileManager`}
+      ref={setFileManagerEl}
+    >
+      <div className="dragFileOverlay"></div>
       <div className='search-bar w3-col s9'>
         <div className='w3-container'>
           {tags.length > 0 && (
@@ -514,7 +657,7 @@ const FileManager = () => {
                   <div
                     className={`w3-border w3-btn${
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
-                    } tag`}
+                      } tag`}
                     key={tag}
                     onClick={() => selectTag(tag)}
                   >
@@ -528,8 +671,8 @@ const FileManager = () => {
             <MyInputText placeholder='Search media items...' />
           </div>
           <div className='w3-col s6 w3-right-align'>
-            <label class='w3-btn w3-blue upload-btn'>
-              upload <input type='file' />
+            <label className='w3-btn w3-blue upload-btn'>
+              upload <input type='file' onChange={handleInputUpload} multiple />
             </label>
           </div>
         </div>
@@ -537,7 +680,9 @@ const FileManager = () => {
       <div className={`w3-col s9 media-list`}>
         <div className='w3-container'>
           <div className='w3-row-padding w3-section w3-stretch media'>
-            {media.map((medium, idx) => {
+            {uploadingQueue && uploadingQueue.map((el) => el)}
+            {/* <UploadingElement uploadedPercent={30} /> */}
+            {fetchedMedia && fetchedMedia.map((medium, idx) => {
               if (medium['type'] === paramsToType[mediaType]) {
                 return (
                   // https://stackoverflow.com/a/25926600
@@ -545,10 +690,10 @@ const FileManager = () => {
                     key={idx}
                     className={`w3-col s3 medium-item${
                       selectedTag.length === 0 ||
-                      medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
+                        medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
                         ? ''
                         : ' hidden'
-                    }${idx === selectedFile ? ' selected' : ''}`}
+                      }${idx === selectedFile ? ' selected' : ''}`}
                     // onClick={() => setSelectedFile(medium['src'])}
                     onClick={() =>
                       selectedFile === idx
@@ -557,26 +702,26 @@ const FileManager = () => {
                     }
                     onDoubleClick={() => returnFileUrl(medium)}
                   >
-                    <div className='image-wrapper'>
+                    <div className='medium-wrapper'>
                       {
                         {
-                          image: (
+                          IMAGE: (
                             <img
                               className='media-preview'
-                              src={medium['src']}
+                              src={medium['url']}
                               alt={medium['alt']}
                             />
                           ),
-                          video: (
+                          VIDEO: (
                             <video
                               className='media-preview'
-                              src={medium['src']}
+                              src={medium['url']}
                               alt={medium['alt']}
                               preload='metadata'
                             />
                           ),
-                          audio: <i className='fa fa-volume-up fa-2x'></i>,
-                          pdf: <i className='fa fa-file-pdf-o fa-2x'></i>
+                          AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
+                          PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
                         }[medium['type']]
                       }
                     </div>
@@ -601,14 +746,14 @@ const FileManager = () => {
                     image: (
                       <img
                         className='media-preview'
-                        src={media[selectedFile]['src']}
+                        src={media[selectedFile]['url']}
                         alt={media[selectedFile]['alt']}
                       />
                     ),
                     video: (
                       <video
                         className='media-preview'
-                        src={media[selectedFile]['src']}
+                        src={media[selectedFile]['url']}
                         alt={media[selectedFile]['alt']}
                         controls
                         controlsList='nodownload'
@@ -618,7 +763,7 @@ const FileManager = () => {
                     audio: (
                       <audio
                         className='media-preview'
-                        src={media[selectedFile]['src']}
+                        src={media[selectedFile]['url']}
                         alt={media[selectedFile]['alt']}
                         controls
                         controlsList='nodownload'
@@ -635,12 +780,12 @@ const FileManager = () => {
               <div className='w3-row w3-section'>
                 <MyLabel message='Media Url' />
                 <a
-                  href={media[selectedFile]['src']}
+                  href={media[selectedFile]['url']}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='w3-bar w3-button w3-white w3-border media-link'
                 >
-                  {media[selectedFile]['src']}
+                  {media[selectedFile]['url']}
                 </a>
               </div>
               <LabelInputTextPair
@@ -648,17 +793,17 @@ const FileManager = () => {
                 name='name'
                 isHalf={false}
                 value={media[selectedFile]['name']}
-                // onChange direct update
+              // onChange direct update
               />
               <LabelInputTextPair
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
                 value={media[selectedFile]['alt']}
-                // onChange direct update
+              // onChange direct update
               />
             </div>
-            <div className='select-btn w3-btn w3-blue'>
+            <div className='select-btn w3-btn w3-blue' onClick={() => returnFileUrl(media[selectedFile])}>
               {uiWordings['FileManager.SelectFile']}
             </div>
           </>
@@ -668,4 +813,12 @@ const FileManager = () => {
   );
 };
 
-export default FileManager;
+const FileManagerWithContainer = _ => {
+  return (
+    <MediaState>
+      <FileManager />
+    </MediaState>
+  );
+};
+
+export default FileManagerWithContainer;
