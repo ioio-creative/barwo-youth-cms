@@ -10,6 +10,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { Artist, artistResponseTypes } = require('../../../models/Artist');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 
 /* utilities */
 
@@ -38,6 +39,32 @@ const artistValidationChecks = [
   check('role', artistResponseTypes.ROLE_REQUIRED).not().isEmpty()
 ];
 
+const eventQnasValidation = qnas => {
+  for (const qna of getArraySafe(qnas)) {
+    let errorType = null;
+
+    if (!qna.question_tc) {
+      errorType = artistResponseTypes.ARTIST_QnA_QUESTION_TC_REQUIRED;
+    } else if (!qna.answer_tc) {
+      errorType = artistResponseTypes.ARTIST_QnA_ANSWER_TC_REQUIRED;
+    } else if (!qna.question_sc) {
+      errorType = artistResponseTypes.ARTIST_QnA_QUESTION_SC_REQUIRED;
+    } else if (!qna.answer_sc) {
+      errorType = artistResponseTypes.ARTIST_QnA_ANSWER_SC_REQUIRED;
+    } else if (!qna.question_en) {
+      errorType = artistResponseTypes.ARTIST_QnA_QUESTION_EN_REQUIRED;
+    } else if (!qna.answer_en) {
+      errorType = artistResponseTypes.ARTIST_QnA_ANSWER_EN_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
 const handleArtistLabelDuplicateKeyError = (err, res) => {
   const isErrorHandled = duplicateKeyErrorHandle(
     err,
@@ -46,6 +73,25 @@ const handleArtistLabelDuplicateKeyError = (err, res) => {
     res
   );
   return isErrorHandled;
+};
+
+const handleArtistRelationshipsValidationError = (errorType, res) => {
+  // 400 bad request
+  res.status(400).json({
+    errors: [errorType]
+  });
+};
+
+const artistRelationshipsValidation = (qnas, res) => {
+  let errorType = null;
+
+  errorType = eventQnasValidation(qnas);
+  if (errorType) {
+    handleArtistRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  return true;
 };
 
 /* end of utilites */
@@ -125,8 +171,15 @@ router.post(
       desc_en,
       type,
       role,
+      qnas,
       isEnabled
     } = req.body;
+
+    // customed validations
+    let isSuccess = artistRelationshipsValidation(qnas, res);
+    if (!isSuccess) {
+      return;
+    }
 
     try {
       const artist = new Artist({
@@ -139,6 +192,7 @@ router.post(
         desc_en,
         type,
         role,
+        qnas,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -170,8 +224,15 @@ router.put(
       desc_en,
       type,
       role,
+      qnas,
       isEnabled
     } = req.body;
+
+    // customed validations
+    let isSuccess = artistRelationshipsValidation(qnas, res);
+    if (!isSuccess) {
+      return;
+    }
 
     // Build artist object
     // Note:
@@ -186,6 +247,7 @@ router.put(
     if (desc_en) artistFields.desc_en = desc_en;
     artistFields.type = type;
     if (role) artistFields.role = role;
+    artistFields.qnas = getArraySafe(qnas);
     if (isEnabled !== undefined) artistFields.isEnabled = isEnabled;
     artistFields.lastModifyDT = new Date();
     artistFields.lastModifyUser = req.user._id;

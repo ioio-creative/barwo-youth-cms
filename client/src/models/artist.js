@@ -1,6 +1,7 @@
 import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
+import firstOrDefault from 'utils/js/array/firstOrDefault';
 
 const artistTypes = {
   ART_DIRECTOR: { value: 'ART_DIRECTOR', label: 'Artistic director' },
@@ -33,7 +34,7 @@ function Artist() {
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
-  this.questions = [];
+  this.qnas = [];
   this.answer = [];
   // this.relatedShows = '';
   // this.relatedArtists = '';
@@ -71,6 +72,30 @@ Artist.artistsResponseTypes = {
     type: 'ROLE_REQUIRED',
     msg: 'ROLE_REQUIRED'
   },
+  ARTIST_QnA_QUESTION_TC_REQUIRED: {
+    type: 'ARTIST_QnA_QUESTION_TC_REQUIRED',
+    msg: 'ARTIST_QnA_QUESTION_TC_REQUIRED'
+  },
+  ARTIST_QnA_ANSWER_TC_REQUIRED: {
+    type: 'ARTIST_QnA_ANSWER_TC_REQUIRED',
+    msg: 'ARTIST_QnA_ANSWER_TC_REQUIRED'
+  },
+  ARTIST_QnA_QUESTION_SC_REQUIRED: {
+    type: 'ARTIST_QnA_QUESTION_SC_REQUIRED',
+    msg: 'ARTIST_QnA_QUESTION_SC_REQUIRED'
+  },
+  ARTIST_QnA_ANSWER_SC_REQUIRED: {
+    type: 'ARTIST_QnA_ANSWER_SC_REQUIRED',
+    msg: 'ARTIST_QnA_ANSWER_SC_REQUIRED'
+  },
+  ARTIST_QnA_QUESTION_EN_REQUIRED: {
+    type: 'ARTIST_QnA_QUESTION_EN_REQUIRED',
+    msg: 'ARTIST_QnA_QUESTION_EN_REQUIRED'
+  },
+  ARTIST_QnA_ANSWER_EN_REQUIRED: {
+    type: 'ARTIST_QnA_ANSWER_EN_REQUIRED',
+    msg: 'ARTIST_QnA_ANSWER_EN_REQUIRED'
+  },
 
   // db check
   ARTIST_NOT_EXISTS: {
@@ -103,7 +128,8 @@ Artist.getArtistForDisplay = artist => {
     lastModifyUserDisplay: artist.lastModifyUser
       ? artist.lastModifyUser.name
       : '',
-    isEnabledDisplay: artist.isEnabled.toString()
+    isEnabledDisplay: artist.isEnabled.toString(),
+    qnasDisplay: firstOrDefault(artist.qnas, { question_tc: '' }).question_tc
   };
 };
 
@@ -113,7 +139,8 @@ const displayFieldNames = [
   'createDTDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',
-  'isEnabledDisplay'
+  'isEnabledDisplay',
+  'qnasDisplay'
 ];
 
 Artist.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);

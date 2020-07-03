@@ -31,7 +31,37 @@ const EventShowSchema = mongoose.Schema({
   }
 });
 
-const EventTicketPhoneSchema = mongoose.Schema({
+const EventScenaristSchema = mongoose.Schema({
+  name_tc: {
+    type: String,
+    require: true
+  },
+  name_sc: {
+    type: String,
+    require: true
+  },
+  name_en: {
+    type: String,
+    require: true
+  }
+});
+
+const EventPriceSchema = mongoose.Schema({
+  price_tc: {
+    type: String,
+    require: true
+  },
+  price_sc: {
+    type: String,
+    require: true
+  },
+  price_en: {
+    type: String,
+    require: true
+  }
+});
+
+const EventPhoneSchema = mongoose.Schema({
   label_tc: {
     type: String,
     require: true
@@ -69,13 +99,14 @@ const EventSchema = mongoose.Schema({
     require: true
   },
   shows: [EventShowSchema],
-  writer_tc: {
+  scenarists: [EventScenaristSchema],
+  descHeadline_tc: {
     type: String
   },
-  writer_sc: {
+  descHeadline_sc: {
     type: String
   },
-  writer_en: {
+  descHeadline_en: {
     type: String
   },
   desc_tc: {
@@ -118,7 +149,7 @@ const EventSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  // prices: [Number],
+  prices: [EventPriceSchema],
   priceRemarks_tc: {
     type: String
   },
@@ -128,7 +159,7 @@ const EventSchema = mongoose.Schema({
   priceRemarks_en: {
     type: String
   },
-  // phones: [EventTicketPhoneSchema],
+  phones: [EventPhoneSchema],
   ticketUrl: {
     type: String
   },
@@ -179,6 +210,12 @@ module.exports.eventResponseTypes = {
   EVENT_PHONE_LABEL_SC_REQUIRED: 'EVENT_PHONE_LABEL_SC_REQUIRED',
   EVENT_PHONE_LABEL_EN_REQUIRED: 'EVENT_PHONE_LABEL_EN_REQUIRED',
   EVENT_PHONE_PHONE_REQUIRED: 'EVENT_PHONE_PHONE_REQUIRED',
+  EVENT_SCENARIST_NAME_TC_REQUIRED: 'EVENT_SCENARIST_NAME_TC_REQUIRED',
+  EVENT_SCENARIST_NAME_SC_REQUIRED: 'EVENT_SCENARIST_NAME_SC_REQUIRED',
+  EVENT_SCENARIST_NAME_EN_REQUIRED: 'EVENT_SCENARIST_NAME_EN_REQUIRED',
+  EVENT_PRICE_PRICE_TC_REQUIRED: 'EVENT_PRICE_PRICE_TC_REQUIRED',
+  EVENT_PRICE_PRICE_SC_REQUIRED: 'EVENT_PRICE_PRICE_SC_REQUIRED',
+  EVENT_PRICE_PRICE_EN_REQUIRED: 'EVENT_PRICE_PRICE_EN_REQUIRED',
 
   // db check
   EVENT_NOT_EXISTS: 'EVENT_NOT_EXISTS',

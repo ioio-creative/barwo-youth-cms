@@ -1,31 +1,25 @@
-import React, { useCallback, useMemo } from 'react';
-import { generatePath } from 'react-router-dom';
+import React, { useMemo, useCallback /*, useEffect*/ } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import InputText from 'components/form/InputText';
 import uiWordings from 'globals/uiWordings';
-import routes from 'globals/routes';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+//import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import guid from 'utils/guid';
-import Medium from 'models/medium';
-
-/* globals */
-
-const defaultMediumFileType = Medium.mediumTypes.IMAGE;
-let mediumFileType = defaultMediumFileType;
-
-/* end of globals */
 
 /* constants */
 
-const emptyFileForAdd = {};
+const emptyPriceForAdd = {
+  price_tc: '',
+  price_sc: '',
+  price_en: ''
+};
 
-const mapFileToListItem = file => {
+const mapPriceToListItem = price => {
   return {
-    ...file,
-    draggableId: file.draggableId || file._id || guid()
+    ...price,
+    draggableId: price.draggableId || price._id || guid()
   };
 };
 
@@ -42,12 +36,12 @@ const getListStyle = isDraggingOver => ({
 
 /* item */
 
-const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({ price, handleItemRemoved, handleItemChange, index }) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
-    newFile => {
-      handleItemChange(newFile, index);
+    newPrice => {
+      handleItemChange(newPrice, index);
     },
     [handleItemChange, index]
   );
@@ -56,13 +50,13 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
 
   const onChange = useCallback(
     e => {
-      const newFile = {
-        ...file,
+      const newPrice = {
+        ...price,
         [e.target.name]: e.target.value
       };
-      dealWithItemChange(newFile);
+      dealWithItemChange(newPrice);
     },
-    [file, dealWithItemChange]
+    [price, dealWithItemChange]
   );
 
   const onRemoveButtonClick = useCallback(
@@ -74,7 +68,7 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
 
   /* end of event handlers */
 
-  const { draggableId } = file;
+  const { price_tc, price_sc, price_en, draggableId } = price;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -89,35 +83,38 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
             provided.draggableProps.style
           )}
         >
-          {/* <div className='w3-col m11 w3-row'>
+          <div className='w3-col m11 w3-row'>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_tc'
-                value={scenarist_tc}
+                name='price_tc'
+                value={price_tc}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameTcPlaceholder']}
+                placeholder={uiWordings['EventEdit.Price.PriceTcPlaceholder']}
+                required={true}
               />
             </div>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_sc'
-                value={scenarist_sc}
+                name='price_sc'
+                value={price_sc}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameScPlaceholder']}
+                placeholder={uiWordings['EventEdit.Price.PriceScPlaceholder']}
+                required={true}
               />
             </div>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_en'
-                value={scenarist_en}
+                name='price_en'
+                value={price_en}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameEnPlaceholder']}
+                placeholder={uiWordings['EventEdit.Price.PriceEnPlaceholder']}
+                required={true}
               />
             </div>
-          </div> */}
+          </div>
           <div className='w3-right'>
             {isFunction(handleItemRemoved) ? (
               <LabelSortableListPair.ItemRemoveButton
@@ -132,13 +129,13 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...file },
+  { handleItemRemoved, handleItemChange, ...price },
   index
 ) => {
   return (
     <Item
       key={index}
-      file={file}
+      price={price}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -148,85 +145,71 @@ const itemRender = (
 
 /* end of item */
 
-const FileUpload = ({
-  name,
-  labelMessage,
-  files,
-  onGetFiles,
-  mediumType,
-  isMultiple
-}) => {
-  const filesInPickedList = useMemo(
+const EventEditPriceSelect = ({ prices, onGetPrices }) => {
+  const pricesInPickedList = useMemo(
     _ => {
-      return getArraySafe(files).map(mapFileToListItem);
+      return getArraySafe(prices).map(mapPriceToListItem);
     },
-    [files]
+    [prices]
   );
 
   /* methods */
 
-  const dealWithGetFiles = useCallback(
+  const dealWithGetPrices = useCallback(
     newItemList => {
-      onGetFiles(newItemList);
+      onGetPrices(newItemList);
     },
-    [onGetFiles]
+    [onGetPrices]
   );
 
-  const addFile = useCallback(
+  const addPrice = useCallback(
     _ => {
-      dealWithGetFiles([...getArraySafe(files), emptyFileForAdd]);
+      dealWithGetPrices([...getArraySafe(prices), emptyPriceForAdd]);
     },
-    [files, dealWithGetFiles]
+    [prices, dealWithGetPrices]
   );
 
   /* end of methods */
+
+  // // prices
+  // useEffect(
+  //   _ => {
+  //     if (!isNonEmptyArray(prices)) {
+  //       addPrice();
+  //     }
+  //   },
+  //   [prices, addPrice]
+  // );
 
   /* event handlers */
 
   const onAddButtonClick = useCallback(
     _ => {
-      window.getMediaData = ({ file }) => {
-        console.log(file);
-        window.getMediaData = null;
-      };
-
-      window.open(
-        generatePath(routes.fileManager, {
-          fileType: mediumType.apiRoute
-        })
-      );
-
-      //addFile();
+      addPrice();
     },
-    [addFile, mediumType]
+    [addPrice]
   );
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      dealWithGetFiles(newItemList);
+      dealWithGetPrices(newItemList);
     },
-    [dealWithGetFiles]
+    [dealWithGetPrices]
   );
 
   /* end of event handlers */
 
   return (
     <LabelSortableListPair
-      name={name}
-      labelMessage={labelMessage}
+      name='prices'
+      labelMessage={uiWordings['Event.PricesLabel']}
       pickedItemRender={itemRender}
       getListStyle={getListStyle}
-      pickedItems={filesInPickedList}
+      pickedItems={pricesInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
 };
 
-FileUpload.defaultProps = {
-  name: 'files',
-  mediumType: defaultMediumFileType,
-  isMultiple: false
-};
-
-export default FileUpload;
+export default EventEditPriceSelect;

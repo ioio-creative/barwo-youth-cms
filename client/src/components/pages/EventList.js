@@ -48,6 +48,21 @@ const headers = [
   //   isSortEnabled: true
   // },
   // {
+  //   name: uiWordings['Event.DescHeadlineTcLabel'],
+  //   value: 'descHeadline_tc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.DescHeadlineScLabel'],
+  //   value: 'descHeadline_sc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.DescHeadlineEnLabel'],
+  //   value: 'descHeadline_en',
+  //   isSortEnabled: true
+  // },
+  // {
   //   name: uiWordings['Event.DescTcLabel'],
   //   value: 'desc_tc',
   //   isSortEnabled: true
@@ -83,21 +98,6 @@ const headers = [
     isSortEnabled: true
   },
   {
-    name: uiWordings['Event.WriterTcLabel'],
-    value: 'writer_tc',
-    isSortEnabled: true
-  },
-  // {
-  //   name: uiWordings['Event.WriterScLabel'],
-  //   value: 'writer_sc',
-  //   isSortEnabled: true
-  // },
-  // {
-  //   name: uiWordings['Event.WriterEnLabel'],
-  //   value: 'writer_en',
-  //   isSortEnabled: true
-  // },
-  {
     name: uiWordings['Event.ArtistsLabel'],
     value: 'artistsDisplay',
     isSortEnabled: true
@@ -107,6 +107,56 @@ const headers = [
     value: 'showsDisplay',
     isSortEnabled: true
   },
+  // {
+  //   name: uiWordings['Event.ScenaristsLabel'],
+  //   value: 'scenaristsDisplay',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.VenueTcLabel'],
+  //   value: 'venue_tc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.VenueScLabel'],
+  //   value: 'venue_sc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.VenueEnLabel'],
+  //   value: 'venue_en',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.PricesLabel'],
+  //   value: 'pricesDisplay',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.PriceRemarksTcLabel'],
+  //   value: 'priceRemarks_tc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.PriceRemarksScLabel'],
+  //   value: 'priceRemarks_sc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.PriceRemarksEnLabel'],
+  //   value: 'priceRemarks_en',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.PhonesLabel'],
+  //   value: 'phonesDisplay',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Event.TicketUrlLabel'],
+  //   value: 'ticketUrl',
+  //   isSortEnabled: true
+  // },
   // {
   //   name: uiWordings['Event.ThemeColorLabel'],
   //   value: 'themeColor',

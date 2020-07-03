@@ -2,11 +2,29 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const ArtistQnASchema = mongoose.Schema({
-  question: {
-    type: [String]
+  question_tc: {
+    type: String,
+    require: true
   },
-  answer: {
-    type: [String]
+  answer_tc: {
+    type: String,
+    require: true
+  },
+  question_sc: {
+    type: String,
+    require: true
+  },
+  answer_sc: {
+    type: String,
+    require: true
+  },
+  question_en: {
+    type: String,
+    require: true
+  },
+  answer_en: {
+    type: String,
+    require: true
   }
 });
 
@@ -59,9 +77,7 @@ const ArtistSchema = mongoose.Schema({
   desc_en: {
     type: String
   },
-  qna_tc: [ArtistQnASchema],
-  qna_sc: [ArtistQnASchema],
-  qna_en: [ArtistQnASchema],
+  qnas: [ArtistQnASchema],
   eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   isEnabled: {
@@ -108,6 +124,12 @@ module.exports.artistResponseTypes = {
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
   ROLE_REQUIRED: 'ROLE_REQUIRED',
+  ARTIST_QnA_QUESTION_TC_REQUIRED: 'ARTIST_QnA_QUESTION_TC_REQUIRED',
+  ARTIST_QnA_ANSWER_TC_REQUIRED: 'ARTIST_QnA_ANSWER_TC_REQUIRED',
+  ARTIST_QnA_QUESTION_SC_REQUIRED: 'ARTIST_QnA_QUESTION_SC_REQUIRED',
+  ARTIST_QnA_ANSWER_SC_REQUIRED: 'ARTIST_QnA_ANSWER_SC_REQUIRED',
+  ARTIST_QnA_QUESTION_EN_REQUIRED: 'ARTIST_QnA_QUESTION_EN_REQUIRED',
+  ARTIST_QnA_ANSWER_EN_REQUIRED: 'ARTIST_QnA_ANSWER_EN_REQUIRED',
 
   // db check
   ARTIST_NOT_EXISTS: 'ARTIST_NOT_EXISTS',

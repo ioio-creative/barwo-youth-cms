@@ -9,6 +9,8 @@ import EventEditArtDirectorSelect from 'components/events/EventEditArtDirectorSe
 import EventEditArtistSelect from 'components/events/EventEditArtistSelect';
 import EventEditShowSelect from 'components/events/EventEditShowSelect';
 import EventEditScenaristSelect from 'components/events/EventEditScenaristSelect';
+import EventEditPriceSelect from 'components/events/EventEditPriceSelect';
+import EventEditPhoneSelect from 'components/events/EventEditPhoneSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
@@ -80,6 +82,12 @@ const EventEdit = _ => {
   // scenarists in event
   const [scenaristsPicked, setScenaristsPicked] = useState([]);
 
+  // prices in event
+  const [pricesPicked, setPricesPicked] = useState([]);
+
+  // phones in event
+  const [phonesPicked, setPhonesPicked] = useState([]);
+
   // componentDidMount
   useEffect(_ => {
     getArtDirectors();
@@ -126,6 +134,12 @@ const EventEdit = _ => {
           if (isNonEmptyArray(fetchedEvent.scenarists)) {
             setScenaristsPicked(fetchedEvent.scenarists);
           }
+          if (isNonEmptyArray(fetchedEvent.prices)) {
+            setPricesPicked(fetchedEvent.prices);
+          }
+          if (isNonEmptyArray(fetchedEvent.phones)) {
+            setPhonesPicked(fetchedEvent.phones);
+          }
         }
         setIsAddMode(!fetchedEvent);
       }
@@ -138,7 +152,9 @@ const EventEdit = _ => {
       setArtDirectorsPicked,
       setArtistsPicked,
       setShowsPicked,
-      setScenaristsPicked
+      setScenaristsPicked,
+      setPricesPicked,
+      setPhonesPicked
     ]
   );
 
@@ -250,6 +266,22 @@ const EventEdit = _ => {
     [setScenaristsPicked, setIsSubmitEnabled]
   );
 
+  const onGetPricesPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setPricesPicked(newItemList);
+    },
+    [setPricesPicked, setIsSubmitEnabled]
+  );
+
+  const onGetPhonesPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setPhonesPicked(newItemList);
+    },
+    [setPhonesPicked, setIsSubmitEnabled]
+  );
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -284,6 +316,40 @@ const EventEdit = _ => {
       // so no need to sort before submit
       event.shows = cleanedShows;
 
+      // add scenarists
+      event.scenarists = getArraySafe(scenaristsPicked).map(
+        ({ name_tc, name_sc, name_en }) => {
+          return {
+            name_tc,
+            name_sc,
+            name_en
+          };
+        }
+      );
+
+      // add prices
+      event.prices = getArraySafe(pricesPicked).map(
+        ({ price_tc, price_sc, price_en }) => {
+          return {
+            price_tc,
+            price_sc,
+            price_en
+          };
+        }
+      );
+
+      // add phones
+      event.phones = getArraySafe(phonesPicked).map(
+        ({ label_tc, label_sc, label_en, phone }) => {
+          return {
+            label_tc,
+            label_sc,
+            label_en,
+            phone
+          };
+        }
+      );
+
       let isSuccess = validInput(event);
       let returnedEvent = null;
 
@@ -317,6 +383,9 @@ const EventEdit = _ => {
       artDirectorsPicked,
       artistsPicked,
       showsPicked,
+      scenaristsPicked,
+      pricesPicked,
+      phonesPicked,
       setAlerts,
       removeAlerts,
       validInput
@@ -397,44 +466,23 @@ const EventEdit = _ => {
           onGetShows={onGetShowsPicked}
         />
         <LabelInputTextPair
-          name='writer_tc'
-          value={event.writer_tc}
-          labelMessage={uiWordings['Event.WriterTcLabel']}
+          name='descHeadline_tc'
+          value={event.descHeadline_tc}
+          labelMessage={uiWordings['Event.DescHeadlineTcLabel']}
           placeholder=''
           onChange={onChange}
         />
         <LabelInputTextPair
-          name='writer_sc'
-          value={event.writer_sc}
-          labelMessage={uiWordings['Event.WriterScLabel']}
+          name='descHeadline_sc'
+          value={event.descHeadline_sc}
+          labelMessage={uiWordings['Event.DescHeadlineScLabel']}
           placeholder=''
           onChange={onChange}
         />
         <LabelInputTextPair
-          name='writer_en'
-          value={event.writer_en}
-          labelMessage={uiWordings['Event.WriterEnLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='heading_tc'
-          value={event.heading_tc}
-          labelMessage={uiWordings['Event.HeadingTcLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='heading_sc'
-          value={event.heading_sc}
-          labelMessage={uiWordings['Event.HeadingScLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='heading_en'
-          value={event.heading_en}
-          labelMessage={uiWordings['Event.HeadingEnLabel']}
+          name='descHeadline_en'
+          value={event.descHeadline_en}
+          labelMessage={uiWordings['Event.DescHeadlineEnLabel']}
           placeholder=''
           onChange={onChange}
         />
@@ -480,7 +528,7 @@ const EventEdit = _ => {
           placeholder=''
           onChange={onChange}
         />
-        <LabelInputTextPair
+        {/* <LabelInputTextPair
           name='featuredImage'
           value={event.featuredImage}
           labelMessage={uiWordings['Event.FeaturedImageLabel']}
@@ -495,80 +543,79 @@ const EventEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={false}
-        />
+        /> */}
         <EventEditArtistSelect
           artistsPicked={artistsPicked}
           onGetArtistsPicked={onGetArtistsPicked}
         />
-        <LabelInputTextPair
-          name='venue_tc'
-          required={true}
-          value={event.venue_tc}
-          labelMessage={uiWordings['Event.VenueTcLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='venue_sc'
-          required={true}
-          value={event.venue_sc}
-          labelMessage={uiWordings['Event.VenueScLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='venue_en'
-          required={true}
-          value={event.venue_en}
-          labelMessage={uiWordings['Event.VenueEnLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='prices'
-          required={true}
-          value={event.prices}
-          labelMessage={uiWordings['Event.PricesLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
 
-        <LabelRichTextbox
-          name='priceRemarks_tc'
-          value={event.priceRemarks_tc}
-          labelMessage={uiWordings['Event.PriceRemarksTcLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
-        <LabelRichTextbox
-          name='priceRemarks_sc'
-          value={event.priceRemarks_sc}
-          labelMessage={uiWordings['Event.PriceRemarksScLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
-        <LabelRichTextbox
-          name='priceRemarks_en'
-          value={event.priceRemarks_en}
-          labelMessage={uiWordings['Event.PriceRemarksEnLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
+        <div className='w3-card w3-container'>
+          <h4>{uiWordings['EventEdit.Ticket.Title']}</h4>
+          <LabelInputTextPair
+            name='venue_tc'
+            required={true}
+            value={event.venue_tc}
+            labelMessage={uiWordings['Event.VenueTcLabel']}
+            placeholder=''
+            onChange={onChange}
+          />
+          <LabelInputTextPair
+            name='venue_sc'
+            required={true}
+            value={event.venue_sc}
+            labelMessage={uiWordings['Event.VenueScLabel']}
+            placeholder=''
+            onChange={onChange}
+          />
+          <LabelInputTextPair
+            name='venue_en'
+            required={true}
+            value={event.venue_en}
+            labelMessage={uiWordings['Event.VenueEnLabel']}
+            placeholder=''
+            onChange={onChange}
+          />
 
-        <LabelInputTextPair
-          name='phones'
-          value={event.phones}
-          labelMessage={uiWordings['Event.PhoneLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='ticketUrl'
-          value={event.ticketUrl}
-          labelMessage={uiWordings['Event.TicketUrlLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
+          <EventEditPriceSelect
+            prices={pricesPicked}
+            onGetPrices={onGetPricesPicked}
+          />
+
+          <LabelRichTextbox
+            name='priceRemarks_tc'
+            value={event.priceRemarks_tc}
+            labelMessage={uiWordings['Event.PriceRemarksTcLabel']}
+            onChange={onChange}
+            filebrowserBrowseUrl={routes.fileManager}
+          />
+          <LabelRichTextbox
+            name='priceRemarks_sc'
+            value={event.priceRemarks_sc}
+            labelMessage={uiWordings['Event.PriceRemarksScLabel']}
+            onChange={onChange}
+            filebrowserBrowseUrl={routes.fileManager}
+          />
+          <LabelRichTextbox
+            name='priceRemarks_en'
+            value={event.priceRemarks_en}
+            labelMessage={uiWordings['Event.PriceRemarksEnLabel']}
+            onChange={onChange}
+            filebrowserBrowseUrl={routes.fileManager}
+          />
+
+          <EventEditPhoneSelect
+            phones={phonesPicked}
+            onGetPhones={onGetPhonesPicked}
+          />
+
+          <LabelInputTextPair
+            name='ticketUrl'
+            value={event.ticketUrl}
+            labelMessage={uiWordings['Event.TicketUrlLabel']}
+            placeholder=''
+            onChange={onChange}
+          />
+        </div>
 
         <LabelColorPickerPair
           name='themeColor'

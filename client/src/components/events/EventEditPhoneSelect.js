@@ -1,31 +1,26 @@
-import React, { useCallback, useMemo } from 'react';
-import { generatePath } from 'react-router-dom';
+import React, { useMemo, useCallback /*, useEffect*/ } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import InputText from 'components/form/InputText';
 import uiWordings from 'globals/uiWordings';
-import routes from 'globals/routes';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+//import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import guid from 'utils/guid';
-import Medium from 'models/medium';
-
-/* globals */
-
-const defaultMediumFileType = Medium.mediumTypes.IMAGE;
-let mediumFileType = defaultMediumFileType;
-
-/* end of globals */
 
 /* constants */
 
-const emptyFileForAdd = {};
+const emptyPhoneForAdd = {
+  label_tc: '',
+  label_sc: '',
+  label_en: '',
+  phone: ''
+};
 
-const mapFileToListItem = file => {
+const mapPhoneToListItem = phone => {
   return {
-    ...file,
-    draggableId: file.draggableId || file._id || guid()
+    ...phone,
+    draggableId: phone.draggableId || phone._id || guid()
   };
 };
 
@@ -35,19 +30,19 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 const getListStyle = isDraggingOver => ({
   ...LabelSortableListPair.getListStyleDefault(isDraggingOver),
-  width: 500
+  width: 650
 });
 
 /* end of constants */
 
 /* item */
 
-const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({ phone, handleItemRemoved, handleItemChange, index }) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
-    newFile => {
-      handleItemChange(newFile, index);
+    newPhone => {
+      handleItemChange(newPhone, index);
     },
     [handleItemChange, index]
   );
@@ -56,13 +51,13 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
 
   const onChange = useCallback(
     e => {
-      const newFile = {
-        ...file,
+      const newPhone = {
+        ...phone,
         [e.target.name]: e.target.value
       };
-      dealWithItemChange(newFile);
+      dealWithItemChange(newPhone);
     },
-    [file, dealWithItemChange]
+    [phone, dealWithItemChange]
   );
 
   const onRemoveButtonClick = useCallback(
@@ -74,7 +69,7 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
 
   /* end of event handlers */
 
-  const { draggableId } = file;
+  const { label_tc, label_sc, label_en, phone: phoneNum, draggableId } = phone;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -89,35 +84,48 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
             provided.draggableProps.style
           )}
         >
-          {/* <div className='w3-col m11 w3-row'>
-            <div className='w3-col m4'>
+          <div className='w3-col m11 w3-row'>
+            <div className='w3-col m3'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_tc'
-                value={scenarist_tc}
+                name='label_tc'
+                value={label_tc}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameTcPlaceholder']}
+                placeholder={uiWordings['EventEdit.Phone.LabelTcPlaceholder']}
+                required={true}
               />
             </div>
-            <div className='w3-col m4'>
+            <div className='w3-col m3'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_sc'
-                value={scenarist_sc}
+                name='label_sc'
+                value={label_sc}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameScPlaceholder']}
+                placeholder={uiWordings['EventEdit.Phone.LabelScPlaceholder']}
+                required={true}
               />
             </div>
-            <div className='w3-col m4'>
+            <div className='w3-col m3'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_en'
-                value={scenarist_en}
+                name='label_en'
+                value={label_en}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameEnPlaceholder']}
+                placeholder={uiWordings['EventEdit.Phone.LabelEnPlaceholder']}
+                required={true}
               />
             </div>
-          </div> */}
+            <div className='w3-col m3'>
+              <InputText
+                className='w3-margin-right'
+                name='phone'
+                value={phoneNum}
+                onChange={onChange}
+                placeholder={uiWordings['EventEdit.Phone.PhonePlaceholder']}
+                required={true}
+              />
+            </div>
+          </div>
           <div className='w3-right'>
             {isFunction(handleItemRemoved) ? (
               <LabelSortableListPair.ItemRemoveButton
@@ -132,13 +140,13 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...file },
+  { handleItemRemoved, handleItemChange, ...phone },
   index
 ) => {
   return (
     <Item
       key={index}
-      file={file}
+      phone={phone}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -148,85 +156,71 @@ const itemRender = (
 
 /* end of item */
 
-const FileUpload = ({
-  name,
-  labelMessage,
-  files,
-  onGetFiles,
-  mediumType,
-  isMultiple
-}) => {
-  const filesInPickedList = useMemo(
+const EventEditPhoneSelect = ({ phones, onGetPhones }) => {
+  const phonesInPickedList = useMemo(
     _ => {
-      return getArraySafe(files).map(mapFileToListItem);
+      return getArraySafe(phones).map(mapPhoneToListItem);
     },
-    [files]
+    [phones]
   );
 
   /* methods */
 
-  const dealWithGetFiles = useCallback(
+  const dealWithGetPhones = useCallback(
     newItemList => {
-      onGetFiles(newItemList);
+      onGetPhones(newItemList);
     },
-    [onGetFiles]
+    [onGetPhones]
   );
 
-  const addFile = useCallback(
+  const addPhone = useCallback(
     _ => {
-      dealWithGetFiles([...getArraySafe(files), emptyFileForAdd]);
+      dealWithGetPhones([...getArraySafe(phones), emptyPhoneForAdd]);
     },
-    [files, dealWithGetFiles]
+    [phones, dealWithGetPhones]
   );
 
   /* end of methods */
+
+  // // phones
+  // useEffect(
+  //   _ => {
+  //     if (!isNonEmptyArray(phones)) {
+  //       addPhone();
+  //     }
+  //   },
+  //   [phones, addPhone]
+  // );
 
   /* event handlers */
 
   const onAddButtonClick = useCallback(
     _ => {
-      window.getMediaData = ({ file }) => {
-        console.log(file);
-        window.getMediaData = null;
-      };
-
-      window.open(
-        generatePath(routes.fileManager, {
-          fileType: mediumType.apiRoute
-        })
-      );
-
-      //addFile();
+      addPhone();
     },
-    [addFile, mediumType]
+    [addPhone]
   );
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      dealWithGetFiles(newItemList);
+      dealWithGetPhones(newItemList);
     },
-    [dealWithGetFiles]
+    [dealWithGetPhones]
   );
 
   /* end of event handlers */
 
   return (
     <LabelSortableListPair
-      name={name}
-      labelMessage={labelMessage}
+      name='phones'
+      labelMessage={uiWordings['Event.PhonesLabel']}
       pickedItemRender={itemRender}
       getListStyle={getListStyle}
-      pickedItems={filesInPickedList}
+      pickedItems={phonesInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
 };
 
-FileUpload.defaultProps = {
-  name: 'files',
-  mediumType: defaultMediumFileType,
-  isMultiple: false
-};
-
-export default FileUpload;
+export default EventEditPhoneSelect;

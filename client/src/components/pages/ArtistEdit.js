@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
+import ArtistEditQnaSelect from 'components/artists/ArtistEditQnaSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import LabelSelectPair from 'components/form/LabelSelectPair';
@@ -17,7 +18,7 @@ import Artist from 'models/artist';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyArtist = new Artist();
@@ -41,6 +42,9 @@ const ArtistEdit = _ => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
+
+  // qnas in artist
+  const [qnasPicked, setQnasPicked] = useState([]);
 
   // componentDidMount
   useEffect(_ => {
@@ -68,15 +72,20 @@ const ArtistEdit = _ => {
   useEffect(
     _ => {
       if (!artistsLoading) {
-        setArtist(
-          fetchedArtist
-            ? Artist.getArtistForDisplay(fetchedArtist)
-            : defaultState
-        );
+        if (fetchedArtist) {
+          setArtist(
+            fetchedArtist
+              ? Artist.getArtistForDisplay(fetchedArtist)
+              : defaultState
+          );
+          if (isNonEmptyArray(fetchedArtist.qnas)) {
+            setQnasPicked(fetchedArtist.qnas);
+          }
+        }
         setIsAddMode(!fetchedArtist);
       }
     },
-    [artistsLoading, fetchedArtist, setArtist, setIsAddMode]
+    [artistsLoading, fetchedArtist, setArtist, setIsAddMode, setQnasPicked]
   );
 
   // artistsErrors
@@ -124,10 +133,38 @@ const ArtistEdit = _ => {
     [artist, setArtist, removeAlerts]
   );
 
+  const onGetQnasPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setQnasPicked(newItemList);
+    },
+    [setQnasPicked, setIsSubmitEnabled]
+  );
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
       e.preventDefault();
+
+      // add qnas
+      artist.qnas = getArraySafe(qnasPicked).map(
+        ({
+          question_tc,
+          answer_tc,
+          question_sc,
+          answer_sc,
+          question_en,
+          answer_en
+        }) => ({
+          question_tc,
+          answer_tc,
+          question_sc,
+          answer_sc,
+          question_en,
+          answer_en
+        })
+      );
+
       let isSuccess = validInput(artist);
       let returnedArtist = null;
       if (isSuccess) {
@@ -158,7 +195,8 @@ const ArtistEdit = _ => {
       setArtist,
       artist,
       setAlerts,
-      validInput
+      validInput,
+      qnasPicked
     ]
   );
 
@@ -290,51 +328,9 @@ const ArtistEdit = _ => {
           onChange={onChange}
           filebrowserBrowseUrl={routes.fileManager}
         />
-        <LabelInputTextPair
-          name='question_tc'
-          value={artist.question_tc}
-          labelMessage={uiWordings['Artist.QuestionTcLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
-        <LabelRichTextbox
-          name='answer_tc'
-          value={artist.answer_tc}
-          labelMessage={uiWordings['Artist.AnswerTcLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
-        <LabelInputTextPair
-          name='question_sc'
-          value={artist.question_sc}
-          labelMessage={uiWordings['Artist.QuestionScLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
-        <LabelRichTextbox
-          name='answer_sc'
-          value={artist.answer_sc}
-          labelMessage={uiWordings['Artist.AnswerScLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
-        <LabelInputTextPair
-          name='question_en'
-          value={artist.question_en}
-          labelMessage={uiWordings['Artist.QuestionEnLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
-        <LabelRichTextbox
-          name='answer_en'
-          value={artist.answer_en}
-          labelMessage={uiWordings['Artist.AnswerEnLabel']}
-          onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
-        />
+
+        <ArtistEditQnaSelect qnas={qnasPicked} onGetQnas={onGetQnasPicked} />
+
         <LabelTogglePair
           name='isEnabled'
           value={artist.isEnabled}

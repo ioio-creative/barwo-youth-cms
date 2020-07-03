@@ -1,19 +1,19 @@
-import React, { useMemo, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback /*, useEffect*/ } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import InputText from 'components/form/InputText';
 import uiWordings from 'globals/uiWordings';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+//import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import guid from 'utils/guid';
 
 /* constants */
 
 const emptyScenaristForAdd = {
-  scenarist_tc: '',
-  scenarist_sc: '',
-  scenarist_en: ''
+  name_tc: '',
+  name_sc: '',
+  name_en: ''
 };
 
 const mapScenaristToListItem = scenarist => {
@@ -68,7 +68,7 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 
   /* end of event handlers */
 
-  const { scenarist_tc, scenarist_sc, scenarist_en, draggableId } = scenarist;
+  const { name_tc, name_sc, name_en, draggableId } = scenarist;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -87,28 +87,37 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_tc'
-                value={scenarist_tc}
+                name='name_tc'
+                value={name_tc}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.TcPlaceholder']}
+                placeholder={
+                  uiWordings['EventEdit.Scenarist.NameTcPlaceholder']
+                }
+                required={true}
               />
             </div>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_sc'
-                value={scenarist_sc}
+                name='name_sc'
+                value={name_sc}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.ScPlaceholder']}
+                placeholder={
+                  uiWordings['EventEdit.Scenarist.NameScPlaceholder']
+                }
+                required={true}
               />
             </div>
             <div className='w3-col m4'>
               <InputText
                 className='w3-margin-right'
-                name='scenarist_en'
-                value={scenarist_en}
+                name='name_en'
+                value={name_en}
                 onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.EnPlaceholder']}
+                placeholder={
+                  uiWordings['EventEdit.Scenarist.NameEnPlaceholder']
+                }
+                required={true}
               />
             </div>
           </div>
@@ -171,15 +180,15 @@ const EventEditScenaristSelect = ({ scenarists, onGetScenarists }) => {
 
   /* end of methods */
 
-  // scenarists
-  useEffect(
-    _ => {
-      if (!isNonEmptyArray(scenarists)) {
-        addScenarist();
-      }
-    },
-    [scenarists, addScenarist]
-  );
+  // // scenarists
+  // useEffect(
+  //   _ => {
+  //     if (!isNonEmptyArray(scenarists)) {
+  //       addScenarist();
+  //     }
+  //   },
+  //   [scenarists, addScenarist]
+  // );
 
   /* event handlers */
 

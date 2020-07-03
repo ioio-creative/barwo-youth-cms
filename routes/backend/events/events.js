@@ -50,10 +50,13 @@ const eventValidationChecks = [
   check('label', eventResponseTypes.LABEL_REQUIRED).not().isEmpty(),
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
   check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
-  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).not().isEmpty()
+  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).not().isEmpty(),
+  check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).not().isEmpty(),
+  check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).not().isEmpty(),
+  check('venue_en', eventResponseTypes.VENUE_EN_REQUIRED).not().isEmpty()
 ];
 
-const eventArtDirectorsValidation = (artDirectors, res) => {
+const eventArtDirectorsValidation = artDirectors => {
   for (const artDirector of getArraySafe(artDirectors)) {
     if (!artDirector) {
       return eventResponseTypes.EVENT_ART_DIRECTOR_REQUIRED;
@@ -62,7 +65,7 @@ const eventArtDirectorsValidation = (artDirectors, res) => {
   return null;
 };
 
-const eventArtistsValidation = (artists, res) => {
+const eventArtistsValidation = artists => {
   for (const artist of getArraySafe(artists)) {
     let errorType = null;
 
@@ -84,7 +87,7 @@ const eventArtistsValidation = (artists, res) => {
   return null;
 };
 
-const eventShowsValidation = (shows, res) => {
+const eventShowsValidation = shows => {
   for (const show of getArraySafe(shows)) {
     let errorType = null;
 
@@ -102,6 +105,68 @@ const eventShowsValidation = (shows, res) => {
   return null;
 };
 
+const eventScenaristsValidation = scenarists => {
+  for (const scenarist of getArraySafe(scenarists)) {
+    let errorType = null;
+
+    if (!scenarist.name_tc) {
+      errorType = eventResponseTypes.EVENT_SCENARIST_NAME_TC_REQUIRED;
+    } else if (!scenarist.name_sc) {
+      errorType = eventResponseTypes.EVENT_SCENARIST_NAME_SC_REQUIRED;
+    } else if (!scenarist.name_en) {
+      errorType = eventResponseTypes.EVENT_SCENARIST_NAME_EN_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
+const eventPricesValidation = prices => {
+  for (const price of getArraySafe(prices)) {
+    let errorType = null;
+
+    if (!price.price_tc) {
+      errorType = eventResponseTypes.EVENT_PRICE_PRICE_TC_REQUIRED;
+    } else if (!price.price_sc) {
+      errorType = eventResponseTypes.EVENT_PRICE_PRICE_SC_REQUIRED;
+    } else if (!price.price_en) {
+      errorType = eventResponseTypes.EVENT_PRICE_PRICE_EN_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
+const eventPhonesValidation = phones => {
+  for (const phone of getArraySafe(phones)) {
+    let errorType = null;
+
+    if (!phone.label_tc) {
+      errorType = eventResponseTypes.EVENT_PHONE_LABEL_TC_REQUIRED;
+    } else if (!phone.label_sc) {
+      errorType = eventResponseTypes.EVENT_PHONE_LABEL_SC_REQUIRED;
+    } else if (!phone.label_en) {
+      errorType = eventResponseTypes.EVENT_PHONE_LABEL_EN_REQUIRED;
+    } else if (!phone.phone) {
+      errorType = eventResponseTypes.EVENT_PHONE_PHONE_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
 const handleEventRelationshipsValidationError = (errorType, res) => {
   // 400 bad request
   res.status(400).json({
@@ -109,22 +174,48 @@ const handleEventRelationshipsValidationError = (errorType, res) => {
   });
 };
 
-const eventRelationshipsValidation = (artDirectors, artists, shows, res) => {
+const eventRelationshipsValidation = (
+  artDirectors,
+  artists,
+  shows,
+  scenarists,
+  prices,
+  phones,
+  res
+) => {
   let errorType = null;
 
-  errorType = eventArtDirectorsValidation(artDirectors, res);
+  errorType = eventArtDirectorsValidation(artDirectors);
   if (errorType) {
     handleEventRelationshipsValidationError(errorType, res);
     return false;
   }
 
-  errorType = eventArtistsValidation(artists, res);
+  errorType = eventArtistsValidation(artists);
   if (errorType) {
     handleEventRelationshipsValidationError(errorType, res);
     return false;
   }
 
-  errorType = eventShowsValidation(shows, res);
+  errorType = eventShowsValidation(shows);
+  if (errorType) {
+    handleEventRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  errorType = eventScenaristsValidation(scenarists);
+  if (errorType) {
+    handleEventRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  errorType = eventPricesValidation(prices);
+  if (errorType) {
+    handleEventRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  errorType = eventPhonesValidation(phones);
   if (errorType) {
     handleEventRelationshipsValidationError(errorType, res);
     return false;
@@ -297,19 +388,29 @@ router.post(
       name_tc,
       name_sc,
       name_en,
+      descHeadline_tc,
+      descHeadline_sc,
+      descHeadline_en,
       desc_tc,
       desc_sc,
       desc_en,
       remarks_tc,
       remarks_sc,
       remarks_en,
-      writer_tc,
-      writer_sc,
-      writer_en,
       isEnabled,
       artDirectors,
       artists,
       shows,
+      scenarists,
+      venue_tc,
+      venue_sc,
+      venue_en,
+      prices,
+      priceRemarks_tc,
+      priceRemarks_sc,
+      priceRemarks_en,
+      phones,
+      ticketUrl,
       themeColor
     } = req.body;
 
@@ -318,6 +419,9 @@ router.post(
       artDirectors,
       artists,
       shows,
+      scenarists,
+      prices,
+      phones,
       res
     );
     if (!isSuccess) {
@@ -334,20 +438,30 @@ router.post(
         name_tc,
         name_sc,
         name_en,
+        descHeadline_tc,
+        descHeadline_sc,
+        descHeadline_en,
         desc_tc,
         desc_sc,
         desc_en,
         remarks_tc,
         remarks_sc,
         remarks_en,
-        writer_tc,
-        writer_sc,
-        writer_en,
         isEnabled,
         lastModifyUser: req.user._id,
         artDirectors,
         artists,
         shows,
+        scenarists,
+        venue_tc,
+        venue_sc,
+        venue_en,
+        prices,
+        priceRemarks_tc,
+        priceRemarks_sc,
+        priceRemarks_en,
+        phones,
+        ticketUrl,
         themeColor
       });
 
@@ -386,19 +500,29 @@ router.put(
       name_tc,
       name_sc,
       name_en,
+      descHeadline_tc,
+      descHeadline_sc,
+      descHeadline_en,
       desc_tc,
       desc_sc,
       desc_en,
       remarks_tc,
       remarks_sc,
       remarks_en,
-      writer_tc,
-      writer_sc,
-      writer_en,
       isEnabled,
       artDirectors,
       artists,
       shows,
+      scenarists,
+      venue_tc,
+      venue_sc,
+      venue_en,
+      prices,
+      priceRemarks_tc,
+      priceRemarks_sc,
+      priceRemarks_en,
+      phones,
+      ticketUrl,
       themeColor
     } = req.body;
 
@@ -407,6 +531,9 @@ router.put(
       artDirectors,
       artists,
       shows,
+      scenarists,
+      prices,
+      phones,
       res
     );
     if (!isSuccess) {
@@ -421,19 +548,29 @@ router.put(
     if (name_tc) eventFields.name_tc = name_tc;
     if (name_sc) eventFields.name_sc = name_sc;
     if (name_en) eventFields.name_en = name_en;
+    eventFields.descHeadline_tc = descHeadline_tc;
+    eventFields.descHeadline_sc = descHeadline_sc;
+    eventFields.descHeadline_en = descHeadline_en;
     eventFields.desc_tc = desc_tc;
     eventFields.desc_sc = desc_sc;
     eventFields.desc_en = desc_en;
     eventFields.remarks_tc = remarks_tc;
     eventFields.remarks_sc = remarks_sc;
     eventFields.remarks_en = remarks_en;
-    eventFields.writer_tc = writer_tc;
-    eventFields.writer_sc = writer_sc;
-    eventFields.writer_en = writer_en;
     if (isEnabled !== undefined) eventFields.isEnabled = isEnabled;
     eventFields.artDirectors = getArraySafe(artDirectors);
     eventFields.artists = getArraySafe(artists);
     eventFields.shows = sortShows(shows);
+    eventFields.scenarists = getArraySafe(scenarists);
+    if (venue_tc) eventFields.venue_tc = venue_tc;
+    if (venue_sc) eventFields.venue_sc = venue_sc;
+    if (venue_en) eventFields.venue_en = venue_en;
+    eventFields.prices = getArraySafe(prices);
+    eventFields.priceRemarks_tc = priceRemarks_tc;
+    eventFields.priceRemarks_sc = priceRemarks_sc;
+    eventFields.priceRemarks_en = priceRemarks_en;
+    eventFields.phones = getArraySafe(phones);
+    eventFields.ticketUrl = ticketUrl;
     eventFields.themeColor = themeColor;
     eventFields.lastModifyDT = new Date();
     eventFields.lastModifyUser = req.user._id;
