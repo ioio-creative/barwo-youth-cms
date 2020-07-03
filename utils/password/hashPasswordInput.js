@@ -5,4 +5,4 @@ const hashPasswordInput = async passwordInput => {
   return await bcrypt.hash(passwordInput, salt);
 };
 
-module.exports.hashPasswordInput = hashPasswordInput;
+module.exports = hashPasswordInput;

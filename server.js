@@ -79,13 +79,13 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-console.log(process.env.NODE_ENV);
-
 // Override Express default error handling
 // https://expressjs.com/en/guide/error-handling.html
 app.use(function (err, req, res, next) {
   generalErrorHandle(err, res);
 });
+
+console.log('Environment:', process.env.NODE_ENV);
 
 const PORT = config.get('Network.port') || process.env.PORT || 5000;
 

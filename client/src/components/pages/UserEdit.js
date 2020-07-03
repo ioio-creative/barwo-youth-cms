@@ -164,13 +164,11 @@ const UserEdit = _ => {
       if (!isAddMode && !isChangePassword) {
         cleanedUser.password = null;
       }
-      console.log(user);
       if (isSuccess) {
         const funcToCall = isAddMode ? addUser : updateUser;
         returnedUser = await funcToCall(cleanedUser);
         isSuccess = Boolean(returnedUser);
       }
-      console.log(returnedUser);
       if (isSuccess) {
         setAlerts(
           new Alert(
