@@ -3,19 +3,22 @@ import React, {
   useCallback,
   useRef,
   useEffect,
-  useContext
+  useContext,
+  useMemo
 } from 'react';
 import { useParams } from 'react-router-dom';
+import { useQueryParam, NumberParam } from 'use-query-params';
 
 import MediaState from 'contexts/media/MediaState';
 import MediaContext from 'contexts/media/mediaContext';
 import Medium from 'models/medium';
-
-import './FileManager.css';
 import LabelInputTextPair from './LabelInputTextPair';
 import MyLabel from './Label';
 import MyInputText from './InputText';
 import uiWordings from 'globals/uiWordings';
+import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+
+import './FileManager.css';
 
 // routes //
 // images
@@ -24,487 +27,499 @@ import uiWordings from 'globals/uiWordings';
 // pdfs
 // find by name //
 // filterText
-const paramsToType = {
-  images: 'IMAGE',
-  videos: 'video',
-  audios: 'audio',
-  pdfs: 'pdf'
-};
 
+// const paramsToType = {
+//   images: 'IMAGE',
+//   videos: 'video',
+//   audios: 'audio',
+//   pdfs: 'pdf'
+// };
+
+const mediumTypes = Medium.mediumTypes;
+
+/*
 const media = [
   {
     name: 'Image 01',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Video 01',
-    alt: 'this is a sample video',
-    type: 'video',
+    alternativeText: 'this is a sample video',
+    type: mediumTypes.VIDEO.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://techslides.com/demos/sample-videos/small.mp4'
+    url: 'http://techslides.com/demos/sample-videos/small.mp4'
   },
   {
     name: 'Audio 01',
-    alt: 'this is a sample audio',
-    type: 'audio',
+    alternativeText: 'this is a sample audio',
+    type: mediumTypes.AUDIO.value,
     tags: ['ccc'],
-    src:
+    url:
       'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3'
   },
   {
     name: 'PDF 01',
-    alt: 'this is a sample pdf',
-    type: 'pdf',
+    alternativeText: 'this is a sample pdf',
+    type: mediumTypes.PDF.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   },
   {
     name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
+    url: 'http://placehold.it/300x200?text=Image 1'
   },
   {
     name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
+    url: 'http://placehold.it/400x200?text=Image 2'
   },
   {
     name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
+    url: 'http://placehold.it/400x300?text=Image 3'
   },
   {
     name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
+    url: 'http://placehold.it/400x225?text=Image 4'
   },
   {
     name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
+    url: 'http://placehold.it/300x200?text=Image 5'
   },
   {
     name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
+    alternativeText: 'this is a sample image',
+    type: mediumTypes.IMAGE.value,
     tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
+    url: 'http://placehold.it/300x200?text=Image 6'
   }
 ];
+*/
 const tags = [];
 // const tags = ["aaa", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc"];
 
 const UploadingElement = ({
   // uploadedPercent,
   file,
+  mediumType, // for file type validation
   onComplete
 }) => {
   const { addMedium } = useContext(MediaContext);
   const [uploadedPercent, setUploadedPercent] = useState(0);
 
-  useEffect(() => {
-    const formData = new FormData();
+  useEffect(
+    _ => {
+      const formData = new FormData();
 
-    // https://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
-    // for (const file of files) {
-    formData.append('media', file);
-    // }
+      // https://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
+      // for (const file of files) {
+      formData.append('media', file);
+      // }
 
-    const additonalFormData = {
-      alernativeText: 'alt',
-      tags: [],
-      isEnabled: true
-    };
+      const additonalFormData = {
+        alernativeText: 'alt',
+        tags: [],
+        isEnabled: true
+      };
 
-    for (const pair of Object.entries(additonalFormData)) {
-      formData.append(pair[0], pair[1]);
-    }
-
-    console.log('formData to upload:');
-    for (const pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
-    const addMediumPromise = addMedium(Medium.mediumTypes.IMAGE, formData, {
-      onUploadProgress: event => {
-        setUploadedPercent((event.loaded / event.total) * 100);
+      for (const pair of Object.entries(additonalFormData)) {
+        formData.append(pair[0], pair[1]);
       }
-    });
-    addMediumPromise.then(newMedium => {
-      onComplete(newMedium);
-    });
-    // console.log('newMedium:');
-    // console.log(newMedium);
-  }, [file]);
+
+      // console.log('formData to upload:');
+      // for (const pair of formData.entries()) {
+      //   console.log(pair[0] + ', ' + pair[1]);
+      // }
+
+      const addMediumPromise = addMedium(mediumType, formData, {
+        onUploadProgress: event => {
+          setUploadedPercent((event.loaded / event.total) * 100);
+        }
+      });
+
+      addMediumPromise.then(newMedium => {
+        // console.log('newMedium:');
+        // console.log(newMedium);
+        onComplete(newMedium);
+      });
+    },
+    [file, mediumType, onComplete, addMedium]
+  );
+
   return (
     <>
       {uploadedPercent < 100 ? (
@@ -526,13 +541,17 @@ const UploadingElement = ({
   );
 };
 
+UploadingElement.defaultProps = {
+  mediumType: mediumTypes.IMAGE
+};
+
 const FileManager = () => {
   //const [showDetails, setShowDetails] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
   const [selectedFile, setSelectedFile] = useState(-1);
   // const [showDetails, setShowDetails] = useState(false);
-  const [dragEnter, setDragEnter] = useState(false);
+  //const [dragEnter, setDragEnter] = useState(false);
 
   const [uploadingQueue, setUploadingQueue] = useState([]);
   const [uploadedQueue, setUploadedQueue] = useState([]);
@@ -547,56 +566,48 @@ const FileManager = () => {
     // addMedium
   } = useContext(MediaContext);
 
-  const searchQuery = document.location.search;
-  const searchParams = new URLSearchParams(searchQuery);
-  const CKEditorFuncNum = searchParams.get('CKEditorFuncNum');
+  const CKEditorFuncNumAndSetter = useQueryParam(
+    'CKEditorFuncNum',
+    NumberParam
+  );
+  const CKEditorFuncNum = CKEditorFuncNumAndSetter[0];
 
   const { fileType: mediaType, additionalCallbackParam } = useParams();
   // console.log(mediaType);
+  const mediumTypeObj = useMemo(
+    _ => {
+      return Medium.getMediumTypeFromApiRoute(mediaType);
+    },
+    [mediaType]
+  );
+  //console.log(mediumTypeObj);
+
   const fileManagerEl = useRef(null);
   const setFileManagerEl = useCallback(ref => {
     fileManagerEl.current = ref;
     console.log('setFileManagerEl', ref);
   }, []);
-  useEffect(() => {
-    document.addEventListener('dragenter', handleDragEnter, false);
-    document.addEventListener('dragover', handleDragOver, false);
-    document.addEventListener('dragleave', handleDragLeave, false);
-    document.addEventListener('drop', handleDropUpload, false);
-    getMedia(Medium.mediumTypes.IMAGE, {
-      // page,
-      sortOrder: -1,
-      sortBy: 'createDT'
-      // filterText
-    });
-    return () => {
-      document.removeEventListener('dragenter', handleDragEnter, false);
-      document.removeEventListener('dragover', handleDragOver, false);
-      document.removeEventListener('dragleave', handleDragLeave, false);
-      document.removeEventListener('drop', handleDropUpload, false);
-    };
-  }, []);
-  // useEffect(() => {
-  //   console.log(fetchedMedia);
-  // }, [fetchedMedia]);
-  const returnFileUrl = medium => {
-    if (window.opener && window.opener.getMediaData) {
-      // not in file selecting window?
-      window.opener.getMediaData({
-        additionalCallbackParam,
-        medium
-      });
-    } else if (
-      window.opener &&
-      window.opener.CKEDITOR &&
-      window.opener.CKEDITOR.tools
-    ) {
-      // const medium = ;
-      window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium['src']);
-    }
-    window.close();
-  };
-  const selectTag = tagName => {
+  const returnFileUrl = useCallback(
+    medium => {
+      if (window.opener && window.opener.getMediaData) {
+        // not in file selecting window?
+        window.opener.getMediaData({
+          additionalCallbackParam,
+          medium
+        });
+      } else if (
+        window.opener &&
+        window.opener.CKEDITOR &&
+        window.opener.CKEDITOR.tools
+      ) {
+        // const medium = ;
+        window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium.url);
+      }
+      window.close();
+    },
+    [additionalCallbackParam, CKEditorFuncNum]
+  );
+  const selectTag = useCallback(tagName => {
     // send request to server?
     // filter locally?
     // .then( refresh )
@@ -611,56 +622,91 @@ const FileManager = () => {
         ];
       }
     });
-  };
-  const addMedium = newMedium => {
-    console.log(newMedium);
+  }, []);
+  const addMedium = useCallback(newMedium => {
     setUploadedQueue(prevUploadedQueue => {
       return [newMedium, ...prevUploadedQueue];
     });
-  };
-  const handleDropUpload = e => {
-    const dataTransfer = e.dataTransfer;
-    const files = dataTransfer.files;
-    document.body.classList.remove('dragEnter');
-    handleUpload(files);
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  const handleInputUpload = e => {
-    const target = e.target;
-    const files = target.files;
-    handleUpload(files);
-    // console.log(e.target.files);
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  const handleUpload = files => {
-    const newQueue = [];
-    Array.from(files).forEach(file => {
-      newQueue.push(
-        <UploadingElement key={Date.now()} file={file} onComplete={addMedium} />
-      );
-    });
-    setUploadingQueue(prevUploadingQueue => {
-      return [...prevUploadingQueue, ...newQueue];
-    });
-  };
-  const handleDragEnter = e => {
+  }, []);
+  const handleUpload = useCallback(
+    files => {
+      const newQueue = Array.from(files).map(file => (
+        <UploadingElement
+          key={Date.now()}
+          file={file}
+          onComplete={addMedium}
+          mediumType={mediumTypeObj}
+        />
+      ));
+      setUploadingQueue(prevUploadingQueue => {
+        return [...prevUploadingQueue, ...newQueue];
+      });
+    },
+    [addMedium, mediumTypeObj]
+  );
+  const handleDropUpload = useCallback(
+    e => {
+      document.body.classList.remove('dragEnter');
+      handleUpload(e.dataTransfer.files);
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    [handleUpload]
+  );
+  const handleInputUpload = useCallback(
+    e => {
+      handleUpload(e.target.files);
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    [handleUpload]
+  );
+  const handleDragEnter = useCallback(e => {
     document.body.classList.add('dragEnter');
     e.preventDefault();
     e.stopPropagation();
-  };
-  const handleDragOver = e => {
+  }, []);
+  const handleDragOver = useCallback(e => {
     e.preventDefault();
     e.stopPropagation();
-  };
-  const handleDragLeave = e => {
+  }, []);
+  const handleDragLeave = useCallback(e => {
     if (e.target === document.body) {
       document.body.classList.remove('dragEnter');
     }
     e.preventDefault();
     e.stopPropagation();
-  };
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('dragenter', handleDragEnter, false);
+    document.addEventListener('dragover', handleDragOver, false);
+    document.addEventListener('dragleave', handleDragLeave, false);
+    document.addEventListener('drop', handleDropUpload, false);
+    getMedia(mediumTypeObj, {
+      // page,
+      sortOrder: -1,
+      sortBy: 'createDT'
+      // filterText
+    });
+    return () => {
+      document.removeEventListener('dragenter', handleDragEnter, false);
+      document.removeEventListener('dragover', handleDragOver, false);
+      document.removeEventListener('dragleave', handleDragLeave, false);
+      document.removeEventListener('drop', handleDropUpload, false);
+    };
+  }, [
+    mediumTypeObj,
+    getMedia,
+    handleDragEnter,
+    handleDragOver,
+    handleDragLeave,
+    handleDropUpload
+  ]);
+  // useEffect(() => {
+  //   console.log(fetchedMedia);
+  // }, [fetchedMedia]);
+
   return (
     <div className={`w3-stretch fileManager`} ref={setFileManagerEl}>
       <div className='dragFileOverlay'></div>
@@ -712,6 +758,55 @@ const FileManager = () => {
                         ? ''
                         : ' hidden'
                     }${idx === selectedFile ? ' selected' : ''}`}
+                    // onClick={() => setSelectedFile(medium['url'])}
+                    onClick={() =>
+                      selectedFile === idx
+                        ? setSelectedFile(-1)
+                        : setSelectedFile(idx)
+                    }
+                    onDoubleClick={() => returnFileUrl(medium)}
+                  >
+                    <div className='medium-wrapper'>
+                      {
+                        {
+                          IMAGE: (
+                            <img
+                              className='media-preview'
+                              src={medium['url']}
+                              alt={medium['alternativeText']}
+                            />
+                          ),
+                          VIDEO: (
+                            <video
+                              className='media-preview'
+                              src={medium['url']}
+                              alt={medium['alternativeText']}
+                              preload='metadata'
+                            />
+                          ),
+                          AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
+                          PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
+                        }[medium['type']]
+                      }
+                    </div>
+                  </div>
+                );
+              })}
+            {getArraySafe(fetchedMedia).map((medium, idx) => {
+              if (
+                medium['type'] ===
+                mediumTypeObj.value /* paramsToType[mediaType] */
+              ) {
+                return (
+                  // https://stackoverflow.com/a/25926600
+                  <div
+                    key={idx}
+                    className={`w3-col s3 medium-item${
+                      selectedTag.length === 0 ||
+                      medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
+                        ? ''
+                        : ' hidden'
+                    }${idx === selectedFile ? ' selected' : ''}`}
                     // onClick={() => setSelectedFile(medium['src'])}
                     onClick={() =>
                       selectedFile === idx
@@ -727,14 +822,14 @@ const FileManager = () => {
                             <img
                               className='media-preview'
                               src={medium['url']}
-                              alt={medium['alt']}
+                              alt={medium['alternativeText']}
                             />
                           ),
                           VIDEO: (
                             <video
                               className='media-preview'
                               src={medium['url']}
-                              alt={medium['alt']}
+                              alt={medium['alternativeText']}
                               preload='metadata'
                             />
                           ),
@@ -745,57 +840,10 @@ const FileManager = () => {
                     </div>
                   </div>
                 );
-              })}
-            {fetchedMedia &&
-              fetchedMedia.map((medium, idx) => {
-                if (medium['type'] === paramsToType[mediaType]) {
-                  return (
-                    // https://stackoverflow.com/a/25926600
-                    <div
-                      key={idx}
-                      className={`w3-col s3 medium-item${
-                        selectedTag.length === 0 ||
-                        medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
-                          ? ''
-                          : ' hidden'
-                      }${idx === selectedFile ? ' selected' : ''}`}
-                      // onClick={() => setSelectedFile(medium['src'])}
-                      onClick={() =>
-                        selectedFile === idx
-                          ? setSelectedFile(-1)
-                          : setSelectedFile(idx)
-                      }
-                      onDoubleClick={() => returnFileUrl(medium)}
-                    >
-                      <div className='medium-wrapper'>
-                        {
-                          {
-                            IMAGE: (
-                              <img
-                                className='media-preview'
-                                src={medium['url']}
-                                alt={medium['alt']}
-                              />
-                            ),
-                            VIDEO: (
-                              <video
-                                className='media-preview'
-                                src={medium['url']}
-                                alt={medium['alt']}
-                                preload='metadata'
-                              />
-                            ),
-                            AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
-                            PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
-                          }[medium['type']]
-                        }
-                      </div>
-                    </div>
-                  );
-                } else {
-                  return null;
-                }
-              })}
+              } else {
+                return null;
+              }
+            })}
           </div>
         </div>
       </div>
@@ -812,14 +860,14 @@ const FileManager = () => {
                       <img
                         className='media-preview'
                         src={fetchedMedia[selectedFile]['url']}
-                        alt={fetchedMedia[selectedFile]['alt']}
+                        alt={fetchedMedia[selectedFile]['alternativeText']}
                       />
                     ),
                     video: (
                       <video
                         className='media-preview'
                         src={fetchedMedia[selectedFile]['url']}
-                        alt={fetchedMedia[selectedFile]['alt']}
+                        alt={fetchedMedia[selectedFile]['alternativeText']}
                         controls
                         controlsList='nodownload'
                         disablePictureInPicture
@@ -829,7 +877,7 @@ const FileManager = () => {
                       <audio
                         className='media-preview'
                         src={fetchedMedia[selectedFile]['url']}
-                        alt={fetchedMedia[selectedFile]['alt']}
+                        alt={fetchedMedia[selectedFile]['alternativeText']}
                         controls
                         controlsList='nodownload'
                       />
@@ -864,7 +912,7 @@ const FileManager = () => {
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
-                value={fetchedMedia[selectedFile]['alt']}
+                value={fetchedMedia[selectedFile]['alternativeText']}
                 // onChange direct update
               />
             </div>

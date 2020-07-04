@@ -255,6 +255,8 @@ export default {
   'GlobalConstants.InheritTcLabel': 'Inherit Tc',
   'GlobalConstants.InheritScLabel': 'Inherit Sc',
   'GlobalConstants.InheritEnLabel': 'Inherit En',
+  'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
+  'GlobalConstants.LastModifyUserLabel': 'Last Modify User',
 
   'GlobalConstantsPageEdit.EditGlobalConstantsTitle': 'Edit Global Constants',
   'GlobalConstantsPageEdit.UpdateGlobalConstantsSubmit':

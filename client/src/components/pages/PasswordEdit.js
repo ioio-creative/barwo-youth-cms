@@ -39,7 +39,6 @@ const PasswordEdit = () => {
   } = useContext(UsersContext);
 
   const [user, setUser] = useState(defaultState);
-  const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
   // componentDidMount
   useEffect(_ => {
@@ -67,7 +66,6 @@ const PasswordEdit = () => {
   useEffect(
     _ => {
       if (isNonEmptyArray(usersErrors)) {
-        console.log(usersErrors);
         setAlerts(
           usersErrors.map(usersError => {
             return new Alert(
@@ -77,16 +75,9 @@ const PasswordEdit = () => {
           })
         );
         clearUsersErrors();
-
-        if (
-          usersErrors.includes(User.usersResponseTypes.USER_NOT_EXISTS.type)
-        ) {
-          setIsAbandonEdit(true);
-        }
       }
     },
-    // [usersErrors, setAlerts, clearUsersErrors]
-    [usersErrors, setAlerts, clearUsersErrors, setIsAbandonEdit]
+    [usersErrors, setAlerts, clearUsersErrors]
   );
 
   const onChange = useCallback(
@@ -106,15 +97,11 @@ const PasswordEdit = () => {
             Alert.alertTypes.WARNING
           )
         );
-        console.log(userInput.password, authUser);
-        console.log(userInput.password1, userInput.password2);
         return false;
       }
-      console.log(userInput.password, user.password);
-      console.log(userInput.password1, userInput.password2);
       return true;
     },
-    [setAlerts, authUser, user]
+    [setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -124,16 +111,12 @@ const PasswordEdit = () => {
       let isSuccess = false;
       let returnedUser = null;
       isSuccess = validInput(user);
-      console.log(isSuccess);
       const { password2, ...cleanedUser } = user;
       if (isSuccess) {
-        console.log(user.password1);
-        console.log(cleanedUser);
         const funcToCall = editPassword;
         returnedUser = await funcToCall(cleanedUser);
         isSuccess = Boolean(returnedUser);
       }
-      console.log(returnedUser);
       if (isSuccess) {
         setAlerts(
           new Alert(

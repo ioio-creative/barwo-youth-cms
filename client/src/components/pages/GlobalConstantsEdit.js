@@ -6,6 +6,7 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
+import LabelLabelPair from 'components/form/LabelInputTextPair';
 import SubmitButton from 'components/form/SubmitButton';
 import GlobalConstants from 'models/globalConstants';
 import uiWordings from 'globals/uiWordings';
@@ -33,7 +34,7 @@ const GlobalConstantsEdit = _ => {
 
   // componentDidMount
   useEffect(_ => {
-    // getGlobalConstants(); TODO!
+    getGlobalConstants(); // TODO!
     return _ => {
       clearGlobalConstants();
       removeAlerts();
@@ -76,7 +77,6 @@ const GlobalConstantsEdit = _ => {
                   .GLOBAL_CONSTANTS_PAGE_NOT_EXISTS.type
             )
             .map(globalConstantsError => {
-              console.log(globalConstantsError);
               return new Alert(
                 GlobalConstants.globalConstantsResponseTypes[
                   globalConstantsError
@@ -116,7 +116,9 @@ const GlobalConstantsEdit = _ => {
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
+      removeAlerts();
       e.preventDefault();
+
       let isSuccess = validInput(globalConstants);
       let returnedGlobalConstants = null;
       if (isSuccess) {
@@ -133,17 +135,18 @@ const GlobalConstantsEdit = _ => {
           )
         );
 
-        setGlobalConstants(returnedGlobalConstants);
+        getGlobalConstants();
       }
 
       scrollToTop();
     },
     [
       updateGlobalConstants,
-      setGlobalConstants,
+      getGlobalConstants,
       globalConstants,
       setAlerts,
-      validInput
+      validInput,
+      removeAlerts
     ]
   );
 
@@ -164,7 +167,21 @@ const GlobalConstantsEdit = _ => {
         onChange={onChange}
         required={true}
       />
+
+      {!isAddMode && (
+        <>
+          <LabelLabelPair
+            value={globalConstants.lastModifyDTDisplay}
+            labelMessage={uiWordings['GlobalConstants.LastModifyDTLabel']}
+          />
+          <LabelLabelPair
+            value={globalConstants.lastModifyUserDisplay}
+            labelMessage={uiWordings['GlobalConstants.LastModifyUserLabel']}
+          />
+        </>
+      )}
       <SubmitButton
+        disabled={!isSubmitEnabled}
         label={uiWordings['GlobalConstantsEdit.UpdateGlobalConstantsSubmit']}
       />
     </Form>

@@ -1,0 +1,35 @@
+.file-upload .file-upload-item .medium-wrapper {
+  /* position: relative; */
+}
+.file-upload .file-upload-item .medium-wrapper img,
+.file-upload .file-upload-item .medium-wrapper video {
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  object-fit: cover; */
+
+  width: 100%;
+}
+.file-upload .file-upload-item .medium-wrapper .fa {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* .file-upload .file-upload-item .media-preview {
+  width: 100%;
+  outline: 0;
+}
+.file-upload .file-upload-item .media-preview.pdf {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+.file-upload .file-upload-item .media-preview.pdf .fa {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} */

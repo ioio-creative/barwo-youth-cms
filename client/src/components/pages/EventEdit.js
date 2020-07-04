@@ -369,7 +369,7 @@ const EventEdit = _ => {
         );
 
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
-        setEvent(returnedEvent);
+        getEvent(eventId);
       }
 
       scrollToTop();
@@ -378,7 +378,8 @@ const EventEdit = _ => {
       isAddMode,
       updateEvent,
       addEvent,
-      setEvent,
+      getEvent,
+      eventId,
       event,
       artDirectorsPicked,
       artistsPicked,

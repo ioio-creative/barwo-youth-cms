@@ -5,6 +5,7 @@ import SortableList from './SortableList';
 
 const LabelSortableListPair = ({
   isHalf,
+  isShowAddButton,
   name,
   labelMessage,
   pickedItemRender,
@@ -49,9 +50,11 @@ const LabelSortableListPair = ({
     <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label htmlFor={name} message={labelMessage} />
-        <Button className='w3-margin-left' onClick={onAddButtonClick}>
-          <i className='fa fa-plus' />
-        </Button>
+        {isShowAddButton && (
+          <Button className='w3-margin-left' onClick={onAddButtonClick}>
+            <i className='fa fa-plus' />
+          </Button>
+        )}
         <SortableList
           items={pickedItems}
           itemRender={pickedItemRender}
@@ -68,6 +71,7 @@ const LabelSortableListPair = ({
 
 LabelSortableListPair.defaultProps = {
   isHalf: true,
+  isShowAddButton: true,
   pickedItems: [],
   getPickedItems: items => {
     console.log(items);

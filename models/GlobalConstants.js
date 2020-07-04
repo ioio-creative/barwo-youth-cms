@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const GlobalConstantsPageSchema = mongoose.Schema({
+const GlobalConstantsSchema = mongoose.Schema({
   latestShow_tc: {
     type: String
     // unique: true,
@@ -206,7 +206,12 @@ const GlobalConstantsPageSchema = mongoose.Schema({
   }
 });
 
-module.exports.globalConstantsResponseTypes = {
+module.exports.GlobalConstants = mongoose.model(
+  'GlobalConstants',
+  GlobalConstantsSchema
+);
+
+module.exports.globalConstantsPageResponseTypes = {
   // input validation
   LATESTSHOW_TC_REQUIRED: 'LATESTSHOW_TC_REQUIRED',
   LATESTSHOW_SC_REQUIRED: 'LATESTSHOW_SC_REQUIRED',
@@ -271,8 +276,3 @@ module.exports.globalConstantsResponseTypes = {
   // db check
   GLOBAL_CONSTANTS_PAGE_NOT_EXISTS: 'GLOBAL_CONSTANTS_PAGE_NOT_EXISTS'
 };
-
-module.exports.globalConstantsPage = mongoose.model(
-  'GlobalConstantsPage',
-  GlobalConstantsPageSchema
-);

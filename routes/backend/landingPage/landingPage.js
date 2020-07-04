@@ -68,6 +68,7 @@ router.get('/', auth, async (req, res) => {
 // @access  Private
 router.post('/', [auth], async (req, res) => {
   const { featuredVideo, featuredVideo2 } = req.body;
+  console.log(req.body);
 
   // Build landing object
   // Note:
@@ -80,7 +81,7 @@ router.post('/', [auth], async (req, res) => {
 
   try {
     const oldLanding = await LandingPage.findOne({});
-    const newLanding = null;
+    let newLanding = null;
 
     if (oldLanding) {
       // update flow

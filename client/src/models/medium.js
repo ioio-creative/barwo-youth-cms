@@ -51,12 +51,14 @@ Medium.mediaResponseTypes = {
   CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
-Medium.mediumTypes = {
+const mediumTypes = {
   IMAGE: { value: 'IMAGE', label: 'image', apiRoute: 'images' },
   VIDEO: { value: 'VIDEO', label: 'video', apiRoute: 'videos' },
   AUDIO: { value: 'AUDIO', label: 'audio', apiRoute: 'audios' },
   BOTH: { value: 'PDF', label: 'pdf', apiRoute: 'pdfs' }
 };
+
+Medium.mediumTypes = mediumTypes;
 
 Medium.getMediumForDisplay = medium => {
   return {
@@ -68,6 +70,10 @@ Medium.getMediumForDisplay = medium => {
       : '',
     isEnabledDisplay: medium.isEnabled.toString()
   };
+};
+
+Medium.getMediumTypeFromApiRoute = apiRoute => {
+  return Object.values(mediumTypes).find(x => x.apiRoute === apiRoute);
 };
 
 const displayFieldNames = [

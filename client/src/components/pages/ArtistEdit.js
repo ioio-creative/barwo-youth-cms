@@ -72,12 +72,12 @@ const ArtistEdit = _ => {
   useEffect(
     _ => {
       if (!artistsLoading) {
+        setArtist(
+          fetchedArtist
+            ? Artist.getArtistForDisplay(fetchedArtist)
+            : defaultState
+        );
         if (fetchedArtist) {
-          setArtist(
-            fetchedArtist
-              ? Artist.getArtistForDisplay(fetchedArtist)
-              : defaultState
-          );
           if (isNonEmptyArray(fetchedArtist.qnas)) {
             setQnasPicked(fetchedArtist.qnas);
           }
@@ -144,6 +144,7 @@ const ArtistEdit = _ => {
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
+      removeAlerts();
       e.preventDefault();
 
       // add qnas
@@ -183,7 +184,7 @@ const ArtistEdit = _ => {
         );
 
         goToUrl(routes.artistEditByIdWithValue(true, returnedArtist._id));
-        setArtist(returnedArtist);
+        getArtist(artistId);
       }
 
       scrollToTop();
@@ -192,11 +193,13 @@ const ArtistEdit = _ => {
       isAddMode,
       updateArtist,
       addArtist,
-      setArtist,
+      getArtist,
+      artistId,
       artist,
       setAlerts,
       validInput,
-      qnasPicked
+      qnasPicked,
+      removeAlerts
     ]
   );
 

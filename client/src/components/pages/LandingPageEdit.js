@@ -9,12 +9,16 @@ import LabelLabelPair from 'components/form/LabelLabelPair';
 import FileUpload from 'components/form/FileUpload';
 import SubmitButton from 'components/form/SubmitButton';
 import LandingPage from 'models/landingPage';
+import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyLandingPage = new LandingPage();
 const defaultState = emptyLandingPage;
+
+const mediumTypes = Medium.mediumTypes;
 
 const LandingPageEdit = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
@@ -31,6 +35,12 @@ const LandingPageEdit = _ => {
   const [landingPage, setLandingPage] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
+
+  // featuredVideo
+  const [featuredVideoPicked, setFeaturedVideoPicked] = useState(null);
+
+  // featuredVideo2
+  const [featuredVideo2Picked, setFeaturedVideo2Picked] = useState(null);
 
   // componentDidMount
   useEffect(_ => {
@@ -51,10 +61,25 @@ const LandingPageEdit = _ => {
             ? LandingPage.getLandingPageForDisplay(fetchedLandingPage)
             : defaultState
         );
+        if (fetchedLandingPage) {
+          if (fetchedLandingPage.featuredVideo) {
+            setFeaturedVideoPicked(fetchedLandingPage.featuredVideo);
+          }
+          if (fetchedLandingPage.featuredVideo2) {
+            setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
+          }
+        }
         setIsAddMode(!fetchedLandingPage);
       }
     },
-    [landingPageLoading, fetchedLandingPage, setLandingPage, setIsAddMode]
+    [
+      landingPageLoading,
+      fetchedLandingPage,
+      setLandingPage,
+      setIsAddMode,
+      setFeaturedVideoPicked,
+      setFeaturedVideo2Picked
+    ]
   );
 
   // landingPageErrors
@@ -101,10 +126,38 @@ const LandingPageEdit = _ => {
   //   [landingPage, setLandingPage, removeAlerts]
   // );
 
+  const onGetFeaturedVideoPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setFeaturedVideoPicked(firstOrDefault(newItemList, null));
+    },
+    [setIsSubmitEnabled, setFeaturedVideoPicked]
+  );
+
+  const onGetFeaturedVideo2Picked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setFeaturedVideo2Picked(firstOrDefault(newItemList, null));
+    },
+    [setIsSubmitEnabled, setFeaturedVideo2Picked]
+  );
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
+      removeAlerts();
       e.preventDefault();
+
+      // add featuredVideo
+      landingPage.featuredVideo = featuredVideoPicked
+        ? featuredVideoPicked._id
+        : null;
+
+      // add featuredVideo2
+      landingPage.featuredVideo2 = featuredVideo2Picked
+        ? featuredVideo2Picked._id
+        : null;
+
       let isSuccess = validInput(landingPage);
       let returnedLandingPage = null;
       if (isSuccess) {
@@ -119,12 +172,21 @@ const LandingPageEdit = _ => {
           )
         );
 
-        setLandingPage(returnedLandingPage);
+        getLandingPage();
       }
 
       scrollToTop();
     },
-    [updateLandingPage, setLandingPage, landingPage, setAlerts, validInput]
+    [
+      updateLandingPage,
+      getLandingPage,
+      landingPage,
+      setAlerts,
+      removeAlerts,
+      validInput,
+      featuredVideoPicked,
+      featuredVideo2Picked
+    ]
   );
 
   /* end of event handlers */
@@ -140,6 +202,19 @@ const LandingPageEdit = _ => {
       <FileUpload
         name='featuredVideo'
         labelMessage={uiWordings['LandingPage.FeaturedVideoLabel']}
+        files={featuredVideoPicked ? [featuredVideoPicked] : null}
+        onGetFiles={onGetFeaturedVideoPicked}
+        isMultiple={false}
+        mediumType={mediumTypes.VIDEO}
+      />
+
+      <FileUpload
+        name='featuredVideo2'
+        labelMessage={uiWordings['LandingPage.FeaturedVideo2Label']}
+        files={featuredVideo2Picked ? [featuredVideo2Picked] : null}
+        onGetFiles={onGetFeaturedVideo2Picked}
+        isMultiple={false}
+        mediumType={mediumTypes.VIDEO}
       />
 
       {!isAddMode && (

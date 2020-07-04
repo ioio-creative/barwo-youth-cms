@@ -1,5 +1,4 @@
-import { formatDateTimeString, formatDateString } from 'utils/datetime';
-import firstOrDefault from 'utils/js/array/firstOrDefault';
+import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
@@ -121,7 +120,11 @@ GlobalConstants.globalConstantsResponseTypes = {
   INHERIT_EN_REQUIRED: 'INHERIT_EN_REQUIRED',
 
   // db check
-  GLOBAL_CONSTANTS_PAGE_NOT_EXISTS: 'GLOBAL_CONSTANTS_PAGE_NOT_EXISTS'
+  GLOBAL_CONSTANTS_PAGE_NOT_EXISTS: 'GLOBAL_CONSTANTS_PAGE_NOT_EXISTS',
+
+  // general
+  SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
+  CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
 GlobalConstants.getGlobalConstantsForDisplay = globalConstants => {

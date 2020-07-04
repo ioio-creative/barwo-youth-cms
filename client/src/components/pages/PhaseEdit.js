@@ -200,7 +200,7 @@ const PhaseEdit = _ => {
         );
 
         goToUrl(routes.phaseEditByIdWithValue(true, returnedPhase._id));
-        setPhase(returnedPhase);
+        getPhase(phaseId);
       }
 
       scrollToTop();
@@ -209,7 +209,8 @@ const PhaseEdit = _ => {
       isAddMode,
       updatePhase,
       addPhase,
-      setPhase,
+      getPhase,
+      phaseId,
       phase,
       eventsPicked,
       setAlerts,
