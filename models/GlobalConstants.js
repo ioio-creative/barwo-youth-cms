@@ -211,7 +211,7 @@ module.exports.GlobalConstants = mongoose.model(
   GlobalConstantsSchema
 );
 
-module.exports.globalConstantsPageResponseTypes = {
+module.exports.globalConstantsResponseTypes = {
   // input validation
   LATESTSHOW_TC_REQUIRED: 'LATESTSHOW_TC_REQUIRED',
   LATESTSHOW_SC_REQUIRED: 'LATESTSHOW_SC_REQUIRED',
