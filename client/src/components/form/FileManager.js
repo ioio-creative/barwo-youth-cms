@@ -806,6 +806,8 @@ const FileManager = () => {
   }, [
     mediumTypeObj,
     getMedia,
+    clearMedia,
+    removeAlerts,
     handleDragEnter,
     handleDragOver,
     handleDragLeave,
@@ -830,7 +832,7 @@ const FileManager = () => {
         clearMediaErrors();
       }
     },
-    [mediaErrors]
+    [mediaErrors, clearMediaErrors, setAlerts]
   );
 
   return (
