@@ -238,7 +238,7 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
     console.log(file);
 
     if (!file) {
-      // 400 badrequest
+      // 400 bad request
       return res.status(400).json({
         errors: [mediumResponseTypes.NO_FILE_UPLOADED_OR_OF_WRONG_TYPE]
       });

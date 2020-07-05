@@ -11,12 +11,15 @@ import { useQueryParam, NumberParam } from 'use-query-params';
 
 import MediaState from 'contexts/media/MediaState';
 import MediaContext from 'contexts/media/mediaContext';
+import AlertContext from 'contexts/alert/alertContext';
 import Medium from 'models/medium';
+import Alert from 'models/alert';
 import LabelInputTextPair from './LabelInputTextPair';
 import MyLabel from './Label';
 import MyInputText from './InputText';
 import uiWordings from 'globals/uiWordings';
-import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import Loading from 'components/layout/loading/DefaultLoading';
 
 import './FileManager.css';
 
@@ -472,6 +475,70 @@ const media = [
 const tags = [];
 // const tags = ["aaa", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc"];
 
+const MediumElement = ({
+  idx,
+  medium,
+  selectedTag,
+  selectedFile,
+  onSelectMedium,
+  onReturnMedium
+}) => {
+  const handleClick = useCallback(
+    _ => {
+      onSelectMedium(idx);
+    },
+    [idx, onSelectMedium]
+  );
+  const handleDoubleClick = useCallback(
+    _ => {
+      onReturnMedium(medium);
+    },
+    [medium, onReturnMedium]
+  );
+
+  if (!medium) {
+    return null;
+  }
+
+  return (
+    // https://stackoverflow.com/a/25926600
+    <div
+      className={`w3-col s3 medium-item${
+        selectedTag.length === 0 ||
+        medium.tags.some(r => selectedTag.indexOf(r) >= 0)
+          ? ''
+          : ' hidden'
+      }${idx === selectedFile ? ' selected' : ''}`}
+      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
+    >
+      <div className='medium-wrapper'>
+        {
+          {
+            IMAGE: (
+              <img
+                className='media-preview'
+                src={medium.url}
+                alt={medium.alternativeText}
+              />
+            ),
+            VIDEO: (
+              <video
+                className='media-preview'
+                src={medium.url}
+                alt={medium.alternativeText}
+                preload='metadata'
+              />
+            ),
+            AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
+            PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
+          }[medium.type]
+        }
+      </div>
+    </div>
+  );
+};
+
 const UploadingElement = ({
   // uploadedPercent,
   file,
@@ -556,14 +623,18 @@ const FileManager = () => {
   const [uploadingQueue, setUploadingQueue] = useState([]);
   const [uploadedQueue, setUploadedQueue] = useState([]);
 
+  const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     media: fetchedMedia,
-    getMedia
-    // clearMedia,
+    getMedia,
+    clearMedia,
     // medium: fetchedMedium,
     // getMedium,
     // clearMedium,
-    // addMedium
+    // addMedium,
+    mediaLoading,
+    mediaErrors,
+    clearMediaErrors
   } = useContext(MediaContext);
 
   const CKEditorFuncNumAndSetter = useQueryParam(
@@ -583,6 +654,12 @@ const FileManager = () => {
   //console.log(mediumTypeObj);
 
   const fileManagerEl = useRef(null);
+
+  const selectedFetchedMedium =
+    selectedFile !== -1 ? fetchedMedia[selectedFile] : null;
+
+  /* methods */
+
   const setFileManagerEl = useCallback(ref => {
     fileManagerEl.current = ref;
     console.log('setFileManagerEl', ref);
@@ -678,11 +755,39 @@ const FileManager = () => {
     e.stopPropagation();
   }, []);
 
+  const handleMediumElementSelectMedium = useCallback(
+    idx => {
+      if (selectedFile === idx) {
+        setSelectedFile(-1);
+      } else {
+        setSelectedFile(idx);
+      }
+    },
+    [selectedFile]
+  );
+  const handleMediumElementReturnMedium = useCallback(
+    medium => {
+      returnFileUrl(medium);
+    },
+    [returnFileUrl]
+  );
+
+  const handleSelectFile = useCallback(
+    _ => {
+      returnFileUrl(selectedFetchedMedium);
+    },
+    [selectedFetchedMedium, returnFileUrl]
+  );
+
+  /* end of methods */
+
+  // componentDidMount
   useEffect(() => {
     document.addEventListener('dragenter', handleDragEnter, false);
     document.addEventListener('dragover', handleDragOver, false);
     document.addEventListener('dragleave', handleDragLeave, false);
     document.addEventListener('drop', handleDropUpload, false);
+
     getMedia(mediumTypeObj, {
       // page,
       sortOrder: -1,
@@ -694,6 +799,9 @@ const FileManager = () => {
       document.removeEventListener('dragover', handleDragOver, false);
       document.removeEventListener('dragleave', handleDragLeave, false);
       document.removeEventListener('drop', handleDropUpload, false);
+
+      clearMedia();
+      removeAlerts();
     };
   }, [
     mediumTypeObj,
@@ -706,6 +814,24 @@ const FileManager = () => {
   // useEffect(() => {
   //   console.log(fetchedMedia);
   // }, [fetchedMedia]);
+
+  // mediaErrors
+  useEffect(
+    _ => {
+      if (isNonEmptyArray(mediaErrors)) {
+        setAlerts(
+          mediaErrors.map(mediaError => {
+            return new Alert(
+              Medium.mediaResponseTypes[mediaError].msg,
+              Alert.alertTypes.WARNING
+            );
+          })
+        );
+        clearMediaErrors();
+      }
+    },
+    [mediaErrors]
+  );
 
   return (
     <div className={`w3-stretch fileManager`} ref={setFileManagerEl}>
@@ -749,106 +875,45 @@ const FileManager = () => {
             {uploadedQueue &&
               uploadedQueue.map((medium, idx) => {
                 return (
-                  // https://stackoverflow.com/a/25926600
-                  <div
+                  <MediumElement
                     key={idx}
-                    className={`w3-col s3 medium-item${
-                      selectedTag.length === 0 ||
-                      medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
-                        ? ''
-                        : ' hidden'
-                    }${idx === selectedFile ? ' selected' : ''}`}
-                    // onClick={() => setSelectedFile(medium['url'])}
-                    onClick={() =>
-                      selectedFile === idx
-                        ? setSelectedFile(-1)
-                        : setSelectedFile(idx)
-                    }
-                    onDoubleClick={() => returnFileUrl(medium)}
-                  >
-                    <div className='medium-wrapper'>
-                      {
-                        {
-                          IMAGE: (
-                            <img
-                              className='media-preview'
-                              src={medium['url']}
-                              alt={medium['alternativeText']}
-                            />
-                          ),
-                          VIDEO: (
-                            <video
-                              className='media-preview'
-                              src={medium['url']}
-                              alt={medium['alternativeText']}
-                              preload='metadata'
-                            />
-                          ),
-                          AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
-                          PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
-                        }[medium['type']]
-                      }
-                    </div>
-                  </div>
+                    idx={idx}
+                    medium={medium}
+                    selectedTag={selectedTag}
+                    selectedFile={selectedFile}
+                    onSelectMedium={handleMediumElementSelectMedium}
+                    onReturnMedium={handleMediumElementReturnMedium}
+                  />
                 );
               })}
-            {getArraySafe(fetchedMedia).map((medium, idx) => {
-              if (
-                medium['type'] ===
-                mediumTypeObj.value /* paramsToType[mediaType] */
-              ) {
-                return (
-                  // https://stackoverflow.com/a/25926600
-                  <div
-                    key={idx}
-                    className={`w3-col s3 medium-item${
-                      selectedTag.length === 0 ||
-                      medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
-                        ? ''
-                        : ' hidden'
-                    }${idx === selectedFile ? ' selected' : ''}`}
-                    // onClick={() => setSelectedFile(medium['src'])}
-                    onClick={() =>
-                      selectedFile === idx
-                        ? setSelectedFile(-1)
-                        : setSelectedFile(idx)
-                    }
-                    onDoubleClick={() => returnFileUrl(medium)}
-                  >
-                    <div className='medium-wrapper'>
-                      {
-                        {
-                          IMAGE: (
-                            <img
-                              className='media-preview'
-                              src={medium['url']}
-                              alt={medium['alternativeText']}
-                            />
-                          ),
-                          VIDEO: (
-                            <video
-                              className='media-preview'
-                              src={medium['url']}
-                              alt={medium['alternativeText']}
-                              preload='metadata'
-                            />
-                          ),
-                          AUDIO: <i className='fa fa-volume-up fa-2x'></i>,
-                          PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
-                        }[medium['type']]
-                      }
-                    </div>
-                  </div>
-                );
-              } else {
-                return null;
-              }
-            })}
+            {!mediaLoading ? (
+              getArraySafe(fetchedMedia)
+                .filter(
+                  medium =>
+                    medium.type ===
+                    mediumTypeObj.value /* paramsToType[mediaType] */
+                )
+                .map((medium, idx) => {
+                  return (
+                    <MediumElement
+                      key={idx}
+                      idx={idx}
+                      medium={medium}
+                      selectedTag={selectedTag}
+                      selectedFile={selectedFile}
+                      onSelectMedium={handleMediumElementSelectMedium}
+                      onReturnMedium={handleMediumElementReturnMedium}
+                    />
+                  );
+                })
+            ) : (
+              <Loading />
+            )}
           </div>
         </div>
       </div>
       <div className='w3-col s3 media-details'>
-        {selectedFile !== -1 && (
+        {selectedFetchedMedium && (
           <>
             <div className='w3-container'>
               <div className='w3-row w3-section'>
@@ -859,15 +924,15 @@ const FileManager = () => {
                     image: (
                       <img
                         className='media-preview'
-                        src={fetchedMedia[selectedFile]['url']}
-                        alt={fetchedMedia[selectedFile]['alternativeText']}
+                        src={selectedFetchedMedium.url}
+                        alt={selectedFetchedMedium.alternativeText}
                       />
                     ),
                     video: (
                       <video
                         className='media-preview'
-                        src={fetchedMedia[selectedFile]['url']}
-                        alt={fetchedMedia[selectedFile]['alternativeText']}
+                        src={selectedFetchedMedium.url}
+                        alt={selectedFetchedMedium.alternativeText}
                         controls
                         controlsList='nodownload'
                         disablePictureInPicture
@@ -876,8 +941,8 @@ const FileManager = () => {
                     audio: (
                       <audio
                         className='media-preview'
-                        src={fetchedMedia[selectedFile]['url']}
-                        alt={fetchedMedia[selectedFile]['alternativeText']}
+                        src={selectedFetchedMedium.url}
+                        alt={selectedFetchedMedium.alternativeText}
                         controls
                         controlsList='nodownload'
                       />
@@ -887,40 +952,42 @@ const FileManager = () => {
                         <i class='fa fa-file-pdf-o fa-2x'></i>
                       </div>
                     )
-                  }[fetchedMedia[selectedFile]['type']]
+                  }[selectedFetchedMedium.type]
                 }
               </div>
               <div className='w3-row w3-section'>
                 <MyLabel message='Media Url' />
                 <a
-                  href={fetchedMedia[selectedFile]['url']}
+                  href={selectedFetchedMedium.url}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='w3-bar w3-button w3-white w3-border media-link'
                 >
-                  {fetchedMedia[selectedFile]['url']}
+                  {selectedFetchedMedium.url}
                 </a>
               </div>
               <LabelInputTextPair
                 labelMessage='Name'
                 name='name'
                 isHalf={false}
-                value={fetchedMedia[selectedFile]['name']}
+                value={selectedFetchedMedium.name}
                 // onChange direct update
               />
               <LabelInputTextPair
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
-                value={fetchedMedia[selectedFile]['alternativeText']}
+                value={selectedFetchedMedium.alternativeText}
                 // onChange direct update
               />
-            </div>
-            <div
-              className='select-btn w3-btn w3-blue'
-              onClick={() => returnFileUrl(fetchedMedia[selectedFile])}
-            >
-              {uiWordings['FileManager.SelectFile']}
+              <div className='w3-container w3-center'>
+                <div
+                  className='w3-btn w3-blue select-btn'
+                  onClick={handleSelectFile}
+                >
+                  {uiWordings['FileManager.SelectFile']}
+                </div>
+              </div>
             </div>
           </>
         )}

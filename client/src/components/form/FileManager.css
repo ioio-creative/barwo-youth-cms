@@ -36,7 +36,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   align-self: flex-start;
-  background-color: #FFF;
+  background-color: #fff;
   border: 1px solid #ccc;
   padding: 5px;
   max-height: 50vh;
@@ -123,10 +123,10 @@
   text-overflow: ellipsis;
 }
 .fileManager .media-details .select-btn {
-  position: absolute;
+  /* position: absolute;
   bottom: 5px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); */
 }
 
 .fileManager .upload-btn {
@@ -144,7 +144,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  color: #FFF;
+  color: #fff;
   display: none;
   z-index: 999;
 }
