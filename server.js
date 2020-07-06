@@ -64,7 +64,7 @@ app.use(
   require('./routes/backend/landingPage/landingPage')
 );
 app.use(
-  '/api/backend/globalConstantsPage/globalConstantsPage',
+  '/api/backend/globalConstants/globalConstants',
   require('./routes/backend/globalConstants/globalConstants')
 );
 // media api

@@ -2,25 +2,17 @@ import React, { useCallback, useMemo } from 'react';
 import { generatePath } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
-import InputText from 'components/form/InputText';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import guid from 'utils/guid';
 import Medium from 'models/medium';
-
-/* globals */
-
-const defaultMediumFileType = Medium.mediumTypes.IMAGE;
-let mediumFileType = defaultMediumFileType;
-
-/* end of globals */
+import './FileUpload.css';
 
 /* constants */
 
-const emptyFileForAdd = {};
+const mediumTypes = Medium.mediumTypes;
 
 const mapFileToListItem = file => {
   return {
@@ -29,41 +21,34 @@ const mapFileToListItem = file => {
   };
 };
 
+const grid = 8;
+
 const getItemStyle = (isDragging, draggableStyle) => ({
-  ...LabelSortableListPair.getItemStyleDefault(isDragging, draggableStyle)
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  padding: grid * 2,
+  margin: `0 ${grid}px 0 0`,
+
+  // change background colour if dragging
+  background: isDragging ? 'lightgreen' : 'grey',
+
+  // styles we need to apply on draggables
+  ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-  ...LabelSortableListPair.getListStyleDefault(isDraggingOver),
-  width: 500
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  display: 'flex',
+  padding: grid,
+  overflow: 'auto'
 });
 
 /* end of constants */
 
 /* item */
 
-const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
-  /* methods */
-
-  const dealWithItemChange = useCallback(
-    newFile => {
-      handleItemChange(newFile, index);
-    },
-    [handleItemChange, index]
-  );
-
+const Item = ({ file, handleItemRemoved, index }) => {
   /* event handlers */
-
-  const onChange = useCallback(
-    e => {
-      const newFile = {
-        ...file,
-        [e.target.name]: e.target.value
-      };
-      dealWithItemChange(newFile);
-    },
-    [file, dealWithItemChange]
-  );
 
   const onRemoveButtonClick = useCallback(
     _ => {
@@ -74,13 +59,13 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
 
   /* end of event handlers */
 
-  const { draggableId } = file;
+  const { name, alternativeText, type, /*tags,*/ url, draggableId } = file;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
       {(provided, snapshot) => (
         <div
-          className='w3-row'
+          className='file-upload-item'
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -89,35 +74,31 @@ const Item = ({ file, handleItemRemoved, handleItemChange, index }) => {
             provided.draggableProps.style
           )}
         >
-          {/* <div className='w3-col m11 w3-row'>
-            <div className='w3-col m4'>
-              <InputText
-                className='w3-margin-right'
-                name='scenarist_tc'
-                value={scenarist_tc}
-                onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameTcPlaceholder']}
-              />
+          <div className='w3-third'>
+            <div className='medium-wrapper'>
+              {
+                {
+                  IMAGE: (
+                    <img
+                      className='media-preview'
+                      src={url}
+                      alt={alternativeText}
+                    />
+                  ),
+                  VIDEO: (
+                    <video
+                      className='media-preview'
+                      src={url}
+                      alt={alternativeText}
+                      preload='metadata'
+                    />
+                  ),
+                  AUDIO: <i className='fa fa-volume-up fa-2x' />,
+                  PDF: <i className='fa fa-file-pdf-o fa-2x' />
+                }[type]
+              }
             </div>
-            <div className='w3-col m4'>
-              <InputText
-                className='w3-margin-right'
-                name='scenarist_sc'
-                value={scenarist_sc}
-                onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameScPlaceholder']}
-              />
-            </div>
-            <div className='w3-col m4'>
-              <InputText
-                className='w3-margin-right'
-                name='scenarist_en'
-                value={scenarist_en}
-                onChange={onChange}
-                placeholder={uiWordings['EventEdit.Scenarist.NameEnPlaceholder']}
-              />
-            </div>
-          </div> */}
+          </div>
           <div className='w3-right'>
             {isFunction(handleItemRemoved) ? (
               <LabelSortableListPair.ItemRemoveButton
@@ -173,8 +154,8 @@ const FileUpload = ({
   );
 
   const addFile = useCallback(
-    _ => {
-      dealWithGetFiles([...getArraySafe(files), emptyFileForAdd]);
+    file => {
+      dealWithGetFiles([...getArraySafe(files), file]);
     },
     [files, dealWithGetFiles]
   );
@@ -185,8 +166,8 @@ const FileUpload = ({
 
   const onAddButtonClick = useCallback(
     _ => {
-      window.getMediaData = ({ additionalCallbackParam, medium }) => {
-        console.log(medium);
+      window.getMediaData = ({ medium: file }) => {
+        addFile(file);
         window.getMediaData = null;
       };
 
@@ -195,8 +176,6 @@ const FileUpload = ({
           fileType: mediumType.apiRoute
         })
       );
-
-      //addFile();
     },
     [addFile, mediumType]
   );
@@ -211,21 +190,30 @@ const FileUpload = ({
   /* end of event handlers */
 
   return (
-    <LabelSortableListPair
-      name={name}
-      labelMessage={labelMessage}
-      pickedItemRender={itemRender}
-      getListStyle={getListStyle}
-      pickedItems={filesInPickedList}
-      getPickedItems={onGetPickedItems}
-      onAddButtonClick={onAddButtonClick}
-    />
+    <div className='file-upload'>
+      <LabelSortableListPair
+        isHalf={false}
+        isShowAddButton={
+          isMultiple || getArraySafe(filesInPickedList).length === 0
+        }
+        name={name}
+        labelMessage={labelMessage}
+        pickedItemRender={itemRender}
+        getListStyle={getListStyle}
+        pickedItems={filesInPickedList}
+        getPickedItems={onGetPickedItems}
+        onAddButtonClick={onAddButtonClick}
+      />
+    </div>
   );
 };
 
 FileUpload.defaultProps = {
   name: 'files',
-  mediumType: defaultMediumFileType,
+  mediumType: mediumTypes.IMAGE,
+  onGetFiles: files => {
+    console.log(files);
+  },
   isMultiple: false
 };
 

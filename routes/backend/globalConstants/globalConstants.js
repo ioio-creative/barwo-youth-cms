@@ -4,45 +4,47 @@ const router = express.Router();
 const auth = require('../../../middleware/auth');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const {
-  GlobalConstantsPage,
-  globalConstantsPageResponseTypes
+  GlobalConstants,
+  globalConstantsResponseTypes
 } = require('../../../models/GlobalConstants');
 
 /* utilities */
 
 const globalConstantsSelectAll = {};
 
+const globalConstantsPopulationList = [
+  {
+    path: 'lastModifyUser',
+    select: 'name'
+  }
+];
+
 /* end of utilities */
 
-// @route   GET api/backend/globalConstantsPage/globalConstantsPage
-// @desc    Get landing page
+// @route   GET api/backend/globalConstants/globalConstants
+// @desc    Get Global Constants
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const globalConstants = {
-      ...req.paginationOptions,
-      select: globalConstantsSelectAll
-    };
+    const globalConstants = await GlobalConstants.findOne({})
+      .select(globalConstantsSelectAll)
+      .populate(globalConstantsPopulationList);
     if (!globalConstants) {
       return res.status(404).json({
-        errors: [
-          globalConstantsPageResponseTypes.GLOBAL_CONSTANTS_PAGE_NOT_EXISTS
-        ]
+        errors: [globalConstantsResponseTypes.GLOBAL_CONSTANTS_PAGE_NOT_EXISTS]
       });
     }
     res.json(globalConstants);
   } catch (err) {
     //generalErrorHandle(err, res);
     return res.status(404).json({
-      errors: [
-        globalConstantsPageResponseTypes.GLOBAL_CONSTANTS_PAGE_NOT_EXISTS
-      ]
+      errors: [globalConstantsResponseTypes.GLOBAL_CONSTANTS_PAGE_NOT_EXISTS]
     });
   }
 });
 
-// @route   POST api/backend/globalConstantsPage/globalConstantsPage
-// @desc    Add or update Global Constants page
+// @route   POST api/backend/globalConstants/globalConstants
+// @desc    Add or update Global Constants
 // @access  Private
 router.post('/', [auth], async (req, res) => {
   const {
@@ -165,18 +167,18 @@ router.post('/', [auth], async (req, res) => {
   globalConstantsFields.inherit_en = inherit_en;
 
   try {
-    const oldGlobal = await GlobalConstantsPage.findOne({});
+    const oldGlobal = await GlobalConstants.findOne({});
     const newGlobal = null;
 
     if (oldGlobal) {
       // update flow
-      newGlobal = await GlobalConstantsPage.findOneAndUpdate(
+      newGlobal = await GlobalConstants.findOneAndUpdate(
         {},
         { $set: globalConstantsFields }
       );
     } else {
       // insert flow
-      newGlobal = new GlobalConstantsPage(globalConstantsFields);
+      newGlobal = new GlobalConstants(globalConstantsFields);
 
       await newGlobal.save();
     }

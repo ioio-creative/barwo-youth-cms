@@ -156,7 +156,9 @@ const UserEdit = _ => {
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
+      removeAlerts();
       e.preventDefault();
+
       let isSuccess = false;
       let returnedUser = null;
       isSuccess = validInput(user);
@@ -180,7 +182,7 @@ const UserEdit = _ => {
         );
 
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
-        setUser(returnedUser);
+        getUser(userId);
         setIsChangePassword(false);
       }
 
@@ -190,11 +192,13 @@ const UserEdit = _ => {
       isAddMode,
       updateUser,
       addUser,
-      setUser,
+      getUser,
+      userId,
       user,
       setAlerts,
       validInput,
-      isChangePassword
+      isChangePassword,
+      removeAlerts
     ]
   );
 

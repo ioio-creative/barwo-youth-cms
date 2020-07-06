@@ -29,6 +29,7 @@ const GlobalConstantsState = ({ children }) => {
         '/api/backend/globalConstants/globalConstants'
       );
       dispatch({ type: GET_GLOBAL_CONSTANTS, payload: res.data });
+      console.log(res.data);
     } catch (err) {
       handleServerError(err, GLOBAL_CONSTANTS_ERRORS, dispatch);
     }
