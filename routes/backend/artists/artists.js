@@ -239,7 +239,7 @@ router.post(
         qnas,
         featuredImage,
         withoutMaskImage,
-        gallery,
+        gallery: getArraySafe(gallery),
         sound,
         isEnabled,
         lastModifyUser: req.user._id

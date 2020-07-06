@@ -31,12 +31,12 @@ function Artist() {
   this.desc_sc = '';
   this.desc_en = '';
   this.qnas = [];
-  // media
+  /* media */
   this.featuredImage = '';
   this.withoutMaskImage = '';
   this.gallery = [];
   this.sound = '';
-  // end of media
+  /* end of media */
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;

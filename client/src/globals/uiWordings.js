@@ -166,6 +166,8 @@ export default {
 
   'EventEdit.Ticket.Title': 'Ticketing',
 
+  'EventEdit.Media.Title': 'Media',
+
   'PhaseEdit.Show.SelectDatePlaceholder': 'Click to select date',
 
   'Phases.Title': 'Phases',

@@ -14,6 +14,7 @@ import EventEditPhoneSelect from 'components/events/EventEditPhoneSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
+import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -23,15 +24,19 @@ import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
 import Event from 'models/event';
+import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import { formatDateString } from 'utils/datetime';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyEvent = new Event();
 const defaultState = emptyEvent;
+
+const mediumTypes = Medium.mediumTypes;
 
 /* shows related utils */
 
@@ -88,6 +93,12 @@ const EventEdit = _ => {
   // phones in event
   const [phonesPicked, setPhonesPicked] = useState([]);
 
+  // featuredImage
+  const [featuredImagePicked, setFeaturedImagePicked] = useState(null);
+
+  // gallery
+  const [galleryPicked, setGalleryPicked] = useState([]);
+
   // componentDidMount
   useEffect(_ => {
     getArtDirectors();
@@ -128,6 +139,9 @@ const EventEdit = _ => {
           setScenaristsPicked(getArraySafe(fetchedEvent.scenarists));
           setPricesPicked(getArraySafe(fetchedEvent.prices));
           setPhonesPicked(getArraySafe(fetchedEvent.phones));
+
+          setFeaturedImagePicked(fetchedEvent.featuredImage);
+          setGalleryPicked(getArraySafe(fetchedEvent.gallery));
         }
         setIsAddMode(!fetchedEvent);
       }
@@ -142,7 +156,9 @@ const EventEdit = _ => {
       setShowsPicked,
       setScenaristsPicked,
       setPricesPicked,
-      setPhonesPicked
+      setPhonesPicked,
+      setFeaturedImagePicked,
+      setGalleryPicked
     ]
   );
 
@@ -270,6 +286,22 @@ const EventEdit = _ => {
     [setPhonesPicked, setIsSubmitEnabled]
   );
 
+  const onGetFeaturedImagePicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setFeaturedImagePicked(firstOrDefault(newItemList, null));
+    },
+    [setIsSubmitEnabled, setFeaturedImagePicked]
+  );
+
+  const onGetGalleryPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setGalleryPicked(newItemList);
+    },
+    [setIsSubmitEnabled, setGalleryPicked]
+  );
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -338,6 +370,16 @@ const EventEdit = _ => {
         }
       );
 
+      // add featuredImage
+      event.featuredImage = featuredImagePicked
+        ? featuredImagePicked._id
+        : null;
+
+      // add gallery
+      event.gallery = getArraySafe(galleryPicked).map(medium => {
+        return medium._id;
+      });
+
       let isSuccess = validInput(event);
       let returnedEvent = null;
 
@@ -375,6 +417,8 @@ const EventEdit = _ => {
       scenaristsPicked,
       pricesPicked,
       phonesPicked,
+      featuredImagePicked,
+      galleryPicked,
       setAlerts,
       removeAlerts,
       validInput
@@ -442,6 +486,27 @@ const EventEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
+        <div className='w3-card w3-container'>
+          <h4>{uiWordings['EventEdit.Media.Title']}</h4>
+          <FileUpload
+            name='featuredImage'
+            labelMessage={uiWordings['Event.FeaturedImageLabel']}
+            files={featuredImagePicked ? [featuredImagePicked] : null}
+            onGetFiles={onGetFeaturedImagePicked}
+            isMultiple={false}
+            mediumType={mediumTypes.IMAGE}
+          />
+          <FileUpload
+            name='gallery'
+            labelMessage={uiWordings['Event.GalleryLabel']}
+            files={getArraySafe(galleryPicked)}
+            onGetFiles={onGetGalleryPicked}
+            isMultiple={true}
+            mediumType={mediumTypes.IMAGE}
+          />
+        </div>
+
         <EventEditArtDirectorSelect
           artDirectorsPicked={artDirectorsPicked}
           onGetArtDirectorsPicked={onGetArtDirectorsPicked}
@@ -517,22 +582,7 @@ const EventEdit = _ => {
           placeholder=''
           onChange={onChange}
         />
-        {/* <LabelInputTextPair
-          name='featuredImage'
-          value={event.featuredImage}
-          labelMessage={uiWordings['Event.FeaturedImageLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
-        <LabelInputTextPair
-          name='gallery'
-          value={event.gallery}
-          labelMessage={uiWordings['Event.GalleryLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        /> */}
+
         <EventEditArtistSelect
           artistsPicked={artistsPicked}
           onGetArtistsPicked={onGetArtistsPicked}

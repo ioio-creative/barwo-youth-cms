@@ -64,6 +64,7 @@ const ArtistSchema = mongoose.Schema({
     type: String
   },
   qnas: [ArtistQnASchema],
+  /* media */
   featuredImage: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'medium'
@@ -82,6 +83,7 @@ const ArtistSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'medium'
   },
+  /* end of media */
   eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   isEnabled: {

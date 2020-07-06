@@ -34,6 +34,10 @@ function Event() {
   this.phones = [];
   this.ticketUrl = '';
   this.themeColor = null;
+  /* media */
+  this.featuredImage = '';
+  this.gallery = [];
+  /* end of media */
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
