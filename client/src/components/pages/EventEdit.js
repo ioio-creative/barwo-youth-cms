@@ -122,24 +122,12 @@ const EventEdit = _ => {
           fetchedEvent ? Event.getEventForDisplay(fetchedEvent) : defaultState
         );
         if (fetchedEvent) {
-          if (isNonEmptyArray(fetchedEvent.artDirectors)) {
-            setArtDirectorsPicked(fetchedEvent.artDirectors);
-          }
-          if (isNonEmptyArray(fetchedEvent.artists)) {
-            setArtistsPicked(fetchedEvent.artists);
-          }
-          if (isNonEmptyArray(fetchedEvent.shows)) {
-            setShowsPicked(fetchedEvent.shows);
-          }
-          if (isNonEmptyArray(fetchedEvent.scenarists)) {
-            setScenaristsPicked(fetchedEvent.scenarists);
-          }
-          if (isNonEmptyArray(fetchedEvent.prices)) {
-            setPricesPicked(fetchedEvent.prices);
-          }
-          if (isNonEmptyArray(fetchedEvent.phones)) {
-            setPhonesPicked(fetchedEvent.phones);
-          }
+          setArtDirectorsPicked(getArraySafe(fetchedEvent.artDirectors));
+          setArtistsPicked(getArraySafe(fetchedEvent.artists));
+          setShowsPicked(getArraySafe(fetchedEvent.shows));
+          setScenaristsPicked(getArraySafe(fetchedEvent.scenarists));
+          setPricesPicked(getArraySafe(fetchedEvent.prices));
+          setPhonesPicked(getArraySafe(fetchedEvent.phones));
         }
         setIsAddMode(!fetchedEvent);
       }
@@ -369,7 +357,7 @@ const EventEdit = _ => {
         );
 
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
-        getEvent(eventId);
+        getEvent(returnedEvent._id);
       }
 
       scrollToTop();

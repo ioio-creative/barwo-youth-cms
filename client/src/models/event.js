@@ -28,9 +28,9 @@ function Event() {
   this.venue_sc = [];
   this.venue_en = [];
   this.prices = [];
-  this.priceRemarks_tc = [];
-  this.priceRemarks_sc = [];
-  this.priceRemarks_en = [];
+  this.priceRemarks_tc = '';
+  this.priceRemarks_sc = '';
+  this.priceRemarks_en = '';
   this.phones = [];
   this.ticketUrl = '';
   this.themeColor = null;

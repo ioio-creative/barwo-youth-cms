@@ -95,10 +95,10 @@ const ArtistEdit = _ => {
             : defaultState
         );
         if (fetchedArtist) {
-          setQnasPicked(fetchedArtist.qnas);
+          setQnasPicked(getArraySafe(fetchedArtist.qnas));
           setFeaturedImagePicked(fetchedArtist.featuredImage);
           setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
-          setGalleryPicked(fetchedArtist.gallery);
+          setGalleryPicked(getArraySafe(fetchedArtist.gallery));
           setSoundPicked(fetchedArtist.sound);
         }
         setIsAddMode(!fetchedArtist);
@@ -263,7 +263,7 @@ const ArtistEdit = _ => {
         );
 
         goToUrl(routes.artistEditByIdWithValue(true, returnedArtist._id));
-        getArtist(artistId);
+        getArtist(returnedArtist._id);
       }
 
       scrollToTop();

@@ -182,7 +182,7 @@ const UserEdit = _ => {
         );
 
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
-        getUser(userId);
+        getUser(returnedUser._id);
         setIsChangePassword(false);
       }
 
