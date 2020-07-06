@@ -253,6 +253,7 @@ const FileManager = ({ onSelect }) => {
   }, [fetchedMedia]);
   const returnFileUrl = medium => {
     // using onSelect props
+    console.log(CKEditorFuncNum);
     if (onSelect) {
       onSelect(medium);
     } else if (
@@ -262,16 +263,18 @@ const FileManager = ({ onSelect }) => {
       window.opener.CKEDITOR.tools
     ) {
       // call from CKEditor
-      window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium['src']);
+      window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium['url']);
+      window.close();
     } else if (window.opener && window.opener.getMediaData) {
       window.opener.getMediaData({
         additionalCallbackParam,
         medium
       });
+      window.close();
     } else {
       // maybe some other use case?
+      // window.close();
     }
-    window.close();
   };
   const selectTag = useCallback(tagName => {
     // send request to server?
