@@ -178,8 +178,6 @@ router.get(
         };
       }
 
-      console.log(mediumTypeFromUrl.type);
-
       const media = await Medium.paginate(findOptions, options);
       res.json(media);
 

@@ -249,7 +249,7 @@ const FileManager = ({ onSelect }) => {
     if (onSelect) {
       onSelect(medium);
     } else if (
-      CKEditorFuncNum !== null &&
+      ![null, undefined].includes(CKEditorFuncNum) &&
       window.opener &&
       window.opener.CKEDITOR &&
       window.opener.CKEDITOR.tools
@@ -264,7 +264,7 @@ const FileManager = ({ onSelect }) => {
     } else {
       // maybe some other use case?
     }
-    //window.close();
+    window.close();
   };
   const selectTag = useCallback(tagName => {
     // send request to server?
