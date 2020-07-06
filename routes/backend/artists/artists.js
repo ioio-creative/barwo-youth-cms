@@ -152,6 +152,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
     if (filterTextRegex) {
       // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
       findOptions = {
+        ...findOptions,
         $or: [
           { label: filterTextRegex },
           { name_tc: filterTextRegex },
