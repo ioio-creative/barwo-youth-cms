@@ -88,10 +88,32 @@ const EventEdit = _ => {
   const [scenaristsPicked, setScenaristsPicked] = useState([]);
 
   // prices in event
-  const [pricesPicked, setPricesPicked] = useState([]);
+  const [pricesPicked, setPricesPicked] = useState([
+    { price_tc: '150元', price_sc: '150元', price_en: 'HK$150' },
+    { price_tc: '100元', price_sc: '100元', price_en: 'HK$100' }
+  ]);
 
   // phones in event
-  const [phonesPicked, setPhonesPicked] = useState([]);
+  const [phonesPicked, setPhonesPicked] = useState([
+    {
+      label_tc: '節目查詢',
+      label_sc: '节目查询',
+      label_en: 'Programme enquiries',
+      phone: '(852) 2384 2939'
+    },
+    {
+      label_tc: '票務查詢',
+      label_sc: '票务查询',
+      label_en: 'Ticketing enquiries',
+      phone: '(852) 3761 6661'
+    },
+    {
+      label_tc: '信用卡電話熱線',
+      label_sc: '信用卡电话热线',
+      label_en: 'Credit card telephone booking',
+      phone: '(852) 2111 5999'
+    }
+  ]);
 
   // featuredImage
   const [featuredImagePicked, setFeaturedImagePicked] = useState(null);

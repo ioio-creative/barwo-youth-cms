@@ -70,6 +70,28 @@ app.use(
 // media api
 app.use('/api/backend/media', require('./routes/backend/media/media'));
 
+// frontend apis
+// app.use(
+//   '/api/frontend/artists/artists',
+//   require('./routes/frontend/artists/artists')
+// );
+// app.use(
+//   '/api/frontend/events/events',
+//   require('./routes/frontend/events/events')
+// );
+// app.use(
+//   '/api/frontend/phases/phases',
+//   require('./routes/frontend/phases/phases')
+// );
+app.use(
+  '/api/frontend/landingPage/landingPage',
+  require('./routes/frontend/landingPage/landingPage')
+);
+// app.use(
+//   '/api/frontend/globalConstants/globalConstants',
+//   require('./routes/frontend/globalConstants/globalConstants')
+// );
+
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder

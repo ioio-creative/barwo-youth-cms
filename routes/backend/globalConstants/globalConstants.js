@@ -10,7 +10,7 @@ const {
 
 /* utilities */
 
-const globalConstantsSelectAll = {};
+const globalConstantsSelect = {};
 
 const globalConstantsPopulationList = [
   {
@@ -27,7 +27,7 @@ const globalConstantsPopulationList = [
 router.get('/', auth, async (req, res) => {
   try {
     const globalConstants = await GlobalConstants.findOne({})
-      .select(globalConstantsSelectAll)
+      .select(globalConstantsSelect)
       .populate(globalConstantsPopulationList);
     if (!globalConstants) {
       return res.status(404).json({
