@@ -208,7 +208,6 @@ const PhaseEdit = _ => {
       updatePhase,
       addPhase,
       getPhase,
-      phaseId,
       phase,
       eventsPicked,
       setAlerts,

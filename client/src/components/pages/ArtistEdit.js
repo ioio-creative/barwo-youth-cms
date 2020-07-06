@@ -273,7 +273,6 @@ const ArtistEdit = _ => {
       updateArtist,
       addArtist,
       getArtist,
-      artistId,
       artist,
       setAlerts,
       validInput,

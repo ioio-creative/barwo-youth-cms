@@ -223,49 +223,31 @@ const FileManager = ({ onSelect }) => {
     fileManagerEl.current = ref;
     console.log('setFileManagerEl', ref);
   }, []);
-  useEffect(() => {
-    document.addEventListener('dragenter', handleDragEnter, false);
-    document.addEventListener('dragover', handleDragOver, false);
-    document.addEventListener('dragleave', handleDragLeave, false);
-    document.addEventListener('drop', handleDropUpload, false);
-    getMedia(Medium.mediumTypes.IMAGE, {
-      // page,
-      sortOrder: -1,
-      sortBy: 'createDT'
-      // filterText
-    });
-    return () => {
-      document.removeEventListener('dragenter', handleDragEnter, false);
-      document.removeEventListener('dragover', handleDragOver, false);
-      document.removeEventListener('dragleave', handleDragLeave, false);
-      document.removeEventListener('drop', handleDropUpload, false);
-    };
-  }, []);
-  // useEffect(() => {
-  //   console.log(fetchedMedia);
-  // }, [fetchedMedia]);
-  const returnFileUrl = medium => {
-    // using onSelect props
-    if (onSelect) {
-      onSelect(medium);
-    } else if (
-      ![null, undefined].includes(CKEditorFuncNum) &&
-      window.opener &&
-      window.opener.CKEDITOR &&
-      window.opener.CKEDITOR.tools
-    ) {
-      // call from CKEditor
-      window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium['src']);
-    } else if (window.opener && window.opener.getMediaData) {
-      window.opener.getMediaData({
-        additionalCallbackParam,
-        medium
-      });
-    } else {
-      // maybe some other use case?
-    }
-    window.close();
-  };
+  const returnFileUrl = useCallback(
+    medium => {
+      // using onSelect props
+      if (onSelect) {
+        onSelect(medium);
+      } else if (
+        ![null, undefined].includes(CKEditorFuncNum) &&
+        window.opener &&
+        window.opener.CKEDITOR &&
+        window.opener.CKEDITOR.tools
+      ) {
+        // call from CKEditor
+        window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium.url);
+      } else if (window.opener && window.opener.getMediaData) {
+        window.opener.getMediaData({
+          additionalCallbackParam,
+          medium
+        });
+      } else {
+        // maybe some other use case?
+      }
+      window.close();
+    },
+    [onSelect, CKEditorFuncNum, additionalCallbackParam]
+  );
   const selectTag = useCallback(tagName => {
     // send request to server?
     // filter locally?

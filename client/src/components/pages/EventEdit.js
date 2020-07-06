@@ -409,7 +409,6 @@ const EventEdit = _ => {
       updateEvent,
       addEvent,
       getEvent,
-      eventId,
       event,
       artDirectorsPicked,
       artistsPicked,
