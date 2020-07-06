@@ -263,5 +263,6 @@ export default {
     'Global Constants Updated',
 
   'FileManager.SelectFile': 'Select File',
+  'FileManager.DeleteFile': 'Delete File',
   'FileManager.UploadButton': 'Upload'
 };

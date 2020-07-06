@@ -31,436 +31,6 @@ const paramsToType = {
   pdfs: 'pdf'
 };
 
-const media = [
-  {
-    name: 'Image 01',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Video 01',
-    alt: 'this is a sample video',
-    type: 'video',
-    tags: ['aaa', 'bbb'],
-    src: 'http://techslides.com/demos/sample-videos/small.mp4'
-  },
-  {
-    name: 'Audio 01',
-    alt: 'this is a sample audio',
-    type: 'audio',
-    tags: ['ccc'],
-    src:
-      'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3'
-  },
-  {
-    name: 'PDF 01',
-    alt: 'this is a sample pdf',
-    type: 'pdf',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['aaa', 'bbb'],
-    src: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc'],
-    src: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alt: 'this is a sample image',
-    type: 'image',
-    tags: ['ccc', 'bbb'],
-    src: 'http://placehold.it/300x200?text=Image 6'
-  }
-];
 const tags = [];
 // const tags = ["aaa", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc"];
 
@@ -526,14 +96,14 @@ const UploadingElement = ({
   );
 };
 
-const FileManager = () => {
+const FileManager = ({
+  onSelect
+}) => {
   //const [showDetails, setShowDetails] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
   const [selectedFile, setSelectedFile] = useState(-1);
   // const [showDetails, setShowDetails] = useState(false);
-  const [dragEnter, setDragEnter] = useState(false);
-
   const [uploadingQueue, setUploadingQueue] = useState([]);
   const [uploadedQueue, setUploadedQueue] = useState([]);
 
@@ -580,19 +150,24 @@ const FileManager = () => {
   //   console.log(fetchedMedia);
   // }, [fetchedMedia]);
   const returnFileUrl = medium => {
-    if (window.opener && window.opener.getMediaData) {
-      // not in file selecting window?
-      window.opener.getMediaData({
-        additionalCallbackParam,
-        medium
-      });
+    // using onSelect props
+    if (onSelect) {
+      onSelect(medium);
     } else if (
+      CKEditorFuncNum !== null &&
       window.opener &&
       window.opener.CKEDITOR &&
       window.opener.CKEDITOR.tools
     ) {
-      // const medium = ;
+      // call from CKEditor
       window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium['src']);
+    } else if (window.opener && window.opener.getMediaData) {
+      window.opener.getMediaData({
+        additionalCallbackParam,
+        medium
+      });
+    } else {
+      // maybe some other use case?
     }
     window.close();
   };
@@ -673,7 +248,7 @@ const FileManager = () => {
                   <div
                     className={`w3-border w3-btn${
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
-                    } tag`}
+                      } tag`}
                     key={tag}
                     onClick={() => selectTag(tag)}
                   >
@@ -708,10 +283,10 @@ const FileManager = () => {
                     key={idx}
                     className={`w3-col s3 medium-item${
                       selectedTag.length === 0 ||
-                      medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
+                        medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
                         ? ''
                         : ' hidden'
-                    }${idx === selectedFile ? ' selected' : ''}`}
+                      }${idx === selectedFile ? ' selected' : ''}`}
                     // onClick={() => setSelectedFile(medium['src'])}
                     onClick={() =>
                       selectedFile === idx
@@ -755,10 +330,10 @@ const FileManager = () => {
                       key={idx}
                       className={`w3-col s3 medium-item${
                         selectedTag.length === 0 ||
-                        medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
+                          medium['tags'].some(r => selectedTag.indexOf(r) >= 0)
                           ? ''
                           : ' hidden'
-                      }${idx === selectedFile ? ' selected' : ''}`}
+                        }${idx === selectedFile ? ' selected' : ''}`}
                       // onClick={() => setSelectedFile(medium['src'])}
                       onClick={() =>
                         selectedFile === idx
@@ -808,14 +383,14 @@ const FileManager = () => {
                 <br />
                 {
                   {
-                    image: (
+                    "IMAGE": (
                       <img
                         className='media-preview'
                         src={fetchedMedia[selectedFile]['url']}
                         alt={fetchedMedia[selectedFile]['alt']}
                       />
                     ),
-                    video: (
+                    "VIDEO": (
                       <video
                         className='media-preview'
                         src={fetchedMedia[selectedFile]['url']}
@@ -825,7 +400,7 @@ const FileManager = () => {
                         disablePictureInPicture
                       />
                     ),
-                    audio: (
+                    "AUDIO": (
                       <audio
                         className='media-preview'
                         src={fetchedMedia[selectedFile]['url']}
@@ -834,7 +409,7 @@ const FileManager = () => {
                         controlsList='nodownload'
                       />
                     ),
-                    pdf: (
+                    "PDF": (
                       <div className='media-preview pdf'>
                         <i class='fa fa-file-pdf-o fa-2x'></i>
                       </div>
@@ -858,21 +433,32 @@ const FileManager = () => {
                 name='name'
                 isHalf={false}
                 value={fetchedMedia[selectedFile]['name']}
-                // onChange direct update
+              // onChange direct update
               />
               <LabelInputTextPair
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
                 value={fetchedMedia[selectedFile]['alt']}
-                // onChange direct update
+              // onChange direct update
               />
             </div>
-            <div
-              className='select-btn w3-btn w3-blue'
-              onClick={() => returnFileUrl(fetchedMedia[selectedFile])}
-            >
-              {uiWordings['FileManager.SelectFile']}
+            <div className='action-btn-wrapper'>
+              <div
+                className='select-btn w3-btn w3-blue'
+                onClick={() => returnFileUrl(fetchedMedia[selectedFile])}
+              >
+                {uiWordings['FileManager.SelectFile']}
+              </div>
+              <div
+                className='delete-btn w3-btn w3-text-red'
+                onClick={() => {
+                  setSelectedFile(-1);
+                  alert('under construction');
+                }}
+              >
+                <i className="fa fa-trash" />
+              </div>
             </div>
           </>
         )}

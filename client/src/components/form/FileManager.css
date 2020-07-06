@@ -122,13 +122,20 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.fileManager .media-details .select-btn {
+.fileManager .media-details .action-btn-wrapper {
   position: absolute;
-  bottom: 5px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  padding: 5px 10px;
 }
+.fileManager .media-details .select-btn {
 
+}
+.fileManager .media-details .delete-btn {
+  position: absolute;
+  right: 5px;
+}
 .fileManager .upload-btn {
   position: relative;
 }
