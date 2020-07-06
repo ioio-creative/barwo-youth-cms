@@ -155,7 +155,6 @@ const FileUpload = ({
 
   const addFile = useCallback(
     file => {
-      console.log(file);
       dealWithGetFiles([...getArraySafe(files), file]);
     },
     [files, dealWithGetFiles]
@@ -168,6 +167,7 @@ const FileUpload = ({
   const onAddButtonClick = useCallback(
     _ => {
       window.getMediaData = ({ medium: file }) => {
+        console.log(file);
         addFile(file);
         window.getMediaData = null;
       };
