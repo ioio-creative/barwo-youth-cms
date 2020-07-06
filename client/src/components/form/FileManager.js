@@ -200,6 +200,7 @@ const FileManager = ({
     clearMediaErrors
   } = useContext(MediaContext);
 
+  const [mediaList, setMediaList] = useState(fetchedMedia);
   const CKEditorFuncNumAndSetter = useQueryParam(
     'CKEditorFuncNum',
     NumberParam
@@ -219,7 +220,7 @@ const FileManager = ({
   const fileManagerEl = useRef(null);
 
   const selectedFetchedMedium =
-    selectedFile !== -1 ? fetchedMedia[selectedFile] : null;
+    selectedFile !== -1 ? mediaList[selectedFile] : null;
 
   /* methods */
 
@@ -245,9 +246,15 @@ const FileManager = ({
       document.removeEventListener('drop', handleDropUpload, false);
     };
   }, []);
-  // useEffect(() => {
-  //   console.log(fetchedMedia);
-  // }, [fetchedMedia]);
+  useEffect(() => {
+    if (fetchedMedia) {
+      setMediaList(fetchedMedia.filter(
+        medium =>
+          medium.type ===
+          mediumTypeObj.value /* paramsToType[mediaType] */
+      ));
+    }
+  }, [fetchedMedia]);
   const returnFileUrl = medium => {
     // using onSelect props
     if (onSelect) {
@@ -287,9 +294,12 @@ const FileManager = ({
     });
   }, []);
   const addMedium = useCallback(newMedium => {
-    setUploadedQueue(prevUploadedQueue => {
-      return [newMedium, ...prevUploadedQueue];
-    });
+    setMediaList((prevMediaList) => {
+      return [newMedium, ...prevMediaList];
+    })
+    // setUploadedQueue(prevUploadedQueue => {
+    //   return [newMedium, ...prevUploadedQueue];
+    // });
   }, []);
   const handleUpload = useCallback(
     files => {
@@ -460,7 +470,7 @@ const FileManager = ({
             {uploadingQueue && uploadingQueue.map(el => el)}
             {/* <UploadingElement uploadedPercent={30} /> */}
             {/* copy of the normal media list */}
-            {uploadedQueue &&
+            {/*uploadedQueue &&
               uploadedQueue.map((medium, idx) => {
                 return (
                   <MediumElement
@@ -473,9 +483,9 @@ const FileManager = ({
                     onReturnMedium={handleMediumElementReturnMedium}
                   />
                 );
-              })}
+              })*/}
             {!mediaLoading ? (
-              getArraySafe(fetchedMedia)
+              getArraySafe(mediaList)
                 .filter(
                   medium =>
                     medium.type ===

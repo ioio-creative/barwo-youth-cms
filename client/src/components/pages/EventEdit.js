@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, generatePath } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsState from 'contexts/artists/ArtistsState';
 import ArtistsContext from 'contexts/artists/artistsContext';
@@ -492,21 +492,27 @@ const EventEdit = _ => {
           value={event.desc_tc}
           labelMessage={uiWordings['Event.DescTcLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
         />
         <LabelRichTextbox
           name='desc_sc'
           value={event.desc_sc}
           labelMessage={uiWordings['Event.DescScLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
         />
         <LabelRichTextbox
           name='desc_en'
           value={event.desc_en}
           labelMessage={uiWordings['Event.DescEnLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={routes.fileManager}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
         />
         <LabelInputTextPair
           name='remarks_tc'
@@ -587,21 +593,27 @@ const EventEdit = _ => {
             value={event.priceRemarks_tc}
             labelMessage={uiWordings['Event.PriceRemarksTcLabel']}
             onChange={onChange}
-            filebrowserBrowseUrl={routes.fileManager}
+            filebrowserBrowseUrl={generatePath(routes.fileManager, {
+              fileType: 'images'
+            })}
           />
           <LabelRichTextbox
             name='priceRemarks_sc'
             value={event.priceRemarks_sc}
             labelMessage={uiWordings['Event.PriceRemarksScLabel']}
             onChange={onChange}
-            filebrowserBrowseUrl={routes.fileManager}
+            filebrowserBrowseUrl={generatePath(routes.fileManager, {
+              fileType: 'images'
+            })}
           />
           <LabelRichTextbox
             name='priceRemarks_en'
             value={event.priceRemarks_en}
             labelMessage={uiWordings['Event.PriceRemarksEnLabel']}
             onChange={onChange}
-            filebrowserBrowseUrl={routes.fileManager}
+            filebrowserBrowseUrl={generatePath(routes.fileManager, {
+              fileType: 'images'
+            })}
           />
 
           <EventEditPhoneSelect

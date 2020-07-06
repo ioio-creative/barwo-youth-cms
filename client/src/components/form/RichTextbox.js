@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import CKEditor from 'ckeditor4-react';
 import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 import cleanValueForTextInput from './utils/cleanValueForTextInput';
@@ -6,7 +6,7 @@ import cleanValueForTextInput from './utils/cleanValueForTextInput';
 const RichTextbox = ({
   className,
   name,
-  value,
+  value = null,
   onChange,
   required,
   minLength,
@@ -126,6 +126,7 @@ const RichTextbox = ({
     ]
   }
 }) => {
+  const [editorInstance, setEditorInstance] = useState(null);
   const handleChange = useCallback(
     event => {
       invokeIfIsFunction(onChange, {
@@ -136,10 +137,32 @@ const RichTextbox = ({
           value: event.editor.getData()
         }
       });
+      // setValue(event.editor.getData());
     },
     [name, onChange]
   );
-
+  useEffect(() => {
+    if (editorInstance && value !== "") {
+      waitForInstanceInitialized();
+    }
+  }, [editorInstance, value])
+  const waitForInstanceInitialized = () => {
+    if (editorInstance.editor) {
+      if (editorInstance.editor.status == 'loaded') {
+        editorInstance.editor.setData(value);
+        console.log('loaded');
+      } else {
+        editorInstance.editor.on('instanceReady', () => {
+          console.log('instanceReady');
+          editorInstance.editor.setData(value);
+        })
+      }
+    } else {
+      // console.log('??? case');
+      // why the instance not yet finish initialization ......
+      setTimeout(waitForInstanceInitialized, 50);
+    }
+  }
   return (
     <>
       <div className={`editableArea ${className}`}>
@@ -151,8 +174,7 @@ const RichTextbox = ({
         />
         <CKEditor
           onChange={handleChange}
-          //ref={ref => console.log(ref)}
-          data={value}
+          ref={setEditorInstance}
           type='classic'
           config={{
             filebrowserBrowseUrl: filebrowserBrowseUrl,

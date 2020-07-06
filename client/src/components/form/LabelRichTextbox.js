@@ -7,7 +7,7 @@ const LabelRichTextbox = ({
   name,
   value,
   labelMessage,
-  onChange = () => {},
+  onChange = () => { },
   // required,
   // minLength,
   disabled,
@@ -23,7 +23,7 @@ const LabelRichTextbox = ({
           name={name}
           value={value}
           onChange={onChange}
-          // debug={true}
+          debug={false}
           disabled={disabled}
           filebrowserBrowseUrl={filebrowserBrowseUrl}
         />
