@@ -155,6 +155,7 @@ const FileUpload = ({
 
   const addFile = useCallback(
     file => {
+      console.log(file);
       dealWithGetFiles([...getArraySafe(files), file]);
     },
     [files, dealWithGetFiles]

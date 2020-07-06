@@ -25,6 +25,46 @@ const artistPopulationListForFindAll = [
   {
     path: 'lastModifyUser',
     select: 'name'
+  },
+  {
+    path: 'featuredImage',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
+  },
+  {
+    path: 'withoutMaskImage',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
+  },
+  {
+    path: 'gallery',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
+  },
+  {
+    path: 'sound',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
   }
 ];
 
@@ -172,6 +212,10 @@ router.post(
       type,
       role,
       qnas,
+      featuredImage,
+      withoutMaskImage,
+      gallery,
+      sound,
       isEnabled
     } = req.body;
 
@@ -193,6 +237,10 @@ router.post(
         type,
         role,
         qnas,
+        featuredImage,
+        withoutMaskImage,
+        gallery,
+        sound,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -225,6 +273,10 @@ router.put(
       type,
       role,
       qnas,
+      featuredImage,
+      withoutMaskImage,
+      gallery,
+      sound,
       isEnabled
     } = req.body;
 
@@ -248,6 +300,10 @@ router.put(
     artistFields.type = type;
     if (role) artistFields.role = role;
     artistFields.qnas = getArraySafe(qnas);
+    artistFields.featuredImage = featuredImage;
+    artistFields.withoutMaskImage = withoutMaskImage;
+    artistFields.gallery = getArraySafe(gallery);
+    artistFields.sound = sound;
     if (isEnabled !== undefined) artistFields.isEnabled = isEnabled;
     artistFields.lastModifyDT = new Date();
     artistFields.lastModifyUser = req.user._id;

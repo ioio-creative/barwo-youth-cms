@@ -27,17 +27,16 @@ function Artist() {
   this.name_en = '';
   this.type = artistTypes.ACTOR.value;
   this.role = artistRoles.NOT_SPECIFIED.value;
-  this.featuredImage = '';
-  this.withoutMaskImage = '';
-  this.gallery = [];
-  this.sound = '';
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
   this.qnas = [];
-  this.answer = [];
-  // this.relatedShows = '';
-  // this.relatedArtists = '';
+  // media
+  this.featuredImage = '';
+  this.withoutMaskImage = '';
+  this.gallery = [];
+  this.sound = '';
+  // end of media
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
