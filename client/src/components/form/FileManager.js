@@ -574,12 +574,17 @@ const FileManager = ({ onSelect }) => {
                 value={selectedFetchedMedium.alternativeText}
               // onChange direct update
               />
-              <div className='w3-container w3-center'>
+              <div className='w3-center action-btn-wrapper'>
                 <div
                   className='w3-btn w3-blue select-btn'
                   onClick={handleSelectFile}
                 >
                   {uiWordings['FileManager.SelectFile']}
+                </div>
+                <div className="w3-btn w3-text-red"
+                  onClick={() => alert('delete file from server here\nbut the file being deleted may be using somewhere')}
+                >
+                  <i className="fa fa-trash" />
                 </div>
               </div>
             </div>

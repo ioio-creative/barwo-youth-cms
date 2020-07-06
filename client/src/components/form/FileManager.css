@@ -123,18 +123,18 @@
   text-overflow: ellipsis;
 }
 .fileManager .media-details .action-btn-wrapper {
-  position: absolute;
+  /* position: absolute;
   bottom: 0px;
   left: 0;
   right: 0;
-  padding: 5px 10px;
+  padding: 5px 10px; */
 }
 .fileManager .media-details .select-btn {
-
+  margin-right: 5px;
 }
 .fileManager .media-details .delete-btn {
   position: absolute;
-  right: 5px;
+  right: 5px; 
 }
 .fileManager .upload-btn {
   position: relative;
