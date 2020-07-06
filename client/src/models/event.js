@@ -21,19 +21,26 @@ function Event() {
   this.remarks_tc = '';
   this.remarks_sc = '';
   this.remarks_en = '';
-  this.featuredImages = '';
-  this.gallery = [];
   this.artists = [];
-  this.venue_tc = [];
-  this.venue_sc = [];
-  this.venue_en = [];
+  /* ticketing */
+  this.venue_tc = '油麻地戲院';
+  this.venue_sc = '油麻地戏院';
+  this.venue_en = 'Yau Ma Tei Theatre';
   this.prices = [];
-  this.priceRemarks_tc = [];
-  this.priceRemarks_sc = [];
-  this.priceRemarks_en = [];
+  this.priceRemarks_tc =
+    '門票在各城市售票網售票處、網上、流動購票應用程式 My URBTIX（Android及iPhone/iPad版）及電話購票熱線發售<br>設有六十歲或以上高齡人士、殘疾人士及看護人、全日制學生及綜合社會保障援助受惠人士半價優惠 (全日制學生及綜援受惠人士優惠先到先得，額滿即止)';
+  this.priceRemarks_sc =
+    '门票在各城市售票网售票处、网上、流动购票应用程式 My URBTIX（Android及iPhone/iPad版）及电话购票热线发售<br>设有六十岁或以上高龄人士、残疾人士及看护人、全日制学生及综合社会保障援助受惠人士半价优惠 (全日制学生及综援受惠人士优惠先到先得，额满即止)';
+  this.priceRemarks_en =
+    'Tickets available at all URBTIX outlets, on Internet, by mobile ticketing app My URBTIX (Android and iPhone/iPad versions) and telephone.<br>Half price tickets available for senior citizens aged 60 or above, people with disabilities and the minder, full-time students and Comprehensive Social Security Assistance (CSSA) recipients (Limited tickets for full-time students and CSSA recipients available on a first-come-first-served basis).';
   this.phones = [];
-  this.ticketUrl = '';
+  this.ticketUrl = 'www.urbtix.hk';
+  /* end of ticketing */
   this.themeColor = null;
+  /* media */
+  this.featuredImage = '';
+  this.gallery = [];
+  /* end of media */
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;

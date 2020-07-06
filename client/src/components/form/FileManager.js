@@ -31,7 +31,6 @@ import './FileManager.css';
 // find by name //
 // filterText
 
-
 const mediumTypes = Medium.mediumTypes;
 
 const tags = [];
@@ -170,14 +169,11 @@ const UploadingElement = ({
   );
 };
 
-
 UploadingElement.defaultProps = {
   mediumType: mediumTypes.IMAGE
 };
 
-const FileManager = ({
-  onSelect
-}) => {
+const FileManager = ({ onSelect }) => {
   //const [showDetails, setShowDetails] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
@@ -519,14 +515,14 @@ const FileManager = ({
                 <br />
                 {
                   {
-                    "IMAGE": (
+                    IMAGE: (
                       <img
                         className='media-preview'
                         src={selectedFetchedMedium.url}
                         alt={selectedFetchedMedium.alternativeText}
                       />
                     ),
-                    "VIDEO": (
+                    VIDEO: (
                       <video
                         className='media-preview'
                         src={selectedFetchedMedium.url}
@@ -536,7 +532,7 @@ const FileManager = ({
                         disablePictureInPicture
                       />
                     ),
-                    "AUDIO": (
+                    AUDIO: (
                       <audio
                         className='media-preview'
                         src={selectedFetchedMedium.url}
@@ -545,7 +541,7 @@ const FileManager = ({
                         controlsList='nodownload'
                       />
                     ),
-                    "PDF": (
+                    PDF: (
                       <div className='media-preview pdf'>
                         <i class='fa fa-file-pdf-o fa-2x'></i>
                       </div>

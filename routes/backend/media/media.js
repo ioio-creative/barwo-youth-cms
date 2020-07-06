@@ -169,12 +169,12 @@ router.get(
         populate: mediumPopulationListForFindAll
       };
 
-      let findOptions = {};
+      let findOptions = { type: mediumTypeFromUrl.type };
       const filterTextRegex = req.filterTextRegex;
       if (filterTextRegex) {
         findOptions = {
-          name: filterTextRegex,
-          type: mediumTypeFromUrl.type
+          ...findOptions,
+          name: filterTextRegex
         };
       }
 

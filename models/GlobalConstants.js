@@ -72,10 +72,11 @@ const GlobalConstantsSchema = mongoose.Schema({
     type: String
     // require: true
   },
-  sho_en: {
+  show_en: {
     type: String
     // require: true
   },
+
   allShow_tc: {
     type: String
     // require: true

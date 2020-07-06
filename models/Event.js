@@ -127,13 +127,6 @@ const EventSchema = mongoose.Schema({
   remarks_en: {
     type: String
   },
-  featuredImages: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'medium'
-  },
-  gallery: {
-    type: [mongoose.Schema.Types.ObjectId]
-  },
   artDirectors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'artist' }],
   artists: [EventArtistSchema],
   /* ticketing */
@@ -164,6 +157,13 @@ const EventSchema = mongoose.Schema({
     type: String
   },
   /* end of ticketing */
+  /* media */
+  featuredImage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
+  },
+  gallery: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
+  /* end of media */
   phasesInvolved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'phase' }],
   themeColour: {
     type: String

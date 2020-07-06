@@ -41,6 +41,26 @@ const eventPopulationListForFindAll = [
   },
   {
     path: 'shows'
+  },
+  {
+    path: 'featuredImage',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
+  },
+  {
+    path: 'gallery',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
   }
 ];
 
@@ -411,7 +431,9 @@ router.post(
       priceRemarks_en,
       phones,
       ticketUrl,
-      themeColor
+      themeColor,
+      featuredImage,
+      gallery
     } = req.body;
 
     // customed validations
@@ -462,7 +484,9 @@ router.post(
         priceRemarks_en,
         phones,
         ticketUrl,
-        themeColor
+        themeColor,
+        featuredImage,
+        gallery: getArraySafe(gallery)
       });
 
       await event.save({ session });
@@ -523,7 +547,9 @@ router.put(
       priceRemarks_en,
       phones,
       ticketUrl,
-      themeColor
+      themeColor,
+      featuredImage,
+      gallery
     } = req.body;
 
     // customed validations
@@ -572,6 +598,8 @@ router.put(
     eventFields.phones = getArraySafe(phones);
     eventFields.ticketUrl = ticketUrl;
     eventFields.themeColor = themeColor;
+    eventFields.featuredImage = featuredImage;
+    eventFields.gallery = getArraySafe(gallery);
     eventFields.lastModifyDT = new Date();
     eventFields.lastModifyUser = req.user._id;
 

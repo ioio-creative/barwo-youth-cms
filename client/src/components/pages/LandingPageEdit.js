@@ -62,12 +62,8 @@ const LandingPageEdit = _ => {
             : defaultState
         );
         if (fetchedLandingPage) {
-          if (fetchedLandingPage.featuredVideo) {
-            setFeaturedVideoPicked(fetchedLandingPage.featuredVideo);
-          }
-          if (fetchedLandingPage.featuredVideo2) {
-            setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
-          }
+          setFeaturedVideoPicked(fetchedLandingPage.featuredVideo);
+          setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
         }
         setIsAddMode(!fetchedLandingPage);
       }

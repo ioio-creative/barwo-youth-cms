@@ -182,7 +182,7 @@ const UserEdit = _ => {
         );
 
         goToUrl(routes.userEditByIdWithValue(true, returnedUser._id));
-        getUser(userId);
+        getUser(returnedUser._id);
         setIsChangePassword(false);
       }
 
@@ -193,7 +193,6 @@ const UserEdit = _ => {
       updateUser,
       addUser,
       getUser,
-      userId,
       user,
       setAlerts,
       validInput,
@@ -268,12 +267,14 @@ const UserEdit = _ => {
               required={true}
               minLength={passwordMinLength}
             />
-            <Button onClick={onChangePasswordButtonClick}>
-              {uiWordings['UserEdit.CancelChangePasswordLabel']}
-            </Button>
+            {!isAddMode && (
+              <Button onClick={onChangePasswordButtonClick}>
+                {uiWordings['UserEdit.CancelChangePasswordLabel']}
+              </Button>
+            )}
           </>
         )}
-        {!isChangePassword && (
+        {!isChangePassword && !isAddMode && (
           <Button onClick={onChangePasswordButtonClick}>
             {uiWordings['UserEdit.ChangePasswordLabel']}
           </Button>

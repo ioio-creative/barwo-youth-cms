@@ -94,6 +94,8 @@ export default {
   'ArtistEdit.Qna.QuestionEnPlaceholder': 'Question EN',
   'ArtistEdit.Qna.AnswerEnPlaceholder': 'Answer EN',
 
+  'ArtistEdit.Media.Title': 'Media',
+
   'Events.Title': 'Events',
 
   'Event.LabelLabel': 'Label',
@@ -163,6 +165,8 @@ export default {
   'EventEdit.Phone.PhonePlaceholder': 'Phone',
 
   'EventEdit.Ticket.Title': 'Ticketing',
+
+  'EventEdit.Media.Title': 'Media',
 
   'PhaseEdit.Show.SelectDatePlaceholder': 'Click to select date',
 

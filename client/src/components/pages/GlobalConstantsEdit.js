@@ -8,8 +8,6 @@ import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
-import LabelSelectPair from 'components/form/LabelSelectPair';
-import LabelTogglePair from 'components/form/LabelTogglePair';
 import SubmitButton from 'components/form/SubmitButton';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
@@ -17,7 +15,6 @@ import scrollToTop from 'utils/ui/scrollToTop';
 
 const originalGlobalConstants = new GlobalConstants();
 const defaultState = originalGlobalConstants;
-
 const GlobalConstantsEdit = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -45,28 +42,26 @@ const GlobalConstantsEdit = _ => {
   }, []);
 
   // fetchedGlobalConstants
-  // useEffect(
-  //   _ => {
-  //     console.log(fetchedGlobalConstants);
-  //     if (!globalConstantsLoading) {
-  //       setGlobalConstants(
-  //         fetchedGlobalConstants
-  //           ? GlobalConstants.getGlobalConstantsForDisplay(
-  //               fetchedGlobalConstants
-  //             )
-  //           : defaultState
-  //       );
-  //       console.log(Boolean(fetchedGlobalConstants));
-  //       setIsAddMode(!fetchedGlobalConstants);
-  //     }
-  //   },
-  //   [
-  //     globalConstantsLoading,
-  //     fetchedGlobalConstants,
-  //     setGlobalConstants,
-  //     setIsAddMode
-  //   ]
-  // );
+  useEffect(
+    _ => {
+      if (!globalConstantsLoading) {
+        setGlobalConstants(
+          fetchedGlobalConstants
+            ? GlobalConstants.getGlobalConstantsForDisplay(
+                fetchedGlobalConstants
+              )
+            : defaultState
+        );
+        setIsAddMode(!fetchedGlobalConstants);
+      }
+    },
+    [
+      globalConstantsLoading,
+      fetchedGlobalConstants,
+      setGlobalConstants,
+      setIsAddMode
+    ]
+  );
 
   // globalConstantsErrors
   useEffect(
@@ -74,12 +69,13 @@ const GlobalConstantsEdit = _ => {
       if (isNonEmptyArray(globalConstantsErrors)) {
         setAlerts(
           globalConstantsErrors
-            .filter(
-              errorType =>
+            .filter(errorType => {
+              return (
                 errorType !==
                 GlobalConstants.globalConstantsResponseTypes
                   .GLOBAL_CONSTANTS_PAGE_NOT_EXISTS.type
-            )
+              );
+            })
             .map(globalConstantsError => {
               return new Alert(
                 GlobalConstants.globalConstantsResponseTypes[
@@ -97,6 +93,10 @@ const GlobalConstantsEdit = _ => {
 
   /* methods */
 
+  const validInput = useCallback(globalConstantsInput => {
+    return true;
+  }, []);
+
   const onChange = useCallback(
     e => {
       setIsSubmitEnabled(true);
@@ -108,10 +108,6 @@ const GlobalConstantsEdit = _ => {
     },
     [globalConstants, setGlobalConstants, removeAlerts]
   );
-
-  const validInput = useCallback(globalConstantsInput => {
-    return true;
-  }, []);
 
   /* end of methods */
 
@@ -133,7 +129,7 @@ const GlobalConstantsEdit = _ => {
         setAlerts(
           new Alert(
             uiWordings[
-              'GlobalConstantsEdit.UpdateGlobalConstantsSuccessMessage'
+              'GlobalConstantsPageEdit.UpdateGlobalConstantsSuccessMessage'
             ],
             Alert.alertTypes.INFO
           )
@@ -149,8 +145,8 @@ const GlobalConstantsEdit = _ => {
       getGlobalConstants,
       globalConstants,
       setAlerts,
-      validInput,
-      removeAlerts
+      removeAlerts,
+      validInput
     ]
   );
 
@@ -212,10 +208,6 @@ const GlobalConstantsEdit = _ => {
         onChange={onChange}
         required={true}
       />
-      {/* <EventEditArtDirectorSelect
-        artDirectorsPicked={artDirectorsPicked}
-        onGetArtDirectorsPicked={onGetArtDirectorsPicked}
-      /> */}
       <LabelInputTextPair
         name='artDirector_tc'
         value={globalConstants.artDirector_tc}
@@ -475,7 +467,7 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
       <LabelInputTextPair
-        name='allShow_sc'
+        name='all_sc'
         value={globalConstants.all_sc}
         labelMessage={uiWordings['GlobalConstants.AllScLabel']}
         placeholder=''

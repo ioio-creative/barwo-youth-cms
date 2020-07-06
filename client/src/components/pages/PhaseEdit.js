@@ -89,9 +89,7 @@ const PhaseEdit = _ => {
           fetchedPhase ? Phase.getPhaseForDisplay(fetchedPhase) : defaultState
         );
         if (fetchedPhase) {
-          if (isNonEmptyArray(fetchedPhase.events)) {
-            setEventsPicked(fetchedPhase.events);
-          }
+          setEventsPicked(getArraySafe(fetchedPhase.events));
         }
         setIsAddMode(!fetchedPhase);
       }
@@ -200,7 +198,7 @@ const PhaseEdit = _ => {
         );
 
         goToUrl(routes.phaseEditByIdWithValue(true, returnedPhase._id));
-        getPhase(phaseId);
+        getPhase(returnedPhase._id);
       }
 
       scrollToTop();
@@ -210,7 +208,6 @@ const PhaseEdit = _ => {
       updatePhase,
       addPhase,
       getPhase,
-      phaseId,
       phase,
       eventsPicked,
       setAlerts,

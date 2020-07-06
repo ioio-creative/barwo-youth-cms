@@ -14,6 +14,7 @@ import EventEditPhoneSelect from 'components/events/EventEditPhoneSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
+import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -23,15 +24,19 @@ import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
 import Event from 'models/event';
+import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import { formatDateString } from 'utils/datetime';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyEvent = new Event();
 const defaultState = emptyEvent;
+
+const mediumTypes = Medium.mediumTypes;
 
 /* shows related utils */
 
@@ -83,10 +88,38 @@ const EventEdit = _ => {
   const [scenaristsPicked, setScenaristsPicked] = useState([]);
 
   // prices in event
-  const [pricesPicked, setPricesPicked] = useState([]);
+  const [pricesPicked, setPricesPicked] = useState([
+    { price_tc: '150元', price_sc: '150元', price_en: 'HK$150' },
+    { price_tc: '100元', price_sc: '100元', price_en: 'HK$100' }
+  ]);
 
   // phones in event
-  const [phonesPicked, setPhonesPicked] = useState([]);
+  const [phonesPicked, setPhonesPicked] = useState([
+    {
+      label_tc: '節目查詢',
+      label_sc: '节目查询',
+      label_en: 'Programme enquiries',
+      phone: '(852) 2384 2939'
+    },
+    {
+      label_tc: '票務查詢',
+      label_sc: '票务查询',
+      label_en: 'Ticketing enquiries',
+      phone: '(852) 3761 6661'
+    },
+    {
+      label_tc: '信用卡電話熱線',
+      label_sc: '信用卡电话热线',
+      label_en: 'Credit card telephone booking',
+      phone: '(852) 2111 5999'
+    }
+  ]);
+
+  // featuredImage
+  const [featuredImagePicked, setFeaturedImagePicked] = useState(null);
+
+  // gallery
+  const [galleryPicked, setGalleryPicked] = useState([]);
 
   // componentDidMount
   useEffect(_ => {
@@ -122,24 +155,15 @@ const EventEdit = _ => {
           fetchedEvent ? Event.getEventForDisplay(fetchedEvent) : defaultState
         );
         if (fetchedEvent) {
-          if (isNonEmptyArray(fetchedEvent.artDirectors)) {
-            setArtDirectorsPicked(fetchedEvent.artDirectors);
-          }
-          if (isNonEmptyArray(fetchedEvent.artists)) {
-            setArtistsPicked(fetchedEvent.artists);
-          }
-          if (isNonEmptyArray(fetchedEvent.shows)) {
-            setShowsPicked(fetchedEvent.shows);
-          }
-          if (isNonEmptyArray(fetchedEvent.scenarists)) {
-            setScenaristsPicked(fetchedEvent.scenarists);
-          }
-          if (isNonEmptyArray(fetchedEvent.prices)) {
-            setPricesPicked(fetchedEvent.prices);
-          }
-          if (isNonEmptyArray(fetchedEvent.phones)) {
-            setPhonesPicked(fetchedEvent.phones);
-          }
+          setArtDirectorsPicked(getArraySafe(fetchedEvent.artDirectors));
+          setArtistsPicked(getArraySafe(fetchedEvent.artists));
+          setShowsPicked(getArraySafe(fetchedEvent.shows));
+          setScenaristsPicked(getArraySafe(fetchedEvent.scenarists));
+          setPricesPicked(getArraySafe(fetchedEvent.prices));
+          setPhonesPicked(getArraySafe(fetchedEvent.phones));
+
+          setFeaturedImagePicked(fetchedEvent.featuredImage);
+          setGalleryPicked(getArraySafe(fetchedEvent.gallery));
         }
         setIsAddMode(!fetchedEvent);
       }
@@ -154,7 +178,9 @@ const EventEdit = _ => {
       setShowsPicked,
       setScenaristsPicked,
       setPricesPicked,
-      setPhonesPicked
+      setPhonesPicked,
+      setFeaturedImagePicked,
+      setGalleryPicked
     ]
   );
 
@@ -282,6 +308,22 @@ const EventEdit = _ => {
     [setPhonesPicked, setIsSubmitEnabled]
   );
 
+  const onGetFeaturedImagePicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setFeaturedImagePicked(firstOrDefault(newItemList, null));
+    },
+    [setIsSubmitEnabled, setFeaturedImagePicked]
+  );
+
+  const onGetGalleryPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setGalleryPicked(newItemList);
+    },
+    [setIsSubmitEnabled, setGalleryPicked]
+  );
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -350,6 +392,16 @@ const EventEdit = _ => {
         }
       );
 
+      // add featuredImage
+      event.featuredImage = featuredImagePicked
+        ? featuredImagePicked._id
+        : null;
+
+      // add gallery
+      event.gallery = getArraySafe(galleryPicked).map(medium => {
+        return medium._id;
+      });
+
       let isSuccess = validInput(event);
       let returnedEvent = null;
 
@@ -369,7 +421,7 @@ const EventEdit = _ => {
         );
 
         goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
-        getEvent(eventId);
+        getEvent(returnedEvent._id);
       }
 
       scrollToTop();
@@ -379,7 +431,6 @@ const EventEdit = _ => {
       updateEvent,
       addEvent,
       getEvent,
-      eventId,
       event,
       artDirectorsPicked,
       artistsPicked,
@@ -387,6 +438,8 @@ const EventEdit = _ => {
       scenaristsPicked,
       pricesPicked,
       phonesPicked,
+      featuredImagePicked,
+      galleryPicked,
       setAlerts,
       removeAlerts,
       validInput
@@ -454,6 +507,27 @@ const EventEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
+        <div className='w3-card w3-container'>
+          <h4>{uiWordings['EventEdit.Media.Title']}</h4>
+          <FileUpload
+            name='featuredImage'
+            labelMessage={uiWordings['Event.FeaturedImageLabel']}
+            files={featuredImagePicked ? [featuredImagePicked] : null}
+            onGetFiles={onGetFeaturedImagePicked}
+            isMultiple={false}
+            mediumType={mediumTypes.IMAGE}
+          />
+          <FileUpload
+            name='gallery'
+            labelMessage={uiWordings['Event.GalleryLabel']}
+            files={getArraySafe(galleryPicked)}
+            onGetFiles={onGetGalleryPicked}
+            isMultiple={true}
+            mediumType={mediumTypes.IMAGE}
+          />
+        </div>
+
         <EventEditArtDirectorSelect
           artDirectorsPicked={artDirectorsPicked}
           onGetArtDirectorsPicked={onGetArtDirectorsPicked}
@@ -535,22 +609,7 @@ const EventEdit = _ => {
           placeholder=''
           onChange={onChange}
         />
-        {/* <LabelInputTextPair
-          name='featuredImage'
-          value={event.featuredImage}
-          labelMessage={uiWordings['Event.FeaturedImageLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
-        <LabelInputTextPair
-          name='gallery'
-          value={event.gallery}
-          labelMessage={uiWordings['Event.GalleryLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        /> */}
+
         <EventEditArtistSelect
           artistsPicked={artistsPicked}
           onGetArtistsPicked={onGetArtistsPicked}

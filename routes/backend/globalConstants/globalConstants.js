@@ -10,7 +10,7 @@ const {
 
 /* utilities */
 
-const globalConstantsSelectAll = {};
+const globalConstantsSelect = {};
 
 const globalConstantsPopulationList = [
   {
@@ -27,7 +27,7 @@ const globalConstantsPopulationList = [
 router.get('/', auth, async (req, res) => {
   try {
     const globalConstants = await GlobalConstants.findOne({})
-      .select(globalConstantsSelectAll)
+      .select(globalConstantsSelect)
       .populate(globalConstantsPopulationList);
     if (!globalConstants) {
       return res.status(404).json({
@@ -51,52 +51,70 @@ router.post('/', [auth], async (req, res) => {
     latestShow_tc,
     latestShow_sc,
     latestShow_en,
+
     scheduleOfShow_tc,
     scheduleOfShow_sc,
     scheduleOfShow_en,
+
     artDirector_tc,
     artDirector_sc,
     artDirector_en,
+
     actor_tc,
     actor_sc,
     actor_en,
+
     detailsOfShow_tc,
     detailsOfShow_sc,
     detailsOfShow_en,
+
     show_tc,
     show_sc,
     show_en,
+    show_try,
+
     allShow_tc,
     allShow_sc,
     allShow_en,
+
     activities_tc,
     activities_sc,
     activities_en,
+
     downloadPDF_tc,
     downloadPDF_sc,
     downloadPDF_en,
+
     ourActors_tc,
     ourActors_sc,
     ourActors_en,
+
     ymtTheater_tc,
     ymtTheater_sc,
     ymtTheater_en,
+
     followUs_tc,
     followUs_sc,
     followUs_en,
+
     all_tc,
     all_sc,
     all_en,
+
     boy_tc,
     boy_sc,
     boy_en,
+
     girl_tc,
     girl_sc,
     girl_en,
+
     inherit_tc,
     inherit_sc,
     inherit_en
   } = req.body;
+
+  console.log(show_sc, show_en);
 
   // Build global constants object
   // Note:
@@ -167,23 +185,23 @@ router.post('/', [auth], async (req, res) => {
   globalConstantsFields.inherit_en = inherit_en;
 
   try {
-    const oldGlobal = await GlobalConstants.findOne({});
-    const newGlobal = null;
+    const oldGlobalConstants = await GlobalConstants.findOne({});
+    let newGlobalConstants = null;
 
-    if (oldGlobal) {
+    if (oldGlobalConstants) {
       // update flow
-      newGlobal = await GlobalConstants.findOneAndUpdate(
+      newGlobalConstants = await GlobalConstants.findOneAndUpdate(
         {},
         { $set: globalConstantsFields }
       );
     } else {
       // insert flow
-      newGlobal = new GlobalConstants(globalConstantsFields);
+      newGlobalConstants = new GlobalConstants(globalConstantsFields);
 
-      await newGlobal.save();
+      await newGlobalConstants.save();
     }
 
-    res.json(newGlobal);
+    res.json(newGlobalConstants);
   } catch (err) {
     generalErrorHandle(err, res);
   }

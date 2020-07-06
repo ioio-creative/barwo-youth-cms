@@ -54,20 +54,6 @@ const ArtistSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  featuredImages: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'medium'
-  },
-  withoutMaskImage: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'medium'
-  },
-  gallery: {
-    type: [mongoose.Schema.Types.ObjectId]
-  },
-  sound: {
-    type: String
-  },
   desc_tc: {
     type: String
   },
@@ -78,6 +64,26 @@ const ArtistSchema = mongoose.Schema({
     type: String
   },
   qnas: [ArtistQnASchema],
+  /* media */
+  featuredImage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
+  },
+  withoutMaskImage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
+  },
+  gallery: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'medium'
+    }
+  ],
+  sound: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
+  },
+  /* end of media */
   eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   isEnabled: {
