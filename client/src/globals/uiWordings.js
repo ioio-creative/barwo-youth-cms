@@ -94,6 +94,8 @@ export default {
   'ArtistEdit.Qna.QuestionEnPlaceholder': 'Question EN',
   'ArtistEdit.Qna.AnswerEnPlaceholder': 'Answer EN',
 
+  'ArtistEdit.Media.Title': 'Media',
+
   'Events.Title': 'Events',
 
   'Event.LabelLabel': 'Label',
@@ -265,5 +267,6 @@ export default {
     'Global Constants Updated',
 
   'FileManager.SelectFile': 'Select File',
+  'FileManager.DeleteFile': 'Delete File',
   'FileManager.UploadButton': 'Upload'
 };

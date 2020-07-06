@@ -6,8 +6,9 @@ import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import ArtistEditQnaSelect from 'components/artists/ArtistEditQnaSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
-import LabelSelectPair from 'components/form/LabelSelectPair';
 import Form from 'components/form/Form';
+import FileUpload from 'components/form/FileUpload';
+import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -15,14 +16,18 @@ import LabelRichTextbox from '../form/LabelRichTextbox';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Artist from 'models/artist';
+import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyArtist = new Artist();
 const defaultState = emptyArtist;
+
+const mediumTypes = Medium.mediumTypes;
 
 const ArtistEdit = _ => {
   const { artistId } = useParams();
@@ -45,6 +50,18 @@ const ArtistEdit = _ => {
 
   // qnas in artist
   const [qnasPicked, setQnasPicked] = useState([]);
+
+  // featuredImage
+  const [featuredImagePicked, setFeaturedImagePicked] = useState(null);
+
+  // withoutMaskImage
+  const [withoutMaskImagePicked, setWithoutMaskImagePicked] = useState(null);
+
+  // gallery
+  const [galleryPicked, setGalleryPicked] = useState([]);
+
+  // sound
+  const [soundPicked, setSoundPicked] = useState(null);
 
   // componentDidMount
   useEffect(_ => {
@@ -78,14 +95,26 @@ const ArtistEdit = _ => {
             : defaultState
         );
         if (fetchedArtist) {
-          if (isNonEmptyArray(fetchedArtist.qnas)) {
-            setQnasPicked(fetchedArtist.qnas);
-          }
+          setQnasPicked(fetchedArtist.qnas);
+          setFeaturedImagePicked(fetchedArtist.featuredImage);
+          setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
+          setGalleryPicked(fetchedArtist.gallery);
+          setSoundPicked(fetchedArtist.sound);
         }
         setIsAddMode(!fetchedArtist);
       }
     },
-    [artistsLoading, fetchedArtist, setArtist, setIsAddMode, setQnasPicked]
+    [
+      artistsLoading,
+      fetchedArtist,
+      setArtist,
+      setIsAddMode,
+      setQnasPicked,
+      setFeaturedImagePicked,
+      setWithoutMaskImagePicked,
+      setGalleryPicked,
+      setSoundPicked
+    ]
   );
 
   // artistsErrors
@@ -141,6 +170,38 @@ const ArtistEdit = _ => {
     [setQnasPicked, setIsSubmitEnabled]
   );
 
+  const onGetFeaturedImagePicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setFeaturedImagePicked(firstOrDefault(newItemList, null));
+    },
+    [setIsSubmitEnabled, setFeaturedImagePicked]
+  );
+
+  const onGetWithoutMaskImagePicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setWithoutMaskImagePicked(firstOrDefault(newItemList, null));
+    },
+    [setIsSubmitEnabled, setWithoutMaskImagePicked]
+  );
+
+  const onGetGalleryPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setGalleryPicked(newItemList);
+    },
+    [setIsSubmitEnabled, setGalleryPicked]
+  );
+
+  const onGetSoundPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setSoundPicked(firstOrDefault(newItemList, null));
+    },
+    [setIsSubmitEnabled, setSoundPicked]
+  );
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -165,6 +226,24 @@ const ArtistEdit = _ => {
           answer_en
         })
       );
+
+      // add featuredImage
+      artist.featuredImage = featuredImagePicked
+        ? featuredImagePicked._id
+        : null;
+
+      // add withoutMaskImage
+      artist.withoutMaskImage = withoutMaskImagePicked
+        ? withoutMaskImagePicked._id
+        : null;
+
+      // add gallery
+      artist.gallery = getArraySafe(galleryPicked).map(medium => {
+        return medium._id;
+      });
+
+      // add sound
+      artist.sound = soundPicked ? soundPicked._id : null;
 
       let isSuccess = validInput(artist);
       let returnedArtist = null;
@@ -199,11 +278,19 @@ const ArtistEdit = _ => {
       setAlerts,
       validInput,
       qnasPicked,
+      featuredImagePicked,
+      withoutMaskImagePicked,
+      galleryPicked,
+      soundPicked,
       removeAlerts
     ]
   );
 
   /* end of event handlers */
+
+  /* derived values */
+
+  /* end of derived values */
 
   if (artistsLoading) {
     return <Loading />;
@@ -277,38 +364,43 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.TypeLabel']}
           onChange={onChange}
         />
-        <LabelInputTextPair
-          name='featuredImage'
-          value={artist.featuredImage}
-          labelMessage={uiWordings['Artist.FeaturedImageLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
-        <LabelInputTextPair
-          name='withoutMaskImage'
-          value={artist.withoutMaskImage}
-          labelMessage={uiWordings['Artist.WithoutMaskImageLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
-        <LabelInputTextPair
-          name='gallery'
-          value={artist.gallery}
-          labelMessage={uiWordings['Artist.GalleryLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
-        <LabelInputTextPair
-          name='sound'
-          value={artist.sound}
-          labelMessage={uiWordings['Artist.SoundLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={false}
-        />
+
+        <div className='w3-card w3-container'>
+          <h4>{uiWordings['ArtistEdit.Media.Title']}</h4>
+          <FileUpload
+            name='featuredImage'
+            labelMessage={uiWordings['Artist.FeaturedImageLabel']}
+            files={featuredImagePicked ? [featuredImagePicked] : null}
+            onGetFiles={onGetFeaturedImagePicked}
+            isMultiple={false}
+            mediumType={mediumTypes.IMAGE}
+          />
+          <FileUpload
+            name='withoutMaskImage'
+            labelMessage={uiWordings['Artist.WithoutMaskImageLabel']}
+            files={withoutMaskImagePicked ? [withoutMaskImagePicked] : null}
+            onGetFiles={onGetWithoutMaskImagePicked}
+            isMultiple={false}
+            mediumType={mediumTypes.IMAGE}
+          />
+          <FileUpload
+            name='gallery'
+            labelMessage={uiWordings['Artist.GalleryLabel']}
+            files={getArraySafe(galleryPicked)}
+            onGetFiles={onGetGalleryPicked}
+            isMultiple={true}
+            mediumType={mediumTypes.IMAGE}
+          />
+          <FileUpload
+            name='sound'
+            labelMessage={uiWordings['Artist.SoundLabel']}
+            files={soundPicked ? [soundPicked] : null}
+            onGetFiles={onGetSoundPicked}
+            isMultiple={false}
+            mediumType={mediumTypes.AUDIO}
+          />
+        </div>
+
         <LabelRichTextbox
           name='desc_tc'
           value={artist.desc_tc}

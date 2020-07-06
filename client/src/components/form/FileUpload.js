@@ -32,6 +32,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   // change background colour if dragging
   background: isDragging ? 'lightgreen' : 'grey',
 
+  width: '100%',
+
   // styles we need to apply on draggables
   ...draggableStyle
 });
@@ -93,8 +95,20 @@ const Item = ({ file, handleItemRemoved, index }) => {
                       preload='metadata'
                     />
                   ),
-                  AUDIO: <i className='fa fa-volume-up fa-2x' />,
-                  PDF: <i className='fa fa-file-pdf-o fa-2x' />
+                  AUDIO: (
+                    <audio
+                      className='media-preview'
+                      src={url}
+                      alt={alternativeText}
+                      controls
+                      controlsList='nodownload'
+                    />
+                  ),
+                  PDF: (
+                    <div className='media-preview pdf'>
+                      <i class='fa fa-file-pdf-o fa-2x'></i>
+                    </div>
+                  )
                 }[type]
               }
             </div>
