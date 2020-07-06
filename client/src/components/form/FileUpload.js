@@ -95,8 +95,20 @@ const Item = ({ file, handleItemRemoved, index }) => {
                       preload='metadata'
                     />
                   ),
-                  AUDIO: <i className='fa fa-volume-up fa-2x' />,
-                  PDF: <i className='fa fa-file-pdf-o fa-2x' />
+                  AUDIO: (
+                    <audio
+                      className='media-preview'
+                      src={url}
+                      alt={alternativeText}
+                      controls
+                      controlsList='nodownload'
+                    />
+                  ),
+                  PDF: (
+                    <div className='media-preview pdf'>
+                      <i class='fa fa-file-pdf-o fa-2x'></i>
+                    </div>
+                  )
                 }[type]
               }
             </div>
@@ -169,7 +181,6 @@ const FileUpload = ({
   const onAddButtonClick = useCallback(
     _ => {
       window.getMediaData = ({ medium: file }) => {
-        console.log(file);
         addFile(file);
         window.getMediaData = null;
       };

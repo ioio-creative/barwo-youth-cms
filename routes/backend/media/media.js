@@ -180,8 +180,6 @@ router.get(
 
       const media = await Medium.paginate(findOptions, options);
       res.json(media);
-
-      console.log(media.docs.map(medium => medium.type));
     } catch (err) {
       generalErrorHandle(err, res);
     }

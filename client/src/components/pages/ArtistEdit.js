@@ -95,21 +95,11 @@ const ArtistEdit = _ => {
             : defaultState
         );
         if (fetchedArtist) {
-          if (isNonEmptyArray(fetchedArtist.qnas)) {
-            setQnasPicked(fetchedArtist.qnas);
-          }
-          if (fetchedArtist.featuredImage) {
-            setFeaturedImagePicked(fetchedArtist.featuredImage);
-          }
-          if (fetchedArtist.withoutMaskImage) {
-            setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
-          }
-          if (isNonEmptyArray(fetchedArtist.gallery)) {
-            setGalleryPicked(fetchedArtist.gallery);
-          }
-          if (fetchedArtist.sound) {
-            setSoundPicked(fetchedArtist.sound);
-          }
+          setQnasPicked(fetchedArtist.qnas);
+          setFeaturedImagePicked(fetchedArtist.featuredImage);
+          setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
+          setGalleryPicked(fetchedArtist.gallery);
+          setSoundPicked(fetchedArtist.sound);
         }
         setIsAddMode(!fetchedArtist);
       }
@@ -288,6 +278,10 @@ const ArtistEdit = _ => {
       setAlerts,
       validInput,
       qnasPicked,
+      featuredImagePicked,
+      withoutMaskImagePicked,
+      galleryPicked,
+      soundPicked,
       removeAlerts
     ]
   );
