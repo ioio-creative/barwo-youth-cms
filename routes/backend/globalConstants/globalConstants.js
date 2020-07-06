@@ -12,6 +12,13 @@ const {
 
 const globalConstantsSelectAll = {};
 
+const globalConstantsPopulationList = [
+  {
+    path: 'lastModifyUser',
+    select: 'name'
+  }
+];
+
 /* end of utilities */
 
 // @route   GET api/backend/globalConstants/globalConstants
@@ -19,10 +26,9 @@ const globalConstantsSelectAll = {};
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const globalConstants = {
-      ...req.paginationOptions,
-      select: globalConstantsSelectAll
-    };
+    const globalConstants = await GlobalConstants.findOne({})
+      .select(globalConstantsSelectAll)
+      .populate(globalConstantsPopulationList);
     if (!globalConstants) {
       return res.status(404).json({
         errors: [globalConstantsResponseTypes.GLOBAL_CONSTANTS_PAGE_NOT_EXISTS]

@@ -1,6 +1,5 @@
 import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
-import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function GlobalConstants() {
   this.latestShow_tc = '最新劇目';
@@ -51,8 +50,8 @@ function GlobalConstants() {
   this.inherit_tc = '承傳粵劇、振興道統';
   this.inherit_sc = '承传粤剧、振兴道统';
   this.inherit_en = 'Inherit';
-  this.lastModifyDT = null;
-  this.lastModifyUser = null;
+  this.lastModifyDTDisplay = null;
+  this.lastModifyUserDisplay = null;
 }
 
 /* statics */
@@ -136,10 +135,6 @@ GlobalConstants.getGlobalConstantsForDisplay = globalConstants => {
       : ''
   };
 };
-
-const displayFieldNames = ['lastModifyDTDisplay', 'lastModifyUserDisplay'];
-
-GlobalConstants.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
 
 /* end of statics */
 
