@@ -31,447 +31,9 @@ import './FileManager.css';
 // find by name //
 // filterText
 
-// const paramsToType = {
-//   images: 'IMAGE',
-//   videos: 'video',
-//   audios: 'audio',
-//   pdfs: 'pdf'
-// };
 
 const mediumTypes = Medium.mediumTypes;
 
-/*
-const media = [
-  {
-    name: 'Image 01',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Video 01',
-    alternativeText: 'this is a sample video',
-    type: mediumTypes.VIDEO.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://techslides.com/demos/sample-videos/small.mp4'
-  },
-  {
-    name: 'Audio 01',
-    alternativeText: 'this is a sample audio',
-    type: mediumTypes.AUDIO.value,
-    tags: ['ccc'],
-    url:
-      'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3'
-  },
-  {
-    name: 'PDF 01',
-    alternativeText: 'this is a sample pdf',
-    type: mediumTypes.PDF.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  },
-  {
-    name: 'Image 1 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 1'
-  },
-  {
-    name: 'Image 2 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/400x200?text=Image 2'
-  },
-  {
-    name: 'Image 3 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/400x300?text=Image 3'
-  },
-  {
-    name: 'Image 4 (a, b)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['aaa', 'bbb'],
-    url: 'http://placehold.it/400x225?text=Image 4'
-  },
-  {
-    name: 'Image 5 (c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc'],
-    url: 'http://placehold.it/300x200?text=Image 5'
-  },
-  {
-    name: 'Image 6 (b, c)',
-    alternativeText: 'this is a sample image',
-    type: mediumTypes.IMAGE.value,
-    tags: ['ccc', 'bbb'],
-    url: 'http://placehold.it/300x200?text=Image 6'
-  }
-];
-*/
 const tags = [];
 // const tags = ["aaa", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc"];
 
@@ -505,10 +67,10 @@ const MediumElement = ({
     <div
       className={`w3-col s3 medium-item${
         selectedTag.length === 0 ||
-        medium.tags.some(r => selectedTag.indexOf(r) >= 0)
+          medium.tags.some(r => selectedTag.indexOf(r) >= 0)
           ? ''
           : ' hidden'
-      }${idx === selectedFile ? ' selected' : ''}`}
+        }${idx === selectedFile ? ' selected' : ''}`}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
@@ -608,18 +170,19 @@ const UploadingElement = ({
   );
 };
 
+
 UploadingElement.defaultProps = {
   mediumType: mediumTypes.IMAGE
 };
 
-const FileManager = () => {
+const FileManager = ({
+  onSelect
+}) => {
   //const [showDetails, setShowDetails] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
   const [selectedFile, setSelectedFile] = useState(-1);
   // const [showDetails, setShowDetails] = useState(false);
-  //const [dragEnter, setDragEnter] = useState(false);
-
   const [uploadingQueue, setUploadingQueue] = useState([]);
   const [uploadedQueue, setUploadedQueue] = useState([]);
 
@@ -664,26 +227,49 @@ const FileManager = () => {
     fileManagerEl.current = ref;
     console.log('setFileManagerEl', ref);
   }, []);
-  const returnFileUrl = useCallback(
-    medium => {
-      if (window.opener && window.opener.getMediaData) {
-        // not in file selecting window?
-        window.opener.getMediaData({
-          additionalCallbackParam,
-          medium
-        });
-      } else if (
-        window.opener &&
-        window.opener.CKEDITOR &&
-        window.opener.CKEDITOR.tools
-      ) {
-        // const medium = ;
-        window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium.url);
-      }
-      window.close();
-    },
-    [additionalCallbackParam, CKEditorFuncNum]
-  );
+  useEffect(() => {
+    document.addEventListener('dragenter', handleDragEnter, false);
+    document.addEventListener('dragover', handleDragOver, false);
+    document.addEventListener('dragleave', handleDragLeave, false);
+    document.addEventListener('drop', handleDropUpload, false);
+    getMedia(Medium.mediumTypes.IMAGE, {
+      // page,
+      sortOrder: -1,
+      sortBy: 'createDT'
+      // filterText
+    });
+    return () => {
+      document.removeEventListener('dragenter', handleDragEnter, false);
+      document.removeEventListener('dragover', handleDragOver, false);
+      document.removeEventListener('dragleave', handleDragLeave, false);
+      document.removeEventListener('drop', handleDropUpload, false);
+    };
+  }, []);
+  // useEffect(() => {
+  //   console.log(fetchedMedia);
+  // }, [fetchedMedia]);
+  const returnFileUrl = medium => {
+    // using onSelect props
+    if (onSelect) {
+      onSelect(medium);
+    } else if (
+      CKEditorFuncNum !== null &&
+      window.opener &&
+      window.opener.CKEDITOR &&
+      window.opener.CKEDITOR.tools
+    ) {
+      // call from CKEditor
+      window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium['src']);
+    } else if (window.opener && window.opener.getMediaData) {
+      window.opener.getMediaData({
+        additionalCallbackParam,
+        medium
+      });
+    } else {
+      // maybe some other use case?
+    }
+    window.close();
+  };
   const selectTag = useCallback(tagName => {
     // send request to server?
     // filter locally?
@@ -847,7 +433,7 @@ const FileManager = () => {
                   <div
                     className={`w3-border w3-btn${
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
-                    } tag`}
+                      } tag`}
                     key={tag}
                     onClick={() => selectTag(tag)}
                   >
@@ -909,8 +495,8 @@ const FileManager = () => {
                   );
                 })
             ) : (
-              <Loading />
-            )}
+                <Loading />
+              )}
           </div>
         </div>
       </div>
@@ -923,14 +509,14 @@ const FileManager = () => {
                 <br />
                 {
                   {
-                    image: (
+                    "IMAGE": (
                       <img
                         className='media-preview'
                         src={selectedFetchedMedium.url}
                         alt={selectedFetchedMedium.alternativeText}
                       />
                     ),
-                    video: (
+                    "VIDEO": (
                       <video
                         className='media-preview'
                         src={selectedFetchedMedium.url}
@@ -940,7 +526,7 @@ const FileManager = () => {
                         disablePictureInPicture
                       />
                     ),
-                    audio: (
+                    "AUDIO": (
                       <audio
                         className='media-preview'
                         src={selectedFetchedMedium.url}
@@ -949,7 +535,7 @@ const FileManager = () => {
                         controlsList='nodownload'
                       />
                     ),
-                    pdf: (
+                    "PDF": (
                       <div className='media-preview pdf'>
                         <i class='fa fa-file-pdf-o fa-2x'></i>
                       </div>
@@ -973,14 +559,14 @@ const FileManager = () => {
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.name}
-                // onChange direct update
+              // onChange direct update
               />
               <LabelInputTextPair
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.alternativeText}
-                // onChange direct update
+              // onChange direct update
               />
               <div className='w3-container w3-center'>
                 <div
