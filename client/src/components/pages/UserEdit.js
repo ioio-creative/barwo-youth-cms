@@ -268,12 +268,14 @@ const UserEdit = _ => {
               required={true}
               minLength={passwordMinLength}
             />
-            <Button onClick={onChangePasswordButtonClick}>
-              {uiWordings['UserEdit.CancelChangePasswordLabel']}
-            </Button>
+            {!isAddMode && (
+              <Button onClick={onChangePasswordButtonClick}>
+                {uiWordings['UserEdit.CancelChangePasswordLabel']}
+              </Button>
+            )}
           </>
         )}
-        {!isChangePassword && (
+        {!isChangePassword && !isAddMode && (
           <Button onClick={onChangePasswordButtonClick}>
             {uiWordings['UserEdit.ChangePasswordLabel']}
           </Button>
