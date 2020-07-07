@@ -150,6 +150,12 @@ const RichTextbox = ({
           // console.log(value);
           editorInstance.editor.setData(value);
         });
+
+        if (editorInstance.editor.status === 'loaded') {
+          editorInstance.editor.setData(value);
+          console.log('RichTextbox loaded');
+        }
+
         // if (editorInstance.editor.status === 'loaded') {
         //   editorInstance.editor.setData(value);
         //   console.log('RichTextbox loaded');
