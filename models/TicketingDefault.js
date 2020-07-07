@@ -36,11 +36,6 @@ const TicketingDefaultPhoneSchema = mongoose.Schema({
 });
 
 const TicketingDefaultSchema = mongoose.Schema({
-  label: {
-    type: String,
-    require: true,
-    unique: true
-  },
   /* ticketing */
   venue_tc: {
     type: String,
@@ -69,19 +64,6 @@ const TicketingDefaultSchema = mongoose.Schema({
     type: String
   },
   /* end of ticketing */
-  /* media */
-  featuredImage: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'medium'
-  },
-  isEnabled: {
-    type: Boolean,
-    default: true
-  },
-  createDT: {
-    type: Date,
-    default: Date.now
-  },
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -101,7 +83,6 @@ module.exports.TicketingDefault = mongoose.model(
 
 module.exports.ticketingDefaultResponseTypes = {
   // input validation
-  LABEL_REQUIRED: 'LABEL_REQUIRED',
   VENUE_TC_REQUIRED: 'VENUE_TC_REQUIRED',
   VENUE_SC_REQUIRED: 'VENUE_SC_REQUIRED',
   VENUE_EN_REQUIRED: 'VENUE_EN_REQUIRED',
@@ -121,6 +102,5 @@ module.exports.ticketingDefaultResponseTypes = {
     'TICKETING_DEFAULT_PRICE_PRICE_EN_REQUIRED',
 
   // db check
-  TICKETING_DEFAULT_NOT_EXISTS: 'TICKETING_DEFAULT_NOT_EXISTS',
-  LABEL_ALREADY_EXISTS: 'LABEL_ALREADY_EXISTS'
+  TICKETING_DEFAULT_NOT_EXISTS: 'TICKETING_DEFAULT_NOT_EXISTS'
 };

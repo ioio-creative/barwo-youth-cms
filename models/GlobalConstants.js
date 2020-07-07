@@ -2,200 +2,197 @@ const mongoose = require('mongoose');
 
 const GlobalConstantsSchema = mongoose.Schema({
   latestShow_tc: {
-    type: String
-    // unique: true,
-    // require: true
+    type: String,
+    require: true
   },
   latestShow_sc: {
-    type: String
-    // unique: true,
-    // require: true
+    type: String,
+    require: true
   },
   latestShow_en: {
-    type: String
-    // unique: true,
-    // require: true
+    type: String,
+    require: true
   },
   scheduleOfShow_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   scheduleOfShow_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   scheduleOfShow_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   artDirector_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   artDirector_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   artDirector_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   actor_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   actor_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   actor_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   detailsOfShow_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   detailsOfShow_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   detailsOfShow_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   show_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   show_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   show_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
 
   allShow_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   allShow_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   allShow_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   activities_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   activities_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   activities_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   downloadPDF_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   downloadPDF_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   downloadPDF_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   ourActors_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   ourActors_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   ourActors_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   ymtTheater_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   ymtTheater_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   ymtTheater_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   followUs_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   followUs_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   followUs_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   all_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   all_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   all_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   boy_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   boy_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   boy_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   girl_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   girl_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   girl_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   inherit_tc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   inherit_sc: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   inherit_en: {
-    type: String
-    // require: true
+    type: String,
+    require: true
   },
   lastModifyDT: {
     type: Date,

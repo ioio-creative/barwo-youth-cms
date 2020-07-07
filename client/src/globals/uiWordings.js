@@ -273,18 +273,19 @@ export default {
   'TicketingDefault.VenueTcLabel': 'Venue TC',
   'TicketingDefault.VenueScLabel': 'Venue SC',
   'TicketingDefault.VenueEnLabel': 'Venue EN',
-  'TicketingDefault.PriceRemarksTcLabel': 'PriceRemarks TC',
-  'TicketingDefault.PriceRemarksScLabel': 'PriceRemarks SC',
-  'TicketingDefault.PriceRemarksEnLabel': 'PriceRemarks EN',
+  'TicketingDefault.PriceRemarksTcLabel': 'Price Remarks TC',
+  'TicketingDefault.PriceRemarksScLabel': 'Price Remarks SC',
+  'TicketingDefault.PriceRemarksEnLabel': 'Price Remarks EN',
+  'TicketingDefault.ticketUrlLabel': 'Ticket Url',
 
   'TicketingDefault.LastModifyDTLabel': 'Last Modify DT',
   'TicketingDefault.LastModifyUserLabel': 'Last Modify User',
 
-  'TicketingDefaultEdit.EditTicketingDefaultEditTitle': 'Edit Landing Page',
-  'TicketingDefaultEdit.UpdateTicketingDefaultEditSubmit':
-    'Update Landing Page',
+  'TicketingDefaultEdit.EditTicketingDefaultEditTitle':
+    'Edit Ticketing Default',
+  'TicketingDefaultEdit.EditSubmit': 'Update Ticketing Default',
   'TicketingDefaultEdit.UpdateTicketingDefaultEditSuccessMessage':
-    'Landing Page Updated',
+    'Ticketing Default Updated',
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',

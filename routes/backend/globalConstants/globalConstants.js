@@ -114,8 +114,6 @@ router.post('/', [auth], async (req, res) => {
     inherit_en
   } = req.body;
 
-  console.log(show_sc, show_en);
-
   // Build global constants object
   // Note:
   // non-required fields do not need null check
@@ -183,6 +181,9 @@ router.post('/', [auth], async (req, res) => {
   globalConstantsFields.inherit_tc = inherit_tc;
   globalConstantsFields.inherit_sc = inherit_sc;
   globalConstantsFields.inherit_en = inherit_en;
+
+  globalConstantsFields.lastModifyDT = new Date();
+  globalConstantsFields.lastModifyUser = req.user._id;
 
   try {
     const oldGlobalConstants = await GlobalConstants.findOne({});

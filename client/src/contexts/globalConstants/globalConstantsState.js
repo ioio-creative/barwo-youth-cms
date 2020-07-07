@@ -57,6 +57,7 @@ const GlobalConstantsState = ({ children }) => {
       );
       dispatch({ type: UPDATE_GLOBAL_CONSTANTS, payload: res.data });
       newGlobalConstants = res.data;
+      console.log(res.data);
     } catch (err) {
       handleServerError(err, GLOBAL_CONSTANTS_ERRORS, dispatch);
     }

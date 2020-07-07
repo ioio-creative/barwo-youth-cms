@@ -93,10 +93,6 @@ const GlobalConstantsEdit = _ => {
 
   /* methods */
 
-  const validInput = useCallback(globalConstantsInput => {
-    return true;
-  }, []);
-
   const onChange = useCallback(
     e => {
       setIsSubmitEnabled(true);
@@ -119,12 +115,9 @@ const GlobalConstantsEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
-      let isSuccess = validInput(globalConstants);
       let returnedGlobalConstants = null;
-      if (isSuccess) {
-        returnedGlobalConstants = await updateGlobalConstants(globalConstants);
-        isSuccess = Boolean(returnedGlobalConstants);
-      }
+      returnedGlobalConstants = await updateGlobalConstants(globalConstants);
+      let isSuccess = Boolean(returnedGlobalConstants);
       if (isSuccess) {
         setAlerts(
           new Alert(
@@ -145,8 +138,7 @@ const GlobalConstantsEdit = _ => {
       getGlobalConstants,
       globalConstants,
       setAlerts,
-      removeAlerts,
-      validInput
+      removeAlerts
     ]
   );
 
@@ -547,7 +539,9 @@ const GlobalConstantsEdit = _ => {
       )}
       <SubmitButton
         disabled={!isSubmitEnabled}
-        label={uiWordings['GlobalConstantsEdit.UpdateGlobalConstantsSubmit']}
+        label={
+          uiWordings['GlobalConstantsPageEdit.UpdateGlobalConstantsSubmit']
+        }
       />
     </Form>
   );
