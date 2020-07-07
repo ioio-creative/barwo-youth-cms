@@ -12,6 +12,7 @@ export default {
   'Navbar.Phases': 'Phases',
   'Navbar.LandingPage': 'Landing Page',
   'Navbar.GlobalConstants': 'Global Constants',
+  'Navbar.TicketingDefaultEdit': 'Ticketing Default',
   'Navbar.Testing': 'Testing Page',
 
   'Login.Title': 'Account Login',
@@ -267,6 +268,23 @@ export default {
     'Update Global Constants',
   'GlobalConstantsPageEdit.UpdateGlobalConstantsSuccessMessage':
     'Global Constants Updated',
+
+  'TicketingDefault.Title': 'Ticketing Default',
+  'TicketingDefault.VenueTcLabel': 'Venue TC',
+  'TicketingDefault.VenueScLabel': 'Venue SC',
+  'TicketingDefault.VenueEnLabel': 'Venue EN',
+  'TicketingDefault.PriceRemarksTcLabel': 'PriceRemarks TC',
+  'TicketingDefault.PriceRemarksScLabel': 'PriceRemarks SC',
+  'TicketingDefault.PriceRemarksEnLabel': 'PriceRemarks EN',
+
+  'TicketingDefault.LastModifyDTLabel': 'Last Modify DT',
+  'TicketingDefault.LastModifyUserLabel': 'Last Modify User',
+
+  'TicketingDefaultEdit.EditTicketingDefaultEditTitle': 'Edit Landing Page',
+  'TicketingDefaultEdit.UpdateTicketingDefaultEditSubmit':
+    'Update Landing Page',
+  'TicketingDefaultEdit.UpdateTicketingDefaultEditSuccessMessage':
+    'Landing Page Updated',
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',

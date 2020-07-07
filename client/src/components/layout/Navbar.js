@@ -54,6 +54,9 @@ const Navbar = ({ className }) => {
   const isPhaseEdit = useRouteMatch(routes.phaseEditById);
   const isEventList = useRouteMatch(routes.eventList(false));
   const isEventEdit = useRouteMatch(routes.eventEditById);
+  const isTicketingDefaultEdit = useRouteMatch(
+    routes.ticketingDefaultEdit(false)
+  );
   const isArtistList = useRouteMatch(routes.artistList(false));
   const isArtistEdit = useRouteMatch(routes.artistEditById);
   const isTesting = useRouteMatch(routes.testing);
@@ -106,6 +109,7 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.LandingPage']}
       </NavbarLink>
       <NavbarLink
+        className='w3-border-bottom'
         to={routes.phaseList(true)}
         isSelected={isPhaseList || isPhaseEdit}
       >
@@ -116,6 +120,13 @@ const Navbar = ({ className }) => {
         isSelected={isEventList || isEventEdit}
       >
         {uiWordings['Navbar.Events']}
+      </NavbarLink>
+      <NavbarLink
+        className='w3-border-bottom'
+        to={routes.ticketingDefaultEdit(true)}
+        isSelected={isTicketingDefaultEdit}
+      >
+        {uiWordings['Navbar.TicketingDefaultEdit']}
       </NavbarLink>
       <NavbarLink
         className='w3-border-bottom'
