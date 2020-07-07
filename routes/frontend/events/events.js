@@ -143,7 +143,7 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
         name_tc: 1
       });
 
-    const eventsForFrontEnd = events.map(event => {
+    const eventsForFrontEnd = getArraySafe(events).map(event => {
       return getEventForFrontEndFromDbEvent(event, language);
     });
 
