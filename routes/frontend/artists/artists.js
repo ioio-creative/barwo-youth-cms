@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { check } = require('express-validator');
 
+const { getEntityPropByLanguage } = require('../../../globals/languages');
+const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { Artist, artistRoles, artistTypes } = require('../../../models/Artist');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
@@ -47,9 +48,9 @@ const artistPopulationListForFindAll = [
 // @route   GET api/backend/artists/artists
 // @desc    Get all artists
 // @access  Public
-router.get('/:_lang', async (req, res) => {
+router.get('/:lang', [languageHandling], async (req, res) => {
   try {
-    const lang = req.params.lang;
+    const language = req.language;
 
     const artists = await Artist.find({
       isEnabled: true
@@ -74,26 +75,34 @@ router.get('/:_lang', async (req, res) => {
         post = 'art director';
       }
       return {
-        name: artist.name,
+        id: artist._id,
+        name: getEntityPropByLanguage(artist, 'name', language),
         gender: gender,
         post: post,
         featuredImage: {
           src: artist.featuredImage && artist.featuredImage.url
         },
-
+        withoutMaskImage: {
+          src: artist.withoutMaskImage && artist.withoutMaskImage.url
+        },
         gallery: getArraySafe(artist.gallery).map(medium => {
           return {
             src: medium && medium.src
           };
         }),
         sound: artist.sound && artist.sound.src,
-        description: artist.description,
-        questions: getArraySafe(artist.qnas).map()
+        description: getEntityPropByLanguage(artist, 'description', language),
+        questions: getArraySafe(artist.qnas).map(qna => ({
+          title: getEntityPropByLanguage(qna, 'question', language),
+          answer: getEntityPropByLanguage(qna, 'answer', language)
+        }))
       };
     });
 
-    res.json(artists);
+    res.json(artistsForFrontEnd);
   } catch (err) {
     generalErrorHandle(err, res);
   }
 });
+
+module.exports = router;

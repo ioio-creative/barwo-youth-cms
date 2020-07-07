@@ -9,8 +9,8 @@ module.exports = function (req, res, next) {
 
   // Check if not token
   if (!token) {
-    // 401: unauthorized
-    return res.status(401).json({ type: NOT_AUTHORIZED });
+    // 401 unauthorized
+    return res.status(401).json({ errors: [NOT_AUTHORIZED] });
   }
 
   try {
@@ -19,6 +19,6 @@ module.exports = function (req, res, next) {
     next();
   } catch (err) {
     // 401 unauthorized
-    res.status(401).json({ type: NOT_AUTHORIZED });
+    res.status(401).json({ errors: [NOT_AUTHORIZED] });
   }
 };
