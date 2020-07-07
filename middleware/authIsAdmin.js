@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
       next();
     } else {
       // 403 forbidden
-      res.status(403).json({ type: USER_DOES_NOT_HAVE_RIGHT });
+      res.status(403).json({ errors: [USER_DOES_NOT_HAVE_RIGHT] });
     }
   });
 };

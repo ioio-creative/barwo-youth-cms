@@ -142,10 +142,10 @@ const RichTextbox = ({
     [name, onChange]
   );
   useEffect(() => {
-    if (editorInstance && value !== "") {
+    if (editorInstance && value !== '') {
       waitForInstanceInitialized();
     }
-  }, [editorInstance, value])
+  }, [editorInstance, value]);
   const waitForInstanceInitialized = () => {
     if (editorInstance.editor) {
       if (editorInstance.editor.status == 'loaded') {
@@ -155,14 +155,14 @@ const RichTextbox = ({
         editorInstance.editor.on('instanceReady', () => {
           console.log('instanceReady');
           editorInstance.editor.setData(value);
-        })
+        });
       }
     } else {
-      // console.log('??? case');
+      console.log('??? case');
       // why the instance not yet finish initialization ......
       setTimeout(waitForInstanceInitialized, 50);
     }
-  }
+  };
   return (
     <>
       <div className={`editableArea ${className}`}>

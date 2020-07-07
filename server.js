@@ -75,10 +75,10 @@ app.use(
 app.use('/api/backend/media', require('./routes/backend/media/media'));
 
 // frontend apis
-// app.use(
-//   '/api/frontend/artists/artists',
-//   require('./routes/frontend/artists/artists')
-// );
+app.use(
+  '/api/frontend/artists/artists',
+  require('./routes/frontend/artists/artists')
+);
 // app.use(
 //   '/api/frontend/events/events',
 //   require('./routes/frontend/events/events')
