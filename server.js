@@ -75,16 +75,10 @@ app.use(
 app.use('/api/backend/media', require('./routes/backend/media/media'));
 
 // frontend apis
-app.use(
-  '/api/frontend/artists/artists',
-  require('./routes/frontend/artists/artists')
-);
+app.use('/api/frontend/artists', require('./routes/frontend/artists/artists'));
+app.use('/api/frontend/events', require('./routes/frontend/events/events'));
 // app.use(
-//   '/api/frontend/events/events',
-//   require('./routes/frontend/events/events')
-// );
-// app.use(
-//   '/api/frontend/phases/phases',
+//   '/api/frontend/phases',
 //   require('./routes/frontend/phases/phases')
 // );
 app.use(
@@ -92,7 +86,7 @@ app.use(
   require('./routes/frontend/landingPage/landingPage')
 );
 // app.use(
-//   '/api/frontend/globalConstants/globalConstants',
+//   '/api/frontend/globalConstants',
 //   require('./routes/frontend/globalConstants/globalConstants')
 // );
 

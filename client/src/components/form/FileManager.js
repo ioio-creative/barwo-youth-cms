@@ -180,7 +180,7 @@ const FileManager = ({ onSelect }) => {
   const [selectedFile, setSelectedFile] = useState(-1);
   // const [showDetails, setShowDetails] = useState(false);
   const [uploadingQueue, setUploadingQueue] = useState([]);
-  const [uploadedQueue, setUploadedQueue] = useState([]);
+  //const [uploadedQueue, setUploadedQueue] = useState([]);
 
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -399,7 +399,7 @@ const FileManager = ({ onSelect }) => {
         )
       );
     }
-  }, [fetchedMedia]);
+  }, [fetchedMedia, mediumTypeObj.value]);
 
   // mediaErrors
   useEffect(

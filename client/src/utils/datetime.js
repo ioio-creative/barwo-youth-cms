@@ -1,4 +1,4 @@
-import dayjs from 'moment';
+import dayjs from 'dayjs';
 
 export const dateTimeLibrary = dayjs;
 
@@ -25,7 +25,7 @@ const convertStrToDate = str => {
 /* public functions */
 
 export const currentDateTimeString = (format = defaultDateTimeFormat) => {
-  return formatDateTimeString(dateTimeLibrary());
+  return formatDateTimeString(dateTimeLibrary(), format);
 };
 
 export const formatDateTimeString = (
