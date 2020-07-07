@@ -165,7 +165,7 @@ const EventSchema = mongoose.Schema({
   gallery: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
   /* end of media */
   phasesInvolved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'phase' }],
-  themeColour: {
+  themeColor: {
     type: String
   },
   isEnabled: {
