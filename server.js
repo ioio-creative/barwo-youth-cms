@@ -56,6 +56,10 @@ app.use(
   require('./routes/backend/events/phaseEvents')
 );
 app.use(
+  '/api/backend/events/ticketingDefault',
+  require('./routes/backend/events/ticketingDefault')
+);
+app.use(
   '/api/backend/phases/phases',
   require('./routes/backend/phases/phases')
 );

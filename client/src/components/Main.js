@@ -31,6 +31,9 @@ const AsyncEventList = asyncLoadingComponent(_ =>
 const AsyncEventEdit = asyncLoadingComponent(_ =>
   import('components/pages/EventEdit')
 );
+const AsyncTicketingDefaultEdit = asyncLoadingComponent(_ =>
+  import('components/pages/TicketingDefaultEdit')
+);
 const AsyncPhaseList = asyncLoadingComponent(_ =>
   import('components/pages/PhaseList')
 );
@@ -82,11 +85,7 @@ const Main = _ => {
             <Switch>
               <Route exact path={routes.home(false)} component={AsyncHome} />
 
-              <Route
-                exact
-                path={routes.editPassword}
-                component={AsyncEditPassword}
-              />
+              <Route path={routes.editPassword} component={AsyncEditPassword} />
 
               <Route path={routes.userList(false)} component={AsyncUserList} />
               <Route path={routes.userEditById} component={AsyncUserEdit} />
@@ -108,6 +107,11 @@ const Main = _ => {
               />
               <Route path={routes.eventEditById} component={AsyncEventEdit} />
               <Route path={routes.eventAdd(false)} component={AsyncEventEdit} />
+
+              <Route
+                path={routes.ticketingDefaultEdit(false)}
+                component={AsyncTicketingDefaultEdit}
+              />
 
               <Route
                 path={routes.phaseList(false)}

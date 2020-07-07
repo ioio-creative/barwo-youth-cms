@@ -2,69 +2,69 @@ import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 
 function GlobalConstants() {
-  this.latestShow_tc = '最新劇目';
-  this.latestShow_sc = '最新剧目';
-  this.latestShow_en = 'Latest Show';
+  this.latestShow_tc = '';
+  this.latestShow_sc = '';
+  this.latestShow_en = '';
 
-  this.scheduleOfShow_tc = '年度演期表';
-  this.scheduleOfShow_sc = '年度演期表';
-  this.scheduleOfShow_en = 'Schedule Of Show';
+  this.scheduleOfShow_tc = '';
+  this.scheduleOfShow_sc = '';
+  this.scheduleOfShow_en = '';
 
-  this.artDirector_tc = '藝術總監';
-  this.artDirector_sc = '艺术总监';
-  this.artDirector_en = 'Art Director';
+  this.artDirector_tc = '';
+  this.artDirector_sc = '';
+  this.artDirector_en = '';
 
-  this.actor_tc = '演員';
-  this.actor_sc = '演员';
-  this.actor_en = 'Actor';
+  this.actor_tc = '';
+  this.actor_sc = '';
+  this.actor_en = '';
 
-  this.detailsOfShow_tc = '劇目詳情';
-  this.detailsOfShow_sc = '剧目详情';
-  this.detailsOfShow_en = 'Details Of Show';
+  this.detailsOfShow_tc = '';
+  this.detailsOfShow_sc = '';
+  this.detailsOfShow_en = '';
 
-  this.show_tc = '演期';
-  this.show_sc = '演期';
-  this.show_en = 'Show';
+  this.show_tc = '';
+  this.show_sc = '';
+  this.show_en = '';
 
-  this.allShow_tc = '全部演出';
-  this.allShow_sc = '全部演出';
-  this.allShow_en = 'All Show';
+  this.allShow_tc = '';
+  this.allShow_sc = '';
+  this.allShow_en = '';
 
-  this.activities_tc = '推介活動';
-  this.activities_sc = '推介活动';
-  this.activities_en = 'Activities';
+  this.activities_tc = '';
+  this.activities_sc = '';
+  this.activities_en = '';
 
-  this.downloadPDF_tc = '下載劇目PDF';
-  this.downloadPDF_sc = '下载剧目PDF';
-  this.downloadPDF_en = 'Download PDF';
+  this.downloadPDF_tc = '';
+  this.downloadPDF_sc = '';
+  this.downloadPDF_en = '';
 
-  this.ourActors_tc = '我們的新秀';
-  this.ourActors_sc = '我们的新秀';
-  this.ourActors_en = 'Our Actors';
+  this.ourActors_tc = '';
+  this.ourActors_sc = '';
+  this.ourActors_en = '';
 
-  this.ymtTheater_tc = '油麻地戲院';
-  this.ymtTheater_sc = '油麻地戏院';
-  this.ymtTheater_en = 'YMT Theater';
+  this.ymtTheater_tc = '';
+  this.ymtTheater_sc = '';
+  this.ymtTheater_en = '';
 
-  this.followUs_tc = '追蹤我們';
-  this.followUs_sc = '追踪我们';
-  this.followUs_en = 'Follow Us';
+  this.followUs_tc = '';
+  this.followUs_sc = '';
+  this.followUs_en = '';
 
-  this.all_tc = '全部';
-  this.all_sc = '全部';
-  this.all_en = 'All';
+  this.all_tc = '';
+  this.all_sc = '';
+  this.all_en = '';
 
-  this.boy_tc = '小生';
-  this.boy_sc = '小生';
-  this.boy_en = 'Boy';
+  this.boy_tc = '';
+  this.boy_sc = '';
+  this.boy_en = '';
 
-  this.girl_tc = '花旦';
-  this.girl_sc = '花旦';
-  this.girl_en = 'Girl';
+  this.girl_tc = '';
+  this.girl_sc = '';
+  this.girl_en = '';
 
-  this.inherit_tc = '承傳粵劇、振興道統';
-  this.inherit_sc = '承传粤剧、振兴道统';
-  this.inherit_en = 'Inherit';
+  this.inherit_tc = '';
+  this.inherit_sc = '';
+  this.inherit_en = '';
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }

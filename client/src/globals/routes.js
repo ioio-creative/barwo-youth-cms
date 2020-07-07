@@ -39,6 +39,9 @@ export default {
   eventAdd: function (isLink) {
     return '/eventAdd';
   },
+  ticketingDefaultEdit: function (isLink) {
+    return '/ticketingDefaultEdit';
+  },
   phaseList: function (isLink) {
     return '/phaseList';
   },
