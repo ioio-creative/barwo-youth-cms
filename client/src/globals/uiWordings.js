@@ -289,5 +289,6 @@ export default {
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',
-  'FileManager.UploadButton': 'Upload'
+  'FileManager.UploadButton': 'Upload',
+  'FileManager.DragToUploadHint': 'Drop File To Upload'
 };

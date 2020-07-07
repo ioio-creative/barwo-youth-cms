@@ -66,10 +66,10 @@ const MediumElement = ({
     <div
       className={`w3-col s3 medium-item${
         selectedTag.length === 0 ||
-          medium.tags.some(r => selectedTag.indexOf(r) >= 0)
+        medium.tags.some(r => selectedTag.indexOf(r) >= 0)
           ? ''
           : ' hidden'
-        }${idx === selectedFile ? ' selected' : ''}`}
+      }${idx === selectedFile ? ' selected' : ''}`}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
@@ -421,7 +421,9 @@ const FileManager = ({ onSelect }) => {
 
   return (
     <div className={`w3-stretch fileManager`} ref={setFileManagerEl}>
-      <div className='dragFileOverlay'>Drop File To Upload</div>
+      <div className='dragFileOverlay'>
+        {uiWordings['FileManager.DragToUploadHint']}
+      </div>
       <div className='search-bar w3-col s9'>
         <div className='w3-container'>
           {tags.length > 0 && (
@@ -431,7 +433,7 @@ const FileManager = ({ onSelect }) => {
                   <div
                     className={`w3-border w3-btn${
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
-                      } tag`}
+                    } tag`}
                     key={tag}
                     onClick={() => selectTag(tag)}
                   >
@@ -493,8 +495,8 @@ const FileManager = ({ onSelect }) => {
                   );
                 })
             ) : (
-                <Loading />
-              )}
+              <Loading />
+            )}
           </div>
         </div>
       </div>
@@ -557,14 +559,14 @@ const FileManager = ({ onSelect }) => {
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.name}
-              // onChange direct update
+                // onChange direct update
               />
               <LabelInputTextPair
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.alternativeText}
-              // onChange direct update
+                // onChange direct update
               />
               <div className='w3-center action-btn-wrapper'>
                 <div
