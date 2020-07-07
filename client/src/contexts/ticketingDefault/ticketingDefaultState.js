@@ -25,9 +25,9 @@ const TicketingDefaultState = ({ children }) => {
   const getTicketingDefault = useCallback(async _ => {
     dispatch({ type: SET_TICKETING_DEFAULT_LOADING });
     try {
-      const res = await axios.get('/api/backend/event/ticketingDefault');
+      const res = await axios.get('/api/backend/events/ticketingDefault');
       dispatch({ type: GET_TICKETING_DEFAULT, payload: res.data });
-      // console.log(res.data);
+      console.log(res.data);
     } catch (err) {
       handleServerError(err, TICKETING_DEFAULT_ERRORS, dispatch);
     }
@@ -49,12 +49,13 @@ const TicketingDefaultState = ({ children }) => {
     };
     try {
       const res = await axios.post(
-        '/api/backend/ticketingDefault/ticketingDefault',
+        '/api/backend/events/ticketingDefault',
         ticketingDefault,
         config
       );
       dispatch({ type: UPDATE_TICKETING_DEFAULT, payload: res.data });
       newTicketingDefault = res.data;
+      console.log(res.data);
     } catch (err) {
       handleServerError(err, TICKETING_DEFAULT_ERRORS, dispatch);
     }

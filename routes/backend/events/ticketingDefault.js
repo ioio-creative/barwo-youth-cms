@@ -21,8 +21,8 @@ const ticketingDefaultPopulationList = [
 
 /* end of utilities */
 
-// @route   GET api/backend/event/ticketingDefault
-// @desc    Get Ticketing Default
+// @route   GET api/backend/events/ticketingDefault
+// @desc    Get ticketing default
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
@@ -43,8 +43,8 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/backend/event/ticketingDefault
-// @desc    Add or update Ticketing Default
+// @route   POST api/backend/events/ticketingDefault
+// @desc    Add or update ticketing default
 // @access  Private
 router.post('/', [auth], async (req, res) => {
   const {
@@ -59,10 +59,9 @@ router.post('/', [auth], async (req, res) => {
     ticketUrl
     /* end of ticketing */
   } = req.body;
+  console.log(req.body);
 
-  console.log(show_sc, show_en);
-
-  // Build global constants object
+  // Build Ticketing Default object
   // Note:
   // non-required fields do not need null check
   const ticketingDefaultFields = {};
@@ -80,13 +79,16 @@ router.post('/', [auth], async (req, res) => {
 
   ticketingDefaultFields.ticketUrl = ticketUrl;
 
+  ticketingDefaultFields.lastModifyDT = new Date();
+  ticketingDefaultFields.lastModifyUser = req.user._id;
+
   try {
     const oldTicketingDefault = await TicketingDefault.findOne({});
     let newTicketingDefault = null;
 
     if (oldTicketingDefault) {
       // update flow
-      newTicketingDefault() = await TicketingDefault.findOneAndUpdate(
+      newTicketingDefault = await TicketingDefault.findOneAndUpdate(
         {},
         { $set: ticketingDefaultFields }
       );

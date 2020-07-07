@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams, generatePath } from 'react-router-dom';
+import { generatePath } from 'react-router-dom';
 import Alert from 'models/alert';
 import AlertContext from 'contexts/alert/alertContext';
 import TicketingDefault from 'models/ticketingDefault';
@@ -130,14 +130,6 @@ const TicketingDefaultEdit = _ => {
     [ticketingDefaultErrors, setAlerts, clearTicketingDefaultErrors]
   );
 
-  /* methods */
-
-  const validInput = () => {
-    return true;
-  };
-
-  /* end of methods */
-
   /* ticketingDefault handlers */
 
   const onChange = useCallback(
@@ -149,7 +141,7 @@ const TicketingDefaultEdit = _ => {
         [e.target.name]: e.target.value
       });
     },
-    [ticketingDefault, setTicketingDefault, removeAlerts, setIsSubmitEnabled]
+    [ticketingDefault, setTicketingDefault, removeAlerts]
   );
 
   const onGetPricesPicked = useCallback(
@@ -167,12 +159,14 @@ const TicketingDefaultEdit = _ => {
     },
     [setPhonesPicked, setIsSubmitEnabled]
   );
+  console.log(ticketingDefault);
 
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
       removeAlerts();
-      e.prticketingDefaultDefault();
+      e.preventDefault();
+      console.log(ticketingDefault);
 
       ticketingDefault.prices = getArraySafe(pricesPicked).map(
         ({ price_tc, price_sc, price_en }) => {
@@ -195,19 +189,15 @@ const TicketingDefaultEdit = _ => {
         }
       );
 
-      let isSuccess = validInput(ticketingDefault);
+      console.log(ticketingDefault);
       let returnedTicketingDefault = null;
-      if (isSuccess) {
-        returnedTicketingDefault = await updateTicketingDefault(
-          ticketingDefault
-        );
-        isSuccess = Boolean(returnedTicketingDefault);
-      }
+      returnedTicketingDefault = await updateTicketingDefault(ticketingDefault);
+      let isSuccess = Boolean(returnedTicketingDefault);
       if (isSuccess) {
         setAlerts(
           new Alert(
             uiWordings[
-              'TicketingDefaultPageEdit.UpdateTicketingDefaultSuccessMessage'
+              'TicketingDefaultEdit.UpdateTicketingDefaultEditSuccessMessage'
             ],
             Alert.alertTypes.INFO
           )
@@ -219,14 +209,14 @@ const TicketingDefaultEdit = _ => {
       scrollToTop();
     },
     [
+      ticketingDefault,
       updateTicketingDefault,
       getTicketingDefault,
       ticketingDefault,
       setAlerts,
       removeAlerts,
       pricesPicked,
-      phonesPicked,
-      validInput
+      phonesPicked
     ]
   );
 
@@ -236,7 +226,6 @@ const TicketingDefaultEdit = _ => {
     return <Loading />;
   }
   return (
-    // originalTicketingDefault only use before finsihing the database
     <Form onSubmit={onSubmit}>
       <h4>{uiWordings['TicketingDefaultEdit.EditTicketingDefaultTitle']}</h4>
       <LabelInputTextPair
@@ -324,7 +313,9 @@ const TicketingDefaultEdit = _ => {
       )}
       <SubmitButton
         disabled={!isSubmitEnabled}
-        label={uiWordings['TicketingDefaultEdit.UpdateTicketingDefaultSubmit']}
+        label={
+          uiWordings['TicketingDefaultEdit.UpdateTicketingDefaultEditSubmit']
+        }
       />
     </Form>
   );
