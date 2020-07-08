@@ -7,6 +7,8 @@
     "connectionString": "mongodb+srv://IoioSa:<password>@barwocluster0-3phxk.azure.mongodb.net/<dbname>?retryWrites=true&w=majority"
   },
   "Aws": {
+    "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
+    "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "s3": {
       "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
       "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -17,6 +19,9 @@
         "fileSizeInMBs": 20,
         "files": 10
       }
+    },
+    "ses": {
+      "region": "ap-southeast-1"
     }
   },
   "Jwt": {
