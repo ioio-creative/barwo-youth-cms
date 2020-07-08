@@ -154,9 +154,12 @@
   color: #fff;
   display: none;
   z-index: 999;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vw;
 }
 body.dragEnter .fileManager .dragFileOverlay {
-  display: block;
+  display: flex;
 }
 
 body.dragEnter * {

@@ -115,7 +115,7 @@ router.get('/:lang/artists', [languageHandling], async (req, res) => {
         name_tc: 1
       });
 
-    const artistsForFrontEnd = artists.map(artist => {
+    const artistsForFrontEnd = getArraySafe(artists).map(artist => {
       return getArtistForFrontEndFromDbArtist(artist, language);
     });
 

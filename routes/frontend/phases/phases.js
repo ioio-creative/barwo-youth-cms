@@ -5,8 +5,15 @@ const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { Phase } = require('../../../models/Phase');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
-const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
+const {
+  getArraySafe,
+  isNonEmptyArray
+} = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  formatDateStringForFrontEnd,
+  datesMin,
+  datesMax
+} = require('../../../utils/datetime');
 
 /* utilities */
 
@@ -17,77 +24,44 @@ const phaseSelectForFindAll = {
   lastModifyUser: 0
 };
 
-const phaseSelectForFindOne = {
-  ...phaseSelectForFindAll
-};
+// const phaseSelectForFindOne = {
+//   ...phaseSelectForFindAll
+// };
 
 const phasePopulationListForFindAll = [
   {
-    path: 'featuredImage',
+    path: 'events',
     select: {
-      url: 1
-    }
-  },
-  {
-    path: 'withoutMaskImage',
-    select: {
-      url: 1
-    }
-  },
-  {
-    path: 'gallery',
-    select: {
-      url: 1
-    }
-  },
-  {
-    path: 'sound',
-    select: {
-      url: 1
-    }
+      _id: 1,
+      label: 1,
+      name_tc: 1,
+      name_sc: 1,
+      name_en: 1,
+      shows: 1,
+      artDirectors: 1,
+      featuredImage: 1
+    },
+    populate: [
+      {
+        path: 'artDirectors',
+        select: {
+          label: 1,
+          name_tc: 1,
+          name_sc: 1,
+          name_en: 1
+        }
+      },
+      {
+        path: 'featuredImage',
+        select: {
+          url: 1
+        }
+      }
+    ]
   }
 ];
 
-const phasePopulationListForFindOne = [...phasePopulationListForFindAll];
-
-const getPhaseForFrontEndFromDbPhase = (dbPhase, language) => {
-  const phase = dbPhase;
-
-  return {
-    id: phase._id,
-    label: event.label,
-    name: getEntityPropByLanguage(event, 'name', language),
-    themeColor: event.themeColor,
-    artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
-      id: artDirector._id,
-      label: artDirector.label,
-      name: getEntityPropByLanguage(artDirector, 'name', language)
-    })),
-    schedule: getArraySafe(event.shows).map(show => ({
-      date: {
-        from: show.date ? formatDateStringForFrontEnd(show.date) : null,
-        to: null
-      },
-      time: show.startTime
-    })),
-    info: {
-      scenarist: getArraySafe(event.scenarists),
-      heading: getEntityPropByLanguage(event, 'descHeadline', language),
-      description: getEntityPropByLanguage(event, 'desc', language),
-      remark: getEntityPropByLanguage(event, 'remarks', language)
-    },
-    featuredImages: {
-      src: event.featuredImage && event.featuredImage.url
-    },
-    gallery: getArraySafe(event.gallery).map(medium => {
-      return {
-        src: medium && medium.src
-      };
-    }),
-    // TODO:
-    relatedActors: []
-  };
-};
+//const phasePopulationListForFindOne = [...phasePopulationListForFindAll];
 
 /* end of utilities */
 
@@ -107,32 +81,66 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
         derivedLabel: 1
       });
 
-    const phasesForFrontEnd = phases.map(phase => {
-      return getPhaseForFrontEndFromDbEvent(phase, language);
-    });
+    const safePhases = getArraySafe(phases);
 
-    res.json(phasesForFrontEnd);
-  } catch (err) {
-    generalErrorHandle(err, res);
-  }
-});
+    //console.log(safePhases[0].events);
 
-// @route   GET api/frontend/phases/:lang/phases/:label
-// @desc    Get phase by label
-// @access  Public
-router.get('/:lang/phases/:label', [languageHandling], async (req, res) => {
-  try {
-    const language = req.language;
+    const years = new Set(safePhases.map(phase => phase.year));
 
-    const phase = await Phase.findOne({
-      label: req.params.label
-    })
-      .select(phaseSelectForFindOne)
-      .populate(phasePopulationListForFindOne);
+    const yearsForFrontEnd = [];
 
-    const phaseForFrontEnd = getPhaseForFrontEndFromDbPhase(phase, language);
+    for (const year of years) {
+      const phasesOfYear = safePhases.filter(phase => phase.year === year);
+      yearsForFrontEnd.push({
+        year: `${year} - ${year + 1}`,
+        shows: phasesOfYear.map(phase => {
+          return {
+            phaseNumber: phase.phaseNumber,
+            themeColor: phase.themeColor,
+            schedule: {
+              date: {
+                from: formatDateStringForFrontEnd(phase.fromDate),
+                to: formatDateStringForFrontEnd(phase.toDate)
+              }
+            },
+            selectedEvents: getArraySafe(
+              phase.events.map(event => {
+                const dates = getArraySafe(event.shows).map(show => show.date);
+                let minDate = null;
+                let maxDate = null;
+                if (dates.length > 0) {
+                  minDate = formatDateStringForFrontEnd(datesMin(dates));
+                  maxDate = formatDateStringForFrontEnd(datesMax(dates));
+                }
+                return {
+                  id: event._id,
+                  label: event.label,
+                  name: getEntityPropByLanguage(event, 'name', language),
+                  artDirectors: getArraySafe(event.artDirectors).map(
+                    artDirector => ({
+                      id: artDirector._id,
+                      label: artDirector.label,
+                      name: getEntityPropByLanguage(
+                        artDirector,
+                        'name',
+                        language
+                      )
+                    })
+                  ),
+                  fromDate: minDate,
+                  toDate: maxDate,
+                  featuredImage: {
+                    url: event.featuredImage && event.featuredImage.url
+                  }
+                };
+              })
+            )
+          };
+        })
+      });
+    }
 
-    res.json(phaseForFrontEnd);
+    res.json(yearsForFrontEnd);
   } catch (err) {
     generalErrorHandle(err, res);
   }

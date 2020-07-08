@@ -421,7 +421,9 @@ const FileManager = ({ onSelect }) => {
 
   return (
     <div className={`w3-stretch fileManager`} ref={setFileManagerEl}>
-      <div className='dragFileOverlay'></div>
+      <div className='dragFileOverlay'>
+        {uiWordings['FileManager.DragToUploadHint']}
+      </div>
       <div className='search-bar w3-col s9'>
         <div className='w3-container'>
           {tags.length > 0 && (

@@ -186,6 +186,7 @@ const TicketingDefaultEdit = _ => {
           };
         }
       );
+
       let returnedTicketingDefault = null;
       returnedTicketingDefault = await updateTicketingDefault(ticketingDefault);
       let isSuccess = Boolean(returnedTicketingDefault);

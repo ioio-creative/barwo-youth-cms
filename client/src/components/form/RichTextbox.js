@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CKEditor from 'ckeditor4-react';
 import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 import cleanValueForTextInput from './utils/cleanValueForTextInput';
@@ -141,28 +141,45 @@ const RichTextbox = ({
     },
     [name, onChange]
   );
+  const waitForInstanceInitialized = useCallback(
+    _ => {
+      if (editorInstance.editor) {
+        //console.log(`RichTextbox ${editorInstance.editor.status}`);
+        editorInstance.editor.on('instanceReady', () => {
+          // console.log('RichTextbox instanceReady');
+          // console.log(value);
+          editorInstance.editor.setData(value);
+        });
+
+        if (editorInstance.editor.status === 'loaded') {
+          editorInstance.editor.setData(value);
+          console.log('RichTextbox loaded');
+        }
+
+        // if (editorInstance.editor.status === 'loaded') {
+        //   editorInstance.editor.setData(value);
+        //   console.log('RichTextbox loaded');
+        //   console.log(value);
+        // } else {
+        //   editorInstance.editor.on('instanceReady', () => {
+        //     console.log('RichTextbox instanceReady');
+        //     console.log(value);
+        //     editorInstance.editor.setData(value);
+        //   });
+        // }
+      } else {
+        console.log('RichTextbox ??? case');
+        // why the instance not yet finish initialization ......
+        setTimeout(waitForInstanceInitialized, 50);
+      }
+    },
+    [editorInstance, value]
+  );
   useEffect(() => {
     if (editorInstance && value !== '') {
       waitForInstanceInitialized();
     }
-  }, [editorInstance, value]);
-  const waitForInstanceInitialized = () => {
-    if (editorInstance.editor) {
-      if (editorInstance.editor.status == 'loaded') {
-        editorInstance.editor.setData(value);
-        console.log('loaded');
-      } else {
-        editorInstance.editor.on('instanceReady', () => {
-          console.log('instanceReady');
-          editorInstance.editor.setData(value);
-        });
-      }
-    } else {
-      console.log('??? case');
-      // why the instance not yet finish initialization ......
-      setTimeout(waitForInstanceInitialized, 50);
-    }
-  };
+  }, [editorInstance, value, waitForInstanceInitialized]);
   return (
     <>
       <div className={`editableArea ${className}`}>
