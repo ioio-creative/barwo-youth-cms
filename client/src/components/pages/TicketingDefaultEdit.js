@@ -209,7 +209,6 @@ const TicketingDefaultEdit = _ => {
       ticketingDefault,
       updateTicketingDefault,
       getTicketingDefault,
-      ticketingDefault,
       setAlerts,
       removeAlerts,
       pricesPicked,
