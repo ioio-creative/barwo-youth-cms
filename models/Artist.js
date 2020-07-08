@@ -115,11 +115,24 @@ module.exports.artistRoles = {
   BOTH: 'BOTH'
 };
 
-module.exports.artistTypes = {
+const artistTypes = {
   ART_DIRECTOR: 'ART_DIRECTOR',
   ART_DIRECTOR_VISITING: 'ART_DIRECTOR_VISITING',
   ACTOR: 'ACTOR',
   ACTOR_PAST: 'ACTOR_PAST'
+};
+
+const artDirectorTypes = [
+  artistTypes.ART_DIRECTOR,
+  artistTypes.ART_DIRECTOR_VISITING
+];
+
+module.exports.artistTypes = artistTypes;
+
+module.exports.artDirectorTypes = artDirectorTypes;
+
+module.exports.isArtDirector = artist => {
+  return artDirectorTypes.includes(artist.type);
 };
 
 module.exports.artistResponseTypes = {

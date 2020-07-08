@@ -3,7 +3,7 @@ const router = express.Router();
 
 const auth = require('../../../middleware/auth');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { Artist, artistTypes } = require('../../../models/Artist');
+const { Artist, artDirectorTypes } = require('../../../models/Artist');
 
 // @route   GET api/backend/artists/artDirectors
 // @desc    Get all art directors
@@ -13,7 +13,7 @@ router.get('/', auth, async (req, res) => {
     const artDirectors = await Artist.find({
       // https://stackoverflow.com/questions/45842338/mongoose-error-cant-use-or-with-string
       type: {
-        $in: [artistTypes.ART_DIRECTOR, artistTypes.ART_DIRECTOR_VISITING]
+        $in: artDirectorTypes
       },
       isEnabled: {
         $ne: false

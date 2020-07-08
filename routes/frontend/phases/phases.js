@@ -5,10 +5,7 @@ const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { Phase } = require('../../../models/Phase');
-const {
-  getArraySafe,
-  isNonEmptyArray
-} = require('../../../utils/js/array/isNonEmptyArray');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const {
   formatDateStringForFrontEnd,
   datesMin,

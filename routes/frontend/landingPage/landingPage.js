@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const { generalErrorHandle } = require('../../../utils/errorHandling');
 const {
   LandingPage,
   landingPageResponseTypes
@@ -55,11 +56,7 @@ router.get('/', async (req, res) => {
 
     res.json(landingForFrontEnd);
   } catch (err) {
-    //generalErrorHandle(err, res);
-    console.log(err);
-    return res
-      .status(404)
-      .json({ errors: [landingPageResponseTypes.LANDING_PAGE_NOT_EXISTS] });
+    generalErrorHandle(err, res);
   }
 });
 

@@ -82,10 +82,10 @@ app.use(
   '/api/frontend/landingPage/landingPage',
   require('./routes/frontend/landingPage/landingPage')
 );
-// app.use(
-//   '/api/frontend/globalConstants',
-//   require('./routes/frontend/globalConstants/globalConstants')
-// );
+app.use(
+  '/api/frontend/globalConstants',
+  require('./routes/frontend/globalConstants/globalConstants')
+);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
