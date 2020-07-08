@@ -21,17 +21,21 @@ module.exports = function (req, res, next) {
 
     if (page) {
       paginationOptions.page = page;
-      paginationOptions.limit =
-        limit || config.get('Pagination.elementsPerPage');
     }
     if (sortBy) {
       paginationOptions.sort = {
         [sortBy]: sortOrder || 1
       };
     }
+    if (limit) {
+      paginationOptions.limit =
+        limit || config.get('Pagination.elementsPerPage');
+    }
 
     // inject paginationOptions to req
     req.paginationOptions = paginationOptions;
+
+    console.log(paginationOptions);
 
     // filter related queries
     const filterText = query.filterText;

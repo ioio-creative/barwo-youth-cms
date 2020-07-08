@@ -362,7 +362,8 @@ const FileManager = ({ onSelect }) => {
     getMedia(mediumTypeObj, {
       // page,
       sortOrder: -1,
-      sortBy: 'createDT'
+      sortBy: 'createDT',
+      limit: 100
       // filterText
     });
     return () => {
