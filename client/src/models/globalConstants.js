@@ -270,9 +270,9 @@ GlobalConstants.globalConstantsResponseTypes = {
   },
 
   // db check
-  GLOBAL_CONSTANTS_PAGE_NOT_EXISTS: {
-    type: 'GLOBAL_CONSTANTS_PAGE_NOT_EXISTS',
-    msg: 'GLOBAL_CONSTANTS_PAGE_NOT_EXISTS'
+  GLOBAL_CONSTANTS_NOT_EXISTS: {
+    type: 'GLOBAL_CONSTANTS_NOT_EXISTS',
+    msg: 'GLOBAL_CONSTANTS_NOT_EXISTS'
   },
 
   // general
