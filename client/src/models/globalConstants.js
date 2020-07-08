@@ -65,6 +65,71 @@ function GlobalConstants() {
   this.inherit_tc = '';
   this.inherit_sc = '';
   this.inherit_en = '';
+
+  this.share_tc = '';
+  this.share_sc = '';
+  this.share_en = '';
+
+  this.relatedShow_tc = '';
+  this.relatedShow_sc = '';
+  this.relatedShow_en = '';
+
+  this.relatedArtists_tc = '';
+  this.relatedArtists_sc = '';
+  this.relatedArtists_en = '';
+
+  this.relatedDrama_tc = '';
+  this.relatedDrama_sc = '';
+  this.relatedDrama_en = '';
+
+  this.allShows_tc = '';
+  this.allShows_sc = '';
+  this.allShows_en = '';
+
+  this.more_tc = '';
+  this.more_sc = '';
+  this.more_en = '';
+
+  this.scenarist_tc = '';
+  this.scenarist_sc = '';
+  this.scenarist_en = '';
+
+  this.introduction_tc = '';
+  this.introduction_sc = '';
+  this.introduction_en = '';
+
+  this.buyNow_tc = '';
+  this.buyNow_sc = '';
+  this.buyNow_en = '';
+
+  this.participating_tc = '';
+  this.participating_sc = '';
+  this.participating_en = '';
+
+  this.role_tc = '';
+  this.role_sc = '';
+  this.role_en = '';
+
+  this.studentShow_tc = '';
+  this.studentShow_sc = '';
+  this.studentShow_en = '';
+
+  this.nextSchedule_tc = '';
+  this.nextSchedule_sc = '';
+  this.nextSchedule_en = '';
+
+  this.leaveContact_tc = '';
+  this.leaveContact_sc = '';
+  this.leaveContact_en = '';
+
+  this.publicShow_tc = '';
+  this.publicShow_sc = '';
+  this.publicShow_en = '';
+
+  this.programOfShow_tc = '';
+  this.programOfShow_sc = '';
+  this.programOfShow_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -267,6 +332,178 @@ GlobalConstants.globalConstantsResponseTypes = {
   INHERIT_EN_REQUIRED: {
     type: 'INHERIT_EN_REQUIRED',
     msg: 'INHERIT_EN_REQUIRED'
+  },
+
+  SHARE_TC_REQUIRED: { type: 'SHARE_TC_REQUIRED', msg: 'SHARE_TC_REQUIRED' },
+  SHARE_SC_REQUIRED: { type: 'SHARE_SC_REQUIRED', msg: 'SHARE_SC_REQUIRED' },
+  SHARE_EN_REQUIRED: { type: 'SHARE_EN_REQUIRED', msg: 'SHARE_EN_REQUIRED' },
+
+  RELATEDSHOW_TC_REQUIRED: {
+    type: 'RELATEDSHOW_TC_REQUIRED',
+    msg: 'RELATEDSHOW_TC_REQUIRED'
+  },
+  RELATEDSHOW_SC_REQUIRED: {
+    type: 'RELATEDSHOW_SC_REQUIRED',
+    msg: 'RELATEDSHOW_SC_REQUIRED'
+  },
+  RELATEDSHOW_EN_REQUIRED: {
+    type: 'RELATEDSHOW_EN_REQUIRED',
+    msg: 'RELATEDSHOW_EN_REQUIRED'
+  },
+
+  RELATEDARTISTS_TC_REQUIRED: {
+    type: 'RELATEDARTISTS_TC_REQUIRED',
+    msg: 'RELATEDARTISTS_TC_REQUIRED'
+  },
+  RELATEDARTISTS_SC_REQUIRED: {
+    type: 'RELATEDARTISTS_SC_REQUIRED',
+    msg: 'RELATEDARTISTS_SC_REQUIRED'
+  },
+  RELATEDARTISTS_EN_REQUIRED: {
+    type: 'RELATEDARTISTS_EN_REQUIRED',
+    msg: 'RELATEDARTISTS_EN_REQUIRED'
+  },
+
+  RELATEDDRAMA_TC_REQUIRED: {
+    type: 'RELATEDDRAMA_TC_REQUIRED',
+    msg: 'RELATEDDRAMA_TC_REQUIRED'
+  },
+  RELATEDDRAMA_SC_REQUIRED: {
+    type: 'RELATEDDRAMA_SC_REQUIRED',
+    msg: 'RELATEDDRAMA_SC_REQUIRED'
+  },
+  RELATEDDRAMA_EN_REQUIRED: {
+    type: 'RELATEDDRAMA_EN_REQUIRED',
+    msg: 'RELATEDDRAMA_EN_REQUIRED'
+  },
+
+  ALLSHOWS_TC_REQUIRED: {
+    type: 'ALLSHOWS_TC_REQUIRED',
+    msg: 'ALLSHOWS_TC_REQUIRED'
+  },
+  ALLSHOWS_SC_REQUIRED: {
+    type: 'ALLSHOWS_SC_REQUIRED',
+    msg: 'ALLSHOWS_SC_REQUIRED'
+  },
+  ALLSHOWS_EN_REQUIRED: {
+    type: 'ALLSHOWS_EN_REQUIRED',
+    msg: 'ALLSHOWS_EN_REQUIRED'
+  },
+
+  MORE_TC_REQUIRED: { type: 'MORE_TC_REQUIRED', msg: 'MORE_TC_REQUIRED' },
+  MORE_SC_REQUIRED: { type: 'MORE_SC_REQUIRED', msg: 'MORE_SC_REQUIRED' },
+  MORE_EN_REQUIRED: { type: 'MORE_EN_REQUIRED', msg: 'MORE_EN_REQUIRED' },
+
+  SCENARIST_TC_REQUIRED: {
+    type: 'SCENARIST_TC_REQUIRED',
+    msg: 'SCENARIST_TC_REQUIRED'
+  },
+  SCENARIST_SC_REQUIRED: {
+    type: 'SCENARIST_SC_REQUIRED',
+    msg: 'SCENARIST_SC_REQUIRED'
+  },
+  SCENARIST_EN_REQUIRED: {
+    type: 'SCENARIST_EN_REQUIRED',
+    msg: 'SCENARIST_EN_REQUIRED'
+  },
+
+  INTRODUCTION_TC_REQUIRED: {
+    type: 'INTRODUCTION_TC_REQUIRED',
+    msg: 'INTRODUCTION_TC_REQUIRED'
+  },
+  INTRODUCTION_SC_REQUIRED: {
+    type: 'INTRODUCTION_SC_REQUIRED',
+    msg: 'INTRODUCTION_SC_REQUIRED'
+  },
+  INTRODUCTION_EN_REQUIRED: {
+    type: 'INTRODUCTION_EN_REQUIRED',
+    msg: 'INTRODUCTION_EN_REQUIRED'
+  },
+
+  BUYNOW_TC_REQUIRED: { type: 'BUYNOW_TC_REQUIRED', msg: 'BUYNOW_TC_REQUIRED' },
+  BUYNOW_SC_REQUIRED: { type: 'BUYNOW_SC_REQUIRED', msg: 'BUYNOW_SC_REQUIRED' },
+  BUYNOW_EN_REQUIRED: { type: 'BUYNOW_EN_REQUIRED', msg: 'BUYNOW_EN_REQUIRED' },
+
+  PARTICIPATING_TC_REQUIRED: {
+    type: 'PARTICIPATING_TC_REQUIRED',
+    msg: 'PARTICIPATING_TC_REQUIRED'
+  },
+  PARTICIPATING_SC_REQUIRED: {
+    type: 'PARTICIPATING_SC_REQUIRED',
+    msg: 'PARTICIPATING_SC_REQUIRED'
+  },
+  PARTICIPATING_EN_REQUIRED: {
+    type: 'PARTICIPATING_EN_REQUIRED',
+    msg: 'PARTICIPATING_EN_REQUIRED'
+  },
+
+  ROLE_TC_REQUIRED: { type: 'ROLE_TC_REQUIRED', msg: 'ROLE_TC_REQUIRED' },
+  ROLE_SC_REQUIRED: { type: 'ROLE_SC_REQUIRED', msg: 'ROLE_SC_REQUIRED' },
+  ROLE_EN_REQUIRED: { type: 'ROLE_EN_REQUIRED', msg: 'ROLE_EN_REQUIRED' },
+
+  STUDENTSHOW_TC_REQUIRED: {
+    type: 'STUDENTSHOW_TC_REQUIRED',
+    msg: 'STUDENTSHOW_TC_REQUIRED'
+  },
+  STUDENTSHOW_SC_REQUIRED: {
+    type: 'STUDENTSHOW_SC_REQUIRED',
+    msg: 'STUDENTSHOW_SC_REQUIRED'
+  },
+  STUDENTSHOW_EN_REQUIRED: {
+    type: 'STUDENTSHOW_EN_REQUIRED',
+    msg: 'STUDENTSHOW_EN_REQUIRED'
+  },
+
+  NEXTSCHEDULE_TC_REQUIRED: {
+    type: 'NEXTSCHEDULE_TC_REQUIRED',
+    msg: 'NEXTSCHEDULE_TC_REQUIRED'
+  },
+  NEXTSCHEDULE_SC_REQUIRED: {
+    type: 'NEXTSCHEDULE_SC_REQUIRED',
+    msg: 'NEXTSCHEDULE_SC_REQUIRED'
+  },
+  NEXTSCHEDULE_EN_REQUIRED: {
+    type: 'NEXTSCHEDULE_EN_REQUIRED',
+    msg: 'NEXTSCHEDULE_EN_REQUIRED'
+  },
+
+  LEAVECONTACT_TC_REQUIRED: {
+    type: 'LEAVECONTACT_TC_REQUIRED',
+    msg: 'LEAVECONTACT_TC_REQUIRED'
+  },
+  LEAVECONTACT_SC_REQUIRED: {
+    type: 'LEAVECONTACT_SC_REQUIRED',
+    msg: 'LEAVECONTACT_SC_REQUIRED'
+  },
+  LEAVECONTACT_EN_REQUIRED: {
+    type: 'LEAVECONTACT_EN_REQUIRED',
+    msg: 'LEAVECONTACT_EN_REQUIRED'
+  },
+
+  PUBLICSHOW_TC_REQUIRED: {
+    type: 'PUBLICSHOW_TC_REQUIRED',
+    msg: 'PUBLICSHOW_TC_REQUIRED'
+  },
+  PUBLICSHOW_SC_REQUIRED: {
+    type: 'PUBLICSHOW_SC_REQUIRED',
+    msg: 'PUBLICSHOW_SC_REQUIRED'
+  },
+  PUBLICSHOW_EN_REQUIRED: {
+    type: 'PUBLICSHOW_EN_REQUIRED',
+    msg: 'PUBLICSHOW_EN_REQUIRED'
+  },
+
+  PROGRAMOFSHOW_TC_REQUIRED: {
+    type: 'PROGRAMOFSHOW_TC_REQUIRED',
+    msg: 'PROGRAMOFSHOW_TC_REQUIRED'
+  },
+  PROGRAMOFSHOW_SC_REQUIRED: {
+    type: 'PROGRAMOFSHOW_SC_REQUIRED',
+    msg: 'PROGRAMOFSHOW_SC_REQUIRED'
+  },
+  PROGRAMOFSHOW_EN_REQUIRED: {
+    type: 'PROGRAMOFSHOW_EN_REQUIRED',
+    msg: 'PROGRAMOFSHOW_EN_REQUIRED'
   },
 
   // db check

@@ -111,7 +111,71 @@ router.post('/', [auth], async (req, res) => {
 
     inherit_tc,
     inherit_sc,
-    inherit_en
+    inherit_en,
+
+    share_tc = '',
+    share_sc = '',
+    share_en = '',
+
+    relatedShow_tc = '',
+    relatedShow_sc = '',
+    relatedShow_en = '',
+
+    relatedArtists_tc = '',
+    relatedArtists_sc = '',
+    relatedArtists_en = '',
+
+    relatedDrama_tc = '',
+    relatedDrama_sc = '',
+    relatedDrama_en = '',
+
+    allShows_tc = '',
+    allShows_sc = '',
+    allShows_en = '',
+
+    more_tc = '',
+    more_sc = '',
+    more_en = '',
+
+    scenarist_tc = '',
+    scenarist_sc = '',
+    scenarist_en = '',
+
+    introduction_tc = '',
+    introduction_sc = '',
+    introduction_en = '',
+
+    buyNow_tc = '',
+    buyNow_sc = '',
+    buyNow_en = '',
+
+    participating_tc = '',
+    participating_sc = '',
+    participating_en = '',
+
+    role_tc = '',
+    role_sc = '',
+    role_en = '',
+
+    studentShow_tc = '',
+    studentShow_sc = '',
+    studentShow_en = '',
+
+    nextSchedule_tc = '',
+    nextSchedule_sc = '',
+    nextSchedule_en = '',
+
+    leaveContact_tc = '',
+    leaveContact_sc = '',
+    leaveContact_en = '',
+
+    publicShow_tc = '',
+    publicShow_sc = '',
+    publicShow_en = '',
+
+    programOfShow_tc = '',
+    programOfShow_sc = '',
+    programOfShow_en = ''
   } = req.body;
 
   // Build global constants object
@@ -181,6 +245,70 @@ router.post('/', [auth], async (req, res) => {
   globalConstantsFields.inherit_tc = inherit_tc;
   globalConstantsFields.inherit_sc = inherit_sc;
   globalConstantsFields.inherit_en = inherit_en;
+
+  globalConstantsFields.share_tc = share_tc;
+  globalConstantsFields.share_sc = share_sc;
+  globalConstantsFields.share_en = share_en;
+
+  globalConstantsFields.relatedShow_tc = relatedShow_tc;
+  globalConstantsFields.relatedShow_sc = relatedShow_sc;
+  globalConstantsFields.relatedShow_en = relatedShow_en;
+
+  globalConstantsFields.relatedArtists_tc = relatedArtists_tc;
+  globalConstantsFields.relatedArtists_sc = relatedArtists_sc;
+  globalConstantsFields.relatedArtists_en = relatedArtists_en;
+
+  globalConstantsFields.relatedDrama_tc = relatedDrama_tc;
+  globalConstantsFields.relatedDrama_sc = relatedDrama_sc;
+  globalConstantsFields.relatedDrama_en = relatedDrama_en;
+
+  globalConstantsFields.allShows_tc = allShows_tc;
+  globalConstantsFields.allShows_sc = allShows_sc;
+  globalConstantsFields.allShows_en = allShows_en;
+
+  globalConstantsFields.more_tc = more_tc;
+  globalConstantsFields.more_sc = more_sc;
+  globalConstantsFields.more_en = more_en;
+
+  globalConstantsFields.scenarist_tc = scenarist_tc;
+  globalConstantsFields.scenarist_sc = scenarist_sc;
+  globalConstantsFields.scenarist_en = scenarist_en;
+
+  globalConstantsFields.introduction_tc = introduction_tc;
+  globalConstantsFields.introduction_sc = introduction_sc;
+  globalConstantsFields.introduction_en = introduction_en;
+
+  globalConstantsFields.buyNow_tc = buyNow_tc;
+  globalConstantsFields.buyNow_sc = buyNow_sc;
+  globalConstantsFields.buyNow_en = buyNow_en;
+
+  globalConstantsFields.participating_tc = participating_tc;
+  globalConstantsFields.participating_sc = participating_sc;
+  globalConstantsFields.participating_en = participating_en;
+
+  globalConstantsFields.role_tc = role_tc;
+  globalConstantsFields.role_sc = role_sc;
+  globalConstantsFields.role_en = role_en;
+
+  globalConstantsFields.studentShow_tc = studentShow_tc;
+  globalConstantsFields.studentShow_sc = studentShow_sc;
+  globalConstantsFields.studentShow_en = studentShow_en;
+
+  globalConstantsFields.nextSchedule_tc = nextSchedule_tc;
+  globalConstantsFields.nextSchedule_sc = nextSchedule_sc;
+  globalConstantsFields.nextSchedule_en = nextSchedule_en;
+
+  globalConstantsFields.leaveContact_tc = leaveContact_tc;
+  globalConstantsFields.leaveContact_sc = leaveContact_sc;
+  globalConstantsFields.leaveContact_en = leaveContact_en;
+
+  globalConstantsFields.publicShow_tc = publicShow_tc;
+  globalConstantsFields.publicShow_sc = publicShow_sc;
+  globalConstantsFields.publicShow_en = publicShow_en;
+
+  globalConstantsFields.programOfShow_tc = programOfShow_tc;
+  globalConstantsFields.programOfShow_sc = programOfShow_sc;
+  globalConstantsFields.programOfShow_en = programOfShow_en;
 
   globalConstantsFields.lastModifyDT = new Date();
   globalConstantsFields.lastModifyUser = req.user._id;
