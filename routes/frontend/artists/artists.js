@@ -14,6 +14,9 @@ const {
   getArraySafe,
   isNonEmptyArray
 } = require('../../../utils/js/array/isNonEmptyArray');
+const firstOrDefault = require('../../../utils/js/array/firstOrDefault');
+const maxBy = require('../../../utils/js/array/maxBy');
+const minBy = require('../../../utils/js/array/minBy');
 
 /* utilities */
 
@@ -122,9 +125,6 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
 
   // if (artist.eventsPerformed.length > 0) {
   //   //console.log(JSON.stringify(artist.eventsPerformed, null, 2));
-  //   for (const event of artist.eventsPerformed) {
-  //     console.log(JSON.stringify(event.shows, null, 2));
-  //   }
   // }
 
   // gender
@@ -186,18 +186,56 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       }),
       //minShowTimestamp: minShowTimestamp,
       //maxShowTimestamp: maxShowTimestamp,
+      shows: getArraySafe(event.shows),
       timestampDistanceFromCurrent: timestampDistanceFromCurrent
     };
   });
 
-  const relatedEventsForFrontEndWithNonNullTimestampDistanceFromCurrent = relatedEventsForFrontEnd.filter(
-    relatedEventForFrontEnd =>
-      relatedEventForFrontEnd.timestampDistanceFromCurrent !== null
+  const relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent = [];
+  const relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent = [];
+  const relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent = [];
+
+  for (const relatedEventForFrontEnd of relatedEventsForFrontEnd) {
+    if (relatedEventForFrontEnd.timestampDistanceFromCurrent === null) {
+      relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent.push(
+        relatedEventForFrontEnd
+      );
+      continue;
+    }
+
+    if (relatedEventForFrontEnd.timestampDistanceFromCurrent > 0) {
+      relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent.push(
+        relatedEventForFrontEnd
+      );
+      continue;
+    }
+
+    // note this case includes isShowOn === true case
+    if (relatedEventForFrontEnd.timestampDistanceFromCurrent <= 0) {
+      relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent.push(
+        relatedEventForFrontEnd
+      );
+      continue;
+    }
+  }
+
+  let closestRelatedEventForFrontEnd = maxBy(
+    relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent,
+    'timestampDistanceFromCurrent'
   );
 
-  let closestRelatedEventsForFrontEnd = null;
-  for (const relatedEventForFrontEnd of relatedEventsForFrontEnd) {
-    if (minShowTimestamp )
+  if (!closestRelatedEventForFrontEnd) {
+    closestRelatedEventForFrontEnd = minBy(
+      relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent,
+      'timestampDistanceFromCurrent'
+    );
+  }
+
+  if (!closestRelatedEventForFrontEnd) {
+    closestRelatedEventForFrontEnd = firstOrDefault(
+      relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent,
+      null
+    );
   }
 
   return {
@@ -224,6 +262,7 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       answer: getEntityPropByLanguage(qna, 'answer', language)
     })),
     relatedEvents: relatedEventsForFrontEnd,
+    closestRelatedEvent: closestRelatedEventForFrontEnd,
     relatedArtists: []
   };
 };
@@ -249,6 +288,14 @@ router.get('/:lang/artists', [languageHandling], async (req, res) => {
     const artistsForFrontEnd = getArraySafe(artists).map(artist => {
       return getArtistForFrontEndFromDbArtist(artist, language);
     });
+
+    for (let i = 0; i < artistsForFrontEnd.length; i++) {
+      console.log('');
+      console.log('');
+      console.log(i + ':');
+      console.log(JSON.stringify(artistsForFrontEnd[i].relatedEvents, null, 2));
+      console.log(artistsForFrontEnd[i].closestRelatedEvent);
+    }
 
     res.json(artistsForFrontEnd);
   } catch (err) {
