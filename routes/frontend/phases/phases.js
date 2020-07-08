@@ -11,6 +11,9 @@ const {
   datesMin,
   datesMax
 } = require('../../../utils/datetime');
+const maxBy = require('../../../utils/js/array/maxBy');
+const minBy = require('../../../utils/js/array/minBy');
+const sortBy = require('../../../utils/js/array/sortBy');
 
 /* utilities */
 
@@ -88,19 +91,49 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
 
     for (const year of years) {
       const phasesOfYear = safePhases.filter(phase => phase.year === year);
-      yearsForFrontEnd.push({
-        year: `${year} - ${year + 1}`,
-        shows: phasesOfYear.map(phase => {
-          return {
-            phaseNumber: phase.phaseNumber,
-            themeColor: phase.themeColor,
-            schedule: {
-              date: {
-                from: formatDateStringForFrontEnd(phase.fromDate),
-                to: formatDateStringForFrontEnd(phase.toDate)
-              }
-            },
-            selectedEvents: getArraySafe(
+
+      // set phasesOfYearForFrontEnd
+      const phasesOfYearForFrontEnd = phasesOfYear.map(phase => {
+        const phaseFromTimestamp = phase.fromDate
+          ? Date.parse(phase.fromDate)
+          : null;
+        const phaseToTimestamp = phase.toDate ? Date.parse(phase.toDate) : null;
+
+        const currTimestamp = Date.now();
+        let isPhaseOn = false;
+        if (phaseFromTimestamp !== null && phaseToTimestamp !== null) {
+          isPhaseOn =
+            phaseFromTimestamp <= currTimestamp &&
+            currTimestamp <= phaseToTimestamp;
+        }
+
+        let timestampDistanceFromCurrent = null;
+        if (isPhaseOn) {
+          timestampDistanceFromCurrent = 0;
+        } else if (phaseFromTimestamp !== null && phaseToTimestamp !== null) {
+          if (currTimestamp >= phaseToTimestamp) {
+            // negative, past phases
+            timestampDistanceFromCurrent = phaseToTimestamp - currTimestamp;
+          } else if (currTimestamp <= phaseFromTimestamp) {
+            // positive, future phases
+            timestampDistanceFromCurrent = phaseFromTimestamp - currTimestamp;
+          }
+        }
+
+        return {
+          phaseNumber: phase.phaseNumber,
+          themeColor: phase.themeColor,
+          fromTimestamp: phaseFromTimestamp,
+          toTimestamp: phaseToTimestamp,
+          timestampDistanceFromCurrent: timestampDistanceFromCurrent,
+          schedule: {
+            date: {
+              from: formatDateStringForFrontEnd(phase.fromDate),
+              to: formatDateStringForFrontEnd(phase.toDate)
+            }
+          },
+          selectedEvents: sortBy(
+            getArraySafe(
               phase.events.map(event => {
                 const dates = getArraySafe(event.shows).map(show => show.date);
                 let minDate = null;
@@ -131,9 +164,74 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
                   }
                 };
               })
-            )
-          };
-        })
+            ),
+            ['fromDate', 'toDate']
+          )
+        };
+      });
+
+      // calculate closestPhaseForFrontEnd
+      // by first calculating
+      // phasesForFrontEndWithNullTimestampDistanceFromCurrent,
+      // phasesForFrontEndWithPositiveTimestampDistanceFromCurrent,
+      // phasesForFrontEndWithNegativeTimestampDistanceFromCurrent
+
+      const phasesForFrontEndWithNullTimestampDistanceFromCurrent = [];
+      const phasesForFrontEndWithPositiveTimestampDistanceFromCurrent = [];
+      const phasesForFrontEndWithNegativeTimestampDistanceFromCurrent = [];
+
+      for (const phaseForFrontEnd of phasesOfYearForFrontEnd) {
+        if (phaseForFrontEnd.timestampDistanceFromCurrent === null) {
+          phasesForFrontEndWithNullTimestampDistanceFromCurrent.push(
+            phaseForFrontEnd
+          );
+          continue;
+        }
+
+        // note this case includes isPhaseOn === true case
+        if (phaseForFrontEnd.timestampDistanceFromCurrent >= 0) {
+          phasesForFrontEndWithPositiveTimestampDistanceFromCurrent.push(
+            phaseForFrontEnd
+          );
+          continue;
+        }
+
+        if (phaseForFrontEnd.timestampDistanceFromCurrent < 0) {
+          phasesForFrontEndWithNegativeTimestampDistanceFromCurrent.push(
+            phaseForFrontEnd
+          );
+          continue;
+        }
+      }
+
+      let closestPhaseForFrontEnd = minBy(
+        phasesForFrontEndWithPositiveTimestampDistanceFromCurrent,
+        'timestampDistanceFromCurrent'
+      );
+
+      if (!closestPhaseForFrontEnd) {
+        closestPhaseForFrontEnd = maxBy(
+          phasesForFrontEndWithNegativeTimestampDistanceFromCurrent,
+          'timestampDistanceFromCurrent'
+        );
+      }
+
+      if (!closestPhaseForFrontEnd) {
+        closestPhaseForFrontEnd = firstOrDefault(
+          phasesForFrontEndWithNullTimestampDistanceFromCurrent,
+          null
+        );
+      }
+
+      // set isClosest field for relatedEventsForFrontEnd
+      for (const phaseForFrontEnd of phasesOfYearForFrontEnd) {
+        phaseForFrontEnd.isClosest =
+          phaseForFrontEnd === closestPhaseForFrontEnd;
+      }
+
+      yearsForFrontEnd.push({
+        year: `${year} - ${year + 1}`,
+        shows: sortBy(phasesOfYearForFrontEnd, ['fromTimestamp', 'toTimestamp'])
       });
     }
 

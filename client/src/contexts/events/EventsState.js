@@ -39,13 +39,14 @@ const EventsState = ({ children }) => {
     let url = '/api/backend/events/events';
     let queryString = '';
     if (options) {
-      const { page, sortOrder, sortBy, filterText } = options;
+      const { page, sortOrder, sortBy, filterText, limit } = options;
       queryString = setQueryStringValues(
         {
           page,
           sortOrder,
           sortBy,
-          filterText
+          filterText,
+          limit
         },
         ''
       );

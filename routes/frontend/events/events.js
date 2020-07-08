@@ -100,7 +100,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
       description: getEntityPropByLanguage(event, 'desc', language),
       remark: getEntityPropByLanguage(event, 'remarks', language)
     },
-    featuredImages: {
+    featuredImage: {
       src: event.featuredImage && event.featuredImage.url
     },
     gallery: getArraySafe(event.gallery).map(medium => {

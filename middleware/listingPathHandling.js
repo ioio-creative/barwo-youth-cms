@@ -35,8 +35,6 @@ module.exports = function (req, res, next) {
     // inject paginationOptions to req
     req.paginationOptions = paginationOptions;
 
-    console.log(paginationOptions);
-
     // filter related queries
     const filterText = query.filterText;
 

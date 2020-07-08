@@ -363,8 +363,8 @@ const FileManager = ({ onSelect }) => {
       // page,
       sortOrder: -1,
       sortBy: 'createDT',
+      // filterText,
       limit: 100
-      // filterText
     });
     return () => {
       document.removeEventListener('dragenter', handleDragEnter, false);

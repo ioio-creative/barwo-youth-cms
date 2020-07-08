@@ -17,6 +17,7 @@ const {
 const firstOrDefault = require('../../../utils/js/array/firstOrDefault');
 const maxBy = require('../../../utils/js/array/maxBy');
 const minBy = require('../../../utils/js/array/minBy');
+const sortBy = require('../../../utils/js/array/sortBy');
 
 /* utilities */
 
@@ -143,6 +144,7 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
     isDirector ? artist.eventsDirected : artist.eventsPerformed
   );
 
+  // set relatedEventsForFrontEnd
   const relatedEventsForFrontEnd = relatedEvents.map(event => {
     const showTimestamps = getArraySafe(event.shows).map(show => {
       return Date.parse(`${formatDateString(show.date)} ${show.startTime}`);
@@ -167,9 +169,11 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       timestampDistanceFromCurrent = 0;
     } else if (minShowTimestamp !== null && maxShowTimestamp !== null) {
       if (currTimestamp >= maxShowTimestamp) {
-        timestampDistanceFromCurrent = currTimestamp - maxShowTimestamp;
+        // negative, past shows
+        timestampDistanceFromCurrent = maxShowTimestamp - currTimestamp;
       } else if (currTimestamp <= minShowTimestamp) {
-        timestampDistanceFromCurrent = currTimestamp - minShowTimestamp;
+        // positive, future shows
+        timestampDistanceFromCurrent = minShowTimestamp - currTimestamp;
       }
     }
 
@@ -184,12 +188,29 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
           name: getEntityPropByLanguage(artDirector, 'name', language)
         };
       }),
-      //minShowTimestamp: minShowTimestamp,
-      //maxShowTimestamp: maxShowTimestamp,
+      artists: getArraySafe(event.artists).map(artistWithRole => {
+        const artist = artistWithRole.artist;
+        return {
+          id: artist._id,
+          label: artist.label,
+          name: getEntityPropByLanguage(artist, 'name', language),
+          featuredImage: {
+            src: artist.featuredImage && artist.featuredImage.url
+          }
+        };
+      }),
+      minShowTimestamp: minShowTimestamp,
+      maxShowTimestamp: maxShowTimestamp,
       shows: getArraySafe(event.shows),
       timestampDistanceFromCurrent: timestampDistanceFromCurrent
     };
   });
+
+  // calculate closestRelatedEventForFrontEnd
+  // by first calculating
+  // relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent,
+  // relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent,
+  // relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent
 
   const relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent = [];
   const relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent = [];
@@ -203,15 +224,15 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       continue;
     }
 
-    if (relatedEventForFrontEnd.timestampDistanceFromCurrent > 0) {
+    // note this case includes isShowOn === true case
+    if (relatedEventForFrontEnd.timestampDistanceFromCurrent >= 0) {
       relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent.push(
         relatedEventForFrontEnd
       );
       continue;
     }
 
-    // note this case includes isShowOn === true case
-    if (relatedEventForFrontEnd.timestampDistanceFromCurrent <= 0) {
+    if (relatedEventForFrontEnd.timestampDistanceFromCurrent < 0) {
       relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent.push(
         relatedEventForFrontEnd
       );
@@ -219,14 +240,14 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
     }
   }
 
-  let closestRelatedEventForFrontEnd = maxBy(
-    relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent,
+  let closestRelatedEventForFrontEnd = minBy(
+    relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent,
     'timestampDistanceFromCurrent'
   );
 
   if (!closestRelatedEventForFrontEnd) {
-    closestRelatedEventForFrontEnd = minBy(
-      relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent,
+    closestRelatedEventForFrontEnd = maxBy(
+      relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent,
       'timestampDistanceFromCurrent'
     );
   }
@@ -237,6 +258,31 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       null
     );
   }
+
+  // set isClosest field for relatedEventsForFrontEnd
+  for (const relatedEventForFrontEnd of relatedEventsForFrontEnd) {
+    relatedEventForFrontEnd.isClosest =
+      relatedEventForFrontEnd === closestRelatedEventForFrontEnd;
+  }
+
+  // set relatedArtists
+  let relatedArtists = [];
+  if (closestRelatedEventForFrontEnd) {
+    relatedArtists = getArraySafe(closestRelatedEventForFrontEnd.artists);
+  }
+
+  // console.log(
+  //   'artist events',
+  //   sortBy(relatedEventsForFrontEnd, [
+  //     'minShowTimestamp',
+  //     'maxShowTimestamp'
+  //   ]).map(({ minShowTimestamp, maxShowTimestamp }) => {
+  //     return {
+  //       minShowTimestamp,
+  //       maxShowTimestamp
+  //     };
+  //   })
+  // );
 
   return {
     id: artist._id,
@@ -261,9 +307,12 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       title: getEntityPropByLanguage(qna, 'question', language),
       answer: getEntityPropByLanguage(qna, 'answer', language)
     })),
-    relatedEvents: relatedEventsForFrontEnd,
-    closestRelatedEvent: closestRelatedEventForFrontEnd,
-    relatedArtists: []
+    relatedEvents: sortBy(relatedEventsForFrontEnd, [
+      'minShowTimestamp',
+      'maxShowTimestamp'
+    ]),
+    //closestRelatedEvent: closestRelatedEventForFrontEnd,
+    relatedArtists: relatedArtists
   };
 };
 
@@ -289,13 +338,13 @@ router.get('/:lang/artists', [languageHandling], async (req, res) => {
       return getArtistForFrontEndFromDbArtist(artist, language);
     });
 
-    for (let i = 0; i < artistsForFrontEnd.length; i++) {
-      console.log('');
-      console.log('');
-      console.log(i + ':');
-      console.log(JSON.stringify(artistsForFrontEnd[i].relatedEvents, null, 2));
-      console.log(artistsForFrontEnd[i].closestRelatedEvent);
-    }
+    // for (let i = 0; i < artistsForFrontEnd.length; i++) {
+    //   console.log('');
+    //   console.log('');
+    //   console.log(i + ':');
+    //   console.log(JSON.stringify(artistsForFrontEnd[i].relatedEvents, null, 2));
+    //   console.log(artistsForFrontEnd[i].closestRelatedEvent);
+    // }
 
     res.json(artistsForFrontEnd);
   } catch (err) {
