@@ -159,14 +159,12 @@ const TicketingDefaultEdit = _ => {
     },
     [setPhonesPicked, setIsSubmitEnabled]
   );
-  console.log(ticketingDefault);
 
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
       removeAlerts();
       e.preventDefault();
-      console.log(ticketingDefault);
 
       ticketingDefault.prices = getArraySafe(pricesPicked).map(
         ({ price_tc, price_sc, price_en }) => {
@@ -188,8 +186,6 @@ const TicketingDefaultEdit = _ => {
           };
         }
       );
-
-      console.log(ticketingDefault);
       let returnedTicketingDefault = null;
       returnedTicketingDefault = await updateTicketingDefault(ticketingDefault);
       let isSuccess = Boolean(returnedTicketingDefault);
