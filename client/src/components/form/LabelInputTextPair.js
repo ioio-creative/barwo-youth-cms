@@ -17,7 +17,8 @@ const LabelInputTextPair = ({
   return (
     <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
-        <Label htmlFor={name} message={labelMessage} />
+        <Label htmlFor={name} message={labelMessage} />{' '}
+        {required === true ? '*' : ''}
         <InputText
           name={name}
           onChange={onChange}
