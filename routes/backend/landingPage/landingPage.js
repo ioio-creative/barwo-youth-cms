@@ -157,7 +157,7 @@ router.post('/', [auth], async (req, res) => {
   session.startTransaction();
 
   try {
-    const oldLanding = await LandingPage.findOne({});
+    const oldLanding = await LandingPage.findOne({}).session(session);
     let newLanding = null;
 
     if (oldLanding) {
