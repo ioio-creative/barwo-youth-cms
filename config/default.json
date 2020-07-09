@@ -20,8 +20,13 @@
     }
   },
   "Email": {
-    "smtpUsername": "XXXXXXXXXXXXXXXXXXXX",
-    "smtpPassword": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    "smtp": {
+      "server": "email-smtp.ap-southeast-1.amazonaws.com",
+      "port": 587,
+      "username": "XXXXXXXXXXXXXXXXXXXX",
+      "password": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      "isEnableSsl": false
+    }
   },
   "Jwt": {
     "secret": "secret",
