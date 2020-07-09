@@ -134,7 +134,7 @@ const RichTextbox = ({
         target: {
           ...event.target,
           name: name,
-          value: event.editor.getData().replace(/\n/g, '<br>')
+          value: event.editor.getData()
         }
       });
       // setValue(event.editor.getData());
