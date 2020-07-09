@@ -95,7 +95,9 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
       time: show.startTime
     })),
     info: {
-      scenarist: getArraySafe(event.scenarists),
+      scenarist: getArraySafe(event.scenarists).map(scenarist => {
+        return getEntityPropByLanguage(scenarist, 'name', language);
+      }),
       heading: getEntityPropByLanguage(event, 'descHeadline', language),
       description: getEntityPropByLanguage(event, 'desc', language),
       remark: getEntityPropByLanguage(event, 'remarks', language)

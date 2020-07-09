@@ -36,8 +36,41 @@ const landingPopulationList = [
       lastModifyDT: 0,
       lastModifyUser: 0
     }
+  },
+  {
+    path: 'featuredArtists',
+    select: 'label'
   }
 ];
+
+const landingPageArtistsValidation = artists => {
+  for (const artist of getArraySafe(artists)) {
+    // artist is the _id
+    if (!artist) {
+      return landingPageResponseTypes.LANDING_PAGE_ARTIST_REQUIRED;
+    }
+  }
+  return null;
+};
+
+const handleLandingPageRelationshipsValidationError = (errorType, res) => {
+  // 400 bad request
+  res.status(400).json({
+    errors: [errorType]
+  });
+};
+
+const landingPageRelationshipsValidation = (artists, res) => {
+  let errorType = null;
+
+  errorType = landingPageArtistsValidation(artists);
+  if (errorType) {
+    handleLandingPageRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  return true;
+};
 
 /* end of utilities */
 
@@ -67,7 +100,7 @@ router.get('/', auth, async (req, res) => {
 // @desc    Add landing page
 // @access  Private
 router.post('/', [auth], async (req, res) => {
-  const { featuredVideo, featuredVideo2 } = req.body;
+  const { featuredVideo, featuredVideo2, featuredArtists } = req.body;
   console.log(req.body);
 
   // Build landing object
@@ -76,8 +109,12 @@ router.post('/', [auth], async (req, res) => {
   const landingFields = {};
   landingFields.featuredVideo = featuredVideo;
   landingFields.featuredVideo2 = featuredVideo2;
+  landingFields.featuredArtists = getArraySafe(featuredArtists);
   landingFields.lastModifyDT = new Date();
   landingFields.lastModifyUser = req.user._id;
+
+  // customed validations
+  let isSuccess = landingPageRelationshipsValidation();
 
   try {
     const oldLanding = await LandingPage.findOne({});

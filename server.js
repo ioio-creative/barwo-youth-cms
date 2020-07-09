@@ -64,6 +64,10 @@ app.use(
   require('./routes/backend/phases/phases')
 );
 app.use(
+  '/api/backend/activities/activities',
+  require('./routes/backend/activities/activities')
+);
+app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );
