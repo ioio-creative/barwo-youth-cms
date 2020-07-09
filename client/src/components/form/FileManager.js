@@ -201,6 +201,7 @@ const FileManager = ({ onSelect }) => {
     'CKEditorFuncNum',
     NumberParam
   );
+
   const CKEditorFuncNum = CKEditorFuncNumAndSetter[0];
 
   const { fileType: mediaType, additionalCallbackParam } = useParams();
@@ -479,8 +480,9 @@ const FileManager = ({ onSelect }) => {
               getArraySafe(mediaList)
                 .filter(
                   medium =>
+                    medium &&
                     medium.type ===
-                    mediumTypeObj.value /* paramsToType[mediaType] */
+                      mediumTypeObj.value /* paramsToType[mediaType] */
                 )
                 .map((medium, idx) => {
                   return (
