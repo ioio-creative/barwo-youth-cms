@@ -1,12 +1,15 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
 const auth = require('../../../middleware/auth');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const {
   LandingPage,
   landingPageResponseTypes
 } = require('../../../models/LandingPage');
+const { Artist } = require('../../../models/Artist');
 
 /* utilities */
 
@@ -43,10 +46,10 @@ const landingPopulationList = [
   }
 ];
 
-const landingPageArtistsValidation = artists => {
-  for (const artist of getArraySafe(artists)) {
-    // artist is the _id
-    if (!artist) {
+const landingPageFeaturedArtistsValidation = featuredArtists => {
+  for (const featuredArtist of getArraySafe(featuredArtists)) {
+    // featuredArtist is the _id
+    if (!featuredArtist) {
       return landingPageResponseTypes.LANDING_PAGE_ARTIST_REQUIRED;
     }
   }
@@ -60,16 +63,48 @@ const handleLandingPageRelationshipsValidationError = (errorType, res) => {
   });
 };
 
-const landingPageRelationshipsValidation = (artists, res) => {
+const landingPageRelationshipsValidation = (featuredArtists, res) => {
   let errorType = null;
 
-  errorType = landingPageArtistsValidation(artists);
+  errorType = landingPageFeaturedArtistsValidation(featuredArtists);
   if (errorType) {
     handleLandingPageRelationshipsValidationError(errorType, res);
     return false;
   }
 
   return true;
+};
+
+const setIsFeaturedInLandingPageForArtists = async (landing, session) => {
+  // https://stackoverflow.com/questions/55264112/mongoose-many-to-many-relations
+
+  const options = { session };
+
+  // set artist's isFeaturedInLandingPage
+  for (const featuredArtist of getArraySafe(landing.featuredArtists)) {
+    // featuredArtist is the _id
+    await Artist.findByIdAndUpdate(
+      featuredArtist,
+      {
+        isFeaturedInLandingPage: true
+      },
+      options
+    );
+  }
+};
+
+const removeIsFeaturedInLandingPageForAndArtists = async (landing, session) => {
+  const options = { session };
+
+  for (const featuredArtist of getArraySafe(landing.featuredArtists)) {
+    await Artist.findByIdAndUpdate(
+      featuredArtist,
+      {
+        isFeaturedInLandingPage: false
+      },
+      options
+    );
+  }
 };
 
 /* end of utilities */
@@ -101,7 +136,12 @@ router.get('/', auth, async (req, res) => {
 // @access  Private
 router.post('/', [auth], async (req, res) => {
   const { featuredVideo, featuredVideo2, featuredArtists } = req.body;
-  console.log(req.body);
+
+  // customed validations
+  let isSuccess = landingPageRelationshipsValidation(featuredArtists, res);
+  if (!isSuccess) {
+    return;
+  }
 
   // Build landing object
   // Note:
@@ -113,8 +153,8 @@ router.post('/', [auth], async (req, res) => {
   landingFields.lastModifyDT = new Date();
   landingFields.lastModifyUser = req.user._id;
 
-  // customed validations
-  let isSuccess = landingPageRelationshipsValidation();
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
   try {
     const oldLanding = await LandingPage.findOne({});
@@ -122,20 +162,30 @@ router.post('/', [auth], async (req, res) => {
 
     if (oldLanding) {
       // update flow
+      await removeIsFeaturedInLandingPageForAndArtists(oldLanding, session);
+
       newLanding = await LandingPage.findOneAndUpdate(
         {},
-        { $set: landingFields }
+        { $set: landingFields },
+        { session, new: true }
       );
+
+      await setIsFeaturedInLandingPageForArtists(newLanding, session);
     } else {
       // insert flow
       newLanding = new LandingPage(landingFields);
 
-      await newLanding.save();
+      await newLanding.save({ session });
     }
+
+    await session.commitTransaction();
 
     res.json(newLanding);
   } catch (err) {
+    await session.abortTransaction();
     generalErrorHandle(err, res);
+  } finally {
+    session.endSession();
   }
 });
 

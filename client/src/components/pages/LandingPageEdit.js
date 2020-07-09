@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
+import ArtistsState from 'contexts/artists/ArtistsState';
+import ArtistsContext from 'contexts/artists/artistsContext';
 import LandingPageContext from 'contexts/landingPage/landingPageContext';
 import LandingPageContainer from 'components/landingPage/LandingPageContainer';
+import LandingPageEditFeaturedArtistSelect from 'components/landingPage/LandingPageEditFeaturedArtistSelect';
 import Alert from 'models/alert';
+import Artist from 'models/artist';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -11,7 +15,7 @@ import SubmitButton from 'components/form/SubmitButton';
 import LandingPage from 'models/landingPage';
 import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
@@ -22,6 +26,12 @@ const mediumTypes = Medium.mediumTypes;
 
 const LandingPageEdit = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
+  const {
+    artistsErrors,
+    clearArtistsErrors,
+    getEventArtists,
+    clearEventArtists
+  } = useContext(ArtistsContext);
   const {
     landingPage: fetchedLandingPage,
     landingPageErrors,
@@ -42,11 +52,16 @@ const LandingPageEdit = _ => {
   // featuredVideo2
   const [featuredVideo2Picked, setFeaturedVideo2Picked] = useState(null);
 
+  // featuredArtists
+  const [featuredArtistsPicked, setFeaturedArtistsPicked] = useState([]);
+
   // componentDidMount
   useEffect(_ => {
     getLandingPage();
+    getEventArtists();
     return _ => {
       clearLandingPage();
+      clearEventArtists();
       removeAlerts();
     };
     // eslint-disable-next-line
@@ -64,6 +79,9 @@ const LandingPageEdit = _ => {
         if (fetchedLandingPage) {
           setFeaturedVideoPicked(fetchedLandingPage.featuredVideo);
           setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
+          setFeaturedArtistsPicked(
+            getArraySafe(fetchedLandingPage.featuredArtists)
+          );
         }
         setIsAddMode(!fetchedLandingPage);
       }
@@ -74,7 +92,8 @@ const LandingPageEdit = _ => {
       setLandingPage,
       setIsAddMode,
       setFeaturedVideoPicked,
-      setFeaturedVideo2Picked
+      setFeaturedVideo2Picked,
+      setFeaturedArtistsPicked
     ]
   );
 
@@ -101,6 +120,24 @@ const LandingPageEdit = _ => {
       }
     },
     [landingPageErrors, setAlerts, clearLandingPageErrors]
+  );
+
+  // artistsErrors
+  useEffect(
+    _ => {
+      if (isNonEmptyArray(artistsErrors)) {
+        setAlerts(
+          artistsErrors.map(artistsError => {
+            return new Alert(
+              Artist.artistsResponseTypes[artistsError].msg,
+              Alert.alertTypes.WARNING
+            );
+          })
+        );
+        clearArtistsErrors();
+      }
+    },
+    [artistsErrors, setAlerts, clearArtistsErrors]
   );
 
   /* methods */
@@ -138,6 +175,14 @@ const LandingPageEdit = _ => {
     [setIsSubmitEnabled, setFeaturedVideo2Picked]
   );
 
+  const onGetFeaturedArtistsPicked = useCallback(
+    newItemList => {
+      setIsSubmitEnabled(true);
+      setFeaturedArtistsPicked(newItemList);
+    },
+    [setFeaturedArtistsPicked, setIsSubmitEnabled]
+  );
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -153,6 +198,11 @@ const LandingPageEdit = _ => {
       landingPage.featuredVideo2 = featuredVideo2Picked
         ? featuredVideo2Picked._id
         : null;
+
+      // add featuredArtists
+      landingPage.featuredArtists = getArraySafe(featuredArtistsPicked).map(
+        artist => artist._id
+      );
 
       let isSuccess = validInput(landingPage);
       let returnedLandingPage = null;
@@ -181,7 +231,8 @@ const LandingPageEdit = _ => {
       removeAlerts,
       validInput,
       featuredVideoPicked,
-      featuredVideo2Picked
+      featuredVideo2Picked,
+      featuredArtistsPicked
     ]
   );
 
@@ -213,6 +264,11 @@ const LandingPageEdit = _ => {
         mediumType={mediumTypes.VIDEO}
       />
 
+      <LandingPageEditFeaturedArtistSelect
+        featuredArtistsPicked={featuredArtistsPicked}
+        onGetFeaturedArtistsPicked={onGetFeaturedArtistsPicked}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair
@@ -235,7 +291,9 @@ const LandingPageEdit = _ => {
 
 const LandingPageEditWithContainer = _ => (
   <LandingPageContainer>
-    <LandingPageEdit />
+    <ArtistsState>
+      <LandingPageEdit />
+    </ArtistsState>
   </LandingPageContainer>
 );
 
