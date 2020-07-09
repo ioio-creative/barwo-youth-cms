@@ -10,8 +10,6 @@
     "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
     "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "s3": {
-      "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
-      "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
       "region": "ap-east-1",
       "bucket": "XXX",
       // https://www.npmjs.com/package/multer#limits
@@ -19,10 +17,11 @@
         "fileSizeInMBs": 20,
         "files": 10
       }
-    },
-    "ses": {
-      "region": "ap-southeast-1"
     }
+  },
+  "Email": {
+    "smtpUsername": "XXXXXXXXXXXXXXXXXXXX",
+    "smtpPassword": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   },
   "Jwt": {
     "secret": "secret",

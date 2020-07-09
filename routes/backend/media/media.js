@@ -32,8 +32,8 @@ const changeFileName = originalName => {
 };
 
 const s3 = new aws.S3({
-  accessKeyId: config.get('Aws.s3.accessKeyId'),
-  secretAccessKey: config.get('Aws.s3.secretAccessKey'),
+  accessKeyId: config.get('Aws.accessKeyId'),
+  secretAccessKey: config.get('Aws.secretAccessKey'),
   region: config.get('Aws.s3.region')
 });
 
