@@ -4,9 +4,9 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { Event } = require('../../../models/Event');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
+const { Event } = require('../../../models/Event');
 
 /* utilities */
 

@@ -83,7 +83,7 @@ app.use('/api/frontend/artists', require('./routes/frontend/artists/artists'));
 app.use('/api/frontend/events', require('./routes/frontend/events/events'));
 app.use('/api/frontend/phases', require('./routes/frontend/phases/phases'));
 app.use(
-  '/api/frontend/landingPage/landingPage',
+  '/api/frontend/landingPage',
   require('./routes/frontend/landingPage/landingPage')
 );
 app.use(
