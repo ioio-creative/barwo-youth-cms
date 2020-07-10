@@ -130,6 +130,14 @@ function GlobalConstants() {
   this.programOfShow_sc = '';
   this.programOfShow_en = '';
 
+  this.total1_tc = '';
+  this.total1_sc = '';
+  this.total1_en = '';
+
+  this.total2_tc = '';
+  this.total2_sc = '';
+  this.total2_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -504,6 +512,32 @@ GlobalConstants.globalConstantsResponseTypes = {
   PROGRAMOFSHOW_EN_REQUIRED: {
     type: 'PROGRAMOFSHOW_EN_REQUIRED',
     msg: 'PROGRAMOFSHOW_EN_REQUIRED'
+  },
+
+  TOTAL1_TC_REQUIRED: {
+    type: 'TOTAL1_TC_REQUIRED',
+    msg: 'TOTAL1_TC_REQUIRED'
+  },
+  TOTAL1_SC_REQUIRED: {
+    type: 'TOTAL1_SC_REQUIRED',
+    msg: 'TOTAL1_SC_REQUIRED'
+  },
+  TOTAL1_EN_REQUIRED: {
+    type: 'TOTAL1_EN_REQUIRED',
+    msg: 'TOTAL1_EN_REQUIRED'
+  },
+
+  TOTAL2_TC_REQUIRED: {
+    type: 'TOTAL2_TC_REQUIRED',
+    msg: 'TOTAL2_TC_REQUIRED'
+  },
+  TOTAL2_SC_REQUIRED: {
+    type: 'TOTAL2_SC_REQUIRED',
+    msg: 'TOTAL2_SC_REQUIRED'
+  },
+  TOTAL2_EN_REQUIRED: {
+    type: 'TOTAL2_EN_REQUIRED',
+    msg: 'TOTAL2_EN_REQUIRED'
   },
 
   // db check
