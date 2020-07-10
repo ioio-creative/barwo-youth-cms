@@ -20,8 +20,10 @@ import MyInputText from './InputText';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import Loading from 'components/layout/loading/DefaultLoading';
-
+import config from 'config/default.json';
 import './FileManager.css';
+
+const numberOfFilesInExplorer = config.FileManager.numberOfFilesInExplorer;
 
 // routes //
 // images
@@ -223,12 +225,12 @@ const FileManager = ({ onSelect }) => {
 
   const setFileManagerEl = useCallback(ref => {
     fileManagerEl.current = ref;
-    console.log('setFileManagerEl', ref);
+    //console.log('setFileManagerEl', ref);
   }, []);
   const returnFileUrl = useCallback(
     medium => {
       // using onSelect props
-      console.log(CKEditorFuncNum);
+      //console.log('CKEditorFuncNum:', CKEditorFuncNum);
       if (onSelect) {
         onSelect(medium);
       } else if (
@@ -365,7 +367,7 @@ const FileManager = ({ onSelect }) => {
       sortOrder: -1,
       sortBy: 'createDT',
       // filterText,
-      limit: 100
+      limit: numberOfFilesInExplorer
     });
     return () => {
       document.removeEventListener('dragenter', handleDragEnter, false);

@@ -6,5 +6,8 @@
     "password": {
       "minLength": 6
     }
+  },
+  "FileManager": {
+    "numberOfFilesInExplorer": 30
   }
 }

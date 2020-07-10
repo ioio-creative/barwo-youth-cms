@@ -89,10 +89,16 @@ const uploadSingleFilesMiddleware = getUploadSingleFilesMiddleware('media');
 
 /* utilities */
 
+const mediumSortForFindAll = {
+  lastModifyDT: -1
+};
+
 const mediumSelectForFindAll = {
   usages: 0
 };
+
 const mediumSelectForFindOne = { ...mediumSelectForFindAll };
+
 const mediumPopulationListForFindAll = [
   {
     path: 'lastModifyUser',
@@ -166,7 +172,8 @@ router.get(
       const options = {
         ...req.paginationOptions,
         select: mediumSelectForFindAll,
-        populate: mediumPopulationListForFindAll
+        populate: mediumPopulationListForFindAll,
+        sort: mediumSortForFindAll
       };
 
       let findOptions = { type: mediumTypeFromUrl.type };
@@ -289,7 +296,6 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
   } catch (err) {
     console.error(prettyStringify(err));
 
-    const badRequestCode = 400;
     let errorType = null;
 
     // https://www.npmjs.com/package/multer
@@ -299,13 +305,14 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
           errorType = mediumResponseTypes.TOO_MANY_FILES;
           break;
         case 'LIMIT_FILE_SIZE':
-          errorType = mediumReponseType.FILE_TOO_LARGE;
+          errorType = mediumResponseTypes.FILE_TOO_LARGE;
         default:
           break;
       }
 
       if (errorType) {
-        return res.status(badRequestCode).json({
+        // 400 bad request
+        return res.status(400).json({
           errors: [errorType]
         });
       }
