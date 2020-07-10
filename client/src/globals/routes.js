@@ -68,13 +68,16 @@ export default {
   landingPageEdit: function (isLink) {
     return '/landingPageEdit';
   },
-  contactEditById: '/contactEdit/:contactId',
   contactList: function (isLink) {
     return '/contactList';
+  },
+  contactEditById: '/contactEdit/:contactId',
+  contactEditByIdWithValue: function (isLink, contactId) {
+    return '/contactEdit/' + contactId;
   },
   contactAdd: function (isLink) {
     return '/contactAdd';
   },
-  fileManager: '/fileManager/:fileType/:additionalCallbackParam?',
-  testing: '/testing'
+  testing: '/testing',
+  fileManager: '/fileManager/:fileType/:additionalCallbackParam?'
 };
