@@ -19,7 +19,7 @@ const activitySelectForFindAll = {};
 
 const activitySelectForFindOne = { ...activitySelectForFindAll };
 
-const activiyPopulationListForFindAll = [
+const activityPopulationListForFindAll = [
   {
     path: 'lastModifyUser',
     select: 'name'
@@ -50,7 +50,8 @@ const activityValidationChecks = [
   check('label', activityResponseTypes.LABEL_REQUIRED).not().isEmpty(),
   check('name_tc', activityResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
   check('name_sc', activityResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
-  check('name_en', activityResponseTypes.NAME_EN_REQUIRED).not().isEmpty()
+  check('name_en', activityResponseTypes.NAME_EN_REQUIRED).not().isEmpty(),
+  check('type', activityResponseTypes.TYPE_REQUIRED).not().isEmpty()
 ];
 
 const handleActivityLabelDuplicateKeyError = (err, res) => {
@@ -130,6 +131,7 @@ router.post(
       name_tc,
       name_sc,
       name_en,
+      type,
       fromDate,
       toDate,
       location,
@@ -147,6 +149,7 @@ router.post(
         name_tc,
         name_sc,
         name_en,
+        type,
         fromDate,
         toDate,
         location,
@@ -182,6 +185,7 @@ router.put(
       name_tc,
       name_sc,
       name_en,
+      type,
       fromDate,
       toDate,
       location,
@@ -201,6 +205,7 @@ router.put(
     if (name_tc) activityFields.name_tc = name_tc;
     if (name_sc) activityFields.name_sc = name_sc;
     if (name_en) activityFields.name_en = name_en;
+    if (type) activityFields.type = type;
     activityFields.fromDate = fromDate;
     activityFields.toDate = toDate;
     activityFields.location = location;

@@ -299,7 +299,7 @@ router.put(
     if (desc_tc) artistFields.desc_tc = desc_tc;
     if (desc_sc) artistFields.desc_sc = desc_sc;
     if (desc_en) artistFields.desc_en = desc_en;
-    artistFields.type = type;
+    if (type) artistFields.type = type;
     if (role) artistFields.role = role;
     artistFields.qnas = getArraySafe(qnas);
     artistFields.featuredImage = featuredImage;

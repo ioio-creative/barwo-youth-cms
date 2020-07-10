@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
-const ArtistQnASchema = mongoose.Schema({
+const ArtistQnaSchema = mongoose.Schema({
   question_tc: {
     type: String,
     require: true
@@ -63,7 +63,7 @@ const ArtistSchema = mongoose.Schema({
   desc_en: {
     type: String
   },
-  qnas: [ArtistQnASchema],
+  qnas: [ArtistQnaSchema],
   /* media */
   featuredImage: {
     type: mongoose.Schema.Types.ObjectId,
