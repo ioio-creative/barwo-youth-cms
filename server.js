@@ -64,6 +64,10 @@ app.use(
   require('./routes/backend/phases/phases')
 );
 app.use(
+  '/api/backend/activities/activities',
+  require('./routes/backend/activities/activities')
+);
+app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );
@@ -83,7 +87,7 @@ app.use('/api/frontend/artists', require('./routes/frontend/artists/artists'));
 app.use('/api/frontend/events', require('./routes/frontend/events/events'));
 app.use('/api/frontend/phases', require('./routes/frontend/phases/phases'));
 app.use(
-  '/api/frontend/landingPage/landingPage',
+  '/api/frontend/landingPage',
   require('./routes/frontend/landingPage/landingPage')
 );
 app.use(

@@ -13,6 +13,10 @@ function LandingPage() {
 
 LandingPage.landingPageResponseTypes = {
   // input validation
+  LANDING_PAGE_ARTIST_REQUIRED: {
+    type: 'LANDING_PAGE_ARTIST_REQUIRED',
+    msg: 'LANDING_PAGE_ARTIST_REQUIRED'
+  },
 
   // db check
   LANDING_PAGE_NOT_EXISTS: {

@@ -86,6 +86,10 @@ const ArtistSchema = mongoose.Schema({
   /* end of media */
   eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
+  isFeaturedInLandingPage: {
+    type: Boolean,
+    default: false
+  },
   isEnabled: {
     type: Boolean,
     default: true

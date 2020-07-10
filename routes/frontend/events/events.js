@@ -4,9 +4,9 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { Event } = require('../../../models/Event');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
+const { Event } = require('../../../models/Event');
 
 /* utilities */
 
@@ -95,7 +95,9 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
       time: show.startTime
     })),
     info: {
-      scenarist: getArraySafe(event.scenarists),
+      scenarist: getArraySafe(event.scenarists).map(scenarist => {
+        return getEntityPropByLanguage(scenarist, 'name', language);
+      }),
       heading: getEntityPropByLanguage(event, 'descHeadline', language),
       description: getEntityPropByLanguage(event, 'desc', language),
       remark: getEntityPropByLanguage(event, 'remarks', language)

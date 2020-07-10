@@ -205,12 +205,15 @@ export default {
   'LandingPage.Title': 'Landing Page',
   'LandingPage.FeaturedVideoLabel': 'Featured Video',
   'LandingPage.FeaturedVideo2Label': 'Featured Video 2',
+  'LandingPage.FeaturedArtistsLabel': 'Featured Artists',
   'LandingPage.LastModifyDTLabel': 'Last Modify DT',
   'LandingPage.LastModifyUserLabel': 'Last Modify User',
 
   'LandingPageEdit.EditLandingPageTitle': 'Edit Landing Page',
   'LandingPageEdit.UpdateLandingPageSubmit': 'Update Landing Page',
   'LandingPageEdit.UpdateLandingPageSuccessMessage': 'Landing Page Updated',
+  'LandingPageEdit.SelectFeaturedArtistsPlaceholder':
+    'Select Featured Artists...',
 
   'GlobalConstants.Title': 'Global Constants',
   'GlobalConstants.LatestShowTcLabel': 'Latest Show TC',

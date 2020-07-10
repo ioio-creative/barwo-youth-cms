@@ -16,7 +16,8 @@ const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 
 const artistSelectForFindAll = {
   eventsDirected: 0,
-  eventsPerformed: 0
+  eventsPerformed: 0,
+  isFeaturedInLandingPage: 0
 };
 
 const artistSelectForFindOne = { ...artistSelectForFindAll };

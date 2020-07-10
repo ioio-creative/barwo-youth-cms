@@ -8,6 +8,7 @@ const { Artist, artistTypes } = require('../../../models/Artist');
 // @route   GET api/backend/artists/eventArtists
 // @desc    Get all event artists
 // @access  Private
+// Note: this route is used in frontend's EventEdit and LandingPageEdit
 router.get('/', auth, async (req, res) => {
   try {
     const artists = await Artist.find({

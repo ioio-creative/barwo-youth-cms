@@ -22,6 +22,7 @@ const sortBy = require('../../../utils/js/array/sortBy');
 /* utilities */
 
 const artistSelectForFindAll = {
+  isFeaturedInLandingPage: 0,
   isEnabled: 0,
   createDT: 0,
   lastModifyDT: 0,
