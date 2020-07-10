@@ -950,6 +950,56 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
+      <LabelInputTextPair
+        name='total1_tc'
+        value={globalConstants.total1_tc}
+        labelMessage={uiWordings['GlobalConstants.Total1TcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='total1_sc'
+        value={globalConstants.total1_sc}
+        labelMessage={uiWordings['GlobalConstants.Total1ScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='total1_en'
+        value={globalConstants.total1_en}
+        labelMessage={uiWordings['GlobalConstants.Total1EnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='total2_tc'
+        value={globalConstants.total2_tc}
+        labelMessage={uiWordings['GlobalConstants.Total2TcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='total2_sc'
+        value={globalConstants.total2_sc}
+        labelMessage={uiWordings['GlobalConstants.Total2ScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='total2_en'
+        value={globalConstants.total2_en}
+        labelMessage={uiWordings['GlobalConstants.Total2EnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair

@@ -52,6 +52,16 @@ export default {
   phaseAdd: function (isLink) {
     return '/phaseAdd';
   },
+  activityList: function (isLink) {
+    return '/activityList';
+  },
+  activityEditById: '/activityEdit/:activityId',
+  activityEditByIdWithValue: function (isLink, activityId) {
+    return '/activityEdit/' + activityId;
+  },
+  activityAdd: function (isLink) {
+    return '/activityAdd';
+  },
   globalConstantsEdit: function (isLink) {
     return '/globalConstantsEdit';
   },
@@ -65,7 +75,6 @@ export default {
   contactAdd: function (isLink) {
     return '/contactAdd';
   },
-  testing: '/testing',
-  fileManager: '/fileManager/:fileType/:additionalCallbackParam?'
-  // passwordChange: '/changePassword'
+  fileManager: '/fileManager/:fileType/:additionalCallbackParam?',
+  testing: '/testing'
 };

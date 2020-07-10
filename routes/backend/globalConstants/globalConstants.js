@@ -71,7 +71,6 @@ router.post('/', [auth], async (req, res) => {
     show_tc,
     show_sc,
     show_en,
-    show_try,
 
     allShow_tc,
     allShow_sc,
@@ -113,69 +112,77 @@ router.post('/', [auth], async (req, res) => {
     inherit_sc,
     inherit_en,
 
-    share_tc = '',
-    share_sc = '',
-    share_en = '',
+    share_tc,
+    share_sc,
+    share_en,
 
-    relatedShow_tc = '',
-    relatedShow_sc = '',
-    relatedShow_en = '',
+    relatedShow_tc,
+    relatedShow_sc,
+    relatedShow_en,
 
-    relatedArtists_tc = '',
-    relatedArtists_sc = '',
-    relatedArtists_en = '',
+    relatedArtists_tc,
+    relatedArtists_sc,
+    relatedArtists_en,
 
-    relatedDrama_tc = '',
-    relatedDrama_sc = '',
-    relatedDrama_en = '',
+    relatedDrama_tc,
+    relatedDrama_sc,
+    relatedDrama_en,
 
-    allShows_tc = '',
-    allShows_sc = '',
-    allShows_en = '',
+    allShows_tc,
+    allShows_sc,
+    allShows_en,
 
-    more_tc = '',
-    more_sc = '',
-    more_en = '',
+    more_tc,
+    more_sc,
+    more_en,
 
-    scenarist_tc = '',
-    scenarist_sc = '',
-    scenarist_en = '',
+    scenarist_tc,
+    scenarist_sc,
+    scenarist_en,
 
-    introduction_tc = '',
-    introduction_sc = '',
-    introduction_en = '',
+    introduction_tc,
+    introduction_sc,
+    introduction_en,
 
-    buyNow_tc = '',
-    buyNow_sc = '',
-    buyNow_en = '',
+    buyNow_tc,
+    buyNow_sc,
+    buyNow_en,
 
-    participating_tc = '',
-    participating_sc = '',
-    participating_en = '',
+    participating_tc,
+    participating_sc,
+    participating_en,
 
-    role_tc = '',
-    role_sc = '',
-    role_en = '',
+    role_tc,
+    role_sc,
+    role_en,
 
-    studentShow_tc = '',
-    studentShow_sc = '',
-    studentShow_en = '',
+    studentShow_tc,
+    studentShow_sc,
+    studentShow_en,
 
-    nextSchedule_tc = '',
-    nextSchedule_sc = '',
-    nextSchedule_en = '',
+    nextSchedule_tc,
+    nextSchedule_sc,
+    nextSchedule_en,
 
-    leaveContact_tc = '',
-    leaveContact_sc = '',
-    leaveContact_en = '',
+    leaveContact_tc,
+    leaveContact_sc,
+    leaveContact_en,
 
-    publicShow_tc = '',
-    publicShow_sc = '',
-    publicShow_en = '',
+    publicShow_tc,
+    publicShow_sc,
+    publicShow_en,
 
-    programOfShow_tc = '',
-    programOfShow_sc = '',
-    programOfShow_en = ''
+    programOfShow_tc,
+    programOfShow_sc,
+    programOfShow_en,
+
+    total1_tc,
+    total1_sc,
+    total1_en,
+
+    total2_tc,
+    total2_sc,
+    total2_en
   } = req.body;
 
   // Build global constants object
@@ -309,6 +316,14 @@ router.post('/', [auth], async (req, res) => {
   globalConstantsFields.programOfShow_tc = programOfShow_tc;
   globalConstantsFields.programOfShow_sc = programOfShow_sc;
   globalConstantsFields.programOfShow_en = programOfShow_en;
+
+  globalConstantsFields.total1_tc = total1_tc;
+  globalConstantsFields.total1_sc = total1_sc;
+  globalConstantsFields.total1_en = total1_en;
+
+  globalConstantsFields.total2_tc = total2_tc;
+  globalConstantsFields.total2_sc = total2_sc;
+  globalConstantsFields.total2_en = total2_en;
 
   globalConstantsFields.lastModifyDT = new Date();
   globalConstantsFields.lastModifyUser = req.user._id;

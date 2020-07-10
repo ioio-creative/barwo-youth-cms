@@ -417,6 +417,32 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  total1_tc: {
+    type: String,
+    require: true
+  },
+  total1_sc: {
+    type: String,
+    require: true
+  },
+  total1_en: {
+    type: String,
+    require: true
+  },
+
+  total2_tc: {
+    type: String,
+    require: true
+  },
+  total2_sc: {
+    type: String,
+    require: true
+  },
+  total2_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now

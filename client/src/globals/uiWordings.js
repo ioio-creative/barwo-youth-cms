@@ -14,6 +14,7 @@ export default {
   'Navbar.GlobalConstants': 'Global Constants',
   'Navbar.TicketingDefaultEdit': 'Ticketing Default',
   'Navbar.Contacts': 'Contacts',
+  'Navbar.Activities': 'Activities',
   'Navbar.Testing': 'Testing Page',
 
   'Login.Title': 'Account Login',
@@ -312,6 +313,12 @@ export default {
   'GlobalConstants.ProgramOfShowTcLabel': 'Program Of Show TC',
   'GlobalConstants.ProgramOfShowScLabel': 'Program Of Show SC',
   'GlobalConstants.ProgramOfShowEnLabel': 'Program Of Show EN',
+  'GlobalConstants.Total1TcLabel': 'Total 1 TC',
+  'GlobalConstants.Total1ScLabel': 'Total 1 SC',
+  'GlobalConstants.Total1EnLabel': 'Total 1 EN',
+  'GlobalConstants.Total2TcLabel': 'Total 2 TC',
+  'GlobalConstants.Total2ScLabel': 'Total 2 SC',
+  'GlobalConstants.Total2EnLabel': 'Total 2 EN',
 
   'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
   'GlobalConstants.LastModifyUserLabel': 'Last Modify User',
@@ -361,6 +368,8 @@ export default {
   'ContactEdit.UpdateContactSubmit': 'Update Contact',
   'ContactEdit.AddContactSuccessMessage': 'Contact Added',
   'ContactEdit.UpdateContactSuccessMessage': 'Contact Updated',
+
+  'Activities.Title': 'Activities',
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',

@@ -61,6 +61,8 @@ const Navbar = ({ className }) => {
   const isArtistEdit = useRouteMatch(routes.artistEditById);
   const isContactList = useRouteMatch(routes.contactList(false));
   const isContactEdit = useRouteMatch(routes.contactEditById);
+  const isActivityList = useRouteMatch(routes.activityList(false));
+  const isActivityEdit = useRouteMatch(routes.activityEditById);
   const isTesting = useRouteMatch(routes.testing);
 
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
@@ -136,6 +138,13 @@ const Navbar = ({ className }) => {
         isSelected={isArtistList || isArtistEdit}
       >
         {uiWordings['Navbar.Artists']}
+      </NavbarLink>
+      <NavbarLink
+        className='w3-border-bottom'
+        to={routes.activityList(true)}
+        isSelected={isActivityList || isActivityEdit}
+      >
+        {uiWordings['Navbar.Activities']}
       </NavbarLink>
       <NavbarLink
         className='w3-border-bottom'
