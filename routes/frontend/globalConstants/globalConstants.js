@@ -143,7 +143,9 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'programOfshow',
         language
-      )
+      ),
+      total1: getEntityPropByLanguage(globalConstants, 'total1', language),
+      total2: getEntityPropByLanguage(globalConstants, 'total2', language)
     };
     res.json(globalConstantsForFrontEnd);
   } catch (err) {
