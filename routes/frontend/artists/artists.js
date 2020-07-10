@@ -39,25 +39,28 @@ const relatedEventsSelectAndPopulationList = {
     name_tc: 1,
     name_sc: 1,
     name_en: 1,
-    artDirectors: 1,
+    //artDirectors: 1,
     artists: 1,
     shows: 1
   },
   populate: [
-    {
-      path: 'artDirectors',
-      select: {
-        label: 1,
-        name_tc: 1,
-        name_sc: 1,
-        name_en: 1
-      }
-    },
+    // {
+    //   path: 'artDirectors',
+    //   select: {
+    //     label: 1,
+    //     name_tc: 1,
+    //     name_sc: 1,
+    //     name_en: 1
+    //   }
+    // },
     {
       path: 'artists',
       select: {
         // Note: this select does not have any effect
-        artist: 1
+        artist: 1,
+        role_tc: 1,
+        role_sc: 1,
+        role_en: 1
       },
       populate: [
         {
@@ -178,28 +181,43 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       }
     }
 
+    // find the corresponding role of the artist in the event
+    let artistRoleInEvent = null;
+    for (const artistWithRole of getArraySafe(event.artists)) {
+      // Note: somehow using label to compare works, can use _id to compare...
+      if (artistWithRole.artist.label === artist.label) {
+        artistRoleInEvent = getEntityPropByLanguage(
+          artistWithRole,
+          'role',
+          language
+        );
+        break;
+      }
+    }
+
     return {
       id: event._id,
       label: event.label,
       name: getEntityPropByLanguage(event, 'name', language),
-      artDirectors: getArraySafe(event.artDirectors).map(artDirector => {
-        return {
-          id: artDirector._id,
-          label: artDirector.label,
-          name: getEntityPropByLanguage(artDirector, 'name', language)
-        };
-      }),
-      artists: getArraySafe(event.artists).map(artistWithRole => {
-        const artist = artistWithRole.artist;
-        return {
-          id: artist._id,
-          label: artist.label,
-          name: getEntityPropByLanguage(artist, 'name', language),
-          featuredImage: {
-            src: artist.featuredImage && artist.featuredImage.url
-          }
-        };
-      }),
+      // artDirectors: getArraySafe(event.artDirectors).map(artDirector => {
+      //   return {
+      //     id: artDirector._id,
+      //     label: artDirector.label,
+      //     name: getEntityPropByLanguage(artDirector, 'name', language)
+      //   };
+      // }),
+      // artists: getArraySafe(event.artists).map(artistWithRole => {
+      //   const artist = artistWithRole.artist;
+      //   return {
+      //     id: artist._id,
+      //     label: artist.label,
+      //     name: getEntityPropByLanguage(artist, 'name', language),
+      //     featuredImage: {
+      //       src: artist.featuredImage && artist.featuredImage.url
+      //     }
+      //   };
+      // }),
+      artistRole: artistRoleInEvent,
       minShowTimestamp: minShowTimestamp,
       maxShowTimestamp: maxShowTimestamp,
       shows: getArraySafe(event.shows),
