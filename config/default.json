@@ -16,7 +16,7 @@
       "bucket": "XXX",
       /* https://www.npmjs.com/package/multer#limits */
       "limits": {
-        "fileSizeInMBs": 30,
+        "fileSizeInMBs": 20,
         "files": 10
       }
     },

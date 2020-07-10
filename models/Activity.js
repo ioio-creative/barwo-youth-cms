@@ -19,6 +19,10 @@ const ActivitySchema = mongoose.Schema({
     type: String,
     require: true
   },
+  type: {
+    type: String,
+    require: true
+  },
   fromDate: {
     type: Date,
     require: true
@@ -74,12 +78,22 @@ ActivitySchema.plugin(mongoosePaginate);
 
 module.exports.Activity = mongoose.model('activity', ActivitySchema);
 
+module.exports.activityTypes = {
+  RESEARCH_AND_EDUCATION: 'RESEARCH_AND_EDUCATION',
+  CANTONESE_OPERA_KNOWLEDGE: 'CANTONESE_OPERA_KNOWLEDGE',
+  TALK_AND_WORKSHOP: 'TALK_AND_WORKSHOP',
+  VIDEO_SHOW: 'VIDEO_SHOW',
+  SHARING: 'SHARING',
+  PAST_ACTIVITY: 'PAST_ACTIVITY'
+};
+
 module.exports.activityResponseTypes = {
   // input validation
   LABEL_REQUIRED: 'LABEL_REQUIRED',
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  TYPE_REQUIRED: 'TYPE_REQUIRED',
 
   // db check
   ACTIVITY_NOT_EXISTS: 'ACTIVITY_NOT_EXISTS',

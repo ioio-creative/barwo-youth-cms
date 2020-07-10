@@ -19,8 +19,8 @@ function Medium() {
 
 Medium.mediaResponseTypes = {
   // MulterError
-  TOO_MANY_FILES: { type: 'TOO_MANY_FILES', msg: 'TOO_MANY_FILES' },
-  FILE_TOO_LARGE: { type: 'FILE_TOO_LARGE', msg: 'FILE_TOO_LARGE' },
+  TOO_MANY_FILES: { type: 'TOO_MANY_FILES', msg: 'TOO_MANY_FILES: limit 10' },
+  FILE_TOO_LARGE: { type: 'FILE_TOO_LARGE', msg: 'FILE_TOO_LARGE: limit 20MB' },
   NO_FILE_UPLOADED_OR_OF_WRONG_TYPE: {
     type: 'NO_FILE_UPLOADED_OR_OF_WRONG_TYPE',
     msg: 'NO_FILE_UPLOADED_OR_OF_WRONG_TYPE'
