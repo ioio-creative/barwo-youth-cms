@@ -299,7 +299,7 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
     },
     gallery: getArraySafe(artist.gallery).map(medium => {
       return {
-        src: medium && medium.src
+        src: medium && medium.url
       };
     }),
     sound: artist.sound && artist.sound.src,
