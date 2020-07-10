@@ -139,9 +139,9 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'publicShow',
         language
       ),
-      programOfshow: getEntityPropByLanguage(
+      programOfShow: getEntityPropByLanguage(
         globalConstants,
-        'programOfshow',
+        'programOfShow',
         language
       ),
       total1: getEntityPropByLanguage(globalConstants, 'total1', language),

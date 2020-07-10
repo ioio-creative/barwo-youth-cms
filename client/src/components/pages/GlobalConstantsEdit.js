@@ -147,6 +147,7 @@ const GlobalConstantsEdit = _ => {
   if (globalConstantsLoading) {
     return <Loading />;
   }
+
   return (
     // originalGlobalConstants only use before finsihing the database
     <Form onSubmit={onSubmit}>
