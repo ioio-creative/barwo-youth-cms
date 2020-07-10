@@ -55,6 +55,12 @@ const AsyncLandingPage = asyncLoadingComponent(_ =>
 const AsyncGlobalConstantsEdit = asyncLoadingComponent(_ =>
   import('components/pages/GlobalConstantsEdit')
 );
+const AsyncContactList = asyncLoadingComponent(_ =>
+  import('components/pages/ContactList')
+);
+const AsyncContactEdit = asyncLoadingComponent(_ =>
+  import('components/pages/ContactEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -127,6 +133,18 @@ const Main = _ => {
               <Route
                 path={routes.landingPageEdit(false)}
                 component={AsyncLandingPage}
+              />
+              <Route
+                path={routes.contactList(false)}
+                component={AsyncContactList}
+              />
+              <Route
+                path={routes.contactEditById}
+                component={AsyncContactEdit}
+              />
+              <Route
+                path={routes.contactAdd(false)}
+                component={AsyncContactEdit}
               />
 
               <Route path={routes.testing} component={AsyncTesting} />

@@ -58,6 +58,13 @@ export default {
   landingPageEdit: function (isLink) {
     return '/landingPageEdit';
   },
+  contactEditById: '/contactEdit/:contactId',
+  contactList: function (isLink) {
+    return '/contactList';
+  },
+  contactAdd: function (isLink) {
+    return '/contactAdd';
+  },
   testing: '/testing',
   fileManager: '/fileManager/:fileType/:additionalCallbackParam?'
   // passwordChange: '/changePassword'

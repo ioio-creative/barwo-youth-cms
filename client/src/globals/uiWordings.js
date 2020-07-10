@@ -13,6 +13,7 @@ export default {
   'Navbar.LandingPage': 'Landing Page',
   'Navbar.GlobalConstants': 'Global Constants',
   'Navbar.TicketingDefaultEdit': 'Ticketing Default',
+  'Navbar.Contacts': 'Contacts',
   'Navbar.Testing': 'Testing Page',
 
   'Login.Title': 'Account Login',
@@ -338,6 +339,28 @@ export default {
   'TicketingDefaultEdit.EditSubmit': 'Update Ticketing Default',
   'TicketingDefaultEdit.UpdateTicketingDefaultEditSuccessMessage':
     'Ticketing Default Updated',
+
+  'Contacts.Title': 'Contacts',
+
+  'Contact.EmailAddressLabel': 'Email Address',
+  'Contact.NameLabel': 'Name',
+  'Contact.TypeLabel': 'Type',
+  'Contact.LastModifyDTLabel': 'Last Modify DT',
+  'Contact.LastModifyUserLabel': 'Last Modify User',
+  'Contact.IsEnabledLabel': 'Is Enabled ?',
+
+  'ContactList.AddContact': 'Add Contact',
+  'ContactList.FilterTextPlaceHolder': 'Filter Contacts by name...',
+  'ContactList.FilterButton': 'Filter',
+  'ContactList.ClearFilterButton': 'Clear Filter',
+
+  'ContactEdit.BackToContactList': 'Back to Contact List',
+  'ContactEdit.AddContactTitle': 'Add Contact',
+  'ContactEdit.EditContactTitle': 'Edit Contact',
+  'ContactEdit.AddContactSubmit': 'Add Contact',
+  'ContactEdit.UpdateContactSubmit': 'Update Contact',
+  'ContactEdit.AddContactSuccessMessage': 'Contact Added',
+  'ContactEdit.UpdateContactSuccessMessage': 'Contact Updated',
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',
