@@ -107,7 +107,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
     },
     gallery: getArraySafe(event.gallery).map(medium => {
       return {
-        src: medium && medium.src
+        src: medium && medium.url
       };
     }),
     relatedActors: getArraySafe(event.artists).map(artistWithRole => {

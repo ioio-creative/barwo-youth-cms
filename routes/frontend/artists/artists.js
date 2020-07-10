@@ -302,7 +302,7 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
         src: medium && medium.url
       };
     }),
-    sound: artist.sound && artist.sound.src,
+    sound: artist.sound && artist.sound.url,
     description: getEntityPropByLanguage(artist, 'description', language),
     questions: getArraySafe(artist.qnas).map(qna => ({
       title: getEntityPropByLanguage(qna, 'question', language),
