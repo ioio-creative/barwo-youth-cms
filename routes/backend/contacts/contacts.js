@@ -31,7 +31,7 @@ const contactPopulationListForFindAll = [
 const contactPopulationListForFindOne = [...contactPopulationListForFindAll];
 
 const contactValidationChecks = [
-  check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED).isEmail,
+  check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED).isEmail(),
   check('name', contactResponseTypes.NAME_REQUIRED).not().isEmpty(),
   check('type', contactResponseTypes.TYPE_REQUIRED).not().isEmpty()
 ];
@@ -105,7 +105,7 @@ router.post(
     console.log(req.body);
 
     try {
-      contact = new Contact({
+      const contact = new Contact({
         emailAddress,
         name,
         type,
@@ -131,12 +131,6 @@ router.put(
   [auth, contactValidationChecks, validationHandling],
   async (req, res) => {
     const { emailAddress, name, type, isEnabled } = req.body;
-
-    // customed validations
-    let isSuccess = contactRelationshipsValidation(qnas, res);
-    if (!isSuccess) {
-      return;
-    }
 
     // Build contact object
     // Note:

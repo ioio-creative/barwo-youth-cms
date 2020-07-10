@@ -23,17 +23,17 @@ const emptyContact = new Contact();
 const defaultState = emptyContact;
 
 const ContactEdit = _ => {
-  const { ContactId } = useParams();
+  const { contactId } = useParams();
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     contact: fetchedContact,
-    ContactsErrors,
-    ContactsLoading,
+    contactsErrors,
+    contactsLoading,
     getContact,
     clearContact,
     addContact,
     updateContact,
-    clearContactsErrors
+    clearcontactsErrors
   } = useContext(ContactsContext);
 
   const [contact, setContact] = useState(defaultState);
@@ -52,21 +52,21 @@ const ContactEdit = _ => {
   // ContactId
   useEffect(
     _ => {
-      if (ContactId) {
-        getContact(ContactId);
+      if (contactId) {
+        getContact(contactId);
       }
 
       return _ => {
         clearContact();
       };
     },
-    [ContactId, getContact, clearContact]
+    [contactId, getContact, clearContact]
   );
 
   // fetchedContact
   useEffect(
     _ => {
-      if (!ContactsLoading) {
+      if (!contactsLoading) {
         setContact(
           fetchedContact
             ? Contact.getContactForDisplay(fetchedContact)
@@ -75,25 +75,25 @@ const ContactEdit = _ => {
         setIsAddMode(!fetchedContact);
       }
     },
-    [ContactsLoading, fetchedContact, setContact, setIsAddMode]
+    [contactsLoading, fetchedContact, setContact, setIsAddMode]
   );
 
-  // ContactsErrors
+  // contactsErrors
   useEffect(
     _ => {
-      if (isNonEmptyArray(ContactsErrors)) {
+      if (isNonEmptyArray(contactsErrors)) {
         setAlerts(
-          ContactsErrors.map(ContactsError => {
+          contactsErrors.map(ContactsError => {
             return new Alert(
               Contact.contactResponseTypes[ContactsError].msg,
               Alert.alertTypes.WARNING
             );
           })
         );
-        clearContactsErrors();
+        clearcontactsErrors();
 
         if (
-          ContactsErrors.includes(
+          contactsErrors.includes(
             Contact.contactResponseTypes.Contact_NOT_EXISTS.type
           )
         ) {
@@ -101,7 +101,7 @@ const ContactEdit = _ => {
         }
       }
     },
-    [ContactsErrors, setAlerts, clearContactsErrors, setIsAbandonEdit]
+    [contactsErrors, setAlerts, clearcontactsErrors, setIsAbandonEdit]
   );
 
   /* methods */
@@ -148,7 +148,7 @@ const ContactEdit = _ => {
           )
         );
 
-        goToUrl(routes.ContactEditByIdWithValue(true, returnedContact._id));
+        goToUrl(routes.contactEditByIdWithValue(true, returnedContact._id));
         getContact(returnedContact._id);
       }
 
@@ -168,7 +168,7 @@ const ContactEdit = _ => {
 
   /* end of event handlers */
 
-  if (ContactsLoading) {
+  if (contactsLoading) {
     return <Loading />;
   }
 

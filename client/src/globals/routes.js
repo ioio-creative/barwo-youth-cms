@@ -65,6 +65,9 @@ export default {
   contactAdd: function (isLink) {
     return '/contactAdd';
   },
+  contactEditByIdWithValue: function (isLink, contactId) {
+    return '/contactEdit/' + contactId;
+  },
   testing: '/testing',
   fileManager: '/fileManager/:fileType/:additionalCallbackParam?'
   // passwordChange: '/changePassword'

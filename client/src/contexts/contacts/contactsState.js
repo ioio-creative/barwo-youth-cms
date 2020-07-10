@@ -110,6 +110,7 @@ const ContactsState = ({ children }) => {
       newContact = res.data;
     } catch (err) {
       handleServerError(err, CONTACTS_ERRORS, dispatch);
+      console.error(err);
     }
     return newContact;
   }, []);
