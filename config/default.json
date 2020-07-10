@@ -10,28 +10,24 @@
     "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
     "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "s3": {
+      "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
+      "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
       "region": "ap-east-1",
       "bucket": "XXX",
-      // https://www.npmjs.com/package/multer#limits
+      /* https://www.npmjs.com/package/multer#limits */
       "limits": {
         "fileSizeInMBs": 20,
         "files": 10
       }
-    }
-  },
-  "Email": {
-    "smtp": {
-      "server": "email-smtp.ap-southeast-1.amazonaws.com",
-      "port": 587,
-      "username": "XXXXXXXXXXXXXXXXXXXX",
-      "password": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-      "isEnableSsl": false
+    },
+    "ses": {
+      "region": "ap-southeast-1"
     }
   },
   "Jwt": {
     "secret": "secret",
-    // https://www.npmjs.com/package/jsonwebtoken
-    // in seconds
+    /* https://www.npmjs.com/package/jsonwebtoken
+     in seconds */
     "expireIn": 86400
   },
   "Pagination": {

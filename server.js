@@ -71,6 +71,10 @@ app.use(
   '/api/backend/globalConstants/globalConstants',
   require('./routes/backend/globalConstants/globalConstants')
 );
+app.use(
+  '/api/backend/contacts/contacts',
+  require('./routes/backend/contacts/contacts')
+);
 // media api
 app.use('/api/backend/media', require('./routes/backend/media/media'));
 
