@@ -144,13 +144,27 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
   const eventForFrontEndMapFunc = event => {
     // find the corresponding role of the artist in the event
     let artistRoleInEvent = null;
-    // Note: somehow using label to compare works, can't use _id to compare...
-    const correspondingArtistWithRole = event.artists.find(
-      artistWithRole => artistWithRole.artist.label === artist.label
-    );
-    if (correspondingArtistWithRole) {
+
+    if (!isDirector) {
+      // Note: somehow using label to compare works, can't use _id to compare...
+      const correspondingArtistWithRole = event.artists.find(
+        artistWithRole => artistWithRole.artist.label === artist.label
+      );
+      if (correspondingArtistWithRole) {
+        artistRoleInEvent = getEntityPropByLanguage(
+          correspondingArtistWithRole,
+          'role',
+          language
+        );
+      }
+    } else {
+      // TODO: this is hard-coded...
       artistRoleInEvent = getEntityPropByLanguage(
-        correspondingArtistWithRole,
+        {
+          role_tc: '藝術總監',
+          role_sc: '艺术总监',
+          role_en: 'Artistic Director'
+        },
         'role',
         language
       );

@@ -10,7 +10,7 @@ const { isFunction } = require('../js/function/isFunction');
 const { formatDateString } = require('../datetime');
 
 const mapAndSortEvents = (events, mapFunc = null) => {
-  const eventsWithTimestamps = events.map(event => {
+  const eventsWithTimestamps = getArraySafe(events).map(event => {
     const eventFields = isFunction(mapFunc) ? mapFunc(event) : event;
 
     const showTimestamps = getArraySafe(event.shows).map(show => {
@@ -46,9 +46,9 @@ const mapAndSortEvents = (events, mapFunc = null) => {
 
     return {
       ...eventFields,
-      minShowTimestamp: minShowTimestamp,
-      maxShowTimestamp: maxShowTimestamp,
-      timestampDistanceFromCurrent: timestampDistanceFromCurrent
+      minShowTimestamp,
+      maxShowTimestamp,
+      timestampDistanceFromCurrent
     };
   });
 
@@ -99,7 +99,7 @@ const mapAndSortEvents = (events, mapFunc = null) => {
     );
   }
 
-  // set isClosest field for relatedEventsForFrontEnd
+  // set isClosest field for events
   let closestEventIdx = -1;
   let eventWithTimestamps = null;
   for (let i = 0; i < eventsWithTimestamps.length; i++) {
