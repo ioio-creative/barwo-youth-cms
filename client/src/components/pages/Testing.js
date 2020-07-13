@@ -84,7 +84,7 @@ const Testing = _ => {
         };
         try {
           const res = await axios.post(
-            'api/frontend/contacts/tc/contacts',
+            'api/frontend/contacts/contacts',
             contact,
             config
           );

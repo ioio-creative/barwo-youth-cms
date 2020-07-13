@@ -29,7 +29,7 @@ const contactPopulationListForFindOne = [...contactPopulationListForFindAll];
 // @desc    Add contact
 // @access  Private
 
-router.post('/:lang/contacts', [languageHandling], async (req, res) => {
+router.post('/contacts', [], async (req, res) => {
   const { emailAddress, name, type } = req.body;
   console.log('front end here');
   try {
@@ -53,11 +53,6 @@ router.post('/:lang/contacts', [languageHandling], async (req, res) => {
         errors: [contactResponseTypes.TYPE_REQUIRED]
       });
     }
-    // if (handleContactLabelDuplicateKeyError(err, res)) {
-    //   return res.status(404).json({
-    //     errors: [contactResponseTypes.EMAIL_ADDRESS_REQUIRED]
-    //   });
-    // }
     await contact.save();
 
     res.json(contact);
