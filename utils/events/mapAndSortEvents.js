@@ -100,8 +100,14 @@ const mapAndSortEvents = (events, mapFunc = null) => {
   }
 
   // set isClosest field for relatedEventsForFrontEnd
-  for (const eventWithTimestamps of eventsWithTimestamps) {
+  let closestEventIdx = -1;
+  let eventWithTimestamps = null;
+  for (let i = 0; i < eventsWithTimestamps.length; i++) {
+    eventWithTimestamps = eventsWithTimestamps[i];
     eventWithTimestamps.isClosest = eventWithTimestamps === closestEvent;
+    if (eventWithTimestamps.isClosest) {
+      closestEventIdx = i;
+    }
   }
 
   return {
@@ -109,7 +115,8 @@ const mapAndSortEvents = (events, mapFunc = null) => {
       'minShowTimestamp',
       'maxShowTimestamp'
     ]),
-    closestEvent
+    closestEvent,
+    closestEventIdx
   };
 };
 

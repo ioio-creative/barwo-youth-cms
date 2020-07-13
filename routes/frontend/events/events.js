@@ -153,6 +153,36 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
   }
 });
 
+// @route   GET api/frontend/events/:lang/currentAndFutureEvents
+// @desc    Get all events - current and future
+// @access  Public
+router.get(
+  '/:lang/currentAndFutureEvents',
+  [languageHandling],
+  async (req, res) => {
+    try {
+      const language = req.language;
+
+      const events = await Event.find({
+        isEnabled: true
+      })
+        .select(eventSelectForFindAll)
+        .populate(eventPopulationListForFindAll);
+
+      const { sortedEvents, closestEventIdx } = mapAndSortEvents(
+        events,
+        event => {
+          return getEventForFrontEndFromDbEvent(event, language);
+        }
+      );
+
+      res.json(sortedEvents.slice(closestEventIdx >= 0 ? closestEventIdx : 0));
+    } catch (err) {
+      generalErrorHandle(err, res);
+    }
+  }
+);
+
 // @route   GET api/frontend/events/:lang/events/:label
 // @desc    Get event by label
 // @access  Public
