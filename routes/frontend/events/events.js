@@ -6,6 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
+const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const { Event } = require('../../../models/Event');
 
 /* utilities */
@@ -140,16 +141,13 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
       isEnabled: true
     })
       .select(eventSelectForFindAll)
-      .populate(eventPopulationListForFindAll)
-      .sort({
-        name_tc: 1
-      });
+      .populate(eventPopulationListForFindAll);
 
-    const eventsForFrontEnd = getArraySafe(events).map(event => {
+    const { sortedEvents } = mapAndSortEvents(events, event => {
       return getEventForFrontEndFromDbEvent(event, language);
     });
 
-    res.json(eventsForFrontEnd);
+    res.json(sortedEvents);
   } catch (err) {
     generalErrorHandle(err, res);
   }

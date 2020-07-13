@@ -1,12 +1,18 @@
-const { isNonEmptyArray } = require('../../utils/js/array/isNonEmptyArray');
-const firstOrDefault = require('../../utils/js/array/firstOrDefault');
-const maxBy = require('../../utils/js/array/maxBy');
-const minBy = require('../../utils/js/array/minBy');
-const sortBy = require('../../utils/js/array/sortBy');
-const { formatDateString } = require('../../utils/datetime');
+const {
+  isNonEmptyArray,
+  getArraySafe
+} = require('../js/array/isNonEmptyArray');
+const firstOrDefault = require('../js/array/firstOrDefault');
+const maxBy = require('../js/array/maxBy');
+const minBy = require('../js/array/minBy');
+const sortBy = require('../js/array/sortBy');
+const { isFunction } = require('../js/function/isFunction');
+const { formatDateString } = require('../datetime');
 
-const sortEvents = events => {
+const mapAndSortEvents = (events, mapFunc = null) => {
   const eventsWithTimestamps = events.map(event => {
+    const eventFields = isFunction(mapFunc) ? mapFunc(event) : event;
+
     const showTimestamps = getArraySafe(event.shows).map(show => {
       return Date.parse(`${formatDateString(show.date)} ${show.startTime}`);
     });
@@ -39,7 +45,7 @@ const sortEvents = events => {
     }
 
     return {
-      ...event,
+      ...eventFields,
       minShowTimestamp: minShowTimestamp,
       maxShowTimestamp: maxShowTimestamp,
       timestampDistanceFromCurrent: timestampDistanceFromCurrent
@@ -98,7 +104,13 @@ const sortEvents = events => {
     eventWithTimestamps.isClosest = eventWithTimestamps === closestEvent;
   }
 
-  return sortBy(eventsWithTimestamps, ['minShowTimestamp', 'maxShowTimestamp']);
+  return {
+    sortedEvents: sortBy(eventsWithTimestamps, [
+      'minShowTimestamp',
+      'maxShowTimestamp'
+    ]),
+    closestEvent
+  };
 };
 
-module.exports = sortEvents;
+module.exports = mapAndSortEvents;

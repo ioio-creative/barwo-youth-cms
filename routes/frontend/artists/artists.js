@@ -4,13 +4,13 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const {
   Artist,
   artistRoles,
   isArtDirector
 } = require('../../../models/Artist');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
-const sortEvents = require('../../../utils/events/sortEvents');
 
 /* utilities */
 
@@ -141,8 +141,7 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
     isDirector ? artist.eventsDirected : artist.eventsPerformed
   );
 
-  // set relatedEventsForFrontEnd
-  const relatedEventsForFrontEnd = relatedEvents.map(event => {
+  const eventForFrontEndMapFunc = event => {
     // find the corresponding role of the artist in the event
     let artistRoleInEvent = null;
     // Note: somehow using label to compare works, can't use _id to compare...
@@ -182,12 +181,17 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       artistRole: artistRoleInEvent,
       shows: getArraySafe(event.shows)
     };
-  });
+  };
+
+  const { sortedEvents, closestEvent } = mapAndSortEvents(
+    relatedEvents,
+    eventForFrontEndMapFunc
+  );
 
   // set relatedArtists
   let relatedArtists = [];
-  if (closestRelatedEventForFrontEnd) {
-    relatedArtists = getArraySafe(closestRelatedEventForFrontEnd.artists);
+  if (closestEvent) {
+    relatedArtists = getArraySafe(closestEvent.artists);
   }
 
   return {
@@ -213,8 +217,7 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       title: getEntityPropByLanguage(qna, 'question', language),
       answer: getEntityPropByLanguage(qna, 'answer', language)
     })),
-    relatedEvents: sortEvents(relatedEventsForFrontEnd),
-
+    relatedEvents: sortedEvents,
     relatedArtists: relatedArtists
   };
 };
