@@ -102,7 +102,10 @@ const mapAndSortPhases = (phases, mapFunc = null) => {
   }
 
   return {
-    sortedPhases: sortBy(phaseWithTimestamps, ['fromTimestamp', 'toTimestamp']),
+    sortedPhases: sortBy(phasesWithTimestamps, [
+      'fromTimestamp',
+      'toTimestamp'
+    ]),
     closestPhase,
     closestPhaseIdx
   };
