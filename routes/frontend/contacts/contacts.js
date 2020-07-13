@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { check } = require('express-validator');
 
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
