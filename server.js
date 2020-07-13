@@ -94,6 +94,10 @@ app.use(
   '/api/frontend/globalConstants',
   require('./routes/frontend/globalConstants/globalConstants')
 );
+app.use(
+  '/api/frontend/contacts',
+  require('./routes/frontend/contacts/contacts')
+);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

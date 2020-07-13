@@ -10,7 +10,6 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { Contact, contactResponseTypes } = require('../../../models/Contact');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 
 /* utilities */
 
@@ -166,3 +165,5 @@ router.put(
 );
 
 module.exports = router;
+
+module.exports.handleContactLabelDuplicateKeyError = handleContactLabelDuplicateKeyError;
