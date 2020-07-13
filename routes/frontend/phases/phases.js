@@ -130,7 +130,6 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
     //console.log(safePhases[0].events);
 
     const years = [...new Set(safePhases.map(phase => phase.year))].sort();
-    console.log(years);
 
     const yearsForFrontEnd = [];
 
