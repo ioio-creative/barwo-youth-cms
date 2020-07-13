@@ -14,8 +14,8 @@ const { Contact, contactResponseTypes } = require('../../../models/Contact');
 /* utilities */
 
 const contactSelectForFindAll = {
-  eventsDirected: 0,
-  eventsPerformed: 0
+  // eventsDirected: 0,
+  // eventsPerformed: 0
 };
 
 const contactSelectForFindOne = { ...contactSelectForFindAll };
