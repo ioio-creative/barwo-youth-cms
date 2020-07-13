@@ -21,7 +21,7 @@ router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');
 
-    if (user.isEnabled === false) {
+    if (!user || user.isEnabled === false) {
       // 403 forbidden
       return res.status(403).json({ errors: [USER_DOES_NOT_HAVE_RIGHT] });
     }

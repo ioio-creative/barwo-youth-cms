@@ -27,7 +27,7 @@ const contactPopulationListForFindOne = [...contactPopulationListForFindAll];
 
 // @route   POST api/frontend/contacts/:lang/contacts
 // @desc    Add contact
-// @access  Private
+// @access  Public // TODO:
 
 router.post('/contacts', [], async (req, res) => {
   const { emailAddress, name, type } = req.body;
