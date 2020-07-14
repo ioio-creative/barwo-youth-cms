@@ -9,10 +9,9 @@ const { Contact, contactResponseTypes } = require('../../../models/Contact');
 /* utilities */
 
 const constactValidationChecks = [
-  check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED).isEmail(),
-  // check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED)
-  //   .not()
-  //   .isEmpty(),
+  check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED)
+    .isEmail()
+    .notEmpty(),
   check('name', contactResponseTypes.NAME_REQUIRED).not().isEmpty(),
   check('type', contactResponseTypes.TYPE_REQUIRED).not().isEmpty()
 ];
