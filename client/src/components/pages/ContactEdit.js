@@ -101,7 +101,7 @@ const ContactEdit = _ => {
         }
       }
     },
-    [contactsErrors, setAlerts, clearcontactsErrors]
+    [contactsErrors, setAlerts, clearContactsErrors]
   );
 
   /* methods */
