@@ -166,6 +166,7 @@ const Testing = _ => {
       <br />
       <Form onSubmit={onSubmit}>
         <LabelInputTextPair
+          inputType='email'
           name='emailAddress'
           value={contact.emailAddress}
           labelMessage={'Contact.EmailAddress'}
@@ -186,6 +187,13 @@ const Testing = _ => {
           value={contact.type}
           options={Contact.contactTypeOptions}
           labelMessage={'Contact.Type'}
+          onChange={onChange}
+        />
+        <LabelSelectPair
+          name='language'
+          value={contact.language}
+          options={Contact.contactLanguageOptions}
+          labelMessage={'Contact.Language'}
           onChange={onChange}
         />
         <SubmitButton label={'AddContactSubmit'} />

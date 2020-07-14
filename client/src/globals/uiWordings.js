@@ -357,6 +357,7 @@ export default {
   'Contact.EmailAddressLabel': 'Email Address',
   'Contact.NameLabel': 'Name',
   'Contact.TypeLabel': 'Type',
+  'Contact.LanguageLabel': 'Language',
   'Contact.LastModifyDTLabel': 'Last Modify DT',
   'Contact.LastModifyUserLabel': 'Last Modify User',
   'Contact.IsEnabledLabel': 'Is Enabled ?',

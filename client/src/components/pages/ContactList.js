@@ -18,7 +18,7 @@ import uiWordings from 'globals/uiWordings';
 import Contact from 'models/contact';
 import Alert from 'models/alert';
 
-const defaultInitialSortBy = 'label';
+const defaultInitialSortBy = 'name';
 const defaultInitialSortOrder = 1;
 
 const headers = [
@@ -40,6 +40,11 @@ const headers = [
   {
     name: uiWordings['Contact.TypeLabel'],
     value: 'typeDisplay',
+    isSortEnabled: true
+  },
+  {
+    name: uiWordings['Contact.LanguageLabel'],
+    value: 'languageDisplay',
     isSortEnabled: true
   },
   {
@@ -140,7 +145,7 @@ const ContactList = _ => {
         setAlerts(
           contactsErrors.map(contactsError => {
             return new Alert(
-              Contact.contactsResponseTypes[contactsError].msg,
+              Contact.contactResponseTypes[contactsError].msg,
               Alert.alertTypes.WARNING
             );
           })

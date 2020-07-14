@@ -47,11 +47,11 @@ const activityPopulationListForFindAll = [
 ];
 
 const activityValidationChecks = [
-  check('label', activityResponseTypes.LABEL_REQUIRED).not().isEmpty(),
-  check('name_tc', activityResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
-  check('name_sc', activityResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
-  check('name_en', activityResponseTypes.NAME_EN_REQUIRED).not().isEmpty(),
-  check('type', activityResponseTypes.TYPE_REQUIRED).not().isEmpty()
+  check('label', activityResponseTypes.LABEL_REQUIRED).notEmpty(),
+  check('name_tc', activityResponseTypes.NAME_TC_REQUIRED).notEmpty(),
+  check('name_sc', activityResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  check('name_en', activityResponseTypes.NAME_EN_REQUIRED).notEmpty(),
+  check('type', activityResponseTypes.TYPE_REQUIRED).notEmpty()
 ];
 
 const handleActivityLabelDuplicateKeyError = (err, res) => {

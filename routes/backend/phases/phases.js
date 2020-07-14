@@ -34,8 +34,8 @@ const phasePopulationListForFindAll = [
 const phasePopulationListForFindOne = [...phasePopulationListForFindAll];
 
 const phaseValidationChecks = [
-  check('year', phaseResponseTypes.YEAR_REQUIRED).not().isEmpty(),
-  check('phaseNumber', phaseResponseTypes.PHASE_NUMBER_REQUIRED).not().isEmpty()
+  check('year', phaseResponseTypes.YEAR_REQUIRED).notEmpty(),
+  check('phaseNumber', phaseResponseTypes.PHASE_NUMBER_REQUIRED).notEmpty()
 ];
 
 const setPhasesInvolvedForEvents = async (phaseId, events, session) => {

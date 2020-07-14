@@ -28,9 +28,9 @@ function Contact() {
 
 Contact.contactResponseTypes = {
   // input validation
-  EMAIL_ADDRESS_REQUIRED: {
-    type: 'EMAIL_ADDRESS_REQUIRED',
-    msg: 'EMAIL_ADDRESS_REQUIRED'
+  EMAIL_ADDRESS_INVALID: {
+    type: 'EMAIL_ADDRESS_INVALID',
+    msg: 'EMAIL_ADDRESS_INVALID'
   },
   NAME_REQUIRED: {
     type: 'NAME_REQUIRED',
@@ -62,11 +62,15 @@ Contact.contactResponseTypes = {
 
 Contact.contactTypes = contactTypes;
 Contact.contactTypeOptions = Object.values(contactTypes);
+Contact.contactLanguage = contactLanguage;
+Contact.contactLanguageOptions = Object.values(contactLanguage);
 
 Contact.getContactForDisplay = contact => {
+  console.log(contact);
   return {
     ...contact,
     typeDisplay: contactTypes[contact.type].label,
+    languageDisplay: contactLanguage[contact.language].label,
     lastModifyDTDisplay: formatDateTimeString(contact.lastModifyDT),
     lastModifyUserDisplay: contact.lastModifyUser
       ? contact.lastModifyUser.name
@@ -77,6 +81,7 @@ Contact.getContactForDisplay = contact => {
 
 const displayFieldNames = [
   'typeDisplay',
+  'languageDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',
   'isEnabledDisplay'

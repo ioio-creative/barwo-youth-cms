@@ -108,9 +108,9 @@ const mediumPopulationListForFindAll = [
 const mediumPopulationListForFindOne = [...mediumPopulationListForFindAll];
 
 const mediumValidationChecks = [
-  check('name', mediumResponseTypes.NAME_REQUIRED).not().isEmpty(),
-  check('type', mediumResponseTypes.TYPE_REQUIRED).not().isEmpty(),
-  check('url', mediumResponseTypes.URL_REQUIRED).not().isEmpty()
+  check('name', mediumResponseTypes.NAME_REQUIRED).notEmpty(),
+  check('type', mediumResponseTypes.TYPE_REQUIRED).notEmpty(),
+  check('url', mediumResponseTypes.URL_REQUIRED).notEmpty()
 ];
 
 const handleMediumNameDuplicateKeyError = (err, res) => {

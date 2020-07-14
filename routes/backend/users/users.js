@@ -31,18 +31,18 @@ const userPopulationListForFindAll = [
 const userPopulationListForFindOne = [...userPopulationListForFindAll];
 
 const userValidationChecksForAddUser = [
-  check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
-  check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
+  check('name', userResponseTypes.NAME_REQUIRED).notEmpty(),
+  check('email', userResponseTypes.EMAIL_INVALID).isEmail().notEmpty(),
   check('password', userResponseTypes.PASSWORD_INVALID).isLength({
     min: config.get('User.password.minLength')
   }),
-  check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
+  check('role', userResponseTypes.ROLE_REQUIRED).notEmpty()
 ];
 
 const userValidationChecksForUpdateUser = [
-  check('name', userResponseTypes.NAME_REQUIRED).not().isEmpty(),
-  check('email', userResponseTypes.EMAIL_INVALID).isEmail(),
-  check('role', userResponseTypes.ROLE_REQUIRED).not().isEmpty()
+  check('name', userResponseTypes.NAME_REQUIRED).notEmpty(),
+  check('email', userResponseTypes.EMAIL_INVALID).isEmail().notEmpty(),
+  check('role', userResponseTypes.ROLE_REQUIRED).notEmpty()
 ];
 
 const handleUserNameDuplicateKeyError = (err, res) => {
@@ -142,7 +142,7 @@ router.post(
       //     .json({ errors: [userResponseTypes.USER_ALREADY_EXISTS] });
       // }
 
-      user = new User({
+      let user = new User({
         name,
         email,
         password,

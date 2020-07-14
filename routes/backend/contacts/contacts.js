@@ -30,10 +30,12 @@ const contactPopulationListForFindAll = [
 const contactPopulationListForFindOne = [...contactPopulationListForFindAll];
 
 const contactValidationChecks = [
-  check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED).isEmail(),
-  check('name', contactResponseTypes.NAME_REQUIRED).not().isEmpty(),
-  check('type', contactResponseTypes.TYPE_REQUIRED).not().isEmpty(),
-  check('language', contactResponseTypes.LANGUAGE_REQUIRED).not().isEmpty()
+  check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED)
+    .isEmail()
+    .notEmpty(),
+  check('name', contactResponseTypes.NAME_REQUIRED).notEmpty(),
+  check('type', contactResponseTypes.TYPE_REQUIRED).notEmpty(),
+  check('language', contactResponseTypes.LANGUAGE_REQUIRED).notEmpty()
 ];
 
 const handleContactLabelDuplicateKeyError = (err, res) => {
@@ -101,7 +103,7 @@ router.post(
   '/',
   [auth, contactValidationChecks, validationHandling],
   async (req, res) => {
-    const { emailAddress, name, type, isEnabled } = req.body;
+    const { emailAddress, name, type, language, isEnabled } = req.body;
     console.log(req.body);
 
     try {
@@ -109,6 +111,7 @@ router.post(
         emailAddress,
         name,
         type,
+        language,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -130,7 +133,7 @@ router.put(
   '/:_id',
   [auth, contactValidationChecks, validationHandling],
   async (req, res) => {
-    const { emailAddress, name, type, isEnabled } = req.body;
+    const { emailAddress, name, type, language, isEnabled } = req.body;
 
     // Build contact object
     // Note:
@@ -139,6 +142,7 @@ router.put(
     if (emailAddress) contactFields.emailAddress = emailAddress;
     if (name) contactFields.name = name;
     contactFields.type = type;
+    contactFields.language = language;
     if (isEnabled !== undefined) contactFields.isEnabled = isEnabled;
     contactFields.lastModifyDT = new Date();
     contactFields.lastModifyUser = req.user._id;
