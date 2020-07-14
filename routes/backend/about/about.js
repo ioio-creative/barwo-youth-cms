@@ -29,74 +29,73 @@ const aboutPopulationList = [
 ];
 
 const aboutValidationChecks = [
-  check('barwo_tc', aboutResponseTypes.BARWO_TC_REQUIRED).not().isEmpty(),
-  check('barwo_sc', aboutResponseTypes.BARWO_SC_REQUIRED).not().isEmpty(),
-  check('barwo_en', aboutResponseTypes.BARWO_EN_REQUIRED).not().isEmpty(),
-  check('plan_tc', aboutResponseTypes.PLAN_TC_REQUIRED).not().isEmpty(),
-  check('plan_sc', aboutResponseTypes.PLAN_SC_REQUIRED).not().isEmpty(),
-  check('plan_en', aboutResponseTypes.PLAN_EN_REQUIRED).not().isEmpty(),
-  check('theaterLocation_tc', aboutResponseTypes.THEATER_LOCATION_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterLocation_sc', aboutResponseTypes.THEATER_LOCATION_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterLocation_en', aboutResponseTypes.THEATER_LOCATION_EN_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterDesc1_tc', aboutResponseTypes.THEATER_TRAFFIC_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterDesc1_sc', aboutResponseTypes.THEATER_TRAFFIC_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterDesc1_en', aboutResponseTypes.THEATER_TRAFFIC_EN_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterDesc2_tc', aboutResponseTypes.THEATER_DESC1_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterDesc2_sc', aboutResponseTypes.THEATER_DESC1_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterDesc2_en', aboutResponseTypes.THEATER_DESC1_EN_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterTraffic_tc', aboutResponseTypes.THEATER_DESC2_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterTraffic_sc', aboutResponseTypes.THEATER_DESC2_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('theaterTraffic_en', aboutResponseTypes.THEATER_DESC2_EN_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('contactWebsite', aboutResponseTypes.CONTACT_WEBSITE_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('contactTel', aboutResponseTypes.CONTACT_TEL_REQUIRED).not().isEmpty(),
-  check('contactFax', aboutResponseTypes.CONTACT_FAX_REQUIRED).not().isEmpty(),
-  check('contactEmail', aboutResponseTypes.CONTACT_EMAIL_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('adminTitle_tc', aboutResponseTypes.ADMIN_TITLE_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('adminTitle_sc', aboutResponseTypes.ADMIN_TITLE_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('adminTitle_en', aboutResponseTypes.ADMIN_TITLE_EN_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('adminName_tc', aboutResponseTypes.ADMIN_NAME_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('adminName_sc', aboutResponseTypes.ADMIN_NAME_EN_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('adminName_en', aboutResponseTypes.ADMIN_NAME_EN_REQUIRED)
-    .not()
-    .isEmpty()
+  check('barwo_tc', aboutResponseTypes.BARWO_TC_REQUIRED).notEmpty(),
+  check('barwo_sc', aboutResponseTypes.BARWO_SC_REQUIRED).notEmpty(),
+  check('barwo_en', aboutResponseTypes.BARWO_EN_REQUIRED).notEmpty(),
+  check('plan_tc', aboutResponseTypes.PLAN_TC_REQUIRED).notEmpty(),
+  check('plan_sc', aboutResponseTypes.PLAN_SC_REQUIRED).notEmpty(),
+  check('plan_en', aboutResponseTypes.PLAN_EN_REQUIRED).notEmpty(),
+  check(
+    'theaterLocation_tc',
+    aboutResponseTypes.THEATER_LOCATION_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterLocation_sc',
+    aboutResponseTypes.THEATER_LOCATION_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterLocation_en',
+    aboutResponseTypes.THEATER_LOCATION_EN_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterDesc1_tc',
+    aboutResponseTypes.THEATER_TRAFFIC_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterDesc1_sc',
+    aboutResponseTypes.THEATER_TRAFFIC_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterDesc1_en',
+    aboutResponseTypes.THEATER_TRAFFIC_EN_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterDesc2_tc',
+    aboutResponseTypes.THEATER_DESC1_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterDesc2_sc',
+    aboutResponseTypes.THEATER_DESC1_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterDesc2_en',
+    aboutResponseTypes.THEATER_DESC1_EN_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterTraffic_tc',
+    aboutResponseTypes.THEATER_DESC2_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterTraffic_sc',
+    aboutResponseTypes.THEATER_DESC2_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'theaterTraffic_en',
+    aboutResponseTypes.THEATER_DESC2_EN_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactWebsite',
+    aboutResponseTypes.CONTACT_WEBSITE_REQUIRED
+  ).notEmpty(),
+  check('contactTel', aboutResponseTypes.CONTACT_TEL_REQUIRED).notEmpty(),
+  check('contactFax', aboutResponseTypes.CONTACT_FAX_REQUIRED).notEmpty(),
+  check('contactEmail', aboutResponseTypes.CONTACT_EMAIL_REQUIRED).notEmpty(),
+  check('adminTitle_tc', aboutResponseTypes.ADMIN_TITLE_TC_REQUIRED).notEmpty(),
+  check('adminTitle_sc', aboutResponseTypes.ADMIN_TITLE_SC_REQUIRED).notEmpty(),
+  check('adminTitle_en', aboutResponseTypes.ADMIN_TITLE_EN_REQUIRED).notEmpty(),
+  check('adminName_tc', aboutResponseTypes.ADMIN_NAME_SC_REQUIRED).notEmpty(),
+  check('adminName_sc', aboutResponseTypes.ADMIN_NAME_EN_REQUIRED).notEmpty(),
+  check('adminName_en', aboutResponseTypes.ADMIN_NAME_EN_REQUIRED).notEmpty()
 ];
 
 /* end of utilities */

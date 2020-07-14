@@ -22,414 +22,371 @@ const globalConstantsPopulationList = [
 ];
 
 const globalConstantsValidationChecks = [
-  check('latestShow_tc', globalConstantsResponseTypes.LATESTSHOW_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('latestShow_sc', globalConstantsResponseTypes.LATESTSHOW_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('latestShow_en', globalConstantsResponseTypes.LATESTSHOW_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'latestShow_tc',
+    globalConstantsResponseTypes.LATESTSHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'latestShow_sc',
+    globalConstantsResponseTypes.LATESTSHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'latestShow_en',
+    globalConstantsResponseTypes.LATESTSHOW_EN_REQUIRED
+  ).notEmpty(),
 
   check(
     'scheduleOfShow_tc',
     globalConstantsResponseTypes.SCHEDULEOFSHOW_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'scheduleOfShow_sc',
     globalConstantsResponseTypes.SCHEDULEOFSHOW_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'scheduleOfShow_en',
     globalConstantsResponseTypes.SCHEDULEOFSHOW_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
-  check('artDirector_tc', globalConstantsResponseTypes.ARTDIRECTOR_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('artDirector_sc', globalConstantsResponseTypes.ARTDIRECTOR_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('artDirector_en', globalConstantsResponseTypes.ARTDIRECTOR_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'artDirector_tc',
+    globalConstantsResponseTypes.ARTDIRECTOR_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'artDirector_sc',
+    globalConstantsResponseTypes.ARTDIRECTOR_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'artDirector_en',
+    globalConstantsResponseTypes.ARTDIRECTOR_EN_REQUIRED
+  ).notEmpty(),
 
-  check('actor_tc', globalConstantsResponseTypes.ACTOR_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('actor_sc', globalConstantsResponseTypes.ACTOR_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('actor_en', globalConstantsResponseTypes.ACTOR_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check('actor_tc', globalConstantsResponseTypes.ACTOR_TC_REQUIRED).notEmpty(),
+  check('actor_sc', globalConstantsResponseTypes.ACTOR_SC_REQUIRED).notEmpty(),
+  check('actor_en', globalConstantsResponseTypes.ACTOR_EN_REQUIRED).notEmpty(),
 
   check(
     'detailsOfShow_tc',
     globalConstantsResponseTypes.DETAILSOFSHOW_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'detailsOfShow_sc',
     globalConstantsResponseTypes.DETAILSOFSHOW_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'detailsOfShow_en',
     globalConstantsResponseTypes.DETAILSOFSHOW_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
-  check('show_tc', globalConstantsResponseTypes.SHOW_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('show_sc', globalConstantsResponseTypes.SHOW_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('show_en', globalConstantsResponseTypes.SHOW_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check('show_tc', globalConstantsResponseTypes.SHOW_TC_REQUIRED).notEmpty(),
+  check('show_sc', globalConstantsResponseTypes.SHOW_SC_REQUIRED).notEmpty(),
+  check('show_en', globalConstantsResponseTypes.SHOW_EN_REQUIRED).notEmpty(),
 
-  check('allShow_tc', globalConstantsResponseTypes.ALLSHOW_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('allShow_sc', globalConstantsResponseTypes.ALLSHOW_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('allShow_en', globalConstantsResponseTypes.ALLSHOW_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'allShow_tc',
+    globalConstantsResponseTypes.ALLSHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'allShow_sc',
+    globalConstantsResponseTypes.ALLSHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'allShow_en',
+    globalConstantsResponseTypes.ALLSHOW_EN_REQUIRED
+  ).notEmpty(),
 
-  check('activities_tc', globalConstantsResponseTypes.ACTIVITIES_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('activities_sc', globalConstantsResponseTypes.ACTIVITIES_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('activities_en', globalConstantsResponseTypes.ACTIVITIES_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'activities_tc',
+    globalConstantsResponseTypes.ACTIVITIES_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'activities_sc',
+    globalConstantsResponseTypes.ACTIVITIES_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'activities_en',
+    globalConstantsResponseTypes.ACTIVITIES_EN_REQUIRED
+  ).notEmpty(),
 
-  check('downloadPDF_tc', globalConstantsResponseTypes.DOWNLOADPDF_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('downloadPDF_sc', globalConstantsResponseTypes.DOWNLOADPDF_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('downloadPDF_en', globalConstantsResponseTypes.DOWNLOADPDF_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'downloadPDF_tc',
+    globalConstantsResponseTypes.DOWNLOADPDF_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'downloadPDF_sc',
+    globalConstantsResponseTypes.DOWNLOADPDF_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'downloadPDF_en',
+    globalConstantsResponseTypes.DOWNLOADPDF_EN_REQUIRED
+  ).notEmpty(),
 
-  check('ourActors_tc', globalConstantsResponseTypes.OURACTORS_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('ourActors_sc', globalConstantsResponseTypes.OURACTORS_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('ourActors_en', globalConstantsResponseTypes.OURACTORS_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'ourActors_tc',
+    globalConstantsResponseTypes.OURACTORS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ourActors_sc',
+    globalConstantsResponseTypes.OURACTORS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ourActors_en',
+    globalConstantsResponseTypes.OURACTORS_EN_REQUIRED
+  ).notEmpty(),
 
-  check('ymtTheater_tc', globalConstantsResponseTypes.YMTTHEATER_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('ymtTheater_sc', globalConstantsResponseTypes.YMTTHEATER_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('ymtTheater_en', globalConstantsResponseTypes.YMTTHEATER_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'ymtTheater_tc',
+    globalConstantsResponseTypes.YMTTHEATER_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ymtTheater_sc',
+    globalConstantsResponseTypes.YMTTHEATER_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ymtTheater_en',
+    globalConstantsResponseTypes.YMTTHEATER_EN_REQUIRED
+  ).notEmpty(),
 
-  check('followUs_tc', globalConstantsResponseTypes.FOLLOWUS_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('followUs_sc', globalConstantsResponseTypes.FOLLOWUS_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('followUs_en', globalConstantsResponseTypes.FOLLOWUS_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'followUs_tc',
+    globalConstantsResponseTypes.FOLLOWUS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'followUs_sc',
+    globalConstantsResponseTypes.FOLLOWUS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'followUs_en',
+    globalConstantsResponseTypes.FOLLOWUS_EN_REQUIRED
+  ).notEmpty(),
 
-  check('all_tc', globalConstantsResponseTypes.ALL_TC_REQUIRED).not().isEmpty(),
-  check('all_sc', globalConstantsResponseTypes.ALL_SC_REQUIRED).not().isEmpty(),
-  check('all_en', globalConstantsResponseTypes.ALL_EN_REQUIRED).not().isEmpty(),
+  check('all_tc', globalConstantsResponseTypes.ALL_TC_REQUIRED).notEmpty(),
+  check('all_sc', globalConstantsResponseTypes.ALL_SC_REQUIRED).notEmpty(),
+  check('all_en', globalConstantsResponseTypes.ALL_EN_REQUIRED).notEmpty(),
 
-  check('boy_tc', globalConstantsResponseTypes.BOY_TC_REQUIRED).not().isEmpty(),
-  check('boy_sc', globalConstantsResponseTypes.BOY_SC_REQUIRED).not().isEmpty(),
-  check('boy_en', globalConstantsResponseTypes.BOY_EN_REQUIRED).not().isEmpty(),
+  check('boy_tc', globalConstantsResponseTypes.BOY_TC_REQUIRED).notEmpty(),
+  check('boy_sc', globalConstantsResponseTypes.BOY_SC_REQUIRED).notEmpty(),
+  check('boy_en', globalConstantsResponseTypes.BOY_EN_REQUIRED).notEmpty(),
 
-  check('girl_tc', globalConstantsResponseTypes.GIRL_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('girl_sc', globalConstantsResponseTypes.GIRL_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('girl_en', globalConstantsResponseTypes.GIRL_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check('girl_tc', globalConstantsResponseTypes.GIRL_TC_REQUIRED).notEmpty(),
+  check('girl_sc', globalConstantsResponseTypes.GIRL_SC_REQUIRED).notEmpty(),
+  check('girl_en', globalConstantsResponseTypes.GIRL_EN_REQUIRED).notEmpty(),
 
-  check('inherit_tc', globalConstantsResponseTypes.INHERIT_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('inherit_sc', globalConstantsResponseTypes.INHERIT_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('inherit_en', globalConstantsResponseTypes.INHERIT_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'inherit_tc',
+    globalConstantsResponseTypes.INHERIT_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'inherit_sc',
+    globalConstantsResponseTypes.INHERIT_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'inherit_en',
+    globalConstantsResponseTypes.INHERIT_EN_REQUIRED
+  ).notEmpty(),
 
-  check('share_tc', globalConstantsResponseTypes.SHARE_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('share_sc', globalConstantsResponseTypes.SHARE_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('share_en', globalConstantsResponseTypes.SHARE_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check('share_tc', globalConstantsResponseTypes.SHARE_TC_REQUIRED).notEmpty(),
+  check('share_sc', globalConstantsResponseTypes.SHARE_SC_REQUIRED).notEmpty(),
+  check('share_en', globalConstantsResponseTypes.SHARE_EN_REQUIRED).notEmpty(),
 
-  check('relatedShow_tc', globalConstantsResponseTypes.RELATEDSHOW_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('relatedShow_sc', globalConstantsResponseTypes.RELATEDSHOW_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('relatedShow_en', globalConstantsResponseTypes.RELATEDSHOW_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'relatedShow_tc',
+    globalConstantsResponseTypes.RELATEDSHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'relatedShow_sc',
+    globalConstantsResponseTypes.RELATEDSHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'relatedShow_en',
+    globalConstantsResponseTypes.RELATEDSHOW_EN_REQUIRED
+  ).notEmpty(),
 
   check(
     'relatedArtists_tc',
     globalConstantsResponseTypes.RELATEDARTISTS_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'relatedArtists_sc',
     globalConstantsResponseTypes.RELATEDARTISTS_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'relatedArtists_en',
     globalConstantsResponseTypes.RELATEDARTISTS_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
   check(
     'relatedDrama_tc',
     globalConstantsResponseTypes.RELATEDDRAMA_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'relatedDrama_sc',
     globalConstantsResponseTypes.RELATEDDRAMA_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'relatedDrama_en',
     globalConstantsResponseTypes.RELATEDDRAMA_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
-  check('allShows_tc', globalConstantsResponseTypes.ALLSHOWS_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('allShows_sc', globalConstantsResponseTypes.ALLSHOWS_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('allShows_en', globalConstantsResponseTypes.ALLSHOWS_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'allShows_tc',
+    globalConstantsResponseTypes.ALLSHOWS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'allShows_sc',
+    globalConstantsResponseTypes.ALLSHOWS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'allShows_en',
+    globalConstantsResponseTypes.ALLSHOWS_EN_REQUIRED
+  ).notEmpty(),
 
-  check('more_tc', globalConstantsResponseTypes.MORE_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('more_sc', globalConstantsResponseTypes.MORE_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('more_en', globalConstantsResponseTypes.MORE_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check('more_tc', globalConstantsResponseTypes.MORE_TC_REQUIRED).notEmpty(),
+  check('more_sc', globalConstantsResponseTypes.MORE_SC_REQUIRED).notEmpty(),
+  check('more_en', globalConstantsResponseTypes.MORE_EN_REQUIRED).notEmpty(),
 
-  check('scenarist_tc', globalConstantsResponseTypes.SCENARIST_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('scenarist_sc', globalConstantsResponseTypes.SCENARIST_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('scenarist_en', globalConstantsResponseTypes.SCENARIST_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'scenarist_tc',
+    globalConstantsResponseTypes.SCENARIST_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'scenarist_sc',
+    globalConstantsResponseTypes.SCENARIST_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'scenarist_en',
+    globalConstantsResponseTypes.SCENARIST_EN_REQUIRED
+  ).notEmpty(),
 
   check(
     'introduction_tc',
     globalConstantsResponseTypes.INTRODUCTION_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'introduction_sc',
     globalConstantsResponseTypes.INTRODUCTION_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'introduction_en',
     globalConstantsResponseTypes.INTRODUCTION_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
-  check('buyNow_tc', globalConstantsResponseTypes.BUYNOW_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('buyNow_sc', globalConstantsResponseTypes.BUYNOW_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('buyNow_en', globalConstantsResponseTypes.BUYNOW_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'buyNow_tc',
+    globalConstantsResponseTypes.BUYNOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'buyNow_sc',
+    globalConstantsResponseTypes.BUYNOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'buyNow_en',
+    globalConstantsResponseTypes.BUYNOW_EN_REQUIRED
+  ).notEmpty(),
 
   check(
     'participating_tc',
     globalConstantsResponseTypes.PARTICIPATING_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'participating_sc',
     globalConstantsResponseTypes.PARTICIPATING_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'participating_en',
     globalConstantsResponseTypes.PARTICIPATING_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
-  check('role_tc', globalConstantsResponseTypes.ROLE_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('role_sc', globalConstantsResponseTypes.ROLE_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('role_en', globalConstantsResponseTypes.ROLE_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check('role_tc', globalConstantsResponseTypes.ROLE_TC_REQUIRED).notEmpty(),
+  check('role_sc', globalConstantsResponseTypes.ROLE_SC_REQUIRED).notEmpty(),
+  check('role_en', globalConstantsResponseTypes.ROLE_EN_REQUIRED).notEmpty(),
 
-  check('studentShow_tc', globalConstantsResponseTypes.STUDENTSHOW_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('studentShow_sc', globalConstantsResponseTypes.STUDENTSHOW_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('studentShow_en', globalConstantsResponseTypes.STUDENTSHOW_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'studentShow_tc',
+    globalConstantsResponseTypes.STUDENTSHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'studentShow_sc',
+    globalConstantsResponseTypes.STUDENTSHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'studentShow_en',
+    globalConstantsResponseTypes.STUDENTSHOW_EN_REQUIRED
+  ).notEmpty(),
 
   check(
     'nextSchedule_tc',
     globalConstantsResponseTypes.NEXTSCHEDULE_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'nextSchedule_sc',
     globalConstantsResponseTypes.NEXTSCHEDULE_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'nextSchedule_en',
     globalConstantsResponseTypes.NEXTSCHEDULE_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
   check(
     'leaveContact_tc',
     globalConstantsResponseTypes.LEAVECONTACT_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'leaveContact_sc',
     globalConstantsResponseTypes.LEAVECONTACT_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'leaveContact_en',
     globalConstantsResponseTypes.LEAVECONTACT_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
-  check('publicShow_tc', globalConstantsResponseTypes.PUBLICSHOW_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('publicShow_sc', globalConstantsResponseTypes.PUBLICSHOW_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('publicShow_en', globalConstantsResponseTypes.PUBLICSHOW_EN_REQUIRED)
-    .not()
-    .isEmpty(),
+  check(
+    'publicShow_tc',
+    globalConstantsResponseTypes.PUBLICSHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'publicShow_sc',
+    globalConstantsResponseTypes.PUBLICSHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'publicShow_en',
+    globalConstantsResponseTypes.PUBLICSHOW_EN_REQUIRED
+  ).notEmpty(),
 
   check(
     'programOfShow_tc',
     globalConstantsResponseTypes.PROGRAMOFSHOW_TC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'programOfShow_sc',
     globalConstantsResponseTypes.PROGRAMOFSHOW_SC_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
   check(
     'programOfShow_en',
     globalConstantsResponseTypes.PROGRAMOFSHOW_EN_REQUIRED
-  )
-    .not()
-    .isEmpty(),
+  ).notEmpty(),
 
-  check('total1_tc', globalConstantsResponseTypes.TOTAL1_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('total1_sc', globalConstantsResponseTypes.TOTAL1_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('total1_en', globalConstantsResponseTypes.TOTAL1_EN_REQUIRED)
-    .not()
-    .isEmpty(),
-
-  check('total2_tc', globalConstantsResponseTypes.TOTAL2_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('total2_sc', globalConstantsResponseTypes.TOTAL2_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('total2_en', globalConstantsResponseTypes.TOTAL2_EN_REQUIRED)
-    .not()
-    .isEmpty()
+  check(
+    'total1_tc',
+    globalConstantsResponseTypes.TOTAL1_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'total1_sc',
+    globalConstantsResponseTypes.TOTAL1_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'total1_en',
+    globalConstantsResponseTypes.TOTAL1_EN_REQUIRED
+  ).notEmpty(),
+  check(
+    'total2_tc',
+    globalConstantsResponseTypes.TOTAL2_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'total2_sc',
+    globalConstantsResponseTypes.TOTAL2_SC_REQUIRED
+  ).notEmpty(),
+  check('total2_en', globalConstantsResponseTypes.TOTAL2_EN_REQUIRED).notEmpty()
 ];
 
 /* end of utilities */

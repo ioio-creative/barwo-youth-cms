@@ -33,7 +33,7 @@ const ContactEdit = _ => {
     clearContact,
     addContact,
     updateContact,
-    clearcontactsErrors
+    clearContactsErrors
   } = useContext(ContactsContext);
 
   const [contact, setContact] = useState(defaultState);
@@ -90,18 +90,18 @@ const ContactEdit = _ => {
             );
           })
         );
-        clearcontactsErrors();
+        clearContactsErrors();
 
         if (
           contactsErrors.includes(
-            Contact.contactResponseTypes.Contact_NOT_EXISTS.type
+            Contact.contactResponseTypes.CONTACT_NOT_EXISTS.type
           )
         ) {
           setIsAbandonEdit(true);
         }
       }
     },
-    [contactsErrors, setAlerts, clearcontactsErrors]
+    [contactsErrors, setAlerts, clearContactsErrors]
   );
 
   /* methods */
@@ -197,6 +197,7 @@ const ContactEdit = _ => {
             : uiWordings['ContactEdit.EditContactTitle']}
         </h4>
         <LabelInputTextPair
+          inputType='email'
           name='emailAddress'
           value={contact.emailAddress}
           labelMessage={uiWordings['Contact.EmailAddressLabel']}
@@ -219,6 +220,13 @@ const ContactEdit = _ => {
           labelMessage={uiWordings['Contact.TypeLabel']}
           onChange={onChange}
         />
+        <LabelSelectPair
+          name='language'
+          value={contact.language}
+          options={Contact.contactLanguageOptions}
+          labelMessage={uiWordings['Contact.LanguageLabel']}
+          onChange={onChange}
+        />
         <LabelTogglePair
           name='isEnabled'
           value={contact.isEnabled}
@@ -228,10 +236,6 @@ const ContactEdit = _ => {
 
         {!isAddMode && (
           <>
-            <LabelLabelPair
-              value={contact.createDTDisplay}
-              labelMessage={uiWordings['Contact.CreateDTLabel']}
-            />
             <LabelLabelPair
               value={contact.lastModifyDTDisplay}
               labelMessage={uiWordings['Contact.LastModifyDTLabel']}

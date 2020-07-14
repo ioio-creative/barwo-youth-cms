@@ -72,12 +72,12 @@ const artistPopulationListForFindAll = [
 const artistPopulationListForFindOne = [...artistPopulationListForFindAll];
 
 const artistValidationChecks = [
-  check('label', artistResponseTypes.LABEL_REQUIRED).not().isEmpty(),
-  check('name_tc', artistResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
-  check('name_sc', artistResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
-  check('name_en', artistResponseTypes.NAME_EN_REQUIRED).not().isEmpty(),
-  check('type', artistResponseTypes.TYPE_REQUIRED).not().isEmpty(),
-  check('role', artistResponseTypes.ROLE_REQUIRED).not().isEmpty()
+  check('label', artistResponseTypes.LABEL_REQUIRED).notEmpty(),
+  check('name_tc', artistResponseTypes.NAME_TC_REQUIRED).notEmpty(),
+  check('name_sc', artistResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  check('name_en', artistResponseTypes.NAME_EN_REQUIRED).notEmpty(),
+  check('type', artistResponseTypes.TYPE_REQUIRED).notEmpty(),
+  check('role', artistResponseTypes.ROLE_REQUIRED).notEmpty()
 ];
 
 const eventQnasValidation = qnas => {

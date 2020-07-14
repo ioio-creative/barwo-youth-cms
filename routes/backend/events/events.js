@@ -67,13 +67,13 @@ const eventPopulationListForFindAll = [
 const eventPopulationListForFindOne = [...eventPopulationListForFindAll];
 
 const eventValidationChecks = [
-  check('label', eventResponseTypes.LABEL_REQUIRED).not().isEmpty(),
-  check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
-  check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).not().isEmpty(),
-  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).not().isEmpty(),
-  check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).not().isEmpty(),
-  check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).not().isEmpty(),
-  check('venue_en', eventResponseTypes.VENUE_EN_REQUIRED).not().isEmpty()
+  check('label', eventResponseTypes.LABEL_REQUIRED).notEmpty(),
+  check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).notEmpty(),
+  check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty(),
+  check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).notEmpty(),
+  check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).notEmpty(),
+  check('venue_en', eventResponseTypes.VENUE_EN_REQUIRED).notEmpty()
 ];
 
 const eventArtDirectorsValidation = artDirectors => {

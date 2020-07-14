@@ -35,18 +35,12 @@ const newsletterPopulationListForFindOne = [
 ];
 
 const newsletterValidationChecks = [
-  check('title_tc', newsletterResponseTypes.TITLE_TC_REQUIRED).not().isEmpty(),
-  check('title_sc', newsletterResponseTypes.TITLE_SC_REQUIRED).not().isEmpty(),
-  check('title_en', newsletterResponseTypes.TITLE_EN_REQUIRED).not().isEmpty(),
-  check('message_tc', newsletterResponseTypes.MESSAGE_TC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('message_sc', newsletterResponseTypes.MESSAGE_SC_REQUIRED)
-    .not()
-    .isEmpty(),
-  check('message_en', newsletterResponseTypes.MESSAGE_EN_REQUIRED)
-    .not()
-    .isEmpty()
+  check('title_tc', newsletterResponseTypes.TITLE_TC_REQUIRED).notEmpty(),
+  check('title_sc', newsletterResponseTypes.TITLE_SC_REQUIRED).notEmpty(),
+  check('title_en', newsletterResponseTypes.TITLE_EN_REQUIRED).notEmpty(),
+  check('message_tc', newsletterResponseTypes.MESSAGE_TC_REQUIRED).notEmpty(),
+  check('message_sc', newsletterResponseTypes.MESSAGE_SC_REQUIRED).notEmpty(),
+  check('message_en', newsletterResponseTypes.MESSAGE_EN_REQUIRED).notEmpty()
 ];
 
 const handleNewsletterLabelDuplicateKeyError = (err, res) => {

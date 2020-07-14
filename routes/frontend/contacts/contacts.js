@@ -12,8 +12,9 @@ const constactValidationChecks = [
   check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED)
     .isEmail()
     .notEmpty(),
-  check('name', contactResponseTypes.NAME_REQUIRED).not().isEmpty(),
-  check('type', contactResponseTypes.TYPE_REQUIRED).not().isEmpty()
+  check('name', contactResponseTypes.NAME_REQUIRED).notEmpty(),
+  check('type', contactResponseTypes.TYPE_REQUIRED).notEmpty(),
+  check('language', contactResponseTypes.LANGUAGE_REQUIRED).notEmpty()
 ];
 
 /* end of utilities */
@@ -26,12 +27,13 @@ router.post(
   '/contacts',
   [constactValidationChecks, validationHandling],
   async (req, res) => {
-    const { emailAddress, name, type } = req.body;
+    const { emailAddress, name, type, language } = req.body;
     try {
       const contact = new Contact({
         emailAddress,
         name,
-        type
+        type,
+        language
       });
 
       await contact.save();
