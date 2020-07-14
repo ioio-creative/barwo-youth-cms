@@ -12,6 +12,7 @@ import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
+import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import Activity from 'models/activity';
@@ -128,7 +129,277 @@ const ActivityEdit = _ => {
 
   /* end of methods */
 
-  return <div>ActivityEdit</div>;
+  /* event handlers */
+
+  const onChange = useCallback(
+    e => {
+      setIsSubmitEnabled(true);
+      removeAlerts();
+      const name = e.target.name;
+      const value = e.target.value;
+      setActivity(prevActivity => ({ ...prevActivity, [name]: value }));
+    },
+    [removeAlerts]
+  );
+
+  const onGetFeaturedImagePicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedImagePicked(firstOrDefault(newItemList, null));
+  }, []);
+
+  const onGetGalleryPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setGalleryPicked(newItemList);
+  }, []);
+
+  const onSubmit = useCallback(
+    async e => {
+      setIsSubmitEnabled(false);
+      removeAlerts();
+      e.preventDefault();
+
+      // add featuredImage
+      activity.featuredImage = featuredImagePicked
+        ? featuredImagePicked._id
+        : null;
+
+      // add gallery
+      activity.gallery = getArraySafe(galleryPicked).map(medium => {
+        return medium._id;
+      });
+
+      let isSuccess = validInput(activity);
+      let returnedActivity = null;
+      if (isSuccess) {
+        const funcToCall = isAddMode ? addActivity : updateActivity;
+        returnedActivity = await funcToCall(activity);
+        isSuccess = Boolean(returnedActivity);
+      }
+      if (isSuccess) {
+        setAlerts(
+          new Alert(
+            isAddMode
+              ? uiWordings['ActivityEdit.AddActivitySuccessMessage']
+              : uiWordings['ActivityEdit.UpdateActivitySuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+
+        goToUrl(routes.activityEditByIdWithValue(true, returnedActivity._id));
+        getActivity(returnedActivity._id);
+      }
+
+      scrollToTop();
+    },
+    [
+      isAddMode,
+      updateActivity,
+      addActivity,
+      getActivity,
+      activity,
+      setAlerts,
+      validInput,
+      featuredImagePicked,
+      galleryPicked,
+      removeAlerts
+    ]
+  );
+
+  /* end of event handlers */
+
+  if (activitiesLoading) {
+    return <Loading />;
+  }
+
+  const backToActivityListButton = (
+    <Form>
+      <LinkButton to={routes.activityList(true)}>
+        {uiWordings['ActivityEdit.BackToActivityList']}
+      </LinkButton>
+    </Form>
+  );
+
+  if (isAbandonEdit) {
+    return <>{backToActivityListButton}</>;
+  }
+
+  return (
+    <>
+      {backToActivityListButton}
+
+      <Form onSubmit={onSubmit}>
+        <h4>
+          {isAddMode
+            ? uiWordings['ActivityEdit.AddActivityTitle']
+            : uiWordings['ActivityEdit.EditActivityTitle']}
+        </h4>
+        <LabelInputTextPair
+          name='label'
+          value={activity.label}
+          labelMessage={uiWordings['Activity.LabelLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+        />
+        <LabelInputTextPair
+          name='name_tc'
+          value={activity.name_tc}
+          labelMessage={uiWordings['Activity.NameTcLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+        />
+        <LabelInputTextPair
+          name='name_sc'
+          value={activity.name_sc}
+          labelMessage={uiWordings['Activity.NameScLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+        />
+        <LabelInputTextPair
+          name='name_en'
+          value={activity.name_en}
+          labelMessage={uiWordings['Activity.NameEnLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+        />
+        <LabelSelectPair
+          name='type'
+          value={activity.type}
+          options={Activity.activityTypeOptions}
+          labelMessage={uiWordings['Activity.TypeLabel']}
+          onChange={onChange}
+        />
+
+        <div className='w3-card w3-container'>
+          <h4>{uiWordings['ActivityEdit.Media.Title']}</h4>
+          <FileUpload
+            name='featuredImage'
+            labelMessage={uiWordings['Activity.FeaturedImageLabel']}
+            files={featuredImagePicked ? [featuredImagePicked] : null}
+            onGetFiles={onGetFeaturedImagePicked}
+            isMultiple={false}
+            mediumType={mediumTypes.IMAGE}
+          />
+          <FileUpload
+            name='gallery'
+            labelMessage={uiWordings['Activity.GalleryLabel']}
+            files={getArraySafe(galleryPicked)}
+            onGetFiles={onGetGalleryPicked}
+            isMultiple={true}
+            mediumType={mediumTypes.IMAGE}
+          />
+        </div>
+
+        <LabelDatePickerPair
+          name='fromDate'
+          value={activity.fromDate}
+          labelMessage={uiWordings['Activity.FromDateLabel']}
+          placeholder={uiWordings['ActivityEdit.SelectFromDatePlaceholder']}
+          onChange={onChange}
+        />
+        <LabelDatePickerPair
+          name='toDate'
+          value={activity.toDate}
+          labelMessage={uiWordings['Activity.ToDateLabel']}
+          placeholder={uiWordings['ActivityEdit.SelectToDatePlaceholder']}
+          onChange={onChange}
+        />
+
+        <LabelRichTextbox
+          name='location_tc'
+          value={activity.desc_tc}
+          labelMessage={uiWordings['Activity.LocationTcLabel']}
+          // placeholder=''
+          onChange={onChange}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
+        />
+        <LabelRichTextbox
+          name='location_sc'
+          value={activity.desc_sc}
+          labelMessage={uiWordings['Activity.LocationScLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
+        />
+        <LabelRichTextbox
+          name='location_en'
+          value={activity.desc_en}
+          labelMessage={uiWordings['Activity.LocationEnLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
+        />
+
+        <LabelRichTextbox
+          name='desc_tc'
+          value={activity.desc_tc}
+          labelMessage={uiWordings['Activity.DescTcLabel']}
+          // placeholder=''
+          onChange={onChange}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
+        />
+        <LabelRichTextbox
+          name='desc_sc'
+          value={activity.desc_sc}
+          labelMessage={uiWordings['Activity.DescScLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
+        />
+        <LabelRichTextbox
+          name='desc_en'
+          value={activity.desc_en}
+          labelMessage={uiWordings['Activity.DescEnLabel']}
+          onChange={onChange}
+          filebrowserBrowseUrl={generatePath(routes.fileManager, {
+            fileType: 'images'
+          })}
+        />
+
+        <LabelTogglePair
+          name='isEnabled'
+          value={activity.isEnabled}
+          labelMessage={uiWordings['Activity.IsEnabledLabel']}
+          onChange={onChange}
+        />
+
+        {!isAddMode && (
+          <>
+            <LabelLabelPair
+              value={activity.createDTDisplay}
+              labelMessage={uiWordings['Activity.CreateDTLabel']}
+            />
+            <LabelLabelPair
+              value={activity.lastModifyDTDisplay}
+              labelMessage={uiWordings['Activity.LastModifyDTLabel']}
+            />
+            <LabelLabelPair
+              value={activity.lastModifyUserDisplay}
+              labelMessage={uiWordings['Activity.LastModifyUserLabel']}
+            />
+          </>
+        )}
+        <SubmitButton
+          disabled={!isSubmitEnabled}
+          label={
+            isAddMode
+              ? uiWordings['ActivityEdit.AddActivitySubmit']
+              : uiWordings['ActivityEdit.UpdateActivitySubmit']
+          }
+        />
+      </Form>
+    </>
+  );
 };
 
 const ActivityEditWithContainer = _ => (

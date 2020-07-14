@@ -264,10 +264,6 @@ const ArtistEdit = _ => {
 
   /* end of event handlers */
 
-  /* derived values */
-
-  /* end of derived values */
-
   if (artistsLoading) {
     return <Loading />;
   }

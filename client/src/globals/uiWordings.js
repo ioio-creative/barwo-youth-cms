@@ -477,6 +477,11 @@ export default {
   'ActivityEdit.AddActivitySuccessMessage': 'Activity Added',
   'ActivityEdit.UpdateActivitySuccessMessage': 'Activity Updated',
 
+  'ActivityEdit.SelectFromDatePlaceholder': 'Click to select date',
+  'ActivityEdit.SelectToDatePlaceholder': 'Click to select date',
+
+  'ActivityEdit.Media.Title': 'Media',
+
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',
   'FileManager.UploadButton': 'Upload',

@@ -34,6 +34,8 @@ function Activity() {
   /* media */
   this.featuredImage = null;
   this.gallery = [];
+  this.downloadUrl = '';
+  this.downloadMedium = null;
   /* end of media */
   this.isEnabled = true;
   this.createDT = null;
