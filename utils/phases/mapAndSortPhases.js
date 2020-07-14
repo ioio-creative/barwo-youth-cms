@@ -92,14 +92,12 @@ const mapAndSortPhases = (phases, mapFunc = null) => {
 
   // set isClosest field for phases
   let closestPhaseIdx = -1;
-  let phaseWithTimestamps = null;
-  for (let i = 0; i < phasesWithTimestamps.length; i++) {
-    phaseWithTimestamps = phasesWithTimestamps[i];
+  phasesWithTimestamps.forEach((phaseWithTimestamps, idx) => {
     phaseWithTimestamps.isClosest = phaseWithTimestamps === closestPhase;
     if (phaseWithTimestamps.isClosest) {
-      closestPhaseIdx = i;
+      closestPhaseIdx = idx;
     }
-  }
+  });
 
   return {
     sortedPhases: sortBy(phasesWithTimestamps, [

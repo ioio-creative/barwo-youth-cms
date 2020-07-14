@@ -30,7 +30,13 @@ const ActivitySchema = mongoose.Schema({
   toDate: {
     type: Date
   },
-  location: {
+  location_tc: {
+    type: String
+  },
+  location_sc: {
+    type: String
+  },
+  location_en: {
     type: String
   },
   desc_tc: {

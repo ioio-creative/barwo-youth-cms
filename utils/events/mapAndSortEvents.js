@@ -101,14 +101,12 @@ const mapAndSortEvents = (events, mapFunc = null) => {
 
   // set isClosest field for events
   let closestEventIdx = -1;
-  let eventWithTimestamps = null;
-  for (let i = 0; i < eventsWithTimestamps.length; i++) {
-    eventWithTimestamps = eventsWithTimestamps[i];
+  eventsWithTimestamps.forEach((eventWithTimestamps, idx) => {
     eventWithTimestamps.isClosest = eventWithTimestamps === closestEvent;
     if (eventWithTimestamps.isClosest) {
-      closestEventIdx = i;
+      closestEventIdx = idx;
     }
-  }
+  });
 
   return {
     sortedEvents: sortBy(eventsWithTimestamps, [

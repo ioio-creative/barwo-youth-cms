@@ -134,7 +134,9 @@ router.post(
       type,
       fromDate,
       toDate,
-      location,
+      location_tc,
+      location_sc,
+      location_en,
       desc_tc,
       desc_sc,
       desc_en,
@@ -152,7 +154,9 @@ router.post(
         type,
         fromDate,
         toDate,
-        location,
+        location_tc,
+        location_sc,
+        location_en,
         desc_tc,
         desc_sc,
         desc_en,
@@ -188,7 +192,9 @@ router.put(
       type,
       fromDate,
       toDate,
-      location,
+      location_tc,
+      location_sc,
+      location_en,
       desc_tc,
       desc_sc,
       desc_en,
@@ -208,7 +214,9 @@ router.put(
     if (type) activityFields.type = type;
     activityFields.fromDate = fromDate;
     activityFields.toDate = toDate;
-    activityFields.location = location;
+    activityFields.location_tc = location_tc;
+    activityFields.location_sc = location_sc;
+    activityFields.location_en = location_en;
     activityFields.desc_tc = desc_tc;
     activityFields.desc_sc = desc_sc;
     activityFields.desc_en = desc_en;
