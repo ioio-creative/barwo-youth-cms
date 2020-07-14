@@ -55,12 +55,7 @@ const GlobalConstantsEdit = _ => {
         setIsAddMode(!fetchedGlobalConstants);
       }
     },
-    [
-      globalConstantsLoading,
-      fetchedGlobalConstants,
-      setGlobalConstants,
-      setIsAddMode
-    ]
+    [globalConstantsLoading, fetchedGlobalConstants]
   );
 
   // globalConstantsErrors
@@ -93,21 +88,27 @@ const GlobalConstantsEdit = _ => {
 
   /* methods */
 
-  const onChange = useCallback(
-    e => {
-      setIsSubmitEnabled(true);
-      removeAlerts();
-      setGlobalConstants({
-        ...globalConstants,
-        [e.target.name]: e.target.value
-      });
-    },
-    [globalConstants, setGlobalConstants, removeAlerts]
-  );
+  const validInput = useCallback(globalConstantsInput => {
+    return true;
+  }, []);
 
   /* end of methods */
 
   /* event handlers */
+
+  const onChange = useCallback(
+    e => {
+      setIsSubmitEnabled(true);
+      removeAlerts();
+      const name = e.target.name;
+      const value = e.target.value;
+      setGlobalConstants(prevGlobalConstants => ({
+        ...prevGlobalConstants,
+        [name]: value
+      }));
+    },
+    [removeAlerts]
+  );
 
   const onSubmit = useCallback(
     async e => {
@@ -115,9 +116,10 @@ const GlobalConstantsEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
+      let isSuccess = validInput(globalConstants);
       let returnedGlobalConstants = null;
       returnedGlobalConstants = await updateGlobalConstants(globalConstants);
-      let isSuccess = Boolean(returnedGlobalConstants);
+      isSuccess = Boolean(returnedGlobalConstants);
       if (isSuccess) {
         setAlerts(
           new Alert(

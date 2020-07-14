@@ -147,9 +147,11 @@ const ArtistEdit = _ => {
     e => {
       setIsSubmitEnabled(true);
       removeAlerts();
-      setArtist({ ...artist, [e.target.name]: e.target.value });
+      const name = e.target.name;
+      const value = e.target.value;
+      setArtist(prevArtist => ({ ...prevArtist, [name]: value }));
     },
-    [artist, removeAlerts]
+    [removeAlerts]
   );
 
   const onGetQnasPicked = useCallback(newItemList => {

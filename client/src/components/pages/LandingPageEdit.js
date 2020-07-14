@@ -86,15 +86,7 @@ const LandingPageEdit = _ => {
         setIsAddMode(!fetchedLandingPage);
       }
     },
-    [
-      landingPageLoading,
-      fetchedLandingPage,
-      setLandingPage,
-      setIsAddMode,
-      setFeaturedVideoPicked,
-      setFeaturedVideo2Picked,
-      setFeaturedArtistsPicked
-    ]
+    [landingPageLoading, fetchedLandingPage]
   );
 
   // landingPageErrors
@@ -154,34 +146,27 @@ const LandingPageEdit = _ => {
   //   e => {
   //     setIsSubmitEnabled(true);
   //     removeAlerts();
-  //     setLandingPage({ ...landingPage, [e.target.name]: e.target.value });
+  //     const name = e.target.name;
+  //     const value = e.target.value;
+  //     setLandingPage(prevLanding => ({ ...prevLanding, [name]: value }));
   //   },
-  //   [landingPage, setLandingPage, removeAlerts]
+  //   [removeAlerts]
   // );
 
-  const onGetFeaturedVideoPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setFeaturedVideoPicked(firstOrDefault(newItemList, null));
-    },
-    [setIsSubmitEnabled, setFeaturedVideoPicked]
-  );
+  const onGetFeaturedVideoPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedVideoPicked(firstOrDefault(newItemList, null));
+  }, []);
 
-  const onGetFeaturedVideo2Picked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setFeaturedVideo2Picked(firstOrDefault(newItemList, null));
-    },
-    [setIsSubmitEnabled, setFeaturedVideo2Picked]
-  );
+  const onGetFeaturedVideo2Picked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedVideo2Picked(firstOrDefault(newItemList, null));
+  }, []);
 
-  const onGetFeaturedArtistsPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setFeaturedArtistsPicked(newItemList);
-    },
-    [setFeaturedArtistsPicked, setIsSubmitEnabled]
-  );
+  const onGetFeaturedArtistsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedArtistsPicked(newItemList);
+  }, []);
 
   const onSubmit = useCallback(
     async e => {

@@ -80,13 +80,7 @@ const PasswordEdit = () => {
     [usersErrors, setAlerts, clearUsersErrors]
   );
 
-  const onChange = useCallback(
-    e => {
-      removeAlerts();
-      setUser({ ...user, [e.target.name]: e.target.value });
-    },
-    [user, setUser, removeAlerts]
-  );
+  /* methods */
 
   const validInput = useCallback(
     userInput => {
@@ -102,6 +96,20 @@ const PasswordEdit = () => {
       return true;
     },
     [setAlerts]
+  );
+
+  /* end of methods */
+
+  /* event handlers */
+
+  const onChange = useCallback(
+    e => {
+      removeAlerts();
+      const name = e.target.name;
+      const value = e.target.value;
+      setUser(prevUser => ({ ...prevUser, [name]: value }));
+    },
+    [removeAlerts]
   );
 
   const onSubmit = useCallback(
@@ -125,16 +133,18 @@ const PasswordEdit = () => {
           )
         );
         goToUrl(routes.editPasswordWithId(true, returnedUser._id));
-        setUser({
-          ...user,
+        setUser(prevUser => ({
+          ...prevUser,
           password: '',
           password1: '',
           password2: ''
-        });
+        }));
       }
     },
-    [user, removeAlerts, setAlerts, editPassword, validInput]
+    [removeAlerts, setAlerts, editPassword, validInput]
   );
+
+  /* end of event handlers */
 
   if (usersLoading) {
     return <Loading />;
