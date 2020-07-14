@@ -75,7 +75,7 @@ const NewsletterEdit = _ => {
         setIsAddMode(!fetchedNewsletter);
       }
     },
-    [newslettersLoading, fetchedNewsletter, setNewsletter, setIsAddMode]
+    [newslettersLoading, fetchedNewsletter]
   );
 
   // newslettersErrors
@@ -101,7 +101,7 @@ const NewsletterEdit = _ => {
         }
       }
     },
-    [newslettersErrors, setAlerts, clearNewslettersErrors, setIsAbandonEdit]
+    [newslettersErrors, setAlerts, clearNewslettersErrors]
   );
 
   /* methods */
@@ -118,9 +118,11 @@ const NewsletterEdit = _ => {
     e => {
       setIsSubmitEnabled(true);
       removeAlerts();
-      setNewsletter({ ...newsletter, [e.target.name]: e.target.value });
+      const name = e.target.name;
+      const value = e.target.value;
+      setNewsletter(prevNewsletter => ({ ...prevNewsletter, [name]: value }));
     },
-    [newsletter, setNewsletter, removeAlerts]
+    [removeAlerts]
   );
 
   const onSubmit = useCallback(

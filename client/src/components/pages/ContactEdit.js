@@ -75,7 +75,7 @@ const ContactEdit = _ => {
         setIsAddMode(!fetchedContact);
       }
     },
-    [contactsLoading, fetchedContact, setContact, setIsAddMode]
+    [contactsLoading, fetchedContact]
   );
 
   // contactsErrors
@@ -101,12 +101,12 @@ const ContactEdit = _ => {
         }
       }
     },
-    [contactsErrors, setAlerts, clearcontactsErrors, setIsAbandonEdit]
+    [contactsErrors, setAlerts, clearcontactsErrors]
   );
 
   /* methods */
 
-  const validInput = useCallback(ContactInput => {
+  const validInput = useCallback(contactInput => {
     return true;
   }, []);
 
@@ -118,9 +118,11 @@ const ContactEdit = _ => {
     e => {
       setIsSubmitEnabled(true);
       removeAlerts();
-      setContact({ ...contact, [e.target.name]: e.target.value });
+      const name = e.target.name;
+      const value = e.target.value;
+      setContact(prevContact => ({ ...prevContact, [name]: value }));
     },
-    [contact, setContact, removeAlerts]
+    [removeAlerts]
   );
 
   const onSubmit = useCallback(

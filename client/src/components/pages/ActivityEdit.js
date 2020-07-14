@@ -122,7 +122,7 @@ const ActivityEdit = _ => {
 
   /* methods */
 
-  const validInput = useCallback(artistInput => {
+  const validInput = useCallback(activityInput => {
     return true;
   }, []);
 

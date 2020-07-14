@@ -168,20 +168,7 @@ const EventEdit = _ => {
         setIsAddMode(!fetchedEvent);
       }
     },
-    [
-      eventsLoading,
-      fetchedEvent,
-      setEvent,
-      setIsAddMode,
-      setArtDirectorsPicked,
-      setArtistsPicked,
-      setShowsPicked,
-      setScenaristsPicked,
-      setPricesPicked,
-      setPhonesPicked,
-      setFeaturedImagePicked,
-      setGalleryPicked
-    ]
+    [eventsLoading, fetchedEvent]
   );
 
   // eventsErrors
@@ -205,7 +192,7 @@ const EventEdit = _ => {
         }
       }
     },
-    [eventsErrors, setAlerts, clearEventsErrors, setIsAbandonEdit]
+    [eventsErrors, setAlerts, clearEventsErrors]
   );
 
   // artistsErrors
@@ -255,74 +242,56 @@ const EventEdit = _ => {
     e => {
       setIsSubmitEnabled(true);
       removeAlerts();
-      setEvent({ ...event, [e.target.name]: e.target.value });
+      // https://reactjs.org/docs/events.html#event-pooling
+      const name = e.target.name;
+      const value = e.target.value;
+      setEvent(prevEvent => ({
+        ...prevEvent,
+        [name]: value
+      }));
     },
-    [event, setEvent, removeAlerts, setIsSubmitEnabled]
+    [removeAlerts]
   );
 
-  const onGetArtDirectorsPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setArtDirectorsPicked(newItemList);
-    },
-    [setArtDirectorsPicked, setIsSubmitEnabled]
-  );
+  const onGetArtDirectorsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setArtDirectorsPicked(newItemList);
+  }, []);
 
-  const onGetArtistsPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setArtistsPicked(newItemList);
-    },
-    [setArtistsPicked, setIsSubmitEnabled]
-  );
+  const onGetArtistsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setArtistsPicked(newItemList);
+  }, []);
 
-  const onGetShowsPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setShowsPicked(newItemList);
-    },
-    [setShowsPicked, setIsSubmitEnabled]
-  );
+  const onGetShowsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setShowsPicked(newItemList);
+  }, []);
 
-  const onGetScenaristsPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setScenaristsPicked(newItemList);
-    },
-    [setScenaristsPicked, setIsSubmitEnabled]
-  );
+  const onGetScenaristsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setScenaristsPicked(newItemList);
+  }, []);
 
-  const onGetPricesPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setPricesPicked(newItemList);
-    },
-    [setPricesPicked, setIsSubmitEnabled]
-  );
+  const onGetPricesPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setPricesPicked(newItemList);
+  }, []);
 
-  const onGetPhonesPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setPhonesPicked(newItemList);
-    },
-    [setPhonesPicked, setIsSubmitEnabled]
-  );
+  const onGetPhonesPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setPhonesPicked(newItemList);
+  }, []);
 
-  const onGetFeaturedImagePicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setFeaturedImagePicked(firstOrDefault(newItemList, null));
-    },
-    [setIsSubmitEnabled, setFeaturedImagePicked]
-  );
+  const onGetFeaturedImagePicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedImagePicked(firstOrDefault(newItemList, null));
+  }, []);
 
-  const onGetGalleryPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setGalleryPicked(newItemList);
-    },
-    [setIsSubmitEnabled, setGalleryPicked]
-  );
+  const onGetGalleryPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setGalleryPicked(newItemList);
+  }, []);
 
   const onSubmit = useCallback(
     async e => {

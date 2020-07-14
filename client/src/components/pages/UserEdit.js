@@ -81,7 +81,7 @@ const UserEdit = _ => {
         setIsAddMode(!fetchedUser);
       }
     },
-    [usersLoading, fetchedUser, setUser, setIsAddMode]
+    [usersLoading, fetchedUser]
   );
 
   // usersErrors
@@ -105,7 +105,7 @@ const UserEdit = _ => {
         }
       }
     },
-    [usersErrors, setAlerts, clearUsersErrors, setIsAbandonEdit]
+    [usersErrors, setAlerts, clearUsersErrors]
   );
 
   /* methods */
@@ -132,25 +132,23 @@ const UserEdit = _ => {
 
   /* event handlers */
 
-  const onChangePasswordButtonClick = useCallback(
-    _ => {
-      console.log(user);
-      setUser({
-        ...user,
-        password: ''
-      });
-      setIsChangePassword(!isChangePassword);
-    },
-    [setIsChangePassword, isChangePassword, setUser, user]
-  );
+  const onChangePasswordButtonClick = useCallback(_ => {
+    setUser(prevUser => ({
+      ...prevUser,
+      password: ''
+    }));
+    setIsChangePassword(prevIsChangePassword => !prevIsChangePassword);
+  }, []);
 
   const onChange = useCallback(
     e => {
       setIsSubmitEnabled(true);
       removeAlerts();
-      setUser({ ...user, [e.target.name]: e.target.value });
+      const name = e.target.name;
+      const value = e.target.value;
+      setUser(prevUser => ({ ...prevUser, [name]: value }));
     },
-    [user, setUser, removeAlerts]
+    [removeAlerts]
   );
 
   const onSubmit = useCallback(

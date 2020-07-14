@@ -94,7 +94,7 @@ const PhaseEdit = _ => {
         setIsAddMode(!fetchedPhase);
       }
     },
-    [phasesLoading, fetchedPhase, setPhase, setIsAddMode]
+    [phasesLoading, fetchedPhase]
   );
 
   // phasesErrors
@@ -118,7 +118,7 @@ const PhaseEdit = _ => {
         }
       }
     },
-    [phasesErrors, setAlerts, clearPhasesErrors, setIsAbandonEdit]
+    [phasesErrors, setAlerts, clearPhasesErrors]
   );
 
   // eventsErrors
@@ -153,18 +153,17 @@ const PhaseEdit = _ => {
     e => {
       setIsSubmitEnabled(true);
       removeAlerts();
-      setPhase({ ...phase, [e.target.name]: e.target.value });
+      const name = e.target.name;
+      const value = e.target.value;
+      setPhase(prevPhase => ({ ...prevPhase, [name]: value }));
     },
-    [phase, setPhase, removeAlerts, setIsSubmitEnabled]
+    [phase, removeAlerts]
   );
 
-  const onGetEventsPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setEventsPicked(newItemList);
-    },
-    [setEventsPicked, setIsSubmitEnabled]
-  );
+  const onGetEventsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setEventsPicked(newItemList);
+  }, []);
 
   const onSubmit = useCallback(
     async e => {

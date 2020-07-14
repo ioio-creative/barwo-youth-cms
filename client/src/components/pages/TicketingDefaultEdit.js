@@ -92,14 +92,7 @@ const TicketingDefaultEdit = _ => {
         setIsAddMode(!fetchedTicketingDefault);
       }
     },
-    [
-      ticketingDefaultLoading,
-      fetchedTicketingDefault,
-      setTicketingDefault,
-      setIsAddMode,
-      setPricesPicked,
-      setPhonesPicked
-    ]
+    [ticketingDefaultLoading, fetchedTicketingDefault]
   );
 
   // ticketingDefaultErrors
@@ -130,35 +123,39 @@ const TicketingDefaultEdit = _ => {
     [ticketingDefaultErrors, setAlerts, clearTicketingDefaultErrors]
   );
 
-  /* ticketingDefault handlers */
+  /* methods */
+
+  const validInput = useCallback(ticketingInput => {
+    return true;
+  }, []);
+
+  /* end of methods */
+
+  /* event handlers */
 
   const onChange = useCallback(
     e => {
       setIsSubmitEnabled(true);
       removeAlerts();
-      setTicketingDefault({
-        ...ticketingDefault,
-        [e.target.name]: e.target.value
-      });
+      const name = e.target.name;
+      const value = e.target.value;
+      setTicketingDefault(prevTicketing => ({
+        ...prevTicketing,
+        [name]: value
+      }));
     },
-    [ticketingDefault, setTicketingDefault, removeAlerts]
+    [removeAlerts]
   );
 
-  const onGetPricesPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setPricesPicked(newItemList);
-    },
-    [setPricesPicked, setIsSubmitEnabled]
-  );
+  const onGetPricesPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setPricesPicked(newItemList);
+  }, []);
 
-  const onGetPhonesPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setPhonesPicked(newItemList);
-    },
-    [setPhonesPicked, setIsSubmitEnabled]
-  );
+  const onGetPhonesPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setPhonesPicked(newItemList);
+  }, []);
 
   const onSubmit = useCallback(
     async e => {
@@ -187,9 +184,10 @@ const TicketingDefaultEdit = _ => {
         }
       );
 
+      let isSuccess = validInput(ticketingDefault);
       let returnedTicketingDefault = null;
       returnedTicketingDefault = await updateTicketingDefault(ticketingDefault);
-      let isSuccess = Boolean(returnedTicketingDefault);
+      isSuccess = Boolean(returnedTicketingDefault);
       if (isSuccess) {
         setAlerts(
           new Alert(
@@ -212,11 +210,12 @@ const TicketingDefaultEdit = _ => {
       setAlerts,
       removeAlerts,
       pricesPicked,
-      phonesPicked
+      phonesPicked,
+      validInput
     ]
   );
 
-  /* end of ticketingDefault handlers */
+  /* end of event handlers */
 
   if (ticketingDefaultLoading) {
     return <Loading />;
