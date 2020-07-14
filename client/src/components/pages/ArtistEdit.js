@@ -104,17 +104,7 @@ const ArtistEdit = _ => {
         setIsAddMode(!fetchedArtist);
       }
     },
-    [
-      artistsLoading,
-      fetchedArtist,
-      setArtist,
-      setIsAddMode,
-      setQnasPicked,
-      setFeaturedImagePicked,
-      setWithoutMaskImagePicked,
-      setGalleryPicked,
-      setSoundPicked
-    ]
+    [artistsLoading, fetchedArtist]
   );
 
   // artistsErrors
@@ -140,7 +130,7 @@ const ArtistEdit = _ => {
         }
       }
     },
-    [artistsErrors, setAlerts, clearArtistsErrors, setIsAbandonEdit]
+    [artistsErrors, setAlerts, clearArtistsErrors]
   );
 
   /* methods */
@@ -159,48 +149,33 @@ const ArtistEdit = _ => {
       removeAlerts();
       setArtist({ ...artist, [e.target.name]: e.target.value });
     },
-    [artist, setArtist, removeAlerts]
+    [artist, removeAlerts]
   );
 
-  const onGetQnasPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setQnasPicked(newItemList);
-    },
-    [setQnasPicked, setIsSubmitEnabled]
-  );
+  const onGetQnasPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setQnasPicked(newItemList);
+  }, []);
 
-  const onGetFeaturedImagePicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setFeaturedImagePicked(firstOrDefault(newItemList, null));
-    },
-    [setIsSubmitEnabled, setFeaturedImagePicked]
-  );
+  const onGetFeaturedImagePicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedImagePicked(firstOrDefault(newItemList, null));
+  }, []);
 
-  const onGetWithoutMaskImagePicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setWithoutMaskImagePicked(firstOrDefault(newItemList, null));
-    },
-    [setIsSubmitEnabled, setWithoutMaskImagePicked]
-  );
+  const onGetWithoutMaskImagePicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setWithoutMaskImagePicked(firstOrDefault(newItemList, null));
+  }, []);
 
-  const onGetGalleryPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setGalleryPicked(newItemList);
-    },
-    [setIsSubmitEnabled, setGalleryPicked]
-  );
+  const onGetGalleryPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setGalleryPicked(newItemList);
+  }, []);
 
-  const onGetSoundPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setSoundPicked(firstOrDefault(newItemList, null));
-    },
-    [setIsSubmitEnabled, setSoundPicked]
-  );
+  const onGetSoundPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setSoundPicked(firstOrDefault(newItemList, null));
+  }, []);
 
   const onSubmit = useCallback(
     async e => {
