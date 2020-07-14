@@ -4,20 +4,13 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { formatDateString } = require('../../../utils/datetime');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const {
   Artist,
   artistRoles,
   isArtDirector
 } = require('../../../models/Artist');
-const {
-  getArraySafe,
-  isNonEmptyArray
-} = require('../../../utils/js/array/isNonEmptyArray');
-const firstOrDefault = require('../../../utils/js/array/firstOrDefault');
-const maxBy = require('../../../utils/js/array/maxBy');
-const minBy = require('../../../utils/js/array/minBy');
-const sortBy = require('../../../utils/js/array/sortBy');
 
 /* utilities */
 
@@ -148,33 +141,33 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
     isDirector ? artist.eventsDirected : artist.eventsPerformed
   );
 
-  // set relatedEventsForFrontEnd
-  const relatedEventsForFrontEnd = relatedEvents.map(event => {
-    let timestampDistanceFromCurrent = null;
-    if (isShowOn) {
-      timestampDistanceFromCurrent = 0;
-    } else if (minShowTimestamp !== null && maxShowTimestamp !== null) {
-      if (currTimestamp >= maxShowTimestamp) {
-        // negative, past shows
-        timestampDistanceFromCurrent = maxShowTimestamp - currTimestamp;
-      } else if (currTimestamp <= minShowTimestamp) {
-        // positive, future shows
-        timestampDistanceFromCurrent = minShowTimestamp - currTimestamp;
-      }
-    }
-
+  const eventForFrontEndMapFunc = event => {
     // find the corresponding role of the artist in the event
     let artistRoleInEvent = null;
-    for (const artistWithRole of getArraySafe(event.artists)) {
-      // Note: somehow using label to compare works, can use _id to compare...
-      if (artistWithRole.artist.label === artist.label) {
+
+    if (!isDirector) {
+      // Note: somehow using label to compare works, can't use _id to compare...
+      const correspondingArtistWithRole = event.artists.find(
+        artistWithRole => artistWithRole.artist.label === artist.label
+      );
+      if (correspondingArtistWithRole) {
         artistRoleInEvent = getEntityPropByLanguage(
-          artistWithRole,
+          correspondingArtistWithRole,
           'role',
           language
         );
-        break;
       }
+    } else {
+      // TODO: this is hard-coded...
+      artistRoleInEvent = getEntityPropByLanguage(
+        {
+          role_tc: '藝術總監',
+          role_sc: '艺术总监',
+          role_en: 'Artistic Director'
+        },
+        'role',
+        language
+      );
     }
 
     return {
@@ -200,90 +193,20 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       //   };
       // }),
       artistRole: artistRoleInEvent,
-      minShowTimestamp: minShowTimestamp,
-      maxShowTimestamp: maxShowTimestamp,
-      shows: getArraySafe(event.shows),
-      timestampDistanceFromCurrent: timestampDistanceFromCurrent
+      shows: getArraySafe(event.shows)
     };
-  });
+  };
 
-  // calculate closestRelatedEventForFrontEnd
-  // by first calculating
-  // relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent,
-  // relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent,
-  // relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent
-
-  const relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent = [];
-  const relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent = [];
-  const relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent = [];
-
-  for (const relatedEventForFrontEnd of relatedEventsForFrontEnd) {
-    if (relatedEventForFrontEnd.timestampDistanceFromCurrent === null) {
-      relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent.push(
-        relatedEventForFrontEnd
-      );
-      continue;
-    }
-
-    // note this case includes isShowOn === true case
-    if (relatedEventForFrontEnd.timestampDistanceFromCurrent >= 0) {
-      relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent.push(
-        relatedEventForFrontEnd
-      );
-      continue;
-    }
-
-    if (relatedEventForFrontEnd.timestampDistanceFromCurrent < 0) {
-      relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent.push(
-        relatedEventForFrontEnd
-      );
-      continue;
-    }
-  }
-
-  let closestRelatedEventForFrontEnd = minBy(
-    relatedEventsForFrontEndWithPositiveTimestampDistanceFromCurrent,
-    'timestampDistanceFromCurrent'
+  const { sortedEvents, closestEvent } = mapAndSortEvents(
+    relatedEvents,
+    eventForFrontEndMapFunc
   );
-
-  if (!closestRelatedEventForFrontEnd) {
-    closestRelatedEventForFrontEnd = maxBy(
-      relatedEventsForFrontEndWithNegativeTimestampDistanceFromCurrent,
-      'timestampDistanceFromCurrent'
-    );
-  }
-
-  if (!closestRelatedEventForFrontEnd) {
-    closestRelatedEventForFrontEnd = firstOrDefault(
-      relatedEventsForFrontEndWithNullTimestampDistanceFromCurrent,
-      null
-    );
-  }
-
-  // set isClosest field for relatedEventsForFrontEnd
-  for (const relatedEventForFrontEnd of relatedEventsForFrontEnd) {
-    relatedEventForFrontEnd.isClosest =
-      relatedEventForFrontEnd === closestRelatedEventForFrontEnd;
-  }
 
   // set relatedArtists
   let relatedArtists = [];
-  if (closestRelatedEventForFrontEnd) {
-    relatedArtists = getArraySafe(closestRelatedEventForFrontEnd.artists);
+  if (closestEvent) {
+    relatedArtists = getArraySafe(closestEvent.artists);
   }
-
-  // console.log(
-  //   'artist events',
-  //   sortBy(relatedEventsForFrontEnd, [
-  //     'minShowTimestamp',
-  //     'maxShowTimestamp'
-  //   ]).map(({ minShowTimestamp, maxShowTimestamp }) => {
-  //     return {
-  //       minShowTimestamp,
-  //       maxShowTimestamp
-  //     };
-  //   })
-  // );
 
   return {
     id: artist._id,
@@ -308,11 +231,7 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       title: getEntityPropByLanguage(qna, 'question', language),
       answer: getEntityPropByLanguage(qna, 'answer', language)
     })),
-    relatedEvents: sortBy(relatedEventsForFrontEnd, [
-      'minShowTimestamp',
-      'maxShowTimestamp'
-    ]),
-    //closestRelatedEvent: closestRelatedEventForFrontEnd,
+    relatedEvents: sortedEvents,
     relatedArtists: relatedArtists
   };
 };

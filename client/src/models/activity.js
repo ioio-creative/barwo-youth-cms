@@ -25,7 +25,9 @@ function Activity() {
   this.type = activityTypes.RESEARCH_AND_EDUCATION.value;
   this.fromDate = null;
   this.toDate = null;
-  this.location = '';
+  this.location_tc = '';
+  this.location_sc = '';
+  this.location_en = '';
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
@@ -41,7 +43,7 @@ function Activity() {
 
 /* statics */
 
-Activity.activityResponseTypes = {
+Activity.activitiesResponseTypes = {
   // input validation
   LABEL_REQUIRED: {
     type: 'LABEL_REQUIRED',

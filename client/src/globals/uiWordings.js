@@ -176,6 +176,7 @@ export default {
   'PhaseEdit.Show.SelectDatePlaceholder': 'Click to select date',
 
   'Phases.Title': 'Phases',
+
   'Phase.DerivedLabelLabel': 'Label',
   'Phase.YearLabel': 'Year',
   'Phase.PhaseNumberLabel': 'Phase Number',
@@ -219,6 +220,7 @@ export default {
     'Select Featured Artists...',
 
   'GlobalConstants.Title': 'Global Constants',
+
   'GlobalConstants.LatestShowTcLabel': 'Latest Show TC',
   'GlobalConstants.LatestShowScLabel': 'Latest Show SC',
   'GlobalConstants.LatestShowEnLabel': 'Latest Show EN',
@@ -332,6 +334,7 @@ export default {
     'Global Constants Updated',
 
   'TicketingDefault.Title': 'Ticketing Default',
+
   'TicketingDefault.VenueTcLabel': 'Venue TC',
   'TicketingDefault.VenueScLabel': 'Venue SC',
   'TicketingDefault.VenueEnLabel': 'Venue EN',
@@ -439,6 +442,39 @@ export default {
   'NewsletterEdit.UpdateNewsletterSuccessMessage': 'Newsletter Updated',
 
   'Activities.Title': 'Activities',
+
+  'Activity.LabelLabel': 'Label',
+  'Activity.NameTcLabel': 'Name TC',
+  'Activity.NameScLabel': 'Name SC',
+  'Activity.NameEnLabel': 'Name EN',
+  'Activity.TypeLabel': 'Type',
+  'Activity.FromDateLabel': 'From Date',
+  'Activity.ToDateLabel': 'To Date',
+  'Activity.LocationTcLabel': 'Location TC',
+  'Activity.LocationScLabel': 'Location SC',
+  'Activity.LocationEnLabel': 'Location EN',
+  'Activity.DescTcLabel': 'Desc TC',
+  'Activity.DescScLabel': 'Desc SC',
+  'Activity.DescEnLabel': 'Desc EN',
+  'Activity.FeaturedImageLabel': 'Featured Image',
+  'Activity.GalleryLabel': 'Gallery',
+  'Activity.CreateDTLabel': 'Create DT',
+  'Activity.LastModifyDTLabel': 'Last Modify DT',
+  'Activity.LastModifyUserLabel': 'Last Modify User',
+  'Activity.IsEnabledLabel': 'Is Enabled ?',
+
+  'ActivityList.AddActivity': 'Add Activity',
+  'ActivityList.FilterTextPlaceHolder': 'Filter Activities by name...',
+  'ActivityList.FilterButton': 'Filter',
+  'ActivityList.ClearFilterButton': 'Clear Filter',
+
+  'ActivityEdit.BackToActivityList': 'Back to Activity List',
+  'ActivityEdit.AddActivityTitle': 'Add Activity',
+  'ActivityEdit.EditActivityTitle': 'Edit Activity',
+  'ActivityEdit.AddActivitySubmit': 'Add Activity',
+  'ActivityEdit.UpdateActivitySubmit': 'Update Activity',
+  'ActivityEdit.AddActivitySuccessMessage': 'Activity Added',
+  'ActivityEdit.UpdateActivitySuccessMessage': 'Activity Updated',
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',

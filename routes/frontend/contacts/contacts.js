@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const { check } = require('express-validator');
 
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { Contact, contactResponseTypes } = require('../../../models/Contact');
-const { check } = require('express-validator');
 
 /* utilities */
 
 const constactValidationChecks = [
   check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED).isEmail(),
+  // check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED)
+  //   .not()
+  //   .isEmpty(),
   check('name', contactResponseTypes.NAME_REQUIRED).not().isEmpty(),
   check('type', contactResponseTypes.TYPE_REQUIRED).not().isEmpty()
 ];
@@ -25,14 +28,15 @@ router.post(
   [constactValidationChecks, validationHandling],
   async (req, res) => {
     const { emailAddress, name, type } = req.body;
-    console.log('front end here');
     try {
       const contact = new Contact({
         emailAddress,
         name,
         type
       });
+
       await contact.save();
+
       res.json(contact);
     } catch (err) {
       generalErrorHandle(err, res);

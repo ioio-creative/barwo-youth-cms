@@ -6,6 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
+const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const { Event } = require('../../../models/Event');
 
 /* utilities */
@@ -140,20 +141,47 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
       isEnabled: true
     })
       .select(eventSelectForFindAll)
-      .populate(eventPopulationListForFindAll)
-      .sort({
-        name_tc: 1
-      });
+      .populate(eventPopulationListForFindAll);
 
-    const eventsForFrontEnd = getArraySafe(events).map(event => {
+    const { sortedEvents } = mapAndSortEvents(events, event => {
       return getEventForFrontEndFromDbEvent(event, language);
     });
 
-    res.json(eventsForFrontEnd);
+    res.json(sortedEvents);
   } catch (err) {
     generalErrorHandle(err, res);
   }
 });
+
+// @route   GET api/frontend/events/:lang/currentAndFutureEvents
+// @desc    Get all events - current and future
+// @access  Public
+router.get(
+  '/:lang/currentAndFutureEvents',
+  [languageHandling],
+  async (req, res) => {
+    try {
+      const language = req.language;
+
+      const events = await Event.find({
+        isEnabled: true
+      })
+        .select(eventSelectForFindAll)
+        .populate(eventPopulationListForFindAll);
+
+      const { sortedEvents, closestEventIdx } = mapAndSortEvents(
+        events,
+        event => {
+          return getEventForFrontEndFromDbEvent(event, language);
+        }
+      );
+
+      res.json(sortedEvents.slice(closestEventIdx >= 0 ? closestEventIdx : 0));
+    } catch (err) {
+      generalErrorHandle(err, res);
+    }
+  }
+);
 
 // @route   GET api/frontend/events/:lang/events/:label
 // @desc    Get event by label
