@@ -458,6 +458,14 @@ export default {
   'Activity.DescEnLabel': 'Desc EN',
   'Activity.FeaturedImageLabel': 'Featured Image',
   'Activity.GalleryLabel': 'Gallery',
+  'Activity.DownloadNameTcLabel': 'Download Name TC',
+  'Activity.DownloadNameScLabel': 'Download Name SC',
+  'Activity.DownloadNameEnLabel': 'Download Name EN',
+  'Activity.DownloadTypeLabel': 'Download Type',
+  'Activity.DownloadMediumLabel': 'Download Medium',
+  'Activity.DownloadUrlTcLabel': 'Download URL TC',
+  'Activity.DownloadUrlScLabel': 'Download URL SC',
+  'Activity.DownloadUrlEnLabel': 'Download URL EN',
   'Activity.CreateDTLabel': 'Create DT',
   'Activity.LastModifyDTLabel': 'Last Modify DT',
   'Activity.LastModifyUserLabel': 'Last Modify User',
@@ -484,5 +492,8 @@ export default {
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',
   'FileManager.UploadButton': 'Upload',
-  'FileManager.DragToUploadHint': 'Drop File To Upload'
+  'FileManager.DragToUploadHint': 'Drop File To Upload',
+
+  'FileUploadOrUrl.Types.Medium.Label': 'Medium',
+  'FileUploadOrUrl.Types.Url.Label': 'URL'
 };

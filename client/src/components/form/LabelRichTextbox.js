@@ -3,7 +3,6 @@ import Label from './Label';
 import RichTextbox from './RichTextbox';
 
 const LabelRichTextbox = ({
-  className,
   name,
   value,
   labelMessage,
@@ -27,6 +26,7 @@ const LabelRichTextbox = ({
           debug={false}
           disabled={disabled}
           filebrowserBrowseUrl={filebrowserBrowseUrl}
+          required={required}
         />
       </div>
     </div>

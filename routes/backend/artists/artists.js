@@ -189,6 +189,7 @@ router.get('/:_id', auth, async (req, res) => {
     }
     res.json(artist);
   } catch (err) {
+    console.error(err);
     //generalErrorHandle(err, res);
     return res
       .status(404)

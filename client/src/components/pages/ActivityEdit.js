@@ -7,6 +7,7 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
+import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
@@ -54,6 +55,9 @@ const ActivityEdit = _ => {
   // gallery
   const [galleryPicked, setGalleryPicked] = useState([]);
 
+  // download data
+  const [downloadData, setDownloadData] = useState(null);
+
   // componentDidMount
   useEffect(_ => {
     return _ => {
@@ -88,6 +92,16 @@ const ActivityEdit = _ => {
         if (fetchedActivity) {
           setFeaturedImagePicked(fetchedActivity.featuredImage);
           setGalleryPicked(getArraySafe(fetchedActivity.gallery));
+          setDownloadData({
+            name_tc: fetchedActivity.downloadName_tc,
+            name_sc: fetchedActivity.downloadName_sc,
+            name_en: fetchedActivity.downloadName_en,
+            type: fetchedActivity.downloadType,
+            url_tc: fetchedActivity.downloadUrl_tc,
+            url_sc: fetchedActivity.downloadUrl_sc,
+            url_en: fetchedActivity.downloadUrl_en,
+            medium: fetchedActivity.downloadMedium
+          });
         }
         setIsAddMode(!fetchedActivity);
       }
@@ -150,6 +164,10 @@ const ActivityEdit = _ => {
   const onGetGalleryPicked = useCallback(newItemList => {
     setIsSubmitEnabled(true);
     setGalleryPicked(newItemList);
+  }, []);
+
+  const onDownloadDataChange = useCallback(newData => {
+    setDownloadData(newData);
   }, []);
 
   const onSubmit = useCallback(
@@ -291,6 +309,18 @@ const ActivityEdit = _ => {
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
           />
+          <FileUploadOrUrl
+            nameTcLabelMessage={uiWordings['Activity.DownloadNameTcLabel']}
+            nameScLabelMessage={uiWordings['Activity.DownloadNameScLabel']}
+            nameEnLabelMessage={uiWordings['Activity.DownloadNameEnLabel']}
+            selectLabelMessage={uiWordings['Activity.DownloadTypeLabel']}
+            mediumLabelMessage={uiWordings['Activity.DownloadMediumLabel']}
+            urlTcLabelMessage={uiWordings['Activity.DownloadUrlTcLabel']}
+            urlScLabelMessage={uiWordings['Activity.DownloadUrlScLabel']}
+            urlEnLabelMessage={uiWordings['Activity.DownloadUrlEnLabel']}
+            data={downloadData}
+            onChange={onDownloadDataChange}
+          />
         </div>
 
         <LabelDatePickerPair
@@ -310,7 +340,7 @@ const ActivityEdit = _ => {
 
         <LabelRichTextbox
           name='location_tc'
-          value={activity.desc_tc}
+          value={activity.location_tc}
           labelMessage={uiWordings['Activity.LocationTcLabel']}
           // placeholder=''
           onChange={onChange}
@@ -320,7 +350,7 @@ const ActivityEdit = _ => {
         />
         <LabelRichTextbox
           name='location_sc'
-          value={activity.desc_sc}
+          value={activity.location_sc}
           labelMessage={uiWordings['Activity.LocationScLabel']}
           onChange={onChange}
           filebrowserBrowseUrl={generatePath(routes.fileManager, {
@@ -329,7 +359,7 @@ const ActivityEdit = _ => {
         />
         <LabelRichTextbox
           name='location_en'
-          value={activity.desc_en}
+          value={activity.location_en}
           labelMessage={uiWordings['Activity.LocationEnLabel']}
           onChange={onChange}
           filebrowserBrowseUrl={generatePath(routes.fileManager, {

@@ -127,6 +127,7 @@ const RichTextbox = ({
   }
 }) => {
   const [editorInstance, setEditorInstance] = useState(null);
+  const [isInitCompleted, setIsInitCompleted] = useState(false);
   const handleChange = useCallback(
     event => {
       invokeIfIsFunction(onChange, {
@@ -144,11 +145,24 @@ const RichTextbox = ({
   const waitForInstanceInitialized = useCallback(
     _ => {
       if (editorInstance.editor) {
+        setIsInitCompleted(true);
+
+        if (required === true) {
+          console.log('reach here');
+          // TODO: the following does not seem to work
+          // https://stackoverflow.com/questions/50100935/ckeditor-the-required-attribute-within-textarea-tag-is-not-working
+          // https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#event-required
+          editorInstance.editor.on('required', e => {
+            // TODO:
+            alert(`This ${name} field is required.`);
+            e.cancel();
+          });
+        }
+
         //console.log(`RichTextbox ${editorInstance.editor.status}`);
         editorInstance.editor.on('instanceReady', () => {
-          // console.log('RichTextbox instanceReady');
-          // console.log(value);
           editorInstance.editor.setData(value);
+          console.log('RichTextbox instanceReady');
         });
 
         if (editorInstance.editor.status === 'loaded') {
@@ -168,18 +182,19 @@ const RichTextbox = ({
         //   });
         // }
       } else {
+        // TODO: is it alright to do recursion when using react useCallback???
         console.log('RichTextbox ??? case');
         // why the instance not yet finish initialization ......
         setTimeout(waitForInstanceInitialized, 50);
       }
     },
-    [editorInstance, value]
+    [name, value, required, editorInstance]
   );
   useEffect(() => {
-    if (editorInstance && value !== '') {
+    if (editorInstance && value !== '' && !isInitCompleted) {
       waitForInstanceInitialized();
     }
-  }, [editorInstance, value, waitForInstanceInitialized]);
+  }, [value, editorInstance, isInitCompleted, waitForInstanceInitialized]);
   return (
     <>
       <div className={`editableArea ${className}`}>

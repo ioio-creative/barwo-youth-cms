@@ -46,6 +46,8 @@ const activityPopulationListForFindAll = [
   }
 ];
 
+const activityPopulationListForFindOne = [...activityPopulationListForFindAll];
+
 const activityValidationChecks = [
   check('label', activityResponseTypes.LABEL_REQUIRED).not().isEmpty(),
   check('name_tc', activityResponseTypes.NAME_TC_REQUIRED).not().isEmpty(),
@@ -112,6 +114,7 @@ router.get('/:_id', auth, async (req, res) => {
     }
     res.json(activity);
   } catch (err) {
+    console.error(err);
     //generalErrorHandle(err, res);
     return res
       .status(404)
@@ -142,6 +145,14 @@ router.post(
       desc_en,
       featuredImage,
       gallery,
+      downloadName_tc,
+      downloadName_sc,
+      downloadName_en,
+      downloadType,
+      downloadUrl_tc,
+      downloadUrl_sc,
+      downloadUrl_en,
+      downloadMedium,
       isEnabled
     } = req.body;
 
@@ -162,6 +173,14 @@ router.post(
         desc_en,
         featuredImage,
         gallery: getArraySafe(gallery),
+        downloadName_tc,
+        downloadName_sc,
+        downloadName_en,
+        downloadType,
+        downloadUrl_tc,
+        downloadUrl_sc,
+        downloadUrl_en,
+        downloadMedium,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -200,6 +219,14 @@ router.put(
       desc_en,
       featuredImage,
       gallery,
+      downloadName_tc,
+      downloadName_sc,
+      downloadName_en,
+      downloadType,
+      downloadUrl_tc,
+      downloadUrl_sc,
+      downloadUrl_en,
+      downloadMedium,
       isEnabled
     } = req.body;
 
@@ -222,6 +249,14 @@ router.put(
     activityFields.desc_en = desc_en;
     activityFields.featuredImage = featuredImage;
     activityFields.gallery = getArraySafe(gallery);
+    activityFields.downloadName_tc = downloadName_tc;
+    activityFields.downloadName_sc = downloadName_sc;
+    activityFields.downloadName_en = downloadName_en;
+    activityFields.downloadType = downloadType;
+    activityFields.downloadUrl_tc = downloadUrl_tc;
+    activityFields.downloadUrl_sc = downloadUrl_sc;
+    activityFields.downloadUrl_en = downloadUrl_en;
+    activityFields.downloadMedium = downloadMedium;
     if (isEnabled !== undefined) activityFields.isEnabled = isEnabled;
     activityFields.lastModifyDT = new Date();
     activityFields.lastModifyUser = req.user._id;
@@ -232,7 +267,7 @@ router.put(
     const activityId = req.params._id;
 
     try {
-      const oldActivity = await ActivityfindById(activityId).session(session);
+      const oldActivity = await Activity.findById(activityId).session(session);
       if (!oldActivity)
         return res
           .status(404)

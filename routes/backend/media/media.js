@@ -220,6 +220,7 @@ router.get(
       }
       res.json(medium);
     } catch (err) {
+      console.error(err);
       //generalErrorHandle(err, res);
       return res
         .status(404)
