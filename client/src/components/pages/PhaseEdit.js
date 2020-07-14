@@ -157,7 +157,7 @@ const PhaseEdit = _ => {
       const value = e.target.value;
       setPhase(prevPhase => ({ ...prevPhase, [name]: value }));
     },
-    [phase, removeAlerts]
+    [removeAlerts]
   );
 
   const onGetEventsPicked = useCallback(newItemList => {

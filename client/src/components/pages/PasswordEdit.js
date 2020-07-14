@@ -141,7 +141,7 @@ const PasswordEdit = () => {
         }));
       }
     },
-    [removeAlerts, setAlerts, editPassword, validInput]
+    [user, removeAlerts, setAlerts, editPassword, validInput]
   );
 
   /* end of event handlers */

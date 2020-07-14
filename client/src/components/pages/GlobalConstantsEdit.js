@@ -140,7 +140,8 @@ const GlobalConstantsEdit = _ => {
       getGlobalConstants,
       globalConstants,
       setAlerts,
-      removeAlerts
+      removeAlerts,
+      validInput
     ]
   );
 
