@@ -444,14 +444,14 @@ router.get('/', auth, async (req, res) => {
       .populate(globalConstantsPopulationList);
     if (!globalConstants) {
       return res.status(404).json({
-        errors: [globalConstantsResponseTypes.GLOBAL_CONSTANTS_PAGE_NOT_EXISTS]
+        errors: [globalConstantsResponseTypes.GLOBAL_CONSTANTS_NOT_EXISTS]
       });
     }
     res.json(globalConstants);
   } catch (err) {
     //generalErrorHandle(err, res);
     return res.status(404).json({
-      errors: [globalConstantsResponseTypes.GLOBAL_CONSTANTS_PAGE_NOT_EXISTS]
+      errors: [globalConstantsResponseTypes.GLOBAL_CONSTANTS_NOT_EXISTS]
     });
   }
 });

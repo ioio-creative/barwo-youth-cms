@@ -63,6 +63,9 @@ const Navbar = ({ className }) => {
   const isContactEdit = useRouteMatch(routes.contactEditById);
   const isActivityList = useRouteMatch(routes.activityList(false));
   const isActivityEdit = useRouteMatch(routes.activityEditById);
+  const isAboutEdit = useRouteMatch(routes.aboutEdit(false));
+  const isNewsletterList = useRouteMatch(routes.newsletterList(false));
+  const isNewsletterEdit = useRouteMatch(routes.newsletterEditById);
   const isTesting = useRouteMatch(routes.testing);
 
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
@@ -98,6 +101,10 @@ const Navbar = ({ className }) => {
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}
+      <NavbarLink to={routes.aboutEdit(true)} isSelected={isAboutEdit}>
+        {uiWordings['Navbar.About']}
+      </NavbarLink>
+
       <NavbarLink
         // className='w3-border-bottom'
         to={routes.globalConstantsEdit(true)}
@@ -147,11 +154,18 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.Activities']}
       </NavbarLink>
       <NavbarLink
-        className='w3-border-bottom'
+        // className='w3-border-bottom'
         to={routes.contactList(true)}
         isSelected={isContactList || isContactEdit}
       >
         {uiWordings['Navbar.Contacts']}
+      </NavbarLink>
+      <NavbarLink
+        className='w3-border-bottom'
+        to={routes.newsletterList(true)}
+        isSelected={isNewsletterList || isNewsletterEdit}
+      >
+        {uiWordings['Navbar.Newsletters']}
       </NavbarLink>
       <NavbarLink to={routes.testing} isSelected={isTesting}>
         {uiWordings['Navbar.Testing']}

@@ -62,6 +62,9 @@ export default {
   activityAdd: function (isLink) {
     return '/activityAdd';
   },
+  aboutEdit: function (isLink) {
+    return '/aboutEdit';
+  },
   globalConstantsEdit: function (isLink) {
     return '/globalConstantsEdit';
   },
@@ -78,6 +81,17 @@ export default {
   contactAdd: function (isLink) {
     return '/contactAdd';
   },
+  newsletterList: function (isLink) {
+    return '/newsletterList';
+  },
+  newsletterEditById: '/newsletterEdit/:newsletterId',
+  newsletterEditByIdWithValue: function (isLink, newsletterId) {
+    return '/newsletterEdit/' + newsletterId;
+  },
+  newsletterAdd: function (isLink) {
+    return '/newsletterAdd';
+  },
+
   testing: '/testing',
   fileManager: '/fileManager/:fileType/:additionalCallbackParam?'
 };

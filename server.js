@@ -79,6 +79,12 @@ app.use(
   '/api/backend/contacts/contacts',
   require('./routes/backend/contacts/contacts')
 );
+app.use('/api/backend/about/about', require('./routes/backend/about/about'));
+app.use(
+  '/api/backend/newsletters/newsletters',
+  require('./routes/backend/newsletters/newsletters')
+);
+
 // media api
 app.use('/api/backend/media', require('./routes/backend/media/media'));
 

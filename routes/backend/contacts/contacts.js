@@ -32,7 +32,8 @@ const contactPopulationListForFindOne = [...contactPopulationListForFindAll];
 const contactValidationChecks = [
   check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED).isEmail(),
   check('name', contactResponseTypes.NAME_REQUIRED).not().isEmpty(),
-  check('type', contactResponseTypes.TYPE_REQUIRED).not().isEmpty()
+  check('type', contactResponseTypes.TYPE_REQUIRED).not().isEmpty(),
+  check('language', contactResponseTypes.LANGUAGE_REQUIRED).not().isEmpty()
 ];
 
 const handleContactLabelDuplicateKeyError = (err, res) => {

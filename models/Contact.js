@@ -15,6 +15,10 @@ const ContactSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  language: {
+    type: String,
+    require: true
+  },
   isEnabled: {
     type: Boolean,
     default: true
@@ -40,10 +44,17 @@ module.exports.contactTypes = {
   NOT_SPECIFIED: 'NOT_SPECIFIED'
 };
 
+module.exports.contactLanguage = {
+  TC: 'TC',
+  SC: 'SC',
+  EN: 'EN'
+};
+
 module.exports.contactResponseTypes = {
   EMAIL_ADDRESS_REQUIRED: 'EMAIL_ADDRESS_REQUIRED',
   NAME_REQUIRED: 'NAME_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
+  LANGUAGE_REQUIRED: 'LANGUAGE_REQUIRED',
 
   // db check
   CONTACT_NOT_EXISTS: 'CONTACT_NOT_EXISTS',

@@ -88,14 +88,13 @@ const Testing = _ => {
             contact,
             config
           );
-          console.log(res);
           newContact = res.data;
         } catch (err) {
           console.error(err);
         }
       }
     },
-    [setContact, contact, validInput]
+    [contact, validInput]
   );
 
   /* end of event handlers */

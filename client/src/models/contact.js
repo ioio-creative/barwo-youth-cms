@@ -9,10 +9,17 @@ const contactTypes = {
   NOT_SPECIFIED: { value: 'NOT_SPECIFIED', label: 'Not specified' }
 };
 
+const contactLanguage = {
+  TC: { value: 'TC', label: 'Traditional Chinese' },
+  SC: { value: 'SC', label: 'Simplified Chinese' },
+  EN: { value: 'EN', label: 'English' }
+};
+
 function Contact() {
   this.emailAddress = '';
   this.name = '';
   this.type = contactTypes.NOT_SPECIFIED.value;
+  this.language = contactLanguage.EN.value;
 
   this.isEnabled = true;
   this.lastModifyDT = null;
@@ -32,6 +39,10 @@ Contact.contactResponseTypes = {
   TYPE_REQUIRED: {
     type: 'TYPE_REQUIRED',
     msg: 'TYPE_REQUIRED'
+  },
+  LANGUAGE_REQUIRED: {
+    type: 'LANGUAGE_REQUIRED',
+    msg: 'LANGUAGE_REQUIRED'
   },
 
   // db check

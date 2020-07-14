@@ -67,6 +67,15 @@ const AsyncActivityList = asyncLoadingComponent(_ =>
 const AsyncActivityEdit = asyncLoadingComponent(_ =>
   import('components/pages/ActivityEdit')
 );
+const AsyncNewsletterList = asyncLoadingComponent(_ =>
+  import('components/pages/NewsletterList')
+);
+const AsyncNewsletterEdit = asyncLoadingComponent(_ =>
+  import('components/pages/NewsletterEdit')
+);
+const AsyncAboutEdit = asyncLoadingComponent(_ =>
+  import('components/pages/AboutEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -133,6 +142,11 @@ const Main = _ => {
               <Route path={routes.phaseAdd(false)} component={AsyncPhaseEdit} />
 
               <Route
+                path={routes.aboutEdit(false)}
+                component={AsyncAboutEdit}
+              />
+
+              <Route
                 path={routes.globalConstantsEdit(false)}
                 component={AsyncGlobalConstantsEdit}
               />
@@ -153,6 +167,19 @@ const Main = _ => {
               <Route
                 path={routes.contactAdd(false)}
                 component={AsyncContactEdit}
+              />
+
+              <Route
+                path={routes.newsletterList(false)}
+                component={AsyncNewsletterList}
+              />
+              <Route
+                path={routes.newsletterEditById}
+                component={AsyncNewsletterEdit}
+              />
+              <Route
+                path={routes.newsletterAdd(false)}
+                component={AsyncNewsletterEdit}
               />
 
               <Route
