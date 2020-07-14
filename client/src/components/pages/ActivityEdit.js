@@ -56,7 +56,7 @@ const ActivityEdit = _ => {
   const [galleryPicked, setGalleryPicked] = useState([]);
 
   // download data
-  const [downloadData, setDownloadData] = useState(null);
+  const [downloadData, setDownloadData] = useState({});
 
   // componentDidMount
   useEffect(_ => {
@@ -186,6 +186,28 @@ const ActivityEdit = _ => {
         return medium._id;
       });
 
+      // add download data
+      const {
+        name_tc,
+        name_sc,
+        name_en,
+        type,
+        url_tc,
+        url_sc,
+        url_en,
+        medium
+      } = downloadData;
+      activity.downloadName_tc = name_tc;
+      activity.downloadName_sc = name_sc;
+      activity.downloadName_en = name_en;
+      activity.downloadType = type;
+      activity.downloadUrl_tc = url_tc;
+      activity.downloadUrl_sc = url_sc;
+      activity.downloadUrl_en = url_en;
+      activity.downloadMedium = medium ? medium._id : null;
+
+      console.log(activity);
+
       let isSuccess = validInput(activity);
       let returnedActivity = null;
       if (isSuccess) {
@@ -216,10 +238,11 @@ const ActivityEdit = _ => {
       getActivity,
       activity,
       setAlerts,
+      removeAlerts,
       validInput,
       featuredImagePicked,
       galleryPicked,
-      removeAlerts
+      downloadData
     ]
   );
 
@@ -318,6 +341,7 @@ const ActivityEdit = _ => {
             urlTcLabelMessage={uiWordings['Activity.DownloadUrlTcLabel']}
             urlScLabelMessage={uiWordings['Activity.DownloadUrlScLabel']}
             urlEnLabelMessage={uiWordings['Activity.DownloadUrlEnLabel']}
+            mediumType={Medium.mediumTypes.PDF}
             data={downloadData}
             onChange={onDownloadDataChange}
           />

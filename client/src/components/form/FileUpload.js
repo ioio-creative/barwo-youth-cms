@@ -106,7 +106,7 @@ const Item = ({ file, handleItemRemoved, index }) => {
                   ),
                   PDF: (
                     <div className='media-preview pdf'>
-                      <i class='fa fa-file-pdf-o fa-2x'></i>
+                      <i className='fa fa-file-pdf-o fa-2x'></i>
                     </div>
                   )
                 }[type]

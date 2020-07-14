@@ -55,7 +55,7 @@ const mediumTypes = {
   IMAGE: { value: 'IMAGE', label: 'image', apiRoute: 'images' },
   VIDEO: { value: 'VIDEO', label: 'video', apiRoute: 'videos' },
   AUDIO: { value: 'AUDIO', label: 'audio', apiRoute: 'audios' },
-  BOTH: { value: 'PDF', label: 'pdf', apiRoute: 'pdfs' }
+  PDF: { value: 'PDF', label: 'pdf', apiRoute: 'pdfs' }
 };
 
 Medium.mediumTypes = mediumTypes;

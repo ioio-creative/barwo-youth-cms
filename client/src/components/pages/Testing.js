@@ -89,6 +89,7 @@ const Testing = _ => {
             config
           );
           newContact = res.data;
+          console.log('newContact:', newContact);
         } catch (err) {
           console.error(err);
         }

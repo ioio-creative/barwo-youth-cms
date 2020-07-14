@@ -18,6 +18,8 @@ const fileUploadOrUrlTypes = {
 
 const fileUploadOrUrlTypeOptions = Object.values(fileUploadOrUrlTypes);
 
+const defaultFileUploadOrUrlType = fileUploadOrUrlTypes.MEDIUM;
+
 const FileUploadOrUrl = ({
   nameTcLabelMessage,
   nameScLabelMessage,
@@ -27,20 +29,23 @@ const FileUploadOrUrl = ({
   urlTcLabelMessage,
   urlScLabelMessage,
   urlEnLabelMessage,
+  mediumType,
   data,
   onChange
 }) => {
-  const {
+  let {
     type,
     name_tc,
     name_sc,
     name_en,
-    mediumType,
     medium,
     url_tc,
     url_sc,
     url_en
   } = data;
+
+  type = type || defaultFileUploadOrUrlType.value;
+  data.type = type;
 
   /* event handlers */
 
@@ -66,15 +71,24 @@ const FileUploadOrUrl = ({
 
   /* end of event handlers */
 
+  //console.log(medium);
+
   return (
-    <>
+    <div className='w3-card w3-container w3-margin-bottom'>
+      <LabelSelectPair
+        name='type'
+        value={type}
+        options={fileUploadOrUrlTypeOptions}
+        labelMessage={selectLabelMessage}
+        onChange={handleChange}
+      />
+
       <LabelInputTextPair
         name='name_tc'
         value={name_tc}
         labelMessage={nameTcLabelMessage}
         placeholder=''
         onChange={handleChange}
-        required={true}
       />
       <LabelInputTextPair
         name='name_sc'
@@ -82,22 +96,12 @@ const FileUploadOrUrl = ({
         labelMessage={nameScLabelMessage}
         placeholder=''
         onChange={handleChange}
-        required={true}
       />
       <LabelInputTextPair
         name='name_en'
         value={name_en}
         labelMessage={nameEnLabelMessage}
         placeholder=''
-        onChange={handleChange}
-        required={true}
-      />
-
-      <LabelSelectPair
-        name='type'
-        value={type.value}
-        options={fileUploadOrUrlTypeOptions}
-        labelMessage={selectLabelMessage}
         onChange={handleChange}
       />
 
@@ -120,7 +124,6 @@ const FileUploadOrUrl = ({
             labelMessage={urlTcLabelMessage}
             placeholder=''
             onChange={handleChange}
-            required={true}
           />
           <LabelInputTextPair
             name='url_sc'
@@ -128,7 +131,6 @@ const FileUploadOrUrl = ({
             labelMessage={urlScLabelMessage}
             placeholder=''
             onChange={handleChange}
-            required={true}
           />
           <LabelInputTextPair
             name='url_en'
@@ -136,11 +138,10 @@ const FileUploadOrUrl = ({
             labelMessage={urlEnLabelMessage}
             placeholder=''
             onChange={handleChange}
-            required={true}
           />
         </>
       )}
-    </>
+    </div>
   );
 };
 
