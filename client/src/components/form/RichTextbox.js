@@ -127,6 +127,7 @@ const RichTextbox = ({
   }
 }) => {
   const [editorInstance, setEditorInstance] = useState(null);
+  // const [textareaEl, setTextareaEl] = useState(null);
   const [isInitCompleted, setIsInitCompleted] = useState(false);
   const handleChange = useCallback(
     event => {
@@ -144,43 +145,28 @@ const RichTextbox = ({
   );
   const waitForInstanceInitialized = useCallback(
     _ => {
-      if (editorInstance.editor) {
-        setIsInitCompleted(true);
-
-        if (required === true) {
-          console.log('reach here');
-          // TODO: the following does not seem to work
-          // https://stackoverflow.com/questions/50100935/ckeditor-the-required-attribute-within-textarea-tag-is-not-working
-          // https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#event-required
-          editorInstance.editor.on('required', e => {
-            // TODO:
-            alert(`This ${name} field is required.`);
-            e.cancel();
-          });
+      if (editorInstance.editor && editorInstance.editor.status === 'ready') {
+        if (!isInitCompleted) {
+          if (editorInstance.editor.getData() === "" && value !== "") {
+            // if (editorInstance.editor.getData() !== value) {
+            //   console.log("special case");
+            // }
+            editorInstance.editor.setData(value);
+            console.log('RichTextbox loaded');
+            // set every 50ms until successfully set
+            setTimeout(waitForInstanceInitialized, 50);
+          } else {
+            console.log('RichTextbox value set success');
+            setIsInitCompleted(true);
+            // 
+            // editorInstance.element.closest('form').addEventListener('submit', (e) => {
+            //   console.log('onSubmit');
+            //   e.preventDefault();
+            //   return false;
+            // }, { passive: false })
+            // editorInstance.editor.document.$.body.innerText
+          }
         }
-
-        //console.log(`RichTextbox ${editorInstance.editor.status}`);
-        editorInstance.editor.on('instanceReady', () => {
-          editorInstance.editor.setData(value);
-          console.log('RichTextbox instanceReady');
-        });
-
-        if (editorInstance.editor.status === 'loaded') {
-          editorInstance.editor.setData(value);
-          console.log('RichTextbox loaded');
-        }
-
-        // if (editorInstance.editor.status === 'loaded') {
-        //   editorInstance.editor.setData(value);
-        //   console.log('RichTextbox loaded');
-        //   console.log(value);
-        // } else {
-        //   editorInstance.editor.on('instanceReady', () => {
-        //     console.log('RichTextbox instanceReady');
-        //     console.log(value);
-        //     editorInstance.editor.setData(value);
-        //   });
-        // }
       } else {
         // TODO: is it alright to do recursion when using react useCallback???
         console.log('RichTextbox ??? case');
@@ -188,21 +174,28 @@ const RichTextbox = ({
         setTimeout(waitForInstanceInitialized, 50);
       }
     },
-    [name, value, required, editorInstance]
+    [name, value, required, editorInstance, isInitCompleted]
   );
   useEffect(() => {
     if (editorInstance && value !== '' && !isInitCompleted) {
       waitForInstanceInitialized();
     }
   }, [value, editorInstance, isInitCompleted, waitForInstanceInitialized]);
+  // useEffect(() => {
+  //   if (textareaEl) {
+  //     window.CKEDITOR.replace(textareaEl);
+  //   }
+  // }, [textareaEl])
   return (
     <>
-      <div className={`editableArea ${className}`}>
+      <div className={`editableArea ${className ? className : ''}`}>
         <textarea
           name={name}
+          // ref={setTextareaEl}
           value={cleanValueForTextInput(value)}
           hidden={!debug}
           readOnly={true}
+          required={required}
         />
         <CKEditor
           onChange={handleChange}
