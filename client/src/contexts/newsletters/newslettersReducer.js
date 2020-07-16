@@ -7,7 +7,8 @@ import {
   UPDATE_NEWSLETTER,
   NEWSLETTERS_ERRORS,
   CLEAR_NEWSLETTERS_ERRORS,
-  SET_NEWSLETTERS_LOADING
+  SET_NEWSLETTERS_LOADING,
+  SEND_NEWSLETTER
 } from '../types';
 
 export default (state, action) => {
@@ -39,6 +40,11 @@ export default (state, action) => {
         newslettersErrors: null
       };
     case ADD_NEWSLETTER:
+      return {
+        ...state,
+        newslettersLoading: false
+      };
+    case SEND_NEWSLETTER:
       return {
         ...state,
         newslettersLoading: false

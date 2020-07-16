@@ -535,6 +535,7 @@ const EventEdit = _ => {
           value={event.desc_tc}
           labelMessage={uiWordings['Event.DescTcLabel']}
           onChange={onChange}
+          required={true}
           filebrowserBrowseUrl={generatePath(routes.fileManager, {
             fileType: 'images'
           })}
@@ -553,6 +554,7 @@ const EventEdit = _ => {
           value={event.desc_en}
           labelMessage={uiWordings['Event.DescEnLabel']}
           onChange={onChange}
+          required={true}
           filebrowserBrowseUrl={generatePath(routes.fileManager, {
             fileType: 'images'
           })}
@@ -621,6 +623,7 @@ const EventEdit = _ => {
             value={event.priceRemarks_tc}
             labelMessage={uiWordings['Event.PriceRemarksTcLabel']}
             onChange={onChange}
+            required={true}
             filebrowserBrowseUrl={generatePath(routes.fileManager, {
               fileType: 'images'
             })}
@@ -630,6 +633,7 @@ const EventEdit = _ => {
             value={event.priceRemarks_sc}
             labelMessage={uiWordings['Event.PriceRemarksScLabel']}
             onChange={onChange}
+            required={true}
             filebrowserBrowseUrl={generatePath(routes.fileManager, {
               fileType: 'images'
             })}
@@ -639,6 +643,7 @@ const EventEdit = _ => {
             value={event.priceRemarks_en}
             labelMessage={uiWordings['Event.PriceRemarksEnLabel']}
             onChange={onChange}
+            required={true}
             filebrowserBrowseUrl={generatePath(routes.fileManager, {
               fileType: 'images'
             })}

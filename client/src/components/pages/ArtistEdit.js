@@ -379,6 +379,7 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.DescTcLabel']}
           // placeholder=''
           onChange={onChange}
+          required={true}
           filebrowserBrowseUrl={generatePath(routes.fileManager, {
             fileType: 'images'
           })}
@@ -388,6 +389,7 @@ const ArtistEdit = _ => {
           value={artist.desc_sc}
           labelMessage={uiWordings['Artist.DescScLabel']}
           onChange={onChange}
+          required={true}
           filebrowserBrowseUrl={generatePath(routes.fileManager, {
             fileType: 'images'
           })}

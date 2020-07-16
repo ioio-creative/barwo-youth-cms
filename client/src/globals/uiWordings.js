@@ -439,8 +439,10 @@ export default {
   'NewsletterEdit.EditNewsletterTitle': 'Edit Newsletter',
   'NewsletterEdit.AddNewsletterSubmit': 'Add Newsletter',
   'NewsletterEdit.UpdateNewsletterSubmit': 'Update Newsletter',
+  'NewsletterEdit.SendNewsletterSubmit': 'Send Newsletter',
   'NewsletterEdit.AddNewsletterSuccessMessage': 'Newsletter Added',
   'NewsletterEdit.UpdateNewsletterSuccessMessage': 'Newsletter Updated',
+  'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sended',
 
   'Activities.Title': 'Activities',
 

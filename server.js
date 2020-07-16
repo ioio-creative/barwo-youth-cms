@@ -84,6 +84,10 @@ app.use(
   '/api/backend/newsletters/newsletters',
   require('./routes/backend/newsletters/newsletters')
 );
+app.use(
+  '/api/backend/newsletters/sendHistory',
+  require('./routes/backend/newsletters/sendHistory')
+);
 
 // media api
 app.use('/api/backend/media', require('./routes/backend/media/media'));

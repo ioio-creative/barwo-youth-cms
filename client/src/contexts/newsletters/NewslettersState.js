@@ -13,7 +13,8 @@ import {
   UPDATE_NEWSLETTER,
   NEWSLETTERS_ERRORS,
   CLEAR_NEWSLETTERS_ERRORS,
-  SET_NEWSLETTERS_LOADING
+  SET_NEWSLETTERS_LOADING,
+  SEND_NEWSLETTER
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -138,6 +139,32 @@ const NewslettersState = ({ children }) => {
     return newNewsletter;
   }, []);
 
+  // Send newsletter
+  const sendNewsletter = useCallback(async newsletter => {
+    let newNewsletter = null;
+    dispatch({ type: SET_NEWSLETTERS_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.post(
+        '/api/backend/newsletters/sendHistory',
+        newsletter,
+        config
+      );
+      console.log(res);
+      dispatch({ type: SEND_NEWSLETTER, payload: res.data });
+      console.log(res.data);
+      newNewsletter = res.data;
+    } catch (err) {
+      handleServerError(err, NEWSLETTERS_ERRORS, dispatch);
+      console.error(err);
+    }
+    return newNewsletter;
+  }, []);
+
   // Clear Newsletters Error
   const clearNewslettersErrors = useCallback(_ => {
     dispatch({ type: CLEAR_NEWSLETTERS_ERRORS });
@@ -156,6 +183,7 @@ const NewslettersState = ({ children }) => {
         clearNewsletter,
         addNewsletter,
         updateNewsletter,
+        sendNewsletter,
         clearNewslettersErrors
       }}
     >

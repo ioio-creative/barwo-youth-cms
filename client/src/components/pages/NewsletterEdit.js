@@ -6,6 +6,7 @@ import NewslettersPageContainer from 'components/newsletters/NewslettersPageCont
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
+import Button from '../form/Button';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
@@ -32,6 +33,7 @@ const NewsletterEdit = _ => {
     getNewsletter,
     clearNewsletter,
     addNewsletter,
+    sendNewsletter,
     updateNewsletter,
     clearNewslettersErrors
   } = useContext(NewslettersContext);
@@ -106,13 +108,55 @@ const NewsletterEdit = _ => {
 
   /* methods */
 
-  const validInput = useCallback(newsletterInput => {
+  const validInput = useCallback(newsletter => {
     return true;
   }, []);
 
   /* end of methods */
 
   /* event handlers */
+
+  const onSendButtonClick = useCallback(
+    async e => {
+      setIsSubmitEnabled(false);
+      removeAlerts();
+      e.preventDefault();
+
+      let isSuccess = validInput(newsletter);
+      let returnedNewsletter = null;
+      if (isSuccess) {
+        const funcToCall = isAddMode ? addNewsletter : updateNewsletter;
+        returnedNewsletter = await funcToCall(newsletter);
+        sendNewsletter(newsletter);
+        isSuccess = Boolean(returnedNewsletter);
+      }
+      if (isSuccess) {
+        setAlerts(
+          new Alert(
+            uiWordings['NewsletterEdit.SendNewsletterSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+
+        goToUrl(
+          routes.newsletterEditByIdWithValue(true, returnedNewsletter._id)
+        );
+        getNewsletter(returnedNewsletter._id);
+      }
+      scrollToTop();
+    },
+    [
+      addNewsletter,
+      getNewsletter,
+      isAddMode,
+      newsletter,
+      removeAlerts,
+      sendNewsletter,
+      setAlerts,
+      updateNewsletter,
+      validInput
+    ]
+  );
 
   const onChange = useCallback(
     e => {
@@ -191,7 +235,11 @@ const NewsletterEdit = _ => {
   return (
     <>
       {backToNewsletterListButton}
-
+      {!isSubmitEnabled && (
+        <Button onSendButtonClick={onSendButtonClick}>
+          {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
+        </Button>
+      )}
       <Form onSubmit={onSubmit}>
         <h4>
           {isAddMode
