@@ -91,7 +91,7 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
       };
     }
 
-    const newses = await news.paginate(findOptions, options);
+    const newses = await News.paginate(findOptions, options);
     res.json(newses);
   } catch (err) {
     generalErrorHandle(err, res);

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams, generatePath } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ActivitiesContext from 'contexts/activities/activitiesContext';
 import ActivitiesPageContainer from 'components/activities/ActivitiesPageContainer';
@@ -206,8 +206,6 @@ const ActivityEdit = _ => {
       activity.downloadUrl_en = url_en;
       activity.downloadMedium = medium ? medium._id : null;
 
-      console.log(activity);
-
       let isSuccess = validInput(activity);
       let returnedActivity = null;
       if (isSuccess) {
@@ -368,27 +366,18 @@ const ActivityEdit = _ => {
           labelMessage={uiWordings['Activity.LocationTcLabel']}
           // placeholder=''
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelRichTextbox
           name='location_sc'
           value={activity.location_sc}
           labelMessage={uiWordings['Activity.LocationScLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelRichTextbox
           name='location_en'
           value={activity.location_en}
           labelMessage={uiWordings['Activity.LocationEnLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
 
         <LabelRichTextbox
@@ -397,27 +386,18 @@ const ActivityEdit = _ => {
           labelMessage={uiWordings['Activity.DescTcLabel']}
           // placeholder=''
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelRichTextbox
           name='desc_sc'
           value={activity.desc_sc}
           labelMessage={uiWordings['Activity.DescScLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelRichTextbox
           name='desc_en'
           value={activity.desc_en}
           labelMessage={uiWordings['Activity.DescEnLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
 
         <LabelTogglePair

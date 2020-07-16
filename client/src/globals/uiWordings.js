@@ -16,6 +16,7 @@ export default {
   'Navbar.Contacts': 'Contacts',
   'Navbar.Newsletters': 'Newsletters',
   'Navbar.Activities': 'Activities',
+  'Navbar.Newses': 'Newses',
   'Navbar.About': 'About',
   'Navbar.Testing': 'Testing Page',
 
@@ -491,6 +492,44 @@ export default {
   'ActivityEdit.SelectToDatePlaceholder': 'Click to select date',
 
   'ActivityEdit.Media.Title': 'Media',
+
+  'Newses.Title': 'Newses',
+
+  'News.LabelLabel': 'Label',
+  'News.NameTcLabel': 'Name TC',
+  'News.NameScLabel': 'Name SC',
+  'News.NameEnLabel': 'Name EN',
+  'News.DescTcLabel': 'Desc TC',
+  'News.DescScLabel': 'Desc SC',
+  'News.DescEnLabel': 'Desc EN',
+  'News.FeaturedImageLabel': 'Featured Image',
+  'News.DownloadNameTcLabel': 'Download Name TC',
+  'News.DownloadNameScLabel': 'Download Name SC',
+  'News.DownloadNameEnLabel': 'Download Name EN',
+  'News.DownloadTypeLabel': 'Download Type',
+  'News.DownloadMediumLabel': 'Download Medium',
+  'News.DownloadUrlTcLabel': 'Download URL TC',
+  'News.DownloadUrlScLabel': 'Download URL SC',
+  'News.DownloadUrlEnLabel': 'Download URL EN',
+  'News.CreateDTLabel': 'Create DT',
+  'News.LastModifyDTLabel': 'Last Modify DT',
+  'News.LastModifyUserLabel': 'Last Modify User',
+  'News.IsEnabledLabel': 'Is Enabled ?',
+
+  'NewsList.AddNews': 'Add News',
+  'NewsList.FilterTextPlaceHolder': 'Filter Activities by name...',
+  'NewsList.FilterButton': 'Filter',
+  'NewsList.ClearFilterButton': 'Clear Filter',
+
+  'NewsEdit.BackToNewsList': 'Back to News List',
+  'NewsEdit.AddNewsTitle': 'Add News',
+  'NewsEdit.EditNewsTitle': 'Edit News',
+  'NewsEdit.AddNewsSubmit': 'Add News',
+  'NewsEdit.UpdateNewsSubmit': 'Update News',
+  'NewsEdit.AddNewsSuccessMessage': 'News Added',
+  'NewsEdit.UpdateNewsSuccessMessage': 'News Updated',
+
+  'NewsEdit.Media.Title': 'Media',
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',

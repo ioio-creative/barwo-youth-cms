@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { generatePath } from 'react-router-dom';
 import Alert from 'models/alert';
 import AlertContext from 'contexts/alert/alertContext';
 import TicketingDefault from 'models/ticketingDefault';
@@ -16,7 +15,6 @@ import SubmitButton from 'components/form/SubmitButton';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
-import routes from 'globals/routes';
 
 const originalTicketingDefault = new TicketingDefault();
 const defaultState = originalTicketingDefault;
@@ -258,27 +256,18 @@ const TicketingDefaultEdit = _ => {
         value={ticketingDefault.priceRemarks_tc}
         labelMessage={uiWordings['TicketingDefault.PriceRemarksTcLabel']}
         onChange={onChange}
-        filebrowserBrowseUrl={generatePath(routes.fileManager, {
-          fileType: 'images'
-        })}
       />
       <LabelRichTextbox
         name='priceRemarks_sc'
         value={ticketingDefault.priceRemarks_sc}
         labelMessage={uiWordings['TicketingDefault.PriceRemarksScLabel']}
         onChange={onChange}
-        filebrowserBrowseUrl={generatePath(routes.fileManager, {
-          fileType: 'images'
-        })}
       />
       <LabelRichTextbox
         name='priceRemarks_en'
         value={ticketingDefault.priceRemarks_en}
         labelMessage={uiWordings['TicketingDefault.PriceRemarksEnLabel']}
         onChange={onChange}
-        filebrowserBrowseUrl={generatePath(routes.fileManager, {
-          fileType: 'images'
-        })}
       />
 
       <TicketingDefaultEditPhoneSelect
