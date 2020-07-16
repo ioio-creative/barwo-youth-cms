@@ -118,6 +118,7 @@ const NewsletterEdit = _ => {
 
   const onSendButtonClick = useCallback(
     async e => {
+      // console.log('onSendButtonClick');
       setIsSubmitEnabled(false);
       removeAlerts();
       e.preventDefault();
@@ -125,10 +126,10 @@ const NewsletterEdit = _ => {
       let isSuccess = validInput(newsletter);
       let returnedNewsletter = null;
       if (isSuccess) {
-        const funcToCall = isAddMode ? addNewsletter : updateNewsletter;
-        returnedNewsletter = await funcToCall(newsletter);
-        sendNewsletter(newsletter);
-        isSuccess = Boolean(returnedNewsletter);
+        // const funcToCall = isAddMode ? addNewsletter : updateNewsletter;
+        returnedNewsletter = await sendNewsletter(newsletter);
+        // await sendNewsletter(newsletter);
+        // isSuccess = Boolean(returnedNewsletter);
       }
       if (isSuccess) {
         setAlerts(
@@ -138,10 +139,8 @@ const NewsletterEdit = _ => {
           )
         );
 
-        goToUrl(
-          routes.newsletterEditByIdWithValue(true, returnedNewsletter._id)
-        );
-        getNewsletter(returnedNewsletter._id);
+        goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
+        getNewsletter(newsletter._id);
       }
       scrollToTop();
     },
@@ -236,7 +235,7 @@ const NewsletterEdit = _ => {
     <>
       {backToNewsletterListButton}
       {!isSubmitEnabled && (
-        <Button onSendButtonClick={onSendButtonClick}>
+        <Button onClick={onSendButtonClick}>
           {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
         </Button>
       )}

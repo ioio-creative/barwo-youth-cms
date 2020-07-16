@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('config');
 const em = config.get('Email.smtp');
+const nodemailer = require('nodemailer');
 const { check } = require('express-validator');
 
 const auth = require('../../../middleware/auth');
@@ -52,8 +53,8 @@ const sendHistoryValidationChecks = [
   check('message_en', sendHistoryResponseTypes.MESSAGE_EN_REQUIRED).notEmpty()
 ];
 
-const emailSend = async (emailAddress, title, message) => {
-  console.log(emailAddress, title, message);
+const emailSend = async (contact, emailAddress, title, message) => {
+  // console.log(emailAddress, title, message);
   let transporter = nodemailer.createTransport({
     host: 'email-smtp.ap-southeast-1.amazonaws.com',
     port: 587,
@@ -71,33 +72,9 @@ const emailSend = async (emailAddress, title, message) => {
     subject: title, // Subject line
     html: message // html body
   });
+
+  // console.log(info);
 };
-
-// router.get('/', [auth, listPathHandling], async (req, res) => {
-//   try {
-//     const options = {
-//       ...req.paginationOptions,
-//       select: contactSelectForFindAll,
-//       populate: contactPopulationListForFindAll
-//     };
-
-//     let findOptions = {};
-//     const filterTextRegex = req.filterTextRegex;
-//     if (filterTextRegex) {
-//       // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
-//       findOptions = {
-//         ...findOptions,
-//         $or: [{ emailAddress: filterTextRegex }, { name: filterTextRegex }]
-//       };
-//     }
-
-//     // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
-//     const contacts = await Contact.paginate(findOptions, options);
-//     res.json(contacts);
-//   } catch (err) {
-//     generalErrorHandle(err, res);
-//   }
-// });
 
 // @route   GET api/backend/newsletter/newsletter/:_id
 // @desc    Get newsletter by id
@@ -138,7 +115,7 @@ router.post(
       message_sc,
       message_en
     } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     let contacts = [];
     try {
       const options = {
@@ -160,15 +137,32 @@ router.post(
         message_sc,
         message_en
       });
-      contacts.forEach(contact => {
-        if (contact.language === 'TC') {
-          emailSend(contact.emailAddress, title_tc, message_tc);
-        } else if (contact.language === 'SC') {
-          emailSend(contact.emailAddress, title_sc, message_sc);
-        } else {
-          emailSend(contact.emailAddress, title_en, message_en);
-        }
-      });
+      await Promise.all(
+        contacts.docs.map(async contact => {
+          if (contact.language === 'TC') {
+            await emailSend(
+              contact,
+              contact.emailAddress,
+              title_tc,
+              message_tc
+            );
+          } else if (contact.language === 'SC') {
+            await emailSend(
+              contact,
+              contact.emailAddress,
+              title_sc,
+              message_sc
+            );
+          } else {
+            await emailSend(
+              contact,
+              contact.emailAddress,
+              title_en,
+              message_en
+            );
+          }
+        })
+      );
 
       await sendHistory.save();
 

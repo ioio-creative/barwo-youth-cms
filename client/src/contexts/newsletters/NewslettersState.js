@@ -105,9 +105,9 @@ const NewslettersState = ({ children }) => {
         newsletter,
         config
       );
-      console.log(res);
+      // console.log(res);
       dispatch({ type: ADD_NEWSLETTER, payload: res.data });
-      console.log(res.data);
+      // console.log(res.data);
       newNewsletter = res.data;
     } catch (err) {
       handleServerError(err, NEWSLETTERS_ERRORS, dispatch);
@@ -141,6 +141,7 @@ const NewslettersState = ({ children }) => {
 
   // Send newsletter
   const sendNewsletter = useCallback(async newsletter => {
+    // console.log('here');
     let newNewsletter = null;
     dispatch({ type: SET_NEWSLETTERS_LOADING });
     const config = {
@@ -154,9 +155,9 @@ const NewslettersState = ({ children }) => {
         newsletter,
         config
       );
-      console.log(res);
+      // console.log(res);
       dispatch({ type: SEND_NEWSLETTER, payload: res.data });
-      console.log(res.data);
+      // console.log(res.data);
       newNewsletter = res.data;
     } catch (err) {
       handleServerError(err, NEWSLETTERS_ERRORS, dispatch);
