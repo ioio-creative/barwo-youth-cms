@@ -131,17 +131,19 @@ const RichTextbox = ({
   const [isInitCompleted, setIsInitCompleted] = useState(false);
   const handleChange = useCallback(
     event => {
-      invokeIfIsFunction(onChange, {
-        ...event,
-        target: {
-          ...event.target,
-          name: name,
-          value: event.editor.getData()
-        }
-      });
+      if (isInitCompleted) {
+        invokeIfIsFunction(onChange, {
+          ...event,
+          target: {
+            ...event.target,
+            name: name,
+            value: event.editor.getData()
+          }
+        });
+      }
       // setValue(event.editor.getData());
     },
-    [name, onChange]
+    [name, onChange, isInitCompleted]
   );
   const waitForInstanceInitialized = useCallback(
     _ => {
