@@ -443,6 +443,110 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  about_tc: {
+    type: String,
+    require: true
+  },
+  about_sc: {
+    type: String,
+    require: true
+  },
+  about_en: {
+    type: String,
+    require: true
+  },
+
+  map_tc: {
+    type: String,
+    require: true
+  },
+  map_sc: {
+    type: String,
+    require: true
+  },
+  map_en: {
+    type: String,
+    require: true
+  },
+
+  traffic_tc: {
+    type: String,
+    require: true
+  },
+  traffic_sc: {
+    type: String,
+    require: true
+  },
+  traffic_en: {
+    type: String,
+    require: true
+  },
+
+  contact_tc: {
+    type: String,
+    require: true
+  },
+  contact_sc: {
+    type: String,
+    require: true
+  },
+  contact_en: {
+    type: String,
+    require: true
+  },
+
+  website_tc: {
+    type: String,
+    require: true
+  },
+  website_sc: {
+    type: String,
+    require: true
+  },
+  website_en: {
+    type: String,
+    require: true
+  },
+
+  tel_tc: {
+    type: String,
+    require: true
+  },
+  tel_sc: {
+    type: String,
+    require: true
+  },
+  tel_en: {
+    type: String,
+    require: true
+  },
+
+  fax_tc: {
+    type: String,
+    require: true
+  },
+  fax_sc: {
+    type: String,
+    require: true
+  },
+  fax_en: {
+    type: String,
+    require: true
+  },
+
+  email_tc: {
+    type: String,
+    require: true
+  },
+  email_sc: {
+    type: String,
+    require: true
+  },
+  email_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -595,6 +699,38 @@ module.exports.globalConstantsResponseTypes = {
   TOTAL2_TC_REQUIRED: 'TOTAL2_TC_REQUIRED',
   TOTAL2_SC_REQUIRED: 'TOTAL2_SC_REQUIRED',
   TOTAL2_EN_REQUIRED: 'TOTAL2_EN_REQUIRED',
+
+  ABOUT_TC_REQUIRED: 'ABOUT_TC_REQUIRED',
+  ABOUT_SC_REQUIRED: 'ABOUT_SC_REQUIRED',
+  ABOUT_EN_REQUIRED: 'ABOUT_EN_REQUIRED',
+
+  MAP_TC_REQUIRED: 'MAP_TC_REQUIRED',
+  MAP_SC_REQUIRED: 'MAP_SC_REQUIRED',
+  MAP_EN_REQUIRED: 'MAP_EN_REQUIRED',
+
+  TRAFFIC_TC_REQUIRED: 'TRAFFIC_TC_REQUIRED',
+  TRAFFIC_SC_REQUIRED: 'TRAFFIC_SC_REQUIRED',
+  TRAFFIC_EN_REQUIRED: 'TRAFFIC_EN_REQUIRED',
+
+  CONTACT_TC_REQUIRED: 'CONTACT_TC_REQUIRED',
+  CONTACT_SC_REQUIRED: 'CONTACT_SC_REQUIRED',
+  CONTACT_EN_REQUIRED: 'CONTACT_EN_REQUIRED',
+
+  WEBSITE_TC_REQUIRED: 'WEBSITE_TC_REQUIRED',
+  WEBSITE_SC_REQUIRED: 'WEBSITE_SC_REQUIRED',
+  WEBSITE_EN_REQUIRED: 'WEBSITE_EN_REQUIRED',
+
+  TEL_TC_REQUIRED: 'TEL_TC_REQUIRED',
+  TEL_SC_REQUIRED: 'TEL_SC_REQUIRED',
+  TEL_EN_REQUIRED: 'TEL_EN_REQUIRED',
+
+  FAX_TC_REQUIRED: 'FAX_TC_REQUIRED',
+  FAX_SC_REQUIRED: 'FAX_SC_REQUIRED',
+  FAX_EN_REQUIRED: 'FAX_EN_REQUIRED',
+
+  EMAIL_TC_REQUIRED: 'EMAIL_TC_REQUIRED',
+  EMAIL_SC_REQUIRED: 'EMAIL_SC_REQUIRED',
+  EMAIL_EN_REQUIRED: 'EMAIL_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

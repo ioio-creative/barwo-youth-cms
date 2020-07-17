@@ -386,7 +386,61 @@ const globalConstantsValidationChecks = [
     'total2_sc',
     globalConstantsResponseTypes.TOTAL2_SC_REQUIRED
   ).notEmpty(),
-  check('total2_en', globalConstantsResponseTypes.TOTAL2_EN_REQUIRED).notEmpty()
+  check(
+    'total2_en',
+    globalConstantsResponseTypes.TOTAL2_EN_REQUIRED
+  ).notEmpty(),
+  check('about_tc', globalConstantsResponseTypes.ABOUT_TC_REQUIRED).notEmpty(),
+  check('about_sc', globalConstantsResponseTypes.ABOUT_SC_REQUIRED).notEmpty(),
+  check('about_en', globalConstantsResponseTypes.ABOUT_EN_REQUIRED).notEmpty(),
+  check('map_tc', globalConstantsResponseTypes.MAP_TC_REQUIRED).notEmpty(),
+  check('map_sc', globalConstantsResponseTypes.MAP_SC_REQUIRED).notEmpty(),
+  check('map_en', globalConstantsResponseTypes.MAP_EN_REQUIRED).notEmpty(),
+  check(
+    'traffic_tc',
+    globalConstantsResponseTypes.TRAFFIC_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'traffic_sc',
+    globalConstantsResponseTypes.TRAFFIC_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'traffic_en',
+    globalConstantsResponseTypes.TRAFFIC_EN_REQUIRED
+  ).notEmpty(),
+  check(
+    'contact_tc',
+    globalConstantsResponseTypes.CONTACT_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'contact_sc',
+    globalConstantsResponseTypes.CONTACT_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'contact_en',
+    globalConstantsResponseTypes.CONTACT_EN_REQUIRED
+  ).notEmpty(),
+  check(
+    'website_tc',
+    globalConstantsResponseTypes.WEBSITE_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'website_sc',
+    globalConstantsResponseTypes.WEBSITE_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'website_en',
+    globalConstantsResponseTypes.WEBSITE_EN_REQUIRED
+  ).notEmpty(),
+  check('tel_tc', globalConstantsResponseTypes.TEL_TC_REQUIRED).notEmpty(),
+  check('tel_sc', globalConstantsResponseTypes.TEL_SC_REQUIRED).notEmpty(),
+  check('tel_en', globalConstantsResponseTypes.TEL_EN_REQUIRED).notEmpty(),
+  check('fax_tc', globalConstantsResponseTypes.FAX_TC_REQUIRED).notEmpty(),
+  check('fax_sc', globalConstantsResponseTypes.FAX_SC_REQUIRED).notEmpty(),
+  check('fax_en', globalConstantsResponseTypes.FAX_EN_REQUIRED).notEmpty(),
+  check('email_tc', globalConstantsResponseTypes.EMAIL_TC_REQUIRED).notEmpty(),
+  check('email_sc', globalConstantsResponseTypes.EMAIL_SC_REQUIRED).notEmpty(),
+  check('email_en', globalConstantsResponseTypes.EMAIL_EN_REQUIRED).notEmpty()
 ];
 
 /* end of utilities */
@@ -555,7 +609,39 @@ router.post(
 
       total2_tc,
       total2_sc,
-      total2_en
+      total2_en,
+
+      about_tc,
+      about_sc,
+      about_en,
+
+      map_tc,
+      map_sc,
+      map_en,
+
+      traffic_tc,
+      traffic_sc,
+      traffic_en,
+
+      contact_tc,
+      contact_sc,
+      contact_en,
+
+      website_tc,
+      website_sc,
+      website_en,
+
+      tel_tc,
+      tel_sc,
+      tel_en,
+
+      fax_tc,
+      fax_sc,
+      fax_en,
+
+      email_tc,
+      email_sc,
+      email_en
     } = req.body;
 
     // Build global constants object
@@ -697,6 +783,38 @@ router.post(
     globalConstantsFields.total2_tc = total2_tc;
     globalConstantsFields.total2_sc = total2_sc;
     globalConstantsFields.total2_en = total2_en;
+
+    globalConstantsFields.about_tc = about_tc;
+    globalConstantsFields.about_sc = about_sc;
+    globalConstantsFields.about_en = about_en;
+
+    globalConstantsFields.map_tc = map_tc;
+    globalConstantsFields.map_sc = map_sc;
+    globalConstantsFields.map_en = map_en;
+
+    globalConstantsFields.traffic_tc = traffic_tc;
+    globalConstantsFields.traffic_sc = traffic_sc;
+    globalConstantsFields.traffic_en = traffic_en;
+
+    globalConstantsFields.contact_tc = contact_tc;
+    globalConstantsFields.contact_sc = contact_sc;
+    globalConstantsFields.contact_en = contact_en;
+
+    globalConstantsFields.website_tc = website_tc;
+    globalConstantsFields.website_sc = website_sc;
+    globalConstantsFields.website_en = website_en;
+
+    globalConstantsFields.tel_tc = tel_tc;
+    globalConstantsFields.tel_sc = tel_sc;
+    globalConstantsFields.tel_en = tel_en;
+
+    globalConstantsFields.fax_tc = fax_tc;
+    globalConstantsFields.fax_sc = fax_sc;
+    globalConstantsFields.fax_en = fax_en;
+
+    globalConstantsFields.email_tc = email_tc;
+    globalConstantsFields.email_sc = email_sc;
+    globalConstantsFields.email_en = email_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

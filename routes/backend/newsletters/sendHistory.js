@@ -68,7 +68,7 @@ const emailSend = async (contact, emailAddress, title, message) => {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '<christopher.wong@ioiocreative.com>', // sender address
-    to: emailAddress, // list of receivers
+    to: emailAddress, // Receivers
     subject: title, // Subject line
     html: `<p>Dear ${contact.type}.${contact.name}</p>${message}<br/><p>Yours sincerely,</p> <p>Barwo</p>` // html body
   });

@@ -138,6 +138,38 @@ function GlobalConstants() {
   this.total2_sc = '';
   this.total2_en = '';
 
+  this.about_tc = '';
+  this.about_sc = '';
+  this.about_en = '';
+
+  this.map_tc = '';
+  this.map_sc = '';
+  this.map_en = '';
+
+  this.traffic_tc = '';
+  this.traffic_sc = '';
+  this.traffic_en = '';
+
+  this.contact_tc = '';
+  this.contact_sc = '';
+  this.contact_en = '';
+
+  this.website_tc = '';
+  this.website_sc = '';
+  this.website_en = '';
+
+  this.tel_tc = '';
+  this.tel_sc = '';
+  this.tel_en = '';
+
+  this.fax_tc = '';
+  this.fax_sc = '';
+  this.fax_en = '';
+
+  this.email_tc = '';
+  this.email_sc = '';
+  this.email_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -551,6 +583,110 @@ GlobalConstants.globalConstantsResponseTypes = {
   TOTAL2_EN_REQUIRED: {
     type: 'TOTAL2_EN_REQUIRED',
     msg: 'TOTAL2_EN_REQUIRED'
+  },
+
+  ABOUT_TC_REQUIRED: {
+    type: 'ABOUT_TC_REQUIRED',
+    msg: 'ABOUT_TC_REQUIRED'
+  },
+  ABOUT_SC_REQUIRED: {
+    type: 'ABOUT_SC_REQUIRED',
+    msg: 'ABOUT_SC_REQUIRED'
+  },
+  ABOUT_EN_REQUIRED: {
+    type: 'ABOUT_EN_REQUIRED',
+    msg: 'ABOUT_EN_REQUIRED'
+  },
+
+  MAP_TC_REQUIRED: {
+    type: 'MAP_TC_REQUIRED',
+    msg: 'MAP_TC_REQUIRED'
+  },
+  MAP_SC_REQUIRED: {
+    type: 'MAP_SC_REQUIRED',
+    msg: 'MAP_SC_REQUIRED'
+  },
+  MAP_EN_REQUIRED: {
+    type: 'MAP_EN_REQUIRED',
+    msg: 'MAP_EN_REQUIRED'
+  },
+
+  TRAFFIC_TC_REQUIRED: {
+    type: 'TRAFFIC_TC_REQUIRED',
+    msg: 'TRAFFIC_TC_REQUIRED'
+  },
+  TRAFFIC_SC_REQUIRED: {
+    type: 'TRAFFIC_SC_REQUIRED',
+    msg: 'TRAFFIC_SC_REQUIRED'
+  },
+  TRAFFIC_EN_REQUIRED: {
+    type: 'TRAFFIC_EN_REQUIRED',
+    msg: 'TRAFFIC_EN_REQUIRED'
+  },
+
+  CONTACT_TC_REQUIRED: {
+    type: 'CONTACT_TC_REQUIRED',
+    msg: 'CONTACT_TC_REQUIRED'
+  },
+  CONTACT_SC_REQUIRED: {
+    type: 'CONTACT_SC_REQUIRED',
+    msg: 'CONTACT_SC_REQUIRED'
+  },
+  CONTACT_EN_REQUIRED: {
+    type: 'CONTACT_EN_REQUIRED',
+    msg: 'CONTACT_EN_REQUIRED'
+  },
+
+  WEBSITE_TC_REQUIRED: {
+    type: 'WEBSITE_TC_REQUIRED',
+    msg: 'WEBSITE_TC_REQUIRED'
+  },
+  WEBSITE_SC_REQUIRED: {
+    type: 'WEBSITE_SC_REQUIRED',
+    msg: 'WEBSITE_SC_REQUIRED'
+  },
+  WEBSITE_EN_REQUIRED: {
+    type: 'WEBSITE_EN_REQUIRED',
+    msg: 'WEBSITE_EN_REQUIRED'
+  },
+
+  TEL_TC_REQUIRED: {
+    type: 'TEL_TC_REQUIRED',
+    msg: 'TEL_TC_REQUIRED'
+  },
+  TEL_SC_REQUIRED: {
+    type: 'TEL_SC_REQUIRED',
+    msg: 'TEL_SC_REQUIRED'
+  },
+  TEL_EN_REQUIRED: {
+    type: 'TEL_EN_REQUIRED',
+    msg: 'TEL_EN_REQUIRED'
+  },
+
+  FAX_TC_REQUIRED: {
+    type: 'FAX_TC_REQUIRED',
+    msg: 'FAX_TC_REQUIRED'
+  },
+  FAX_SC_REQUIRED: {
+    type: 'FAX_SC_REQUIRED',
+    msg: 'FAX_SC_REQUIRED'
+  },
+  FAX_EN_REQUIRED: {
+    type: 'FAX_EN_REQUIRED',
+    msg: 'FAX_EN_REQUIRED'
+  },
+
+  EMAIL_TC_REQUIRED: {
+    type: 'EMAIL_TC_REQUIRED',
+    msg: 'EMAIL_TC_REQUIRED'
+  },
+  EMAIL_SC_REQUIRED: {
+    type: 'EMAIL_SC_REQUIRED',
+    msg: 'EMAIL_SC_REQUIRED'
+  },
+  EMAIL_EN_REQUIRED: {
+    type: 'EMAIL_EN_REQUIRED',
+    msg: 'EMAIL_EN_REQUIRED'
   },
 
   // db check
