@@ -1,7 +1,7 @@
 import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
-import { fileUploadOrUrlTypes } from 'components/form/FileUploadOrUrl';
+import { defaultMediumLinkType } from 'types/mediumLink';
 
 function News() {
   this.label = '';
@@ -16,7 +16,7 @@ function News() {
   this.downloadName_tc = '';
   this.downloadName_sc = '';
   this.downloadName_en = '';
-  this.downloadType = fileUploadOrUrlTypes.MEDIUM.value;
+  this.downloadType = defaultMediumLinkType.value;
   this.downloadUrl_tc = '';
   this.downloadUrl_sc = '';
   this.downloadUrl_en = '';

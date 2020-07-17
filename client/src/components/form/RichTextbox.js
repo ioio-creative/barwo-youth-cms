@@ -185,11 +185,13 @@ const RichTextbox = ({
       waitForInstanceInitialized();
     }
   }, [/*value, */ editorInstance, isInitCompleted, waitForInstanceInitialized]);
+
   // useEffect(() => {
   //   if (textareaEl) {
   //     window.CKEDITOR.replace(textareaEl);
   //   }
   // }, [textareaEl])
+
   return (
     <>
       <div className={`editableArea ${className ? className : ''}`}>
