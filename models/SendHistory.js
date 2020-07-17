@@ -30,7 +30,8 @@ const SendHistorySchema = mongoose.Schema({
   message_en: {
     type: String,
     require: true
-  }
+  },
+  newsletter: { type: mongoose.Schema.Types.ObjectId, ref: 'newsletter' }
 });
 
 SendHistorySchema.plugin(mongoosePaginate);
