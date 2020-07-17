@@ -5,6 +5,7 @@ const { check } = require('express-validator');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { About, aboutResponseTypes } = require('../../../models/About');
 
 /* utilities */
@@ -17,7 +18,17 @@ const aboutPopulationList = [
     select: 'name'
   },
   {
-    path: 'gallery',
+    path: 'planGallery',
+    select: {
+      usages: 0,
+      isEnabled: 0,
+      createDT: 0,
+      lastModifyDT: 0,
+      lastModifyUser: 0
+    }
+  },
+  {
+    path: 'theaterImage',
     select: {
       usages: 0,
       isEnabled: 0,
@@ -29,67 +40,24 @@ const aboutPopulationList = [
 ];
 
 const aboutValidationChecks = [
-  check('barwo_tc', aboutResponseTypes.BARWO_TC_REQUIRED).notEmpty(),
-  check('barwo_sc', aboutResponseTypes.BARWO_SC_REQUIRED).notEmpty(),
-  check('barwo_en', aboutResponseTypes.BARWO_EN_REQUIRED).notEmpty(),
-  check('plan_tc', aboutResponseTypes.PLAN_TC_REQUIRED).notEmpty(),
-  check('plan_sc', aboutResponseTypes.PLAN_SC_REQUIRED).notEmpty(),
-  check('plan_en', aboutResponseTypes.PLAN_EN_REQUIRED).notEmpty(),
+  check('barwoDesc_tc', aboutResponseTypes.BARWO_DESC_TC_REQUIRED).notEmpty(),
+  check('barwoDesc_sc', aboutResponseTypes.BARWO_DESC_SC_REQUIRED).notEmpty(),
+  check('barwoDesc_en', aboutResponseTypes.BARWO_DESC_EN_REQUIRED).notEmpty(),
+  check('planDesc_tc', aboutResponseTypes.PLAN_DESC_TC_REQUIRED).notEmpty(),
+  check('planDesc_sc', aboutResponseTypes.PLAN_DESC_SC_REQUIRED).notEmpty(),
+  check('planDesc_en', aboutResponseTypes.PLAN_DESC_EN_REQUIRED).notEmpty(),
   check(
-    'theaterLocation_tc',
+    'theaterLocationName_tc',
     aboutResponseTypes.THEATER_LOCATION_TC_REQUIRED
   ).notEmpty(),
   check(
-    'theaterLocation_sc',
+    'theaterLocationName_sc',
     aboutResponseTypes.THEATER_LOCATION_SC_REQUIRED
   ).notEmpty(),
   check(
-    'theaterLocation_en',
+    'theaterLocationName_en',
     aboutResponseTypes.THEATER_LOCATION_EN_REQUIRED
   ).notEmpty(),
-  check(
-    'theaterDesc1_tc',
-    aboutResponseTypes.THEATER_TRAFFIC_TC_REQUIRED
-  ).notEmpty(),
-  check(
-    'theaterDesc1_sc',
-    aboutResponseTypes.THEATER_TRAFFIC_SC_REQUIRED
-  ).notEmpty(),
-  check(
-    'theaterDesc1_en',
-    aboutResponseTypes.THEATER_TRAFFIC_EN_REQUIRED
-  ).notEmpty(),
-  check(
-    'theaterDesc2_tc',
-    aboutResponseTypes.THEATER_DESC1_TC_REQUIRED
-  ).notEmpty(),
-  check(
-    'theaterDesc2_sc',
-    aboutResponseTypes.THEATER_DESC1_SC_REQUIRED
-  ).notEmpty(),
-  check(
-    'theaterDesc2_en',
-    aboutResponseTypes.THEATER_DESC1_EN_REQUIRED
-  ).notEmpty(),
-  check(
-    'theaterTraffic_tc',
-    aboutResponseTypes.THEATER_DESC2_TC_REQUIRED
-  ).notEmpty(),
-  check(
-    'theaterTraffic_sc',
-    aboutResponseTypes.THEATER_DESC2_SC_REQUIRED
-  ).notEmpty(),
-  check(
-    'theaterTraffic_en',
-    aboutResponseTypes.THEATER_DESC2_EN_REQUIRED
-  ).notEmpty(),
-  check(
-    'contactWebsite',
-    aboutResponseTypes.CONTACT_WEBSITE_REQUIRED
-  ).notEmpty(),
-  check('contactTel', aboutResponseTypes.CONTACT_TEL_REQUIRED).notEmpty(),
-  check('contactFax', aboutResponseTypes.CONTACT_FAX_REQUIRED).notEmpty(),
-  check('contactEmail', aboutResponseTypes.CONTACT_EMAIL_REQUIRED).notEmpty(),
   check('adminTitle_tc', aboutResponseTypes.ADMIN_TITLE_TC_REQUIRED).notEmpty(),
   check('adminTitle_sc', aboutResponseTypes.ADMIN_TITLE_SC_REQUIRED).notEmpty(),
   check('adminTitle_en', aboutResponseTypes.ADMIN_TITLE_EN_REQUIRED).notEmpty(),
@@ -98,10 +66,55 @@ const aboutValidationChecks = [
   check('adminName_en', aboutResponseTypes.ADMIN_NAME_EN_REQUIRED).notEmpty()
 ];
 
+const aboutAdminsValidation = admins => {
+  for (const admin of getArraySafe(admins)) {
+    let errorType = null;
+
+    if (!admin.title_tc) {
+      errorType = aboutResponseTypes.ADMIN_TITLE_TC_REQUIRED;
+    } else if (!admin.title_sc) {
+      errorType = aboutResponseTypes.ADMIN_TITLE_SC_REQUIRED;
+    } else if (!admin.title_en) {
+      errorType = aboutResponseTypes.ADMIN_TITLE_EN_REQUIRED;
+    } else if (!admin.name_tc) {
+      errorType = aboutResponseTypes.ADMIN_NAME_TC_REQUIRED;
+    } else if (!admin.name_sc) {
+      errorType = aboutResponseTypes.ADMIN_NAME_SC_REQUIRED;
+    } else if (!admin.name_en) {
+      errorType = aboutResponseTypes.ADMIN_NAME_EN_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
+const handleAboutRelationshipsValidationError = (errorType, res) => {
+  // 400 bad request
+  res.status(400).json({
+    errors: [errorType]
+  });
+};
+
+const aboutRelationshipsValidation = (admins, res) => {
+  let errorType = null;
+
+  errorType = aboutAdminsValidation(admins);
+  if (errorType) {
+    handleAboutRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  return true;
+};
+
 /* end of utilities */
 
 // @route   GET api/backend/about/about
-// @desc    Get Global Constants
+// @desc    Get About
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
@@ -110,7 +123,7 @@ router.get('/', auth, async (req, res) => {
       .populate(aboutPopulationList);
     if (!about) {
       return res.status(404).json({
-        errors: [aboutResponseTypes.ABOUT_PAGE_NOT_EXISTS]
+        errors: [aboutResponseTypes.ABOUT_NOT_EXISTS]
       });
     }
     res.json(about);
@@ -118,35 +131,36 @@ router.get('/', auth, async (req, res) => {
     console.error(err);
     //generalErrorHandle(err, res);
     return res.status(404).json({
-      errors: [aboutResponseTypes.ABOUT_PAGE_NOT_EXISTS]
+      errors: [aboutResponseTypes.ABOUT_NOT_EXISTS]
     });
   }
 });
 
 // @route   POST api/backend/about/about
-// @desc    Add or update Global Constants
+// @desc    Add or update About
 // @access  Private
 router.post(
   '/',
   [auth, aboutValidationChecks, validationHandling],
   async (req, res) => {
     const {
-      barwo_tc,
-      barwo_sc,
-      barwo_en,
-      plan_tc,
-      plan_sc,
-      plan_en,
-      plan_gallery,
-      theaterLocation_tc,
-      theaterLocation_sc,
-      theaterLocation_en,
-      theaterDesc1_tc,
-      theaterDesc1_sc,
-      theaterDesc1_en,
-      theaterDesc2_tc,
-      theaterDesc2_sc,
-      theaterDesc2_en,
+      barwoDesc_tc,
+      barwoDesc_sc,
+      barwoDesc_en,
+      planDesc_tc,
+      planDesc_sc,
+      planDesc_en,
+      planGallery,
+      theaterImage,
+      theaterLocationName_tc,
+      theaterLocationName_sc,
+      theaterLocationName_en,
+      theaterLocationDesc1_tc,
+      theaterLocationDesc1_sc,
+      theaterLocationDesc1_en,
+      theaterLocationDesc2_tc,
+      theaterLocationDesc2_sc,
+      theaterLocationDesc2_en,
       theaterTraffic_tc,
       theaterTraffic_sc,
       theaterTraffic_en,
@@ -154,37 +168,40 @@ router.post(
       contactTel,
       contactFax,
       contactEmail,
-      theaterImage,
-      adminTitle_tc,
-      adminTitle_sc,
-      adminTitle_en,
-      adminName_tc,
-      adminName_sc,
-      adminName_en
+      admins
     } = req.body;
 
-    // Build global constants object
+    // customed validations
+    let isSuccess = aboutRelationshipsValidation(admins, res);
+    if (!isSuccess) {
+      return;
+    }
+
+    // Build about object
     // Note:
     // non-required fields do not need null check
     const aboutFields = {};
-    aboutFields.barwo_tc = barwo_tc;
-    aboutFields.barwo_sc = barwo_sc;
-    aboutFields.barwo_en = barwo_en;
+    if (barwoDesc_tc) aboutFields.barwoDesc_tc = barwoDesc_tc;
+    if (barwoDesc_sc) aboutFields.barwoDesc_sc = barwoDesc_sc;
+    if (barwoDesc_en) aboutFields.barwoDesc_en = barwoDesc_en;
 
-    aboutFields.plan_tc = plan_tc;
-    aboutFields.plan_sc = plan_sc;
-    aboutFields.plan_en = plan_en;
-    aboutFields.plan_gallery = plan_gallery;
+    if (planDesc_tc) aboutFields.planDesc_tc = planDesc_tc;
+    if (planDesc_sc) aboutFields.planDesc_sc = planDesc_sc;
+    if (planDesc_en) aboutFields.planDesc_en = planDesc_en;
+    aboutFields.planGallery = getArraySafe(planGallery);
 
-    aboutFields.theaterLocation_tc = theaterLocation_tc;
-    aboutFields.theaterLocation_sc = theaterLocation_sc;
-    aboutFields.theaterLocation_en = theaterLocation_en;
-    aboutFields.theaterDesc1_tc = theaterDesc1_tc;
-    aboutFields.theaterDesc1_sc = theaterDesc1_sc;
-    aboutFields.theaterDesc1_en = theaterDesc1_en;
-    aboutFields.theaterDesc2_tc = theaterDesc2_tc;
-    aboutFields.theaterDesc2_sc = theaterDesc2_sc;
-    aboutFields.theaterDesc2_en = theaterDesc2_en;
+    if (theaterLocationName_tc)
+      aboutFields.theaterLocationName_tc = theaterLocationName_tc;
+    if (theaterLocationName_sc)
+      aboutFields.theaterLocationName_sc = theaterLocationName_sc;
+    if (theaterLocationName_en)
+      aboutFields.theaterLocationName_en = theaterLocationName_en;
+    aboutFields.theaterLocationDesc1_tc = theaterLocationDesc1_tc;
+    aboutFields.theaterLocationDesc1_sc = theaterLocationDesc1_sc;
+    aboutFields.theaterLocationDesc1_en = theaterLocationDesc1_en;
+    aboutFields.theaterLocationDesc2_tc = theaterLocationDesc2_tc;
+    aboutFields.theaterLocationDesc2_sc = theaterLocationDesc2_sc;
+    aboutFields.theaterLocationDesc2_en = theaterLocationDesc2_en;
     aboutFields.theaterTraffic_tc = theaterTraffic_tc;
     aboutFields.theaterTraffic_sc = theaterTraffic_sc;
     aboutFields.theaterTraffic_en = theaterTraffic_en;
@@ -194,12 +211,7 @@ router.post(
     aboutFields.contactEmail = contactEmail;
     aboutFields.theaterImage = theaterImage;
 
-    aboutFields.adminTitle_tc = adminTitle_tc;
-    aboutFields.adminTitle_sc = adminTitle_sc;
-    aboutFields.adminTitle_en = adminTitle_en;
-    aboutFields.adminName_tc = adminName_tc;
-    aboutFields.adminName_sc = adminName_sc;
-    aboutFields.adminName_en = adminName_en;
+    aboutFields.admins = getArraySafe(admins);
 
     aboutFields.lastModifyDT = new Date();
     aboutFields.lastModifyUser = req.user._id;

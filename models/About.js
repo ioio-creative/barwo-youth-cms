@@ -1,120 +1,120 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const AboutAdminSchema = mongoose.Schema({
+  title_tc: {
+    type: String,
+    require: true
+  },
+  title_sc: {
+    type: String,
+    require: true
+  },
+  title_en: {
+    type: String,
+    require: true
+  },
+  name_tc: {
+    type: String,
+    require: true
+  },
+  name_sc: {
+    type: String,
+    require: true
+  },
+  name_en: {
+    type: String,
+    require: true
+  }
+});
+
 const AboutSchema = mongoose.Schema({
-  barwo_tc: {
-    type: String,
-    required: true
-  },
-  barwo_sc: {
+  barwoDesc_tc: {
     type: String,
     require: true
   },
-  barwo_en: {
+  barwoDesc_sc: {
     type: String,
     require: true
   },
-  plan_tc: {
-    type: String,
-    required: true
-  },
-  plan_sc: {
+  barwoDesc_en: {
     type: String,
     require: true
   },
-  plan_en: {
+  planDesc_tc: {
     type: String,
     require: true
   },
-  plan_gallery: [
+  planDesc_sc: {
+    type: String,
+    require: true
+  },
+  planDesc_en: {
+    type: String,
+    require: true
+  },
+  planGallery: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'medium'
     }
   ],
-  theaterLocation_tc: {
-    type: String,
-    required: true
-  },
-  theaterLocation_sc: {
-    type: String,
-    require: true
-  },
-  theaterLocation_en: {
-    type: String,
-    require: true
-  },
-  theaterDesc1_tc: {
-    type: String,
-    required: true
-  },
-  theaterDesc1_sc: {
-    type: String,
-    require: true
-  },
-  theaterDesc1_en: {
-    type: String,
-    require: true
-  },
-  theaterDesc2_tc: {
-    type: String,
-    required: true
-  },
-  theaterDesc2_sc: {
-    type: String,
-    require: true
-  },
-  theaterDesc2_en: {
-    type: String,
-    require: true
-  },
-  theaterTraffic_tc: {
-    type: String,
-    required: true
-  },
-  theaterTraffic_sc: {
-    type: String,
-    require: true
-  },
-  theaterTraffic_en: {
-    type: String,
-    require: true
-  },
-  contactWebsite: {
-    type: String,
-    require: true
-  },
-  contactTel: {
-    type: String,
-    require: true
-  },
-  contactFax: {
-    type: String,
-    require: true
-  },
-  contactEmail: {
-    type: String,
-    require: true
-  },
   theaterImage: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'medium'
   },
-  adminTitle_tc: {
+  theaterLocationName_tc: {
     type: String,
     require: true
   },
-  adminName_tc: { type: String, require: true },
-  adminTitle_sc: {
+  theaterLocationName_sc: {
     type: String,
     require: true
   },
-  adminName_sc: { type: String, require: true },
-  adminTitle_en: {
+  theaterLocationName_en: {
     type: String,
     require: true
   },
-  adminName_en: { type: String, require: true },
+  theaterLocationDesc1_tc: {
+    type: String
+  },
+  theaterLocationDesc1_sc: {
+    type: String
+  },
+  theaterLocationDesc1_en: {
+    type: String
+  },
+  theaterLocationDesc2_tc: {
+    type: String
+  },
+  theaterLocationDesc2_sc: {
+    type: String
+  },
+  theaterLocationDesc2_en: {
+    type: String
+  },
+  theaterTraffic_tc: {
+    type: String
+  },
+  theaterTraffic_sc: {
+    type: String
+  },
+  theaterTraffic_en: {
+    type: String
+  },
+  contactWebsite: {
+    type: String
+  },
+  contactTel: {
+    type: String
+  },
+  contactFax: {
+    type: String
+  },
+  contactEmail: {
+    type: String
+  },
+  admins: [AboutAdminSchema],
 
   isEnabled: {
     type: Boolean,
@@ -135,35 +135,22 @@ AboutSchema.plugin(mongoosePaginate);
 module.exports.About = mongoose.model('about', AboutSchema);
 
 module.exports.aboutResponseTypes = {
-  BARWO_TC_REQUIRED: 'BARWO_TC_REQUIRED',
-  BARWO_SC_REQUIRED: 'BARWO_SC_REQUIRED',
-  BARWO_EN_REQUIRED: 'BARWO_EN_REQUIRED',
-  PLAN_TC_REQUIRED: 'PLAN_TC_REQUIRED',
-  PLAN_SC_REQUIRED: 'PLAN_SC_REQUIRED',
-  PLAN_EN_REQUIRED: 'PLAN_EN_REQUIRED',
-  THEATER_LOCATION_TC_REQUIRED: 'THEATER_LOCATION_TC_REQUIRED',
-  THEATER_LOCATION_SC_REQUIRED: 'THEATER_LOCATION_SC_REQUIRED',
-  THEATER_LOCATION_EN_REQUIRED: 'THEATER_LOCATION_EN_REQUIRED',
-  THEATER_TRAFFIC_TC_REQUIRED: 'THEATER_TRAFFIC_TC_REQUIRED',
-  THEATER_TRAFFIC_SC_REQUIRED: 'THEATER_TRAFFIC_SC_REQUIRED',
-  THEATER_TRAFFIC_EN_REQUIRED: 'THEATER_TRAFFIC_EN_REQUIRED',
-  THEATER_DESC1_TC_REQUIRED: 'THEATER_DESC1_TC_REQUIRED',
-  THEATER_DESC1_SC_REQUIRED: 'THEATER_DESC1_SC_REQUIRED',
-  THEATER_DESC1_EN_REQUIRED: 'THEATER_DESC1_EN_REQUIRED',
-  THEATER_DESC2_TC_REQUIRED: 'THEATER_DESC2_TC_REQUIRED',
-  THEATER_DESC2_SC_REQUIRED: 'THEATER_DESC2_SC_REQUIRED',
-  THEATER_DESC2_EN_REQUIRED: 'THEATER_DESC2_EN_REQUIRED',
-  CONTACT_WEBSITE_REQUIRED: 'CONTACT_WEBSITE_REQUIRED',
-  CONTACT_TEL_REQUIRED: 'CONTACT_TEL_REQUIRED',
-  CONTACT_FAX_REQUIRED: 'CONTACT_FAX_REQUIRED',
-  CONTACT_EMAIL_REQUIRED: 'CONTACT_EMAIL_REQUIRED',
+  BARWO_DESC_TC_REQUIRED: 'BARWO_DESC_TC_REQUIRED',
+  BARWO_DESC_SC_REQUIRED: 'BARWO_DESC_SC_REQUIRED',
+  BARWO_DESC_EN_REQUIRED: 'BARWO_DESC_EN_REQUIRED',
+  PLAN_DESC_TC_REQUIRED: 'PLAN_DESC_TC_REQUIRED',
+  PLAN_DESC_SC_REQUIRED: 'PLAN_DESC_SC_REQUIRED',
+  PLAN_DESC_EN_REQUIRED: 'PLAN_DESC_EN_REQUIRED',
+  THEATER_LOCATION_NAME_TC_REQUIRED: 'THEATER_LOCATION_NAME_TC_REQUIRED',
+  THEATER_LOCATION_NAME_SC_REQUIRED: 'THEATER_LOCATION_NAME_SC_REQUIRED',
+  THEATER_LOCATION_NAME_EN_REQUIRED: 'THEATER_LOCATION_NAME_EN_REQUIRED',
   ADMIN_TITLE_TC_REQUIRED: 'ADMIN_TITLE_TC_REQUIRED',
-  ADMIN_NAME_TC_REQUIRED: 'ADMIN_NAME_TC_REQUIRED',
   ADMIN_TITLE_SC_REQUIRED: 'ADMIN_TITLE_SC_REQUIRED',
-  ADMIN_NAME_SC_REQUIRED: 'ADMIN_NAME_SC_REQUIRED',
   ADMIN_TITLE_EN_REQUIRED: 'ADMIN_TITLE_EN_REQUIRED',
+  ADMIN_NAME_TC_REQUIRED: 'ADMIN_NAME_TC_REQUIRED',
+  ADMIN_NAME_SC_REQUIRED: 'ADMIN_NAME_SC_REQUIRED',
   ADMIN_NAME_EN_REQUIRED: 'ADMIN_NAME_EN_REQUIRED',
 
   // db check
-  ABOUT_PAGE_NOT_EXISTS: 'ABOUT_PAGE_NOT_EXISTS'
+  ABOUT_NOT_EXISTS: 'ABOUT_NOT_EXISTS'
 };
