@@ -6,6 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
+const distinct = require('../../../utils/js/array/distinct');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const mapAndSortPhases = require('../../../utils/phases/mapAndSortPhases');
 const { Phase } = require('../../../models/Phase');
@@ -127,7 +128,7 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
 
     //console.log(safePhases[0].events);
 
-    const years = [...new Set(safePhases.map(phase => phase.year))].sort();
+    const years = distinct(safePhases.map(phase => phase.year)).sort();
 
     const yearsForFrontEnd = [];
 

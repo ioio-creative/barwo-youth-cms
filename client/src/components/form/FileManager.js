@@ -281,6 +281,7 @@ const FileManager = ({ onSelect }) => {
   }, []);
   const handleUpload = useCallback(
     files => {
+      // TODO: can limit number of files and file size here
       const newQueue = Array.from(files).map(file => (
         <UploadingElement
           key={Date.now()}

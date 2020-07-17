@@ -378,6 +378,7 @@ const globalConstantsValidationChecks = [
     'total1_en',
     globalConstantsResponseTypes.TOTAL1_EN_REQUIRED
   ).notEmpty(),
+
   check(
     'total2_tc',
     globalConstantsResponseTypes.TOTAL2_TC_REQUIRED
@@ -390,12 +391,15 @@ const globalConstantsValidationChecks = [
     'total2_en',
     globalConstantsResponseTypes.TOTAL2_EN_REQUIRED
   ).notEmpty(),
+
   check('about_tc', globalConstantsResponseTypes.ABOUT_TC_REQUIRED).notEmpty(),
   check('about_sc', globalConstantsResponseTypes.ABOUT_SC_REQUIRED).notEmpty(),
   check('about_en', globalConstantsResponseTypes.ABOUT_EN_REQUIRED).notEmpty(),
+
   check('map_tc', globalConstantsResponseTypes.MAP_TC_REQUIRED).notEmpty(),
   check('map_sc', globalConstantsResponseTypes.MAP_SC_REQUIRED).notEmpty(),
   check('map_en', globalConstantsResponseTypes.MAP_EN_REQUIRED).notEmpty(),
+
   check(
     'traffic_tc',
     globalConstantsResponseTypes.TRAFFIC_TC_REQUIRED
@@ -408,6 +412,7 @@ const globalConstantsValidationChecks = [
     'traffic_en',
     globalConstantsResponseTypes.TRAFFIC_EN_REQUIRED
   ).notEmpty(),
+
   check(
     'contact_tc',
     globalConstantsResponseTypes.CONTACT_TC_REQUIRED
@@ -420,6 +425,7 @@ const globalConstantsValidationChecks = [
     'contact_en',
     globalConstantsResponseTypes.CONTACT_EN_REQUIRED
   ).notEmpty(),
+
   check(
     'website_tc',
     globalConstantsResponseTypes.WEBSITE_TC_REQUIRED
@@ -432,12 +438,15 @@ const globalConstantsValidationChecks = [
     'website_en',
     globalConstantsResponseTypes.WEBSITE_EN_REQUIRED
   ).notEmpty(),
+
   check('tel_tc', globalConstantsResponseTypes.TEL_TC_REQUIRED).notEmpty(),
   check('tel_sc', globalConstantsResponseTypes.TEL_SC_REQUIRED).notEmpty(),
   check('tel_en', globalConstantsResponseTypes.TEL_EN_REQUIRED).notEmpty(),
+
   check('fax_tc', globalConstantsResponseTypes.FAX_TC_REQUIRED).notEmpty(),
   check('fax_sc', globalConstantsResponseTypes.FAX_SC_REQUIRED).notEmpty(),
   check('fax_en', globalConstantsResponseTypes.FAX_EN_REQUIRED).notEmpty(),
+
   check('email_tc', globalConstantsResponseTypes.EMAIL_TC_REQUIRED).notEmpty(),
   check('email_sc', globalConstantsResponseTypes.EMAIL_SC_REQUIRED).notEmpty(),
   check('email_en', globalConstantsResponseTypes.EMAIL_EN_REQUIRED).notEmpty()

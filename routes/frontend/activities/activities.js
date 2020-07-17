@@ -7,6 +7,7 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivities');
+const distinct = require('../../../utils/js/array/distinct');
 const { mediumLinkTypes } = require('../../../types/mediumLink');
 const { Activity } = require('../../../models/Activity');
 
@@ -93,11 +94,30 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
       .select(activitySelectForFindAll)
       .populate(activityPopulationListForFindAll);
 
-    const { sortedActivities } = mapAndSortActivities(activities, activity => {
-      return getActivityForFrontEndFromDbActivity(activity, language);
-    });
+    const safeActivities = getArraySafe(activities);
+    const types = distinct(safeActivities.map(activity => activity.type));
+    const typesForFrontEnd = [];
 
-    res.json(sortedActivities);
+    for (const type of types) {
+      const activitiesOfType = safeActivities.filter(
+        activity => activity.type === type
+      );
+
+      // set activitiesOfTypeForFrontEnd
+      const { sortedActivities } = mapAndSortActivities(
+        activitiesOfType,
+        activity => {
+          return getActivityForFrontEndFromDbActivity(activity, language);
+        }
+      );
+
+      typesForFrontEnd.push({
+        type,
+        activities: sortedActivities
+      });
+    }
+
+    res.json(typesForFrontEnd);
   } catch (err) {
     generalErrorHandle(err, res);
   }

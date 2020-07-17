@@ -145,7 +145,15 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         language
       ),
       total1: getEntityPropByLanguage(globalConstants, 'total1', language),
-      total2: getEntityPropByLanguage(globalConstants, 'total2', language)
+      total2: getEntityPropByLanguage(globalConstants, 'total2', language),
+      about: getEntityPropByLanguage(globalConstants, 'about', language),
+      map: getEntityPropByLanguage(globalConstants, 'map', language),
+      traffic: getEntityPropByLanguage(globalConstants, 'traffic', language),
+      contact: getEntityPropByLanguage(globalConstants, 'contact', language),
+      website: getEntityPropByLanguage(globalConstants, 'website', language),
+      tel: getEntityPropByLanguage(globalConstants, 'tel', language),
+      fax: getEntityPropByLanguage(globalConstants, 'fax', language),
+      email: getEntityPropByLanguage(globalConstants, 'email', language)
     };
     res.json(globalConstantsForFrontEnd);
   } catch (err) {
