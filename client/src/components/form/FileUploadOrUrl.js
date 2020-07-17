@@ -2,23 +2,12 @@ import React, { useCallback } from 'react';
 import FileUpload from 'components/form/FileUpload';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import uiWordings from 'globals/uiWordings';
+import {
+  mediumLinkTypes,
+  mediumLinkTypeOptions,
+  defaultMediumLinkType
+} from 'types/mediumLink';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
-
-const fileUploadOrUrlTypes = {
-  MEDIUM: {
-    value: 'MEDIUM',
-    label: uiWordings['FileUploadOrUrl.Types.Medium.Label']
-  },
-  URL: {
-    value: 'URL',
-    label: uiWordings['FileUploadOrUrl.Types.Url.Label']
-  }
-};
-
-const fileUploadOrUrlTypeOptions = Object.values(fileUploadOrUrlTypes);
-
-const defaultFileUploadOrUrlType = fileUploadOrUrlTypes.MEDIUM;
 
 const FileUploadOrUrl = ({
   nameTcLabelMessage,
@@ -44,7 +33,7 @@ const FileUploadOrUrl = ({
     url_en
   } = data;
 
-  type = type || defaultFileUploadOrUrlType.value;
+  type = type || defaultMediumLinkType.value;
   data.type = type;
 
   /* event handlers */
@@ -78,7 +67,7 @@ const FileUploadOrUrl = ({
       <LabelSelectPair
         name='type'
         value={type}
-        options={fileUploadOrUrlTypeOptions}
+        options={mediumLinkTypeOptions}
         labelMessage={selectLabelMessage}
         onChange={handleChange}
       />
@@ -105,7 +94,7 @@ const FileUploadOrUrl = ({
         onChange={handleChange}
       />
 
-      {type === fileUploadOrUrlTypes.MEDIUM.value && (
+      {type === mediumLinkTypes.MEDIUM.value && (
         <FileUpload
           name='medium'
           labelMessage={mediumLabelMessage}
@@ -116,7 +105,7 @@ const FileUploadOrUrl = ({
         />
       )}
 
-      {type === fileUploadOrUrlTypes.URL.value && (
+      {type === mediumLinkTypes.URL.value && (
         <>
           <LabelInputTextPair
             name='url_tc'
@@ -146,5 +135,3 @@ const FileUploadOrUrl = ({
 };
 
 export default FileUploadOrUrl;
-
-export { fileUploadOrUrlTypes };
