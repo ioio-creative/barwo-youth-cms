@@ -1,4 +1,6 @@
+import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
+import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function SendHistory() {
   this.title_tc = '';
@@ -7,6 +9,8 @@ function SendHistory() {
   this.message_sc = '';
   this.title_en = '';
   this.message_en = '';
+  this.sendDT = null;
+  this.sender = null;
 }
 
 SendHistory.sendHistoryResponseTypes = {
@@ -50,6 +54,23 @@ SendHistory.sendHistoryResponseTypes = {
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
   CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
+
+SendHistory.getSendHistoryForDisplay = sendHistory => {
+  return {
+    ...sendHistory,
+    sendDTDisplay: formatDateTimeString(sendHistory.sendDT),
+    senderDisplay: sendHistory.sender ? sendHistory.lastModifyUser.name : '',
+    isEnabledDisplay: sendHistory.isEnabled.toString()
+  };
+};
+
+const displayFieldNames = [
+  'sendDTDisplay',
+  'senderDisplay',
+  'isEnabledDisplay'
+];
+
+SendHistory.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
 
 /* end of statics */
 

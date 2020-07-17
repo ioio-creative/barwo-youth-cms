@@ -106,6 +106,13 @@ export default {
   newsletterAdd: function (isLink) {
     return '/newsletterAdd';
   },
+  sendHistoryList: function (isLink) {
+    return '/sendHistoryList';
+  },
+  sendHistoryViewById: '/sendHistoryView/:sendHistoryId',
+  sendHistoryEditByIdWithValue: function (isLink, sendHistoryId) {
+    return '/sendHistoryView/' + sendHistoryId;
+  },
 
   fileManager: '/fileManager/:fileType/:additionalCallbackParam?',
   fileManagerForImages: function (isLink) {

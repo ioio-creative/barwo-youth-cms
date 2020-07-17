@@ -4,7 +4,7 @@ const config = require('config');
 const em = config.get('Email.smtp');
 const nodemailer = require('nodemailer');
 const { check } = require('express-validator');
-
+const listPathHandling = require('../../../middleware/listingPathHandling');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
@@ -42,6 +42,19 @@ const newsletterPopulationListForFindAll = [
 
 const newsletterPopulationListForFindOne = [
   ...newsletterPopulationListForFindAll
+];
+
+const sendHistorySelectForFindAll = {
+  // eventsDirected: 0,
+  // eventsPerformed: 0
+};
+const sendHistorySelectForFindOne = { ...sendHistorySelectForFindAll };
+
+const sendHistoryPopulationListForFindAll = [
+  {
+    path: 'sender',
+    select: 'name'
+  }
 ];
 
 const sendHistoryValidationChecks = [
@@ -135,7 +148,8 @@ router.post(
         title_en,
         message_tc,
         message_sc,
-        message_en
+        message_en,
+        sender: req.user._id
       });
       await Promise.all(
         contacts.docs.map(async contact => {
@@ -172,5 +186,60 @@ router.post(
     }
   }
 );
+
+// @desc    Get sendHistories
+// @access  Private
+router.get('/', [auth, listPathHandling], async (req, res) => {
+  try {
+    const options = {
+      ...req.paginationOptions,
+      select: sendHistorySelectForFindAll,
+      populate: sendHistoryPopulationListForFindAll
+    };
+
+    let findOptions = {};
+    const filterTextRegex = req.filterTextRegex;
+    if (filterTextRegex) {
+      // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
+      findOptions = {
+        ...findOptions,
+        $or: [
+          { label: filterTextRegex },
+          { title_tc: filterTextRegex },
+          { title_sc: filterTextRegex },
+          { title_en: filterTextRegex }
+        ]
+      };
+    }
+
+    // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
+    const sendHistories = await Newsletter.paginate(findOptions, options);
+    res.json(sendHistories);
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
+
+// @desc    Get sendHistory by id
+// @access  Private
+router.get('/:_id', auth, async (req, res) => {
+  try {
+    const sendHistory = await Newsletter.findById(req.params._id)
+      .select(sendHistorySelectForFindOne)
+      .populate(sendHistoryPopulationListForFindOne);
+    if (!sendHistory) {
+      return res
+        .status(404)
+        .json({ errors: [sendHistoryResponseTypes.NEWSLETTER_NOT_EXISTS] });
+    }
+    res.json(sendHistory);
+  } catch (err) {
+    console.error(err);
+    //generalErrorHandle(err, res);
+    return res
+      .status(404)
+      .json({ errors: [sendHistoryResponseTypes.NEWSLETTER_NOT_EXISTS] });
+  }
+});
 
 module.exports = router;

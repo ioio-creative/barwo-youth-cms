@@ -175,9 +175,9 @@ const NewsletterEdit = _ => {
       let returnedNewsletter = null;
       if (isSuccess) {
         const funcToCall = isAddMode ? addNewsletter : updateNewsletter;
-        console.log('debug');
+        // console.log('debug');
         returnedNewsletter = await funcToCall(newsletter);
-        console.log(returnedNewsletter);
+        // console.log(returnedNewsletter);
         isSuccess = Boolean(returnedNewsletter);
       }
       if (isSuccess) {
@@ -307,10 +307,10 @@ const NewsletterEdit = _ => {
 
         {!isAddMode && (
           <>
-            <LabelLabelPair
+            {/* <LabelLabelPair
               value={newsletter.createDTDisplay}
               labelMessage={uiWordings['Newsletter.CreateDTLabel']}
-            />
+            /> */}
             <LabelLabelPair
               value={newsletter.lastModifyDTDisplay}
               labelMessage={uiWordings['Newsletter.LastModifyDTLabel']}

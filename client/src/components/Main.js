@@ -82,6 +82,12 @@ const AsyncNewsletterEdit = asyncLoadingComponent(_ =>
 const AsyncAboutEdit = asyncLoadingComponent(_ =>
   import('components/pages/AboutEdit')
 );
+const AsyncSendHistoryList = asyncLoadingComponent(_ =>
+  import('components/pages/SendHistoryList')
+);
+const AsyncSendHistoryView = asyncLoadingComponent(_ =>
+  import('components/pages/SendHistoryView')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -182,6 +188,19 @@ const Main = _ => {
               <Route
                 path={routes.newsletterEditById}
                 component={AsyncNewsletterEdit}
+              />
+              <Route
+                path={routes.newsletterAdd(false)}
+                component={AsyncNewsletterEdit}
+              />
+
+              <Route
+                path={routes.sendHistoryList(false)}
+                component={AsyncSendHistoryList}
+              />
+              <Route
+                path={routes.sendHistoryViewById}
+                component={AsyncSendHistoryView}
               />
               <Route
                 path={routes.newsletterAdd(false)}

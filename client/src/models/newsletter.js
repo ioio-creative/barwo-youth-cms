@@ -69,7 +69,6 @@ Newsletter.getNewsletterForDisplay = newsletter => {
 };
 
 const displayFieldNames = [
-  'typeDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',
   'isEnabledDisplay'

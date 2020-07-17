@@ -455,6 +455,7 @@ export default {
   'Newsletter.IsEnabledLabel': 'Is Enabled ?',
 
   'NewsletterList.AddNewsletter': 'Add Newsletter',
+  'NewsletterList.SendHistoryList': 'Send History List',
   'NewsletterList.FilterTextPlaceHolder': 'Filter Newsletters by name...',
   'NewsletterList.FilterButton': 'Filter',
   'NewsletterList.ClearFilterButton': 'Clear Filter',
