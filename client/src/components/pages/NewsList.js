@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useCallback, useMemo } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
-import NewslettersContext from 'contexts/newsletters/newslettersContext';
-import NewslettersPageContainer from 'components/newsletters/NewslettersPageContainer';
+import NewsesContext from 'contexts/newses/newsesContext';
+import NewsesPageContainer from 'components/newses/NewsesPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table/Table';
 import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
@@ -15,7 +15,7 @@ import { goToUrl } from 'utils/history';
 import addIdx from 'utils/js/array/addIdx';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
-import Newsletter from 'models/newsletter';
+import News from 'models/news';
 import Alert from 'models/alert';
 
 const defaultInitialSortBy = 'label';
@@ -28,67 +28,72 @@ const headers = [
     isSortEnabled: false
   },
   {
-    name: uiWordings['Newsletter.LabelLabel'],
+    name: uiWordings['News.LabelLabel'],
     value: 'label',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Newsletter.TitleTcLabel'],
-    value: 'title_tc',
-    isSortEnabled: true
-  },
-  {
-    name: uiWordings['Newsletter.TitleScLabel'],
-    value: 'title_sc',
-    isSortEnabled: true
-  },
-  {
-    name: uiWordings['Newsletter.TitleEnLabel'],
-    value: 'title_en',
+    name: uiWordings['News.NameTcLabel'],
+    value: 'name_tc',
     isSortEnabled: true
   },
   // {
-  //   name: uiWordings['Newsletter.MessageTcLabel'],
-  //   value: 'message_tc',
+  //   name: uiWordings['News.NameScLabel'],
+  //   value: 'name_sc',
   //   isSortEnabled: true
   // },
   // {
-  //   name: uiWordings['Newsletter.MessageScLabel'],
-  //   value: 'message_sc',
+  //   name: uiWordings['News.NameEnLabel'],
+  //   value: 'name_en',
   //   isSortEnabled: true
   // },
   // {
-  //   name: uiWordings['Newsletter.MessageEnLabel'],
-  //   value: 'message_en',
+  //   name: uiWordings['News.DescTcLabel'],
+  //   value: 'desc_tc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['News.DescScLabel'],
+  //   value: 'desc_sc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['News.DescEnLabel'],
+  //   value: 'desc_en',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['News.CreateDTLabel'],
+  //   value: 'createDTDisplay',
   //   isSortEnabled: true
   // },
   {
-    name: uiWordings['Newsletter.LastModifyDTLabel'],
+    name: uiWordings['News.LastModifyDTLabel'],
     value: 'lastModifyDTDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Newsletter.LastModifyUserLabel'],
+    name: uiWordings['News.LastModifyUserLabel'],
     value: 'lastModifyUserDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Newsletter.IsEnabledLabel'],
+    name: uiWordings['News.IsEnabledLabel'],
     value: 'isEnabledDisplay',
     isSortEnabled: true
   }
 ];
 
-const NewsletterList = _ => {
+const NewsList = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
-    newsletters,
-    newslettersPaginationMeta,
-    newslettersLoading,
-    newslettersErrors,
-    clearNewslettersErrors,
-    getNewsletters
-  } = useContext(NewslettersContext);
+    newses,
+    newsesPaginationMeta,
+    newsesLoading,
+    newsesErrors,
+    clearNewsesErrors,
+    getNewses
+  } = useContext(NewsesContext);
   const {
     // qsPage: { qsPage, setQsPage },
     // qsSortOrder: { qsSortOrder, setQsSortOrder },
@@ -101,7 +106,7 @@ const NewsletterList = _ => {
   } = usePaginationAndSortForTable(
     defaultInitialSortBy,
     defaultInitialSortOrder,
-    Newsletter.cleanSortByString
+    News.cleanSortByString
   );
   const {
     isUseFilter,
@@ -124,15 +129,15 @@ const NewsletterList = _ => {
     []
   );
 
-  // set query string and getNewsletters
+  // set query string and getNewses
   useEffect(
     _ => {
-      getNewsletters(prepareGetOptionsForPaginationAndSort());
+      getNewses(prepareGetOptionsForPaginationAndSort());
     },
-    [prepareGetOptionsForPaginationAndSort, getNewsletters]
+    [prepareGetOptionsForPaginationAndSort, getNewses]
   );
 
-  // filter and getNewsletters
+  // filter and getNewses
   useEffect(
     _ => {
       if (isUseFilter) {
@@ -140,7 +145,7 @@ const NewsletterList = _ => {
           ...prepareGetOptionsForPaginationAndSort(),
           ...prepareGetOptionsForFilter()
         };
-        getNewsletters(getOptions);
+        getNewses(getOptions);
         setIsUseFilter(false);
       }
     },
@@ -149,32 +154,32 @@ const NewsletterList = _ => {
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,
       prepareGetOptionsForFilter,
-      getNewsletters
+      getNewses
     ]
   );
 
-  // newslettersErrors
+  // newsesErrors
   useEffect(
     _ => {
-      if (isNonEmptyArray(newslettersErrors)) {
+      if (isNonEmptyArray(newsesErrors)) {
         setAlerts(
-          newslettersErrors.map(newsletterError => {
+          newsesErrors.map(newsesError => {
             return new Alert(
-              Newsletter.newsletterResponseTypes[newsletterError].msg,
+              News.newsesResponseTypes[newsesError].msg,
               Alert.alertTypes.WARNING
             );
           })
         );
-        clearNewslettersErrors();
+        clearNewsesErrors();
       }
     },
-    [newslettersErrors, setAlerts, clearNewslettersErrors]
+    [newsesErrors, setAlerts, clearNewsesErrors]
   );
 
   /* event handlers */
 
-  const onEdit = useCallback(newsletter => {
-    goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
+  const onEdit = useCallback(news => {
+    goToUrl(routes.newsEditByIdWithValue(true, news._id));
   }, []);
 
   const onFilterChange = useCallback(
@@ -188,14 +193,12 @@ const NewsletterList = _ => {
 
   const rows = useMemo(
     _ => {
-      return addIdx(
-        getArraySafe(newsletters).map(Newsletter.getNewsletterForDisplay)
-      );
+      return addIdx(getArraySafe(newses).map(News.getNewsForDisplay));
     },
-    [newsletters]
+    [newses]
   );
 
-  if (newsletters === null || newslettersLoading) {
+  if (newses === null || newsesLoading) {
     return <Loading />;
   }
 
@@ -206,7 +209,7 @@ const NewsletterList = _ => {
           <InputText
             name='filterText'
             className='w3-section'
-            placeholder={uiWordings['NewsletterList.FilterTextPlaceHolder']}
+            placeholder={uiWordings['NewsList.FilterTextPlaceHolder']}
             onChange={onFilterChange}
             value={filterText}
           />
@@ -214,26 +217,23 @@ const NewsletterList = _ => {
         <div className='w3-show-inline-block'>
           <div className='w3-bar'>
             <Button className='w3-margin-left' onClick={turnOnFilter}>
-              {uiWordings['NewsletterList.FilterButton']}
+              {uiWordings['NewsList.FilterButton']}
             </Button>
             <Button className='w3-margin-left' onClick={turnOffFilter}>
-              {uiWordings['NewsletterList.ClearFilterButton']}
+              {uiWordings['NewsList.ClearFilterButton']}
             </Button>
           </div>
         </div>
         <div className='w3-right'>
-          <LinkButton to={routes.sendHistoryList(true)}>
-            {uiWordings['NewsletterList.SendHistoryList']}
-          </LinkButton>
-          <LinkButton to={routes.newsletterAdd(true)}>
-            {uiWordings['NewsletterList.AddNewsletter']}
+          <LinkButton to={routes.newsAdd(true)}>
+            {uiWordings['NewsList.AddNews']}
           </LinkButton>
         </div>
       </Form>
       <Table
         headers={headers}
         rows={rows}
-        paginationMeta={newslettersPaginationMeta}
+        paginationMeta={newsesPaginationMeta}
         sortBy={currSortParams.sortBy}
         sortOrder={currSortParams.sortOrder}
         onDetailClick={onEdit}
@@ -244,10 +244,10 @@ const NewsletterList = _ => {
   );
 };
 
-const NewsletterListWithContainer = _ => (
-  <NewslettersPageContainer>
-    <NewsletterList />
-  </NewslettersPageContainer>
+const NewsListWithContainer = _ => (
+  <NewsesPageContainer>
+    <NewsList />
+  </NewsesPageContainer>
 );
 
-export default NewsletterListWithContainer;
+export default NewsListWithContainer;

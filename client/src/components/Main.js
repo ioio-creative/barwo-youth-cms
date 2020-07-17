@@ -67,6 +67,12 @@ const AsyncActivityList = asyncLoadingComponent(_ =>
 const AsyncActivityEdit = asyncLoadingComponent(_ =>
   import('components/pages/ActivityEdit')
 );
+const AsyncNewsList = asyncLoadingComponent(_ =>
+  import('components/pages/NewsList')
+);
+const AsyncNewsEdit = asyncLoadingComponent(_ =>
+  import('components/pages/NewsEdit')
+);
 const AsyncNewsletterList = asyncLoadingComponent(_ =>
   import('components/pages/NewsletterList')
 );
@@ -75,6 +81,12 @@ const AsyncNewsletterEdit = asyncLoadingComponent(_ =>
 );
 const AsyncAboutEdit = asyncLoadingComponent(_ =>
   import('components/pages/AboutEdit')
+);
+const AsyncSendHistoryList = asyncLoadingComponent(_ =>
+  import('components/pages/SendHistoryList')
+);
+const AsyncSendHistoryView = asyncLoadingComponent(_ =>
+  import('components/pages/SendHistoryView')
 );
 
 const Main = _ => {
@@ -183,6 +195,19 @@ const Main = _ => {
               />
 
               <Route
+                path={routes.sendHistoryList(false)}
+                component={AsyncSendHistoryList}
+              />
+              <Route
+                path={routes.sendHistoryViewById}
+                component={AsyncSendHistoryView}
+              />
+              <Route
+                path={routes.newsletterAdd(false)}
+                component={AsyncNewsletterEdit}
+              />
+
+              <Route
                 path={routes.activityList(false)}
                 component={AsyncActivityList}
               />
@@ -194,6 +219,10 @@ const Main = _ => {
                 path={routes.activityAdd(false)}
                 component={AsyncActivityEdit}
               />
+
+              <Route path={routes.newsList(false)} component={AsyncNewsList} />
+              <Route path={routes.newsEditById} component={AsyncNewsEdit} />
+              <Route path={routes.newsAdd(false)} component={AsyncNewsEdit} />
 
               <Route path={routes.testing} component={AsyncTesting} />
               <Route path={routes.fileManager} component={AsyncFileManager} />

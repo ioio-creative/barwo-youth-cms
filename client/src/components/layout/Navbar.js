@@ -46,26 +46,42 @@ const Navbar = ({ className }) => {
   const isPasswordChange = useRouteMatch(routes.editPassword);
   const isUserList = useRouteMatch(routes.userList(false));
   const isUserEdit = useRouteMatch(routes.userEditById);
+  const isUserAdd = useRouteMatch(routes.userAdd(false));
+
+  const isAboutEdit = useRouteMatch(routes.aboutEdit(false));
   const isGlobalConstantsEdit = useRouteMatch(
     routes.globalConstantsEdit(false)
   );
   const isLandingPageEdit = useRouteMatch(routes.landingPageEdit(false));
+
   const isPhaseList = useRouteMatch(routes.phaseList(false));
   const isPhaseEdit = useRouteMatch(routes.phaseEditById);
+  const isPhaseAdd = useRouteMatch(routes.phaseAdd(false));
   const isEventList = useRouteMatch(routes.eventList(false));
   const isEventEdit = useRouteMatch(routes.eventEditById);
+  const isEventAdd = useRouteMatch(routes.eventAdd(false));
   const isTicketingDefaultEdit = useRouteMatch(
     routes.ticketingDefaultEdit(false)
   );
   const isArtistList = useRouteMatch(routes.artistList(false));
   const isArtistEdit = useRouteMatch(routes.artistEditById);
-  const isContactList = useRouteMatch(routes.contactList(false));
-  const isContactEdit = useRouteMatch(routes.contactEditById);
+  const isArtistAdd = useRouteMatch(routes.artistAdd(false));
+
   const isActivityList = useRouteMatch(routes.activityList(false));
   const isActivityEdit = useRouteMatch(routes.activityEditById);
-  const isAboutEdit = useRouteMatch(routes.aboutEdit(false));
+  const isActivityAdd = useRouteMatch(routes.activityAdd(false));
+  const isNewsList = useRouteMatch(routes.newsList(false));
+  const isNewsEdit = useRouteMatch(routes.newsEditById);
+  const isNewsAdd = useRouteMatch(routes.newsAdd(false));
+
+  const isContactList = useRouteMatch(routes.contactList(false));
+  const isContactEdit = useRouteMatch(routes.contactEditById);
+  const isContactAdd = useRouteMatch(routes.contactAdd(false));
+
   const isNewsletterList = useRouteMatch(routes.newsletterList(false));
   const isNewsletterEdit = useRouteMatch(routes.newsletterEditById);
+  const isNewsletterAdd = useRouteMatch(routes.newsletterAdd(false));
+
   const isTesting = useRouteMatch(routes.testing);
 
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
@@ -96,7 +112,7 @@ const Navbar = ({ className }) => {
         <NavbarLink
           className='w3-border-bottom'
           to={routes.userList(true)}
-          isSelected={isUserList || isUserEdit}
+          isSelected={isUserList || isUserEdit || isUserAdd}
         >
           {uiWordings['Navbar.Users']}
         </NavbarLink>
@@ -122,13 +138,13 @@ const Navbar = ({ className }) => {
       <NavbarLink
         className='w3-border-bottom'
         to={routes.phaseList(true)}
-        isSelected={isPhaseList || isPhaseEdit}
+        isSelected={isPhaseList || isPhaseEdit || isPhaseAdd}
       >
         {uiWordings['Navbar.Phases']}
       </NavbarLink>
       <NavbarLink
         to={routes.eventList(true)}
-        isSelected={isEventList || isEventEdit}
+        isSelected={isEventList || isEventEdit || isEventAdd}
       >
         {uiWordings['Navbar.Events']}
       </NavbarLink>
@@ -142,28 +158,34 @@ const Navbar = ({ className }) => {
       <NavbarLink
         className='w3-border-bottom'
         to={routes.artistList(true)}
-        isSelected={isArtistList || isArtistEdit}
+        isSelected={isArtistList || isArtistEdit || isArtistAdd}
       >
         {uiWordings['Navbar.Artists']}
       </NavbarLink>
       <NavbarLink
-        className='w3-border-bottom'
         to={routes.activityList(true)}
-        isSelected={isActivityList || isActivityEdit}
+        isSelected={isActivityList || isActivityEdit || isActivityAdd}
       >
         {uiWordings['Navbar.Activities']}
       </NavbarLink>
       <NavbarLink
+        className='w3-border-bottom'
+        to={routes.newsList(true)}
+        isSelected={isNewsList || isNewsEdit || isNewsAdd}
+      >
+        {uiWordings['Navbar.Newses']}
+      </NavbarLink>
+      <NavbarLink
         // className='w3-border-bottom'
         to={routes.contactList(true)}
-        isSelected={isContactList || isContactEdit}
+        isSelected={isContactList || isContactEdit || isContactAdd}
       >
         {uiWordings['Navbar.Contacts']}
       </NavbarLink>
       <NavbarLink
         className='w3-border-bottom'
         to={routes.newsletterList(true)}
-        isSelected={isNewsletterList || isNewsletterEdit}
+        isSelected={isNewsletterList || isNewsletterEdit || isNewsletterAdd}
       >
         {uiWordings['Navbar.Newsletters']}
       </NavbarLink>

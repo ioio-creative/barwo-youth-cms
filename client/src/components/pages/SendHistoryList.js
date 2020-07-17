@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useCallback, useMemo } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
-import NewslettersContext from 'contexts/newsletters/newslettersContext';
-import NewslettersPageContainer from 'components/newsletters/NewslettersPageContainer';
+import SendHistoriesContext from 'contexts/sendHistories/sendHistoriesContext';
+import SendHistoriesPageContainer from 'components/sendhistory/sendHistoryPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table/Table';
 import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
@@ -15,7 +15,7 @@ import { goToUrl } from 'utils/history';
 import addIdx from 'utils/js/array/addIdx';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
-import Newsletter from 'models/newsletter';
+import SendHistory from 'models/sendHistory';
 import Alert from 'models/alert';
 
 const defaultInitialSortBy = 'label';
@@ -28,67 +28,67 @@ const headers = [
     isSortEnabled: false
   },
   {
-    name: uiWordings['Newsletter.LabelLabel'],
+    name: uiWordings['SendHistory.LabelLabel'],
     value: 'label',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Newsletter.TitleTcLabel'],
+    name: uiWordings['SendHistory.TitleTcLabel'],
     value: 'title_tc',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Newsletter.TitleScLabel'],
+    name: uiWordings['SendHistory.TitleScLabel'],
     value: 'title_sc',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Newsletter.TitleEnLabel'],
+    name: uiWordings['SendHistory.TitleEnLabel'],
     value: 'title_en',
     isSortEnabled: true
   },
   // {
-  //   name: uiWordings['Newsletter.MessageTcLabel'],
+  //   name: uiWordings['SendHistory.MessageTcLabel'],
   //   value: 'message_tc',
   //   isSortEnabled: true
   // },
   // {
-  //   name: uiWordings['Newsletter.MessageScLabel'],
+  //   name: uiWordings['SendHistory.MessageScLabel'],
   //   value: 'message_sc',
   //   isSortEnabled: true
   // },
   // {
-  //   name: uiWordings['Newsletter.MessageEnLabel'],
+  //   name: uiWordings['SendHistory.MessageEnLabel'],
   //   value: 'message_en',
   //   isSortEnabled: true
   // },
   {
-    name: uiWordings['Newsletter.LastModifyDTLabel'],
-    value: 'lastModifyDTDisplay',
+    name: uiWordings['SendHistory.SendDTLabel'],
+    value: 'SendDTDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Newsletter.LastModifyUserLabel'],
-    value: 'lastModifyUserDisplay',
+    name: uiWordings['SendHistory.SenderLabel'],
+    value: 'SenderDisplay',
     isSortEnabled: true
   },
   {
-    name: uiWordings['Newsletter.IsEnabledLabel'],
+    name: uiWordings['SendHistory.IsEnabledLabel'],
     value: 'isEnabledDisplay',
     isSortEnabled: true
   }
 ];
 
-const NewsletterList = _ => {
+const SendHistoryList = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
-    newsletters,
-    newslettersPaginationMeta,
-    newslettersLoading,
-    newslettersErrors,
-    clearNewslettersErrors,
-    getNewsletters
-  } = useContext(NewslettersContext);
+    sendHistories,
+    sendHistoriesPaginationMeta,
+    sendHistoriesLoading,
+    sendHistoriesErrors,
+    clearSendHistoriesErrors,
+    getSendHistories
+  } = useContext(SendHistoriesContext);
   const {
     // qsPage: { qsPage, setQsPage },
     // qsSortOrder: { qsSortOrder, setQsSortOrder },
@@ -101,7 +101,7 @@ const NewsletterList = _ => {
   } = usePaginationAndSortForTable(
     defaultInitialSortBy,
     defaultInitialSortOrder,
-    Newsletter.cleanSortByString
+    SendHistory.cleanSortByString
   );
   const {
     isUseFilter,
@@ -124,15 +124,15 @@ const NewsletterList = _ => {
     []
   );
 
-  // set query string and getNewsletters
+  // set query string and getSendHistories
   useEffect(
     _ => {
-      getNewsletters(prepareGetOptionsForPaginationAndSort());
+      getSendHistories(prepareGetOptionsForPaginationAndSort());
     },
-    [prepareGetOptionsForPaginationAndSort, getNewsletters]
+    [prepareGetOptionsForPaginationAndSort, getSendHistories]
   );
 
-  // filter and getNewsletters
+  // filter and getSendHistories
   useEffect(
     _ => {
       if (isUseFilter) {
@@ -140,7 +140,7 @@ const NewsletterList = _ => {
           ...prepareGetOptionsForPaginationAndSort(),
           ...prepareGetOptionsForFilter()
         };
-        getNewsletters(getOptions);
+        getSendHistories(getOptions);
         setIsUseFilter(false);
       }
     },
@@ -149,32 +149,32 @@ const NewsletterList = _ => {
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,
       prepareGetOptionsForFilter,
-      getNewsletters
+      getSendHistories
     ]
   );
 
-  // newslettersErrors
+  // sendHistoriesErrors
   useEffect(
     _ => {
-      if (isNonEmptyArray(newslettersErrors)) {
+      if (isNonEmptyArray(sendHistoriesErrors)) {
         setAlerts(
-          newslettersErrors.map(newsletterError => {
+          sendHistoriesErrors.map(sendHistoryError => {
             return new Alert(
-              Newsletter.newsletterResponseTypes[newsletterError].msg,
+              SendHistory.sendHistoryResponseTypes[sendHistoryError].msg,
               Alert.alertTypes.WARNING
             );
           })
         );
-        clearNewslettersErrors();
+        clearSendHistoriesErrors();
       }
     },
-    [newslettersErrors, setAlerts, clearNewslettersErrors]
+    [sendHistoriesErrors, setAlerts, clearSendHistoriesErrors]
   );
 
   /* event handlers */
 
-  const onEdit = useCallback(newsletter => {
-    goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
+  const onView = useCallback(sendHistory => {
+    goToUrl(routes.sendHistoryViewByIdWithValue(true, sendHistory._id));
   }, []);
 
   const onFilterChange = useCallback(
@@ -189,13 +189,13 @@ const NewsletterList = _ => {
   const rows = useMemo(
     _ => {
       return addIdx(
-        getArraySafe(newsletters).map(Newsletter.getNewsletterForDisplay)
+        getArraySafe(sendHistories).map(SendHistory.getSendHistoryForDisplay)
       );
     },
-    [newsletters]
+    [sendHistories]
   );
 
-  if (newsletters === null || newslettersLoading) {
+  if (sendHistories === null || sendHistoriesLoading) {
     return <Loading />;
   }
 
@@ -206,7 +206,7 @@ const NewsletterList = _ => {
           <InputText
             name='filterText'
             className='w3-section'
-            placeholder={uiWordings['NewsletterList.FilterTextPlaceHolder']}
+            placeholder={uiWordings['SendHistoryList.FilterTextPlaceHolder']}
             onChange={onFilterChange}
             value={filterText}
           />
@@ -214,29 +214,21 @@ const NewsletterList = _ => {
         <div className='w3-show-inline-block'>
           <div className='w3-bar'>
             <Button className='w3-margin-left' onClick={turnOnFilter}>
-              {uiWordings['NewsletterList.FilterButton']}
+              {uiWordings['SendHistoryList.FilterButton']}
             </Button>
             <Button className='w3-margin-left' onClick={turnOffFilter}>
-              {uiWordings['NewsletterList.ClearFilterButton']}
+              {uiWordings['SendHistoryList.ClearFilterButton']}
             </Button>
           </div>
-        </div>
-        <div className='w3-right'>
-          <LinkButton to={routes.sendHistoryList(true)}>
-            {uiWordings['NewsletterList.SendHistoryList']}
-          </LinkButton>
-          <LinkButton to={routes.newsletterAdd(true)}>
-            {uiWordings['NewsletterList.AddNewsletter']}
-          </LinkButton>
         </div>
       </Form>
       <Table
         headers={headers}
         rows={rows}
-        paginationMeta={newslettersPaginationMeta}
+        paginationMeta={sendHistoriesPaginationMeta}
         sortBy={currSortParams.sortBy}
         sortOrder={currSortParams.sortOrder}
-        onDetailClick={onEdit}
+        onDetailClick={onView}
         onPageClick={onSetPage}
         setSortParamsFunc={onSetSortParams}
       />
@@ -244,10 +236,10 @@ const NewsletterList = _ => {
   );
 };
 
-const NewsletterListWithContainer = _ => (
-  <NewslettersPageContainer>
-    <NewsletterList />
-  </NewslettersPageContainer>
+const SendHistoryListWithContainer = _ => (
+  <SendHistoriesPageContainer>
+    <SendHistoryList />
+  </SendHistoriesPageContainer>
 );
 
-export default NewsletterListWithContainer;
+export default SendHistoryListWithContainer;

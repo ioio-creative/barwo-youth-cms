@@ -1,3 +1,8 @@
+import { generatePath } from 'react-router-dom';
+import Medium from 'models/medium';
+
+const mediumTypes = Medium.mediumTypes;
+
 export default {
   home: function (isLink) {
     return '/';
@@ -62,6 +67,16 @@ export default {
   activityAdd: function (isLink) {
     return '/activityAdd';
   },
+  newsList: function (isLink) {
+    return '/newsList';
+  },
+  newsEditById: '/newsEdit/:newsId',
+  newsEditByIdWithValue: function (isLink, newsId) {
+    return '/newsEdit/' + newsId;
+  },
+  newsAdd: function (isLink) {
+    return '/newsAdd';
+  },
   aboutEdit: function (isLink) {
     return '/aboutEdit';
   },
@@ -91,7 +106,35 @@ export default {
   newsletterAdd: function (isLink) {
     return '/newsletterAdd';
   },
+  sendHistoryList: function (isLink) {
+    return '/sendHistoryList';
+  },
+  sendHistoryViewById: '/sendHistoryView/:sendHistoryId',
+  sendHistoryEditByIdWithValue: function (isLink, sendHistoryId) {
+    return '/sendHistoryView/' + sendHistoryId;
+  },
 
-  testing: '/testing',
-  fileManager: '/fileManager/:fileType/:additionalCallbackParam?'
+  fileManager: '/fileManager/:fileType/:additionalCallbackParam?',
+  fileManagerForImages: function (isLink) {
+    return generatePath(this.fileManager, {
+      fileType: mediumTypes.IMAGE.apiRoute
+    });
+  },
+  fileManagerForVideos: function (isLink) {
+    return generatePath(this.fileManager, {
+      fileType: mediumTypes.VIDEO.apiRoute
+    });
+  },
+  fileManagerForAudios: function (isLink) {
+    return generatePath(this.fileManager, {
+      fileType: mediumTypes.AUDIO.apiRoute
+    });
+  },
+  fileManagerForPdfs: function (isLink) {
+    return generatePath(this.fileManager, {
+      fileType: mediumTypes.PDF.apiRoute
+    });
+  },
+
+  testing: '/testing'
 };

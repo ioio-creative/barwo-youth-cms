@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams, generatePath } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import NewslettersContext from 'contexts/newsletters/newslettersContext';
 import NewslettersPageContainer from 'components/newsletters/NewslettersPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
+import Button from '../form/Button';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
@@ -32,6 +33,7 @@ const NewsletterEdit = _ => {
     getNewsletter,
     clearNewsletter,
     addNewsletter,
+    sendNewsletter,
     updateNewsletter,
     clearNewslettersErrors
   } = useContext(NewslettersContext);
@@ -106,13 +108,51 @@ const NewsletterEdit = _ => {
 
   /* methods */
 
-  const validInput = useCallback(newsletterInput => {
+  const validInput = useCallback(newsletter => {
     return true;
   }, []);
 
   /* end of methods */
 
   /* event handlers */
+
+  const onSendButtonClick = useCallback(
+    async e => {
+      // console.log('onSendButtonClick');
+      setIsSubmitEnabled(false);
+      removeAlerts();
+      e.preventDefault();
+
+      let isSuccess = validInput(newsletter);
+      let returnedNewsletter = null;
+      if (isSuccess) {
+        // const funcToCall = isAddMode ? addNewsletter : updateNewsletter;
+        returnedNewsletter = await sendNewsletter(newsletter);
+        // await sendNewsletter(newsletter);
+        // isSuccess = Boolean(returnedNewsletter);
+      }
+      if (isSuccess) {
+        setAlerts(
+          new Alert(
+            uiWordings['NewsletterEdit.SendNewsletterSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+
+        goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
+        getNewsletter(newsletter._id);
+      }
+      scrollToTop();
+    },
+    [
+      getNewsletter,
+      newsletter,
+      removeAlerts,
+      sendNewsletter,
+      setAlerts,
+      validInput
+    ]
+  );
 
   const onChange = useCallback(
     e => {
@@ -135,9 +175,9 @@ const NewsletterEdit = _ => {
       let returnedNewsletter = null;
       if (isSuccess) {
         const funcToCall = isAddMode ? addNewsletter : updateNewsletter;
-        console.log('debug');
+        // console.log('debug');
         returnedNewsletter = await funcToCall(newsletter);
-        console.log(returnedNewsletter);
+        // console.log(returnedNewsletter);
         isSuccess = Boolean(returnedNewsletter);
       }
       if (isSuccess) {
@@ -191,7 +231,11 @@ const NewsletterEdit = _ => {
   return (
     <>
       {backToNewsletterListButton}
-
+      {!isSubmitEnabled && (
+        <Button onClick={onSendButtonClick}>
+          {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
+        </Button>
+      )}
       <Form onSubmit={onSubmit}>
         <h4>
           {isAddMode
@@ -221,9 +265,6 @@ const NewsletterEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelInputTextPair
           name='title_sc'
@@ -240,9 +281,6 @@ const NewsletterEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelInputTextPair
           name='title_en'
@@ -259,9 +297,6 @@ const NewsletterEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelTogglePair
           name='isEnabled'
@@ -272,10 +307,10 @@ const NewsletterEdit = _ => {
 
         {!isAddMode && (
           <>
-            <LabelLabelPair
+            {/* <LabelLabelPair
               value={newsletter.createDTDisplay}
               labelMessage={uiWordings['Newsletter.CreateDTLabel']}
-            />
+            /> */}
             <LabelLabelPair
               value={newsletter.lastModifyDTDisplay}
               labelMessage={uiWordings['Newsletter.LastModifyDTLabel']}

@@ -2,20 +2,18 @@ import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
-function Newsletter() {
-  this.label = '';
+function SendHistory() {
   this.title_tc = '';
-  this.title_sc = '';
-  this.title_en = '';
   this.message_tc = '';
+  this.title_sc = '';
   this.message_sc = '';
+  this.title_en = '';
   this.message_en = '';
-  this.isEnabled = true;
-  this.lastModifyDT = null;
-  this.lastModifyUser = null;
+  this.sendDT = null;
+  this.sender = null;
 }
 
-Newsletter.newsletterResponseTypes = {
+SendHistory.sendHistoryResponseTypes = {
   // input validation
   TITLE_TC_REQUIRED: {
     type: 'TITLE_TC_REQUIRED',
@@ -57,25 +55,23 @@ Newsletter.newsletterResponseTypes = {
   CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
-Newsletter.getNewsletterForDisplay = newsletter => {
+SendHistory.getSendHistoryForDisplay = sendHistory => {
   return {
-    ...newsletter,
-    lastModifyDTDisplay: formatDateTimeString(newsletter.lastModifyDT),
-    lastModifyUserDisplay: newsletter.lastModifyUser
-      ? newsletter.lastModifyUser.name
-      : '',
-    isEnabledDisplay: newsletter.isEnabled.toString()
+    ...sendHistory,
+    sendDTDisplay: formatDateTimeString(sendHistory.sendDT),
+    senderDisplay: sendHistory.sender ? sendHistory.lastModifyUser.name : '',
+    isEnabledDisplay: sendHistory.isEnabled.toString()
   };
 };
 
 const displayFieldNames = [
-  'lastModifyDTDisplay',
-  'lastModifyUserDisplay',
+  'sendDTDisplay',
+  'senderDisplay',
   'isEnabledDisplay'
 ];
 
-Newsletter.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
+SendHistory.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
 
 /* end of statics */
 
-export default Newsletter;
+export default SendHistory;

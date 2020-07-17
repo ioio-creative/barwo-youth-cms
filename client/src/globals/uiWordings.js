@@ -16,6 +16,7 @@ export default {
   'Navbar.Contacts': 'Contacts',
   'Navbar.Newsletters': 'Newsletters',
   'Navbar.Activities': 'Activities',
+  'Navbar.Newses': 'Newses',
   'Navbar.About': 'About',
   'Navbar.Testing': 'Testing Page',
 
@@ -323,6 +324,30 @@ export default {
   'GlobalConstants.Total2TcLabel': 'Total 2 TC',
   'GlobalConstants.Total2ScLabel': 'Total 2 SC',
   'GlobalConstants.Total2EnLabel': 'Total 2 EN',
+  'GlobalConstants.AboutTcLabel': 'About TC',
+  'GlobalConstants.AboutScLabel': 'About SC',
+  'GlobalConstants.AboutEnLabel': 'About EN',
+  'GlobalConstants.MapTcLabel': 'Map TC',
+  'GlobalConstants.MapScLabel': 'Map SC',
+  'GlobalConstants.MapEnLabel': 'Map EN',
+  'GlobalConstants.TrafficTcLabel': 'Traffic TC',
+  'GlobalConstants.TrafficScLabel': 'Traffic SC',
+  'GlobalConstants.TrafficEnLabel': 'Traffic EN',
+  'GlobalConstants.ContactTcLabel': 'Contact TC',
+  'GlobalConstants.ContactScLabel': 'Contact SC',
+  'GlobalConstants.ContactEnLabel': 'Contact EN',
+  'GlobalConstants.WebsiteTcLabel': 'Website TC',
+  'GlobalConstants.WebsiteScLabel': 'Website SC',
+  'GlobalConstants.WebsiteEnLabel': 'Website EN',
+  'GlobalConstants.TelTcLabel': 'Tel TC',
+  'GlobalConstants.TelScLabel': 'Tel SC',
+  'GlobalConstants.TelEnLabel': 'Tel EN',
+  'GlobalConstants.FaxTcLabel': 'Fax TC',
+  'GlobalConstants.FaxScLabel': 'Fax SC',
+  'GlobalConstants.FaxEnLabel': 'Fax EN',
+  'GlobalConstants.EmailTcLabel': 'Email TC',
+  'GlobalConstants.EmailScLabel': 'Email SC',
+  'GlobalConstants.EmailEnLabel': 'Email EN',
 
   'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
   'GlobalConstants.LastModifyUserLabel': 'Last Modify User',
@@ -430,6 +455,7 @@ export default {
   'Newsletter.IsEnabledLabel': 'Is Enabled ?',
 
   'NewsletterList.AddNewsletter': 'Add Newsletter',
+  'NewsletterList.SendHistoryList': 'Send History List',
   'NewsletterList.FilterTextPlaceHolder': 'Filter Newsletters by name...',
   'NewsletterList.FilterButton': 'Filter',
   'NewsletterList.ClearFilterButton': 'Clear Filter',
@@ -439,8 +465,10 @@ export default {
   'NewsletterEdit.EditNewsletterTitle': 'Edit Newsletter',
   'NewsletterEdit.AddNewsletterSubmit': 'Add Newsletter',
   'NewsletterEdit.UpdateNewsletterSubmit': 'Update Newsletter',
+  'NewsletterEdit.SendNewsletterSubmit': 'Send Newsletter',
   'NewsletterEdit.AddNewsletterSuccessMessage': 'Newsletter Added',
   'NewsletterEdit.UpdateNewsletterSuccessMessage': 'Newsletter Updated',
+  'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sended',
 
   'Activities.Title': 'Activities',
 
@@ -490,11 +518,46 @@ export default {
 
   'ActivityEdit.Media.Title': 'Media',
 
+  'Newses.Title': 'Newses',
+
+  'News.LabelLabel': 'Label',
+  'News.NameTcLabel': 'Name TC',
+  'News.NameScLabel': 'Name SC',
+  'News.NameEnLabel': 'Name EN',
+  'News.DescTcLabel': 'Desc TC',
+  'News.DescScLabel': 'Desc SC',
+  'News.DescEnLabel': 'Desc EN',
+  'News.FeaturedImageLabel': 'Featured Image',
+  'News.DownloadNameTcLabel': 'Download Name TC',
+  'News.DownloadNameScLabel': 'Download Name SC',
+  'News.DownloadNameEnLabel': 'Download Name EN',
+  'News.DownloadTypeLabel': 'Download Type',
+  'News.DownloadMediumLabel': 'Download Medium',
+  'News.DownloadUrlTcLabel': 'Download URL TC',
+  'News.DownloadUrlScLabel': 'Download URL SC',
+  'News.DownloadUrlEnLabel': 'Download URL EN',
+  'News.CreateDTLabel': 'Create DT',
+  'News.LastModifyDTLabel': 'Last Modify DT',
+  'News.LastModifyUserLabel': 'Last Modify User',
+  'News.IsEnabledLabel': 'Is Enabled ?',
+
+  'NewsList.AddNews': 'Add News',
+  'NewsList.FilterTextPlaceHolder': 'Filter Activities by name...',
+  'NewsList.FilterButton': 'Filter',
+  'NewsList.ClearFilterButton': 'Clear Filter',
+
+  'NewsEdit.BackToNewsList': 'Back to News List',
+  'NewsEdit.AddNewsTitle': 'Add News',
+  'NewsEdit.EditNewsTitle': 'Edit News',
+  'NewsEdit.AddNewsSubmit': 'Add News',
+  'NewsEdit.UpdateNewsSubmit': 'Update News',
+  'NewsEdit.AddNewsSuccessMessage': 'News Added',
+  'NewsEdit.UpdateNewsSuccessMessage': 'News Updated',
+
+  'NewsEdit.Media.Title': 'Media',
+
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',
   'FileManager.UploadButton': 'Upload',
-  'FileManager.DragToUploadHint': 'Drop File To Upload',
-
-  'FileUploadOrUrl.Types.Medium.Label': 'Medium',
-  'FileUploadOrUrl.Types.Url.Label': 'URL'
+  'FileManager.DragToUploadHint': 'Drop File To Upload'
 };

@@ -135,9 +135,9 @@ const ContactEdit = _ => {
       let returnedContact = null;
       if (isSuccess) {
         const funcToCall = isAddMode ? addContact : updateContact;
-        console.log('debug');
+        // console.log('debug');
         returnedContact = await funcToCall(contact);
-        console.log(returnedContact);
+        // console.log(returnedContact);
         isSuccess = Boolean(returnedContact);
       }
       if (isSuccess) {

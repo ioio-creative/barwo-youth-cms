@@ -4,12 +4,11 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { Phase } = require('../../../models/Phase');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
-const sortBy = require('../../../utils/js/array/sortBy');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const mapAndSortPhases = require('../../../utils/phases/mapAndSortPhases');
+const { Phase } = require('../../../models/Phase');
 
 /* utilities */
 
@@ -61,7 +60,6 @@ const phasePopulationListForFindAll = [
 
 const getPhaseForFrontEndFromDbPhase = (phase, language) => {
   /* events */
-
   const eventForFrontEndMapFunc = event => {
     const dates = getArraySafe(event.shows).map(show => show.date);
     let minDate = null;

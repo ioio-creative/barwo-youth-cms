@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import CKEditor from 'ckeditor4-react';
+import routes from 'globals/routes';
 import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 import cleanValueForTextInput from './utils/cleanValueForTextInput';
 
@@ -149,7 +150,7 @@ const RichTextbox = ({
     _ => {
       if (editorInstance.editor && editorInstance.editor.status === 'ready') {
         if (!isInitCompleted) {
-          if (editorInstance.editor.getData() === "" && value !== "") {
+          if (editorInstance.editor.getData() === '' && value !== '') {
             // if (editorInstance.editor.getData() !== value) {
             //   console.log("special case");
             // }
@@ -158,9 +159,9 @@ const RichTextbox = ({
             // set every 50ms until successfully set
             setTimeout(waitForInstanceInitialized, 50);
           } else {
-            console.log('RichTextbox value set success');
             setIsInitCompleted(true);
-            // 
+            console.log('RichTextbox value set success');
+            //
             // editorInstance.element.closest('form').addEventListener('submit', (e) => {
             //   console.log('onSubmit');
             //   e.preventDefault();
@@ -176,18 +177,21 @@ const RichTextbox = ({
         setTimeout(waitForInstanceInitialized, 50);
       }
     },
-    [name, value, required, editorInstance, isInitCompleted]
+    [value, editorInstance, isInitCompleted]
   );
   useEffect(() => {
-    if (editorInstance && value !== '' && !isInitCompleted) {
+    // value check null commented out by chris
+    if (editorInstance /*&& value !== ''*/ && !isInitCompleted) {
       waitForInstanceInitialized();
     }
-  }, [value, editorInstance, isInitCompleted, waitForInstanceInitialized]);
+  }, [/*value, */ editorInstance, isInitCompleted, waitForInstanceInitialized]);
+
   // useEffect(() => {
   //   if (textareaEl) {
   //     window.CKEDITOR.replace(textareaEl);
   //   }
   // }, [textareaEl])
+
   return (
     <>
       <div className={`editableArea ${className ? className : ''}`}>
@@ -212,6 +216,10 @@ const RichTextbox = ({
       </div>
     </>
   );
+};
+
+RichTextbox.defaultProps = {
+  filebrowserBrowseUrl: routes.fileManagerForImages(true)
 };
 
 export default RichTextbox;

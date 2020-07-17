@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams, generatePath } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
@@ -379,27 +379,20 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.DescTcLabel']}
           // placeholder=''
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
+          required={true}
         />
         <LabelRichTextbox
           name='desc_sc'
           value={artist.desc_sc}
           labelMessage={uiWordings['Artist.DescScLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
+          required={true}
         />
         <LabelRichTextbox
           name='desc_en'
           value={artist.desc_en}
           labelMessage={uiWordings['Artist.DescEnLabel']}
           onChange={onChange}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
 
         <ArtistEditQnaSelect qnas={qnasPicked} onGetQnas={onGetQnasPicked} />

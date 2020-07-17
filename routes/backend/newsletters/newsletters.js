@@ -53,6 +53,8 @@ const handleNewsletterLabelDuplicateKeyError = (err, res) => {
   return isErrorHandled;
 };
 
+// @desc    Get newsletter
+// @access  Private
 router.get('/', [auth, listPathHandling], async (req, res) => {
   try {
     const options = {
@@ -67,7 +69,12 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
       // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
       findOptions = {
         ...findOptions,
-        $or: [{ label: filterTextRegex }, { name: filterTextRegex }]
+        $or: [
+          { label: filterTextRegex },
+          { title_tc: filterTextRegex },
+          { title_sc: filterTextRegex },
+          { title_en: filterTextRegex }
+        ]
       };
     }
 
@@ -79,7 +86,6 @@ router.get('/', [auth, listPathHandling], async (req, res) => {
   }
 });
 
-// @route   GET api/backend/newsletter/newsletter/:_id
 // @desc    Get newsletter by id
 // @access  Private
 router.get('/:_id', auth, async (req, res) => {
@@ -144,8 +150,8 @@ router.post(
   }
 );
 
-// @route   PUT api/backend/newsletters/newsletters/:_id
-// @desc    Update newsletter
+// @route   PUT api/backend/newsletters/sendHistory/:_id
+// @desc    Update sendHistory
 // @access  Private
 router.put(
   '/:_id',
