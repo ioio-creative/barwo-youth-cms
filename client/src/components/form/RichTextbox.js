@@ -159,8 +159,8 @@ const RichTextbox = ({
             // set every 50ms until successfully set
             setTimeout(waitForInstanceInitialized, 50);
           } else {
-            console.log('RichTextbox value set success');
             setIsInitCompleted(true);
+            console.log('RichTextbox value set success');
             //
             // editorInstance.element.closest('form').addEventListener('submit', (e) => {
             //   console.log('onSubmit');
@@ -180,10 +180,11 @@ const RichTextbox = ({
     [value, editorInstance, isInitCompleted]
   );
   useEffect(() => {
-    if (editorInstance && value !== '' && !isInitCompleted) {
+    // value check null commented out by chris
+    if (editorInstance /*&& value !== ''*/ && !isInitCompleted) {
       waitForInstanceInitialized();
     }
-  }, [value, editorInstance, isInitCompleted, waitForInstanceInitialized]);
+  }, [/*value, */ editorInstance, isInitCompleted, waitForInstanceInitialized]);
   // useEffect(() => {
   //   if (textareaEl) {
   //     window.CKEDITOR.replace(textareaEl);
