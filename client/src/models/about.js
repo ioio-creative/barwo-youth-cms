@@ -1,5 +1,6 @@
 import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
+import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function About() {
   this.barwoDesc_tc = '';
