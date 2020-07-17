@@ -6,14 +6,13 @@ const LabelRichTextbox = ({
   name,
   value,
   labelMessage,
-  onChange = () => {},
+  onChange,
   required,
   // minLength,
   disabled,
   filebrowserBrowseUrl,
   isHalf
 }) => {
-  //console.log(value);
   return (
     <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
@@ -32,13 +31,6 @@ const LabelRichTextbox = ({
     </div>
   );
 };
-
-/* <RichTextbox
-      // debug={true}
-      onChange={(e) => console.log(e)}
-      filebrowserBrowseUrl={routes.fileManager}
-  />
-    <FileManager /> */
 
 LabelRichTextbox.defaultProps = {
   isHalf: false
