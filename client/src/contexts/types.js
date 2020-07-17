@@ -85,6 +85,17 @@ export const ACTIVITIES_ERRORS = 'ACTIVITIES_ERRORS';
 export const CLEAR_ACTIVITIES_ERRORS = 'CLEAR_ACTIVITIES_ERRORS';
 export const SET_ACTIVITIES_LOADING = 'SET_ACTIVITIES_LOADING';
 
+// newses
+export const GET_NEWSES = 'GET_NEWSES';
+export const CLEAR_NEWSES = 'CLEAR_NEWSES';
+export const GET_NEWS = 'GET_NEWS';
+export const CLEAR_NEWS = 'CLEAR_NEWS';
+export const ADD_NEWS = 'ADD_NEWS';
+export const UPDATE_NEWS = 'UPDATE_NEWS';
+export const NEWSES_ERRORS = 'NEWSES_ERRORS';
+export const CLEAR_NEWSES_ERRORS = 'CLEAR_NEWSES_ERRORS';
+export const SET_NEWSES_LOADING = 'SET_NEWSES_LOADING';
+
 // media
 export const GET_MEDIA = 'GET_MEDIA';
 export const CLEAR_MEDIA = 'CLEAR_MEDIA';
@@ -140,7 +151,7 @@ export const ABOUT_ERRORS = 'ABOUT_ERRORS';
 export const CLEAR_ABOUT_ERRORS = 'CLEARING_ABOUT_ERRORS';
 export const SET_ABOUT_LOADING = 'SET_ABOUT_LOADING';
 
-// newsletter
+// newsletters
 export const GET_NEWSLETTERS = 'GET_NEWSLETTERS';
 export const CLEAR_NEWSLETTERS = 'CLEAR_NEWSLETTERS';
 export const GET_NEWSLETTER = 'GET_NEWSLETTER';

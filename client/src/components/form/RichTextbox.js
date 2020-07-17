@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import CKEditor from 'ckeditor4-react';
+import routes from 'globals/routes';
 import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 import cleanValueForTextInput from './utils/cleanValueForTextInput';
 
@@ -149,7 +150,7 @@ const RichTextbox = ({
     _ => {
       if (editorInstance.editor && editorInstance.editor.status === 'ready') {
         if (!isInitCompleted) {
-          if (editorInstance.editor.getData() === "" && value !== "") {
+          if (editorInstance.editor.getData() === '' && value !== '') {
             // if (editorInstance.editor.getData() !== value) {
             //   console.log("special case");
             // }
@@ -160,7 +161,7 @@ const RichTextbox = ({
           } else {
             console.log('RichTextbox value set success');
             setIsInitCompleted(true);
-            // 
+            //
             // editorInstance.element.closest('form').addEventListener('submit', (e) => {
             //   console.log('onSubmit');
             //   e.preventDefault();
@@ -176,7 +177,7 @@ const RichTextbox = ({
         setTimeout(waitForInstanceInitialized, 50);
       }
     },
-    [name, value, required, editorInstance, isInitCompleted]
+    [value, editorInstance, isInitCompleted]
   );
   useEffect(() => {
     if (editorInstance && value !== '' && !isInitCompleted) {
@@ -211,6 +212,10 @@ const RichTextbox = ({
       </div>
     </>
   );
+};
+
+RichTextbox.defaultProps = {
+  filebrowserBrowseUrl: routes.fileManagerForImages(true)
 };
 
 export default RichTextbox;

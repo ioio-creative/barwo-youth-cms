@@ -67,6 +67,12 @@ const AsyncActivityList = asyncLoadingComponent(_ =>
 const AsyncActivityEdit = asyncLoadingComponent(_ =>
   import('components/pages/ActivityEdit')
 );
+const AsyncNewsList = asyncLoadingComponent(_ =>
+  import('components/pages/NewsList')
+);
+const AsyncNewsEdit = asyncLoadingComponent(_ =>
+  import('components/pages/NewsEdit')
+);
 const AsyncNewsletterList = asyncLoadingComponent(_ =>
   import('components/pages/NewsletterList')
 );
@@ -194,6 +200,10 @@ const Main = _ => {
                 path={routes.activityAdd(false)}
                 component={AsyncActivityEdit}
               />
+
+              <Route path={routes.newsList(false)} component={AsyncNewsList} />
+              <Route path={routes.newsEditById} component={AsyncNewsEdit} />
+              <Route path={routes.newsAdd(false)} component={AsyncNewsEdit} />
 
               <Route path={routes.testing} component={AsyncTesting} />
               <Route path={routes.fileManager} component={AsyncFileManager} />

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams, generatePath } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import NewslettersContext from 'contexts/newsletters/newslettersContext';
 import NewslettersPageContainer from 'components/newsletters/NewslettersPageContainer';
@@ -145,14 +145,11 @@ const NewsletterEdit = _ => {
       scrollToTop();
     },
     [
-      addNewsletter,
       getNewsletter,
-      isAddMode,
       newsletter,
       removeAlerts,
       sendNewsletter,
       setAlerts,
-      updateNewsletter,
       validInput
     ]
   );
@@ -268,9 +265,6 @@ const NewsletterEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelInputTextPair
           name='title_sc'
@@ -287,9 +281,6 @@ const NewsletterEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelInputTextPair
           name='title_en'
@@ -306,9 +297,6 @@ const NewsletterEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
-          filebrowserBrowseUrl={generatePath(routes.fileManager, {
-            fileType: 'images'
-          })}
         />
         <LabelTogglePair
           name='isEnabled'
