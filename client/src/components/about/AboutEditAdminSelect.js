@@ -95,7 +95,7 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
           )}
         >
           <div className='w3-col m11'>
-            <div className='w3-row'>
+            <div className='w3-row w3-margin-bottom'>
               <div className='w3-col m6'>
                 <InputText
                   className='w3-margin-right'
@@ -117,7 +117,7 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
                 />
               </div>
             </div>
-            <div className='w3-row'>
+            <div className='w3-row w3-margin-bottom'>
               <div className='w3-col m6'>
                 <InputText
                   className='w3-margin-right'
