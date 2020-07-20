@@ -322,6 +322,27 @@ const AboutEdit = _ => {
           onChange={onChange}
           required={true}
         />
+        <LabelInputTextPair
+          name='theaterLocationHref_tc'
+          value={about.theaterLocationHref_tc}
+          labelMessage={uiWordings['About.TheaterLocationHrefTcLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='theaterLocationHref_sc'
+          value={about.theaterLocationHref_sc}
+          labelMessage={uiWordings['About.TheaterLocationHrefScLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='theaterLocationHref_en'
+          value={about.theaterLocationHref_en}
+          labelMessage={uiWordings['About.TheaterLocationHrefEnLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
         <LabelRichTextbox
           name='theaterLocationDesc1_tc'
           value={about.theaterLocationDesc1_tc}

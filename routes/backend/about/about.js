@@ -149,6 +149,9 @@ router.post(
       theaterLocationName_tc,
       theaterLocationName_sc,
       theaterLocationName_en,
+      theaterLocationHref_tc,
+      theaterLocationHref_sc,
+      theaterLocationHref_en,
       theaterLocationDesc1_tc,
       theaterLocationDesc1_sc,
       theaterLocationDesc1_en,
@@ -190,6 +193,9 @@ router.post(
       aboutFields.theaterLocationName_sc = theaterLocationName_sc;
     if (theaterLocationName_en)
       aboutFields.theaterLocationName_en = theaterLocationName_en;
+    aboutFields.theaterLocationHref_tc = theaterLocationHref_tc;
+    aboutFields.theaterLocationHref_sc = theaterLocationHref_sc;
+    aboutFields.theaterLocationHref_en = theaterLocationHref_en;
     aboutFields.theaterLocationDesc1_tc = theaterLocationDesc1_tc;
     aboutFields.theaterLocationDesc1_sc = theaterLocationDesc1_sc;
     aboutFields.theaterLocationDesc1_en = theaterLocationDesc1_en;

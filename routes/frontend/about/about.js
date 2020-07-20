@@ -68,6 +68,7 @@ router.get('/:lang/about', [languageHandling], async (req, res) => {
         },
         location: {
           name: getEntityPropByLanguage(about, 'theaterLocationName', language),
+          href: getEntityPropByLanguage(about, 'theaterLocationHref', language),
           description1: getEntityPropByLanguage(
             about,
             'theaterLocationDesc1',

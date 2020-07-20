@@ -19,6 +19,10 @@ function About() {
   this.theaterLocationName_sc = '';
   this.theaterLocationName_en = '';
 
+  this.theaterLocationHref_tc = '';
+  this.theaterLocationHref_sc = '';
+  this.theaterLocationHref_en = '';
+
   this.theaterLocationDesc1_tc = '';
   this.theaterLocationDesc1_sc = '';
   this.theaterLocationDesc1_en = '';

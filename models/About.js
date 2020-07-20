@@ -75,6 +75,15 @@ const AboutSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  theaterLocationHref_tc: {
+    type: String
+  },
+  theaterLocationHref_sc: {
+    type: String
+  },
+  theaterLocationHref_en: {
+    type: String
+  },
   theaterLocationDesc1_tc: {
     type: String
   },
