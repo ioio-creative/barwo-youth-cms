@@ -36,7 +36,7 @@ const AboutPageEdit = _ => {
   const [about, setAbout] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
-  const [galleryPicked, setGalleryPicked] = useState([]);
+  const [planGalleryPicked, setPlanGalleryPicked] = useState([]);
   const [theaterImagePicked, setTheaterImagePicked] = useState(null);
 
   // componentDidMount
@@ -56,10 +56,14 @@ const AboutPageEdit = _ => {
         setAbout(
           fetchedAbout ? About.getAboutForDisplay(fetchedAbout) : defaultState
         );
+        if (fetchedAbout) {
+          setPlanGalleryPicked(getArraySafe(fetchedAbout.planGallery));
+          setTheaterImagePicked(fetchedAbout.theaterImage);
+        }
         setIsAddMode(!fetchedAbout);
       }
     },
-    [aboutLoading, fetchedAbout, setAbout, setIsAddMode]
+    [aboutLoading, fetchedAbout]
   );
 
   // aboutErrors
@@ -90,37 +94,37 @@ const AboutPageEdit = _ => {
 
   /* methods */
 
-  const onGetGalleryPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setGalleryPicked(newItemList);
-    },
-    [setIsSubmitEnabled, setGalleryPicked]
-  );
+  const validInput = useCallback(aboutInput => {
+    return true;
+  }, []);
 
-  const onGetTheaterImagePicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setTheaterImagePicked(firstOrDefault(newItemList, null));
-    },
-    [setIsSubmitEnabled, setTheaterImagePicked]
-  );
+  /* end of methods */
+
+  /* event handlers */
 
   const onChange = useCallback(
     e => {
       setIsSubmitEnabled(true);
       removeAlerts();
-      setAbout({
-        ...about,
-        [e.target.name]: e.target.value
-      });
+      const name = e.target.name;
+      const value = e.target.value;
+      setAbout(prevAbout => ({
+        ...prevAbout,
+        [name]: value
+      }));
     },
-    [about, setAbout, removeAlerts]
+    [removeAlerts]
   );
 
-  /* end of methods */
+  const onGetPlanGalleryPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setPlanGalleryPicked(newItemList);
+  }, []);
 
-  /* event handlers */
+  const onGetTheaterImagePicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setTheaterImagePicked(firstOrDefault(newItemList, null));
+  }, []);
 
   const onSubmit = useCallback(
     async e => {
@@ -128,15 +132,22 @@ const AboutPageEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
-      // add gallery
-      about.gallery = getArraySafe(galleryPicked).map(medium => {
+      // add plan gallery
+      about.gallery = getArraySafe(planGalleryPicked).map(medium => {
         return medium._id;
       });
+
+      // add theater image
       about.theaterImage = theaterImagePicked ? theaterImagePicked._id : null;
 
+      let isSuccess = validInput(about);
       let returnedAbout = null;
-      returnedAbout = await updateAbout(about);
-      let isSuccess = Boolean(returnedAbout);
+
+      if (isSuccess) {
+        returnedAbout = await updateAbout(about);
+        isSuccess = Boolean(returnedAbout);
+      }
+
       if (isSuccess) {
         setAlerts(
           new Alert(
@@ -146,6 +157,7 @@ const AboutPageEdit = _ => {
         );
         getAbout();
       }
+
       scrollToTop();
     },
     [
@@ -155,7 +167,7 @@ const AboutPageEdit = _ => {
       setAlerts,
       removeAlerts,
       theaterImagePicked,
-      galleryPicked
+      planGalleryPicked
     ]
   );
 
@@ -222,8 +234,8 @@ const AboutPageEdit = _ => {
           <FileUpload
             name='plan_gallery'
             labelMessage={uiWordings['About.PlanGalleryLabel']}
-            files={getArraySafe(galleryPicked)}
-            onGetFiles={onGetGalleryPicked}
+            files={getArraySafe(planGalleryPicked)}
+            onGetFiles={onGetPlanGalleryPicked}
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
           />
