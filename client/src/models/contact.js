@@ -66,10 +66,9 @@ Contact.contactLanguage = contactLanguage;
 Contact.contactLanguageOptions = Object.values(contactLanguage);
 
 Contact.getContactForDisplay = contact => {
-  // console.log(contact);
   return {
     ...contact,
-    typeDisplay: contactTypes[contact.type].label,
+    typeDisplay: contact.type ? contactTypes[contact.type].label : '',
     languageDisplay: contactLanguage[contact.language].label,
     lastModifyDTDisplay: formatDateTimeString(contact.lastModifyDT),
     lastModifyUserDisplay: contact.lastModifyUser

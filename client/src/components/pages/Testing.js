@@ -82,16 +82,21 @@ const Testing = _ => {
             'Content-Type': 'application/json'
           }
         };
+        const { name, type, ...trimmedContact } = contact;
         try {
           const res = await axios.post(
             'api/frontend/contacts/contacts',
-            contact,
+            trimmedContact,
             config
           );
           newContact = res.data;
           console.log('newContact:', newContact);
         } catch (err) {
-          console.error(err);
+          if (err && err.response && err.response.data) {
+            console.error(err.response.data.errors);
+          } else {
+            console.error(err);
+          }
         }
       }
     },
@@ -173,7 +178,8 @@ const Testing = _ => {
           labelMessage={'Contact.EmailAddress'}
           placeholder=''
           onChange={onChange}
-          required={true}
+          // TODO:
+          //required={true}
         />
         <LabelInputTextPair
           name='name'
@@ -181,7 +187,8 @@ const Testing = _ => {
           labelMessage={'Contact.Name'}
           placeholder=''
           onChange={onChange}
-          required={true}
+          // TODO:
+          //required={true}
         />
         <LabelSelectPair
           name='type'

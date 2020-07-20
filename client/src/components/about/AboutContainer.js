@@ -3,7 +3,7 @@ import TitlebarContext from 'contexts/titlebar/titlebarContext';
 import AboutState from 'contexts/about/AboutState';
 import uiWordings from 'globals/uiWordings';
 
-const AboutPageContainer = ({ children }) => {
+const AboutContainer = ({ children }) => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
 
   // componentDidMount
@@ -22,4 +22,4 @@ const AboutPageContainer = ({ children }) => {
   );
 };
 
-export default AboutPageContainer;
+export default AboutContainer;
