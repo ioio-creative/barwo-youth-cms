@@ -66,6 +66,7 @@ const AboutEdit = _ => {
           fetchedAbout ? About.getAboutForDisplay(fetchedAbout) : defaultState
         );
         if (fetchedAbout) {
+          console.log(fetchedAbout);
           setPlanGalleryPicked(getArraySafe(fetchedAbout.planGallery));
           setTheaterImagePicked(fetchedAbout.theaterImage);
           setAdminsPicked(getArraySafe(fetchedAbout.admins));
@@ -79,7 +80,6 @@ const AboutEdit = _ => {
   // aboutErrors
   useEffect(
     _ => {
-      console.error();
       if (isNonEmptyArray(aboutErrors)) {
         setAlerts(
           aboutErrors
@@ -182,7 +182,7 @@ const AboutEdit = _ => {
       e.preventDefault();
 
       // add plan gallery
-      about.gallery = getArraySafe(planGalleryPicked).map(medium => {
+      about.planGallery = getArraySafe(planGalleryPicked).map(medium => {
         return medium._id;
       });
 
@@ -229,6 +229,7 @@ const AboutEdit = _ => {
       removeAlerts,
       theaterImagePicked,
       planGalleryPicked,
+      adminsPicked,
       validInput
     ]
   );

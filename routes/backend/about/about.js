@@ -57,13 +57,7 @@ const aboutValidationChecks = [
   check(
     'theaterLocationName_en',
     aboutResponseTypes.THEATER_LOCATION_EN_REQUIRED
-  ).notEmpty(),
-  check('adminTitle_tc', aboutResponseTypes.ADMIN_TITLE_TC_REQUIRED).notEmpty(),
-  check('adminTitle_sc', aboutResponseTypes.ADMIN_TITLE_SC_REQUIRED).notEmpty(),
-  check('adminTitle_en', aboutResponseTypes.ADMIN_TITLE_EN_REQUIRED).notEmpty(),
-  check('adminName_tc', aboutResponseTypes.ADMIN_NAME_SC_REQUIRED).notEmpty(),
-  check('adminName_sc', aboutResponseTypes.ADMIN_NAME_EN_REQUIRED).notEmpty(),
-  check('adminName_en', aboutResponseTypes.ADMIN_NAME_EN_REQUIRED).notEmpty()
+  ).notEmpty()
 ];
 
 const aboutAdminsValidation = admins => {
