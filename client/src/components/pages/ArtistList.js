@@ -33,6 +33,11 @@ const headers = [
     isSortEnabled: true
   },
   {
+    name: uiWordings['Artist.OrderLabel'],
+    value: 'order',
+    isSortEnabled: true
+  },
+  {
     name: uiWordings['Artist.NameTcLabel'],
     value: 'name_tc',
     isSortEnabled: true
@@ -240,6 +245,18 @@ const ArtistList = _ => {
           </div>
         </div>
         <div className='w3-right'>
+          <LinkButton
+            className='w3-margin-right'
+            to={routes.artDirectorsOrder(true)}
+          >
+            {uiWordings['ArtistList.ArtDirectorsOrder']}
+          </LinkButton>
+          <LinkButton
+            className='w3-margin-right'
+            to={routes.artistsOrder(true)}
+          >
+            {uiWordings['ArtistList.ArtistsOrder']}
+          </LinkButton>
           <LinkButton to={routes.artistAdd(true)}>
             {uiWordings['ArtistList.AddArtist']}
           </LinkButton>

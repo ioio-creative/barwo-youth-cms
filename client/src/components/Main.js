@@ -25,6 +25,12 @@ const AsyncArtistList = asyncLoadingComponent(_ =>
 const AsyncArtistEdit = asyncLoadingComponent(_ =>
   import('components/pages/ArtistEdit')
 );
+const AsyncArtDirectorsOrder = asyncLoadingComponent(_ =>
+  import('components/pages/ArtDirectorsOrder')
+);
+const AsyncArtistsOrder = asyncLoadingComponent(_ =>
+  import('components/pages/ArtistsOrder')
+);
 const AsyncEventList = asyncLoadingComponent(_ =>
   import('components/pages/EventList')
 );
@@ -132,6 +138,15 @@ const Main = _ => {
               <Route
                 path={routes.artistAdd(false)}
                 component={AsyncArtistEdit}
+              />
+
+              <Route
+                path={routes.artDirectorsOrder(false)}
+                component={AsyncArtDirectorsOrder}
+              />
+              <Route
+                path={routes.artistsOrder(false)}
+                component={AsyncArtistsOrder}
               />
 
               <Route

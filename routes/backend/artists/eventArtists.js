@@ -23,6 +23,7 @@ router.get('/', auth, async (req, res) => {
         label: 1
       })
       .sort({
+        order: 1,
         label: 1
       });
     res.json(artists);

@@ -31,7 +31,7 @@ const EventEditArtDirectorSelect = ({
   // picked list
   const pickedList = useMemo(
     _ => {
-      return artDirectorsPicked.map(mapArtistToListItem);
+      return getArraySafe(artDirectorsPicked).map(mapArtistToListItem);
     },
     [artDirectorsPicked]
   );

@@ -34,6 +34,12 @@ export default {
   artistAdd: function (isLink) {
     return '/artistAdd';
   },
+  artDirectorsOrder: function (isLink) {
+    return '/artDirectorsOrder';
+  },
+  artistsOrder: function (isLink) {
+    return '/artistsOrder';
+  },
   eventList: function (isLink) {
     return '/eventList';
   },

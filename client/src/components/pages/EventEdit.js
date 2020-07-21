@@ -14,6 +14,7 @@ import EventEditScenaristSelect from 'components/events/EventEditScenaristSelect
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 //import Region from 'components/layout/Region';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -401,11 +402,11 @@ const EventEdit = _ => {
   }
 
   const backToEventListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.eventList(true)}>
         {uiWordings['EventEdit.BackToEventList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {

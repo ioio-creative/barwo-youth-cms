@@ -6,6 +6,7 @@ import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import ArtistEditQnaSelect from 'components/artists/ArtistEditQnaSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelSelectPair from 'components/form/LabelSelectPair';
@@ -269,11 +270,11 @@ const ArtistEdit = _ => {
   }
 
   const backToArtistListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.artistList(true)}>
         {uiWordings['ArtistEdit.BackToArtistList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {

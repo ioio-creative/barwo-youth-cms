@@ -34,6 +34,9 @@ const ArtistSchema = mongoose.Schema({
     require: true,
     unique: true
   },
+  order: {
+    type: Number
+  },
   name_tc: {
     type: String,
     require: true

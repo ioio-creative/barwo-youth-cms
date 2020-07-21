@@ -17,9 +17,11 @@ import {
   GET_ART_DIRECTORS,
   CLEAR_ART_DIRECTORS,
   SET_ART_DIRECTORS_LOADING,
+  ORDER_ART_DIRECTORS,
   GET_EVENT_ARTISTS,
   CLEAR_EVENT_ARTISTS,
-  SET_EVENT_ARTISTS_LOADING
+  SET_EVENT_ARTISTS_LOADING,
+  ORDER_EVENT_ARTISTS
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -165,6 +167,29 @@ const ArtistsState = ({ children }) => {
     dispatch({ type: CLEAR_ART_DIRECTORS });
   }, []);
 
+  // Order Art Directors
+  const orderArtDirectors = useCallback(async artDirectors => {
+    let isSuccess = false;
+    dispatch({ type: SET_ART_DIRECTORS_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      await axios.post(
+        '/api/backend/artists/artDirectors/ordering',
+        { artDirectors },
+        config
+      );
+      dispatch({ type: ORDER_ART_DIRECTORS });
+      isSuccess = true;
+    } catch (err) {
+      handleServerError(err, ARTISTS_ERRORS, dispatch);
+    }
+    return isSuccess;
+  }, []);
+
   // Get Event Artists
   const getEventArtists = useCallback(async _ => {
     dispatch({ type: SET_EVENT_ARTISTS_LOADING });
@@ -179,6 +204,29 @@ const ArtistsState = ({ children }) => {
   // Clear Event Artists
   const clearEventArtists = useCallback(_ => {
     dispatch({ type: CLEAR_EVENT_ARTISTS });
+  }, []);
+
+  // Order Event Artists
+  const orderEventArtists = useCallback(async artists => {
+    let isSuccess = false;
+    dispatch({ type: SET_EVENT_ARTISTS_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      await axios.post(
+        '/api/backend/artists/eventArtists/ordering',
+        { artists },
+        config
+      );
+      dispatch({ type: ORDER_EVENT_ARTISTS });
+      isSuccess = true;
+    } catch (err) {
+      handleServerError(err, ARTISTS_ERRORS, dispatch);
+    }
+    return isSuccess;
   }, []);
 
   return (
@@ -201,8 +249,10 @@ const ArtistsState = ({ children }) => {
         clearArtistsErrors,
         getArtDirectors,
         clearArtDirectors,
+        orderArtDirectors,
         getEventArtists,
-        clearEventArtists
+        clearEventArtists,
+        orderEventArtists
       }}
     >
       {children}

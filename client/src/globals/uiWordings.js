@@ -62,6 +62,7 @@ export default {
   'Artists.Title': 'Artists',
 
   'Artist.LabelLabel': 'Label',
+  'Artist.OrderLabel': 'Order',
   'Artist.NameTcLabel': 'Name TC',
   'Artist.NameScLabel': 'Name SC',
   'Artist.NameEnLabel': 'Name EN',
@@ -85,6 +86,9 @@ export default {
   'ArtistList.FilterButton': 'Filter',
   'ArtistList.ClearFilterButton': 'Clear Filter',
 
+  'ArtistList.ArtDirectorsOrder': 'Order Art Directors',
+  'ArtistList.ArtistsOrder': 'Order Artists',
+
   'ArtistEdit.BackToArtistList': 'Back to Artist List',
   'ArtistEdit.AddArtistTitle': 'Add Artist',
   'ArtistEdit.EditArtistTitle': 'Edit Artist',
@@ -101,6 +105,12 @@ export default {
   'ArtistEdit.Qna.AnswerEnPlaceholder': 'Answer EN',
 
   'ArtistEdit.Media.Title': 'Media',
+
+  'ArtDirectorsOrder.Title': 'Order Art Directors',
+  'ArtDirectorsOrder.BackToArtistList': 'Back to Artist List',
+  'ArtDirectorsOrder.Submit': 'Save',
+  'ArtDirectorsOrder.OrderArtDirectorsSuccessMessage':
+    'Art Directors Order Saved',
 
   'Events.Title': 'Events',
 
