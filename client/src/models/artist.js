@@ -14,10 +14,10 @@ const artistTypes = {
 };
 
 const artistRoles = {
-  NOT_SPECIFIED: { value: 'NOT_SPECIFIED', label: 'Not specified' },
+  //NOT_SPECIFIED: { value: 'NOT_SPECIFIED', label: 'Not specified' },
   MALE: { value: 'MALE', label: 'Male' },
-  FEMALE: { value: 'FEMALE', label: 'Female' },
-  BOTH: { value: 'BOTH', label: 'Both' }
+  FEMALE: { value: 'FEMALE', label: 'Female' }
+  //BOTH: { value: 'BOTH', label: 'Both' }
 };
 
 function Artist() {
@@ -26,7 +26,7 @@ function Artist() {
   this.name_sc = '';
   this.name_en = '';
   this.type = artistTypes.ACTOR.value;
-  this.role = artistRoles.NOT_SPECIFIED.value;
+  this.role = artistRoles.MALE.value;
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';

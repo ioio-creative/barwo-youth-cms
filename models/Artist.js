@@ -113,10 +113,10 @@ ArtistSchema.plugin(mongoosePaginate);
 module.exports.Artist = mongoose.model('artist', ArtistSchema);
 
 module.exports.artistRoles = {
-  NOT_SPECIFIED: 'NOT_SPECIFIED',
+  //NOT_SPECIFIED: 'NOT_SPECIFIED',
   MALE: 'MALE',
-  FEMALE: 'FEMALE',
-  BOTH: 'BOTH'
+  FEMALE: 'FEMALE'
+  //BOTH: 'BOTH'
 };
 
 const artistTypes = {
