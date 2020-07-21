@@ -88,7 +88,10 @@ router.get('/:lang/about', [languageHandling], async (req, res) => {
           email: about.contactEmail
         }
       },
-      admins: getArraySafe(about.admins)
+      admins: getArraySafe(about.admins).map(admin => ({
+        title: getEntityPropByLanguage(admin, 'title', language),
+        name: getEntityPropByLanguage(admin, 'name', language)
+      }))
     };
 
     res.json(aboutForFrontEnd);
