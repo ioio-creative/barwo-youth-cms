@@ -124,7 +124,7 @@ const GlobalConstantsEdit = _ => {
         setAlerts(
           new Alert(
             uiWordings[
-              'GlobalConstantsPageEdit.UpdateGlobalConstantsSuccessMessage'
+              'GlobalConstantsEdit.UpdateGlobalConstantsSuccessMessage'
             ],
             Alert.alertTypes.INFO
           )
@@ -155,6 +155,7 @@ const GlobalConstantsEdit = _ => {
     // originalGlobalConstants only use before finsihing the database
     <Form onSubmit={onSubmit}>
       <h4>{uiWordings['GlobalConstantsEdit.EditGlobalConstantsTitle']}</h4>
+
       <LabelInputTextPair
         name='latestShow_tc'
         value={globalConstants.latestShow_tc}
@@ -1216,9 +1217,7 @@ const GlobalConstantsEdit = _ => {
       )}
       <SubmitButton
         disabled={!isSubmitEnabled}
-        label={
-          uiWordings['GlobalConstantsPageEdit.UpdateGlobalConstantsSubmit']
-        }
+        label={uiWordings['GlobalConstantsEdit.UpdateGlobalConstantsSubmit']}
       />
     </Form>
   );

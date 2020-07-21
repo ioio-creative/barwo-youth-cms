@@ -19,6 +19,10 @@ function About() {
   this.theaterLocationName_sc = '';
   this.theaterLocationName_en = '';
 
+  this.theaterLocationHref_tc = '';
+  this.theaterLocationHref_sc = '';
+  this.theaterLocationHref_en = '';
+
   this.theaterLocationDesc1_tc = '';
   this.theaterLocationDesc1_sc = '';
   this.theaterLocationDesc1_en = '';
@@ -83,10 +87,6 @@ About.aboutResponseTypes = {
   THEATER_LOCATION_NAME_EN_REQUIRED: {
     type: 'THEATER_LOCATION_NAME_EN_REQUIRED',
     msg: 'THEATER_LOCATION_NAME_EN_REQUIRED'
-  },
-  THEATER_DESC1_TC_REQUIRED: {
-    type: 'THEATER_DESC1_TC_REQUIRED',
-    msg: 'THEATER_DESC1_TC_REQUIRED'
   },
 
   ADMIN_TITLE_TC_REQUIRED: {

@@ -3,8 +3,10 @@ import Alert from 'models/alert';
 import AlertContext from 'contexts/alert/alertContext';
 import About from 'models/about';
 import AboutContext from 'contexts/about/aboutContext';
-import AboutContainer from 'components/about/AboutPageContainer';
+import AboutContainer from 'components/about/AboutContainer';
+import AboutEditAdminSelect from 'components/about/AboutEditAdminSelect';
 import Loading from 'components/layout/loading/DefaultLoading';
+import Region from 'components/layout/Region';
 import Form from 'components/form/Form';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -21,7 +23,7 @@ const originalAbout = new About();
 const defaultState = originalAbout;
 const mediumTypes = Medium.mediumTypes;
 
-const AboutPageEdit = _ => {
+const AboutEdit = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     about: fetchedAbout,
@@ -36,8 +38,15 @@ const AboutPageEdit = _ => {
   const [about, setAbout] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
-  const [galleryPicked, setGalleryPicked] = useState([]);
+
+  // plan gallery
+  const [planGalleryPicked, setPlanGalleryPicked] = useState([]);
+
+  // theater image
   const [theaterImagePicked, setTheaterImagePicked] = useState(null);
+
+  // admins
+  const [adminsPicked, setAdminsPicked] = useState([]);
 
   // componentDidMount
   useEffect(_ => {
@@ -56,26 +65,31 @@ const AboutPageEdit = _ => {
         setAbout(
           fetchedAbout ? About.getAboutForDisplay(fetchedAbout) : defaultState
         );
+        if (fetchedAbout) {
+          console.log(fetchedAbout);
+          setPlanGalleryPicked(getArraySafe(fetchedAbout.planGallery));
+          setTheaterImagePicked(fetchedAbout.theaterImage);
+          setAdminsPicked(getArraySafe(fetchedAbout.admins));
+        }
         setIsAddMode(!fetchedAbout);
       }
     },
-    [aboutLoading, fetchedAbout, setAbout, setIsAddMode]
+    [aboutLoading, fetchedAbout]
   );
 
   // aboutErrors
   useEffect(
     _ => {
-      console.error();
       if (isNonEmptyArray(aboutErrors)) {
         setAlerts(
           aboutErrors
             .filter(errorType => {
               return (
-                errorType !==
-                About.aboutResponseTypes.ABOUT_PAGE_NOT_EXISTS.type
+                errorType !== About.aboutResponseTypes.ABOUT_NOT_EXISTS.type
               );
             })
             .map(aboutError => {
+              console.log(aboutError);
               return new Alert(
                 About.aboutResponseTypes[aboutError].msg,
                 Alert.alertTypes.WARNING
@@ -90,37 +104,76 @@ const AboutPageEdit = _ => {
 
   /* methods */
 
-  const onGetGalleryPicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setGalleryPicked(newItemList);
+  const validInput = useCallback(
+    aboutInput => {
+      const fieldsToCheckNull = [
+        { name: 'barwoDesc_tc', errorTypeName: 'BARWO_DESC_TC_REQUIRED' },
+        { name: 'barwoDesc_sc', errorTypeName: 'BARWO_DESC_SC_REQUIRED' },
+        { name: 'barwoDesc_en', errorTypeName: 'BARWO_DESC_EN_REQUIRED' },
+        { name: 'planDesc_tc', errorTypeName: 'PLAN_DESC_TC_REQUIRED' },
+        { name: 'planDesc_tc', errorTypeName: 'PLAN_DESC_TC_REQUIRED' },
+        { name: 'planDesc_tc', errorTypeName: 'PLAN_DESC_TC_REQUIRED' },
+        {
+          name: 'theaterLocationName_tc',
+          errorTypeName: 'THEATER_LOCATION_NAME_TC_REQUIRED'
+        },
+        {
+          name: 'theaterLocationName_tc',
+          errorTypeName: 'THEATER_LOCATION_NAME_TC_REQUIRED'
+        },
+        {
+          name: 'theaterLocationName_tc',
+          errorTypeName: 'THEATER_LOCATION_NAME_TC_REQUIRED'
+        }
+      ];
+      for (const fieldToCheck of fieldsToCheckNull) {
+        if (!aboutInput[fieldToCheck.name]) {
+          setAlerts(
+            new Alert(
+              About.aboutResponseTypes[fieldToCheck.errorTypeName].msg,
+              Alert.alertTypes.WARNING
+            )
+          );
+          return false;
+        }
+      }
+      return true;
     },
-    [setIsSubmitEnabled, setGalleryPicked]
-  );
-
-  const onGetTheaterImagePicked = useCallback(
-    newItemList => {
-      setIsSubmitEnabled(true);
-      setTheaterImagePicked(firstOrDefault(newItemList, null));
-    },
-    [setIsSubmitEnabled, setTheaterImagePicked]
-  );
-
-  const onChange = useCallback(
-    e => {
-      setIsSubmitEnabled(true);
-      removeAlerts();
-      setAbout({
-        ...about,
-        [e.target.name]: e.target.value
-      });
-    },
-    [about, setAbout, removeAlerts]
+    [setAlerts]
   );
 
   /* end of methods */
 
   /* event handlers */
+
+  const onChange = useCallback(
+    e => {
+      setIsSubmitEnabled(true);
+      removeAlerts();
+      const name = e.target.name;
+      const value = e.target.value;
+      setAbout(prevAbout => ({
+        ...prevAbout,
+        [name]: value
+      }));
+    },
+    [removeAlerts]
+  );
+
+  const onGetPlanGalleryPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setPlanGalleryPicked(newItemList);
+  }, []);
+
+  const onGetTheaterImagePicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setTheaterImagePicked(firstOrDefault(newItemList, null));
+  }, []);
+
+  const onGetAdminsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setAdminsPicked(newItemList);
+  }, []);
 
   const onSubmit = useCallback(
     async e => {
@@ -128,24 +181,44 @@ const AboutPageEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
-      // add gallery
-      about.gallery = getArraySafe(galleryPicked).map(medium => {
+      // add plan gallery
+      about.planGallery = getArraySafe(planGalleryPicked).map(medium => {
         return medium._id;
       });
+
+      // add theater image
       about.theaterImage = theaterImagePicked ? theaterImagePicked._id : null;
 
+      // add admins
+      about.admins = getArraySafe(adminsPicked).map(
+        ({ title_tc, name_tc, title_sc, name_sc, title_en, name_en }) => ({
+          title_tc,
+          name_tc,
+          title_sc,
+          name_sc,
+          title_en,
+          name_en
+        })
+      );
+
+      let isSuccess = validInput(about);
       let returnedAbout = null;
-      returnedAbout = await updateAbout(about);
-      let isSuccess = Boolean(returnedAbout);
+
+      if (isSuccess) {
+        returnedAbout = await updateAbout(about);
+        isSuccess = Boolean(returnedAbout);
+      }
+
       if (isSuccess) {
         setAlerts(
           new Alert(
-            uiWordings['AboutPageEdit.UpdateAboutSuccessMessage'],
+            uiWordings['AboutEdit.UpdateAboutSuccessMessage'],
             Alert.alertTypes.INFO
           )
         );
         getAbout();
       }
+
       scrollToTop();
     },
     [
@@ -155,7 +228,9 @@ const AboutPageEdit = _ => {
       setAlerts,
       removeAlerts,
       theaterImagePicked,
-      galleryPicked
+      planGalleryPicked,
+      adminsPicked,
+      validInput
     ]
   );
 
@@ -166,243 +241,210 @@ const AboutPageEdit = _ => {
   }
 
   return (
-    // originalAbout only use before finsihing the database
     <Form onSubmit={onSubmit}>
-      <h4>{uiWordings['AboutPageEdit.EditAboutTitle']}</h4>
-      <>
-        <br />
-        <div className='w3-card w3-container'>
-          {uiWordings['About.BarwoRegionLabel']}
-          <LabelRichTextbox
-            name='barwo_tc'
-            value={about.barwo_tc}
-            labelMessage={uiWordings['About.BarwoTcLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='barwo_sc'
-            value={about.barwo_sc}
-            labelMessage={uiWordings['About.BarwoScLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='barwo_en'
-            value={about.barwo_en}
-            labelMessage={uiWordings['About.BarwoEnLabel']}
-            onChange={onChange}
-            required={true}
-          />
-        </div>
-        <br />
-        <div className='w3-card w3-container'>
-          {uiWordings['About.PlanRegionLabel']}
-          <LabelRichTextbox
-            name='plan_tc'
-            value={about.plan_tc}
-            labelMessage={uiWordings['About.PlanTcLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='plan_sc'
-            value={about.plan_sc}
-            labelMessage={uiWordings['About.PlanScLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='plan_en'
-            value={about.plan_en}
-            labelMessage={uiWordings['About.PlanEnLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <FileUpload
-            name='plan_gallery'
-            labelMessage={uiWordings['About.PlanGalleryLabel']}
-            files={getArraySafe(galleryPicked)}
-            onGetFiles={onGetGalleryPicked}
-            isMultiple={true}
-            mediumType={mediumTypes.IMAGE}
-          />
-        </div>
-        <br />
-        <div className='w3-card w3-container'>
-          {uiWordings['About.TheaterRegionLabel']}
-          <LabelRichTextbox
-            name='theaterLocation_tc'
-            value={about.theaterLocation_tc}
-            labelMessage={uiWordings['About.TheaterLocationTcLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterLocation_sc'
-            value={about.theaterLocation_sc}
-            labelMessage={uiWordings['About.TheaterLocationScLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterLocation_en'
-            value={about.theaterLocation_en}
-            labelMessage={uiWordings['About.TheaterLocationEnLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterDesc1_tc'
-            value={about.theaterDesc1_tc}
-            labelMessage={uiWordings['About.TheaterDesc1TcLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterDesc1_sc'
-            value={about.theaterDesc1_sc}
-            labelMessage={uiWordings['About.TheaterDesc1ScLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterDesc1_en'
-            value={about.theaterDesc1_en}
-            labelMessage={uiWordings['About.TheaterDesc1EnLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterDesc2_tc'
-            value={about.theaterDesc2_tc}
-            labelMessage={uiWordings['About.TheaterDesc2TcLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterDesc2_sc'
-            value={about.theaterDesc2_sc}
-            labelMessage={uiWordings['About.TheaterDesc2ScLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterDesc2_en'
-            value={about.theaterDesc2_en}
-            labelMessage={uiWordings['About.TheaterDesc2EnLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterTraffic_tc'
-            value={about.theaterTraffic_tc}
-            labelMessage={uiWordings['About.TheaterTrafficTcLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterTraffic_sc'
-            value={about.theaterTraffic_sc}
-            labelMessage={uiWordings['About.TheaterTrafficScLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelRichTextbox
-            name='theaterTraffic_en'
-            value={about.theaterTraffic_en}
-            labelMessage={uiWordings['About.TheaterTrafficEnLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='contactWebsite'
-            value={about.contactWebsite}
-            labelMessage={uiWordings['About.ContactWebsiteLabel']}
-            placeholder=''
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='contactTel'
-            value={about.contactTel}
-            labelMessage={uiWordings['About.ContactTelLabel']}
-            placeholder=''
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='contactFax'
-            value={about.contactFax}
-            labelMessage={uiWordings['About.ContactFaxLabel']}
-            placeholder=''
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='contactEmail'
-            value={about.contactEmail}
-            labelMessage={uiWordings['About.ContactEmailLabel']}
-            placeholder=''
-            onChange={onChange}
-            required={true}
-          />
-          <FileUpload
-            name='theaterImage'
-            labelMessage={uiWordings['About.TheaterImageLabel']}
-            files={theaterImagePicked ? [theaterImagePicked] : null}
-            onGetFiles={onGetTheaterImagePicked}
-            isMultiple={false}
-            mediumType={mediumTypes.IMAGE}
-          />
-        </div>
-        <br />
-        <div className='w3-card w3-container'>
-          {uiWordings['About.AdminRegionLabel']}
-          <LabelInputTextPair
-            name='adminTitle_tc'
-            value={about.adminTitle_tc}
-            labelMessage={uiWordings['About.AdminTitleTcLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='adminName_tc'
-            value={about.adminName_tc}
-            labelMessage={uiWordings['About.AdminNameTcLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='adminTitle_sc'
-            value={about.adminTitle_sc}
-            labelMessage={uiWordings['About.AdminTitleScLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='adminName_sc'
-            value={about.adminName_sc}
-            labelMessage={uiWordings['About.AdminNameScLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='adminTitle_en'
-            value={about.adminTitle_en}
-            labelMessage={uiWordings['About.AdminTitleEnLabel']}
-            onChange={onChange}
-            required={true}
-          />
-          <LabelInputTextPair
-            name='adminName_en'
-            value={about.adminName_en}
-            labelMessage={uiWordings['About.AdminNameEnLabel']}
-            onChange={onChange}
-            required={true}
-          />
-        </div>
-      </>
+      <h4>{uiWordings['AboutEdit.EditAboutTitle']}</h4>
+
+      <Region title={uiWordings['About.BarwoRegionLabel']}>
+        <LabelRichTextbox
+          name='barwoDesc_tc'
+          value={about.barwoDesc_tc}
+          labelMessage={uiWordings['About.BarwoDescTcLabel']}
+          onChange={onChange}
+          required={true}
+        />
+        <LabelRichTextbox
+          name='barwoDesc_sc'
+          value={about.barwoDesc_sc}
+          labelMessage={uiWordings['About.BarwoDescScLabel']}
+          onChange={onChange}
+          required={true}
+        />
+        <LabelRichTextbox
+          name='barwoDesc_en'
+          value={about.barwoDesc_en}
+          labelMessage={uiWordings['About.BarwoDescEnLabel']}
+          onChange={onChange}
+          required={true}
+        />
+      </Region>
+
+      <Region title={uiWordings['About.PlanRegionLabel']}>
+        <LabelRichTextbox
+          name='planDesc_tc'
+          value={about.planDesc_tc}
+          labelMessage={uiWordings['About.PlanDescTcLabel']}
+          onChange={onChange}
+          required={true}
+        />
+        <LabelRichTextbox
+          name='planDesc_sc'
+          value={about.planDesc_sc}
+          labelMessage={uiWordings['About.PlanDescScLabel']}
+          onChange={onChange}
+          required={true}
+        />
+        <LabelRichTextbox
+          name='planDesc_en'
+          value={about.planDesc_en}
+          labelMessage={uiWordings['About.PlanDescEnLabel']}
+          onChange={onChange}
+          required={true}
+        />
+        <FileUpload
+          name='planGallery'
+          labelMessage={uiWordings['About.PlanGalleryLabel']}
+          files={getArraySafe(planGalleryPicked)}
+          onGetFiles={onGetPlanGalleryPicked}
+          isMultiple={true}
+          mediumType={mediumTypes.IMAGE}
+        />
+      </Region>
+
+      <Region title={uiWordings['About.TheaterRegionLabel']}>
+        <LabelRichTextbox
+          name='theaterLocationName_tc'
+          value={about.theaterLocationName_tc}
+          labelMessage={uiWordings['About.TheaterLocationNameTcLabel']}
+          onChange={onChange}
+          required={true}
+        />
+        <LabelRichTextbox
+          name='theaterLocationName_sc'
+          value={about.theaterLocationName_sc}
+          labelMessage={uiWordings['About.TheaterLocationNameScLabel']}
+          onChange={onChange}
+          required={true}
+        />
+        <LabelRichTextbox
+          name='theaterLocationName_en'
+          value={about.theaterLocationName_en}
+          labelMessage={uiWordings['About.TheaterLocationNameEnLabel']}
+          onChange={onChange}
+          required={true}
+        />
+        <LabelInputTextPair
+          name='theaterLocationHref_tc'
+          value={about.theaterLocationHref_tc}
+          labelMessage={uiWordings['About.TheaterLocationHrefTcLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='theaterLocationHref_sc'
+          value={about.theaterLocationHref_sc}
+          labelMessage={uiWordings['About.TheaterLocationHrefScLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='theaterLocationHref_en'
+          value={about.theaterLocationHref_en}
+          labelMessage={uiWordings['About.TheaterLocationHrefEnLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterLocationDesc1_tc'
+          value={about.theaterLocationDesc1_tc}
+          labelMessage={uiWordings['About.TheaterLocationDesc1TcLabel']}
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterLocationDesc1_sc'
+          value={about.theaterLocationDesc1_sc}
+          labelMessage={uiWordings['About.TheaterLocationDesc1ScLabel']}
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterLocationDesc1_en'
+          value={about.theaterLocationDesc1_en}
+          labelMessage={uiWordings['About.TheaterLocationDesc1EnLabel']}
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterLocationDesc2_tc'
+          value={about.theaterLocationDesc2_tc}
+          labelMessage={uiWordings['About.TheaterLocationDesc2TcLabel']}
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterLocationDesc2_sc'
+          value={about.theaterLocationDesc2_sc}
+          labelMessage={uiWordings['About.TheaterLocationDesc2ScLabel']}
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterLocationDesc2_en'
+          value={about.theaterLocationDesc2_en}
+          labelMessage={uiWordings['About.TheaterLocationDesc2EnLabel']}
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterTraffic_tc'
+          value={about.theaterTraffic_tc}
+          labelMessage={uiWordings['About.TheaterTrafficTcLabel']}
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterTraffic_sc'
+          value={about.theaterTraffic_sc}
+          labelMessage={uiWordings['About.TheaterTrafficScLabel']}
+          onChange={onChange}
+        />
+        <LabelRichTextbox
+          name='theaterTraffic_en'
+          value={about.theaterTraffic_en}
+          labelMessage={uiWordings['About.TheaterTrafficEnLabel']}
+          onChange={onChange}
+        />
+        <FileUpload
+          name='theaterImage'
+          labelMessage={uiWordings['About.TheaterImageLabel']}
+          files={theaterImagePicked ? [theaterImagePicked] : null}
+          onGetFiles={onGetTheaterImagePicked}
+          isMultiple={false}
+          mediumType={mediumTypes.IMAGE}
+        />
+      </Region>
+
+      <Region title={uiWordings['About.ContactRegionLabel']}>
+        <LabelInputTextPair
+          name='contactWebsite'
+          value={about.contactWebsite}
+          labelMessage={uiWordings['About.ContactWebsiteLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='contactTel'
+          value={about.contactTel}
+          labelMessage={uiWordings['About.ContactTelLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='contactFax'
+          value={about.contactFax}
+          labelMessage={uiWordings['About.ContactFaxLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='contactEmail'
+          value={about.contactEmail}
+          labelMessage={uiWordings['About.ContactEmailLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+      </Region>
+
+      <Region isMarginBottom={false}>
+        <AboutEditAdminSelect
+          admins={adminsPicked}
+          onGetAdmins={onGetAdminsPicked}
+        />
+      </Region>
+
       {!isAddMode && (
         <>
           <LabelLabelPair
@@ -415,18 +457,19 @@ const AboutPageEdit = _ => {
           />
         </>
       )}
+
       <SubmitButton
         disabled={!isSubmitEnabled}
-        label={uiWordings['AboutPageEdit.UpdateAboutSubmit']}
+        label={uiWordings['AboutEdit.UpdateAboutSubmit']}
       />
     </Form>
   );
 };
 
-const AboutPageEditWithContainer = _ => (
+const AboutEditWithContainer = _ => (
   <AboutContainer>
-    <AboutPageEdit />
+    <AboutEdit />
   </AboutContainer>
 );
 
-export default AboutPageEditWithContainer;
+export default AboutEditWithContainer;

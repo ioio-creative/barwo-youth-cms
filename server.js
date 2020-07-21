@@ -106,13 +106,14 @@ app.use(
 );
 app.use('/api/frontend/newses', require('./routes/frontend/newses/newses'));
 app.use(
-  '/api/frontend/landingPage',
-  require('./routes/frontend/landingPage/landingPage')
-);
-app.use(
   '/api/frontend/globalConstants',
   require('./routes/frontend/globalConstants/globalConstants')
 );
+app.use(
+  '/api/frontend/landingPage',
+  require('./routes/frontend/landingPage/landingPage')
+);
+app.use('/api/frontend/about', require('./routes/frontend/about/about'));
 app.use(
   '/api/frontend/contacts',
   require('./routes/frontend/contacts/contacts')

@@ -117,12 +117,8 @@ const Navbar = ({ className }) => {
           {uiWordings['Navbar.Users']}
         </NavbarLink>
       )}
-      <NavbarLink to={routes.aboutEdit(true)} isSelected={isAboutEdit}>
-        {uiWordings['Navbar.About']}
-      </NavbarLink>
 
       <NavbarLink
-        // className='w3-border-bottom'
         to={routes.globalConstantsEdit(true)}
         isSelected={isGlobalConstantsEdit}
       >
@@ -135,6 +131,10 @@ const Navbar = ({ className }) => {
       >
         {uiWordings['Navbar.LandingPage']}
       </NavbarLink>
+      <NavbarLink to={routes.aboutEdit(true)} isSelected={isAboutEdit}>
+        {uiWordings['Navbar.About']}
+      </NavbarLink>
+
       <NavbarLink
         className='w3-border-bottom'
         to={routes.phaseList(true)}

@@ -12,8 +12,7 @@ const ContactSchema = mongoose.Schema({
     // required: true
   },
   type: {
-    type: String,
-    require: true
+    type: String
   },
   language: {
     type: String,
