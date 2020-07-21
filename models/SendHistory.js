@@ -47,6 +47,7 @@ SendHistorySchema.plugin(mongoosePaginate);
 module.exports.SendHistory = mongoose.model('sendHistory', SendHistorySchema);
 
 module.exports.sendHistoryResponseTypes = {
+  LABEL_REQUIRED: 'LABEL_REQUIRED',
   TITLE_TC_REQUIRED: 'TITLE_TC_REQUIRED',
   TITLE_SC_REQUIRED: 'TITLE_SC_REQUIRED',
   TITLE_EN_REQUIRED: 'TITLE_EN_REQUIRED',
@@ -55,6 +56,6 @@ module.exports.sendHistoryResponseTypes = {
   MESSAGE_EN_REQUIRED: 'MESSAGE_EN_REQUIRED',
 
   // db check
-  NEWSLETTER_NOT_EXISTS: 'NEWSLETTER_NOT_EXISTS',
+  SENDHISTORY_NOT_EXISTS: 'SENDHISTORY_NOT_EXISTS',
   LABEL_ALREADY_EXISTS: 'EMAIL_ADDRESS_ALREADY_EXISTS'
 };

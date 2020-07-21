@@ -13,10 +13,7 @@ const { Contact, contactResponseTypes } = require('../../../models/Contact');
 
 /* utilities */
 
-const contactSelectForFindAll = {
-  // eventsDirected: 0,
-  // eventsPerformed: 0
-};
+const contactSelectForFindAll = {};
 
 const contactSelectForFindOne = { ...contactSelectForFindAll };
 
@@ -33,8 +30,8 @@ const contactValidationChecks = [
   check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED)
     .isEmail()
     .notEmpty(),
-  check('name', contactResponseTypes.NAME_REQUIRED).notEmpty(),
-  check('type', contactResponseTypes.TYPE_REQUIRED).notEmpty(),
+  // check('name', contactResponseTypes.NAME_REQUIRED).notEmpty(),
+  // check('type', contactResponseTypes.TYPE_REQUIRED).notEmpty(),
   check('language', contactResponseTypes.LANGUAGE_REQUIRED).notEmpty()
 ];
 
@@ -104,14 +101,15 @@ router.post(
   '/',
   [auth, contactValidationChecks, validationHandling],
   async (req, res) => {
-    const { emailAddress, name, type, language, isEnabled } = req.body;
+    const { emailAddress, name, language, isEnabled } = req.body;
+    // const { emailAddress, name, type, language, isEnabled } = req.body;
     console.log(req.body);
 
     try {
       const contact = new Contact({
         emailAddress,
         name,
-        type,
+        // type,
         language,
         isEnabled,
         lastModifyUser: req.user._id
@@ -134,7 +132,8 @@ router.put(
   '/:_id',
   [auth, contactValidationChecks, validationHandling],
   async (req, res) => {
-    const { emailAddress, name, type, language, isEnabled } = req.body;
+    const { emailAddress, name, language, isEnabled } = req.body;
+    // const { emailAddress, name, type, language, isEnabled } = req.body;
 
     // Build contact object
     // Note:
@@ -142,7 +141,7 @@ router.put(
     const contactFields = {};
     if (emailAddress) contactFields.emailAddress = emailAddress;
     if (name) contactFields.name = name;
-    contactFields.type = type;
+    // contactFields.type = type;
     contactFields.language = language;
     if (isEnabled !== undefined) contactFields.isEnabled = isEnabled;
     contactFields.lastModifyDT = new Date();

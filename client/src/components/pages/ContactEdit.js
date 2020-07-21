@@ -211,15 +211,15 @@ const ContactEdit = _ => {
           labelMessage={uiWordings['Contact.NameLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
+          // required={true}
         />
-        <LabelSelectPair
+        {/* <LabelSelectPair
           name='type'
           value={contact.type}
           options={Contact.contactTypeOptions}
           labelMessage={uiWordings['Contact.TypeLabel']}
           onChange={onChange}
-        />
+        /> */}
         <LabelSelectPair
           name='language'
           value={contact.language}

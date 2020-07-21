@@ -32,11 +32,11 @@ const headers = [
     value: 'emailAddress',
     isSortEnabled: true
   },
-  {
-    name: uiWordings['Contact.NameLabel'],
-    value: 'name',
-    isSortEnabled: true
-  },
+  // {
+  //   name: uiWordings['Contact.NameLabel'],
+  //   value: 'name',
+  //   isSortEnabled: true
+  // },
   {
     name: uiWordings['Contact.TypeLabel'],
     value: 'typeDisplay',

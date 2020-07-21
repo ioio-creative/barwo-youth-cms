@@ -110,7 +110,7 @@ export default {
     return '/sendHistoryList';
   },
   sendHistoryViewById: '/sendHistoryView/:sendHistoryId',
-  sendHistoryEditByIdWithValue: function (isLink, sendHistoryId) {
+  sendHistoryViewByIdWithValue: function (isLink, sendHistoryId) {
     return '/sendHistoryView/' + sendHistoryId;
   },
 

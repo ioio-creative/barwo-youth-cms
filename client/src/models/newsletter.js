@@ -17,6 +17,10 @@ function Newsletter() {
 
 Newsletter.newsletterResponseTypes = {
   // input validation
+  LABEL_REQUIRED: {
+    type: 'LABEL_REQUIRED',
+    msg: 'LABEL_REQUIRED'
+  },
   TITLE_TC_REQUIRED: {
     type: 'TITLE_TC_REQUIRED',
     msg: 'TITLE_TC_REQUIRED'

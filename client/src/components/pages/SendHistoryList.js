@@ -71,11 +71,6 @@ const headers = [
     name: uiWordings['SendHistory.SenderLabel'],
     value: 'SenderDisplay',
     isSortEnabled: true
-  },
-  {
-    name: uiWordings['SendHistory.IsEnabledLabel'],
-    value: 'isEnabledDisplay',
-    isSortEnabled: true
   }
 ];
 

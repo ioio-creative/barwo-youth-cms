@@ -175,7 +175,7 @@ const Testing = _ => {
           onChange={onChange}
           required={true}
         />
-        <LabelInputTextPair
+        {/* <LabelInputTextPair
           name='name'
           value={contact.name}
           labelMessage={'Contact.Name'}
@@ -189,7 +189,7 @@ const Testing = _ => {
           options={Contact.contactTypeOptions}
           labelMessage={'Contact.Type'}
           onChange={onChange}
-        />
+        /> */}
         <LabelSelectPair
           name='language'
           value={contact.language}

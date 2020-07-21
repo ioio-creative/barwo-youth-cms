@@ -470,6 +470,27 @@ export default {
   'NewsletterEdit.UpdateNewsletterSuccessMessage': 'Newsletter Updated',
   'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sended',
 
+  'SendHistories.Title': 'Send Histories',
+
+  'SendHistory.LabelLabel': 'Label',
+  'SendHistory.TitleTcLabel': 'Title TC',
+  'SendHistory.TitleScLabel': 'Title SC',
+  'SendHistory.TitleEnLabel': 'Title EN',
+  'SendHistory.MessageTcLabel': 'Message TC',
+  'SendHistory.MessageScLabel': 'Message SC',
+  'SendHistory.MessageEnLabel': 'Message EN',
+  'SendHistory.SendDTLabel': 'Send DT',
+  'SendHistory.SenderLabel': 'Sender',
+  'SendHistory.IsEnabledLabel': 'Is Enabled ?',
+
+  'SendHistoryList.SendHistoriesList': 'Send Histories List',
+  'SendHistoryList.FilterTextPlaceHolder': 'Filter Send Historys by name...',
+  'SendHistoryList.FilterButton': 'Filter',
+  'SendHistoryList.ClearFilterButton': 'Clear Filter',
+
+  'SendHistoryView.BackToSendHistoryList': 'Back to Send History List',
+  'SendHistoryView.ViewSendHistory': 'Send History View',
+
   'Activities.Title': 'Activities',
 
   'Activity.LabelLabel': 'Label',

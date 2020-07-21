@@ -1,7 +1,7 @@
 import React, { useReducer, useCallback } from 'react';
 import axios from 'axios';
-import NewsletterContext from './newslettersContext';
-import newsletterReducer from './newslettersReducer';
+import NewslettersContext from './newslettersContext';
+import newslettersReducer from './newslettersReducer';
 import Newsletter from 'models/newsletter';
 import handleServerError from '../handleServerError';
 import {
@@ -27,7 +27,7 @@ const initialState = {
 };
 
 const NewslettersState = ({ children }) => {
-  const [state, dispatch] = useReducer(newsletterReducer, initialState);
+  const [state, dispatch] = useReducer(newslettersReducer, initialState);
 
   // Get Newsletters
   const getNewsletters = useCallback(async options => {
@@ -172,7 +172,7 @@ const NewslettersState = ({ children }) => {
   }, []);
 
   return (
-    <NewsletterContext.Provider
+    <NewslettersContext.Provider
       value={{
         newsletters: state.newsletters,
         newslettersPaginationMeta: state.newslettersPaginationMeta,
@@ -189,7 +189,7 @@ const NewslettersState = ({ children }) => {
       }}
     >
       {children}
-    </NewsletterContext.Provider>
+    </NewslettersContext.Provider>
   );
 };
 

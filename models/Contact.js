@@ -8,8 +8,8 @@ const ContactSchema = mongoose.Schema({
     unique: true
   },
   name: {
-    type: String,
-    required: true
+    type: String
+    // required: true
   },
   type: {
     type: String,
@@ -52,7 +52,7 @@ module.exports.contactLanguage = {
 
 module.exports.contactResponseTypes = {
   EMAIL_ADDRESS_INVALID: 'EMAIL_ADDRESS_INVALID',
-  NAME_REQUIRED: 'NAME_REQUIRED',
+  // NAME_REQUIRED: 'NAME_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
   LANGUAGE_REQUIRED: 'LANGUAGE_REQUIRED',
 

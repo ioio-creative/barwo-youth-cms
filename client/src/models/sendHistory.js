@@ -3,6 +3,7 @@ import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function SendHistory() {
+  this.label = '';
   this.title_tc = '';
   this.message_tc = '';
   this.title_sc = '';
@@ -15,6 +16,10 @@ function SendHistory() {
 
 SendHistory.sendHistoryResponseTypes = {
   // input validation
+  LABEL_REQUIRED: {
+    type: 'LABEL_REQUIRED',
+    msg: 'LABEL_REQUIRED'
+  },
   TITLE_TC_REQUIRED: {
     type: 'TITLE_TC_REQUIRED',
     msg: 'TITLE_TC_REQUIRED'
@@ -41,13 +46,13 @@ SendHistory.sendHistoryResponseTypes = {
   },
 
   // db check
-  NEWSLETTER_NOT_EXISTS: {
-    type: 'NEWSLETTER_NOT_EXISTS',
-    msg: 'NEWSLETTER_NOT_EXISTS'
+  SENDHISTORY_NOT_EXISTS: {
+    type: 'SENDHISTORY_NOT_EXISTS',
+    msg: 'SENDHISTORY_NOT_EXISTS'
   },
   LABEL_ALREADY_EXISTS: {
     type: 'LABEL_ALREADY_EXISTS',
-    msg: 'LABEL_ALREADY_EXISTS'
+    meg: 'LABEL_ALREADY_EXISTS'
   },
 
   // general
@@ -59,16 +64,11 @@ SendHistory.getSendHistoryForDisplay = sendHistory => {
   return {
     ...sendHistory,
     sendDTDisplay: formatDateTimeString(sendHistory.sendDT),
-    senderDisplay: sendHistory.sender ? sendHistory.lastModifyUser.name : '',
-    isEnabledDisplay: sendHistory.isEnabled.toString()
+    senderDisplay: sendHistory.sender ? sendHistory.sender.name : ''
   };
 };
 
-const displayFieldNames = [
-  'sendDTDisplay',
-  'senderDisplay',
-  'isEnabledDisplay'
-];
+const displayFieldNames = ['sendDTDisplay', 'senderDisplay'];
 
 SendHistory.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
 

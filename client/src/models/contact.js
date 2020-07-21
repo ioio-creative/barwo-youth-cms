@@ -32,10 +32,10 @@ Contact.contactResponseTypes = {
     type: 'EMAIL_ADDRESS_INVALID',
     msg: 'EMAIL_ADDRESS_INVALID'
   },
-  NAME_REQUIRED: {
-    type: 'NAME_REQUIRED',
-    msg: 'NAME_REQUIRED'
-  },
+  // NAME_REQUIRED: {
+  //   type: 'NAME_REQUIRED',
+  //   msg: 'NAME_REQUIRED'
+  // },
   TYPE_REQUIRED: {
     type: 'TYPE_REQUIRED',
     msg: 'TYPE_REQUIRED'
@@ -69,7 +69,7 @@ Contact.getContactForDisplay = contact => {
   // console.log(contact);
   return {
     ...contact,
-    typeDisplay: contactTypes[contact.type].label,
+    // typeDisplay: contactTypes[contact.type].label,
     languageDisplay: contactLanguage[contact.language].label,
     lastModifyDTDisplay: formatDateTimeString(contact.lastModifyDT),
     lastModifyUserDisplay: contact.lastModifyUser

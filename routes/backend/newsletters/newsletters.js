@@ -35,6 +35,7 @@ const newsletterPopulationListForFindOne = [
 ];
 
 const newsletterValidationChecks = [
+  check('label', newsletterResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('title_tc', newsletterResponseTypes.TITLE_TC_REQUIRED).notEmpty(),
   check('title_sc', newsletterResponseTypes.TITLE_SC_REQUIRED).notEmpty(),
   check('title_en', newsletterResponseTypes.TITLE_EN_REQUIRED).notEmpty(),
@@ -150,8 +151,8 @@ router.post(
   }
 );
 
-// @route   PUT api/backend/newsletters/sendHistory/:_id
-// @desc    Update sendHistory
+// @route   PUT api/backend/newsletters/newsletters/:_id
+// @desc    Update newsletter
 // @access  Private
 router.put(
   '/:_id',
