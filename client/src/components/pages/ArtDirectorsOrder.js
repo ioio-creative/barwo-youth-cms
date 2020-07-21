@@ -102,7 +102,7 @@ const ArtDirectorsOrder = _ => {
 
       scrollToTop();
     },
-    [removeAlerts, orderArtDirectors, artDirectorsPicked]
+    [setAlerts, removeAlerts, orderArtDirectors, artDirectorsPicked]
   );
 
   /* end of event handlers */
