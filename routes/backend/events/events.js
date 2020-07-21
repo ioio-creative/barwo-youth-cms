@@ -70,10 +70,10 @@ const eventValidationChecks = [
   check('label', eventResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).notEmpty(),
   check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).notEmpty(),
-  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty(),
-  check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).notEmpty(),
-  check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).notEmpty(),
-  check('venue_en', eventResponseTypes.VENUE_EN_REQUIRED).notEmpty()
+  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty()
+  // check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).notEmpty(),
+  // check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).notEmpty(),
+  // check('venue_en', eventResponseTypes.VENUE_EN_REQUIRED).notEmpty()
 ];
 
 const eventArtDirectorsValidation = artDirectors => {
@@ -145,47 +145,47 @@ const eventScenaristsValidation = scenarists => {
   return null;
 };
 
-const eventPricesValidation = prices => {
-  for (const price of getArraySafe(prices)) {
-    let errorType = null;
+// const eventPricesValidation = prices => {
+//   for (const price of getArraySafe(prices)) {
+//     let errorType = null;
 
-    if (!price.price_tc) {
-      errorType = eventResponseTypes.EVENT_PRICE_PRICE_TC_REQUIRED;
-    } else if (!price.price_sc) {
-      errorType = eventResponseTypes.EVENT_PRICE_PRICE_SC_REQUIRED;
-    } else if (!price.price_en) {
-      errorType = eventResponseTypes.EVENT_PRICE_PRICE_EN_REQUIRED;
-    }
+//     if (!price.price_tc) {
+//       errorType = eventResponseTypes.EVENT_PRICE_PRICE_TC_REQUIRED;
+//     } else if (!price.price_sc) {
+//       errorType = eventResponseTypes.EVENT_PRICE_PRICE_SC_REQUIRED;
+//     } else if (!price.price_en) {
+//       errorType = eventResponseTypes.EVENT_PRICE_PRICE_EN_REQUIRED;
+//     }
 
-    if (errorType) {
-      return errorType;
-    }
-  }
+//     if (errorType) {
+//       return errorType;
+//     }
+//   }
 
-  return null;
-};
+//   return null;
+// };
 
-const eventPhonesValidation = phones => {
-  for (const phone of getArraySafe(phones)) {
-    let errorType = null;
+// const eventPhonesValidation = phones => {
+//   for (const phone of getArraySafe(phones)) {
+//     let errorType = null;
 
-    if (!phone.label_tc) {
-      errorType = eventResponseTypes.EVENT_PHONE_LABEL_TC_REQUIRED;
-    } else if (!phone.label_sc) {
-      errorType = eventResponseTypes.EVENT_PHONE_LABEL_SC_REQUIRED;
-    } else if (!phone.label_en) {
-      errorType = eventResponseTypes.EVENT_PHONE_LABEL_EN_REQUIRED;
-    } else if (!phone.phone) {
-      errorType = eventResponseTypes.EVENT_PHONE_PHONE_REQUIRED;
-    }
+//     if (!phone.label_tc) {
+//       errorType = eventResponseTypes.EVENT_PHONE_LABEL_TC_REQUIRED;
+//     } else if (!phone.label_sc) {
+//       errorType = eventResponseTypes.EVENT_PHONE_LABEL_SC_REQUIRED;
+//     } else if (!phone.label_en) {
+//       errorType = eventResponseTypes.EVENT_PHONE_LABEL_EN_REQUIRED;
+//     } else if (!phone.phone) {
+//       errorType = eventResponseTypes.EVENT_PHONE_PHONE_REQUIRED;
+//     }
 
-    if (errorType) {
-      return errorType;
-    }
-  }
+//     if (errorType) {
+//       return errorType;
+//     }
+//   }
 
-  return null;
-};
+//   return null;
+// };
 
 const handleEventRelationshipsValidationError = (errorType, res) => {
   // 400 bad request
@@ -199,8 +199,8 @@ const eventRelationshipsValidation = (
   artists,
   shows,
   scenarists,
-  prices,
-  phones,
+  // prices,
+  // phones,
   res
 ) => {
   let errorType = null;
@@ -229,17 +229,17 @@ const eventRelationshipsValidation = (
     return false;
   }
 
-  errorType = eventPricesValidation(prices);
-  if (errorType) {
-    handleEventRelationshipsValidationError(errorType, res);
-    return false;
-  }
+  // errorType = eventPricesValidation(prices);
+  // if (errorType) {
+  //   handleEventRelationshipsValidationError(errorType, res);
+  //   return false;
+  // }
 
-  errorType = eventPhonesValidation(phones);
-  if (errorType) {
-    handleEventRelationshipsValidationError(errorType, res);
-    return false;
-  }
+  // errorType = eventPhonesValidation(phones);
+  // if (errorType) {
+  //   handleEventRelationshipsValidationError(errorType, res);
+  //   return false;
+  // }
 
   return true;
 };
@@ -423,15 +423,15 @@ router.post(
       artists,
       shows,
       scenarists,
-      venue_tc,
-      venue_sc,
-      venue_en,
-      prices,
-      priceRemarks_tc,
-      priceRemarks_sc,
-      priceRemarks_en,
-      phones,
-      ticketUrl,
+      // venue_tc,
+      // venue_sc,
+      // venue_en,
+      // prices,
+      // priceRemarks_tc,
+      // priceRemarks_sc,
+      // priceRemarks_en,
+      // phones,
+      // ticketUrl,
       themeColor,
       featuredImage,
       gallery
@@ -443,8 +443,8 @@ router.post(
       artists,
       shows,
       scenarists,
-      prices,
-      phones,
+      // prices,
+      // phones,
       res
     );
     if (!isSuccess) {
@@ -476,15 +476,15 @@ router.post(
         artists,
         shows,
         scenarists,
-        venue_tc,
-        venue_sc,
-        venue_en,
-        prices,
-        priceRemarks_tc,
-        priceRemarks_sc,
-        priceRemarks_en,
-        phones,
-        ticketUrl,
+        // venue_tc,
+        // venue_sc,
+        // venue_en,
+        // prices,
+        // priceRemarks_tc,
+        // priceRemarks_sc,
+        // priceRemarks_en,
+        // phones,
+        // ticketUrl,
         themeColor,
         featuredImage,
         gallery: getArraySafe(gallery)
@@ -539,15 +539,15 @@ router.put(
       artists,
       shows,
       scenarists,
-      venue_tc,
-      venue_sc,
-      venue_en,
-      prices,
-      priceRemarks_tc,
-      priceRemarks_sc,
-      priceRemarks_en,
-      phones,
-      ticketUrl,
+      // venue_tc,
+      // venue_sc,
+      // venue_en,
+      // prices,
+      // priceRemarks_tc,
+      // priceRemarks_sc,
+      // priceRemarks_en,
+      // phones,
+      // ticketUrl,
       themeColor,
       featuredImage,
       gallery
@@ -559,8 +559,8 @@ router.put(
       artists,
       shows,
       scenarists,
-      prices,
-      phones,
+      // prices,
+      // phones,
       res
     );
     if (!isSuccess) {
@@ -589,15 +589,15 @@ router.put(
     eventFields.artists = getArraySafe(artists);
     eventFields.shows = sortShows(shows);
     eventFields.scenarists = getArraySafe(scenarists);
-    if (venue_tc) eventFields.venue_tc = venue_tc;
-    if (venue_sc) eventFields.venue_sc = venue_sc;
-    if (venue_en) eventFields.venue_en = venue_en;
-    eventFields.prices = getArraySafe(prices);
-    eventFields.priceRemarks_tc = priceRemarks_tc;
-    eventFields.priceRemarks_sc = priceRemarks_sc;
-    eventFields.priceRemarks_en = priceRemarks_en;
-    eventFields.phones = getArraySafe(phones);
-    eventFields.ticketUrl = ticketUrl;
+    // if (venue_tc) eventFields.venue_tc = venue_tc;
+    // if (venue_sc) eventFields.venue_sc = venue_sc;
+    // if (venue_en) eventFields.venue_en = venue_en;
+    // eventFields.prices = getArraySafe(prices);
+    // eventFields.priceRemarks_tc = priceRemarks_tc;
+    // eventFields.priceRemarks_sc = priceRemarks_sc;
+    // eventFields.priceRemarks_en = priceRemarks_en;
+    // eventFields.phones = getArraySafe(phones);
+    // eventFields.ticketUrl = ticketUrl;
     eventFields.themeColor = themeColor;
     eventFields.featuredImage = featuredImage;
     eventFields.gallery = getArraySafe(gallery);

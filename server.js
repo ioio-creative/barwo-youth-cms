@@ -99,6 +99,10 @@ app.use('/api/backend/media', require('./routes/backend/media/media'));
 // frontend apis
 app.use('/api/frontend/artists', require('./routes/frontend/artists/artists'));
 app.use('/api/frontend/events', require('./routes/frontend/events/events'));
+app.use(
+  '/api/frontend/events/ticketingDefault',
+  require('./routes/frontend/events/ticketingDefault')
+);
 app.use('/api/frontend/phases', require('./routes/frontend/phases/phases'));
 app.use(
   '/api/frontend/activities',

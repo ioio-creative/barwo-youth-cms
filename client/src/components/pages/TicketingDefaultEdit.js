@@ -18,6 +18,7 @@ import scrollToTop from 'utils/ui/scrollToTop';
 
 const originalTicketingDefault = new TicketingDefault();
 const defaultState = originalTicketingDefault;
+
 const TicketingDefaultEdit = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -35,32 +36,10 @@ const TicketingDefaultEdit = _ => {
   const [isAddMode, setIsAddMode] = useState(false);
 
   // prices in ticketingDefault
-  const [pricesPicked, setPricesPicked] = useState([
-    { price_tc: '150元', price_sc: '150元', price_en: 'HK$150' },
-    { price_tc: '100元', price_sc: '100元', price_en: 'HK$100' }
-  ]);
+  const [pricesPicked, setPricesPicked] = useState([]);
 
   // phones in ticketingDefault
-  const [phonesPicked, setPhonesPicked] = useState([
-    {
-      label_tc: '節目查詢',
-      label_sc: '节目查询',
-      label_en: 'Programme enquiries',
-      phone: '(852) 2384 2939'
-    },
-    {
-      label_tc: '票務查詢',
-      label_sc: '票务查询',
-      label_en: 'Ticketing enquiries',
-      phone: '(852) 3761 6661'
-    },
-    {
-      label_tc: '信用卡電話熱線',
-      label_sc: '信用卡电话热线',
-      label_en: 'Credit card telephone booking',
-      phone: '(852) 2111 5999'
-    }
-  ]);
+  const [phonesPicked, setPhonesPicked] = useState([]);
 
   // componentDidMount
   useEffect(_ => {
@@ -161,6 +140,7 @@ const TicketingDefaultEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
+      // add prices
       ticketingDefault.prices = getArraySafe(pricesPicked).map(
         ({ price_tc, price_sc, price_en }) => {
           return {
@@ -171,6 +151,7 @@ const TicketingDefaultEdit = _ => {
         }
       );
 
+      // add phones
       ticketingDefault.phones = getArraySafe(phonesPicked).map(
         ({ label_tc, label_sc, label_en, phone }) => {
           return {
@@ -218,6 +199,7 @@ const TicketingDefaultEdit = _ => {
   if (ticketingDefaultLoading) {
     return <Loading />;
   }
+
   return (
     <Form onSubmit={onSubmit}>
       <h4>{uiWordings['TicketingDefaultEdit.EditTicketingDefaultTitle']}</h4>
@@ -283,6 +265,7 @@ const TicketingDefaultEdit = _ => {
         onChange={onChange}
         required={true}
       />
+
       {!isAddMode && (
         <>
           <LabelLabelPair
@@ -295,6 +278,7 @@ const TicketingDefaultEdit = _ => {
           />
         </>
       )}
+
       <SubmitButton
         disabled={!isSubmitEnabled}
         label={

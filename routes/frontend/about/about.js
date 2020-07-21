@@ -6,7 +6,6 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { About, aboutResponseTypes } = require('../../../models/About');
-const { ApiGatewayManagementApi } = require('aws-sdk');
 
 /* utilities */
 
