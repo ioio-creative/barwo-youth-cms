@@ -449,7 +449,137 @@ const globalConstantsValidationChecks = [
 
   check('email_tc', globalConstantsResponseTypes.EMAIL_TC_REQUIRED).notEmpty(),
   check('email_sc', globalConstantsResponseTypes.EMAIL_SC_REQUIRED).notEmpty(),
-  check('email_en', globalConstantsResponseTypes.EMAIL_EN_REQUIRED).notEmpty()
+  check('email_en', globalConstantsResponseTypes.EMAIL_EN_REQUIRED).notEmpty(),
+
+  check(
+    'RESEARCH_AND_EDUCATION_tc',
+    globalConstantsResponseTypes.RESEARCH_AND_EDUCATION_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'RESEARCH_AND_EDUCATION_sc',
+    globalConstantsResponseTypes.RESEARCH_AND_EDUCATION_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'RESEARCH_AND_EDUCATION_en',
+    globalConstantsResponseTypes.RESEARCH_AND_EDUCATION_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'knowledge_tc',
+    globalConstantsResponseTypes.KNOWLEDGE_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'knowledge_sc',
+    globalConstantsResponseTypes.KNOWLEDGE_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'knowledge_en',
+    globalConstantsResponseTypes.KNOWLEDGE_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'workshop_tc',
+    globalConstantsResponseTypes.WORKSHOP_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'workshop_sc',
+    globalConstantsResponseTypes.WORKSHOP_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'workshop_en',
+    globalConstantsResponseTypes.WORKSHOP_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'video_show_tc',
+    globalConstantsResponseTypes.VIDEO_SHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'video_show_sc',
+    globalConstantsResponseTypes.VIDEO_SHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'video_show_en',
+    globalConstantsResponseTypes.VIDEO_SHOW_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'sharing_tc',
+    globalConstantsResponseTypes.SHARING_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'sharing_sc',
+    globalConstantsResponseTypes.SHARING_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'sharing_en',
+    globalConstantsResponseTypes.SHARING_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'past_activity_tc',
+    globalConstantsResponseTypes.PAST_ACTIVITY_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'past_activity_sc',
+    globalConstantsResponseTypes.PAST_ACTIVITY_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'past_activity_en',
+    globalConstantsResponseTypes.PAST_ACTIVITY_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'details_tc',
+    globalConstantsResponseTypes.DETAILS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'details_sc',
+    globalConstantsResponseTypes.DETAILS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'details_en',
+    globalConstantsResponseTypes.DETAILS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'dateOfShow_tc',
+    globalConstantsResponseTypes.DATEOFSHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'dateOfShow_sc',
+    globalConstantsResponseTypes.DATEOFSHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'dateOfShow_en',
+    globalConstantsResponseTypes.DATEOFSHOW_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'location_tc',
+    globalConstantsResponseTypes.LOCATION_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'location_sc',
+    globalConstantsResponseTypes.LOCATION_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'location_en',
+    globalConstantsResponseTypes.LOCATION_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'relatedNews_tc',
+    globalConstantsResponseTypes.RELATEDNEWS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'relatedNews_sc',
+    globalConstantsResponseTypes.RELATEDNEWS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'relatedNews_en',
+    globalConstantsResponseTypes.RELATEDNEWS_EN_REQUIRED
+  ).notEmpty()
 ];
 
 /* end of utilities */
@@ -650,7 +780,47 @@ router.post(
 
       email_tc,
       email_sc,
-      email_en
+      email_en,
+
+      RESEARCH_AND_EDUCATION_tc,
+      RESEARCH_AND_EDUCATION_sc,
+      RESEARCH_AND_EDUCATION_en,
+
+      knowledge_tc,
+      knowledge_sc,
+      knowledge_en,
+
+      workshop_tc,
+      workshop_sc,
+      workshop_en,
+
+      video_show_tc,
+      video_show_sc,
+      video_show_en,
+
+      sharing_tc,
+      sharing_sc,
+      sharing_en,
+
+      past_activity_tc,
+      past_activity_sc,
+      past_activity_en,
+
+      details_tc,
+      details_sc,
+      details_en,
+
+      dateOfShow_tc,
+      dateOfShow_sc,
+      dateOfShow_en,
+
+      location_tc,
+      location_sc,
+      location_en,
+
+      relatedNews_tc,
+      relatedNews_sc,
+      relatedNews_en
     } = req.body;
 
     // Build global constants object
@@ -824,6 +994,46 @@ router.post(
     globalConstantsFields.email_tc = email_tc;
     globalConstantsFields.email_sc = email_sc;
     globalConstantsFields.email_en = email_en;
+
+    globalConstantsFields.RESEARCH_AND_EDUCATION_tc = RESEARCH_AND_EDUCATION_tc;
+    globalConstantsFields.RESEARCH_AND_EDUCATION_sc = RESEARCH_AND_EDUCATION_sc;
+    globalConstantsFields.RESEARCH_AND_EDUCATION_en = RESEARCH_AND_EDUCATION_en;
+
+    globalConstantsFields.knowledge_tc = knowledge_tc;
+    globalConstantsFields.knowledge_sc = knowledge_sc;
+    globalConstantsFields.knowledge_en = knowledge_en;
+
+    globalConstantsFields.workshop_tc = workshop_tc;
+    globalConstantsFields.workshop_sc = workshop_sc;
+    globalConstantsFields.workshop_en = workshop_en;
+
+    globalConstantsFields.video_show_tc = video_show_tc;
+    globalConstantsFields.video_show_sc = video_show_sc;
+    globalConstantsFields.video_show_en = video_show_en;
+
+    globalConstantsFields.sharing_tc = sharing_tc;
+    globalConstantsFields.sharing_sc = sharing_sc;
+    globalConstantsFields.sharing_en = sharing_en;
+
+    globalConstantsFields.past_activity_tc = past_activity_tc;
+    globalConstantsFields.past_activity_sc = past_activity_sc;
+    globalConstantsFields.past_activity_en = past_activity_en;
+
+    globalConstantsFields.details_tc = details_tc;
+    globalConstantsFields.details_sc = details_sc;
+    globalConstantsFields.details_en = details_en;
+
+    globalConstantsFields.dateOfShow_tc = dateOfShow_tc;
+    globalConstantsFields.dateOfShow_sc = dateOfShow_sc;
+    globalConstantsFields.dateOfShow_en = dateOfShow_en;
+
+    globalConstantsFields.location_tc = location_tc;
+    globalConstantsFields.location_sc = location_sc;
+    globalConstantsFields.location_en = location_en;
+
+    globalConstantsFields.relatedNews_tc = relatedNews_tc;
+    globalConstantsFields.relatedNews_sc = relatedNews_sc;
+    globalConstantsFields.relatedNews_en = relatedNews_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

@@ -153,7 +153,41 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
       website: getEntityPropByLanguage(globalConstants, 'website', language),
       tel: getEntityPropByLanguage(globalConstants, 'tel', language),
       fax: getEntityPropByLanguage(globalConstants, 'fax', language),
-      email: getEntityPropByLanguage(globalConstants, 'email', language)
+      email: getEntityPropByLanguage(globalConstants, 'email', language),
+      RESEARCH_AND_EDUCATION: getEntityPropByLanguage(
+        globalConstants,
+        'RESEARCH_AND_EDUCATION',
+        language
+      ),
+      knowledge: getEntityPropByLanguage(
+        globalConstants,
+        'knowledge',
+        language
+      ),
+      workshop: getEntityPropByLanguage(globalConstants, 'workshop', language),
+      video_show: getEntityPropByLanguage(
+        globalConstants,
+        'video_show',
+        language
+      ),
+      sharing: getEntityPropByLanguage(globalConstants, 'sharing', language),
+      past_activity: getEntityPropByLanguage(
+        globalConstants,
+        'past_activity',
+        language
+      ),
+      details: getEntityPropByLanguage(globalConstants, 'details', language),
+      dateOfShow: getEntityPropByLanguage(
+        globalConstants,
+        'dateOfShow',
+        language
+      ),
+      location: getEntityPropByLanguage(globalConstants, 'location', language),
+      relatedNews: getEntityPropByLanguage(
+        globalConstants,
+        'relatedNews',
+        language
+      )
     };
     res.json(globalConstantsForFrontEnd);
   } catch (err) {

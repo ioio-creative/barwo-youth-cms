@@ -547,6 +547,136 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  RESEARCH_AND_EDUCATION_tc: {
+    type: String,
+    require: true
+  },
+  RESEARCH_AND_EDUCATION_sc: {
+    type: String,
+    require: true
+  },
+  RESEARCH_AND_EDUCATION_en: {
+    type: String,
+    require: true
+  },
+
+  knowledge_tc: {
+    type: String,
+    require: true
+  },
+  knowledge_sc: {
+    type: String,
+    require: true
+  },
+  knowledge_en: {
+    type: String,
+    require: true
+  },
+
+  workshop_tc: {
+    type: String,
+    require: true
+  },
+  workshop_sc: {
+    type: String,
+    require: true
+  },
+  workshop_en: {
+    type: String,
+    require: true
+  },
+
+  video_show_tc: {
+    type: String,
+    require: true
+  },
+  video_show_sc: {
+    type: String,
+    require: true
+  },
+  video_show_en: {
+    type: String,
+    require: true
+  },
+
+  sharing_tc: {
+    type: String,
+    require: true
+  },
+  sharing_sc: {
+    type: String,
+    require: true
+  },
+  sharing_en: {
+    type: String,
+    require: true
+  },
+
+  past_activity_tc: {
+    type: String,
+    require: true
+  },
+  past_activity_sc: {
+    type: String,
+    require: true
+  },
+  past_activity_en: {
+    type: String,
+    require: true
+  },
+
+  details_tc: {
+    type: String,
+    require: true
+  },
+  details_sc: {
+    type: String,
+    require: true
+  },
+  details_en: {
+    type: String,
+    require: true
+  },
+
+  dateOfShow_tc: {
+    type: String,
+    require: true
+  },
+  dateOfShow_sc: {
+    type: String,
+    require: true
+  },
+  dateOfShow_en: {
+    type: String,
+    require: true
+  },
+
+  location_tc: {
+    type: String,
+    require: true
+  },
+  location_sc: {
+    type: String,
+    require: true
+  },
+  location_en: {
+    type: String,
+    require: true
+  },
+
+  relatedNews_tc: {
+    type: String,
+    require: true
+  },
+  relatedNews_sc: {
+    type: String,
+    require: true
+  },
+  relatedNews_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -731,6 +861,46 @@ module.exports.globalConstantsResponseTypes = {
   EMAIL_TC_REQUIRED: 'EMAIL_TC_REQUIRED',
   EMAIL_SC_REQUIRED: 'EMAIL_SC_REQUIRED',
   EMAIL_EN_REQUIRED: 'EMAIL_EN_REQUIRED',
+
+  RESEARCH_AND_EDUCATION_TC_REQUIRED: 'RESEARCH_AND_EDUCATION_TC_REQUIRED',
+  RESEARCH_AND_EDUCATION_SC_REQUIRED: 'RESEARCH_AND_EDUCATION_SC_REQUIRED',
+  RESEARCH_AND_EDUCATION_EN_REQUIRED: 'RESEARCH_AND_EDUCATION_EN_REQUIRED',
+
+  KNOWLEDGE_TC_REQUIRED: 'KNOWLEDGE_TC_REQUIRED',
+  KNOWLEDGE_SC_REQUIRED: 'KNOWLEDGE_SC_REQUIRED',
+  KNOWLEDGE_EN_REQUIRED: 'KNOWLEDGE_EN_REQUIRED',
+
+  WORKSHOP_TC_REQUIRED: 'WORKSHOP_TC_REQUIRED',
+  WORKSHOP_SC_REQUIRED: 'WORKSHOP_SC_REQUIRED',
+  WORKSHOP_EN_REQUIRED: 'WORKSHOP_EN_REQUIRED',
+
+  VIDEO_SHOW_TC_REQUIRED: 'VIDEO_SHOW_TC_REQUIRED',
+  VIDEO_SHOW_SC_REQUIRED: 'VIDEO_SHOW_SC_REQUIRED',
+  VIDEO_SHOW_EN_REQUIRED: 'VIDEO_SHOW_EN_REQUIRED',
+
+  SHARING_TC_REQUIRED: 'SHARING_TC_REQUIRED',
+  SHARING_SC_REQUIRED: 'SHARING_SC_REQUIRED',
+  SHARING_EN_REQUIRED: 'SHARING_EN_REQUIRED',
+
+  PAST_ACTIVITY_TC_REQUIRED: 'PAST_ACTIVITY_TC_REQUIRED',
+  PAST_ACTIVITY_SC_REQUIRED: 'PAST_ACTIVITY_SC_REQUIRED',
+  PAST_ACTIVITY_EN_REQUIRED: 'PAST_ACTIVITY_EN_REQUIRED',
+
+  DETAILS_TC_REQUIRED: 'DETAILS_TC_REQUIRED',
+  DETAILS_SC_REQUIRED: 'DETAILS_SC_REQUIRED',
+  DETAILS_EN_REQUIRED: 'DETAILS_EN_REQUIRED',
+
+  DATEOFSHOW_TC_REQUIRED: 'DATEOFSHOW_TC_REQUIRED',
+  DATEOFSHOW_SC_REQUIRED: 'DATEOFSHOW_SC_REQUIRED',
+  DATEOFSHOW_EN_REQUIRED: 'DATEOFSHOW_EN_REQUIRED',
+
+  LOCATION_TC_REQUIRED: 'LOCATION_TC_REQUIRED',
+  LOCATION_SC_REQUIRED: 'LOCATION_SC_REQUIRED',
+  LOCATION_EN_REQUIRED: 'LOCATION_EN_REQUIRED',
+
+  RELATEDNEWS_TC_REQUIRED: 'RELATEDNEWS_TC_REQUIRED',
+  RELATEDNEWS_SC_REQUIRED: 'RELATEDNEWS_SC_REQUIRED',
+  RELATEDNEWS_EN_REQUIRED: 'RELATEDNEWS_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

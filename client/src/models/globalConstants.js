@@ -170,6 +170,46 @@ function GlobalConstants() {
   this.email_sc = '';
   this.email_en = '';
 
+  this.RESEARCH_AND_EDUCATION_tc = '';
+  this.RESEARCH_AND_EDUCATION_sc = '';
+  this.RESEARCH_AND_EDUCATION_en = '';
+
+  this.knowledge_tc = '';
+  this.knowledge_sc = '';
+  this.knowledge_en = '';
+
+  this.workshop_tc = '';
+  this.workshop_sc = '';
+  this.workshop_en = '';
+
+  this.video_show_tc = '';
+  this.video_show_sc = '';
+  this.video_show_en = '';
+
+  this.sharing_tc = '';
+  this.sharing_sc = '';
+  this.sharing_en = '';
+
+  this.past_activity_tc = '';
+  this.past_activity_sc = '';
+  this.past_activity_en = '';
+
+  this.details_tc = '';
+  this.details_sc = '';
+  this.details_en = '';
+
+  this.dateOfShow_tc = '';
+  this.dateOfShow_sc = '';
+  this.dateOfShow_en = '';
+
+  this.location_tc = '';
+  this.location_sc = '';
+  this.location_en = '';
+
+  this.relatedNews_tc = '';
+  this.relatedNews_sc = '';
+  this.relatedNews_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -687,6 +727,136 @@ GlobalConstants.globalConstantsResponseTypes = {
   EMAIL_EN_REQUIRED: {
     type: 'EMAIL_EN_REQUIRED',
     msg: 'EMAIL_EN_REQUIRED'
+  },
+
+  RESEARCH_AND_EDUCATION_TC_REQUIRED: {
+    type: 'RESEARCH_AND_EDUCATION_TC_REQUIRED',
+    msg: 'RESEARCH_AND_EDUCATION_TC_REQUIRED'
+  },
+  RESEARCH_AND_EDUCATION_SC_REQUIRED: {
+    type: 'RESEARCH_AND_EDUCATION_SC_REQUIRED',
+    msg: 'RESEARCH_AND_EDUCATION_SC_REQUIRED'
+  },
+  RESEARCH_AND_EDUCATION_EN_REQUIRED: {
+    type: 'RESEARCH_AND_EDUCATION_EN_REQUIRED',
+    msg: 'RESEARCH_AND_EDUCATION_EN_REQUIRED'
+  },
+
+  KNOWLEDGE_TC_REQUIRED: {
+    type: 'KNOWLEDGE_TC_REQUIRED',
+    msg: 'KNOWLEDGE_TC_REQUIRED'
+  },
+  KNOWLEDGE_SC_REQUIRED: {
+    type: 'KNOWLEDGE_SC_REQUIRED',
+    msg: 'KNOWLEDGE_SC_REQUIRED'
+  },
+  KNOWLEDGE_EN_REQUIRED: {
+    type: 'KNOWLEDGE_EN_REQUIRED',
+    msg: 'KNOWLEDGE_EN_REQUIRED'
+  },
+
+  WORKSHOP_TC_REQUIRED: {
+    type: 'WORKSHOP_TC_REQUIRED',
+    msg: 'WORKSHOP_TC_REQUIRED'
+  },
+  WORKSHOP_SC_REQUIRED: {
+    type: 'WORKSHOP_SC_REQUIRED',
+    msg: 'WORKSHOP_SC_REQUIRED'
+  },
+  WORKSHOP_EN_REQUIRED: {
+    type: 'WORKSHOP_EN_REQUIRED',
+    msg: 'WORKSHOP_EN_REQUIRED'
+  },
+
+  VIDEO_SHOW_TC_REQUIRED: {
+    type: 'VIDEO_SHOW_TC_REQUIRED',
+    msg: 'VIDEO_SHOW_TC_REQUIRED'
+  },
+  VIDEO_SHOW_SC_REQUIRED: {
+    type: 'VIDEO_SHOW_SC_REQUIRED',
+    msg: 'VIDEO_SHOW_SC_REQUIRED'
+  },
+  VIDEO_SHOW_EN_REQUIRED: {
+    type: 'VIDEO_SHOW_EN_REQUIRED',
+    msg: 'VIDEO_SHOW_EN_REQUIRED'
+  },
+
+  SHARING_TC_REQUIRED: {
+    type: 'SHARING_TC_REQUIRED',
+    msg: 'SHARING_TC_REQUIRED'
+  },
+  SHARING_SC_REQUIRED: {
+    type: 'SHARING_SC_REQUIRED',
+    msg: 'SHARING_SC_REQUIRED'
+  },
+  SHARING_EN_REQUIRED: {
+    type: 'SHARING_EN_REQUIRED',
+    msg: 'SHARING_EN_REQUIRED'
+  },
+
+  PAST_ACTIVITY_TC_REQUIRED: {
+    type: 'PAST_ACTIVITY_TC_REQUIRED',
+    msg: 'PAST_ACTIVITY_TC_REQUIRED'
+  },
+  PAST_ACTIVITY_SC_REQUIRED: {
+    type: 'PAST_ACTIVITY_SC_REQUIRED',
+    msg: 'PAST_ACTIVITY_SC_REQUIRED'
+  },
+  PAST_ACTIVITY_EN_REQUIRED: {
+    type: 'PAST_ACTIVITY_EN_REQUIRED',
+    msg: 'PAST_ACTIVITY_EN_REQUIRED'
+  },
+
+  DETAILS_TC_REQUIRED: {
+    type: 'DETAILS_TC_REQUIRED',
+    msg: 'DETAILS_TC_REQUIRED'
+  },
+  DETAILS_SC_REQUIRED: {
+    type: 'DETAILS_SC_REQUIRED',
+    msg: 'DETAILS_SC_REQUIRED'
+  },
+  DETAILS_EN_REQUIRED: {
+    type: 'DETAILS_EN_REQUIRED',
+    msg: 'DETAILS_EN_REQUIRED'
+  },
+
+  DATEOFSHOW_TC_REQUIRED: {
+    type: 'DATEOFSHOW_TC_REQUIRED',
+    msg: 'DATEOFSHOW_TC_REQUIRED'
+  },
+  DATEOFSHOW_SC_REQUIRED: {
+    type: 'DATEOFSHOW_SC_REQUIRED',
+    msg: 'DATEOFSHOW_SC_REQUIRED'
+  },
+  DATEOFSHOW_EN_REQUIRED: {
+    type: 'DATEOFSHOW_EN_REQUIRED',
+    msg: 'DATEOFSHOW_EN_REQUIRED'
+  },
+
+  LOCATION_TC_REQUIRED: {
+    type: 'LOCATION_TC_REQUIRED',
+    msg: 'LOCATION_TC_REQUIRED'
+  },
+  LOCATION_SC_REQUIRED: {
+    type: 'LOCATION_SC_REQUIRED',
+    msg: 'LOCATION_SC_REQUIRED'
+  },
+  LOCATION_EN_REQUIRED: {
+    type: 'LOCATION_EN_REQUIRED',
+    msg: 'LOCATION_EN_REQUIRED'
+  },
+
+  RELATEDNEWS_TC_REQUIRED: {
+    type: 'RELATEDNEWS_TC_REQUIRED',
+    msg: 'RELATEDNEWS_TC_REQUIRED'
+  },
+  RELATEDNEWS_SC_REQUIRED: {
+    type: 'RELATEDNEWS_SC_REQUIRED',
+    msg: 'RELATEDNEWS_SC_REQUIRED'
+  },
+  RELATEDNEWS_EN_REQUIRED: {
+    type: 'RELATEDNEWS_EN_REQUIRED',
+    msg: 'RELATEDNEWS_EN_REQUIRED'
   },
 
   // db check
