@@ -19,7 +19,11 @@ const getLanguageByRouteParam = langParam => {
   return langToReturn || defaultLanguage;
 };
 
-const getEntityPropByLanguage = (entity, propName, language) => {
+const getEntityPropByLanguage = (
+  entity,
+  propName,
+  language = defaultLanguage
+) => {
   return entity[propName + language.entityPropSuffix];
 };
 
