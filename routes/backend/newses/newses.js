@@ -10,7 +10,6 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { News, newsResponseTypes } = require('../../../models/News');
 
 /* utilities */

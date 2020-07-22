@@ -3,33 +3,63 @@ const { generalErrorHandle } = require('../errorHandling');
 module.exports = async (
   res,
   Model,
+  isResponseToClient = false,
   findParams = {},
   selectParams = {},
-  sortParams = {}
+  sortParams = {},
+  populateList = []
 ) => {
+  let itemsInOrder = [];
+
+  const myFindParams = {
+    isEnabled: {
+      $ne: false
+    },
+    ...findParams
+  };
+  const mySelectParams = {
+    ...selectParams
+  };
+  const mySortParams = {
+    order: 1,
+    ...sortParams
+  };
+  const myPopulateList = [...populateList];
+
   try {
     const itemsWithNullOrder = await Model.find({
-      ...findParams,
+      ...myFindParams,
       order: {
         $in: [null, undefined]
       }
     })
-      .select(selectParams)
-      .sort(sortParams);
+      .select(mySelectParams)
+      .populate(myPopulateList)
+      .sort(mySortParams);
 
     const itemsWithNonNullOrder = await Model.find({
-      ...findParams,
+      ...myFindParams,
       order: {
         $not: {
           $in: [null, undefined]
         }
       }
     })
-      .select(selectParams)
-      .sort(sortParams);
+      .select(mySelectParams)
+      .populate(myPopulateList)
+      .sort(mySortParams);
 
-    res.json(itemsWithNonNullOrder.concat(itemsWithNullOrder));
+    itemsInOrder = itemsWithNonNullOrder.concat(itemsWithNullOrder);
+    if (isResponseToClient) {
+      res.json(itemsInOrder);
+    }
   } catch (err) {
-    generalErrorHandle(err, res);
+    if (isResponseToClient) {
+      generalErrorHandle(err, res);
+    } else {
+      throw err;
+    }
   }
+
+  return itemsInOrder;
 };

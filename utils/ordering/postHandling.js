@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const { getArraySafe } = require('../js/array/isNonEmptyArray');
 const { generalErrorHandle } = require('../errorHandling');
 
-module.exports = async (res, items, Model) => {
+module.exports = async (res, items, Model, isResponseToClient = false) => {
   const safeItems = getArraySafe(items);
 
   if (safeItems.length === 0) {
-    res.sendStatus(200);
+    if (isResponseToClient) {
+      res.sendStatus(200);
+    }
     return;
   }
 
@@ -28,9 +30,15 @@ module.exports = async (res, items, Model) => {
 
     await session.commitTransaction();
 
-    res.sendStatus(200);
+    if (isResponseToClient) {
+      res.sendStatus(200);
+    }
   } catch (err) {
     await session.abortTransaction();
-    generalErrorHandle(err, res);
+    if (isResponseToClient) {
+      generalErrorHandle(err, res);
+    } else {
+      throw err;
+    }
   }
 };

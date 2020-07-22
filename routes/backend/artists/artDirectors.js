@@ -12,19 +12,14 @@ const artDirectorFind = {
   // https://stackoverflow.com/questions/45842338/mongoose-error-cant-use-or-with-string
   type: {
     $in: artDirectorTypes
-  },
-  isEnabled: {
-    $ne: false
   }
 };
 
 const artDirectorSelect = {
-  label: 1,
-  order: 1
+  label: 1
 };
 
 const artDirectorSort = {
-  order: 1,
   label: 1
 };
 
@@ -37,6 +32,7 @@ router.get('/', auth, async (req, res) => {
   await getOrderingHandling(
     res,
     Artist,
+    true,
     artDirectorFind,
     artDirectorSelect,
     artDirectorSort
@@ -48,7 +44,7 @@ router.get('/', auth, async (req, res) => {
 // @access  Private
 router.post('/ordering', auth, async (req, res) => {
   const { artDirectors } = req.body;
-  await postOrderingHandling(res, artDirectors, Artist);
+  await postOrderingHandling(res, artDirectors, Artist, true);
 });
 
 module.exports = router;

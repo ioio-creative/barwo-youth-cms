@@ -13,19 +13,14 @@ const artistFind = {
     $not: {
       $in: artDirectorTypes
     }
-  },
-  isEnabled: {
-    $ne: false
   }
 };
 
 const artistSelect = {
-  label: 1,
-  order: 1
+  label: 1
 };
 
 const artistSort = {
-  order: 1,
   label: 1
 };
 
@@ -36,7 +31,14 @@ const artistSort = {
 // @access  Private
 // Note: this route is used in frontend's EventEdit and LandingPageEdit and ArtistsOrder
 router.get('/', auth, async (req, res) => {
-  await getOrderingHandling(res, Artist, artistFind, artistSelect, artistSort);
+  await getOrderingHandling(
+    res,
+    Artist,
+    true,
+    artistFind,
+    artistSelect,
+    artistSort
+  );
 });
 
 // @route   POST api/backend/artists/eventArtists/ordering
@@ -44,7 +46,7 @@ router.get('/', auth, async (req, res) => {
 // @access  Private
 router.post('/ordering', auth, async (req, res) => {
   const { artists } = req.body;
-  await postOrderingHandling(res, artists, Artist);
+  await postOrderingHandling(res, artists, Artist, true);
 });
 
 module.exports = router;

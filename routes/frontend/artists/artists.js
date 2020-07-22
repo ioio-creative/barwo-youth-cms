@@ -6,9 +6,11 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
+const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const {
   Artist,
   artistRoles,
+  artDirectorTypes,
   isArtDirector
 } = require('../../../models/Artist');
 
@@ -237,23 +239,31 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
   };
 };
 
-/* end of utilities */
-
-// @route   GET api/frontend/artists/:lang/artists
-// @desc    Get all artists
-// @access  Public
-router.get('/:lang/artists', [languageHandling], async (req, res) => {
+const artistsGetHandling = async (req, res, isFindArtDirectors = false) => {
   try {
     const language = req.language;
 
-    const artists = await Artist.find({
-      isEnabled: true
-    })
-      .select(artistSelectForFindAll)
-      .populate(artistPopulationListForFindAll)
-      .sort({
-        name_tc: 1
-      });
+    const findParams = {
+      type: isFindArtDirectors
+        ? {
+            $in: artDirectorTypes
+          }
+        : {
+            $not: {
+              $in: artDirectorTypes
+            }
+          }
+    };
+
+    const artists = await getOrderingHandling(
+      res,
+      Artist,
+      true,
+      findParams,
+      artistSelectForFindAll,
+      {},
+      artistPopulationListForFindAll
+    );
 
     const artistsForFrontEnd = getArraySafe(artists).map(artist => {
       return getArtistForFrontEndFromDbArtist(artist, language);
@@ -271,6 +281,22 @@ router.get('/:lang/artists', [languageHandling], async (req, res) => {
   } catch (err) {
     generalErrorHandle(err, res);
   }
+};
+
+/* end of utilities */
+
+// @route   GET api/frontend/artists/:lang/artists
+// @desc    Get all artists, not including art directors
+// @access  Public
+router.get('/:lang/artists', [languageHandling], async (req, res) => {
+  await artistsGetHandling(req, res, false);
+});
+
+// @route   GET api/frontend/artists/:lang/artDirectors
+// @desc    Get all art directors
+// @access  Public
+router.get('/:lang/artDirectors', [languageHandling], async (req, res) => {
+  await artistsGetHandling(req, res, true);
 });
 
 // @route   GET api/frontend/artists/:lang/artists/:label

@@ -8,19 +8,13 @@ const { News } = require('../../../models/News');
 
 /* utilities */
 
-const newsFind = {
-  isEnabled: {
-    $ne: false
-  }
-};
+const newsFind = {};
 
 const newsSelect = {
-  label: 1,
-  order: 1
+  label: 1
 };
 
 const newsSort = {
-  order: 1,
   label: 1
 };
 
@@ -30,7 +24,7 @@ const newsSort = {
 // @desc    Get all newses in order
 // @access  Private
 router.get('/', auth, async (req, res) => {
-  await getOrderingHandling(res, News, newsFind, newsSelect, newsSort);
+  await getOrderingHandling(res, News, true, newsFind, newsSelect, newsSort);
 });
 
 // @route   POST api/backend/newses/newsesInOrder
@@ -38,7 +32,7 @@ router.get('/', auth, async (req, res) => {
 // @access  Private
 router.post('/', auth, async (req, res) => {
   const { newses } = req.body;
-  await postOrderingHandling(res, newses, News);
+  await postOrderingHandling(res, newses, News, true);
 });
 
 module.exports = router;

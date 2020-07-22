@@ -4,8 +4,8 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
+const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
-const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const { mediumLinkTypes } = require('../../../types/mediumLink');
 const { News } = require('../../../models/News');
 
@@ -75,14 +75,15 @@ router.get('/:lang/newses', [languageHandling], async (req, res) => {
   try {
     const language = req.language;
 
-    const newses = await News.find({
-      isEnabled: true
-    })
-      .select(newsSelectForFindAll)
-      .populate(newsPopulationListForFindAll)
-      .sort({
-        name_tc: 1
-      });
+    const newses = await getOrderingHandling(
+      res,
+      News,
+      false,
+      {},
+      newsSelectForFindAll,
+      {},
+      newsPopulationListForFindAll
+    );
 
     const newsesForFrontEnd = getArraySafe(newses).map(news => {
       return getNewsForFrontEndFromDbNews(news, language);
