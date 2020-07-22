@@ -4,6 +4,8 @@ const languages = {
   EN: { _id: 'EN', routeParam: 'en', entityPropSuffix: '_en' }
 };
 
+const defaultLanguage = languages.TC;
+
 const languageArray = Object.values(languages);
 
 const getLanguagePropArray = propName => {
@@ -11,9 +13,10 @@ const getLanguagePropArray = propName => {
 };
 
 const getLanguageByRouteParam = langParam => {
-  return languageArray.find(
+  const langToReturn = languageArray.find(
     language => language.routeParam === langParam.toLowerCase()
   );
+  return langToReturn || defaultLanguage;
 };
 
 const getEntityPropByLanguage = (entity, propName, language) => {
