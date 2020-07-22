@@ -106,6 +106,7 @@ const SendHistoriesState = ({ children }) => {
         sendHistoriesPaginationMeta: state.sendHistoriesPaginationMeta,
         sendHistory: state.sendHistory,
         sendHistoriesErrors: state.sendHistoriesErrors,
+        sendHistoriesLoading: state.sendHistoriesLoading,
         getSendHistories,
         clearSendHistories,
         getSendHistory,

@@ -67,6 +67,7 @@ const AboutState = ({ children }) => {
       value={{
         about: state.about,
         aboutErrors: state.aboutErrors,
+        aboutLoading: state.aboutLoading,
         getAbout,
         clearAbout,
         updateAbout,

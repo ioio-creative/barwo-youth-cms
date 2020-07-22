@@ -47,7 +47,7 @@ const getItemStyleExample = (isDragging, draggableStyle) => ({
 const getListStyleExample = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: `${grid}px ${grid}px ${grid * 0.5}px ${grid}px`,
-  width: 250
+  width: 350
 });
 
 const itemRenderExample = ({ value, label, handleItemRemoved }, index) => {

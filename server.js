@@ -72,6 +72,10 @@ app.use(
   require('./routes/backend/newses/newses')
 );
 app.use(
+  '/api/backend/newses/newsesInOrder',
+  require('./routes/backend/newses/newsesInOrder')
+);
+app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );

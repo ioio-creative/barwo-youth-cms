@@ -163,6 +163,7 @@ const EventsState = ({ children }) => {
         eventsPaginationMeta: state.eventsPaginationMeta,
         event: state.event,
         eventsErrors: state.eventsErrors,
+        eventsLoading: state.eventsLoading,
         phaseEvents: state.phaseEvents,
         phaseEventsLoading: state.phaseEventsLoading,
         getEvents,

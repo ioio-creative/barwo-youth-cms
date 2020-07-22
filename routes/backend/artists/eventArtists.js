@@ -4,7 +4,6 @@ const router = express.Router();
 const auth = require('../../../middleware/auth');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const postOrderingHandling = require('../../../utils/ordering/postHandling');
-
 const { Artist, artDirectorTypes } = require('../../../models/Artist');
 
 /* utilities */

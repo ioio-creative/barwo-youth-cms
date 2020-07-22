@@ -150,6 +150,7 @@ const ContactsState = ({ children }) => {
         contactsPaginationMeta: state.contactsPaginationMeta,
         contact: state.contact,
         contactsErrors: state.contactsErrors,
+        contactsLoading: state.contactsLoading,
         getContacts,
         clearContacts,
         getContact,

@@ -236,6 +236,7 @@ const ArtistsState = ({ children }) => {
         artistsPaginationMeta: state.artistsPaginationMeta,
         artist: state.artist,
         artistsErrors: state.artistsErrors,
+        artistsLoading: state.artistsLoading,
         artDirectors: state.artDirectors,
         artDirectorsLoading: state.artDirectorsLoading,
         eventArtists: state.eventArtists,

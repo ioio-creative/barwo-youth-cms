@@ -70,6 +70,7 @@ const LandingPageState = ({ children }) => {
       value={{
         landingPage: state.landingPage,
         landingPageErrors: state.landingPageErrors,
+        landingPageLoading: state.landingPageLoading,
         getLandingPage,
         clearLandingPage,
         updateLandingPage,

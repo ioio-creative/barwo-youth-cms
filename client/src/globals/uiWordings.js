@@ -620,6 +620,8 @@ export default {
   'NewsList.FilterButton': 'Filter',
   'NewsList.ClearFilterButton': 'Clear Filter',
 
+  'NewsList.NewsesOrder': 'Order News',
+
   'NewsEdit.BackToNewsList': 'Back to News List',
   'NewsEdit.AddNewsTitle': 'Add News',
   'NewsEdit.EditNewsTitle': 'Edit News',
@@ -629,6 +631,11 @@ export default {
   'NewsEdit.UpdateNewsSuccessMessage': 'News Updated',
 
   'NewsEdit.Media.Title': 'Media',
+
+  'NewsesOrder.Title': 'Order News',
+  'NewsesOrder.BackToNewsList': 'Back to News List',
+  'NewsesOrder.Submit': 'Save',
+  'NewsesOrder.OrderNewsesSuccessMessage': 'News Order Saved',
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',

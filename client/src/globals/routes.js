@@ -83,6 +83,9 @@ export default {
   newsAdd: function (isLink) {
     return '/newsAdd';
   },
+  newsesOrder: function (isLink) {
+    return '/newsesOrder';
+  },
   aboutEdit: function (isLink) {
     return '/aboutEdit';
   },

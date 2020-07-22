@@ -79,6 +79,9 @@ const AsyncNewsList = asyncLoadingComponent(_ =>
 const AsyncNewsEdit = asyncLoadingComponent(_ =>
   import('components/pages/NewsEdit')
 );
+const AsyncNewsesOrder = asyncLoadingComponent(_ =>
+  import('components/pages/NewsesOrder')
+);
 const AsyncNewsletterList = asyncLoadingComponent(_ =>
   import('components/pages/NewsletterList')
 );
@@ -238,6 +241,10 @@ const Main = _ => {
               <Route path={routes.newsList(false)} component={AsyncNewsList} />
               <Route path={routes.newsEditById} component={AsyncNewsEdit} />
               <Route path={routes.newsAdd(false)} component={AsyncNewsEdit} />
+              <Route
+                path={routes.newsesOrder(false)}
+                component={AsyncNewsesOrder}
+              />
 
               <Route path={routes.testing} component={AsyncTesting} />
               <Route path={routes.fileManager} component={AsyncFileManager} />

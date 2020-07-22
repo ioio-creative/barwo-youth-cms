@@ -149,6 +149,7 @@ const MediaState = ({ children }) => {
         mediaPaginationMeta: state.mediaPaginationMeta,
         medium: state.medium,
         mediaErrors: state.mediaErrors,
+        mediaLoading: state.mediaLoading,
         getMedia,
         clearMedia,
         getMedium,

@@ -73,6 +73,7 @@ const GlobalConstantsState = ({ children }) => {
       value={{
         globalConstants: state.globalConstants,
         globalConstantsErrors: state.globalConstantsErrors,
+        globalConstantsLoading: state.globalConstantsLoading,
         getGlobalConstants,
         clearGlobalConstants,
         updateGlobalConstants,

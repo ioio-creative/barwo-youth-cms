@@ -142,6 +142,7 @@ const PhasesState = ({ children }) => {
         phasesPaginationMeta: state.phasesPaginationMeta,
         phase: state.phase,
         phasesErrors: state.phasesErrors,
+        phasesLoading: state.phasesLoading,
         getPhases,
         clearPhases,
         getPhase,

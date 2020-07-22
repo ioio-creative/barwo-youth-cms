@@ -225,6 +225,9 @@ const NewsList = _ => {
           </div>
         </div>
         <div className='w3-right'>
+          <LinkButton className='w3-margin-right' to={routes.newsesOrder(true)}>
+            {uiWordings['NewsList.NewsesOrder']}
+          </LinkButton>
           <LinkButton to={routes.newsAdd(true)}>
             {uiWordings['NewsList.AddNews']}
           </LinkButton>

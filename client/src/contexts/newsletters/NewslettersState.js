@@ -178,6 +178,7 @@ const NewslettersState = ({ children }) => {
         newslettersPaginationMeta: state.newslettersPaginationMeta,
         newsletter: state.newsletter,
         newslettersErrors: state.newslettersErrors,
+        newslettersLoading: state.newslettersLoading,
         getNewsletters,
         clearNewsletters,
         getNewsletter,

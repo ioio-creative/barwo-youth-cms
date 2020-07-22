@@ -80,6 +80,7 @@ const Navbar = ({ className }) => {
   const isNewsList = useRouteMatch(routes.newsList(false));
   const isNewsEdit = useRouteMatch(routes.newsEditById);
   const isNewsAdd = useRouteMatch(routes.newsAdd(false));
+  const isNewsesOrder = useRouteMatch(routes.newsesOrder(false));
 
   const isContactList = useRouteMatch(routes.contactList(false));
   const isContactEdit = useRouteMatch(routes.contactEditById);
@@ -184,7 +185,7 @@ const Navbar = ({ className }) => {
       <NavbarLink
         className='w3-border-bottom'
         to={routes.newsList(true)}
-        isSelected={isNewsList || isNewsEdit || isNewsAdd}
+        isSelected={isNewsList || isNewsEdit || isNewsAdd || isNewsesOrder}
       >
         {uiWordings['Navbar.Newses']}
       </NavbarLink>
