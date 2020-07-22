@@ -11,7 +11,7 @@ const multerS3 = require('multer-s3');
 
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
-const listPathHandling = require('../../../middleware/listingPathHandling');
+const listingHandling = require('../../../middleware/listingHandling');
 const mediumTypeValidate = require('../../../middleware/media/mediumTypeValidate');
 const {
   generalErrorHandle,
@@ -164,7 +164,7 @@ const removeMediumForTags = async (medium, session) => {
 // @access  Private
 router.get(
   '/:mediumType',
-  [mediumTypeValidate, auth, listPathHandling],
+  [mediumTypeValidate, auth, listingHandling],
   async (req, res) => {
     try {
       const mediumTypeFromUrl = req.mediumType;

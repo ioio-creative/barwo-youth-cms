@@ -112,6 +112,11 @@ export default {
   'ArtDirectorsOrder.OrderArtDirectorsSuccessMessage':
     'Art Directors Order Saved',
 
+  'ArtistsOrder.Title': 'Order Artists',
+  'ArtistsOrder.BackToArtistList': 'Back to Artist List',
+  'ArtistsOrder.Submit': 'Save',
+  'ArtistsOrder.OrderArtistsSuccessMessage': 'Artists Order Saved',
+
   'Events.Title': 'Events',
 
   'Event.LabelLabel': 'Label',

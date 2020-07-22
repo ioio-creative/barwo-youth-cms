@@ -84,9 +84,8 @@ const ArtDirectorsOrder = _ => {
       e.preventDefault();
 
       const artDirectorsToSubmit = getArraySafe(artDirectorsPicked).map(
-        (artDirector, idx) => ({
-          _id: artDirector._id,
-          order: idx
+        artDirector => ({
+          _id: artDirector._id
         })
       );
 
@@ -94,7 +93,7 @@ const ArtDirectorsOrder = _ => {
       if (isSuccess) {
         setAlerts(
           new Alert(
-            uiWordings['ArtistEdit.AddArtistSuccessMessage'],
+            uiWordings['ArtDirectorsOrder.OrderArtDirectorsSuccessMessage'],
             Alert.alertTypes.INFO
           )
         );
