@@ -126,7 +126,11 @@ const ArtistsOrder = _ => {
           label={uiWordings['ArtistsOrder.Submit']}
         />
 
-        <Ordering items={artistsPicked} onGetItems={onGetArtistsPicked} />
+        <Ordering
+          items={artistsPicked}
+          onGetItems={onGetArtistsPicked}
+          listWidth={300}
+        />
       </Form>
     </>
   );

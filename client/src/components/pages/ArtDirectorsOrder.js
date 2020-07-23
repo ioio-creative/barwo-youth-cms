@@ -131,6 +131,7 @@ const ArtDirectorsOrder = _ => {
         <Ordering
           items={artDirectorsPicked}
           onGetItems={onGetArtDirectorsPicked}
+          listWidth={300}
         />
       </Form>
     </>

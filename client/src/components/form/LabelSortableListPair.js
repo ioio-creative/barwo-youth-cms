@@ -49,7 +49,7 @@ const LabelSortableListPair = ({
           }
         : null;
     },
-    [handleGetPickedItems]
+    [isUseRemove, handleGetPickedItems]
   );
 
   const handleSortableListItemToFirst = useMemo(

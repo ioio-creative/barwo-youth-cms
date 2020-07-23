@@ -1,7 +1,5 @@
 import React, { useMemo } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
-import isFunction from 'utils/js/function/isFunction';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 
 const mapToListItem = item => {

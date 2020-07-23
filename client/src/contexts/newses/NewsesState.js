@@ -143,7 +143,7 @@ const NewsesState = ({ children }) => {
 
   // Get Newses in Order
   const getNewsesInOrder = useCallback(async _ => {
-    dispatch({ type: SET_NEWSES_LOADING });
+    dispatch({ type: SET_NEWSES_IN_ORDER_LOADING });
     try {
       const res = await axios.get('/api/backend/newses/newsesInOrder');
       dispatch({ type: GET_NEWSES_IN_ORDER, payload: res.data });
@@ -160,7 +160,7 @@ const NewsesState = ({ children }) => {
   // Order Newses
   const orderNewses = useCallback(async newses => {
     let isSuccess = false;
-    dispatch({ type: SET_NEWSES_LOADING });
+    dispatch({ type: SET_NEWSES_IN_ORDER_LOADING });
     const config = {
       headers: {
         'Content-Type': 'application/json'
