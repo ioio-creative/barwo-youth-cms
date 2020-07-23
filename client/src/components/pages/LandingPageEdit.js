@@ -12,6 +12,7 @@ import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import FileUpload from 'components/form/FileUpload';
 import SubmitButton from 'components/form/SubmitButton';
+import PageMetaEdit from 'components/pageMeta/PageMetaEdit';
 import LandingPage from 'models/landingPage';
 import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
@@ -252,6 +253,11 @@ const LandingPageEdit = _ => {
       <LandingPageEditFeaturedArtistSelect
         featuredArtistsPicked={featuredArtistsPicked}
         onGetFeaturedArtistsPicked={onGetFeaturedArtistsPicked}
+      />
+
+      <PageMetaEdit
+        pageMeta={undefined}
+        setPageMetaFunc={_ => console.log('reach here')}
       />
 
       {!isAddMode && (

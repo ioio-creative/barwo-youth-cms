@@ -196,6 +196,7 @@ const NewsesState = ({ children }) => {
     } catch (err) {
       handleServerError(err, NEWSES_ERRORS, dispatch);
     }
+    return isSuccess;
   }, []);
 
   return (
