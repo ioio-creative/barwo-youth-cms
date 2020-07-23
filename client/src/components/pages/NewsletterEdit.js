@@ -125,12 +125,8 @@ const NewsletterEdit = _ => {
       e.preventDefault();
 
       let isSuccess = validInput(newsletter);
-      let returnedNewsletter = null;
       if (isSuccess) {
-        // const funcToCall = isAddMode ? addNewsletter : updateNewsletter;
-        returnedNewsletter = await sendNewsletter(newsletter);
-        // await sendNewsletter(newsletter);
-        // isSuccess = Boolean(returnedNewsletter);
+        await sendNewsletter(newsletter);
       }
       if (isSuccess) {
         setAlerts(

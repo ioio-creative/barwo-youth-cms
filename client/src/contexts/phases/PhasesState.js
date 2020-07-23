@@ -13,6 +13,7 @@ import {
   UPDATE_PHASE,
   PHASES_ERRORS,
   CLEAR_PHASES_ERRORS,
+  DELETE_PHASE,
   SET_PHASES_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
@@ -137,6 +138,7 @@ const PhasesState = ({ children }) => {
 
   // Delete Phase
   const deletePhase = useCallback(async phase => {
+    let isSuccess = false;
     dispatch({ type: SET_PHASES_LOADING });
     const config = {
       headers: {
@@ -144,11 +146,13 @@ const PhasesState = ({ children }) => {
       }
     };
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `/api/backend/phases/phases/${phase._id}`,
         phase,
         config
       );
+      dispatch({ type: DELETE_PHASE });
+      isSuccess = true;
     } catch (err) {
       handleServerError(err, PHASES_ERRORS, dispatch);
     }

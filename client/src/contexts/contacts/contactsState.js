@@ -13,7 +13,8 @@ import {
   UPDATE_CONTACT,
   CONTACTS_ERRORS,
   CLEAR_CONTACTS_ERRORS,
-  SET_CONTACTS_LOADING
+  SET_CONTACTS_LOADING,
+  DELETE_CONTACT
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -145,6 +146,7 @@ const ContactsState = ({ children }) => {
 
   // Delete Contact
   const deleteContact = useCallback(async contact => {
+    let isSuccess = false;
     dispatch({ type: SET_CONTACTS_LOADING });
     const config = {
       headers: {
@@ -152,14 +154,17 @@ const ContactsState = ({ children }) => {
       }
     };
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `/api/backend/contacts/contacts/${contact._id}`,
         contact,
         config
       );
+      dispatch({ type: DELETE_CONTACT });
+      isSuccess = true;
     } catch (err) {
       handleServerError(err, CONTACTS_ERRORS, dispatch);
     }
+    return isSuccess;
   }, []);
 
   return (

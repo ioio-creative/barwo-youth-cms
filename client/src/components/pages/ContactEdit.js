@@ -130,11 +130,14 @@ const ContactEdit = _ => {
     [removeAlerts]
   );
 
-  const contactDelete = async contact => {
-    // console.log(contact);
-    await deleteContact(contact);
-    goToUrl(routes.contactList(true));
-  };
+  const contactDelete = useCallback(
+    async contact => {
+      // console.log(contact);
+      await deleteContact(contact);
+      goToUrl(routes.contactList(true));
+    },
+    [deleteContact]
+  );
 
   const onDeleteButtonClick = useCallback(
     _ => {
@@ -154,7 +157,7 @@ const ContactEdit = _ => {
         ]
       });
     },
-    [contact]
+    [contact, contactDelete, removeAlerts]
   );
 
   const onSubmit = useCallback(

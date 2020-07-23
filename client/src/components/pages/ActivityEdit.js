@@ -175,11 +175,14 @@ const ActivityEdit = _ => {
     setDownloadData(newData);
   }, []);
 
-  const activityDelete = async activity => {
-    // console.log(activity);
-    await deleteActivity(activity);
-    goToUrl(routes.activityList(true));
-  };
+  const activityDelete = useCallback(
+    async activity => {
+      // console.log(activity);
+      await deleteActivity(activity);
+      goToUrl(routes.activityList(true));
+    },
+    [deleteActivity]
+  );
 
   const onDeleteButtonClick = useCallback(
     _ => {
@@ -199,7 +202,7 @@ const ActivityEdit = _ => {
         ]
       });
     },
-    [activity]
+    [activity, activityDelete, removeAlerts]
   );
 
   const onSubmit = useCallback(

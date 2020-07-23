@@ -677,6 +677,58 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  ticketInfo_tc: {
+    type: String,
+    require: true
+  },
+  ticketInfo_sc: {
+    type: String,
+    require: true
+  },
+  ticketInfo_en: {
+    type: String,
+    require: true
+  },
+
+  venue_tc: {
+    type: String,
+    require: true
+  },
+  venue_sc: {
+    type: String,
+    require: true
+  },
+  venue_en: {
+    type: String,
+    require: true
+  },
+
+  ticketPrice_tc: {
+    type: String,
+    require: true
+  },
+  ticketPrice_sc: {
+    type: String,
+    require: true
+  },
+  ticketPrice_en: {
+    type: String,
+    require: true
+  },
+
+  ticketWebsite_tc: {
+    type: String,
+    require: true
+  },
+  ticketWebsite_sc: {
+    type: String,
+    require: true
+  },
+  ticketWebsite_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -901,6 +953,22 @@ module.exports.globalConstantsResponseTypes = {
   RELATEDNEWS_TC_REQUIRED: 'RELATEDNEWS_TC_REQUIRED',
   RELATEDNEWS_SC_REQUIRED: 'RELATEDNEWS_SC_REQUIRED',
   RELATEDNEWS_EN_REQUIRED: 'RELATEDNEWS_EN_REQUIRED',
+
+  TICKETINFO_TC_REQUIRED: 'TICKETINFO_TC_REQUIRED',
+  TICKETINFO_SC_REQUIRED: 'TICKETINFO_SC_REQUIRED',
+  TICKETINFO_EN_REQUIRED: 'TICKETINFO_EN_REQUIRED',
+
+  VENUE_TC_REQUIRED: 'VENUE_TC_REQUIRED',
+  VENUE_SC_REQUIRED: 'VENUE_SC_REQUIRED',
+  VENUE_EN_REQUIRED: 'VENUE_EN_REQUIRED',
+
+  TICKETPRICE_TC_REQUIRED: 'TICKETPRICE_TC_REQUIRED',
+  TICKETPRICE_SC_REQUIRED: 'TICKETPRICE_SC_REQUIRED',
+  TICKETPRICE_EN_REQUIRED: 'TICKETPRICE_EN_REQUIRED',
+
+  TICKETWEBSITE_TC_REQUIRED: 'TICKETWEBSITE_TC_REQUIRED',
+  TICKETWEBSITE_SC_REQUIRED: 'TICKETWEBSITE_SC_REQUIRED',
+  TICKETWEBSITE_EN_REQUIRED: 'TICKETWEBSITE_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

@@ -170,11 +170,14 @@ const PhaseEdit = _ => {
     setEventsPicked(newItemList);
   }, []);
 
-  const phaseDelete = async phase => {
-    // console.log(phase);
-    await deletePhase(phase);
-    goToUrl(routes.phaseList(true));
-  };
+  const phaseDelete = useCallback(
+    async phase => {
+      // console.log(phase);
+      await deletePhase(phase);
+      goToUrl(routes.phaseList(true));
+    },
+    [deletePhase]
+  );
 
   const onDeleteButtonClick = useCallback(
     _ => {
@@ -194,7 +197,7 @@ const PhaseEdit = _ => {
         ]
       });
     },
-    [phase]
+    [phase, phaseDelete, removeAlerts]
   );
 
   const onSubmit = useCallback(

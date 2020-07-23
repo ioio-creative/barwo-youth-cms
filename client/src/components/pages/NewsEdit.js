@@ -160,11 +160,14 @@ const NewsEdit = _ => {
     setDownloadData(newData);
   }, []);
 
-  const newsDelete = async news => {
-    // console.log(news);
-    await deleteNews(news);
-    goToUrl(routes.newsList(true));
-  };
+  const newsDelete = useCallback(
+    async news => {
+      // console.log(news);
+      await deleteNews(news);
+      goToUrl(routes.newsList(true));
+    },
+    [deleteNews]
+  );
 
   const onDeleteButtonClick = useCallback(
     _ => {
@@ -184,7 +187,7 @@ const NewsEdit = _ => {
         ]
       });
     },
-    [news]
+    [news, newsDelete, removeAlerts]
   );
 
   const onSubmit = useCallback(

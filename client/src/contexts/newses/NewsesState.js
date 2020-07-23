@@ -13,6 +13,7 @@ import {
   UPDATE_NEWS,
   NEWSES_ERRORS,
   CLEAR_NEWSES_ERRORS,
+  DELETE_NEWS,
   SET_NEWSES_LOADING,
   GET_NEWSES_IN_ORDER,
   CLEAR_NEWSES_IN_ORDER,
@@ -177,6 +178,7 @@ const NewsesState = ({ children }) => {
   }, []);
 
   const deleteNews = useCallback(async news => {
+    let isSuccess = false;
     dispatch({ type: SET_NEWSES_LOADING });
     const config = {
       headers: {
@@ -184,11 +186,13 @@ const NewsesState = ({ children }) => {
       }
     };
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `/api/backend/newses/newses/${news._id}`,
         news,
         config
       );
+      dispatch({ type: DELETE_NEWS });
+      isSuccess = true;
     } catch (err) {
       handleServerError(err, NEWSES_ERRORS, dispatch);
     }
