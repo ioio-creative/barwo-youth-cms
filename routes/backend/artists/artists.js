@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
-const listPathHandling = require('../../../middleware/listingPathHandling');
+const listingHandling = require('../../../middleware/listingHandling');
 const {
   generalErrorHandle,
   duplicateKeyErrorHandle
@@ -140,7 +140,7 @@ const artistRelationshipsValidation = (qnas, res) => {
 // @route   GET api/backend/artists/artists
 // @desc    Get all artists
 // @access  Private
-router.get('/', [auth, listPathHandling], async (req, res) => {
+router.get('/', [auth, listingHandling], async (req, res) => {
   try {
     const options = {
       ...req.paginationOptions,
@@ -310,6 +310,8 @@ router.put(
     if (isEnabled !== undefined) artistFields.isEnabled = isEnabled;
     artistFields.lastModifyDT = new Date();
     artistFields.lastModifyUser = req.user._id;
+    // set order to Number.Ma if disabled
+    if (isEnabled === false) artistFields.order = null;
 
     try {
       let artist = await Artist.findById(req.params._id);

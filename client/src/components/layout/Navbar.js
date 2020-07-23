@@ -49,6 +49,7 @@ const Navbar = ({ className }) => {
   const isUserAdd = useRouteMatch(routes.userAdd(false));
 
   const isAboutEdit = useRouteMatch(routes.aboutEdit(false));
+
   const isGlobalConstantsEdit = useRouteMatch(
     routes.globalConstantsEdit(false)
   );
@@ -57,22 +58,29 @@ const Navbar = ({ className }) => {
   const isPhaseList = useRouteMatch(routes.phaseList(false));
   const isPhaseEdit = useRouteMatch(routes.phaseEditById);
   const isPhaseAdd = useRouteMatch(routes.phaseAdd(false));
+
   const isEventList = useRouteMatch(routes.eventList(false));
   const isEventEdit = useRouteMatch(routes.eventEditById);
   const isEventAdd = useRouteMatch(routes.eventAdd(false));
+
   const isTicketingDefaultEdit = useRouteMatch(
     routes.ticketingDefaultEdit(false)
   );
+
   const isArtistList = useRouteMatch(routes.artistList(false));
   const isArtistEdit = useRouteMatch(routes.artistEditById);
   const isArtistAdd = useRouteMatch(routes.artistAdd(false));
+  const isArtDirectorsOrder = useRouteMatch(routes.artDirectorsOrder(false));
+  const isArtistsOrder = useRouteMatch(routes.artistsOrder(false));
 
   const isActivityList = useRouteMatch(routes.activityList(false));
   const isActivityEdit = useRouteMatch(routes.activityEditById);
   const isActivityAdd = useRouteMatch(routes.activityAdd(false));
+
   const isNewsList = useRouteMatch(routes.newsList(false));
   const isNewsEdit = useRouteMatch(routes.newsEditById);
   const isNewsAdd = useRouteMatch(routes.newsAdd(false));
+  const isNewsesOrder = useRouteMatch(routes.newsesOrder(false));
 
   const isContactList = useRouteMatch(routes.contactList(false));
   const isContactEdit = useRouteMatch(routes.contactEditById);
@@ -158,7 +166,13 @@ const Navbar = ({ className }) => {
       <NavbarLink
         className='w3-border-bottom'
         to={routes.artistList(true)}
-        isSelected={isArtistList || isArtistEdit || isArtistAdd}
+        isSelected={
+          isArtistList ||
+          isArtistEdit ||
+          isArtistAdd ||
+          isArtDirectorsOrder ||
+          isArtistsOrder
+        }
       >
         {uiWordings['Navbar.Artists']}
       </NavbarLink>
@@ -171,7 +185,7 @@ const Navbar = ({ className }) => {
       <NavbarLink
         className='w3-border-bottom'
         to={routes.newsList(true)}
-        isSelected={isNewsList || isNewsEdit || isNewsAdd}
+        isSelected={isNewsList || isNewsEdit || isNewsAdd || isNewsesOrder}
       >
         {uiWordings['Navbar.Newses']}
       </NavbarLink>

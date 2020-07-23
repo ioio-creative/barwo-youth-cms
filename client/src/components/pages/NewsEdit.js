@@ -8,6 +8,7 @@ import NewsesPageContainer from 'components/newses/NewsesPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Button from 'components/form/Button';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
@@ -259,11 +260,11 @@ const NewsEdit = _ => {
   }
 
   const backToNewsListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.newsList(true)}>
         {uiWordings['NewsEdit.BackToNewsList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {

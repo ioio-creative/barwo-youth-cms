@@ -5,6 +5,7 @@ import { defaultMediumLinkType } from 'types/mediumLink';
 
 function News() {
   this.label = '';
+  this.order = null;
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';

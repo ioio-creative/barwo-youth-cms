@@ -11,6 +11,7 @@ import PhaseEditEventSelect from 'components/phases/PhaseEditEventSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Button from 'components/form/Button';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelColorPickerPair from 'components/form/LabelColorPickerPair';
@@ -253,11 +254,11 @@ const PhaseEdit = _ => {
   }
 
   const backToPhaseListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.phaseList(true)}>
         {uiWordings['PhaseEdit.BackToPhaseList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {

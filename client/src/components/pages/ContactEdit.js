@@ -8,6 +8,7 @@ import ContactsPageContainer from 'components/contacts/ContactsPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Button from 'components/form/Button';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -206,11 +207,11 @@ const ContactEdit = _ => {
   }
 
   const backToContactListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.contactList(true)}>
         {uiWordings['ContactEdit.BackToContactList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {

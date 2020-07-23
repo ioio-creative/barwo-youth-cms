@@ -22,6 +22,7 @@ const artistRoles = {
 
 function Artist() {
   this.label = '';
+  this.order = null;
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';

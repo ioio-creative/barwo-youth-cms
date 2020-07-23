@@ -9,10 +9,12 @@ import EventEditArtDirectorSelect from 'components/events/EventEditArtDirectorSe
 import EventEditArtistSelect from 'components/events/EventEditArtistSelect';
 import EventEditShowSelect from 'components/events/EventEditShowSelect';
 import EventEditScenaristSelect from 'components/events/EventEditScenaristSelect';
-import EventEditPriceSelect from 'components/events/EventEditPriceSelect';
-import EventEditPhoneSelect from 'components/events/EventEditPhoneSelect';
+// import EventEditPriceSelect from 'components/events/EventEditPriceSelect';
+// import EventEditPhoneSelect from 'components/events/EventEditPhoneSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+//import Region from 'components/layout/Region';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -87,33 +89,11 @@ const EventEdit = _ => {
   // scenarists in event
   const [scenaristsPicked, setScenaristsPicked] = useState([]);
 
-  // prices in event
-  const [pricesPicked, setPricesPicked] = useState([
-    { price_tc: '150元', price_sc: '150元', price_en: 'HK$150' },
-    { price_tc: '100元', price_sc: '100元', price_en: 'HK$100' }
-  ]);
+  // // prices in event
+  // const [pricesPicked, setPricesPicked] = useState([]);
 
-  // phones in event
-  const [phonesPicked, setPhonesPicked] = useState([
-    {
-      label_tc: '節目查詢',
-      label_sc: '节目查询',
-      label_en: 'Programme enquiries',
-      phone: '(852) 2384 2939'
-    },
-    {
-      label_tc: '票務查詢',
-      label_sc: '票务查询',
-      label_en: 'Ticketing enquiries',
-      phone: '(852) 3761 6661'
-    },
-    {
-      label_tc: '信用卡電話熱線',
-      label_sc: '信用卡电话热线',
-      label_en: 'Credit card telephone booking',
-      phone: '(852) 2111 5999'
-    }
-  ]);
+  // // phones in event
+  // const [phonesPicked, setPhonesPicked] = useState([]);
 
   // featuredImage
   const [featuredImagePicked, setFeaturedImagePicked] = useState(null);
@@ -159,8 +139,8 @@ const EventEdit = _ => {
           setArtistsPicked(getArraySafe(fetchedEvent.artists));
           setShowsPicked(getArraySafe(fetchedEvent.shows));
           setScenaristsPicked(getArraySafe(fetchedEvent.scenarists));
-          setPricesPicked(getArraySafe(fetchedEvent.prices));
-          setPhonesPicked(getArraySafe(fetchedEvent.phones));
+          // setPricesPicked(getArraySafe(fetchedEvent.prices));
+          // setPhonesPicked(getArraySafe(fetchedEvent.phones));
 
           setFeaturedImagePicked(fetchedEvent.featuredImage);
           setGalleryPicked(getArraySafe(fetchedEvent.gallery));
@@ -273,15 +253,15 @@ const EventEdit = _ => {
     setScenaristsPicked(newItemList);
   }, []);
 
-  const onGetPricesPicked = useCallback(newItemList => {
-    setIsSubmitEnabled(true);
-    setPricesPicked(newItemList);
-  }, []);
+  // const onGetPricesPicked = useCallback(newItemList => {
+  //   setIsSubmitEnabled(true);
+  //   setPricesPicked(newItemList);
+  // }, []);
 
-  const onGetPhonesPicked = useCallback(newItemList => {
-    setIsSubmitEnabled(true);
-    setPhonesPicked(newItemList);
-  }, []);
+  // const onGetPhonesPicked = useCallback(newItemList => {
+  //   setIsSubmitEnabled(true);
+  //   setPhonesPicked(newItemList);
+  // }, []);
 
   const onGetFeaturedImagePicked = useCallback(newItemList => {
     setIsSubmitEnabled(true);
@@ -338,28 +318,28 @@ const EventEdit = _ => {
         }
       );
 
-      // add prices
-      event.prices = getArraySafe(pricesPicked).map(
-        ({ price_tc, price_sc, price_en }) => {
-          return {
-            price_tc,
-            price_sc,
-            price_en
-          };
-        }
-      );
+      // // add prices
+      // event.prices = getArraySafe(pricesPicked).map(
+      //   ({ price_tc, price_sc, price_en }) => {
+      //     return {
+      //       price_tc,
+      //       price_sc,
+      //       price_en
+      //     };
+      //   }
+      // );
 
-      // add phones
-      event.phones = getArraySafe(phonesPicked).map(
-        ({ label_tc, label_sc, label_en, phone }) => {
-          return {
-            label_tc,
-            label_sc,
-            label_en,
-            phone
-          };
-        }
-      );
+      // // add phones
+      // event.phones = getArraySafe(phonesPicked).map(
+      //   ({ label_tc, label_sc, label_en, phone }) => {
+      //     return {
+      //       label_tc,
+      //       label_sc,
+      //       label_en,
+      //       phone
+      //     };
+      //   }
+      // );
 
       // add featuredImage
       event.featuredImage = featuredImagePicked
@@ -405,8 +385,8 @@ const EventEdit = _ => {
       artistsPicked,
       showsPicked,
       scenaristsPicked,
-      pricesPicked,
-      phonesPicked,
+      // pricesPicked,
+      // phonesPicked,
       featuredImagePicked,
       galleryPicked,
       setAlerts,
@@ -422,11 +402,11 @@ const EventEdit = _ => {
   }
 
   const backToEventListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.eventList(true)}>
         {uiWordings['EventEdit.BackToEventList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {
@@ -577,8 +557,7 @@ const EventEdit = _ => {
           onGetArtistsPicked={onGetArtistsPicked}
         />
 
-        <div className='w3-card w3-container'>
-          <h4>{uiWordings['EventEdit.Ticket.Title']}</h4>
+        {/* <Region title={uiWordings['EventEdit.Ticket.Title']}>
           <LabelInputTextPair
             name='venue_tc'
             required={true}
@@ -643,7 +622,7 @@ const EventEdit = _ => {
             placeholder=''
             onChange={onChange}
           />
-        </div>
+        </Region> */}
 
         <LabelColorPickerPair
           name='themeColor'

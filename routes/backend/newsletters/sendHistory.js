@@ -4,7 +4,7 @@ const config = require('config');
 const em = config.get('Email.smtp');
 const nodemailer = require('nodemailer');
 const { check } = require('express-validator');
-const listPathHandling = require('../../../middleware/listingPathHandling');
+const listingHandling = require('../../../middleware/listingHandling');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
@@ -182,7 +182,7 @@ router.post(
 
 // @desc    Get sendHistories
 // @access  Private
-router.get('/', [auth, listPathHandling], async (req, res) => {
+router.get('/', [auth, listingHandling], async (req, res) => {
   try {
     const options = {
       ...req.paginationOptions,

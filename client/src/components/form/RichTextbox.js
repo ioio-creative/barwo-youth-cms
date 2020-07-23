@@ -215,7 +215,8 @@ const RichTextbox = ({
       waitForInstanceInitialized();
     }
   }, [
-    /*cleanedValue, */ editorInstance,
+    //cleanedValue,
+    editorInstance,
     isInitCompleted,
     waitForInstanceInitialized
   ]);
@@ -227,6 +228,10 @@ const RichTextbox = ({
   // }, [textareaEl])
 
   /* end of useEffects */
+
+  // console.log(
+  //   editorInstance && editorInstance.editor && editorInstance.editor.element
+  // );
 
   return (
     <>

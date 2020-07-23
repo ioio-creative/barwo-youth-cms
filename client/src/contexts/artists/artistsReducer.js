@@ -11,9 +11,11 @@ import {
   GET_ART_DIRECTORS,
   CLEAR_ART_DIRECTORS,
   SET_ART_DIRECTORS_LOADING,
+  ORDER_ART_DIRECTORS,
   GET_EVENT_ARTISTS,
   CLEAR_EVENT_ARTISTS,
-  SET_EVENT_ARTISTS_LOADING
+  SET_EVENT_ARTISTS_LOADING,
+  ORDER_EVENT_ARTISTS
 } from '../types';
 
 export default (state, action) => {
@@ -86,6 +88,11 @@ export default (state, action) => {
         ...state,
         artDirectorsLoading: true
       };
+    case ORDER_ART_DIRECTORS:
+      return {
+        ...state,
+        artDirectorsLoading: false
+      };
     case GET_EVENT_ARTISTS:
       return {
         ...state,
@@ -102,6 +109,11 @@ export default (state, action) => {
       return {
         ...state,
         eventArtistsLoading: true
+      };
+    case ORDER_EVENT_ARTISTS:
+      return {
+        ...state,
+        eventArtistsLoading: false
       };
     default:
       return state;

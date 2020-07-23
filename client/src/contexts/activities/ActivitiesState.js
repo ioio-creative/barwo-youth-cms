@@ -167,6 +167,7 @@ const ActivitiesState = ({ children }) => {
         activitiesPaginationMeta: state.activitiesPaginationMeta,
         activity: state.activity,
         activitiesErrors: state.activitiesErrors,
+        activitiesLoading: state.activitiesLoading,
         getActivities,
         clearActivities,
         getActivity,

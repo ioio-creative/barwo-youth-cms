@@ -1,10 +1,16 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import guid from 'utils/guid';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
 import ListItem from './models/ListItem';
 import './SortableList.css';
+
+/* globals */
+
+let listWidthGlobal = 250;
+
+/* end of globals */
 
 // fake data generator
 const getItemsExample = count =>
@@ -23,8 +29,36 @@ const reorder = (list, startIndex, endIndex) => {
 
 const ItemRemoveButton = ({ className, onClick }) => {
   return (
-    <span className={`remove-btn ${className || ''}`} onClick={onClick}>
+    <span
+      title='Remove'
+      className={`w3-margin-left item-button ${className || ''}`}
+      onClick={onClick}
+    >
       <i className='fa fa-times' />
+    </span>
+  );
+};
+
+const ItemToFirstButton = ({ className, onClick }) => {
+  return (
+    <span
+      title='To first'
+      className={`item-button ${className || ''}`}
+      onClick={onClick}
+    >
+      <i className='fa fa-chevron-circle-up' />
+    </span>
+  );
+};
+
+const ItemToLastButton = ({ className, onClick }) => {
+  return (
+    <span
+      title='To last'
+      className={`w3-margin-left item-button ${className || ''}`}
+      onClick={onClick}
+    >
+      <i className='fa fa-chevron-circle-down' />
     </span>
   );
 };
@@ -47,10 +81,17 @@ const getItemStyleExample = (isDragging, draggableStyle) => ({
 const getListStyleExample = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: `${grid}px ${grid}px ${grid * 0.5}px ${grid}px`,
-  width: 250
+  width: listWidthGlobal
 });
 
-const itemRenderExample = ({ value, label, handleItemRemoved }, index) => {
+const ItemExample = ({
+  index,
+  value,
+  label,
+  onItemRemoved,
+  onItemToFirst,
+  onItemToLast
+}) => {
   return (
     <Draggable key={value} draggableId={value} index={index}>
       {(provided, snapshot) => (
@@ -64,15 +105,37 @@ const itemRenderExample = ({ value, label, handleItemRemoved }, index) => {
           )}
         >
           {label}
-          {isFunction(handleItemRemoved) ? (
-            <ItemRemoveButton
-              className='w3-right'
-              onClick={_ => handleItemRemoved(index)}
-            />
-          ) : null}
+          <div className='w3-right'>
+            {isFunction(onItemToFirst) ? (
+              <ItemToFirstButton onClick={_ => onItemToFirst(index)} />
+            ) : null}
+            {isFunction(onItemToLast) ? (
+              <ItemToLastButton onClick={_ => onItemToLast(index)} />
+            ) : null}
+            {isFunction(onItemRemoved) ? (
+              <ItemRemoveButton onClick={_ => onItemRemoved(index)} />
+            ) : null}
+          </div>
         </div>
       )}
     </Draggable>
+  );
+};
+
+const itemRenderExample = (
+  { value, label, handleItemRemoved, handleItemToFirst, handleItemToLast },
+  index
+) => {
+  return (
+    <ItemExample
+      key={value}
+      index={index}
+      value={value}
+      label={label}
+      onItemRemoved={handleItemRemoved}
+      onItemToFirst={handleItemToFirst}
+      onItemToLast={handleItemToLast}
+    />
   );
 };
 
@@ -84,12 +147,27 @@ const onDragEndExample = reorderedItems => {
 const SortableList = ({
   _id,
   items,
+  listWidth,
   itemRender,
   getListStyle,
   onDragEnd,
   onItemRemoved,
-  onItemChange
+  onItemChange,
+  onItemToFirst,
+  onItemToLast
 }) => {
+  /* useEffects */
+
+  // listWidth
+  useEffect(
+    _ => {
+      listWidthGlobal = listWidth;
+    },
+    [listWidth]
+  );
+
+  /* end of useEffects */
+
   /* event handlers */
 
   const handleDragEnd = useCallback(
@@ -139,6 +217,32 @@ const SortableList = ({
     [items, onItemChange]
   );
 
+  const handleItemToFirst = useMemo(
+    _ => {
+      return isFunction(onItemToFirst)
+        ? itemIdx => {
+            const newItems = items.filter((_, idx) => idx !== itemIdx);
+            newItems.unshift(items[itemIdx]);
+            onItemToFirst(newItems);
+          }
+        : null;
+    },
+    [items, onItemToFirst]
+  );
+
+  const handleItemToLast = useMemo(
+    _ => {
+      return isFunction(onItemToLast)
+        ? itemIdx => {
+            const newItems = items.filter((_, idx) => idx !== itemIdx);
+            newItems.push(items[itemIdx]);
+            onItemToLast(newItems);
+          }
+        : null;
+    },
+    [items, onItemToLast]
+  );
+
   /* end of event handlers */
 
   /* values derived from props */
@@ -148,10 +252,18 @@ const SortableList = ({
       return items.map(item => ({
         ...item,
         handleItemRemoved,
-        handleItemChange
+        handleItemChange,
+        handleItemToFirst,
+        handleItemToLast
       }));
     },
-    [items, handleItemRemoved, handleItemChange]
+    [
+      items,
+      handleItemRemoved,
+      handleItemChange,
+      handleItemToFirst,
+      handleItemToLast
+    ]
   );
 
   /* end of values derived from props */
@@ -182,6 +294,7 @@ const SortableList = ({
 SortableList.defaultProps = {
   _id: guid(), //'droppable',
   items: getItemsExample(10),
+  listWidth: listWidthGlobal,
   itemRender: itemRenderExample,
   getListStyle: getListStyleExample,
   onDragEnd: onDragEndExample
@@ -190,5 +303,7 @@ SortableList.defaultProps = {
 SortableList.getListStyleDefault = getListStyleExample;
 SortableList.getItemStyleDefault = getItemStyleExample;
 SortableList.ItemRemoveButton = ItemRemoveButton;
+SortableList.ItemToFirstButton = ItemToFirstButton;
+SortableList.ItemToLastButton = ItemToLastButton;
 
 export default SortableList;

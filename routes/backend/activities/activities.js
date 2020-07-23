@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 const auth = require('../../../middleware/auth');
 const authIsAdmin = require('../../../middleware/authIsAdmin');
 const validationHandling = require('../../../middleware/validationHandling');
-const listPathHandling = require('../../../middleware/listingPathHandling');
+const listingHandling = require('../../../middleware/listingHandling');
 const {
   generalErrorHandle,
   duplicateKeyErrorHandle
@@ -82,7 +82,7 @@ const handleActivityLabelDuplicateKeyError = (err, res) => {
 // @route   GET api/backend/activities/activities
 // @desc    Get all activities
 // @access  Private
-router.get('/', [auth, listPathHandling], async (req, res) => {
+router.get('/', [auth, listingHandling], async (req, res) => {
   try {
     const options = {
       ...req.paginationOptions,

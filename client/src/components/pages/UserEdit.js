@@ -5,6 +5,7 @@ import UsersContext from 'contexts/users/usersContext';
 import UsersPageContainer from 'components/users/UsersPageContainer';
 import Loading from 'components/layout/loading/DefaultLoading';
 import LabelSelectPair from 'components/form/LabelSelectPair';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
@@ -206,11 +207,11 @@ const UserEdit = _ => {
   }
 
   const backToUserListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.userList(true)}>
         {uiWordings['UserEdit.BackToUserList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {

@@ -8,6 +8,7 @@ import ActivitiesPageContainer from 'components/activities/ActivitiesPageContain
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Button from 'components/form/Button';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
@@ -282,11 +283,11 @@ const ActivityEdit = _ => {
   }
 
   const backToActivityListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.activityList(true)}>
         {uiWordings['ActivityEdit.BackToActivityList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {

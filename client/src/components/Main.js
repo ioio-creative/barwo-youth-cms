@@ -25,6 +25,12 @@ const AsyncArtistList = asyncLoadingComponent(_ =>
 const AsyncArtistEdit = asyncLoadingComponent(_ =>
   import('components/pages/ArtistEdit')
 );
+const AsyncArtDirectorsOrder = asyncLoadingComponent(_ =>
+  import('components/pages/ArtDirectorsOrder')
+);
+const AsyncArtistsOrder = asyncLoadingComponent(_ =>
+  import('components/pages/ArtistsOrder')
+);
 const AsyncEventList = asyncLoadingComponent(_ =>
   import('components/pages/EventList')
 );
@@ -72,6 +78,9 @@ const AsyncNewsList = asyncLoadingComponent(_ =>
 );
 const AsyncNewsEdit = asyncLoadingComponent(_ =>
   import('components/pages/NewsEdit')
+);
+const AsyncNewsesOrder = asyncLoadingComponent(_ =>
+  import('components/pages/NewsesOrder')
 );
 const AsyncNewsletterList = asyncLoadingComponent(_ =>
   import('components/pages/NewsletterList')
@@ -132,6 +141,15 @@ const Main = _ => {
               <Route
                 path={routes.artistAdd(false)}
                 component={AsyncArtistEdit}
+              />
+
+              <Route
+                path={routes.artDirectorsOrder(false)}
+                component={AsyncArtDirectorsOrder}
+              />
+              <Route
+                path={routes.artistsOrder(false)}
+                component={AsyncArtistsOrder}
               />
 
               <Route
@@ -223,6 +241,10 @@ const Main = _ => {
               <Route path={routes.newsList(false)} component={AsyncNewsList} />
               <Route path={routes.newsEditById} component={AsyncNewsEdit} />
               <Route path={routes.newsAdd(false)} component={AsyncNewsEdit} />
+              <Route
+                path={routes.newsesOrder(false)}
+                component={AsyncNewsesOrder}
+              />
 
               <Route path={routes.testing} component={AsyncTesting} />
               <Route path={routes.fileManager} component={AsyncFileManager} />

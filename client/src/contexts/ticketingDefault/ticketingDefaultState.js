@@ -71,6 +71,7 @@ const TicketingDefaultState = ({ children }) => {
       value={{
         ticketingDefault: state.ticketingDefault,
         ticketingDefaultErrors: state.ticketingDefaultErrors,
+        ticketingDefaultLoading: state.ticketingDefaultLoading,
         getTicketingDefault,
         clearTicketingDefault,
         updateTicketingDefault,

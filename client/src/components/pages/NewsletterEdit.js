@@ -5,6 +5,7 @@ import NewslettersContext from 'contexts/newsletters/newslettersContext';
 import NewslettersPageContainer from 'components/newsletters/NewslettersPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import Button from '../form/Button';
 import LabelRichTextbox from '../form/LabelRichTextbox';
@@ -217,11 +218,11 @@ const NewsletterEdit = _ => {
   }
 
   const backToNewsletterListButton = (
-    <Form>
+    <GroupContainer>
       <LinkButton to={routes.newsletterList(true)}>
         {uiWordings['NewsletterEdit.BackToNewsletterList']}
       </LinkButton>
-    </Form>
+    </GroupContainer>
   );
 
   if (isAbandonEdit) {

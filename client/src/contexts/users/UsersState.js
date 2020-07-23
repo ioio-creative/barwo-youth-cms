@@ -186,6 +186,7 @@ const UsersState = ({ children }) => {
         user: state.user,
         filteredUsers: state.filteredUsers,
         usersErrors: state.usersErrors,
+        usersLoading: state.usersLoading,
         getUsers,
         clearUsers,
         getUser,

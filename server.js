@@ -72,6 +72,10 @@ app.use(
   require('./routes/backend/newses/newses')
 );
 app.use(
+  '/api/backend/newses/newsesInOrder',
+  require('./routes/backend/newses/newsesInOrder')
+);
+app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );
@@ -99,6 +103,10 @@ app.use('/api/backend/media', require('./routes/backend/media/media'));
 // frontend apis
 app.use('/api/frontend/artists', require('./routes/frontend/artists/artists'));
 app.use('/api/frontend/events', require('./routes/frontend/events/events'));
+app.use(
+  '/api/frontend/events/ticketingDefault',
+  require('./routes/frontend/events/ticketingDefault')
+);
 app.use('/api/frontend/phases', require('./routes/frontend/phases/phases'));
 app.use(
   '/api/frontend/activities',

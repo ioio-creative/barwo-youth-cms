@@ -11,6 +11,7 @@ const PickValues = ({
   selectClassName,
   selectPlaceholder,
   selectIsLoading,
+  listWidth,
   pickedItemRender,
   pickedItems,
   getPickedItems
@@ -96,6 +97,7 @@ const PickValues = ({
       />
       <SortableList
         items={selectedOptions}
+        listWidth={listWidth}
         itemRender={pickedItemRender}
         isShowRemoveButton={true}
         onDragEnd={handleSortableListDragEnd}

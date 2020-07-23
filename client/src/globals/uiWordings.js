@@ -62,6 +62,7 @@ export default {
   'Artists.Title': 'Artists',
 
   'Artist.LabelLabel': 'Label',
+  'Artist.OrderLabel': 'Order',
   'Artist.NameTcLabel': 'Name TC',
   'Artist.NameScLabel': 'Name SC',
   'Artist.NameEnLabel': 'Name EN',
@@ -85,6 +86,9 @@ export default {
   'ArtistList.FilterButton': 'Filter',
   'ArtistList.ClearFilterButton': 'Clear Filter',
 
+  'ArtistList.ArtDirectorsOrder': 'Order Art Directors',
+  'ArtistList.ArtistsOrder': 'Order Artists',
+
   'ArtistEdit.BackToArtistList': 'Back to Artist List',
   'ArtistEdit.AddArtistTitle': 'Add Artist',
   'ArtistEdit.EditArtistTitle': 'Edit Artist',
@@ -101,6 +105,17 @@ export default {
   'ArtistEdit.Qna.AnswerEnPlaceholder': 'Answer EN',
 
   'ArtistEdit.Media.Title': 'Media',
+
+  'ArtDirectorsOrder.Title': 'Order Art Directors',
+  'ArtDirectorsOrder.BackToArtistList': 'Back to Artist List',
+  'ArtDirectorsOrder.Submit': 'Save',
+  'ArtDirectorsOrder.OrderArtDirectorsSuccessMessage':
+    'Art Directors Order Saved',
+
+  'ArtistsOrder.Title': 'Order Artists',
+  'ArtistsOrder.BackToArtistList': 'Back to Artist List',
+  'ArtistsOrder.Submit': 'Save',
+  'ArtistsOrder.OrderArtistsSuccessMessage': 'Artists Order Saved',
 
   'Events.Title': 'Events',
 
@@ -608,6 +623,8 @@ export default {
   'NewsList.FilterButton': 'Filter',
   'NewsList.ClearFilterButton': 'Clear Filter',
 
+  'NewsList.NewsesOrder': 'Order News',
+
   'NewsEdit.BackToNewsList': 'Back to News List',
   'NewsEdit.AddNewsTitle': 'Add News',
   'NewsEdit.EditNewsTitle': 'Edit News',
@@ -618,6 +635,11 @@ export default {
   'NewsEdit.UpdateNewsSuccessMessage': 'News Updated',
 
   'NewsEdit.Media.Title': 'Media',
+
+  'NewsesOrder.Title': 'Order News',
+  'NewsesOrder.BackToNewsList': 'Back to News List',
+  'NewsesOrder.Submit': 'Save',
+  'NewsesOrder.OrderNewsesSuccessMessage': 'News Order Saved',
 
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',

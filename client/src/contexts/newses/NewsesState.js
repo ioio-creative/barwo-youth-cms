@@ -13,7 +13,11 @@ import {
   UPDATE_NEWS,
   NEWSES_ERRORS,
   CLEAR_NEWSES_ERRORS,
-  SET_NEWSES_LOADING
+  SET_NEWSES_LOADING,
+  GET_NEWSES_IN_ORDER,
+  CLEAR_NEWSES_IN_ORDER,
+  ORDER_NEWSES,
+  SET_NEWSES_IN_ORDER_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -22,7 +26,9 @@ const initialState = {
   newsesPaginationMeta: null,
   news: null,
   newsesErrors: null,
-  newsesLoading: false
+  newsesLoading: false,
+  newsesInOrder: null,
+  newsesInOrderLoading: false
 };
 
 const NewsesState = ({ children }) => {
@@ -135,6 +141,41 @@ const NewsesState = ({ children }) => {
     dispatch({ type: CLEAR_NEWSES_ERRORS });
   }, []);
 
+  // Get Newses in Order
+  const getNewsesInOrder = useCallback(async _ => {
+    dispatch({ type: SET_NEWSES_IN_ORDER_LOADING });
+    try {
+      const res = await axios.get('/api/backend/newses/newsesInOrder');
+      dispatch({ type: GET_NEWSES_IN_ORDER, payload: res.data });
+    } catch (err) {
+      handleServerError(err, NEWSES_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Clear Newses in Order
+  const clearNewsesInOrder = useCallback(_ => {
+    dispatch({ type: CLEAR_NEWSES_IN_ORDER });
+  }, []);
+
+  // Order Newses
+  const orderNewses = useCallback(async newses => {
+    let isSuccess = false;
+    dispatch({ type: SET_NEWSES_IN_ORDER_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      await axios.post('/api/backend/newses/newsesInOrder', { newses }, config);
+      dispatch({ type: ORDER_NEWSES });
+      isSuccess = true;
+    } catch (err) {
+      handleServerError(err, NEWSES_ERRORS, dispatch);
+    }
+    return isSuccess;
+  }, []);
+
   const deleteNews = useCallback(async news => {
     dispatch({ type: SET_NEWSES_LOADING });
     const config = {
@@ -160,6 +201,9 @@ const NewsesState = ({ children }) => {
         newsesPaginationMeta: state.newsesPaginationMeta,
         news: state.news,
         newsesErrors: state.newsesErrors,
+        newsesLoading: state.newsesLoading,
+        newsesInOrder: state.newsesInOrder,
+        newsesInOrderLoading: state.newsesInOrderLoading,
         getNewses,
         clearNewses,
         getNews,
@@ -167,7 +211,10 @@ const NewsesState = ({ children }) => {
         addNews,
         updateNews,
         clearNewsesErrors,
-        deleteNews
+        deleteNews,
+        getNewsesInOrder,
+        clearNewsesInOrder,
+        orderNewses
       }}
     >
       {children}
