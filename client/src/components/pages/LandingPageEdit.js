@@ -255,6 +255,7 @@ const LandingPageEdit = _ => {
         onGetFeaturedArtistsPicked={onGetFeaturedArtistsPicked}
       />
 
+      {/* should change rich text box in page meta to text area */}
       <PageMetaEdit
         pageMeta={undefined}
         setPageMetaFunc={_ => console.log('reach here')}
