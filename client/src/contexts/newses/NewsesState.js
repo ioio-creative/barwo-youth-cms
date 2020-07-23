@@ -16,7 +16,8 @@ import {
   SET_NEWSES_LOADING,
   GET_NEWSES_IN_ORDER,
   CLEAR_NEWSES_IN_ORDER,
-  ORDER_NEWSES
+  ORDER_NEWSES,
+  SET_NEWSES_IN_ORDER_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 

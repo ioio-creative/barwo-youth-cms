@@ -7,7 +7,6 @@ const PickValues = ({
   isHalf,
   name,
   labelMessage,
-  isUseSelect,
   selectOptions,
   selectClassName,
   selectPlaceholder,
@@ -85,19 +84,17 @@ const PickValues = ({
 
   return (
     <>
-      {isUseSelect && (
-        <LabelAsyncSelectPair
-          name={name}
-          value={selectValue}
-          labelMessage={labelMessage}
-          options={options}
-          onChange={handleSelectChange}
-          selectClassName={selectClassName}
-          selectPlaceholder={selectPlaceholder}
-          selectIsLoading={selectIsLoading}
-          isHalf={isHalf}
-        />
-      )}
+      <LabelAsyncSelectPair
+        name={name}
+        value={selectValue}
+        labelMessage={labelMessage}
+        options={options}
+        onChange={handleSelectChange}
+        selectClassName={selectClassName}
+        selectPlaceholder={selectPlaceholder}
+        selectIsLoading={selectIsLoading}
+        isHalf={isHalf}
+      />
       <SortableList
         items={selectedOptions}
         listWidth={listWidth}
@@ -111,7 +108,6 @@ const PickValues = ({
 };
 
 PickValues.defaultProps = {
-  isUseSelect: true,
   pickedItems: [],
   getPickedItems: items => {
     console.log(items);

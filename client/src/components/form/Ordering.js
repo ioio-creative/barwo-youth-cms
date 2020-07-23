@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
-import PickValues from 'components/form/PickValues';
+import { Draggable } from 'react-beautiful-dnd';
+import LabelSortableListPair from 'components/form/LabelSortableListPair';
+import isFunction from 'utils/js/function/isFunction';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 
 const mapToListItem = item => {
@@ -10,7 +12,7 @@ const mapToListItem = item => {
   };
 };
 
-const Ordering = ({ items, onGetItems, listWidth }) => {
+const Ordering = ({ items, onGetItems, listWidth, labelMessage }) => {
   // listItems
   const listItems = useMemo(
     _ => {
@@ -20,11 +22,14 @@ const Ordering = ({ items, onGetItems, listWidth }) => {
   );
 
   return (
-    <PickValues
-      isUseSelect={false}
+    <LabelSortableListPair
+      isShowAddButton={false}
+      isUseRemove={false}
+      isUseToFirst={true}
+      isUseToLast={true}
       listWidth={listWidth}
+      labelMessage={labelMessage}
       name='ordering'
-      labelMessage=''
       pickedItems={listItems}
       getPickedItems={onGetItems}
     />

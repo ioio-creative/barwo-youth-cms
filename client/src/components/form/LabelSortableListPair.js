@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import Label from 'components/form/Label';
 import Button from 'components/form/Button';
 import SortableList from './SortableList';
@@ -6,6 +6,9 @@ import SortableList from './SortableList';
 const LabelSortableListPair = ({
   isHalf,
   isShowAddButton,
+  isUseRemove,
+  isUseToFirst,
+  isUseToLast,
   listWidth,
   name,
   labelMessage,
@@ -31,18 +34,44 @@ const LabelSortableListPair = ({
     [handleGetPickedItems]
   );
 
-  const handleSortableListItemRemoved = useCallback(
+  const handleSortableListItemChange = useCallback(
     newItemList => {
       handleGetPickedItems(newItemList);
     },
     [handleGetPickedItems]
   );
 
-  const handleSortableListItemChange = useCallback(
-    newItemList => {
-      handleGetPickedItems(newItemList);
+  const handleSortableListItemRemoved = useMemo(
+    _ => {
+      return isUseRemove
+        ? newItemList => {
+            handleGetPickedItems(newItemList);
+          }
+        : null;
     },
     [handleGetPickedItems]
+  );
+
+  const handleSortableListItemToFirst = useMemo(
+    _ => {
+      return isUseToFirst
+        ? newItemList => {
+            handleGetPickedItems(newItemList);
+          }
+        : null;
+    },
+    [isUseToFirst, handleGetPickedItems]
+  );
+
+  const handleSortableListItemToLast = useMemo(
+    _ => {
+      return isUseToLast
+        ? newItemList => {
+            handleGetPickedItems(newItemList);
+          }
+        : null;
+    },
+    [isUseToLast, handleGetPickedItems]
   );
 
   /* end of event handlers */
@@ -65,6 +94,8 @@ const LabelSortableListPair = ({
           onDragEnd={handleSortableListDragEnd}
           onItemRemoved={handleSortableListItemRemoved}
           onItemChange={handleSortableListItemChange}
+          onItemToFirst={handleSortableListItemToFirst}
+          onItemToLast={handleSortableListItemToLast}
         />
       </div>
     </div>
@@ -74,6 +105,9 @@ const LabelSortableListPair = ({
 LabelSortableListPair.defaultProps = {
   isHalf: true,
   isShowAddButton: true,
+  isUseRemove: true,
+  isUseToFirst: false,
+  isUseToLast: false,
   pickedItems: [],
   getPickedItems: items => {
     console.log(items);
@@ -86,5 +120,7 @@ LabelSortableListPair.defaultProps = {
 LabelSortableListPair.getListStyleDefault = SortableList.getListStyleDefault;
 LabelSortableListPair.getItemStyleDefault = SortableList.getItemStyleDefault;
 LabelSortableListPair.ItemRemoveButton = SortableList.ItemRemoveButton;
+LabelSortableListPair.ItemToFirstButton = SortableList.ItemToFirstButton;
+LabelSortableListPair.ItemToLastButton = SortableList.ItemToLastButton;
 
 export default LabelSortableListPair;

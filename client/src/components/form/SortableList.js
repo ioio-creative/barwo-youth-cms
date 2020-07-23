@@ -29,8 +29,36 @@ const reorder = (list, startIndex, endIndex) => {
 
 const ItemRemoveButton = ({ className, onClick }) => {
   return (
-    <span className={`remove-btn ${className || ''}`} onClick={onClick}>
+    <span
+      title='Remove'
+      className={`w3-margin-left item-button ${className || ''}`}
+      onClick={onClick}
+    >
       <i className='fa fa-times' />
+    </span>
+  );
+};
+
+const ItemToFirstButton = ({ className, onClick }) => {
+  return (
+    <span
+      title='To first'
+      className={`item-button ${className || ''}`}
+      onClick={onClick}
+    >
+      <i className='fa fa-chevron-circle-up' />
+    </span>
+  );
+};
+
+const ItemToLastButton = ({ className, onClick }) => {
+  return (
+    <span
+      title='To last'
+      className={`w3-margin-left item-button ${className || ''}`}
+      onClick={onClick}
+    >
+      <i className='fa fa-chevron-circle-down' />
     </span>
   );
 };
@@ -56,7 +84,14 @@ const getListStyleExample = isDraggingOver => ({
   width: listWidthGlobal
 });
 
-const itemRenderExample = ({ value, label, handleItemRemoved }, index) => {
+const ItemExample = ({
+  index,
+  value,
+  label,
+  onItemRemoved,
+  onItemToFirst,
+  onItemToLast
+}) => {
   return (
     <Draggable key={value} draggableId={value} index={index}>
       {(provided, snapshot) => (
@@ -70,15 +105,37 @@ const itemRenderExample = ({ value, label, handleItemRemoved }, index) => {
           )}
         >
           {label}
-          {isFunction(handleItemRemoved) ? (
-            <ItemRemoveButton
-              className='w3-right'
-              onClick={_ => handleItemRemoved(index)}
-            />
-          ) : null}
+          <div className='w3-right'>
+            {isFunction(onItemToFirst) ? (
+              <ItemToFirstButton onClick={_ => onItemToFirst(index)} />
+            ) : null}
+            {isFunction(onItemToLast) ? (
+              <ItemToLastButton onClick={_ => onItemToLast(index)} />
+            ) : null}
+            {isFunction(onItemRemoved) ? (
+              <ItemRemoveButton onClick={_ => onItemRemoved(index)} />
+            ) : null}
+          </div>
         </div>
       )}
     </Draggable>
+  );
+};
+
+const itemRenderExample = (
+  { value, label, handleItemRemoved, handleItemToFirst, handleItemToLast },
+  index
+) => {
+  return (
+    <ItemExample
+      key={value}
+      index={index}
+      value={value}
+      label={label}
+      onItemRemoved={handleItemRemoved}
+      onItemToFirst={handleItemToFirst}
+      onItemToLast={handleItemToLast}
+    />
   );
 };
 
@@ -95,7 +152,9 @@ const SortableList = ({
   getListStyle,
   onDragEnd,
   onItemRemoved,
-  onItemChange
+  onItemChange,
+  onItemToFirst,
+  onItemToLast
 }) => {
   /* useEffects */
 
@@ -158,6 +217,32 @@ const SortableList = ({
     [items, onItemChange]
   );
 
+  const handleItemToFirst = useMemo(
+    _ => {
+      return isFunction(onItemToFirst)
+        ? itemIdx => {
+            const newItems = items.filter((_, idx) => idx !== itemIdx);
+            newItems.unshift(items[itemIdx]);
+            onItemToFirst(newItems);
+          }
+        : null;
+    },
+    [items, onItemToFirst]
+  );
+
+  const handleItemToLast = useMemo(
+    _ => {
+      return isFunction(onItemToLast)
+        ? itemIdx => {
+            const newItems = items.filter((_, idx) => idx !== itemIdx);
+            newItems.push(items[itemIdx]);
+            onItemToLast(newItems);
+          }
+        : null;
+    },
+    [items, onItemToLast]
+  );
+
   /* end of event handlers */
 
   /* values derived from props */
@@ -167,10 +252,18 @@ const SortableList = ({
       return items.map(item => ({
         ...item,
         handleItemRemoved,
-        handleItemChange
+        handleItemChange,
+        handleItemToFirst,
+        handleItemToLast
       }));
     },
-    [items, handleItemRemoved, handleItemChange]
+    [
+      items,
+      handleItemRemoved,
+      handleItemChange,
+      handleItemToFirst,
+      handleItemToLast
+    ]
   );
 
   /* end of values derived from props */
@@ -210,5 +303,7 @@ SortableList.defaultProps = {
 SortableList.getListStyleDefault = getListStyleExample;
 SortableList.getItemStyleDefault = getItemStyleExample;
 SortableList.ItemRemoveButton = ItemRemoveButton;
+SortableList.ItemToFirstButton = ItemToFirstButton;
+SortableList.ItemToLastButton = ItemToLastButton;
 
 export default SortableList;
