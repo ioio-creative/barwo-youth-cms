@@ -200,6 +200,7 @@ export default {
   'PhaseEdit.EditPhaseTitle': 'Edit Phase',
   'PhaseEdit.AddPhaseSubmit': 'Add Phase',
   'PhaseEdit.UpdatePhaseSubmit': 'Update Phase',
+  'PhaseEdit.DeletePhase': 'Delete Phase',
   'PhaseEdit.AddPhaseSuccessMessage': 'Phase Added',
   'PhaseEdit.UpdatePhaseSuccessMessage': 'Phase Updated',
 
@@ -427,6 +428,7 @@ export default {
   'ContactEdit.EditContactTitle': 'Edit Contact',
   'ContactEdit.AddContactSubmit': 'Add Contact',
   'ContactEdit.UpdateContactSubmit': 'Update Contact',
+  'ContactEdit.DeleteContact': 'Delete Contact',
   'ContactEdit.AddContactSuccessMessage': 'Contact Added',
   'ContactEdit.UpdateContactSuccessMessage': 'Contact Updated',
 
@@ -569,6 +571,7 @@ export default {
   'ActivityEdit.EditActivityTitle': 'Edit Activity',
   'ActivityEdit.AddActivitySubmit': 'Add Activity',
   'ActivityEdit.UpdateActivitySubmit': 'Update Activity',
+  'ActivityEdit.DeleteActivity': 'Delete Activity',
   'ActivityEdit.AddActivitySuccessMessage': 'Activity Added',
   'ActivityEdit.UpdateActivitySuccessMessage': 'Activity Updated',
 
@@ -610,6 +613,7 @@ export default {
   'NewsEdit.EditNewsTitle': 'Edit News',
   'NewsEdit.AddNewsSubmit': 'Add News',
   'NewsEdit.UpdateNewsSubmit': 'Update News',
+  'NewsEdit.DeleteNews': 'Delete News',
   'NewsEdit.AddNewsSuccessMessage': 'News Added',
   'NewsEdit.UpdateNewsSuccessMessage': 'News Updated',
 

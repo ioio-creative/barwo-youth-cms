@@ -143,6 +143,25 @@ const ContactsState = ({ children }) => {
     dispatch({ type: CLEAR_CONTACTS_ERRORS });
   }, []);
 
+  // Delete Contact
+  const deleteContact = useCallback(async contact => {
+    dispatch({ type: SET_CONTACTS_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.delete(
+        `/api/backend/contacts/contacts/${contact._id}`,
+        contact,
+        config
+      );
+    } catch (err) {
+      handleServerError(err, CONTACTS_ERRORS, dispatch);
+    }
+  }, []);
+
   return (
     <ContactsContext.Provider
       value={{
@@ -156,7 +175,8 @@ const ContactsState = ({ children }) => {
         clearContact,
         addContact,
         updateContact,
-        clearContactsErrors
+        clearContactsErrors,
+        deleteContact
       }}
     >
       {children}

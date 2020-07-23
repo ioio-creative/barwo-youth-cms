@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import ContactsContext from 'contexts/contacts/contactsContext';
 import ContactsPageContainer from 'components/contacts/ContactsPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import Button from 'components/form/Button';
 import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -33,7 +36,8 @@ const ContactEdit = _ => {
     clearContact,
     addContact,
     updateContact,
-    clearContactsErrors
+    clearContactsErrors,
+    deleteContact
   } = useContext(ContactsContext);
 
   const [contact, setContact] = useState(defaultState);
@@ -123,6 +127,33 @@ const ContactEdit = _ => {
       setContact(prevContact => ({ ...prevContact, [name]: value }));
     },
     [removeAlerts]
+  );
+
+  const contactDelete = async contact => {
+    // console.log(contact);
+    await deleteContact(contact);
+    goToUrl(routes.contactList(true));
+  };
+
+  const onDeleteButtonClick = useCallback(
+    _ => {
+      console.log(contact);
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: 'Are you sure to delete?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => contactDelete(contact)
+          },
+          {
+            label: 'No',
+            onClick: () => removeAlerts()
+          }
+        ]
+      });
+    },
+    [contact]
   );
 
   const onSubmit = useCallback(
@@ -254,6 +285,15 @@ const ContactEdit = _ => {
               : uiWordings['ContactEdit.UpdateContactSubmit']
           }
         />
+        {!isAddMode && (
+          <Button
+            onClick={onDeleteButtonClick}
+            color='red'
+            className='w3-right'
+          >
+            {uiWordings['ContactEdit.DeleteContact']}
+          </Button>
+        )}
       </Form>
     </>
   );

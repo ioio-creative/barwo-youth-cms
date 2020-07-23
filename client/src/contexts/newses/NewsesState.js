@@ -135,6 +135,24 @@ const NewsesState = ({ children }) => {
     dispatch({ type: CLEAR_NEWSES_ERRORS });
   }, []);
 
+  const deleteNews = useCallback(async news => {
+    dispatch({ type: SET_NEWSES_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.delete(
+        `/api/backend/newses/newses/${news._id}`,
+        news,
+        config
+      );
+    } catch (err) {
+      handleServerError(err, NEWSES_ERRORS, dispatch);
+    }
+  }, []);
+
   return (
     <NewsesContext.Provider
       value={{
@@ -148,7 +166,8 @@ const NewsesState = ({ children }) => {
         clearNews,
         addNews,
         updateNews,
-        clearNewsesErrors
+        clearNewsesErrors,
+        deleteNews
       }}
     >
       {children}

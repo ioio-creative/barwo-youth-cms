@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import ActivitiesContext from 'contexts/activities/activitiesContext';
 import ActivitiesPageContainer from 'components/activities/ActivitiesPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import Button from 'components/form/Button';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
@@ -41,7 +44,8 @@ const ActivityEdit = _ => {
     clearActivity,
     addActivity,
     updateActivity,
-    clearActivitiesErrors
+    clearActivitiesErrors,
+    deleteActivity
   } = useContext(ActivitiesContext);
 
   const [activity, setActivity] = useState(defaultState);
@@ -169,6 +173,33 @@ const ActivityEdit = _ => {
   const onDownloadDataChange = useCallback(newData => {
     setDownloadData(newData);
   }, []);
+
+  const activityDelete = async activity => {
+    // console.log(activity);
+    await deleteActivity(activity);
+    goToUrl(routes.activityList(true));
+  };
+
+  const onDeleteButtonClick = useCallback(
+    _ => {
+      console.log(activity);
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: 'Are you sure to delete?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => activityDelete(activity)
+          },
+          {
+            label: 'No',
+            onClick: () => removeAlerts()
+          }
+        ]
+      });
+    },
+    [activity]
+  );
 
   const onSubmit = useCallback(
     async e => {
@@ -431,6 +462,15 @@ const ActivityEdit = _ => {
               : uiWordings['ActivityEdit.UpdateActivitySubmit']
           }
         />
+        {!isAddMode && (
+          <Button
+            onClick={onDeleteButtonClick}
+            color='red'
+            className='w3-right'
+          >
+            {uiWordings['ActivityEdit.DeleteActivity']}
+          </Button>
+        )}
       </Form>
     </>
   );

@@ -141,6 +141,25 @@ const ActivitiesState = ({ children }) => {
     dispatch({ type: CLEAR_ACTIVITIES_ERRORS });
   }, []);
 
+  // Delete Activity
+  const deleteActivity = useCallback(async activity => {
+    dispatch({ type: SET_ACTIVITIES_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.delete(
+        `/api/backend/activities/activities/${activity._id}`,
+        activity,
+        config
+      );
+    } catch (err) {
+      handleServerError(err, ACTIVITIES_ERRORS, dispatch);
+    }
+  }, []);
+
   return (
     <ActivitiesContext.Provider
       value={{
@@ -154,7 +173,8 @@ const ActivitiesState = ({ children }) => {
         clearActivity,
         addActivity,
         updateActivity,
-        clearActivitiesErrors
+        clearActivitiesErrors,
+        deleteActivity
       }}
     >
       {children}

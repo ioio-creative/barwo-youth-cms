@@ -135,6 +135,25 @@ const PhasesState = ({ children }) => {
     dispatch({ type: CLEAR_PHASES_ERRORS });
   }, []);
 
+  // Delete Phase
+  const deletePhase = useCallback(async phase => {
+    dispatch({ type: SET_PHASES_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.delete(
+        `/api/backend/phases/phases/${phase._id}`,
+        phase,
+        config
+      );
+    } catch (err) {
+      handleServerError(err, PHASES_ERRORS, dispatch);
+    }
+  }, []);
+
   return (
     <PhasesContext.Provider
       value={{
@@ -148,7 +167,8 @@ const PhasesState = ({ children }) => {
         clearPhase,
         addPhase,
         updatePhase,
-        clearPhasesErrors
+        clearPhasesErrors,
+        deletePhase
       }}
     >
       {children}
