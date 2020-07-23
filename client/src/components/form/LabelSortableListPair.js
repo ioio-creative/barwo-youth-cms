@@ -6,6 +6,7 @@ import SortableList from './SortableList';
 const LabelSortableListPair = ({
   isHalf,
   isShowAddButton,
+  listWidth,
   name,
   labelMessage,
   pickedItemRender,
@@ -57,6 +58,7 @@ const LabelSortableListPair = ({
         )}
         <SortableList
           items={pickedItems}
+          listWidth={listWidth}
           itemRender={pickedItemRender}
           isShowRemoveButton={true}
           getListStyle={getListStyle}

@@ -10,7 +10,7 @@ const mapToListItem = item => {
   };
 };
 
-const Ordering = ({ items, onGetItems }) => {
+const Ordering = ({ items, onGetItems, listWidth }) => {
   // listItems
   const listItems = useMemo(
     _ => {
@@ -22,6 +22,7 @@ const Ordering = ({ items, onGetItems }) => {
   return (
     <PickValues
       isUseSelect={false}
+      listWidth={listWidth}
       name='ordering'
       labelMessage=''
       pickedItems={listItems}

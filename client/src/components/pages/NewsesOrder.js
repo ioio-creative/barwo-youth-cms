@@ -126,7 +126,11 @@ const NewsesOrder = _ => {
           label={uiWordings['NewsesOrder.Submit']}
         />
 
-        <Ordering items={newsesPicked} onGetItems={onGetNewsesPicked} />
+        <Ordering
+          listWidth={350}
+          items={newsesPicked}
+          onGetItems={onGetNewsesPicked}
+        />
       </Form>
     </>
   );

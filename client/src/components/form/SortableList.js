@@ -1,10 +1,16 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import guid from 'utils/guid';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
 import ListItem from './models/ListItem';
 import './SortableList.css';
+
+/* globals */
+
+let listWidthGlobal = 250;
+
+/* end of globals */
 
 // fake data generator
 const getItemsExample = count =>
@@ -47,7 +53,7 @@ const getItemStyleExample = (isDragging, draggableStyle) => ({
 const getListStyleExample = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: `${grid}px ${grid}px ${grid * 0.5}px ${grid}px`,
-  width: 350
+  width: listWidthGlobal
 });
 
 const itemRenderExample = ({ value, label, handleItemRemoved }, index) => {
@@ -84,12 +90,25 @@ const onDragEndExample = reorderedItems => {
 const SortableList = ({
   _id,
   items,
+  listWidth,
   itemRender,
   getListStyle,
   onDragEnd,
   onItemRemoved,
   onItemChange
 }) => {
+  /* useEffects */
+
+  // listWidth
+  useEffect(
+    _ => {
+      listWidthGlobal = listWidth;
+    },
+    [listWidth]
+  );
+
+  /* end of useEffects */
+
   /* event handlers */
 
   const handleDragEnd = useCallback(
@@ -182,6 +201,7 @@ const SortableList = ({
 SortableList.defaultProps = {
   _id: guid(), //'droppable',
   items: getItemsExample(10),
+  listWidth: listWidthGlobal,
   itemRender: itemRenderExample,
   getListStyle: getListStyleExample,
   onDragEnd: onDragEndExample
