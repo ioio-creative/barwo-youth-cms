@@ -579,6 +579,49 @@ const globalConstantsValidationChecks = [
   check(
     'relatedNews_en',
     globalConstantsResponseTypes.RELATEDNEWS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'ticketInfo_tc',
+    globalConstantsResponseTypes.TICKETINFO_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ticketInfo_sc',
+    globalConstantsResponseTypes.TICKETINFO_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ticketInfo_en',
+    globalConstantsResponseTypes.TICKETINFO_EN_REQUIRED
+  ).notEmpty(),
+
+  check('venue_tc', globalConstantsResponseTypes.VENUE_TC_REQUIRED).notEmpty(),
+  check('venue_sc', globalConstantsResponseTypes.VENUE_SC_REQUIRED).notEmpty(),
+  check('venue_en', globalConstantsResponseTypes.VENUE_EN_REQUIRED).notEmpty(),
+
+  check(
+    'ticketPrice_tc',
+    globalConstantsResponseTypes.TICKETPRICE_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ticketPrice_sc',
+    globalConstantsResponseTypes.TICKETPRICE_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ticketPrice_en',
+    globalConstantsResponseTypes.TICKETPRICE_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'ticketWebsite_tc',
+    globalConstantsResponseTypes.TICKETWEBSITE_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ticketWebsite_sc',
+    globalConstantsResponseTypes.TICKETWEBSITE_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'ticketWebsite_en',
+    globalConstantsResponseTypes.TICKETWEBSITE_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -820,7 +863,23 @@ router.post(
 
       relatedNews_tc,
       relatedNews_sc,
-      relatedNews_en
+      relatedNews_en,
+
+      ticketInfo_tc,
+      ticketInfo_sc,
+      ticketInfo_en,
+
+      venue_tc,
+      venue_sc,
+      venue_en,
+
+      ticketPrice_tc,
+      ticketPrice_sc,
+      ticketPrice_en,
+
+      ticketWebsite_tc,
+      ticketWebsite_sc,
+      ticketWebsite_en
     } = req.body;
 
     // Build global constants object
@@ -1034,6 +1093,22 @@ router.post(
     globalConstantsFields.relatedNews_tc = relatedNews_tc;
     globalConstantsFields.relatedNews_sc = relatedNews_sc;
     globalConstantsFields.relatedNews_en = relatedNews_en;
+
+    globalConstantsFields.ticketInfo_tc = ticketInfo_tc;
+    globalConstantsFields.ticketInfo_sc = ticketInfo_sc;
+    globalConstantsFields.ticketInfo_en = ticketInfo_en;
+
+    globalConstantsFields.venue_tc = venue_tc;
+    globalConstantsFields.venue_sc = venue_sc;
+    globalConstantsFields.venue_en = venue_en;
+
+    globalConstantsFields.ticketPrice_tc = ticketPrice_tc;
+    globalConstantsFields.ticketPrice_sc = ticketPrice_sc;
+    globalConstantsFields.ticketPrice_en = ticketPrice_en;
+
+    globalConstantsFields.ticketWebsite_tc = ticketWebsite_tc;
+    globalConstantsFields.ticketWebsite_sc = ticketWebsite_sc;
+    globalConstantsFields.ticketWebsite_en = ticketWebsite_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

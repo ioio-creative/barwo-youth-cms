@@ -7,6 +7,7 @@ import {
   UPDATE_PHASE,
   PHASES_ERRORS,
   CLEAR_PHASES_ERRORS,
+  DELETE_PHASE,
   SET_PHASES_LOADING
 } from '../types';
 
@@ -56,6 +57,11 @@ export default (state, action) => {
       return {
         ...state,
         phasesErrors: null
+      };
+    case DELETE_PHASE:
+      return {
+        ...state,
+        activitiesLoading: false
       };
     case SET_PHASES_LOADING:
       return {

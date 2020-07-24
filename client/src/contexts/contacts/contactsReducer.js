@@ -7,6 +7,7 @@ import {
   UPDATE_CONTACT,
   CONTACTS_ERRORS,
   CLEAR_CONTACTS_ERRORS,
+  DELETE_CONTACT,
   SET_CONTACTS_LOADING
 } from '../types';
 
@@ -57,6 +58,11 @@ export default (state, action) => {
       return {
         ...state,
         contactsErrors: null
+      };
+    case DELETE_CONTACT:
+      return {
+        ...state,
+        contactsLoading: false
       };
     case SET_CONTACTS_LOADING:
       return {

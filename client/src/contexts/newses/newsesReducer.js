@@ -7,6 +7,7 @@ import {
   UPDATE_NEWS,
   NEWSES_ERRORS,
   CLEAR_NEWSES_ERRORS,
+  DELETE_NEWS,
   SET_NEWSES_LOADING,
   GET_NEWSES_IN_ORDER,
   CLEAR_NEWSES_IN_ORDER,
@@ -60,6 +61,11 @@ export default (state, action) => {
       return {
         ...state,
         newsesErrors: null
+      };
+    case DELETE_NEWS:
+      return {
+        ...state,
+        newsesLoading: false
       };
     case SET_NEWSES_LOADING:
       return {

@@ -263,4 +263,25 @@ router.put(
   }
 );
 
+// @route   DELETE api/backend/newses/newses/:_id
+// @desc    Delete news
+// @access  Private
+router.delete('/:_id', async (req, res) => {
+  try {
+    let news = await News.findById(req.params._id)
+      .select(newsSelectForFindOne)
+      .populate(newsPopulationListForFindOne);
+    if (!news)
+      return res
+        .status(404)
+        .json({ errors: [newsResponseTypes.NEWS_NOT_EXISTS] });
+
+    news = await News.findByIdAndDelete(req.params._id);
+
+    res.json({ type: newsResponseTypes.NEWS_DELETED });
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
+
 module.exports = router;

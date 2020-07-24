@@ -7,6 +7,7 @@ import {
   UPDATE_ACTIVITY,
   ACTIVITIES_ERRORS,
   CLEAR_ACTIVITIES_ERRORS,
+  DELETE_ACTIVITY,
   SET_ACTIVITIES_LOADING
 } from '../types';
 
@@ -57,11 +58,17 @@ export default (state, action) => {
         ...state,
         activitiesErrors: null
       };
+    case DELETE_ACTIVITY:
+      return {
+        ...state,
+        activitiesLoading: false
+      };
     case SET_ACTIVITIES_LOADING:
       return {
         ...state,
         activitiesLoading: true
       };
+
     default:
       return state;
   }

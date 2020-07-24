@@ -13,6 +13,7 @@ import {
   UPDATE_ACTIVITY,
   ACTIVITIES_ERRORS,
   CLEAR_ACTIVITIES_ERRORS,
+  DELETE_ACTIVITY,
   SET_ACTIVITIES_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
@@ -141,6 +142,29 @@ const ActivitiesState = ({ children }) => {
     dispatch({ type: CLEAR_ACTIVITIES_ERRORS });
   }, []);
 
+  // Delete Activity
+  const deleteActivity = useCallback(async activity => {
+    let isSuccess = false;
+    dispatch({ type: SET_ACTIVITIES_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      await axios.delete(
+        `/api/backend/activities/activities/${activity._id}`,
+        activity,
+        config
+      );
+      dispatch({ type: DELETE_ACTIVITY });
+      isSuccess = true;
+    } catch (err) {
+      handleServerError(err, ACTIVITIES_ERRORS, dispatch);
+    }
+    return isSuccess;
+  }, []);
+
   return (
     <ActivitiesContext.Provider
       value={{
@@ -155,7 +179,8 @@ const ActivitiesState = ({ children }) => {
         clearActivity,
         addActivity,
         updateActivity,
-        clearActivitiesErrors
+        clearActivitiesErrors,
+        deleteActivity
       }}
     >
       {children}

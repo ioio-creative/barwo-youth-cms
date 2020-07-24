@@ -210,6 +210,22 @@ function GlobalConstants() {
   this.relatedNews_sc = '';
   this.relatedNews_en = '';
 
+  this.ticketInfo_tc = '';
+  this.ticketInfo_sc = '';
+  this.ticketInfo_en = '';
+
+  this.venue_tc = '';
+  this.venue_sc = '';
+  this.venue_en = '';
+
+  this.ticketPrice_tc = '';
+  this.ticketPrice_sc = '';
+  this.ticketPrice_en = '';
+
+  this.ticketWebsite_tc = '';
+  this.ticketWebsite_sc = '';
+  this.ticketWebsite_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -857,6 +873,49 @@ GlobalConstants.globalConstantsResponseTypes = {
   RELATEDNEWS_EN_REQUIRED: {
     type: 'RELATEDNEWS_EN_REQUIRED',
     msg: 'RELATEDNEWS_EN_REQUIRED'
+  },
+
+  TICKETINFO_TC_REQUIRED: {
+    type: 'TICKETINFO_TC_REQUIRED',
+    msg: 'TICKETINFO_TC_REQUIRED'
+  },
+  TICKETINFO_SC_REQUIRED: {
+    type: 'TICKETINFO_SC_REQUIRED',
+    msg: 'TICKETINFO_SC_REQUIRED'
+  },
+  TICKETINFO_EN_REQUIRED: {
+    type: 'TICKETINFO_EN_REQUIRED',
+    msg: 'TICKETINFO_EN_REQUIRED'
+  },
+
+  VENUE_TC_REQUIRED: { type: 'VENUE_TC_REQUIRED', msg: 'VENUE_TC_REQUIRED' },
+  VENUE_SC_REQUIRED: { type: 'VENUE_SC_REQUIRED', msg: 'VENUE_SC_REQUIRED' },
+  VENUE_EN_REQUIRED: { type: 'VENUE_EN_REQUIRED', msg: 'VENUE_EN_REQUIRED' },
+
+  TICKETPRICE_TC_REQUIRED: {
+    type: 'TICKETPRICE_TC_REQUIRED',
+    msg: 'TICKETPRICE_TC_REQUIRED'
+  },
+  TICKETPRICE_SC_REQUIRED: {
+    type: 'TICKETPRICE_SC_REQUIRED',
+    msg: 'TICKETPRICE_SC_REQUIRED'
+  },
+  TICKETPRICE_EN_REQUIRED: {
+    type: 'TICKETPRICE_EN_REQUIRED',
+    msg: 'TICKETPRICE_EN_REQUIRED'
+  },
+
+  TICKETWEBSITE_TC_REQUIRED: {
+    type: 'TICKETWEBSITE_TC_REQUIRED',
+    msg: 'TICKETWEBSITE_TC_REQUIRED'
+  },
+  TICKETWEBSITE_SC_REQUIRED: {
+    type: 'TICKETWEBSITE_SC_REQUIRED',
+    msg: 'TICKETWEBSITE_SC_REQUIRED'
+  },
+  TICKETWEBSITE_EN_REQUIRED: {
+    type: 'TICKETWEBSITE_EN_REQUIRED',
+    msg: 'TICKETWEBSITE_EN_REQUIRED'
   },
 
   // db check

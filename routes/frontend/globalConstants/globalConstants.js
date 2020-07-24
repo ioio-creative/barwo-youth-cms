@@ -187,6 +187,23 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'relatedNews',
         language
+      ),
+
+      ticketInfo: getEntityPropByLanguage(
+        globalConstants,
+        'ticketInfo',
+        language
+      ),
+      venue: getEntityPropByLanguage(globalConstants, 'venue', language),
+      ticketPrice: getEntityPropByLanguage(
+        globalConstants,
+        'ticketPrice',
+        language
+      ),
+      ticketWebsite: getEntityPropByLanguage(
+        globalConstants,
+        'ticketWebsite',
+        language
       )
     };
     res.json(globalConstantsForFrontEnd);

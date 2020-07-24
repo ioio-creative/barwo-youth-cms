@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import NewsesContext from 'contexts/newses/newsesContext';
 import NewsesPageContainer from 'components/newses/NewsesPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
@@ -40,7 +43,8 @@ const NewsEdit = _ => {
     clearNews,
     addNews,
     updateNews,
-    clearNewsesErrors
+    clearNewsesErrors,
+    deleteNews
   } = useContext(NewsesContext);
 
   const [news, setNews] = useState(defaultState);
@@ -155,6 +159,36 @@ const NewsEdit = _ => {
   const onDownloadDataChange = useCallback(newData => {
     setDownloadData(newData);
   }, []);
+
+  const newsDelete = useCallback(
+    async news => {
+      // console.log(news);
+      await deleteNews(news);
+      goToUrl(routes.newsList(true));
+    },
+    [deleteNews]
+  );
+
+  const onDeleteButtonClick = useCallback(
+    _ => {
+      console.log(news);
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: 'Are you sure to delete?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => newsDelete(news)
+          },
+          {
+            label: 'No',
+            onClick: () => removeAlerts()
+          }
+        ]
+      });
+    },
+    [news, newsDelete, removeAlerts]
+  );
 
   const onSubmit = useCallback(
     async e => {
@@ -355,10 +389,19 @@ const NewsEdit = _ => {
           disabled={!isSubmitEnabled}
           label={
             isAddMode
-              ? uiWordings['NewsEdit.AddActivitySubmit']
-              : uiWordings['NewsEdit.UpdateActivitySubmit']
+              ? uiWordings['NewsEdit.AddNewsSubmit']
+              : uiWordings['NewsEdit.UpdateNewsSubmit']
           }
         />
+        {!isAddMode && (
+          <Button
+            onClick={onDeleteButtonClick}
+            color='red'
+            className='w3-right'
+          >
+            {uiWordings['NewsEdit.DeleteNews']}
+          </Button>
+        )}
       </Form>
     </>
   );

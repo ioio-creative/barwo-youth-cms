@@ -6,7 +6,6 @@ import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table/Table';
 import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
 import useFilterForTable from 'components/layout/Table/useFilterForTable';
-import LinkButton from 'components/form/LinkButton';
 import Button from 'components/form/Button';
 import InputText from 'components/form/InputText';
 import Form from 'components/form/Form';

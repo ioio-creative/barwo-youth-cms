@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate-v2');
 
 const AboutAdminSchema = mongoose.Schema({
   title_tc: {
@@ -125,10 +124,6 @@ const AboutSchema = mongoose.Schema({
   },
   admins: [AboutAdminSchema],
 
-  isEnabled: {
-    type: Boolean,
-    default: true
-  },
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -138,8 +133,6 @@ const AboutSchema = mongoose.Schema({
     ref: 'user'
   }
 });
-
-AboutSchema.plugin(mongoosePaginate);
 
 module.exports.About = mongoose.model('about', AboutSchema);
 

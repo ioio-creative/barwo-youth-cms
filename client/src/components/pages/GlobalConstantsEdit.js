@@ -1459,6 +1459,106 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
+      <LabelInputTextPair
+        name='ticketInfo_tc'
+        value={globalConstants.ticketInfo_tc}
+        labelMessage={uiWordings['GlobalConstants.TicketInfoTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='ticketInfo_sc'
+        value={globalConstants.ticketInfo_sc}
+        labelMessage={uiWordings['GlobalConstants.TicketInfoScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='ticketInfo_en'
+        value={globalConstants.ticketInfo_en}
+        labelMessage={uiWordings['GlobalConstants.TicketInfoEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='venue_tc'
+        value={globalConstants.venue_tc}
+        labelMessage={uiWordings['GlobalConstants.VenueTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='venue_sc'
+        value={globalConstants.venue_sc}
+        labelMessage={uiWordings['GlobalConstants.VenueScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='venue_en'
+        value={globalConstants.venue_en}
+        labelMessage={uiWordings['GlobalConstants.VenueEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='ticketPrice_tc'
+        value={globalConstants.ticketPrice_tc}
+        labelMessage={uiWordings['GlobalConstants.TicketPriceTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='ticketPrice_sc'
+        value={globalConstants.ticketPrice_sc}
+        labelMessage={uiWordings['GlobalConstants.TicketPriceScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='ticketPrice_en'
+        value={globalConstants.ticketPrice_en}
+        labelMessage={uiWordings['GlobalConstants.TicketPriceEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='ticketWebsite_tc'
+        value={globalConstants.ticketWebsite_tc}
+        labelMessage={uiWordings['GlobalConstants.TicketWebsiteTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='ticketWebsite_sc'
+        value={globalConstants.ticketWebsite_sc}
+        labelMessage={uiWordings['GlobalConstants.TicketWebsiteScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='ticketWebsite_en'
+        value={globalConstants.ticketWebsite_en}
+        labelMessage={uiWordings['GlobalConstants.TicketWebsiteEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair

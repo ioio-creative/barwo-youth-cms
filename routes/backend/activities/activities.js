@@ -4,6 +4,7 @@ const router = express.Router();
 const { check } = require('express-validator');
 
 const auth = require('../../../middleware/auth');
+const authIsAdmin = require('../../../middleware/authIsAdmin');
 const validationHandling = require('../../../middleware/validationHandling');
 const listingHandling = require('../../../middleware/listingHandling');
 const {
@@ -302,5 +303,26 @@ router.put(
     }
   }
 );
+
+// @route   DELETE api/backend/activities/activities/:_id
+// @desc    Delete activity
+// @access  Private
+router.delete('/:_id', async (req, res) => {
+  try {
+    let activity = await Activity.findById(req.params._id)
+      .select(activitySelectForFindOne)
+      .populate(activityPopulationListForFindOne);
+    if (!activity)
+      return res
+        .status(404)
+        .json({ errors: [activityResponseTypes.ACTIVITY_NOT_EXISTS] });
+
+    activity = await Activity.findByIdAndDelete(req.params._id);
+
+    res.json({ type: activityResponseTypes.ACTIVITY_DELETED });
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
 
 module.exports = router;

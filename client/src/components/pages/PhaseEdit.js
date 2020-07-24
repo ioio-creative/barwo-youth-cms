@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import EventsState from 'contexts/events/EventsState';
 import EventsContext from 'contexts/events/eventsContext';
@@ -8,6 +10,7 @@ import PhasesPageContainer from 'components/phases/PhasesPageContainer';
 import PhaseEditEventSelect from 'components/phases/PhaseEditEventSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
@@ -46,7 +49,8 @@ const PhaseEdit = _ => {
     clearPhase,
     addPhase,
     updatePhase,
-    clearPhasesErrors
+    clearPhasesErrors,
+    deletePhase
   } = useContext(PhasesContext);
 
   // phase
@@ -165,6 +169,36 @@ const PhaseEdit = _ => {
     setIsSubmitEnabled(true);
     setEventsPicked(newItemList);
   }, []);
+
+  const phaseDelete = useCallback(
+    async phase => {
+      // console.log(phase);
+      await deletePhase(phase);
+      goToUrl(routes.phaseList(true));
+    },
+    [deletePhase]
+  );
+
+  const onDeleteButtonClick = useCallback(
+    _ => {
+      console.log(phase);
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: 'Are you sure to delete?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => phaseDelete(phase)
+          },
+          {
+            label: 'No',
+            onClick: () => removeAlerts()
+          }
+        ]
+      });
+    },
+    [phase, phaseDelete, removeAlerts]
+  );
 
   const onSubmit = useCallback(
     async e => {
@@ -318,6 +352,15 @@ const PhaseEdit = _ => {
               : uiWordings['PhaseEdit.UpdatePhaseSubmit']
           }
         />
+        {!isAddMode && (
+          <Button
+            onClick={onDeleteButtonClick}
+            color='red'
+            className='w3-right'
+          >
+            {uiWordings['PhaseEdit.DeletePhase']}
+          </Button>
+        )}
       </Form>
     </>
   );
