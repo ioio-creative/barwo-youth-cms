@@ -7,6 +7,7 @@ import {
   UPDATE_ARTIST,
   ARTISTS_ERRORS,
   CLEAR_ARTISTS_ERRORS,
+  DELETE_ARTIST,
   SET_ARTISTS_LOADING,
   GET_ART_DIRECTORS,
   CLEAR_ART_DIRECTORS,
@@ -65,6 +66,11 @@ export default (state, action) => {
       return {
         ...state,
         artistsErrors: null
+      };
+    case DELETE_ARTIST:
+      return {
+        ...state,
+        artistsLoading: false
       };
     case SET_ARTISTS_LOADING:
       return {

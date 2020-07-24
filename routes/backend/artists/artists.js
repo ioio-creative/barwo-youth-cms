@@ -22,6 +22,14 @@ const artistSelectForFindAll = {
 
 const artistSelectForFindOne = { ...artistSelectForFindAll };
 
+const artistDeleteSelectForFindAll = {
+  isFeaturedInLandingPage: 0
+};
+
+const artistDeleteSelectForFindOne = {
+  ...artistDeleteSelectForFindAll
+};
+
 const artistPopulationListForFindAll = [
   {
     path: 'lastModifyUser',
@@ -334,5 +342,36 @@ router.put(
     }
   }
 );
+
+// @route   DELETE api/backend/activities/activities/:_id
+// @desc    Delete artist
+// @access  Private
+router.delete('/:_id', async (req, res) => {
+  try {
+    let artist = await Artist.findById(req.params._id)
+      .select(artistDeleteSelectForFindOne)
+      .populate(artistPopulationListForFindOne);
+    if (!artist)
+      return res
+        .status(404)
+        .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
+    if (
+      !(
+        (artist.eventsPerformed && artist.eventsPerformed.length !== 0) ||
+        (artist.eventsDirected && artist.eventsDirected.length !== 0)
+      )
+    ) {
+      artist = await Artist.findByIdAndDelete(req.params._id);
+    } else {
+      return res
+        .status(400)
+        .json({ errors: [artistResponseTypes.ARTIST_USED_IN_EVENT] });
+    }
+
+    res.json({ type: artistResponseTypes.ARTIST_DELETED });
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
 
 module.exports = router;

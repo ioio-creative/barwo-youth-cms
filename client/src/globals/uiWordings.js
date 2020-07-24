@@ -94,6 +94,9 @@ export default {
   'ArtistEdit.EditArtistTitle': 'Edit Artist',
   'ArtistEdit.AddArtistSubmit': 'Add Artist',
   'ArtistEdit.UpdateArtistSubmit': 'Update Artist',
+  'ArtistEdit.DeleteArtist': 'Delete Artist',
+  'ArtistEdit.DeleteArtistSuccessMessage': 'Artist Deleted',
+  'ArtistEdit.DeleteArtistUnsuccessMessage': 'Fail To Delete Artist',
   'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
   'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated',
 

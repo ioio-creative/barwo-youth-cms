@@ -106,6 +106,10 @@ Artist.artistsResponseTypes = {
     type: 'LABEL_ALREADY_EXISTS',
     msg: 'LABEL_ALREADY_EXISTS'
   },
+  ARTIST_USED_IN_EVENT: {
+    type: 'ARTIST_USED_IN_EVENT',
+    msg: 'ARTIST_USED_IN_EVENT'
+  },
 
   // general
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
