@@ -198,10 +198,11 @@ const ArtistEdit = _ => {
         );
       } else {
         goToUrl(routes.artistEditByIdWithValue(true, artist._id));
-        // scrollToTop();
+        getArtist(artist._id);
+        scrollToTop();
       }
     },
-    [deleteArtist]
+    [deleteArtist, setAlerts, getArtist]
   );
 
   const onDeleteButtonClick = useCallback(
