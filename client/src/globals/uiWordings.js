@@ -20,6 +20,10 @@ export default {
   'Navbar.About': 'About Page',
   'Navbar.Testing': 'Testing Page',
 
+  'SortableList.ItemRemoveButton.Tooltip': 'Remove',
+  'SortableList.ItemToFirstButton.Tooltip': 'To first',
+  'SortableList.ItemToLastButton.Tooltip': 'To last',
+
   'Login.Title': 'Account Login',
   'Login.FillInAllFieldsMessage': 'Please fill in all fields',
   'Login.EmailLabel': 'Email',

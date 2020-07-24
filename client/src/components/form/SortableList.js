@@ -4,6 +4,7 @@ import guid from 'utils/guid';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
 import ListItem from './models/ListItem';
+import uiWordings from 'globals/uiWordings';
 import './SortableList.css';
 
 /* globals */
@@ -30,7 +31,7 @@ const reorder = (list, startIndex, endIndex) => {
 const ItemRemoveButton = ({ className, onClick }) => {
   return (
     <span
-      title='Remove'
+      title={uiWordings['SortableList.ItemRemoveButton.Tooltip']}
       className={`w3-margin-left item-button ${className || ''}`}
       onClick={onClick}
     >
@@ -42,7 +43,7 @@ const ItemRemoveButton = ({ className, onClick }) => {
 const ItemToFirstButton = ({ className, onClick }) => {
   return (
     <span
-      title='To first'
+      title={uiWordings['SortableList.ItemToFirstButton.Tooltip']}
       className={`item-button ${className || ''}`}
       onClick={onClick}
     >
@@ -54,7 +55,7 @@ const ItemToFirstButton = ({ className, onClick }) => {
 const ItemToLastButton = ({ className, onClick }) => {
   return (
     <span
-      title='To last'
+      title={uiWordings['SortableList.ItemToLastButton.Tooltip']}
       className={`w3-margin-left item-button ${className || ''}`}
       onClick={onClick}
     >
