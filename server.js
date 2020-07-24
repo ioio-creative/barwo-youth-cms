@@ -126,6 +126,11 @@ app.use(
   '/api/frontend/contacts',
   require('./routes/frontend/contacts/contacts')
 );
+// test search function
+app.use(
+  '/api/frontend/search',
+  require('./routes/frontend/search/search')
+);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

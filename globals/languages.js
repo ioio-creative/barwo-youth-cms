@@ -12,7 +12,7 @@ const getLanguagePropArray = propName => {
   return languageArray.map(language => language[propName]);
 };
 
-const getLanguageByRouteParam = langParam => {
+const getLanguageByRouteParam = (langParam = defaultLanguage.routeParam) => {
   const langToReturn = languageArray.find(
     language => language.routeParam === langParam.toLowerCase()
   );

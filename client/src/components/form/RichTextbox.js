@@ -163,6 +163,7 @@ const RichTextbox = ({
             editorInstance.editor.setData(cleanedValue);
             console.log('RichTextbox loaded');
             // set every 50ms until successfully set
+            if (checkEditorTimeout.current) clearTimeout(checkEditorTimeout.current);
             checkEditorTimeout.current = setTimeout(waitForInstanceInitialized, 50);
           } else {
             setIsInitCompleted(true);
@@ -180,6 +181,7 @@ const RichTextbox = ({
         // TODO: is it alright to do recursion when using react useCallback???
         console.log('RichTextbox ??? case');
         // why the instance not yet finish initialization ......
+        if (checkEditorTimeout.current) clearTimeout(checkEditorTimeout.current);
         checkEditorTimeout.current = setTimeout(waitForInstanceInitialized, 50);
       }
     },
@@ -217,6 +219,7 @@ const RichTextbox = ({
       }
     }
   }, [])
+
   useEffect(() => {
     // cleanedValue check null commented out by chris
     if (editorInstance /*&& cleanedValue !== ''*/ && !isInitCompleted) {
