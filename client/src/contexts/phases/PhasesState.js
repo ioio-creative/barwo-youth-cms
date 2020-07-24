@@ -156,6 +156,7 @@ const PhasesState = ({ children }) => {
     } catch (err) {
       handleServerError(err, PHASES_ERRORS, dispatch);
     }
+    return isSuccess;
   }, []);
 
   return (

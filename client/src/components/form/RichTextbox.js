@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useState, useMemo, useRef } from 'react';
 import CKEditor from 'ckeditor4-react';
 import routes from 'globals/routes';
 import { invokeIfIsFunction } from 'utils/js/function/isFunction';
@@ -146,6 +146,8 @@ const RichTextbox = ({
   // const [textareaEl, setTextareaEl] = useState(null);
   const [isInitCompleted, setIsInitCompleted] = useState(false);
 
+  const checkEditorTimeout = useRef(null);
+
   /* end of states */
 
   /* methods */
@@ -161,7 +163,7 @@ const RichTextbox = ({
             editorInstance.editor.setData(cleanedValue);
             console.log('RichTextbox loaded');
             // set every 50ms until successfully set
-            setTimeout(waitForInstanceInitialized, 50);
+            checkEditorTimeout.current = setTimeout(waitForInstanceInitialized, 50);
           } else {
             setIsInitCompleted(true);
             console.log('RichTextbox cleanedValue set success');
@@ -178,7 +180,7 @@ const RichTextbox = ({
         // TODO: is it alright to do recursion when using react useCallback???
         console.log('RichTextbox ??? case');
         // why the instance not yet finish initialization ......
-        setTimeout(waitForInstanceInitialized, 50);
+        checkEditorTimeout.current = setTimeout(waitForInstanceInitialized, 50);
       }
     },
     [cleanedValue, editorInstance, isInitCompleted]
@@ -208,7 +210,13 @@ const RichTextbox = ({
   /* end of event handlers */
 
   /* useEffects */
-
+  useEffect(() => {
+    return () => {
+      if (checkEditorTimeout.current) {
+        clearTimeout(checkEditorTimeout.current);
+      }
+    }
+  }, [])
   useEffect(() => {
     // cleanedValue check null commented out by chris
     if (editorInstance /*&& cleanedValue !== ''*/ && !isInitCompleted) {

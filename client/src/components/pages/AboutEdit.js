@@ -8,7 +8,7 @@ import AboutEditAdminSelect from 'components/about/AboutEditAdminSelect';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Region from 'components/layout/Region';
 import Form from 'components/form/Form';
-import LabelRichTextbox from '../form/LabelRichTextbox';
+import LabelRichTextbox from 'components/form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import FileUpload from 'components/form/FileUpload';
@@ -66,7 +66,6 @@ const AboutEdit = _ => {
           fetchedAbout ? About.getAboutForDisplay(fetchedAbout) : defaultState
         );
         if (fetchedAbout) {
-          console.log(fetchedAbout);
           setPlanGalleryPicked(getArraySafe(fetchedAbout.planGallery));
           setTheaterImagePicked(fetchedAbout.theaterImage);
           setAdminsPicked(getArraySafe(fetchedAbout.admins));
