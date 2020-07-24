@@ -10,6 +10,7 @@ const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivi
 const distinct = require('../../../utils/js/array/distinct');
 const { mediumLinkTypes } = require('../../../types/mediumLink');
 const { Activity } = require('../../../models/Activity');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -25,21 +26,15 @@ const activitySelectForFindOne = { ...activitySelectForFindAll };
 const activityPopulationListForFindAll = [
   {
     path: 'featuredImage',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'gallery',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'downloadMedium',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   }
 ];
 

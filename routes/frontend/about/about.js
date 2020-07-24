@@ -6,6 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { About, aboutResponseTypes } = require('../../../models/About');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -17,15 +18,11 @@ const aboutSelect = {
 const aboutPopulationList = [
   {
     path: 'planGallery',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'theaterImage',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'admins',

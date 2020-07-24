@@ -13,6 +13,7 @@ const {
   artDirectorTypes,
   isArtDirector
 } = require('../../../models/Artist');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -84,27 +85,19 @@ const relatedEventsSelectAndPopulationList = {
 const artistPopulationListForFindAll = [
   {
     path: 'featuredImage',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'withoutMaskImage',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'gallery',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'sound',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'eventsDirected',

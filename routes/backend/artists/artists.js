@@ -9,11 +9,12 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
-const { Artist, artistResponseTypes } = require('../../../models/Artist');
 const {
   getArraySafe,
   isNonEmptyArray
 } = require('../../../utils/js/array/isNonEmptyArray');
+const { Artist, artistResponseTypes } = require('../../../models/Artist');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -40,43 +41,19 @@ const artistPopulationListForFindAll = [
   },
   {
     path: 'featuredImage',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'withoutMaskImage',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'gallery',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'sound',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   }
 ];
 

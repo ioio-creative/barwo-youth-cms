@@ -13,6 +13,7 @@ const {
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { Activity, activityResponseTypes } = require('../../../models/Activity');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -27,33 +28,15 @@ const activityPopulationListForFindAll = [
   },
   {
     path: 'featuredImage',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'gallery',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'downloadMedium',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   }
 ];
 

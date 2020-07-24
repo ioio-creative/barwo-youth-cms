@@ -58,10 +58,10 @@ const PageMetaSchema = mongoose.Schema({
   ogImageAlt_tc: {
     type: String
   },
-  ogImageAlt_tc: {
+  ogImageAlt_sc: {
     type: String
   },
-  ogImageAlt_tc: {
+  ogImageAlt_en: {
     type: String
   },
 

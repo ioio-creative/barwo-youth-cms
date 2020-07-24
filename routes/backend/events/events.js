@@ -20,6 +20,7 @@ const {
 const { compareForDatesAscending } = require('../../../utils/datetime');
 const { Event, eventResponseTypes } = require('../../../models/Event');
 const { Artist } = require('../../../models/Artist');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -51,23 +52,11 @@ const eventPopulationListForFindAll = [
   },
   {
     path: 'featuredImage',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'gallery',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   }
 ];
 

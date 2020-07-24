@@ -23,7 +23,6 @@ const LabelTextAreaPair = ({
           name={name}
           onChange={onChange}
           placeholder={placeholder}
-          type={inputType}
           value={value}
           wrap={wrap}
           style={textAreaStyle}
@@ -37,7 +36,7 @@ const LabelTextAreaPair = ({
 };
 
 LabelTextAreaPair.defaultProps = {
-  isHalf: true
+  isHalf: false
 };
 
 export default LabelTextAreaPair;

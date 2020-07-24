@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import Region from 'components/layout/Region';
+import Modal from 'components/layout/Modal';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import LabelRichTextbox from 'components/form/LabelRichTextbox';
+import LabelTextAreaPair from 'components/form/LabelTextAreaPair';
 import FileUpload from 'components/form/FileUpload';
 import uiWordings from 'globals/uiWordings';
 import Medium from 'models/medium';
@@ -13,7 +13,33 @@ const defaultState = emptyPageMeta;
 
 const mediumTypes = Medium.mediumTypes;
 
-const PageMetaEdit = (pageMeta, setPageMetaFunc) => {
+const PageMetaEdit = ({ pageMeta, setPageMetaFunc }) => {
+  /* event handlers */
+
+  const handleChange = useCallback(
+    e => {
+      const name = e.target.name;
+      const value = e.target.value;
+      setPageMetaFunc(prevPageMeta => ({
+        ...prevPageMeta,
+        [name]: value
+      }));
+    },
+    [setPageMetaFunc]
+  );
+
+  const handleGetOgImagePicked = useCallback(
+    newItemList => {
+      setPageMetaFunc(prevPageMeta => ({
+        ...prevPageMeta,
+        ogImage: firstOrDefault(newItemList, null)
+      }));
+    },
+    [setPageMetaFunc]
+  );
+
+  /* end of event handlers */
+
   const {
     title_tc,
     title_sc,
@@ -44,34 +70,9 @@ const PageMetaEdit = (pageMeta, setPageMetaFunc) => {
     facebookAppId
   } = pageMeta;
 
-  /* event handlers */
-
-  const handleChange = useCallback(
-    e => {
-      const name = e.target.name;
-      const value = e.target.value;
-      setPageMetaFunc(prevPageMeta => ({
-        ...prevPageMeta,
-        [name]: value
-      }));
-    },
-    [setPageMetaFunc]
-  );
-
-  const handleGetOgImagePicked = useCallback(
-    newItemList => {
-      setPageMetaFunc(prevPageMeta => ({
-        ...prevPageMeta,
-        ogImage: firstOrDefault(newItemList, null)
-      }));
-    },
-    [setPageMetaFunc]
-  );
-
-  /* end of event handlers */
-
   return (
-    <Region title={uiWordings['PageMeta.Title']}>
+    <Modal contentLabel={uiWordings['PageMeta.Title']}>
+      <h4>{uiWordings['PageMeta.Title']}</h4>
       <LabelInputTextPair
         name='title_tc'
         value={title_tc}
@@ -90,47 +91,6 @@ const PageMetaEdit = (pageMeta, setPageMetaFunc) => {
         name='title_en'
         value={title_en}
         labelMessage={uiWordings['PageMeta.TitleEnLabel']}
-        placeholder=''
-        onChange={handleChange}
-      />
-
-      <LabelRichTextbox
-        name='description_tc'
-        value={description_tc}
-        labelMessage={uiWordings['PageMeta.DescriptionTcLabel']}
-        onChange={handleChange}
-      />
-      <LabelRichTextbox
-        name='description_sc'
-        value={description_sc}
-        labelMessage={uiWordings['PageMeta.DescriptionScLabel']}
-        onChange={handleChange}
-      />
-      <LabelRichTextbox
-        name='description_en'
-        value={description_en}
-        labelMessage={uiWordings['PageMeta.DescriptionEnLabel']}
-        onChange={handleChange}
-      />
-
-      <LabelInputTextPair
-        name='ogSiteName_tc'
-        value={ogSiteName_tc}
-        labelMessage={uiWordings['PageMeta.OgSiteNameTcLabel']}
-        placeholder=''
-        onChange={handleChange}
-      />
-      <LabelInputTextPair
-        name='ogSiteName_sc'
-        value={ogSiteName_sc}
-        labelMessage={uiWordings['PageMeta.OgSiteNameScLabel']}
-        placeholder=''
-        onChange={handleChange}
-      />
-      <LabelInputTextPair
-        name='ogSiteName_en'
-        value={ogSiteName_en}
-        labelMessage={uiWordings['PageMeta.OgSiteNameEnLabel']}
         placeholder=''
         onChange={handleChange}
       />
@@ -157,22 +117,69 @@ const PageMetaEdit = (pageMeta, setPageMetaFunc) => {
         onChange={handleChange}
       />
 
-      <LabelRichTextbox
+      <LabelTextAreaPair
+        name='description_tc'
+        value={description_tc}
+        labelMessage={uiWordings['PageMeta.DescriptionTcLabel']}
+        onChange={handleChange}
+        placeholder=''
+      />
+      <LabelTextAreaPair
+        name='description_sc'
+        value={description_sc}
+        labelMessage={uiWordings['PageMeta.DescriptionScLabel']}
+        onChange={handleChange}
+        placeholder=''
+      />
+      <LabelTextAreaPair
+        name='description_en'
+        value={description_en}
+        labelMessage={uiWordings['PageMeta.DescriptionEnLabel']}
+        onChange={handleChange}
+        placeholder=''
+      />
+
+      <LabelTextAreaPair
         name='ogDescription_tc'
         value={ogDescription_tc}
         labelMessage={uiWordings['PageMeta.OgDescriptionTcLabel']}
         onChange={handleChange}
+        placeholder=''
       />
-      <LabelRichTextbox
+      <LabelTextAreaPair
         name='ogDescription_sc'
         value={ogDescription_sc}
         labelMessage={uiWordings['PageMeta.OgDescriptionScLabel']}
         onChange={handleChange}
+        placeholder=''
       />
-      <LabelRichTextbox
+      <LabelTextAreaPair
         name='ogDescription_en'
         value={ogDescription_en}
         labelMessage={uiWordings['PageMeta.OgDescriptionEnLabel']}
+        onChange={handleChange}
+        placeholder=''
+      />
+
+      <LabelInputTextPair
+        name='ogSiteName_tc'
+        value={ogSiteName_tc}
+        labelMessage={uiWordings['PageMeta.OgSiteNameTcLabel']}
+        placeholder=''
+        onChange={handleChange}
+      />
+      <LabelInputTextPair
+        name='ogSiteName_sc'
+        value={ogSiteName_sc}
+        labelMessage={uiWordings['PageMeta.OgSiteNameScLabel']}
+        placeholder=''
+        onChange={handleChange}
+      />
+      <LabelInputTextPair
+        name='ogSiteName_en'
+        value={ogSiteName_en}
+        labelMessage={uiWordings['PageMeta.OgSiteNameEnLabel']}
+        placeholder=''
         onChange={handleChange}
       />
 
@@ -208,13 +215,13 @@ const PageMetaEdit = (pageMeta, setPageMetaFunc) => {
       />
 
       <LabelInputTextPair
-        name='facebookAppId_tc'
+        name='facebookAppId'
         value={facebookAppId}
         labelMessage={uiWordings['PageMeta.FacebookAppIdLabel']}
         placeholder=''
         onChange={handleChange}
       />
-    </Region>
+    </Modal>
   );
 };
 

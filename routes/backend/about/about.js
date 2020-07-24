@@ -7,6 +7,7 @@ const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { About, aboutResponseTypes } = require('../../../models/About');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -19,23 +20,11 @@ const aboutPopulationList = [
   },
   {
     path: 'planGallery',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'theaterImage',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   }
 ];
 

@@ -10,6 +10,7 @@ const {
   landingPageResponseTypes
 } = require('../../../models/LandingPage');
 const { Artist } = require('../../../models/Artist');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -22,27 +23,19 @@ const landingPopulationList = [
   },
   {
     path: 'featuredVideo',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'featuredVideo2',
-    select: {
-      usages: 0,
-      isEnabled: 0,
-      createDT: 0,
-      lastModifyDT: 0,
-      lastModifyUser: 0
-    }
+    select: mediumSelect
   },
   {
     path: 'featuredArtists',
     select: 'label'
+  },
+  {
+    path: 'pageMeta.ogImage',
+    select: mediumSelect
   }
 ];
 
@@ -135,7 +128,7 @@ router.get('/', auth, async (req, res) => {
 // @desc    Add landing page
 // @access  Private
 router.post('/', [auth], async (req, res) => {
-  const { featuredVideo, featuredVideo2, featuredArtists } = req.body;
+  const { featuredVideo, featuredVideo2, featuredArtists, pageMeta } = req.body;
 
   // customed validations
   let isSuccess = landingPageRelationshipsValidation(featuredArtists, res);
@@ -150,6 +143,7 @@ router.post('/', [auth], async (req, res) => {
   landingFields.featuredVideo = featuredVideo;
   landingFields.featuredVideo2 = featuredVideo2;
   landingFields.featuredArtists = getArraySafe(featuredArtists);
+  landingFields.pageMeta = pageMeta;
   landingFields.lastModifyDT = new Date();
   landingFields.lastModifyUser = req.user._id;
 

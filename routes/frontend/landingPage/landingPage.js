@@ -5,10 +5,12 @@ const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const getPageMetaForFrontEnd = require('../../../utils/pageMeta/getPageMetaForFrontEnd');
 const {
   LandingPage,
   landingPageResponseTypes
 } = require('../../../models/LandingPage');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -20,15 +22,11 @@ const landingSelect = {
 const landingPopulationList = [
   {
     path: 'featuredVideo',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'featuredVideo2',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'featuredArtists',
@@ -41,10 +39,12 @@ const landingPopulationList = [
     },
     populate: {
       path: 'featuredImage',
-      select: {
-        url: 1
-      }
+      select: mediumSelect
     }
+  },
+  {
+    path: 'pageMeta.ogImage',
+    select: mediumSelect
   }
 ];
 
@@ -80,7 +80,8 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
         featuredImage: {
           src: artist.featuredImage && artist.featuredImage.url
         }
-      }))
+      })),
+      pageMeta: getPageMetaForFrontEnd(landing.pageMeta)
     };
 
     res.json(landingForFrontEnd);

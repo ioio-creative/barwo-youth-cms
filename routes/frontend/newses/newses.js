@@ -8,6 +8,7 @@ const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { mediumLinkTypes } = require('../../../types/mediumLink');
 const { News } = require('../../../models/News');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -23,21 +24,15 @@ const newsSelectForFindOne = { ...newsSelectForFindAll };
 const newsPopulationListForFindAll = [
   {
     path: 'featuredImage',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'gallery',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'downloadMedium',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   }
 ];
 

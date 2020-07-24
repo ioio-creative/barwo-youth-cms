@@ -15,6 +15,7 @@ import SubmitButton from 'components/form/SubmitButton';
 import PageMetaEdit from 'components/pageMeta/PageMetaEdit';
 import LandingPage from 'models/landingPage';
 import Medium from 'models/medium';
+import PageMeta from 'models/pageMeta';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
@@ -56,6 +57,9 @@ const LandingPageEdit = _ => {
   // featuredArtists
   const [featuredArtistsPicked, setFeaturedArtistsPicked] = useState([]);
 
+  // pageMeta
+  const [pageMeta, setPageMeta] = useState(new PageMeta());
+
   // componentDidMount
   useEffect(_ => {
     getLandingPage();
@@ -83,6 +87,9 @@ const LandingPageEdit = _ => {
           setFeaturedArtistsPicked(
             getArraySafe(fetchedLandingPage.featuredArtists)
           );
+          if (fetchedLandingPage.pageMeta) {
+            setPageMeta(fetchedLandingPage.pageMeta);
+          }
         }
         setIsAddMode(!fetchedLandingPage);
       }
@@ -169,6 +176,11 @@ const LandingPageEdit = _ => {
     setFeaturedArtistsPicked(newItemList);
   }, []);
 
+  const setPageMetaFunc = useCallback(setterFunc => {
+    setIsSubmitEnabled(true);
+    setPageMeta(setterFunc);
+  }, []);
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -189,6 +201,9 @@ const LandingPageEdit = _ => {
       landingPage.featuredArtists = getArraySafe(featuredArtistsPicked).map(
         artist => artist._id
       );
+
+      // add pageMeta
+      landingPage.pageMeta = pageMeta;
 
       let isSuccess = validInput(landingPage);
       let returnedLandingPage = null;
@@ -218,7 +233,8 @@ const LandingPageEdit = _ => {
       validInput,
       featuredVideoPicked,
       featuredVideo2Picked,
-      featuredArtistsPicked
+      featuredArtistsPicked,
+      pageMeta
     ]
   );
 
@@ -256,10 +272,7 @@ const LandingPageEdit = _ => {
       />
 
       {/* should change rich text box in page meta to text area */}
-      <PageMetaEdit
-        pageMeta={undefined}
-        setPageMetaFunc={_ => console.log('reach here')}
-      />
+      <PageMetaEdit pageMeta={pageMeta} setPageMetaFunc={setPageMetaFunc} />
 
       {!isAddMode && (
         <>

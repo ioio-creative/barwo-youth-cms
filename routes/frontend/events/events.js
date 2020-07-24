@@ -8,6 +8,7 @@ const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const { Event } = require('../../../models/Event');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -58,15 +59,11 @@ const eventPopulationListForFindAll = [
   },
   {
     path: 'featuredImage',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   },
   {
     path: 'gallery',
-    select: {
-      url: 1
-    }
+    select: mediumSelect
   }
 ];
 
