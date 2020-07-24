@@ -10,7 +10,10 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  getArraySafe,
+  isNonEmptyArray
+} = require('../../../utils/js/array/isNonEmptyArray');
 const {
   compareForStringsAscending
 } = require('../../../utils/js/string/compareForStrings');
@@ -25,6 +28,10 @@ const eventSelectForFindAll = {
 };
 
 const eventSelectForFindOne = { ...eventSelectForFindAll };
+
+const eventDeleteSelectForFindAll = {};
+
+const eventDeleteSelectForFindOne = { ...eventDeleteSelectForFindAll };
 
 const eventPopulationListForFindAll = [
   {
@@ -644,5 +651,32 @@ router.put(
     }
   }
 );
+
+// @route   DELETE api/backend/events/events/:_id
+// @desc    Delete event
+// @access  Private
+router.delete('/:_id', async (req, res) => {
+  try {
+    let event = await Event.findById(req.params._id)
+      .select(eventDeleteSelectForFindOne)
+      .populate(eventPopulationListForFindOne);
+    if (!event)
+      return res
+        .status(404)
+        .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
+    if (!isNonEmptyArray(event.phasesInvolved)) {
+      console.log('delete');
+      // event = await Event.findByIdAndDelete(req.params._id);
+    } else {
+      return res
+        .status(400)
+        .json({ errors: [eventResponseTypes.EVENT_USED_IN_PHASE] });
+    }
+
+    res.json({ type: eventResponseTypes.EVENT_DELETED });
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
 
 module.exports = router;

@@ -10,7 +10,10 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { Artist, artistResponseTypes } = require('../../../models/Artist');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  getArraySafe,
+  isNonEmptyArray
+} = require('../../../utils/js/array/isNonEmptyArray');
 
 /* utilities */
 
@@ -21,6 +24,14 @@ const artistSelectForFindAll = {
 };
 
 const artistSelectForFindOne = { ...artistSelectForFindAll };
+
+const artistDeleteSelectForFindAll = {
+  isFeaturedInLandingPage: 0
+};
+
+const artistDeleteSelectForFindOne = {
+  ...artistDeleteSelectForFindAll
+};
 
 const artistPopulationListForFindAll = [
   {
@@ -334,5 +345,34 @@ router.put(
     }
   }
 );
+
+// @route   DELETE api/backend/artists/artists/:_id
+// @desc    Delete artist
+// @access  Private
+router.delete('/:_id', async (req, res) => {
+  try {
+    let artist = await Artist.findById(req.params._id)
+      .select(artistDeleteSelectForFindOne)
+      .populate(artistPopulationListForFindOne);
+    if (!artist)
+      return res
+        .status(404)
+        .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
+    if (
+      !isNonEmptyArray(artist.eventsPerformed) &&
+      !isNonEmptyArray(artist.eventsDirected)
+    ) {
+      artist = await Artist.findByIdAndDelete(req.params._id);
+    } else {
+      return res
+        .status(400)
+        .json({ errors: [artistResponseTypes.ARTIST_USED_IN_EVENT] });
+    }
+
+    res.json({ type: artistResponseTypes.ARTIST_DELETED });
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
 
 module.exports = router;

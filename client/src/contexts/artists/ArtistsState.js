@@ -13,6 +13,7 @@ import {
   UPDATE_ARTIST,
   ARTISTS_ERRORS,
   CLEAR_ARTISTS_ERRORS,
+  DELETE_ARTIST,
   SET_ARTISTS_LOADING,
   GET_ART_DIRECTORS,
   CLEAR_ART_DIRECTORS,
@@ -24,6 +25,7 @@ import {
   ORDER_EVENT_ARTISTS
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const initialState = {
   artists: null,
@@ -151,6 +153,34 @@ const ArtistsState = ({ children }) => {
     dispatch({ type: CLEAR_ARTISTS_ERRORS });
   }, []);
 
+  // Delete Artist
+  const deleteArtist = useCallback(async artist => {
+    let isSuccess = false;
+    dispatch({ type: SET_ARTISTS_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      if (
+        !isNonEmptyArray(artist.eventsPerformed) &&
+        !isNonEmptyArray(artist.eventsDirected)
+      ) {
+        await axios.delete(
+          `/api/backend/artists/artists/${artist._id}`,
+          artist,
+          config
+        );
+        isSuccess = true;
+      }
+      dispatch({ type: DELETE_ARTIST });
+    } catch (err) {
+      handleServerError(err, ARTISTS_ERRORS, dispatch);
+    }
+    return isSuccess;
+  }, []);
+
   // Get Art Directors
   const getArtDirectors = useCallback(async _ => {
     dispatch({ type: SET_ART_DIRECTORS_LOADING });
@@ -248,6 +278,7 @@ const ArtistsState = ({ children }) => {
         addArtist,
         updateArtist,
         clearArtistsErrors,
+        deleteArtist,
         getArtDirectors,
         clearArtDirectors,
         orderArtDirectors,

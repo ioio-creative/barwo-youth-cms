@@ -133,10 +133,22 @@ const ContactEdit = _ => {
   const contactDelete = useCallback(
     async contact => {
       // console.log(contact);
-      await deleteContact(contact);
-      goToUrl(routes.contactList(true));
+      const isSuccess = await deleteContact(contact);
+      if (isSuccess) {
+        goToUrl(routes.contactList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['ContactEdit.DeleteContactSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        goToUrl(routes.contactEditByIdWithValue(true, contact._id));
+        getContact(contact._id);
+        scrollToTop();
+      }
     },
-    [deleteContact]
+    [deleteContact, setAlerts, getContact]
   );
 
   const onDeleteButtonClick = useCallback(

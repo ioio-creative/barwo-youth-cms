@@ -94,6 +94,9 @@ export default {
   'ArtistEdit.EditArtistTitle': 'Edit Artist',
   'ArtistEdit.AddArtistSubmit': 'Add Artist',
   'ArtistEdit.UpdateArtistSubmit': 'Update Artist',
+  'ArtistEdit.DeleteArtist': 'Delete Artist',
+  'ArtistEdit.DeleteArtistSuccessMessage': 'Artist Deleted',
+  'ArtistEdit.DeleteArtistUnsuccessMessage': 'Fail To Delete Artist',
   'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
   'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated',
 
@@ -163,8 +166,10 @@ export default {
   'EventEdit.EditEventTitle': 'Edit Event',
   'EventEdit.AddEventSubmit': 'Add Event',
   'EventEdit.UpdateEventSubmit': 'Update Event',
+  'EventEdit.DeleteEvent': 'Delete Event',
   'EventEdit.AddEventSuccessMessage': 'Event Added',
   'EventEdit.UpdateEventSuccessMessage': 'Event Updated',
+  'EventEdit.DeleteEventSuccessMessage': 'Event Deleted',
 
   'EventEdit.SelectArtDirectorsPlaceholder': 'Select Art Directors...',
   'EventEdit.Artist.RoleTcPlaceholder': 'Role TC',
@@ -458,6 +463,7 @@ export default {
   'ContactEdit.DeleteContact': 'Delete Contact',
   'ContactEdit.AddContactSuccessMessage': 'Contact Added',
   'ContactEdit.UpdateContactSuccessMessage': 'Contact Updated',
+  'ContactEdit.DeleteContactSuccessMessage': 'Contact Deleted',
 
   'About.Title': 'About Page',
 
@@ -532,10 +538,12 @@ export default {
   'NewsletterEdit.EditNewsletterTitle': 'Edit Newsletter',
   'NewsletterEdit.AddNewsletterSubmit': 'Add Newsletter',
   'NewsletterEdit.UpdateNewsletterSubmit': 'Update Newsletter',
+  'NewsletterEdit.DeleteNewsletterSubmit': 'Delete Newsletter',
   'NewsletterEdit.SendNewsletterSubmit': 'Send Newsletter',
   'NewsletterEdit.AddNewsletterSuccessMessage': 'Newsletter Added',
   'NewsletterEdit.UpdateNewsletterSuccessMessage': 'Newsletter Updated',
   'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sended',
+  'NewsletterEdit.DeleteNewsletterSuccessMessage': 'Newsletter Deleted',
 
   'SendHistories.Title': 'Send Histories',
 
@@ -601,6 +609,7 @@ export default {
   'ActivityEdit.DeleteActivity': 'Delete Activity',
   'ActivityEdit.AddActivitySuccessMessage': 'Activity Added',
   'ActivityEdit.UpdateActivitySuccessMessage': 'Activity Updated',
+  'ActivityEdit.DeleteActivitySuccessMessage': 'Activity Deleted',
 
   'ActivityEdit.SelectFromDatePlaceholder': 'Click to select date',
   'ActivityEdit.SelectToDatePlaceholder': 'Click to select date',

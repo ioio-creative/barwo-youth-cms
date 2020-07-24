@@ -170,6 +170,10 @@ Event.eventsResponseTypes = {
     type: 'LABEL_ALREADY_EXISTS',
     msg: 'LABEL_ALREADY_EXISTS'
   },
+  EVENT_USED_IN_PHASE: {
+    type: 'EVENT_USED_IN_PHASE',
+    msg: 'EVENT_USED_IN_PHASE'
+  },
 
   // general
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
