@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsState from 'contexts/artists/ArtistsState';
 import ArtistsContext from 'contexts/artists/artistsContext';
@@ -15,6 +17,7 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 //import Region from 'components/layout/Region';
 import GroupContainer from 'components/layout/GroupContainer';
+import Button from 'components/form/Button';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -68,7 +71,8 @@ const EventEdit = _ => {
     clearEvent,
     addEvent,
     updateEvent,
-    clearEventsErrors
+    clearEventsErrors,
+    deleteEvent
   } = useContext(EventsContext);
 
   // event
@@ -272,6 +276,49 @@ const EventEdit = _ => {
     setIsSubmitEnabled(true);
     setGalleryPicked(newItemList);
   }, []);
+
+  const eventDelete = useCallback(
+    async event => {
+      // console.log(event);
+      const isSuccess = await deleteEvent(event);
+      if (isSuccess) {
+        goToUrl(routes.eventList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['EventEdit.DeleteEventSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        goToUrl(routes.eventEditByIdWithValue(true, event._id));
+        getEvent(event._id);
+        scrollToTop();
+      }
+    },
+    [deleteEvent, setAlerts, getEvent]
+  );
+
+  const onDeleteButtonClick = useCallback(
+    _ => {
+      removeAlerts();
+      console.log(event);
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: 'Are you sure to delete?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => eventDelete(event)
+          },
+          {
+            label: 'No',
+            onClick: () => removeAlerts()
+          }
+        ]
+      });
+    },
+    [event, eventDelete, removeAlerts]
+  );
 
   const onSubmit = useCallback(
     async e => {
@@ -662,6 +709,15 @@ const EventEdit = _ => {
               : uiWordings['EventEdit.UpdateEventSubmit']
           }
         />
+        {!isAddMode && (
+          <Button
+            onClick={onDeleteButtonClick}
+            color='red'
+            className='w3-right'
+          >
+            {uiWordings['EventEdit.DeleteEvent']}
+          </Button>
+        )}
       </Form>
     </>
   );

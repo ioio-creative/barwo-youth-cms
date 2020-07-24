@@ -25,6 +25,7 @@ import {
   ORDER_EVENT_ARTISTS
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const initialState = {
   artists: null,
@@ -163,10 +164,8 @@ const ArtistsState = ({ children }) => {
     };
     try {
       if (
-        !(
-          (artist.eventsPerformed && artist.eventsPerformed.length !== 0) ||
-          (artist.eventsDirected && artist.eventsDirected.length !== 0)
-        )
+        !isNonEmptyArray(artist.eventsPerformed) &&
+        !isNonEmptyArray(artist.eventsDirected)
       ) {
         await axios.delete(
           `/api/backend/artists/artists/${artist._id}`,

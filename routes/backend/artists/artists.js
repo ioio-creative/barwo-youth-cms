@@ -10,7 +10,10 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { Artist, artistResponseTypes } = require('../../../models/Artist');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  getArraySafe,
+  isNonEmptyArray
+} = require('../../../utils/js/array/isNonEmptyArray');
 
 /* utilities */
 
@@ -343,7 +346,7 @@ router.put(
   }
 );
 
-// @route   DELETE api/backend/activities/activities/:_id
+// @route   DELETE api/backend/artists/artists/:_id
 // @desc    Delete artist
 // @access  Private
 router.delete('/:_id', async (req, res) => {
@@ -356,10 +359,8 @@ router.delete('/:_id', async (req, res) => {
         .status(404)
         .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
     if (
-      !(
-        (artist.eventsPerformed && artist.eventsPerformed.length !== 0) ||
-        (artist.eventsDirected && artist.eventsDirected.length !== 0)
-      )
+      !isNonEmptyArray(artist.eventsPerformed) &&
+      !isNonEmptyArray(artist.eventsDirected)
     ) {
       artist = await Artist.findByIdAndDelete(req.params._id);
     } else {

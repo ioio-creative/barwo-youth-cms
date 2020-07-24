@@ -13,12 +13,14 @@ import {
   UPDATE_EVENT,
   EVENTS_ERRORS,
   CLEAR_EVENTS_ERRORS,
+  DELETE_EVENT,
   SET_EVENTS_LOADING,
   GET_PHASE_EVENTS,
   CLEAR_PHASE_EVENTS,
   SET_PHASE_EVENTS_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
+import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const initialState = {
   events: null,
@@ -140,6 +142,31 @@ const EventsState = ({ children }) => {
     dispatch({ type: CLEAR_EVENTS_ERRORS });
   }, []);
 
+  // Delete Event
+  const deleteEvent = useCallback(async event => {
+    let isSuccess = false;
+    dispatch({ type: SET_EVENTS_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      if (!isNonEmptyArray(event.phaseInvolved)) {
+        await axios.delete(
+          `/api/backend/events/events/${event._id}`,
+          event,
+          config
+        );
+        isSuccess = true;
+      }
+      dispatch({ type: DELETE_EVENT });
+    } catch (err) {
+      handleServerError(err, EVENTS_ERRORS, dispatch);
+    }
+    return isSuccess;
+  }, []);
+
   // Get Phase Events
   const getPhaseEvents = useCallback(async _ => {
     dispatch({ type: SET_PHASE_EVENTS_LOADING });
@@ -174,7 +201,8 @@ const EventsState = ({ children }) => {
         updateEvent,
         clearEventsErrors,
         getPhaseEvents,
-        clearPhaseEvents
+        clearPhaseEvents,
+        deleteEvent
       }}
     >
       {children}
