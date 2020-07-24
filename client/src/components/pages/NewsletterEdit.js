@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import NewslettersContext from 'contexts/newsletters/newslettersContext';
 import NewslettersPageContainer from 'components/newsletters/NewslettersPageContainer';
@@ -36,7 +38,8 @@ const NewsletterEdit = _ => {
     addNewsletter,
     sendNewsletter,
     updateNewsletter,
-    clearNewslettersErrors
+    clearNewslettersErrors,
+    deleteNewsletter
   } = useContext(NewslettersContext);
 
   const [newsletter, setNewsletter] = useState(defaultState);
@@ -160,6 +163,49 @@ const NewsletterEdit = _ => {
       setNewsletter(prevNewsletter => ({ ...prevNewsletter, [name]: value }));
     },
     [removeAlerts]
+  );
+
+  const newsletterDelete = useCallback(
+    async newsletter => {
+      // console.log(newsletter);
+      const isSuccess = await deleteNewsletter(newsletter);
+      if (isSuccess) {
+        goToUrl(routes.newsletterList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['NewsletterEdit.DeleteNewsletterSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
+        getNewsletter(newsletter._id);
+        scrollToTop();
+      }
+    },
+    [deleteNewsletter, setAlerts, getNewsletter]
+  );
+
+  const onDeleteButtonClick = useCallback(
+    _ => {
+      removeAlerts();
+      // console.log(newsletter);
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: 'Are you sure to delete?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => newsletterDelete(newsletter)
+          },
+          {
+            label: 'No',
+            onClick: () => removeAlerts()
+          }
+        ]
+      });
+    },
+    [newsletter, newsletterDelete, removeAlerts]
   );
 
   const onSubmit = useCallback(
@@ -326,6 +372,15 @@ const NewsletterEdit = _ => {
               : uiWordings['NewsletterEdit.UpdateNewsletterSubmit']
           }
         />
+        {!isAddMode && (
+          <Button
+            onClick={onDeleteButtonClick}
+            color='red'
+            className='w3-right'
+          >
+            {uiWordings['NewsletterEdit.DeleteNewsletter']}
+          </Button>
+        )}
       </Form>
     </>
   );

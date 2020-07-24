@@ -7,7 +7,10 @@ const { check } = require('express-validator');
 const listingHandling = require('../../../middleware/listingHandling');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
-const { generalErrorHandle } = require('../../../utils/errorHandling');
+const {
+  generalErrorHandle,
+  duplicateKeyErrorHandle
+} = require('../../../utils/errorHandling');
 const {
   Newsletter,
   newsletterResponseTypes
@@ -99,9 +102,29 @@ const emailSend = async (contact, emailAddress, title, message) => {
     subject: title, // Subject line
     html: `${message}<br/><p>Yours sincerely,</p> <p>Barwo</p>` // html body
   });
-
   // console.log(info);
 };
+
+// const setSendHistoryInvolvedForNewsletter = async (
+//   sendHistoryId,
+//   newsletter,
+//   session
+// ) => {
+//   // https://stackoverflow.com/questions/55264112/mongoose-many-to-many-relations
+
+//   const options = { session };
+//   // set newsletter's newsletterSended
+//   // artist.artist is artist's _id
+//   newsletter = await Newsletter.findByIdAndUpdate(
+//     newsletter.newsletter,
+//     {
+//       $addToSet: {
+//         newsletterSended: sendHistoryId
+//       }
+//     },
+//     options
+//   );
+// };
 
 // @route   POST api/backend/newsletters/sendHistory
 // @desc    Add sendHistory
@@ -118,6 +141,7 @@ router.post(
       message_tc,
       message_sc,
       message_en
+      // newsletter
     } = req.body;
     // console.log(req.body);
     let contacts = [];
@@ -140,6 +164,7 @@ router.post(
         message_tc,
         message_sc,
         message_en,
+        // newsletter,
         sender: req.user._id
       });
       await Promise.all(
@@ -170,6 +195,7 @@ router.post(
       );
 
       await sendHistory.save();
+      // setSendHistoryInvolvedForNewsletter(sendHistory._id, newsletter);
 
       res.json(sendHistory);
     } catch (err) {

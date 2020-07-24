@@ -22,9 +22,12 @@ import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import Loading from 'components/layout/loading/DefaultLoading';
 import config from 'config/default.json';
 import './FileManager.css';
+import FileUpload from './FileUpload';
 
 const numberOfFilesInExplorer = config.FileManager.numberOfFilesInExplorer;
-
+const maxFileUploadCount = 10;
+const maxFileUploadSize = 20 * 1024 * 1024;
+const fileUploadAlertTimeout = 5000;
 // routes //
 // images
 // videos
@@ -68,10 +71,10 @@ const MediumElement = ({
     <div
       className={`w3-col s3 medium-item${
         selectedTag.length === 0 ||
-        medium.tags.some(r => selectedTag.indexOf(r) >= 0)
+          medium.tags.some(r => selectedTag.indexOf(r) >= 0)
           ? ''
           : ' hidden'
-      }${idx === selectedFile ? ' selected' : ''}`}
+        }${idx === selectedFile ? ' selected' : ''}`}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
@@ -97,6 +100,7 @@ const MediumElement = ({
             PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
           }[medium.type]
         }
+        <div className="media-name">{medium.name}</div>
       </div>
     </div>
   );
@@ -281,15 +285,40 @@ const FileManager = ({ onSelect }) => {
   }, []);
   const handleUpload = useCallback(
     files => {
-      // TODO: can limit number of files and file size here
-      const newQueue = Array.from(files).map(file => (
-        <UploadingElement
-          key={Date.now()}
-          file={file}
-          onComplete={addMedium}
-          mediumType={mediumTypeObj}
-        />
-      ));
+      const filesArray = Array.from(files);
+      // TODO: can set the limit number of files and file size here
+      if (filesArray.length > maxFileUploadCount) {
+        setAlerts(
+          // mediaErrors.map(mediaError => {
+          [new Alert(
+            Medium.mediaResponseTypes.TOO_MANY_FILES.msg,
+            Alert.alertTypes.WARNING
+          )],
+          fileUploadAlertTimeout
+          // })
+        );
+      }
+      const newQueue = filesArray.slice(0, maxFileUploadCount).map(file => {
+        if (file.size > maxFileUploadSize) {
+          setAlerts(
+            // mediaErrors.map(mediaError => {
+            [new Alert(
+              `${file.name} - ${Medium.mediaResponseTypes.FILE_TOO_LARGE.msg}`,
+              Alert.alertTypes.WARNING
+            )],
+            fileUploadAlertTimeout
+            // })
+          );
+          return null;
+        } else {
+          return <UploadingElement
+            key={Date.now()}
+            file={file}
+            onComplete={addMedium}
+            mediumType={mediumTypeObj}
+          />;
+        }
+      });
       setUploadingQueue(prevUploadingQueue => {
         return [...prevUploadingQueue, ...newQueue];
       });
@@ -425,7 +454,7 @@ const FileManager = ({ onSelect }) => {
   );
 
   return (
-    <div className={`w3-stretch fileManager`} ref={setFileManagerEl}>
+    <div className={`w3-stretch fileManager ${mediaType}`} ref={setFileManagerEl}>
       <div className='dragFileOverlay'>
         {uiWordings['FileManager.DragToUploadHint']}
       </div>
@@ -438,7 +467,7 @@ const FileManager = ({ onSelect }) => {
                   <div
                     className={`w3-border w3-btn${
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
-                    } tag`}
+                      } tag`}
                     key={tag}
                     onClick={() => selectTag(tag)}
                   >
@@ -485,7 +514,7 @@ const FileManager = ({ onSelect }) => {
                   medium =>
                     medium &&
                     medium.type ===
-                      mediumTypeObj.value /* paramsToType[mediaType] */
+                    mediumTypeObj.value /* paramsToType[mediaType] */
                 )
                 .map((medium, idx) => {
                   return (
@@ -501,8 +530,8 @@ const FileManager = ({ onSelect }) => {
                   );
                 })
             ) : (
-              <Loading />
-            )}
+                <Loading />
+              )}
           </div>
         </div>
       </div>
@@ -565,14 +594,14 @@ const FileManager = ({ onSelect }) => {
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.name}
-                // onChange direct update
+              // onChange direct update
               />
               <LabelInputTextPair
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.alternativeText}
-                // onChange direct update
+              // onChange direct update
               />
               <div className='w3-center action-btn-wrapper'>
                 <div

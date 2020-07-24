@@ -178,10 +178,22 @@ const ActivityEdit = _ => {
   const activityDelete = useCallback(
     async activity => {
       // console.log(activity);
-      await deleteActivity(activity);
-      goToUrl(routes.activityList(true));
+      const isSuccess = await deleteActivity(activity);
+      if (isSuccess) {
+        goToUrl(routes.activityList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['ActivityEdit.DeleteActivitySuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        goToUrl(routes.activityEditByIdWithValue(true, activity._id));
+        getActivity(activity._id);
+        scrollToTop();
+      }
     },
-    [deleteActivity]
+    [deleteActivity, setAlerts, getActivity]
   );
 
   const onDeleteButtonClick = useCallback(
