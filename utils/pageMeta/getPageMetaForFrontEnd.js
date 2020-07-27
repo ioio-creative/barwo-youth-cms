@@ -1,6 +1,9 @@
 const { getEntityPropByLanguage } = require('../../globals/languages');
 
 module.exports = (pageMeta, language) => {
+  if (!pageMeta) {
+    return {};
+  }
   return {
     title: getEntityPropByLanguage(pageMeta, 'title', language),
     description: getEntityPropByLanguage(pageMeta, 'description', language),
