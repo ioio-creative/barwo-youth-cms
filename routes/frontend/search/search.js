@@ -14,93 +14,93 @@ const { Activity } = require('../../../models/Activity');
 // @route   POST api/frontend/search
 // @desc    Search the "queryStr" in Event, Artist, News, Activity and return result in "language"
 // @access  Public // TODO:
-router.post(
-  '/:lang?',
-  [languageHandling],
-  async (req, res) => {
-    const { queryStr } = req.body;
-    const language = req.language;
-    // console.log(req.params);
-    try {
+router.post('/:lang?', [languageHandling], async (req, res) => {
+  const { queryStr } = req.body;
+  const language = req.language;
 
-      const searchArray = [
-        {
-          model: Event,
-          search: [
-            {
-              score: 3,
-              path: ['name_tc', 'name_sc', 'name_en']
-            },
-            {
-              score: 2,
-              path: ['desc_tc', 'desc_sc', 'desc_en']
-            },
-            {
-              score: 1,
-              path: ['writer_tc', 'writer_sc', 'writer_en']
-            }
-          ],
-          return: [
-            'name' + language.entityPropSuffix,
-            'desc' + language.entityPropSuffix,
-            'label'
-          ]
-        },
-        {
-          model: Artist,
-          search: [
-            {
-              score: 2,
-              path: ['name_tc', 'name_sc', 'name_en']
-            },
-            {
-              score: 1,
-              path: ['desc_tc', 'desc_sc', 'desc_en']
-            }
-          ],
-          return: [
-            'name' + language.entityPropSuffix,
-            'desc' + language.entityPropSuffix,
-            'label'
-          ]
-        }, {
-          model: News,
-          search: [
-            {
-              score: 2,
-              path: ['name_tc', 'name_sc', 'name_en']
-            },
-            {
-              score: 1,
-              path: ['desc_tc', 'desc_sc', 'desc_en']
-            }
-          ],
-          return: [
-            'name' + language.entityPropSuffix,
-            'desc' + language.entityPropSuffix,
-            'label'
-          ]
-        },
-        {
-          model: Activity,
-          search: [
-            {
-              score: 2,
-              path: ['name_tc', 'name_sc', 'name_en']
-            },
-            {
-              score: 1,
-              path: ['desc_tc', 'desc_sc', 'desc_en']
-            }
-          ],
-          return: [
-            'name' + language.entityPropSuffix,
-            'desc' + language.entityPropSuffix,
-            'label'
-          ]
-        }
-      ];
-      const result = Promise.all(searchArray.map(async data => {
+  console.log(queryStr);
+
+  try {
+    const searchArray = [
+      {
+        model: Event,
+        search: [
+          {
+            score: 3,
+            path: ['name_tc', 'name_sc', 'name_en']
+          },
+          {
+            score: 2,
+            path: ['desc_tc', 'desc_sc', 'desc_en']
+          },
+          {
+            score: 1,
+            path: ['writer_tc', 'writer_sc', 'writer_en']
+          }
+        ],
+        return: [
+          'name' + language.entityPropSuffix,
+          'desc' + language.entityPropSuffix,
+          'label'
+        ]
+      },
+      {
+        model: Artist,
+        search: [
+          {
+            score: 2,
+            path: ['name_tc', 'name_sc', 'name_en']
+          },
+          {
+            score: 1,
+            path: ['desc_tc', 'desc_sc', 'desc_en']
+          }
+        ],
+        return: [
+          'name' + language.entityPropSuffix,
+          'desc' + language.entityPropSuffix,
+          'label'
+        ]
+      },
+      {
+        model: News,
+        search: [
+          {
+            score: 2,
+            path: ['name_tc', 'name_sc', 'name_en']
+          },
+          {
+            score: 1,
+            path: ['desc_tc', 'desc_sc', 'desc_en']
+          }
+        ],
+        return: [
+          'name' + language.entityPropSuffix,
+          'desc' + language.entityPropSuffix,
+          'label'
+        ]
+      },
+      {
+        model: Activity,
+        search: [
+          {
+            score: 2,
+            path: ['name_tc', 'name_sc', 'name_en']
+          },
+          {
+            score: 1,
+            path: ['desc_tc', 'desc_sc', 'desc_en']
+          }
+        ],
+        return: [
+          'name' + language.entityPropSuffix,
+          'desc' + language.entityPropSuffix,
+          'label'
+        ]
+      }
+    ];
+    const result = Promise.all(
+      searchArray.map(async data => {
         const returnFields = {};
         data.return.forEach(key => (returnFields[key] = 1));
         returnFields['score'] = {
@@ -130,26 +130,27 @@ router.post(
           {
             $project: returnFields
           }
-        ])
-      }));
-      result.then(dataArray => {
-        const resultCollectionName = ['Event', 'Artist', 'News', 'Activity'];
-        const resultArray = {};
-        dataArray.forEach((data, idx) => {
-          resultArray[resultCollectionName[idx]] = data.map(dat => {
-            Object.keys(dat).forEach(key => {
-              if (key.endsWith(language.entityPropSuffix)) {
-                dat[key.replace(language.entityPropSuffix, '')] = dat[key];
-                delete (dat[key]);
-              }
-            })
-            return dat;
-          });
-        })
-        res.json(resultArray);
+        ]);
+      })
+    );
+
+    const dataArray = await result;
+
+    const resultCollectionName = ['Event', 'Artist', 'News', 'Activity'];
+    const resultArray = {};
+    dataArray.forEach((data, idx) => {
+      resultArray[resultCollectionName[idx]] = data.map(dat => {
+        Object.keys(dat).forEach(key => {
+          if (key.endsWith(language.entityPropSuffix)) {
+            dat[key.replace(language.entityPropSuffix, '')] = dat[key];
+            delete dat[key];
+          }
+        });
+        return dat;
       });
-      res.json(resultArray);
     });
+
+    res.json(resultArray);
   } catch (err) {
     generalErrorHandle(err, res);
   }
