@@ -270,9 +270,12 @@ const artistsGetHandling = async (req, res, isFindArtDirectors = false) => {
     //   console.log(artistsForFrontEnd[i].closestRelatedEvent);
     // }
 
+    console.log('reach here 1');
     res.json(artistsForFrontEnd);
+    console.log('reach here 2');
   } catch (err) {
-    generalErrorHandle(err, res);
+    console.log(err);
+    //generalErrorHandle(err, res);
   }
 };
 
