@@ -18,8 +18,6 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
   const { queryStr } = req.body;
   const language = req.language;
 
-  console.log(queryStr);
-
   try {
     const searchArray = [
       {
@@ -106,7 +104,7 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
         returnFields['score'] = {
           $meta: 'searchScore'
         };
-        console.log(returnFields);
+        //console.log(returnFields);
         return await data.model.aggregate([
           {
             $search: {

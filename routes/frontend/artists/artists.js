@@ -251,7 +251,7 @@ const artistsGetHandling = async (req, res, isFindArtDirectors = false) => {
     const artists = await getOrderingHandling(
       res,
       Artist,
-      true,
+      false,
       findParams,
       artistSelectForFindAll,
       {},
@@ -270,12 +270,9 @@ const artistsGetHandling = async (req, res, isFindArtDirectors = false) => {
     //   console.log(artistsForFrontEnd[i].closestRelatedEvent);
     // }
 
-    console.log('reach here 1');
     res.json(artistsForFrontEnd);
-    console.log('reach here 2');
   } catch (err) {
-    console.log(err);
-    //generalErrorHandle(err, res);
+    generalErrorHandle(err, res);
   }
 };
 
