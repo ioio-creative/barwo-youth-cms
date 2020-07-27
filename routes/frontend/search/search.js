@@ -25,6 +25,7 @@ router.post(
   async (req, res) => {
     const { queryStr } = req.body;
     const language = req.language;
+    // console.log(req.params);
     try {
 
       const searchArray = [
@@ -140,7 +141,15 @@ router.post(
         const resultCollectionName = ['Event', 'Artist', 'News', 'Activity'];
         const resultArray = {};
         dataArray.forEach((data, idx) => {
-          resultArray[resultCollectionName[idx]] = data;
+          resultArray[resultCollectionName[idx]] = data.map(dat => {
+            Object.keys(dat).forEach(key => {
+              if (key.endsWith(language.entityPropSuffix)) {
+                dat[key.replace(language.entityPropSuffix, '')] = dat[key];
+                delete (dat[key]);
+              }
+            })
+            return dat;
+          });
         })
         res.json(resultArray);
       });

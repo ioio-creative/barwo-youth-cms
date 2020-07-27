@@ -334,12 +334,12 @@ router.put(
   async (req, res) => {
     const {
       name,
-      alernativeText,
+      // alernativeText,
       //type,
-      tags,
+      // tags,
       //url,
       //usages,
-      isEnabled
+      // isEnabled
     } = req.body;
 
     const mediumTypeFromUrl = req.mediumType;

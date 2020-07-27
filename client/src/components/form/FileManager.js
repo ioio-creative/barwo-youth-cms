@@ -24,9 +24,9 @@ import config from 'config/default.json';
 import './FileManager.css';
 
 const numberOfFilesInExplorer = config.FileManager.numberOfFilesInExplorer;
-const maxFileUploadCount = 10;
-const maxFileUploadSize = 20 * 1024 * 1024;
-const fileUploadAlertTimeout = 5000;
+const maxFileUploadCount = config.FileManager.filesCount;
+const maxFileUploadSize = config.FileManager.fileSizeInMBs * 1024 * 1024;
+const fileUploadAlertTimeout = config.FileManager.fileUploadAlertTimeoutInMs;
 
 // routes //
 // images
@@ -71,10 +71,10 @@ const MediumElement = ({
     <div
       className={`w3-col s3 medium-item${
         selectedTag.length === 0 ||
-        medium.tags.some(r => selectedTag.indexOf(r) >= 0)
+          medium.tags.some(r => selectedTag.indexOf(r) >= 0)
           ? ''
           : ' hidden'
-      }${idx === selectedFile ? ' selected' : ''}`}
+        }${idx === selectedFile ? ' selected' : ''}`}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
@@ -203,6 +203,7 @@ const FileManager = ({ onSelect }) => {
   } = useContext(MediaContext);
 
   const [mediaList, setMediaList] = useState(fetchedMedia);
+  const [filterText, setFilterText] = useState("");
   const CKEditorFuncNumAndSetter = useQueryParam(
     'CKEditorFuncNum',
     NumberParam
@@ -402,7 +403,7 @@ const FileManager = ({ onSelect }) => {
       // page,
       sortOrder: -1,
       sortBy: 'createDT',
-      // filterText,
+      filterText,
       limit: numberOfFilesInExplorer
     });
     return () => {
@@ -419,6 +420,7 @@ const FileManager = ({ onSelect }) => {
     getMedia,
     clearMedia,
     removeAlerts,
+    filterText,
     handleDragEnter,
     handleDragOver,
     handleDragLeave,
@@ -469,14 +471,14 @@ const FileManager = ({ onSelect }) => {
       </div>
       <div className='search-bar w3-col s9'>
         <div className='w3-container'>
-          {tags.length > 0 && (
+          {/*tags.length > 0 && (
             <div className='w3-col s9 tags'>
               {tags.map(tag => {
                 return (
                   <div
                     className={`w3-border w3-btn${
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
-                    } tag`}
+                      } tag`}
                     key={tag}
                     onClick={() => selectTag(tag)}
                   >
@@ -485,9 +487,10 @@ const FileManager = ({ onSelect }) => {
                 );
               })}
             </div>
-          )}
+          )*/}
           <div className={`w3-col s${tags.length > 0 ? 3 : 6}`}>
-            <MyInputText placeholder='Search media items...' />
+            <MyInputText placeholder='Search media items...' value={filterText} onChange={(e) => setFilterText(e.target.value)} />
+
           </div>
           <div className='w3-col s6 w3-right-align'>
             <label className='w3-btn w3-blue upload-btn'>
@@ -523,7 +526,7 @@ const FileManager = ({ onSelect }) => {
                   medium =>
                     medium &&
                     medium.type ===
-                      mediumTypeObj.value /* paramsToType[mediaType] */
+                    mediumTypeObj.value /* paramsToType[mediaType] */
                 )
                 .map((medium, idx) => {
                   return (
@@ -539,8 +542,8 @@ const FileManager = ({ onSelect }) => {
                   );
                 })
             ) : (
-              <Loading />
-            )}
+                <Loading />
+              )}
           </div>
         </div>
       </div>
@@ -603,15 +606,15 @@ const FileManager = ({ onSelect }) => {
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.name}
-                // onChange direct update
+              // onChange direct update
               />
-              <LabelInputTextPair
+              {/* <LabelInputTextPair
                 labelMessage='Alternate text'
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.alternativeText}
-                // onChange direct update
-              />
+              // onChange direct update
+              /> */}
               <div className='w3-center action-btn-wrapper'>
                 <div
                   className='w3-btn w3-blue select-btn'
@@ -619,7 +622,7 @@ const FileManager = ({ onSelect }) => {
                 >
                   {uiWordings['FileManager.SelectFile']}
                 </div>
-                <div
+                {/* <div
                   className='w3-btn w3-text-red'
                   onClick={() =>
                     alert(
@@ -628,7 +631,7 @@ const FileManager = ({ onSelect }) => {
                   }
                 >
                   <i className='fa fa-trash' />
-                </div>
+                </div> */}
               </div>
             </div>
           </>
