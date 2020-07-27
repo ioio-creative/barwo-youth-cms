@@ -5,12 +5,12 @@ import firstOrDefault from 'utils/js/array/firstOrDefault';
 
 const artistTypes = {
   ART_DIRECTOR: { value: 'ART_DIRECTOR', label: 'Artistic director' },
-  ART_DIRECTOR_VISITING: {
-    value: 'ART_DIRECTOR_VISITING',
-    label: 'Artistic director visiting'
-  },
-  ACTOR: { value: 'ACTOR', label: 'Actor' },
-  ACTOR_PAST: { value: 'ACTOR_PAST', label: 'Actor past' }
+  // ART_DIRECTOR_VISITING: {
+  //   value: 'ART_DIRECTOR_VISITING',
+  //   label: 'Artistic director visiting'
+  // },
+  ACTOR: { value: 'ACTOR', label: 'Actor' }
+  // ACTOR_PAST: { value: 'ACTOR_PAST', label: 'Actor past' }
 };
 
 const artistRoles = {
