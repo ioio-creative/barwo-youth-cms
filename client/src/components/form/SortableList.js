@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import guid from 'utils/guid';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
@@ -7,11 +7,8 @@ import ListItem from './models/ListItem';
 import uiWordings from 'globals/uiWordings';
 import './SortableList.css';
 
-/* globals */
-
-let listWidthGlobal = 250;
-
-/* end of globals */
+// constants
+const listWidthDefault = 250;
 
 // fake data generator
 const getItemsExample = count =>
@@ -82,8 +79,15 @@ const getItemStyleExample = (isDragging, draggableStyle) => ({
 const getListStyleExample = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: `${grid}px ${grid}px ${grid * 0.5}px ${grid}px`,
-  width: listWidthGlobal
+  width: listWidthDefault
 });
+
+const getListStyleFactory = width => {
+  return isDraggingOver => ({
+    ...getListStyleExample(isDraggingOver),
+    width: width
+  });
+};
 
 const ItemExample = ({
   index,
@@ -157,18 +161,6 @@ const SortableList = ({
   onItemToFirst,
   onItemToLast
 }) => {
-  /* useEffects */
-
-  // listWidth
-  useEffect(
-    _ => {
-      listWidthGlobal = listWidth;
-    },
-    [listWidth]
-  );
-
-  /* end of useEffects */
-
   /* event handlers */
 
   const handleDragEnd = useCallback(
@@ -246,6 +238,25 @@ const SortableList = ({
 
   /* end of event handlers */
 
+  /* methods */
+
+  const getListStyleFunc = useCallback(
+    isDraggingOver => {
+      if (isFunction(getListStyle)) {
+        return getListStyle(isDraggingOver);
+      }
+
+      if (listWidth >= 0) {
+        return getListStyleFactory(listWidth)(isDraggingOver);
+      }
+
+      return getListStyleExample(isDraggingOver);
+    },
+    [getListStyle, listWidth]
+  );
+
+  /* end of methods */
+
   /* values derived from props */
 
   const expandedItems = useMemo(
@@ -281,7 +292,7 @@ const SortableList = ({
             className='sortable-list'
             {...provided.droppableProps}
             ref={provided.innerRef}
-            style={getListStyle(snapshot.isDraggingOver)}
+            style={getListStyleFunc(snapshot.isDraggingOver)}
           >
             {expandedItems.map(itemRender)}
             {provided.placeholder}
@@ -295,9 +306,9 @@ const SortableList = ({
 SortableList.defaultProps = {
   _id: guid(), //'droppable',
   items: getItemsExample(10),
-  listWidth: listWidthGlobal,
+  //listWidth: listWidthDefault,
   itemRender: itemRenderExample,
-  getListStyle: getListStyleExample,
+  //getListStyle: getListStyleExample,
   onDragEnd: onDragEndExample
 };
 

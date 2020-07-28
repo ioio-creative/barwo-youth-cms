@@ -2,6 +2,7 @@ import React, { useMemo, useCallback /*, useEffect*/ } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import InputText from 'components/form/InputText';
+import TextArea from 'components/form/TextArea';
 import uiWordings from 'globals/uiWordings';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
@@ -28,11 +29,6 @@ const mapStaffPersonToListItem = staffPerson => {
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   ...LabelSortableListPair.getItemStyleDefault(isDragging, draggableStyle)
-});
-
-const getListStyle = isDraggingOver => ({
-  ...LabelSortableListPair.getListStyleDefault(isDraggingOver),
-  width: 650
 });
 
 /* end of constants */
@@ -78,8 +74,12 @@ const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
     name_sc,
     title_en,
     name_en,
-    draggableId
+    draggableId,
+
+    isUseTextAreaForName
   } = staffPerson;
+
+  const ComponentForName = isUseTextAreaForName ? TextArea : InputText;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -109,7 +109,7 @@ const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
                 />
               </div>
               <div className='w3-col m6'>
-                <InputText
+                <ComponentForName
                   className='w3-margin-right'
                   name='name_tc'
                   value={name_tc}
@@ -135,7 +135,7 @@ const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
                 />
               </div>
               <div className='w3-col m6'>
-                <InputText
+                <ComponentForName
                   className='w3-margin-right'
                   name='name_sc'
                   value={name_sc}
@@ -161,7 +161,7 @@ const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
                 />
               </div>
               <div className='w3-col m6'>
-                <InputText
+                <ComponentForName
                   className='w3-margin-right'
                   name='name_en'
                   value={name_en}
@@ -202,12 +202,18 @@ const itemRender = (
   );
 };
 
+const itemRenderFactory = isUseTextAreaForName => {
+  return (itemObj, index) =>
+    itemRender({ ...itemObj, isUseTextAreaForName }, index);
+};
+
 /* end of item */
 
 const AboutEditStaffPersonSelect = ({
   staffPersons,
   onGetStaffPersons,
   labelMessage,
+  listWidth,
   isUseTextAreaForName
 }) => {
   const staffPersonsInPickedList = useMemo(
@@ -270,8 +276,8 @@ const AboutEditStaffPersonSelect = ({
     <LabelSortableListPair
       name='staffPersons'
       labelMessage={labelMessage}
-      pickedItemRender={itemRender}
-      getListStyle={getListStyle}
+      listWidth={listWidth}
+      pickedItemRender={itemRenderFactory(isUseTextAreaForName)}
       pickedItems={staffPersonsInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
@@ -280,6 +286,7 @@ const AboutEditStaffPersonSelect = ({
 };
 
 AboutEditStaffPersonSelect.defaultProps = {
+  listWidth: 650,
   isUseTextAreaForName: false
 };
 

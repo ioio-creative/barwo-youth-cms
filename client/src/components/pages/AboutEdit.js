@@ -471,6 +471,7 @@ const AboutEdit = _ => {
           staffPersons={productionPersonsPicked}
           onGetStaffPersons={onGetProductionPersonsPicked}
           labelMessage={uiWordings['About.ProductionPersonsLabel']}
+          isUseTextAreaForName={true}
         />
       </Region>
 
