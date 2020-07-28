@@ -257,25 +257,25 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
-        name='team_tc'
-        value={globalConstants.team_tc}
-        labelMessage={uiWordings['GlobalConstants.TeamTcLabel']}
+        name='teams_tc'
+        value={globalConstants.teams_tc}
+        labelMessage={uiWordings['GlobalConstants.TeamsTcLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='team_sc'
-        value={globalConstants.team_sc}
-        labelMessage={uiWordings['GlobalConstants.TeamScLabel']}
+        name='teams_sc'
+        value={globalConstants.teams_sc}
+        labelMessage={uiWordings['GlobalConstants.TeamsScLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='team_en'
-        value={globalConstants.team_en}
-        labelMessage={uiWordings['GlobalConstants.TeamEnLabel']}
+        name='teams_en'
+        value={globalConstants.teams_en}
+        labelMessage={uiWordings['GlobalConstants.TeamsEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
@@ -326,6 +326,31 @@ const GlobalConstantsEdit = _ => {
         name='actor_en'
         value={globalConstants.actor_en}
         labelMessage={uiWordings['GlobalConstants.ActorEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='artist_tc'
+        value={globalConstants.artist_tc}
+        labelMessage={uiWordings['GlobalConstants.ArtistTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='artist_sc'
+        value={globalConstants.artist_sc}
+        labelMessage={uiWordings['GlobalConstants.ArtistScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='artist_en'
+        value={globalConstants.artist_en}
+        labelMessage={uiWordings['GlobalConstants.ArtistEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
@@ -1336,125 +1361,131 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
-        name='knowledge_tc'
-        value={globalConstants.knowledge_tc}
-        labelMessage={uiWordings['GlobalConstants.KnowledgeTcLabel']}
+        name='GUIDED_TALK_tc'
+        value={globalConstants.GUIDED_TALK_tc}
+        labelMessage={uiWordings['GlobalConstants.GUIDED_TALKTcLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='knowledge_sc'
-        value={globalConstants.knowledge_sc}
-        labelMessage={uiWordings['GlobalConstants.KnowledgeScLabel']}
+        name='GUIDED_TALK_sc'
+        value={globalConstants.GUIDED_TALK_sc}
+        labelMessage={uiWordings['GlobalConstants.GUIDED_TALKScLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='knowledge_en'
-        value={globalConstants.knowledge_en}
-        labelMessage={uiWordings['GlobalConstants.KnowledgeEnLabel']}
-        placeholder=''
-        onChange={onChange}
-        required={true}
-      />
-
-      <LabelInputTextPair
-        name='workshop_tc'
-        value={globalConstants.workshop_tc}
-        labelMessage={uiWordings['GlobalConstants.WorkshopTcLabel']}
-        placeholder=''
-        onChange={onChange}
-        required={true}
-      />
-      <LabelInputTextPair
-        name='workshop_sc'
-        value={globalConstants.workshop_sc}
-        labelMessage={uiWordings['GlobalConstants.WorkshopScLabel']}
-        placeholder=''
-        onChange={onChange}
-        required={true}
-      />
-      <LabelInputTextPair
-        name='workshop_en'
-        value={globalConstants.workshop_en}
-        labelMessage={uiWordings['GlobalConstants.WorkshopEnLabel']}
+        name='GUIDED_TALK_en'
+        value={globalConstants.GUIDED_TALK_en}
+        labelMessage={uiWordings['GlobalConstants.GUIDED_TALKEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
 
       <LabelInputTextPair
-        name='video_show_tc'
-        value={globalConstants.video_show_tc}
-        labelMessage={uiWordings['GlobalConstants.VideoShowTcLabel']}
+        name='YOUTH_PROGRAMME_tc'
+        value={globalConstants.YOUTH_PROGRAMME_tc}
+        labelMessage={uiWordings['GlobalConstants.YOUTH_PROGRAMMETcLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='video_show_sc'
-        value={globalConstants.video_show_sc}
-        labelMessage={uiWordings['GlobalConstants.VideoShowScLabel']}
+        name='YOUTH_PROGRAMME_sc'
+        value={globalConstants.YOUTH_PROGRAMME_sc}
+        labelMessage={uiWordings['GlobalConstants.YOUTH_PROGRAMMEScLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='video_show_en'
-        value={globalConstants.video_show_en}
-        labelMessage={uiWordings['GlobalConstants.VideoShowEnLabel']}
-        placeholder=''
-        onChange={onChange}
-        required={true}
-      />
-
-      <LabelInputTextPair
-        name='sharing_tc'
-        value={globalConstants.sharing_tc}
-        labelMessage={uiWordings['GlobalConstants.SharingTcLabel']}
-        placeholder=''
-        onChange={onChange}
-        required={true}
-      />
-      <LabelInputTextPair
-        name='sharing_sc'
-        value={globalConstants.sharing_sc}
-        labelMessage={uiWordings['GlobalConstants.SharingScLabel']}
-        placeholder=''
-        onChange={onChange}
-        required={true}
-      />
-      <LabelInputTextPair
-        name='sharing_en'
-        value={globalConstants.sharing_en}
-        labelMessage={uiWordings['GlobalConstants.SharingEnLabel']}
+        name='YOUTH_PROGRAMME_en'
+        value={globalConstants.YOUTH_PROGRAMME_en}
+        labelMessage={uiWordings['GlobalConstants.YOUTH_PROGRAMMEEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
 
       <LabelInputTextPair
-        name='past_activity_tc'
-        value={globalConstants.past_activity_tc}
-        labelMessage={uiWordings['GlobalConstants.PastActivityTcLabel']}
+        name='CANTONESE_OPERA_KNOWLEDGE_tc'
+        value={globalConstants.CANTONESE_OPERA_KNOWLEDGE_tc}
+        labelMessage={
+          uiWordings['GlobalConstants.CANTONESE_OPERA_KNOWLEDGETcLabel']
+        }
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='past_activity_sc'
-        value={globalConstants.past_activity_sc}
-        labelMessage={uiWordings['GlobalConstants.PastActivityScLabel']}
+        name='CANTONESE_OPERA_KNOWLEDGE_sc'
+        value={globalConstants.CANTONESE_OPERA_KNOWLEDGE_sc}
+        labelMessage={
+          uiWordings['GlobalConstants.CANTONESE_OPERA_KNOWLEDGEScLabel']
+        }
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='past_activity_en'
-        value={globalConstants.past_activity_en}
-        labelMessage={uiWordings['GlobalConstants.PastActivityEnLabel']}
+        name='CANTONESE_OPERA_KNOWLEDGE_en'
+        value={globalConstants.CANTONESE_OPERA_KNOWLEDGE_en}
+        labelMessage={
+          uiWordings['GlobalConstants.CANTONESE_OPERA_KNOWLEDGEEnLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='COLLEGE_SHOW_tc'
+        value={globalConstants.COLLEGE_SHOW_tc}
+        labelMessage={uiWordings['GlobalConstants.COLLEGE_SHOWTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='COLLEGE_SHOW_sc'
+        value={globalConstants.COLLEGE_SHOW_sc}
+        labelMessage={uiWordings['GlobalConstants.COLLEGE_SHOWScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='COLLEGE_SHOW_en'
+        value={globalConstants.COLLEGE_SHOW_en}
+        labelMessage={uiWordings['GlobalConstants.COLLEGE_SHOWEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='EXHIBITION_tc'
+        value={globalConstants.EXHIBITION_tc}
+        labelMessage={uiWordings['GlobalConstants.EXHIBITIONTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='EXHIBITION_sc'
+        value={globalConstants.EXHIBITION_sc}
+        labelMessage={uiWordings['GlobalConstants.EXHIBITIONScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='EXHIBITION_en'
+        value={globalConstants.EXHIBITION_en}
+        labelMessage={uiWordings['GlobalConstants.EXHIBITIONEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
@@ -1805,6 +1836,156 @@ const GlobalConstantsEdit = _ => {
         name='sponsor_en'
         value={globalConstants.sponsor_en}
         labelMessage={uiWordings['GlobalConstants.SponsorEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='search_tc'
+        value={globalConstants.search_tc}
+        labelMessage={uiWordings['GlobalConstants.SearchTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='search_sc'
+        value={globalConstants.search_sc}
+        labelMessage={uiWordings['GlobalConstants.SearchScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='search_en'
+        value={globalConstants.search_en}
+        labelMessage={uiWordings['GlobalConstants.SearchEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='activity_tc'
+        value={globalConstants.activity_tc}
+        labelMessage={uiWordings['GlobalConstants.ActivityTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='activity_sc'
+        value={globalConstants.activity_sc}
+        labelMessage={uiWordings['GlobalConstants.ActivityScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='activity_en'
+        value={globalConstants.activity_en}
+        labelMessage={uiWordings['GlobalConstants.ActivityEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='event_tc'
+        value={globalConstants.event_tc}
+        labelMessage={uiWordings['GlobalConstants.EventTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='event_sc'
+        value={globalConstants.event_sc}
+        labelMessage={uiWordings['GlobalConstants.EventScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='event_en'
+        value={globalConstants.event_en}
+        labelMessage={uiWordings['GlobalConstants.EventEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='SPECIAL_NOTICE_tc'
+        value={globalConstants.SPECIAL_NOTICE_tc}
+        labelMessage={uiWordings['GlobalConstants.SPECIAL_NOTICETcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='SPECIAL_NOTICE_sc'
+        value={globalConstants.SPECIAL_NOTICE_sc}
+        labelMessage={uiWordings['GlobalConstants.SPECIAL_NOTICEScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='SPECIAL_NOTICE_en'
+        value={globalConstants.SPECIAL_NOTICE_en}
+        labelMessage={uiWordings['GlobalConstants.SPECIAL_NOTICEEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='PRESS_RELEASE_tc'
+        value={globalConstants.PRESS_RELEASE_tc}
+        labelMessage={uiWordings['GlobalConstants.PRESS_RELEASETcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='PRESS_RELEASE_sc'
+        value={globalConstants.PRESS_RELEASE_sc}
+        labelMessage={uiWordings['GlobalConstants.PRESS_RELEASEScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='PRESS_RELEASE_en'
+        value={globalConstants.PRESS_RELEASE_en}
+        labelMessage={uiWordings['GlobalConstants.PRESS_RELEASEEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='INTERVIEW_tc'
+        value={globalConstants.INTERVIEW_tc}
+        labelMessage={uiWordings['GlobalConstants.INTERVIEWTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='INTERVIEW_sc'
+        value={globalConstants.INTERVIEW_sc}
+        labelMessage={uiWordings['GlobalConstants.INTERVIEWScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='INTERVIEW_en'
+        value={globalConstants.INTERVIEW_en}
+        labelMessage={uiWordings['GlobalConstants.INTERVIEWEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}

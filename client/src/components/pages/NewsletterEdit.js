@@ -283,7 +283,7 @@ const NewsletterEdit = _ => {
             </Button>
           </div>
           <div className='w3-right'>
-            <SendOutList emailId={newsletter._id} />
+            <SendOutList newsletterId={newsletter._id} />
           </div>
         </>
       )}

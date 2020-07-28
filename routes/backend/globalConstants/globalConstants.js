@@ -74,9 +74,9 @@ const globalConstantsValidationChecks = [
     globalConstantsResponseTypes.SCHEDULEOFSHOW_EN_REQUIRED
   ).notEmpty(),
 
-  check('team_tc', globalConstantsResponseTypes.TEAM_TC_REQUIRED).notEmpty(),
-  check('team_sc', globalConstantsResponseTypes.TEAM_SC_REQUIRED).notEmpty(),
-  check('team_en', globalConstantsResponseTypes.TEAM_EN_REQUIRED).notEmpty(),
+  check('team_tc', globalConstantsResponseTypes.TEAMS_TC_REQUIRED).notEmpty(),
+  check('team_sc', globalConstantsResponseTypes.TEAMS_SC_REQUIRED).notEmpty(),
+  check('team_en', globalConstantsResponseTypes.TEAMS_EN_REQUIRED).notEmpty(),
 
   check(
     'artDirector_tc',
@@ -94,6 +94,19 @@ const globalConstantsValidationChecks = [
   check('actor_tc', globalConstantsResponseTypes.ACTOR_TC_REQUIRED).notEmpty(),
   check('actor_sc', globalConstantsResponseTypes.ACTOR_SC_REQUIRED).notEmpty(),
   check('actor_en', globalConstantsResponseTypes.ACTOR_EN_REQUIRED).notEmpty(),
+
+  check(
+    'artist_tc',
+    globalConstantsResponseTypes.ARTIST_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'artist_sc',
+    globalConstantsResponseTypes.ARTIST_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'artist_en',
+    globalConstantsResponseTypes.ARTIST_EN_REQUIRED
+  ).notEmpty(),
 
   check(
     'detailsOfShow_tc',
@@ -508,68 +521,68 @@ const globalConstantsValidationChecks = [
   ).notEmpty(),
 
   check(
-    'knowledge_tc',
-    globalConstantsResponseTypes.KNOWLEDGE_TC_REQUIRED
+    'GUIDED_TALK_tc',
+    globalConstantsResponseTypes.GUIDED_TALK_TC_REQUIRED
   ).notEmpty(),
   check(
-    'knowledge_sc',
-    globalConstantsResponseTypes.KNOWLEDGE_SC_REQUIRED
+    'GUIDED_TALK_sc',
+    globalConstantsResponseTypes.GUIDED_TALK_SC_REQUIRED
   ).notEmpty(),
   check(
-    'knowledge_en',
-    globalConstantsResponseTypes.KNOWLEDGE_EN_REQUIRED
-  ).notEmpty(),
-
-  check(
-    'workshop_tc',
-    globalConstantsResponseTypes.WORKSHOP_TC_REQUIRED
-  ).notEmpty(),
-  check(
-    'workshop_sc',
-    globalConstantsResponseTypes.WORKSHOP_SC_REQUIRED
-  ).notEmpty(),
-  check(
-    'workshop_en',
-    globalConstantsResponseTypes.WORKSHOP_EN_REQUIRED
+    'GUIDED_TALK_en',
+    globalConstantsResponseTypes.GUIDED_TALK_EN_REQUIRED
   ).notEmpty(),
 
   check(
-    'video_show_tc',
-    globalConstantsResponseTypes.VIDEO_SHOW_TC_REQUIRED
+    'YOUTH_PROGRAMME_tc',
+    globalConstantsResponseTypes.YOUTH_PROGRAMME_TC_REQUIRED
   ).notEmpty(),
   check(
-    'video_show_sc',
-    globalConstantsResponseTypes.VIDEO_SHOW_SC_REQUIRED
+    'YOUTH_PROGRAMME_sc',
+    globalConstantsResponseTypes.YOUTH_PROGRAMME_SC_REQUIRED
   ).notEmpty(),
   check(
-    'video_show_en',
-    globalConstantsResponseTypes.VIDEO_SHOW_EN_REQUIRED
-  ).notEmpty(),
-
-  check(
-    'sharing_tc',
-    globalConstantsResponseTypes.SHARING_TC_REQUIRED
-  ).notEmpty(),
-  check(
-    'sharing_sc',
-    globalConstantsResponseTypes.SHARING_SC_REQUIRED
-  ).notEmpty(),
-  check(
-    'sharing_en',
-    globalConstantsResponseTypes.SHARING_EN_REQUIRED
+    'YOUTH_PROGRAMME_en',
+    globalConstantsResponseTypes.YOUTH_PROGRAMME_EN_REQUIRED
   ).notEmpty(),
 
   check(
-    'past_activity_tc',
-    globalConstantsResponseTypes.PAST_ACTIVITY_TC_REQUIRED
+    'CANTONESE_OPERA_KNOWLEDGE_tc',
+    globalConstantsResponseTypes.CANTONESE_OPERA_KNOWLEDGE_TC_REQUIRED
   ).notEmpty(),
   check(
-    'past_activity_sc',
-    globalConstantsResponseTypes.PAST_ACTIVITY_SC_REQUIRED
+    'CANTONESE_OPERA_KNOWLEDGE_sc',
+    globalConstantsResponseTypes.CANTONESE_OPERA_KNOWLEDGE_SC_REQUIRED
   ).notEmpty(),
   check(
-    'past_activity_en',
-    globalConstantsResponseTypes.PAST_ACTIVITY_EN_REQUIRED
+    'CANTONESE_OPERA_KNOWLEDGE_en',
+    globalConstantsResponseTypes.CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'COLLEGE_SHOW_tc',
+    globalConstantsResponseTypes.COLLEGE_SHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'COLLEGE_SHOW_sc',
+    globalConstantsResponseTypes.COLLEGE_SHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'COLLEGE_SHOW_en',
+    globalConstantsResponseTypes.COLLEGE_SHOW_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'EXHIBITION_tc',
+    globalConstantsResponseTypes.EXHIBITION_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'EXHIBITION_sc',
+    globalConstantsResponseTypes.EXHIBITION_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'EXHIBITION_en',
+    globalConstantsResponseTypes.EXHIBITION_EN_REQUIRED
   ).notEmpty(),
 
   check(
@@ -716,6 +729,75 @@ const globalConstantsValidationChecks = [
   check(
     'sponsor_en',
     globalConstantsResponseTypes.SPONSOR_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'search_tc',
+    globalConstantsResponseTypes.SEARCH_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'search_sc',
+    globalConstantsResponseTypes.SEARCH_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'search_en',
+    globalConstantsResponseTypes.SEARCH_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'activity_tc',
+    globalConstantsResponseTypes.ACTIVITY_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'activity_sc',
+    globalConstantsResponseTypes.ACTIVITY_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'activity_en',
+    globalConstantsResponseTypes.ACTIVITY_EN_REQUIRED
+  ).notEmpty(),
+
+  check('event_tc', globalConstantsResponseTypes.EVENT_TC_REQUIRED).notEmpty(),
+  check('event_sc', globalConstantsResponseTypes.EVENT_SC_REQUIRED).notEmpty(),
+  check('event_en', globalConstantsResponseTypes.EVENT_EN_REQUIRED).notEmpty(),
+
+  check(
+    'SPECIAL_NOTICE_tc',
+    globalConstantsResponseTypes.SPECIAL_NOTICE_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'SPECIAL_NOTICE_sc',
+    globalConstantsResponseTypes.SPECIAL_NOTICE_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'SPECIAL_NOTICE_en',
+    globalConstantsResponseTypes.SPECIAL_NOTICE_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'PRESS_RELEASE_tc',
+    globalConstantsResponseTypes.PRESS_RELEASE_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'PRESS_RELEASE_sc',
+    globalConstantsResponseTypes.PRESS_RELEASE_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'PRESS_RELEASE_en',
+    globalConstantsResponseTypes.PRESS_RELEASE_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'INTERVIEW_tc',
+    globalConstantsResponseTypes.INTERVIEW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'INTERVIEW_sc',
+    globalConstantsResponseTypes.INTERVIEW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'INTERVIEW_en',
+    globalConstantsResponseTypes.INTERVIEW_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -767,9 +849,9 @@ router.post(
       scheduleOfShow_sc,
       scheduleOfShow_en,
 
-      team_tc,
-      team_sc,
-      team_en,
+      teams_tc,
+      teams_sc,
+      teams_en,
 
       artDirector_tc,
       artDirector_sc,
@@ -778,6 +860,10 @@ router.post(
       actor_tc,
       actor_sc,
       actor_en,
+
+      artist_tc,
+      artist_sc,
+      artist_en,
 
       detailsOfShow_tc,
       detailsOfShow_sc,
@@ -939,25 +1025,25 @@ router.post(
       RESEARCH_AND_EDUCATION_sc,
       RESEARCH_AND_EDUCATION_en,
 
-      knowledge_tc,
-      knowledge_sc,
-      knowledge_en,
+      GUIDED_TALK_tc,
+      GUIDED_TALK_sc,
+      GUIDED_TALK_en,
 
-      workshop_tc,
-      workshop_sc,
-      workshop_en,
+      YOUTH_PROGRAMME_tc,
+      YOUTH_PROGRAMME_sc,
+      YOUTH_PROGRAMME_en,
 
-      video_show_tc,
-      video_show_sc,
-      video_show_en,
+      CANTONESE_OPERA_KNOWLEDGE_tc,
+      CANTONESE_OPERA_KNOWLEDGE_sc,
+      CANTONESE_OPERA_KNOWLEDGE_en,
 
-      sharing_tc,
-      sharing_sc,
-      sharing_en,
+      COLLEGE_SHOW_tc,
+      COLLEGE_SHOW_sc,
+      COLLEGE_SHOW_en,
 
-      past_activity_tc,
-      past_activity_sc,
-      past_activity_en,
+      EXHIBITION_tc,
+      EXHIBITION_sc,
+      EXHIBITION_en,
 
       details_tc,
       details_sc,
@@ -1013,7 +1099,31 @@ router.post(
 
       sponsor_tc,
       sponsor_sc,
-      sponsor_en
+      sponsor_en,
+
+      search_tc,
+      search_sc,
+      search_en,
+
+      activity_tc,
+      activity_sc,
+      activity_en,
+
+      event_tc,
+      event_sc,
+      event_en,
+
+      SPECIAL_NOTICE_tc,
+      SPECIAL_NOTICE_sc,
+      SPECIAL_NOTICE_en,
+
+      PRESS_RELEASE_tc,
+      PRESS_RELEASE_sc,
+      PRESS_RELEASE_en,
+
+      INTERVIEW_tc,
+      INTERVIEW_sc,
+      INTERVIEW_en
     } = req.body;
 
     // Build global constants object
@@ -1036,9 +1146,9 @@ router.post(
     globalConstantsFields.scheduleOfShow_sc = scheduleOfShow_sc;
     globalConstantsFields.scheduleOfShow_en = scheduleOfShow_en;
 
-    globalConstantsFields.team_tc = team_tc;
-    globalConstantsFields.team_sc = team_sc;
-    globalConstantsFields.team_en = team_en;
+    globalConstantsFields.teams_tc = teams_tc;
+    globalConstantsFields.teams_sc = teams_sc;
+    globalConstantsFields.teams_en = teams_en;
 
     globalConstantsFields.artDirector_tc = artDirector_tc;
     globalConstantsFields.artDirector_sc = artDirector_sc;
@@ -1047,6 +1157,10 @@ router.post(
     globalConstantsFields.actor_tc = actor_tc;
     globalConstantsFields.actor_sc = actor_sc;
     globalConstantsFields.actor_en = actor_en;
+
+    globalConstantsFields.artist_tc = artist_tc;
+    globalConstantsFields.artist_sc = artist_sc;
+    globalConstantsFields.artist_en = artist_en;
 
     globalConstantsFields.detailsOfShow_tc = detailsOfShow_tc;
     globalConstantsFields.detailsOfShow_sc = detailsOfShow_sc;
@@ -1208,25 +1322,25 @@ router.post(
     globalConstantsFields.RESEARCH_AND_EDUCATION_sc = RESEARCH_AND_EDUCATION_sc;
     globalConstantsFields.RESEARCH_AND_EDUCATION_en = RESEARCH_AND_EDUCATION_en;
 
-    globalConstantsFields.knowledge_tc = knowledge_tc;
-    globalConstantsFields.knowledge_sc = knowledge_sc;
-    globalConstantsFields.knowledge_en = knowledge_en;
+    globalConstantsFields.GUIDED_TALK_tc = GUIDED_TALK_tc;
+    globalConstantsFields.GUIDED_TALK_sc = GUIDED_TALK_sc;
+    globalConstantsFields.GUIDED_TALK_en = GUIDED_TALK_en;
 
-    globalConstantsFields.workshop_tc = workshop_tc;
-    globalConstantsFields.workshop_sc = workshop_sc;
-    globalConstantsFields.workshop_en = workshop_en;
+    globalConstantsFields.YOUTH_PROGRAMME_tc = YOUTH_PROGRAMME_tc;
+    globalConstantsFields.YOUTH_PROGRAMME_sc = YOUTH_PROGRAMME_sc;
+    globalConstantsFields.YOUTH_PROGRAMME_en = YOUTH_PROGRAMME_en;
 
-    globalConstantsFields.video_show_tc = video_show_tc;
-    globalConstantsFields.video_show_sc = video_show_sc;
-    globalConstantsFields.video_show_en = video_show_en;
+    globalConstantsFields.CANTONESE_OPERA_KNOWLEDGE_tc = CANTONESE_OPERA_KNOWLEDGE_tc;
+    globalConstantsFields.CANTONESE_OPERA_KNOWLEDGE_sc = CANTONESE_OPERA_KNOWLEDGE_sc;
+    globalConstantsFields.CANTONESE_OPERA_KNOWLEDGE_en = CANTONESE_OPERA_KNOWLEDGE_en;
 
-    globalConstantsFields.sharing_tc = sharing_tc;
-    globalConstantsFields.sharing_sc = sharing_sc;
-    globalConstantsFields.sharing_en = sharing_en;
+    globalConstantsFields.COLLEGE_SHOW_tc = COLLEGE_SHOW_tc;
+    globalConstantsFields.COLLEGE_SHOW_sc = COLLEGE_SHOW_sc;
+    globalConstantsFields.COLLEGE_SHOW_en = COLLEGE_SHOW_en;
 
-    globalConstantsFields.past_activity_tc = past_activity_tc;
-    globalConstantsFields.past_activity_sc = past_activity_sc;
-    globalConstantsFields.past_activity_en = past_activity_en;
+    globalConstantsFields.EXHIBITION_tc = EXHIBITION_tc;
+    globalConstantsFields.EXHIBITION_sc = EXHIBITION_sc;
+    globalConstantsFields.EXHIBITION_en = EXHIBITION_en;
 
     globalConstantsFields.details_tc = details_tc;
     globalConstantsFields.details_sc = details_sc;
@@ -1283,6 +1397,30 @@ router.post(
     globalConstantsFields.sponsor_tc = sponsor_tc;
     globalConstantsFields.sponsor_sc = sponsor_sc;
     globalConstantsFields.sponsor_en = sponsor_en;
+
+    globalConstantsFields.search_tc = search_tc;
+    globalConstantsFields.search_sc = search_sc;
+    globalConstantsFields.search_en = search_en;
+
+    globalConstantsFields.activity_tc = activity_tc;
+    globalConstantsFields.activity_sc = activity_sc;
+    globalConstantsFields.activity_en = activity_en;
+
+    globalConstantsFields.event_tc = event_tc;
+    globalConstantsFields.event_sc = event_sc;
+    globalConstantsFields.event_en = event_en;
+
+    globalConstantsFields.SPECIAL_NOTICE_tc = SPECIAL_NOTICE_tc;
+    globalConstantsFields.SPECIAL_NOTICE_sc = SPECIAL_NOTICE_sc;
+    globalConstantsFields.SPECIAL_NOTICE_en = SPECIAL_NOTICE_en;
+
+    globalConstantsFields.PRESS_RELEASE_tc = PRESS_RELEASE_tc;
+    globalConstantsFields.PRESS_RELEASE_sc = PRESS_RELEASE_sc;
+    globalConstantsFields.PRESS_RELEASE_en = PRESS_RELEASE_en;
+
+    globalConstantsFields.INTERVIEW_tc = INTERVIEW_tc;
+    globalConstantsFields.INTERVIEW_sc = INTERVIEW_sc;
+    globalConstantsFields.INTERVIEW_en = INTERVIEW_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

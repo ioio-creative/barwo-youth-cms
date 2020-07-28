@@ -8,7 +8,6 @@ import Loading from 'components/layout/loading/DefaultLoading';
 import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
-import LabelTextAreaPair from '../form/LabelTextAreaPair';
 import LinkButton from 'components/form/LinkButton';
 import SendHistory from 'models/sendHistory';
 import uiWordings from 'globals/uiWordings';
@@ -118,7 +117,7 @@ const SendHistoryView = _ => {
   if (isAbandonEdit) {
     return <>{backToSendHistoryListButton}</>;
   }
-  console.log(sendHistory);
+  // console.log(sendHistory);
 
   return (
     <>
@@ -139,13 +138,6 @@ const SendHistoryView = _ => {
             disabled={true}
             labelMessage={uiWordings['SendHistory.MessageTcLabel']}
           />
-          {/* <div
-            dangerouslySetInnerHTML={{ __html: sendHistory.message_tc }}
-            // name='message_tc'
-            // value={sendHistory.message_tc}
-            // labelMessage={uiWordings['SendHistory.MessageTcLabel']}
-            // placeholder=''
-          /> */}
           <LabelLabelPair
             value={sendHistory.title_sc}
             labelMessage={uiWordings['SendHistory.TitleScLabel']}

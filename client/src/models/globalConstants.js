@@ -18,9 +18,9 @@ function GlobalConstants() {
   this.scheduleOfShow_sc = '';
   this.scheduleOfShow_en = '';
 
-  this.team_tc = '';
-  this.team_sc = '';
-  this.team_en = '';
+  this.teams_tc = '';
+  this.teams_sc = '';
+  this.teams_en = '';
 
   this.artDirector_tc = '';
   this.artDirector_sc = '';
@@ -29,6 +29,10 @@ function GlobalConstants() {
   this.actor_tc = '';
   this.actor_sc = '';
   this.actor_en = '';
+
+  this.artist_tc = '';
+  this.artist_sc = '';
+  this.artist_en = '';
 
   this.detailsOfShow_tc = '';
   this.detailsOfShow_sc = '';
@@ -190,25 +194,25 @@ function GlobalConstants() {
   this.RESEARCH_AND_EDUCATION_sc = '';
   this.RESEARCH_AND_EDUCATION_en = '';
 
-  this.knowledge_tc = '';
-  this.knowledge_sc = '';
-  this.knowledge_en = '';
+  this.GUIDED_TALK_tc = '';
+  this.GUIDED_TALK_sc = '';
+  this.GUIDED_TALK_en = '';
 
-  this.workshop_tc = '';
-  this.workshop_sc = '';
-  this.workshop_en = '';
+  this.YOUTH_PROGRAMME_tc = '';
+  this.YOUTH_PROGRAMME_sc = '';
+  this.YOUTH_PROGRAMME_en = '';
 
-  this.video_show_tc = '';
-  this.video_show_sc = '';
-  this.video_show_en = '';
+  this.CANTONESE_OPERA_KNOWLEDGE_tc = '';
+  this.CANTONESE_OPERA_KNOWLEDGE_sc = '';
+  this.CANTONESE_OPERA_KNOWLEDGE_en = '';
 
-  this.sharing_tc = '';
-  this.sharing_sc = '';
-  this.sharing_en = '';
+  this.COLLEGE_SHOW_tc = '';
+  this.COLLEGE_SHOW_sc = '';
+  this.COLLEGE_SHOW_en = '';
 
-  this.past_activity_tc = '';
-  this.past_activity_sc = '';
-  this.past_activity_en = '';
+  this.EXHIBITION_tc = '';
+  this.EXHIBITION_sc = '';
+  this.EXHIBITION_en = '';
 
   this.details_tc = '';
   this.details_sc = '';
@@ -265,6 +269,30 @@ function GlobalConstants() {
   this.sponsor_tc = '';
   this.sponsor_sc = '';
   this.sponsor_en = '';
+
+  this.search_tc = '';
+  this.search_sc = '';
+  this.search_en = '';
+
+  this.activity_tc = '';
+  this.activity_sc = '';
+  this.activity_en = '';
+
+  this.event_tc = '';
+  this.event_sc = '';
+  this.event_en = '';
+
+  this.SPECIAL_NOTICE_tc = '';
+  this.SPECIAL_NOTICE_sc = '';
+  this.SPECIAL_NOTICE_en = '';
+
+  this.PRESS_RELEASE_tc = '';
+  this.PRESS_RELEASE_sc = '';
+  this.PRESS_RELEASE_en = '';
+
+  this.INTERVIEW_tc = '';
+  this.INTERVIEW_sc = '';
+  this.INTERVIEW_en = '';
 
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
@@ -327,17 +355,17 @@ GlobalConstants.globalConstantsResponseTypes = {
     msg: 'SCHEDULEOFSHOW_EN_REQUIRED'
   },
 
-  TEAM_TC_REQUIRED: {
-    type: 'TEAM_TC_REQUIRED',
-    msg: 'TEAM_TC_REQUIRED'
+  TEAMS_TC_REQUIRED: {
+    type: 'TEAMS_TC_REQUIRED',
+    msg: 'TEAMS_TC_REQUIRED'
   },
-  TEAM_SC_REQUIRED: {
-    type: 'TEAM_SC_REQUIRED',
-    msg: 'TEAM_SC_REQUIRED'
+  TEAMS_SC_REQUIRED: {
+    type: 'TEAMS_SC_REQUIRED',
+    msg: 'TEAMS_SC_REQUIRED'
   },
-  TEAM_EN_REQUIRED: {
-    type: 'TEAM_EN_REQUIRED',
-    msg: 'TEAM_EN_REQUIRED'
+  TEAMS_EN_REQUIRED: {
+    type: 'TEAMS_EN_REQUIRED',
+    msg: 'TEAMS_EN_REQUIRED'
   },
 
   ARTDIRECTOR_TC_REQUIRED: {
@@ -364,6 +392,19 @@ GlobalConstants.globalConstantsResponseTypes = {
   ACTOR_EN_REQUIRED: {
     type: 'ACTOR_EN_REQUIRED',
     msg: 'ACTOR_EN_REQUIRED'
+  },
+
+  ARTIST_TC_REQUIRED: {
+    type: 'ARTIST_TC_REQUIRED',
+    msg: 'ARTIST_TC_REQUIRED'
+  },
+  ARTIST_SC_REQUIRED: {
+    type: 'ARTIST_SC_REQUIRED',
+    msg: 'ARTIST_SC_REQUIRED'
+  },
+  ARTIST_EN_REQUIRED: {
+    type: 'ARTIST_EN_REQUIRED',
+    msg: 'ARTIST_EN_REQUIRED'
   },
 
   DETAILSOFSHOW_TC_REQUIRED: {
@@ -850,69 +891,69 @@ GlobalConstants.globalConstantsResponseTypes = {
     msg: 'RESEARCH_AND_EDUCATION_EN_REQUIRED'
   },
 
-  KNOWLEDGE_TC_REQUIRED: {
-    type: 'KNOWLEDGE_TC_REQUIRED',
-    msg: 'KNOWLEDGE_TC_REQUIRED'
+  GUIDED_TALK_TC_REQUIRED: {
+    type: 'GUIDED_TALK_TC_REQUIRED',
+    msg: 'GUIDED_TALK_TC_REQUIRED'
   },
-  KNOWLEDGE_SC_REQUIRED: {
-    type: 'KNOWLEDGE_SC_REQUIRED',
-    msg: 'KNOWLEDGE_SC_REQUIRED'
+  GUIDED_TALK_SC_REQUIRED: {
+    type: 'GUIDED_TALK_SC_REQUIRED',
+    msg: 'GUIDED_TALK_SC_REQUIRED'
   },
-  KNOWLEDGE_EN_REQUIRED: {
-    type: 'KNOWLEDGE_EN_REQUIRED',
-    msg: 'KNOWLEDGE_EN_REQUIRED'
-  },
-
-  WORKSHOP_TC_REQUIRED: {
-    type: 'WORKSHOP_TC_REQUIRED',
-    msg: 'WORKSHOP_TC_REQUIRED'
-  },
-  WORKSHOP_SC_REQUIRED: {
-    type: 'WORKSHOP_SC_REQUIRED',
-    msg: 'WORKSHOP_SC_REQUIRED'
-  },
-  WORKSHOP_EN_REQUIRED: {
-    type: 'WORKSHOP_EN_REQUIRED',
-    msg: 'WORKSHOP_EN_REQUIRED'
+  GUIDED_TALK_EN_REQUIRED: {
+    type: 'GUIDED_TALK_EN_REQUIRED',
+    msg: 'GUIDED_TALK_EN_REQUIRED'
   },
 
-  VIDEO_SHOW_TC_REQUIRED: {
-    type: 'VIDEO_SHOW_TC_REQUIRED',
-    msg: 'VIDEO_SHOW_TC_REQUIRED'
+  YOUTH_PROGRAMME_TC_REQUIRED: {
+    type: 'YOUTH_PROGRAMME_TC_REQUIRED',
+    msg: 'YOUTH_PROGRAMME_TC_REQUIRED'
   },
-  VIDEO_SHOW_SC_REQUIRED: {
-    type: 'VIDEO_SHOW_SC_REQUIRED',
-    msg: 'VIDEO_SHOW_SC_REQUIRED'
+  YOUTH_PROGRAMME_SC_REQUIRED: {
+    type: 'YOUTH_PROGRAMME_SC_REQUIRED',
+    msg: 'YOUTH_PROGRAMME_SC_REQUIRED'
   },
-  VIDEO_SHOW_EN_REQUIRED: {
-    type: 'VIDEO_SHOW_EN_REQUIRED',
-    msg: 'VIDEO_SHOW_EN_REQUIRED'
-  },
-
-  SHARING_TC_REQUIRED: {
-    type: 'SHARING_TC_REQUIRED',
-    msg: 'SHARING_TC_REQUIRED'
-  },
-  SHARING_SC_REQUIRED: {
-    type: 'SHARING_SC_REQUIRED',
-    msg: 'SHARING_SC_REQUIRED'
-  },
-  SHARING_EN_REQUIRED: {
-    type: 'SHARING_EN_REQUIRED',
-    msg: 'SHARING_EN_REQUIRED'
+  YOUTH_PROGRAMME_EN_REQUIRED: {
+    type: 'YOUTH_PROGRAMME_EN_REQUIRED',
+    msg: 'YOUTH_PROGRAMME_EN_REQUIRED'
   },
 
-  PAST_ACTIVITY_TC_REQUIRED: {
-    type: 'PAST_ACTIVITY_TC_REQUIRED',
-    msg: 'PAST_ACTIVITY_TC_REQUIRED'
+  CANTONESE_OPERA_KNOWLEDGE_TC_REQUIRED: {
+    type: 'CANTONESE_OPERA_KNOWLEDGE_TC_REQUIRED',
+    msg: 'CANTONESE_OPERA_KNOWLEDGE_TC_REQUIRED'
   },
-  PAST_ACTIVITY_SC_REQUIRED: {
-    type: 'PAST_ACTIVITY_SC_REQUIRED',
-    msg: 'PAST_ACTIVITY_SC_REQUIRED'
+  CANTONESE_OPERA_KNOWLEDGE_SC_REQUIRED: {
+    type: 'CANTONESE_OPERA_KNOWLEDGE_SC_REQUIRED',
+    msg: 'CANTONESE_OPERA_KNOWLEDGE_SC_REQUIRED'
   },
-  PAST_ACTIVITY_EN_REQUIRED: {
-    type: 'PAST_ACTIVITY_EN_REQUIRED',
-    msg: 'PAST_ACTIVITY_EN_REQUIRED'
+  CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED: {
+    type: 'CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED',
+    msg: 'CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED'
+  },
+
+  COLLEGE_SHOW_TC_REQUIRED: {
+    type: 'COLLEGE_SHOW_TC_REQUIRED',
+    msg: 'COLLEGE_SHOW_TC_REQUIRED'
+  },
+  COLLEGE_SHOW_SC_REQUIRED: {
+    type: 'COLLEGE_SHOW_SC_REQUIRED',
+    msg: 'COLLEGE_SHOW_SC_REQUIRED'
+  },
+  COLLEGE_SHOW_EN_REQUIRED: {
+    type: 'COLLEGE_SHOW_EN_REQUIRED',
+    msg: 'COLLEGE_SHOW_EN_REQUIRED'
+  },
+
+  EXHIBITION_TC_REQUIRED: {
+    type: 'EXHIBITION_TC_REQUIRED',
+    msg: 'EXHIBITION_TC_REQUIRED'
+  },
+  EXHIBITION_SC_REQUIRED: {
+    type: 'EXHIBITION_SC_REQUIRED',
+    msg: 'EXHIBITION_SC_REQUIRED'
+  },
+  EXHIBITION_EN_REQUIRED: {
+    type: 'EXHIBITION_EN_REQUIRED',
+    msg: 'EXHIBITION_EN_REQUIRED'
   },
 
   DETAILS_TC_REQUIRED: {
@@ -1077,6 +1118,36 @@ GlobalConstants.globalConstantsResponseTypes = {
   SPONSOR_EN_REQUIRED: {
     type: 'SPONSOR_EN_REQUIRED',
     msg: 'SPONSOR_EN_REQUIRED'
+  },
+
+  SEARCH_TC_REQUIRED: { type: 'SEARCH_TC_REQUIRED', msg: 'SEARCH_TC_REQUIRED' },
+  SEARCH_SC_REQUIRED: { type: 'SEARCH_SC_REQUIRED', msg: 'SEARCH_SC_REQUIRED' },
+  SEARCH_EN_REQUIRED: { type: 'SEARCH_EN_REQUIRED', msg: 'SEARCH_EN_REQUIRED' },
+
+  ACTIVITY_TC_REQUIRED: {
+    type: 'ACTIVITY_TC_REQUIRED',
+    msg: 'ACTIVITY_TC_REQUIRED'
+  },
+  ACTIVITY_SC_REQUIRED: {
+    type: 'ACTIVITY_SC_REQUIRED',
+    msg: 'ACTIVITY_SC_REQUIRED'
+  },
+  ACTIVITY_EN_REQUIRED: {
+    type: 'ACTIVITY_EN_REQUIRED',
+    msg: 'ACTIVITY_EN_REQUIRED'
+  },
+
+  EVENT_TC_REQUIRED: {
+    type: 'EVENT_TC_REQUIRED',
+    msg: 'EVENT_TC_REQUIRED'
+  },
+  EVENT_SC_REQUIRED: {
+    type: 'EVENT_SC_REQUIRED',
+    msg: 'EVENT_SC_REQUIRED'
+  },
+  EVENT_EN_REQUIRED: {
+    type: 'EVENT_EN_REQUIRED',
+    msg: 'EVENT_EN_REQUIRED'
   },
 
   // db check

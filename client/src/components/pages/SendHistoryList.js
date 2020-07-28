@@ -122,14 +122,6 @@ const SendHistoryList = ({ filter = undefined }) => {
   useEffect(
     _ => {
       if (filter !== undefined && !isUseFilter) {
-        // if (filterText === filter) {
-        //   setIsUseFilter(true);
-        // } else {
-        //   setFilterText(filter);
-        //   setIsUseFilter(false);
-        // }
-        // setTimeout(_ => setIsUseFilter(true), 0);
-        // setFilterText(filter);
         const getOptions = {
           ...prepareGetOptionsForPaginationAndSort(),
           filterText: filter
@@ -138,7 +130,12 @@ const SendHistoryList = ({ filter = undefined }) => {
         getSendHistories(getOptions);
       }
     },
-    [filter, isUseFilter]
+    [
+      filter,
+      isUseFilter,
+      getSendHistories,
+      prepareGetOptionsForPaginationAndSort
+    ]
   );
 
   // set query string and getSendHistories
