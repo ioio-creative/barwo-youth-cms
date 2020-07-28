@@ -6,9 +6,13 @@ function GlobalConstants() {
   this.latestShow_sc = '';
   this.latestShow_en = '';
 
-  this.latestShowIcon_tc = '';
-  this.latestShowIcon_sc = '';
-  this.latestShowIcon_en = '';
+  this.latestShowIcon1_tc = '';
+  this.latestShowIcon1_sc = '';
+  this.latestShowIcon1_en = '';
+
+  this.latestShowIcon2_tc = '';
+  this.latestShowIcon2_sc = '';
+  this.latestShowIcon2_en = '';
 
   this.scheduleOfShow_tc = '';
   this.scheduleOfShow_sc = '';
@@ -282,6 +286,32 @@ GlobalConstants.globalConstantsResponseTypes = {
   LATESTSHOW_EN_REQUIRED: {
     type: 'LATESTSHOW_EN_REQUIRED',
     msg: 'LATESTSHOW_EN_REQUIRED'
+  },
+
+  LATESTSHOWICON1_TC_REQUIRED: {
+    type: 'LATESTSHOWICON1_TC_REQUIRED',
+    msg: 'LATESTSHOWICON1_TC_REQUIRED'
+  },
+  LATESTSHOWICON1_SC_REQUIRED: {
+    type: 'LATESTSHOWICON1_SC_REQUIRED',
+    msg: 'LATESTSHOWICON1_SC_REQUIRED'
+  },
+  LATESTSHOWICON1_EN_REQUIRED: {
+    type: 'LATESTSHOWICON1_EN_REQUIRED',
+    msg: 'LATESTSHOWICON1_EN_REQUIRED'
+  },
+
+  LATESTSHOWICON2_TC_REQUIRED: {
+    type: 'LATESTSHOWICON2_TC_REQUIRED',
+    msg: 'LATESTSHOWICON2_TC_REQUIRED'
+  },
+  LATESTSHOWICON2_SC_REQUIRED: {
+    type: 'LATESTSHOWICON2_SC_REQUIRED',
+    msg: 'LATESTSHOWICON2_SC_REQUIRED'
+  },
+  LATESTSHOWICON2_EN_REQUIRED: {
+    type: 'LATESTSHOWICON2_EN_REQUIRED',
+    msg: 'LATESTSHOWICON2_EN_REQUIRED'
   },
 
   SCHEDULEOFSHOW_TC_REQUIRED: {
