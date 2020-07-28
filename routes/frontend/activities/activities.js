@@ -7,7 +7,6 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivities');
-const distinct = require('../../../utils/js/array/distinct');
 const { mediumLinkTypes } = require('../../../types/mediumLink');
 const { Activity, activityTypesArray } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
@@ -90,7 +89,6 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
       .populate(activityPopulationListForFindAll);
 
     const safeActivities = getArraySafe(activities);
-    //const types = distinct(safeActivities.map(activity => activity.type));
 
     const jsonToReturn = {};
 
