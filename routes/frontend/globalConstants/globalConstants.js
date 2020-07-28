@@ -156,24 +156,32 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
       email: getEntityPropByLanguage(globalConstants, 'email', language),
       RESEARCH_AND_EDUCATION: getEntityPropByLanguage(
         globalConstants,
-        'RESEARCH_AND_EDUCATION',
+        'researchAndEducation',
         language
       ),
-      knowledge: getEntityPropByLanguage(
+      GUIDED_TALK: getEntityPropByLanguage(
         globalConstants,
-        'knowledge',
+        'guidedTalk',
         language
       ),
-      workshop: getEntityPropByLanguage(globalConstants, 'workshop', language),
-      video_show: getEntityPropByLanguage(
+      YOUTH_PROGRAMME: getEntityPropByLanguage(
         globalConstants,
-        'video_show',
+        'youthProgramme',
         language
       ),
-      sharing: getEntityPropByLanguage(globalConstants, 'sharing', language),
-      past_activity: getEntityPropByLanguage(
+      CANTONESE_OPERA_KNOWLEDGE: getEntityPropByLanguage(
         globalConstants,
-        'past_activity',
+        'cantoneseOperaKnowledge',
+        language
+      ),
+      COLLEGE_SHOW: getEntityPropByLanguage(
+        globalConstants,
+        'collegeShow',
+        language
+      ),
+      EXHIBITION: getEntityPropByLanguage(
+        globalConstants,
+        'exhibition',
         language
       ),
       details: getEntityPropByLanguage(globalConstants, 'details', language),

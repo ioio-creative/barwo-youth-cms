@@ -612,80 +612,80 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
-  RESEARCH_AND_EDUCATION_tc: {
+  researchAndEducation_tc: {
     type: String,
     require: true
   },
-  RESEARCH_AND_EDUCATION_sc: {
+  researchAndEducation_sc: {
     type: String,
     require: true
   },
-  RESEARCH_AND_EDUCATION_en: {
-    type: String,
-    require: true
-  },
-
-  knowledge_tc: {
-    type: String,
-    require: true
-  },
-  knowledge_sc: {
-    type: String,
-    require: true
-  },
-  knowledge_en: {
+  researchAndEducation_en: {
     type: String,
     require: true
   },
 
-  workshop_tc: {
+  guidedTalk_tc: {
     type: String,
     require: true
   },
-  workshop_sc: {
+  guidedTalk_sc: {
     type: String,
     require: true
   },
-  workshop_en: {
-    type: String,
-    require: true
-  },
-
-  video_show_tc: {
-    type: String,
-    require: true
-  },
-  video_show_sc: {
-    type: String,
-    require: true
-  },
-  video_show_en: {
+  guidedTalk_en: {
     type: String,
     require: true
   },
 
-  sharing_tc: {
+  youthProgramme_tc: {
     type: String,
     require: true
   },
-  sharing_sc: {
+  youthProgramme_sc: {
     type: String,
     require: true
   },
-  sharing_en: {
+  youthProgramme_en: {
     type: String,
     require: true
   },
 
-  past_activity_tc: {
+  cantoneseOperaKnowledge_tc: {
     type: String,
     require: true
   },
-  past_activity_sc: {
+  cantoneseOperaKnowledge_sc: {
     type: String,
     require: true
   },
-  past_activity_en: {
+  cantoneseOperaKnowledge_en: {
+    type: String,
+    require: true
+  },
+
+  collegeShow_tc: {
+    type: String,
+    require: true
+  },
+  collegeShow_sc: {
+    type: String,
+    require: true
+  },
+  collegeShow_en: {
+    type: String,
+    require: true
+  },
+
+  exhibition_tc: {
+    type: String,
+    require: true
+  },
+  exhibition_sc: {
+    type: String,
+    require: true
+  },
+  exhibition_en: {
     type: String,
     require: true
   },

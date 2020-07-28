@@ -190,29 +190,29 @@ function GlobalConstants() {
   this.email_sc = '';
   this.email_en = '';
 
-  this.RESEARCH_AND_EDUCATION_tc = '';
-  this.RESEARCH_AND_EDUCATION_sc = '';
-  this.RESEARCH_AND_EDUCATION_en = '';
+  this.researchAndEducation_tc = '';
+  this.researchAndEducation_sc = '';
+  this.researchAndEducation_en = '';
 
-  this.GUIDED_TALK_tc = '';
-  this.GUIDED_TALK_sc = '';
-  this.GUIDED_TALK_en = '';
+  this.guidedTalk_tc = '';
+  this.guidedTalk_sc = '';
+  this.guidedTalk_en = '';
 
-  this.YOUTH_PROGRAMME_tc = '';
-  this.YOUTH_PROGRAMME_sc = '';
-  this.YOUTH_PROGRAMME_en = '';
+  this.youthProgramme_tc = '';
+  this.youthProgramme_sc = '';
+  this.youthProgramme_en = '';
 
-  this.CANTONESE_OPERA_KNOWLEDGE_tc = '';
-  this.CANTONESE_OPERA_KNOWLEDGE_sc = '';
-  this.CANTONESE_OPERA_KNOWLEDGE_en = '';
+  this.cantoneseOperaKnowledge_tc = '';
+  this.cantoneseOperaKnowledge_sc = '';
+  this.cantoneseOperaKnowledge_en = '';
 
-  this.COLLEGE_SHOW_tc = '';
-  this.COLLEGE_SHOW_sc = '';
-  this.COLLEGE_SHOW_en = '';
+  this.collegeShow_tc = '';
+  this.collegeShow_sc = '';
+  this.collegeShow_en = '';
 
-  this.EXHIBITION_tc = '';
-  this.EXHIBITION_sc = '';
-  this.EXHIBITION_en = '';
+  this.exhibition_tc = '';
+  this.exhibition_sc = '';
+  this.exhibition_en = '';
 
   this.details_tc = '';
   this.details_sc = '';
@@ -1148,6 +1148,45 @@ GlobalConstants.globalConstantsResponseTypes = {
   EVENT_EN_REQUIRED: {
     type: 'EVENT_EN_REQUIRED',
     msg: 'EVENT_EN_REQUIRED'
+  },
+
+  SPECIAL_NOTICE_TC_REQUIRED: {
+    type: 'SPECIAL_NOTICE_TC_REQUIRED',
+    msg: 'SPECIAL_NOTICE_TC_REQUIRED'
+  },
+  SPECIAL_NOTICE_SC_REQUIRED: {
+    type: 'SPECIAL_NOTICE_SC_REQUIRED',
+    msg: 'SPECIAL_NOTICE_SC_REQUIRED'
+  },
+  SPECIAL_NOTICE_EN_REQUIRED: {
+    type: 'SPECIAL_NOTICE_EN_REQUIRED',
+    msg: 'SPECIAL_NOTICE_EN_REQUIRED'
+  },
+
+  PRESS_RELEASE_TC_REQUIRED: {
+    type: 'PRESS_RELEASE_TC_REQUIRED',
+    msg: 'PRESS_RELEASE_TC_REQUIRED'
+  },
+  PRESS_RELEASE_SC_REQUIRED: {
+    type: 'PRESS_RELEASE_SC_REQUIRED',
+    msg: 'PRESS_RELEASE_SC_REQUIRED'
+  },
+  PRESS_RELEASE_EN_REQUIRED: {
+    type: 'PRESS_RELEASE_EN_REQUIRED',
+    msg: 'PRESS_RELEASE_EN_REQUIRED'
+  },
+
+  INTERVIEW_TC_REQUIRED: {
+    type: 'INTERVIEW_TC_REQUIRED',
+    msg: 'INTERVIEW_TC_REQUIRED'
+  },
+  INTERVIEW_SC_REQUIRED: {
+    type: 'INTERVIEW_SC_REQUIRED',
+    msg: 'INTERVIEW_SC_REQUIRED'
+  },
+  INTERVIEW_EN_REQUIRED: {
+    type: 'INTERVIEW_EN_REQUIRED',
+    msg: 'INTERVIEW_EN_REQUIRED'
   },
 
   // db check

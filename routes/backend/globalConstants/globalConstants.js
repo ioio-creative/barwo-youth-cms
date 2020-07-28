@@ -508,80 +508,80 @@ const globalConstantsValidationChecks = [
   check('email_en', globalConstantsResponseTypes.EMAIL_EN_REQUIRED).notEmpty(),
 
   check(
-    'RESEARCH_AND_EDUCATION_tc',
+    'researchAndEducation_tc',
     globalConstantsResponseTypes.RESEARCH_AND_EDUCATION_TC_REQUIRED
   ).notEmpty(),
   check(
-    'RESEARCH_AND_EDUCATION_sc',
+    'researchAndEducation_sc',
     globalConstantsResponseTypes.RESEARCH_AND_EDUCATION_SC_REQUIRED
   ).notEmpty(),
   check(
-    'RESEARCH_AND_EDUCATION_en',
+    'researchAndEducation_en',
     globalConstantsResponseTypes.RESEARCH_AND_EDUCATION_EN_REQUIRED
   ).notEmpty(),
 
   check(
-    'GUIDED_TALK_tc',
+    'guidedTalk_tc',
     globalConstantsResponseTypes.GUIDED_TALK_TC_REQUIRED
   ).notEmpty(),
   check(
-    'GUIDED_TALK_sc',
+    'guidedTalk_sc',
     globalConstantsResponseTypes.GUIDED_TALK_SC_REQUIRED
   ).notEmpty(),
   check(
-    'GUIDED_TALK_en',
+    'guidedTalk_en',
     globalConstantsResponseTypes.GUIDED_TALK_EN_REQUIRED
   ).notEmpty(),
 
   check(
-    'YOUTH_PROGRAMME_tc',
+    'youthProgramme_tc',
     globalConstantsResponseTypes.YOUTH_PROGRAMME_TC_REQUIRED
   ).notEmpty(),
   check(
-    'YOUTH_PROGRAMME_sc',
+    'youthProgramme_sc',
     globalConstantsResponseTypes.YOUTH_PROGRAMME_SC_REQUIRED
   ).notEmpty(),
   check(
-    'YOUTH_PROGRAMME_en',
+    'youthProgramme_en',
     globalConstantsResponseTypes.YOUTH_PROGRAMME_EN_REQUIRED
   ).notEmpty(),
 
   check(
-    'CANTONESE_OPERA_KNOWLEDGE_tc',
+    'cantoneseOperaKnowledge_tc',
     globalConstantsResponseTypes.CANTONESE_OPERA_KNOWLEDGE_TC_REQUIRED
   ).notEmpty(),
   check(
-    'CANTONESE_OPERA_KNOWLEDGE_sc',
+    'cantoneseOperaKnowledge_sc',
     globalConstantsResponseTypes.CANTONESE_OPERA_KNOWLEDGE_SC_REQUIRED
   ).notEmpty(),
   check(
-    'CANTONESE_OPERA_KNOWLEDGE_en',
+    'cantoneseOperaKnowledge_en',
     globalConstantsResponseTypes.CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED
   ).notEmpty(),
 
   check(
-    'COLLEGE_SHOW_tc',
+    'collegeShow_tc',
     globalConstantsResponseTypes.COLLEGE_SHOW_TC_REQUIRED
   ).notEmpty(),
   check(
-    'COLLEGE_SHOW_sc',
+    'collegeShow_sc',
     globalConstantsResponseTypes.COLLEGE_SHOW_SC_REQUIRED
   ).notEmpty(),
   check(
-    'COLLEGE_SHOW_en',
+    'collegeShow_en',
     globalConstantsResponseTypes.COLLEGE_SHOW_EN_REQUIRED
   ).notEmpty(),
 
   check(
-    'EXHIBITION_tc',
+    'exhibition_tc',
     globalConstantsResponseTypes.EXHIBITION_TC_REQUIRED
   ).notEmpty(),
   check(
-    'EXHIBITION_sc',
+    'exhibition_sc',
     globalConstantsResponseTypes.EXHIBITION_SC_REQUIRED
   ).notEmpty(),
   check(
-    'EXHIBITION_en',
+    'exhibition_en',
     globalConstantsResponseTypes.EXHIBITION_EN_REQUIRED
   ).notEmpty(),
 
@@ -1021,29 +1021,29 @@ router.post(
       email_sc,
       email_en,
 
-      RESEARCH_AND_EDUCATION_tc,
-      RESEARCH_AND_EDUCATION_sc,
-      RESEARCH_AND_EDUCATION_en,
+      researchAndEducation_tc,
+      researchAndEducation_sc,
+      researchAndEducation_en,
 
-      GUIDED_TALK_tc,
-      GUIDED_TALK_sc,
-      GUIDED_TALK_en,
+      guidedTalk_tc,
+      guidedTalk_sc,
+      guidedTalk_en,
 
-      YOUTH_PROGRAMME_tc,
-      YOUTH_PROGRAMME_sc,
-      YOUTH_PROGRAMME_en,
+      youthProgramme_tc,
+      youthProgramme_sc,
+      youthProgramme_en,
 
-      CANTONESE_OPERA_KNOWLEDGE_tc,
-      CANTONESE_OPERA_KNOWLEDGE_sc,
-      CANTONESE_OPERA_KNOWLEDGE_en,
+      cantoneseOperaKnowledge_tc,
+      cantoneseOperaKnowledge_sc,
+      cantoneseOperaKnowledge_en,
 
-      COLLEGE_SHOW_tc,
-      COLLEGE_SHOW_sc,
-      COLLEGE_SHOW_en,
+      collegeShow_tc,
+      collegeShow_sc,
+      collegeShow_en,
 
-      EXHIBITION_tc,
-      EXHIBITION_sc,
-      EXHIBITION_en,
+      exhibition_tc,
+      exhibition_sc,
+      exhibition_en,
 
       details_tc,
       details_sc,
@@ -1318,29 +1318,29 @@ router.post(
     globalConstantsFields.email_sc = email_sc;
     globalConstantsFields.email_en = email_en;
 
-    globalConstantsFields.RESEARCH_AND_EDUCATION_tc = RESEARCH_AND_EDUCATION_tc;
-    globalConstantsFields.RESEARCH_AND_EDUCATION_sc = RESEARCH_AND_EDUCATION_sc;
-    globalConstantsFields.RESEARCH_AND_EDUCATION_en = RESEARCH_AND_EDUCATION_en;
+    globalConstantsFields.researchAndEducation_tc = researchAndEducation_tc;
+    globalConstantsFields.researchAndEducation_sc = researchAndEducation_sc;
+    globalConstantsFields.researchAndEducation_en = researchAndEducation_en;
 
-    globalConstantsFields.GUIDED_TALK_tc = GUIDED_TALK_tc;
-    globalConstantsFields.GUIDED_TALK_sc = GUIDED_TALK_sc;
-    globalConstantsFields.GUIDED_TALK_en = GUIDED_TALK_en;
+    globalConstantsFields.guidedTalk_tc = guidedTalk_tc;
+    globalConstantsFields.guidedTalk_sc = guidedTalk_sc;
+    globalConstantsFields.guidedTalk_en = guidedTalk_en;
 
-    globalConstantsFields.YOUTH_PROGRAMME_tc = YOUTH_PROGRAMME_tc;
-    globalConstantsFields.YOUTH_PROGRAMME_sc = YOUTH_PROGRAMME_sc;
-    globalConstantsFields.YOUTH_PROGRAMME_en = YOUTH_PROGRAMME_en;
+    globalConstantsFields.youthProgramme_tc = youthProgramme_tc;
+    globalConstantsFields.youthProgramme_sc = youthProgramme_sc;
+    globalConstantsFields.youthProgramme_en = youthProgramme_en;
 
-    globalConstantsFields.CANTONESE_OPERA_KNOWLEDGE_tc = CANTONESE_OPERA_KNOWLEDGE_tc;
-    globalConstantsFields.CANTONESE_OPERA_KNOWLEDGE_sc = CANTONESE_OPERA_KNOWLEDGE_sc;
-    globalConstantsFields.CANTONESE_OPERA_KNOWLEDGE_en = CANTONESE_OPERA_KNOWLEDGE_en;
+    globalConstantsFields.cantoneseOperaKnowledge_tc = cantoneseOperaKnowledge_tc;
+    globalConstantsFields.cantoneseOperaKnowledge_sc = cantoneseOperaKnowledge_sc;
+    globalConstantsFields.cantoneseOperaKnowledge_en = cantoneseOperaKnowledge_en;
 
-    globalConstantsFields.COLLEGE_SHOW_tc = COLLEGE_SHOW_tc;
-    globalConstantsFields.COLLEGE_SHOW_sc = COLLEGE_SHOW_sc;
-    globalConstantsFields.COLLEGE_SHOW_en = COLLEGE_SHOW_en;
+    globalConstantsFields.collegeShow_tc = collegeShow_tc;
+    globalConstantsFields.collegeShow_sc = collegeShow_sc;
+    globalConstantsFields.collegeShow_en = collegeShow_en;
 
-    globalConstantsFields.EXHIBITION_tc = EXHIBITION_tc;
-    globalConstantsFields.EXHIBITION_sc = EXHIBITION_sc;
-    globalConstantsFields.EXHIBITION_en = EXHIBITION_en;
+    globalConstantsFields.exhibition_tc = exhibition_tc;
+    globalConstantsFields.exhibition_sc = exhibition_sc;
+    globalConstantsFields.exhibition_en = exhibition_en;
 
     globalConstantsFields.details_tc = details_tc;
     globalConstantsFields.details_sc = details_sc;

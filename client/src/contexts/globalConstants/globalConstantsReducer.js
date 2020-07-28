@@ -28,7 +28,8 @@ export default (state, action) => {
     case GLOBAL_CONSTANTS_ERRORS:
       return {
         ...state,
-        globalConstantsErrors: action.payload
+        globalConstantsErrors: action.payload,
+        globalConstantsLoading: false
       };
     case CLEAR_GLOBAL_CONSTANTS_ERRORS:
       return {
