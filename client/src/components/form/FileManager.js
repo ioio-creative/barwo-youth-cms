@@ -15,8 +15,8 @@ import AlertContext from 'contexts/alert/alertContext';
 import Medium from 'models/medium';
 import Alert from 'models/alert';
 import LabelInputTextPair from './LabelInputTextPair';
-import MyLabel from './Label';
-import MyInputText from './InputText';
+import Label from './Label';
+import InputText from './InputText';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import Loading from 'components/layout/loading/DefaultLoading';
@@ -39,7 +39,7 @@ const RETURNTYPE = {
   Unknown: 0,
   Modal: 1,
   CKEditor: 2,
-  Popup: 3,
+  Popup: 3
 };
 const mediumTypes = Medium.mediumTypes;
 
@@ -76,12 +76,12 @@ const MediumElement = ({
     <div
       className={`w3-col s3 medium-item${
         selectedTag.length === 0 ||
-          medium.tags.some(r => selectedTag.indexOf(r) >= 0)
+        medium.tags.some(r => selectedTag.indexOf(r) >= 0)
           ? ''
           : ' hidden'
-        }${selectedFile.includes(idx) ? ' selected' : ''}`}
+      }${selectedFile.includes(idx) ? ' selected' : ''}`}
       onClick={handleClick}
-    /* onDoubleClick={handleDoubleClick} */
+      /* onDoubleClick={handleDoubleClick} */
     >
       <div className='medium-wrapper'>
         {
@@ -215,7 +215,7 @@ const FileManager = ({
   } = useContext(MediaContext);
 
   const [mediaList, setMediaList] = useState(fetchedMedia);
-  const [filterText, setFilterText] = useState("");
+  const [filterText, setFilterText] = useState('');
   const CKEditorFuncNumAndSetter = useQueryParam(
     'CKEditorFuncNum',
     NumberParam
@@ -243,18 +243,21 @@ const FileManager = ({
     selectedFile.length === 1 ? mediaList[selectedFile[0]] : null;
 
   /* methods */
-  const updateMediaName = useCallback(async (newName) => {
-    const mediumToUpdate = mediaList[selectedFile];
-    mediumToUpdate['name'] = newName;
-    await updateMedium(mediumTypeObj, mediumToUpdate);
-    // await getMedia(mediumTypeObj, {
-    //   // page,
-    //   sortOrder: -1,
-    //   sortBy: 'createDT',
-    //   filterText,
-    //   limit: numberOfFilesInExplorer
-    // });
-  }, [mediaList, selectedFile, mediumTypeObj])
+  const updateMediaName = useCallback(
+    async newName => {
+      const mediumToUpdate = mediaList[selectedFile];
+      mediumToUpdate['name'] = newName;
+      await updateMedium(mediumTypeObj, mediumToUpdate);
+      // await getMedia(mediumTypeObj, {
+      //   // page,
+      //   sortOrder: -1,
+      //   sortBy: 'createDT',
+      //   filterText,
+      //   limit: numberOfFilesInExplorer
+      // });
+    },
+    [mediaList, selectedFile, mediumTypeObj]
+  );
   const setFileManagerEl = useCallback(ref => {
     fileManagerEl.current = ref;
     //console.log('setFileManagerEl', ref);
@@ -402,16 +405,20 @@ const FileManager = ({
     idx => {
       const selectIdxOfIdx = selectedFile.indexOf(idx);
       if (selectIdxOfIdx !== -1) {
-        setSelectedFile((prevSelectedFile) => {
-          return prevSelectedFile.slice(0, selectIdxOfIdx)
+        setSelectedFile(prevSelectedFile => {
+          return prevSelectedFile
+            .slice(0, selectIdxOfIdx)
             .concat(
-              prevSelectedFile.slice(selectIdxOfIdx + 1, prevSelectedFile.length)
+              prevSelectedFile.slice(
+                selectIdxOfIdx + 1,
+                prevSelectedFile.length
+              )
             );
         });
       } else if (multipleSelect.current === false) {
         setSelectedFile([idx]);
       } else {
-        setSelectedFile((prevSelectedFile) => {
+        setSelectedFile(prevSelectedFile => {
           return prevSelectedFile.concat(idx);
         });
       }
@@ -524,7 +531,9 @@ const FileManager = ({
 
   return (
     <div
-      className={`w3-stretch fileManager ${mediumTypeObj.apiRoute} ${multiple ? 'multiple' : 'single'}`}
+      className={`w3-stretch fileManager ${mediumTypeObj.apiRoute} ${
+        multiple ? 'multiple' : 'single'
+      }`}
       ref={setFileManagerEl}
     >
       <div className='dragFileOverlay'>
@@ -550,8 +559,11 @@ const FileManager = ({
             </div>
           )*/}
           <div className={`w3-col s${tags.length > 0 ? 3 : 6}`}>
-            <MyInputText placeholder='Search media items...' value={filterText} onChange={(e) => setFilterText(e.target.value)} />
-
+            <InputText
+              placeholder='Search media items...'
+              value={filterText}
+              onChange={e => setFilterText(e.target.value)}
+            />
           </div>
           <div className='w3-col s6 w3-right-align'>
             <label className='w3-btn w3-blue upload-btn'>
@@ -587,7 +599,7 @@ const FileManager = ({
                   medium =>
                     medium &&
                     medium.type ===
-                    mediumTypeObj.value /* paramsToType[mediaType] */
+                      mediumTypeObj.value /* paramsToType[mediaType] */
                 )
                 .map((medium, idx) => {
                   return (
@@ -603,8 +615,8 @@ const FileManager = ({
                   );
                 })
             ) : (
-                <Loading />
-              )}
+              <Loading />
+            )}
           </div>
         </div>
       </div>
@@ -613,7 +625,7 @@ const FileManager = ({
           <>
             <div className='w3-container'>
               <div className='w3-row w3-section'>
-                <MyLabel message='Media Preview' />
+                <Label message='Media Preview' />
                 <br />
                 {
                   {
@@ -652,7 +664,7 @@ const FileManager = ({
                 }
               </div>
               <div className='w3-row w3-section'>
-                <MyLabel message='Media Url' />
+                <Label message='Media Url' />
                 <a
                   href={selectedFetchedMedium.url}
                   target='_blank'
@@ -667,8 +679,10 @@ const FileManager = ({
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.name}
-                onChange={async (e) => await updateMediaName(e.target.value)}
-              // onChange direct update
+                onChange={async e => await updateMediaName(e.target.value)}
+                // onChange direct update
+                // TODO: can use useTimeout to implement own throttle for
+                // limiting the frequency of calling updateMediaName
               />
               {/* <LabelInputTextPair
                 labelMessage='Alternate text'
@@ -698,29 +712,31 @@ const FileManager = ({
             </div>
           </>
         )}
-        {selectedFile.length > 1 && <>
-          <div className='w3-container'>
-            <div className='w3-row w3-section'>
-              <MyLabel message='Media Preview' />
-              <br />
-              {selectedFile.length} files selected
-            </div>
-            <div className='w3-center action-btn-wrapper'>
-              <div
-                className='w3-btn w3-blue select-btn'
-                onClick={handleSelectFile}
-              >
-                {uiWordings['FileManager.SelectFile']}
+        {selectedFile.length > 1 && (
+          <>
+            <div className='w3-container'>
+              <div className='w3-row w3-section'>
+                <Label message='Media Preview' />
+                <br />
+                {selectedFile.length} files selected
+              </div>
+              <div className='w3-center action-btn-wrapper'>
+                <div
+                  className='w3-btn w3-blue select-btn'
+                  onClick={handleSelectFile}
+                >
+                  {uiWordings['FileManager.SelectFile']}
+                </div>
               </div>
             </div>
-          </div>
-        </>}
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-const FileManagerWithContainer = (params) => {
+const FileManagerWithContainer = params => {
   return (
     <MediaState>
       <FileManager {...params} />
