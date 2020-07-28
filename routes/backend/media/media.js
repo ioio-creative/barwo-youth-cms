@@ -339,7 +339,7 @@ router.put(
       // tags,
       //url,
       //usages,
-      // isEnabled
+      isEnabled
     } = req.body;
 
     const mediumTypeFromUrl = req.mediumType;
@@ -349,8 +349,8 @@ router.put(
     // non-required fields do not need null check
     const mediumFields = {};
     if (name) mediumFields.name = name;
-    mediumFields.alernativeText = alernativeText;
-    mediumFields.tags = tags;
+    // mediumFields.alernativeText = alernativeText;
+    // mediumFields.tags = tags;
     if (isEnabled !== undefined) mediumFields.isEnabled = isEnabled;
     mediumFields.lastModifyDT = new Date();
     mediumFields.lastModifyUser = req.user._id;
@@ -381,7 +381,7 @@ router.put(
         { session, new: true }
       );
 
-      await setMediumForTags(mediumId, newMedium.tags, session);
+      // await setMediumForTags(mediumId, newMedium.tags, session);
 
       await session.commitTransaction();
 

@@ -9,6 +9,7 @@ import LabelSelectPair from 'components/form/LabelSelectPair';
 import axios from 'axios';
 import SubmitButton from 'components/form/SubmitButton';
 import Form from 'components/form/Form';
+import ModalFileManager from 'components/form/ModalFileManager';
 
 const emptyContact = new Contact();
 const defaultState = emptyContact;
@@ -24,7 +25,7 @@ const Testing = _ => {
   useEffect(_ => {
     setTitle('Testing');
     window.getMediaData = ({ additionalCallbackParam, medium }) => {
-      console.log(additionalCallbackParam, medium.src);
+      console.log(additionalCallbackParam, Array.isArray(medium));
       let setFuncToCall = null;
       switch (additionalCallbackParam) {
         case 'btn1':
@@ -43,7 +44,7 @@ const Testing = _ => {
           break;
       }
       if (setFuncToCall) {
-        setFuncToCall(medium.name + ' - ' + medium.src);
+        setFuncToCall(Array.isArray(medium) ? medium.length + ' files selected' : medium.name + ' - ' + medium.src);
       }
     };
 
@@ -164,6 +165,7 @@ const Testing = _ => {
         >
           open pdf file manager
         </button>
+        <ModalFileManager />
       </div>
       <LabelInputTextPair labelMessage='btn1' name='btn1' value={btn1Value} />
       <LabelInputTextPair labelMessage='btn2' name='btn2' value={btn2Value} />
@@ -178,8 +180,8 @@ const Testing = _ => {
           labelMessage={'Contact.EmailAddress'}
           placeholder=''
           onChange={onChange}
-          // TODO:
-          //required={true}
+        // TODO:
+        //required={true}
         />
         {/* <LabelInputTextPair
           name='name'

@@ -15,7 +15,9 @@ const FileManager = _ => {
   }, []);
 
   return (
-    <div className=''>
+    <div style={{
+      height: 'calc(100vh - 51px)'
+    }}>
       <FileManagerComponent />
     </div>
   );

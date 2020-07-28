@@ -259,10 +259,11 @@ const RichTextbox = ({
           onChange={handleChange}
           ref={setEditorInstance}
           type='classic'
+          readOnly={disabled}
           config={{
             ...config,
+            ...(disabled ? { toolbar: [] } : {}),
             filebrowserBrowseUrl: filebrowserBrowseUrl,
-            readOnly: disabled
           }}
         />
       </div>

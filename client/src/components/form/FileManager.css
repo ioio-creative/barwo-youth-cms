@@ -1,6 +1,11 @@
 .fileManager {
   position: relative;
-  height: calc(100vh - 51px);
+  /* height: calc(100% - 51px); */
+  height: 100%;
+}
+.ReactModalPortal .fileManager {
+  /* title: 50px */
+  height: calc(100% - 50px);
 }
 .fileManager.show {
   padding-bottom: 400px;
@@ -111,10 +116,10 @@
   right: 0;
   top: 0px;
   bottom: 0px;
-  /* overflow: auto; */
+  overflow: auto;
   background-color: #fafafb;
   border-left: 1px solid #f1f1f1;
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
 }
 .fileManager .media-details > .w3-container {
   height: 100%;

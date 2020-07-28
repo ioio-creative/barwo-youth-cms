@@ -35,7 +35,12 @@ const fileUploadAlertTimeout = config.FileManager.fileUploadAlertTimeoutInMs;
 // pdfs
 // find by name //
 // filterText
-
+const RETURNTYPE = {
+  Unknown: 0,
+  Modal: 1,
+  CKEditor: 2,
+  Popup: 3,
+};
 const mediumTypes = Medium.mediumTypes;
 
 const tags = [];
@@ -74,7 +79,7 @@ const MediumElement = ({
           medium.tags.some(r => selectedTag.indexOf(r) >= 0)
           ? ''
           : ' hidden'
-        }${idx === selectedFile ? ' selected' : ''}`}
+        }${selectedFile.includes(idx) ? ' selected' : ''}`}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
     >
@@ -179,14 +184,20 @@ UploadingElement.defaultProps = {
   mediumType: mediumTypes.IMAGE
 };
 
-const FileManager = ({ onSelect }) => {
+const FileManager = ({
+  multiple = true,
+  mediaTypeParam = mediumTypes.IMAGE.apiRoute,
+  onSelect
+}) => {
   //const [showDetails, setShowDetails] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
-  const [selectedFile, setSelectedFile] = useState(-1);
+  const [selectedFile, setSelectedFile] = useState([]);
   // const [showDetails, setShowDetails] = useState(false);
   const [uploadingQueue, setUploadingQueue] = useState([]);
   //const [uploadedQueue, setUploadedQueue] = useState([]);
+  const returnElementType = useRef(null);
+  const multipleSelect = useRef(multiple);
 
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -197,6 +208,7 @@ const FileManager = ({ onSelect }) => {
     // getMedium,
     // clearMedium,
     // addMedium,
+    updateMedium,
     mediaLoading,
     mediaErrors,
     clearMediaErrors
@@ -215,29 +227,45 @@ const FileManager = ({ onSelect }) => {
   // console.log(mediaType);
   const mediumTypeObj = useMemo(
     _ => {
-      return Medium.getMediumTypeFromApiRoute(mediaType);
+      if (mediaTypeParam) {
+        return Medium.getMediumTypeFromApiRoute(mediaTypeParam);
+      } else {
+        return Medium.getMediumTypeFromApiRoute(mediaType);
+      }
     },
-    [mediaType]
+    [mediaType, mediaTypeParam]
   );
   //console.log(mediumTypeObj);
 
   const fileManagerEl = useRef(null);
 
   const selectedFetchedMedium =
-    selectedFile !== -1 ? mediaList[selectedFile] : null;
+    selectedFile.length === 1 ? mediaList[selectedFile[0]] : null;
 
   /* methods */
-
+  const updateMediaName = useCallback(async (newName) => {
+    const mediumToUpdate = mediaList[selectedFile];
+    mediumToUpdate['name'] = newName;
+    await updateMedium(mediumTypeObj, mediumToUpdate);
+    // await getMedia(mediumTypeObj, {
+    //   // page,
+    //   sortOrder: -1,
+    //   sortBy: 'createDT',
+    //   filterText,
+    //   limit: numberOfFilesInExplorer
+    // });
+  }, [mediaList, selectedFile, mediumTypeObj])
   const setFileManagerEl = useCallback(ref => {
     fileManagerEl.current = ref;
     //console.log('setFileManagerEl', ref);
   }, []);
   const returnFileUrl = useCallback(
-    medium => {
+    selectedFiles => {
       // using onSelect props
       //console.log('CKEditorFuncNum:', CKEditorFuncNum);
       if (onSelect) {
-        onSelect(medium);
+        const selectedMedia = selectedFiles.map(idx => mediaList[idx]);
+        onSelect(selectedMedia);
       } else if (
         CKEditorFuncNum &&
         window.opener &&
@@ -245,12 +273,14 @@ const FileManager = ({ onSelect }) => {
         window.opener.CKEDITOR.tools
       ) {
         // call from CKEditor
+        const medium = mediaList[selectedFiles[0]];
         window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium.url);
         window.close();
       } else if (window.opener && window.opener.getMediaData) {
+        const selectedMedia = selectedFiles.map(idx => mediaList[idx]);
         window.opener.getMediaData({
           additionalCallbackParam,
-          medium
+          medium: selectedMedia
         });
         window.close();
       } else {
@@ -258,7 +288,7 @@ const FileManager = ({ onSelect }) => {
         // window.close();
       }
     },
-    [onSelect, CKEditorFuncNum, additionalCallbackParam]
+    [mediaList, onSelect, CKEditorFuncNum, additionalCallbackParam]
   );
   const selectTag = useCallback(tagName => {
     // send request to server?
@@ -368,26 +398,36 @@ const FileManager = ({ onSelect }) => {
 
   const handleMediumElementSelectMedium = useCallback(
     idx => {
-      if (selectedFile === idx) {
-        setSelectedFile(-1);
+      const selectIdxOfIdx = selectedFile.indexOf(idx);
+      if (selectIdxOfIdx !== -1) {
+        setSelectedFile((prevSelectedFile) => {
+          return prevSelectedFile.slice(0, selectIdxOfIdx)
+            .concat(
+              prevSelectedFile.slice(selectIdxOfIdx + 1, prevSelectedFile.length)
+            );
+        });
+      } else if (multipleSelect.current === false) {
+        setSelectedFile([idx]);
       } else {
-        setSelectedFile(idx);
+        setSelectedFile((prevSelectedFile) => {
+          return prevSelectedFile.concat(idx);
+        });
       }
     },
     [selectedFile]
   );
   const handleMediumElementReturnMedium = useCallback(
     medium => {
-      returnFileUrl(medium);
+      returnFileUrl(selectedFile);
     },
-    [returnFileUrl]
+    [returnFileUrl, selectedFile]
   );
 
   const handleSelectFile = useCallback(
     _ => {
-      returnFileUrl(selectedFetchedMedium);
+      returnFileUrl(selectedFile);
     },
-    [selectedFetchedMedium, returnFileUrl]
+    [selectedFile, returnFileUrl]
   );
 
   /* end of methods */
@@ -397,6 +437,7 @@ const FileManager = ({ onSelect }) => {
     document.addEventListener('dragenter', handleDragEnter, false);
     document.addEventListener('dragover', handleDragOver, false);
     document.addEventListener('dragleave', handleDragLeave, false);
+    document.addEventListener('mouseup', handleDragLeave, false);
     document.addEventListener('drop', handleDropUpload, false);
 
     getMedia(mediumTypeObj, {
@@ -410,6 +451,7 @@ const FileManager = ({ onSelect }) => {
       document.removeEventListener('dragenter', handleDragEnter, false);
       document.removeEventListener('dragover', handleDragOver, false);
       document.removeEventListener('dragleave', handleDragLeave, false);
+      document.addEventListener('mouseup', handleDragLeave, false);
       document.removeEventListener('drop', handleDropUpload, false);
 
       clearMedia();
@@ -427,9 +469,26 @@ const FileManager = ({ onSelect }) => {
     handleDropUpload
   ]);
 
-  // useEffect(() => {
-  //   console.log(fetchedMedia);
-  // }, [fetchedMedia]);
+  useEffect(() => {
+    if (onSelect) {
+      returnElementType.current = RETURNTYPE.Modal;
+    } else if (
+      CKEditorFuncNum &&
+      window.opener &&
+      window.opener.CKEDITOR &&
+      window.opener.CKEDITOR.tools
+    ) {
+      // call from CKEditor
+      returnElementType.current = RETURNTYPE.CKEditor;
+      multipleSelect.current = false;
+    } else if (window.opener && window.opener.getMediaData) {
+      returnElementType.current = RETURNTYPE.Popup;
+    } else {
+      // maybe some other use case?
+      // window.close();
+      returnElementType.current = RETURNTYPE.Unknown;
+    }
+  }, [onSelect, CKEditorFuncNum, additionalCallbackParam]);
 
   // fetchedMedia
   useEffect(() => {
@@ -606,6 +665,7 @@ const FileManager = ({ onSelect }) => {
                 name='name'
                 isHalf={false}
                 value={selectedFetchedMedium.name}
+                onChange={async (e) => await updateMediaName(e.target.value)}
               // onChange direct update
               />
               {/* <LabelInputTextPair
@@ -636,12 +696,31 @@ const FileManager = ({ onSelect }) => {
             </div>
           </>
         )}
+        {selectedFile.length > 1 && <>
+          <div className='w3-container'>
+            <div className='w3-row w3-section'>
+              <MyLabel message='Media Preview' />
+              <br />
+              {selectedFile.length} files selected
+            </div>
+            <div className='w3-center action-btn-wrapper'>
+              <div
+                className='w3-btn w3-blue select-btn'
+                onClick={handleSelectFile}
+              >
+                {uiWordings['FileManager.SelectFile']}
+              </div>
+            </div>
+          </div>
+        </>}
       </div>
     </div>
   );
 };
 
-const FileManagerWithContainer = _ => {
+const FileManagerWithContainer = ({
+
+}) => {
   return (
     <MediaState>
       <FileManager />
