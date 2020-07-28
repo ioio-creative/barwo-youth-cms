@@ -10,7 +10,7 @@ import guid from 'utils/guid';
 
 /* constants */
 
-const emptyAdminForAdd = {
+const emptyStaffPersonForAdd = {
   title_tc: '',
   name_tc: '',
   title_sc: '',
@@ -19,10 +19,10 @@ const emptyAdminForAdd = {
   name_en: ''
 };
 
-const mapAdminToListItem = admin => {
+const mapStaffPersonToListItem = staffPerson => {
   return {
-    ...admin,
-    draggableId: admin.draggableId || admin._id || guid()
+    ...staffPerson,
+    draggableId: staffPerson.draggableId || staffPerson._id || guid()
   };
 };
 
@@ -39,12 +39,12 @@ const getListStyle = isDraggingOver => ({
 
 /* item */
 
-const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
-    newAdmin => {
-      handleItemChange(newAdmin, index);
+    newStaffPerson => {
+      handleItemChange(newStaffPerson, index);
     },
     [handleItemChange, index]
   );
@@ -53,13 +53,13 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
 
   const onChange = useCallback(
     e => {
-      const newAdmin = {
-        ...admin,
+      const newStaffPerson = {
+        ...staffPerson,
         [e.target.name]: e.target.value
       };
-      dealWithItemChange(newAdmin);
+      dealWithItemChange(newStaffPerson);
     },
-    [admin, dealWithItemChange]
+    [staffPerson, dealWithItemChange]
   );
 
   const onRemoveButtonClick = useCallback(
@@ -79,7 +79,7 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
     title_en,
     name_en,
     draggableId
-  } = admin;
+  } = staffPerson;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -102,7 +102,9 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
                   name='title_tc'
                   value={title_tc}
                   onChange={onChange}
-                  placeholder={uiWordings['AboutEdit.Admin.TitleTcPlaceholder']}
+                  placeholder={
+                    uiWordings['AboutEdit.StaffPerson.TitleTcPlaceholder']
+                  }
                   required={true}
                 />
               </div>
@@ -112,7 +114,9 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
                   name='name_tc'
                   value={name_tc}
                   onChange={onChange}
-                  placeholder={uiWordings['AboutEdit.Admin.NameTcPlaceholder']}
+                  placeholder={
+                    uiWordings['AboutEdit.StaffPerson.NameTcPlaceholder']
+                  }
                   required={true}
                 />
               </div>
@@ -124,7 +128,9 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
                   name='title_sc'
                   value={title_sc}
                   onChange={onChange}
-                  placeholder={uiWordings['AboutEdit.Admin.TitleScPlaceholder']}
+                  placeholder={
+                    uiWordings['AboutEdit.StaffPerson.TitleScPlaceholder']
+                  }
                   required={true}
                 />
               </div>
@@ -134,7 +140,9 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
                   name='name_sc'
                   value={name_sc}
                   onChange={onChange}
-                  placeholder={uiWordings['AboutEdit.Admin.NameScPlaceholder']}
+                  placeholder={
+                    uiWordings['AboutEdit.StaffPerson.NameScPlaceholder']
+                  }
                   required={true}
                 />
               </div>
@@ -146,7 +154,9 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
                   name='title_en'
                   value={title_en}
                   onChange={onChange}
-                  placeholder={uiWordings['AboutEdit.Admin.TitleEnPlaceholder']}
+                  placeholder={
+                    uiWordings['AboutEdit.StaffPerson.TitleEnPlaceholder']
+                  }
                   required={true}
                 />
               </div>
@@ -156,7 +166,9 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
                   name='name_en'
                   value={name_en}
                   onChange={onChange}
-                  placeholder={uiWordings['AboutEdit.Admin.NameEnPlaceholder']}
+                  placeholder={
+                    uiWordings['AboutEdit.StaffPerson.NameEnPlaceholder']
+                  }
                   required={true}
                 />
               </div>
@@ -176,13 +188,13 @@ const Item = ({ admin, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...admin },
+  { handleItemRemoved, handleItemChange, ...staffPerson },
   index
 ) => {
   return (
     <Item
       key={index}
-      admin={admin}
+      staffPerson={staffPerson}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -192,71 +204,83 @@ const itemRender = (
 
 /* end of item */
 
-const AboutEditAdminSelect = ({ admins, onGetAdmins }) => {
-  const adminsInPickedList = useMemo(
+const AboutEditStaffPersonSelect = ({
+  staffPersons,
+  onGetStaffPersons,
+  labelMessage,
+  isUseTextAreaForName
+}) => {
+  const staffPersonsInPickedList = useMemo(
     _ => {
-      return getArraySafe(admins).map(mapAdminToListItem);
+      return getArraySafe(staffPersons).map(mapStaffPersonToListItem);
     },
-    [admins]
+    [staffPersons]
   );
 
   /* methods */
 
-  const dealWithGetAdmins = useCallback(
+  const dealWithGetStaffPersons = useCallback(
     newItemList => {
-      onGetAdmins(newItemList);
+      onGetStaffPersons(newItemList);
     },
-    [onGetAdmins]
+    [onGetStaffPersons]
   );
 
-  const addAdmin = useCallback(
+  const addStaffPerson = useCallback(
     _ => {
-      dealWithGetAdmins([...getArraySafe(admins), emptyAdminForAdd]);
+      dealWithGetStaffPersons([
+        ...getArraySafe(staffPersons),
+        emptyStaffPersonForAdd
+      ]);
     },
-    [admins, dealWithGetAdmins]
+    [staffPersons, dealWithGetStaffPersons]
   );
 
   /* end of methods */
 
-  // // admins
+  // // staff persons
   // useEffect(
   //   _ => {
-  //     if (!isNonEmptyArray(admins)) {
-  //       addAdmin();
+  //     if (!isNonEmptyArray(staffPersons)) {
+  //       addStaffPerson();
   //     }
   //   },
-  //   [admins, addAdmin]
+  //   [staffPersons, addStaffPerson]
   // );
 
   /* event handlers */
 
   const onAddButtonClick = useCallback(
     _ => {
-      addAdmin();
+      addStaffPerson();
     },
-    [addAdmin]
+    [addStaffPerson]
   );
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      dealWithGetAdmins(newItemList);
+      dealWithGetStaffPersons(newItemList);
     },
-    [dealWithGetAdmins]
+    [dealWithGetStaffPersons]
   );
 
   /* end of event handlers */
 
   return (
     <LabelSortableListPair
-      name='admins'
-      labelMessage={uiWordings['About.AdminsLabel']}
+      name='staffPersons'
+      labelMessage={labelMessage}
       pickedItemRender={itemRender}
       getListStyle={getListStyle}
-      pickedItems={adminsInPickedList}
+      pickedItems={staffPersonsInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
 };
 
-export default AboutEditAdminSelect;
+AboutEditStaffPersonSelect.defaultProps = {
+  isUseTextAreaForName: false
+};
+
+export default AboutEditStaffPersonSelect;

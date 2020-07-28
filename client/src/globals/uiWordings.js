@@ -530,6 +530,7 @@ export default {
   'About.ContactFaxLabel': 'Fax',
   'About.ContactEmailLabel': 'Email',
   'About.AdminsLabel': 'Admins',
+  'About.ProductionPersonsLabel': 'Production Persons',
 
   'About.LastModifyDTLabel': 'Last Modify DT',
   'About.LastModifyUserLabel': 'Last Modify User',
@@ -538,12 +539,12 @@ export default {
   'AboutEdit.UpdateAboutSubmit': 'Update About',
   'AboutEdit.UpdateAboutSuccessMessage': 'About Updated',
 
-  'AboutEdit.Admin.TitleTcPlaceholder': 'Title TC',
-  'AboutEdit.Admin.NameTcPlaceholder': 'Name TC',
-  'AboutEdit.Admin.TitleScPlaceholder': 'Title SC',
-  'AboutEdit.Admin.NameScPlaceholder': 'Name SC',
-  'AboutEdit.Admin.TitleEnPlaceholder': 'Title EN',
-  'AboutEdit.Admin.NameEnPlaceholder': 'Name EN',
+  'AboutEdit.StaffPerson.TitleTcPlaceholder': 'Title TC',
+  'AboutEdit.StaffPerson.NameTcPlaceholder': 'Name TC',
+  'AboutEdit.StaffPerson.TitleScPlaceholder': 'Title SC',
+  'AboutEdit.StaffPerson.NameScPlaceholder': 'Name SC',
+  'AboutEdit.StaffPerson.TitleEnPlaceholder': 'Title EN',
+  'AboutEdit.StaffPerson.NameEnPlaceholder': 'Name EN',
 
   'Newsletters.Title': 'Newsletters',
 
