@@ -4,8 +4,7 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const SendHistorySchema = mongoose.Schema({
   label: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   title_tc: {
     type: String,
@@ -31,7 +30,7 @@ const SendHistorySchema = mongoose.Schema({
     type: String,
     require: true
   },
-  newsletter: { type: mongoose.Schema.Types.ObjectId, ref: 'newsletter' },
+  email: { type: mongoose.Schema.Types.ObjectId, ref: 'newsletter' },
   sendDT: {
     type: Date,
     default: Date.now

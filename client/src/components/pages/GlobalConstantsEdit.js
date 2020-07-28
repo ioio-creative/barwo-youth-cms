@@ -182,6 +182,31 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
+        name='latestShowIcon_tc'
+        value={globalConstants.latestShowIcon_tc}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIconTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='latestShowIcon_sc'
+        value={globalConstants.latestShowIcon_sc}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIconScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='latestShowIcon_en'
+        value={globalConstants.latestShowIcon_en}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIconEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
         name='scheduleOfShow_tc'
         value={globalConstants.scheduleOfShow_tc}
         labelMessage={uiWordings['GlobalConstants.ScheduleOfShowTcLabel']}
@@ -192,7 +217,7 @@ const GlobalConstantsEdit = _ => {
       <LabelInputTextPair
         name='scheduleOfShow_sc'
         value={globalConstants.scheduleOfShow_sc}
-        labelMessage={uiWordings['GlobalConstants.ScheduleOfShowTcLabel']}
+        labelMessage={uiWordings['GlobalConstants.ScheduleOfShowScLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
@@ -205,6 +230,32 @@ const GlobalConstantsEdit = _ => {
         onChange={onChange}
         required={true}
       />
+
+      <LabelInputTextPair
+        name='team_tc'
+        value={globalConstants.team_tc}
+        labelMessage={uiWordings['GlobalConstants.TeamTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='team_sc'
+        value={globalConstants.team_sc}
+        labelMessage={uiWordings['GlobalConstants.TeamScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='team_en'
+        value={globalConstants.team_en}
+        labelMessage={uiWordings['GlobalConstants.TeamEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       <LabelInputTextPair
         name='artDirector_tc'
         value={globalConstants.artDirector_tc}
@@ -1129,6 +1180,31 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
+        name='contactInfo_tc'
+        value={globalConstants.contactInfo_tc}
+        labelMessage={uiWordings['GlobalConstants.ContactInfoTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='contactInfo_sc'
+        value={globalConstants.contactInfo_sc}
+        labelMessage={uiWordings['GlobalConstants.ContactInfoScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='contactInfo_en'
+        value={globalConstants.contactInfo_en}
+        labelMessage={uiWordings['GlobalConstants.ContactInfoEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
         name='tel_tc'
         value={globalConstants.tel_tc}
         labelMessage={uiWordings['GlobalConstants.TelTcLabel']}
@@ -1287,7 +1363,7 @@ const GlobalConstantsEdit = _ => {
       <LabelInputTextPair
         name='video_show_tc'
         value={globalConstants.video_show_tc}
-        labelMessage={uiWordings['GlobalConstants.videoShowTcLabel']}
+        labelMessage={uiWordings['GlobalConstants.VideoShowTcLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
@@ -1295,7 +1371,7 @@ const GlobalConstantsEdit = _ => {
       <LabelInputTextPair
         name='video_show_sc'
         value={globalConstants.video_show_sc}
-        labelMessage={uiWordings['GlobalConstants.videoShowScLabel']}
+        labelMessage={uiWordings['GlobalConstants.VideoShowScLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
@@ -1303,7 +1379,7 @@ const GlobalConstantsEdit = _ => {
       <LabelInputTextPair
         name='video_show_en'
         value={globalConstants.video_show_en}
-        labelMessage={uiWordings['GlobalConstants.videoShowEnLabel']}
+        labelMessage={uiWordings['GlobalConstants.VideoShowEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
@@ -1435,6 +1511,31 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
+        name='news_tc'
+        value={globalConstants.news_tc}
+        labelMessage={uiWordings['GlobalConstants.NewsTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='news_sc'
+        value={globalConstants.news_sc}
+        labelMessage={uiWordings['GlobalConstants.NewsScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='news_en'
+        value={globalConstants.news_en}
+        labelMessage={uiWordings['GlobalConstants.NewsEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
         name='relatedNews_tc'
         value={globalConstants.relatedNews_tc}
         labelMessage={uiWordings['GlobalConstants.RelatedNewsTcLabel']}
@@ -1554,6 +1655,131 @@ const GlobalConstantsEdit = _ => {
         name='ticketWebsite_en'
         value={globalConstants.ticketWebsite_en}
         labelMessage={uiWordings['GlobalConstants.TicketWebsiteEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='barwo_tc'
+        value={globalConstants.barwo_tc}
+        labelMessage={uiWordings['GlobalConstants.BarwoTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='barwo_sc'
+        value={globalConstants.barwo_sc}
+        labelMessage={uiWordings['GlobalConstants.BarwoScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='barwo_en'
+        value={globalConstants.barwo_en}
+        labelMessage={uiWordings['GlobalConstants.BarwoEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='plan_tc'
+        value={globalConstants.plan_tc}
+        labelMessage={uiWordings['GlobalConstants.PlanTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='plan_sc'
+        value={globalConstants.plan_sc}
+        labelMessage={uiWordings['GlobalConstants.PlanScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='plan_en'
+        value={globalConstants.plan_en}
+        labelMessage={uiWordings['GlobalConstants.PlanEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='admins_tc'
+        value={globalConstants.admins_tc}
+        labelMessage={uiWordings['GlobalConstants.AdminsTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='admins_sc'
+        value={globalConstants.admins_sc}
+        labelMessage={uiWordings['GlobalConstants.AdminsScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='admins_en'
+        value={globalConstants.admins_en}
+        labelMessage={uiWordings['GlobalConstants.AdminsEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='organizer_tc'
+        value={globalConstants.organizer_tc}
+        labelMessage={uiWordings['GlobalConstants.OrganizerTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='organizer_sc'
+        value={globalConstants.organizer_sc}
+        labelMessage={uiWordings['GlobalConstants.OrganizerScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='organizer_en'
+        value={globalConstants.organizer_en}
+        labelMessage={uiWordings['GlobalConstants.OrganizerEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='sponsor_tc'
+        value={globalConstants.sponsor_tc}
+        labelMessage={uiWordings['GlobalConstants.SponsorTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='sponsor_sc'
+        value={globalConstants.sponsor_sc}
+        labelMessage={uiWordings['GlobalConstants.SponsorScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='sponsor_en'
+        value={globalConstants.sponsor_en}
+        labelMessage={uiWordings['GlobalConstants.SponsorEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}

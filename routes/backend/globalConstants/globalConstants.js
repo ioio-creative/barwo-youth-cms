@@ -36,6 +36,19 @@ const globalConstantsValidationChecks = [
   ).notEmpty(),
 
   check(
+    'latestShowIcon_tc',
+    globalConstantsResponseTypes.LATESTSHOWICON_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'latestShowIcon_sc',
+    globalConstantsResponseTypes.LATESTSHOWICON_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'latestShowIcon_en',
+    globalConstantsResponseTypes.LATESTSHOWICON_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
     'scheduleOfShow_tc',
     globalConstantsResponseTypes.SCHEDULEOFSHOW_TC_REQUIRED
   ).notEmpty(),
@@ -47,6 +60,10 @@ const globalConstantsValidationChecks = [
     'scheduleOfShow_en',
     globalConstantsResponseTypes.SCHEDULEOFSHOW_EN_REQUIRED
   ).notEmpty(),
+
+  check('team_tc', globalConstantsResponseTypes.TEAM_TC_REQUIRED).notEmpty(),
+  check('team_sc', globalConstantsResponseTypes.TEAM_SC_REQUIRED).notEmpty(),
+  check('team_en', globalConstantsResponseTypes.TEAM_EN_REQUIRED).notEmpty(),
 
   check(
     'artDirector_tc',
@@ -439,6 +456,19 @@ const globalConstantsValidationChecks = [
     globalConstantsResponseTypes.WEBSITE_EN_REQUIRED
   ).notEmpty(),
 
+  check(
+    'contactInfo_tc',
+    globalConstantsResponseTypes.CONTACTINFO_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactInfo_sc',
+    globalConstantsResponseTypes.CONTACTINFO_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactInfo_en',
+    globalConstantsResponseTypes.CONTACTINFO_EN_REQUIRED
+  ).notEmpty(),
+
   check('tel_tc', globalConstantsResponseTypes.TEL_TC_REQUIRED).notEmpty(),
   check('tel_sc', globalConstantsResponseTypes.TEL_SC_REQUIRED).notEmpty(),
   check('tel_en', globalConstantsResponseTypes.TEL_EN_REQUIRED).notEmpty(),
@@ -568,6 +598,10 @@ const globalConstantsValidationChecks = [
     globalConstantsResponseTypes.LOCATION_EN_REQUIRED
   ).notEmpty(),
 
+  check('news_tc', globalConstantsResponseTypes.NEWS_TC_REQUIRED).notEmpty(),
+  check('news_sc', globalConstantsResponseTypes.NEWS_SC_REQUIRED).notEmpty(),
+  check('news_en', globalConstantsResponseTypes.NEWS_EN_REQUIRED).notEmpty(),
+
   check(
     'relatedNews_tc',
     globalConstantsResponseTypes.RELATEDNEWS_TC_REQUIRED
@@ -622,6 +656,53 @@ const globalConstantsValidationChecks = [
   check(
     'ticketWebsite_en',
     globalConstantsResponseTypes.TICKETWEBSITE_EN_REQUIRED
+  ).notEmpty(),
+
+  check('barwo_tc', globalConstantsResponseTypes.BARWO_TC_REQUIRED).notEmpty(),
+  check('barwo_sc', globalConstantsResponseTypes.BARWO_SC_REQUIRED).notEmpty(),
+  check('barwo_en', globalConstantsResponseTypes.BARWO_EN_REQUIRED).notEmpty(),
+
+  check('plan_tc', globalConstantsResponseTypes.PLAN_TC_REQUIRED).notEmpty(),
+  check('plan_sc', globalConstantsResponseTypes.PLAN_SC_REQUIRED).notEmpty(),
+  check('plan_en', globalConstantsResponseTypes.PLAN_EN_REQUIRED).notEmpty(),
+
+  check(
+    'admins_tc',
+    globalConstantsResponseTypes.ADMINS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'admins_sc',
+    globalConstantsResponseTypes.ADMINS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'admins_en',
+    globalConstantsResponseTypes.ADMINS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'organizer_tc',
+    globalConstantsResponseTypes.ORGANIZER_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'organizer_sc',
+    globalConstantsResponseTypes.ORGANIZER_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'organizer_en',
+    globalConstantsResponseTypes.ORGANIZER_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'sponsor_tc',
+    globalConstantsResponseTypes.SPONSOR_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'sponsor_sc',
+    globalConstantsResponseTypes.SPONSOR_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'sponsor_en',
+    globalConstantsResponseTypes.SPONSOR_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -661,9 +742,17 @@ router.post(
       latestShow_sc,
       latestShow_en,
 
+      latestShowIcon_tc,
+      latestShowIcon_sc,
+      latestShowIcon_en,
+
       scheduleOfShow_tc,
       scheduleOfShow_sc,
       scheduleOfShow_en,
+
+      team_tc,
+      team_sc,
+      team_en,
 
       artDirector_tc,
       artDirector_sc,
@@ -813,6 +902,10 @@ router.post(
       website_sc,
       website_en,
 
+      contactInfo_tc,
+      contactInfo_sc,
+      contactInfo_en,
+
       tel_tc,
       tel_sc,
       tel_en,
@@ -861,6 +954,10 @@ router.post(
       location_sc,
       location_en,
 
+      news_tc,
+      news_sc,
+      news_en,
+
       relatedNews_tc,
       relatedNews_sc,
       relatedNews_en,
@@ -879,7 +976,27 @@ router.post(
 
       ticketWebsite_tc,
       ticketWebsite_sc,
-      ticketWebsite_en
+      ticketWebsite_en,
+
+      barwo_tc,
+      barwo_sc,
+      barwo_en,
+
+      plan_tc,
+      plan_sc,
+      plan_en,
+
+      admins_tc,
+      admins_sc,
+      admins_en,
+
+      organizer_tc,
+      organizer_sc,
+      organizer_en,
+
+      sponsor_tc,
+      sponsor_sc,
+      sponsor_en
     } = req.body;
 
     // Build global constants object
@@ -890,9 +1007,17 @@ router.post(
     globalConstantsFields.latestShow_sc = latestShow_sc;
     globalConstantsFields.latestShow_en = latestShow_en;
 
+    globalConstantsFields.latestShowIcon_tc = latestShowIcon_tc;
+    globalConstantsFields.latestShowIcon_sc = latestShowIcon_sc;
+    globalConstantsFields.latestShowIcon_en = latestShowIcon_en;
+
     globalConstantsFields.scheduleOfShow_tc = scheduleOfShow_tc;
     globalConstantsFields.scheduleOfShow_sc = scheduleOfShow_sc;
     globalConstantsFields.scheduleOfShow_en = scheduleOfShow_en;
+
+    globalConstantsFields.team_tc = team_tc;
+    globalConstantsFields.team_sc = team_sc;
+    globalConstantsFields.team_en = team_en;
 
     globalConstantsFields.artDirector_tc = artDirector_tc;
     globalConstantsFields.artDirector_sc = artDirector_sc;
@@ -1042,6 +1167,10 @@ router.post(
     globalConstantsFields.website_sc = website_sc;
     globalConstantsFields.website_en = website_en;
 
+    globalConstantsFields.contactInfo_tc = contactInfo_tc;
+    globalConstantsFields.contactInfo_sc = contactInfo_sc;
+    globalConstantsFields.contactInfo_en = contactInfo_en;
+
     globalConstantsFields.tel_tc = tel_tc;
     globalConstantsFields.tel_sc = tel_sc;
     globalConstantsFields.tel_en = tel_en;
@@ -1090,6 +1219,10 @@ router.post(
     globalConstantsFields.location_sc = location_sc;
     globalConstantsFields.location_en = location_en;
 
+    globalConstantsFields.news_tc = news_tc;
+    globalConstantsFields.news_sc = news_sc;
+    globalConstantsFields.news_en = news_en;
+
     globalConstantsFields.relatedNews_tc = relatedNews_tc;
     globalConstantsFields.relatedNews_sc = relatedNews_sc;
     globalConstantsFields.relatedNews_en = relatedNews_en;
@@ -1109,6 +1242,26 @@ router.post(
     globalConstantsFields.ticketWebsite_tc = ticketWebsite_tc;
     globalConstantsFields.ticketWebsite_sc = ticketWebsite_sc;
     globalConstantsFields.ticketWebsite_en = ticketWebsite_en;
+
+    globalConstantsFields.barwo_tc = barwo_tc;
+    globalConstantsFields.barwo_sc = barwo_sc;
+    globalConstantsFields.barwo_en = barwo_en;
+
+    globalConstantsFields.plan_tc = plan_tc;
+    globalConstantsFields.plan_sc = plan_sc;
+    globalConstantsFields.plan_en = plan_en;
+
+    globalConstantsFields.admins_tc = admins_tc;
+    globalConstantsFields.admins_sc = admins_sc;
+    globalConstantsFields.admins_en = admins_en;
+
+    globalConstantsFields.organizer_tc = organizer_tc;
+    globalConstantsFields.organizer_sc = organizer_sc;
+    globalConstantsFields.organizer_en = organizer_en;
+
+    globalConstantsFields.sponsor_tc = sponsor_tc;
+    globalConstantsFields.sponsor_sc = sponsor_sc;
+    globalConstantsFields.sponsor_en = sponsor_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

@@ -7,10 +7,7 @@ const { check } = require('express-validator');
 const listingHandling = require('../../../middleware/listingHandling');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
-const {
-  generalErrorHandle,
-  duplicateKeyErrorHandle
-} = require('../../../utils/errorHandling');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
 const {
   Newsletter,
   newsletterResponseTypes
@@ -73,17 +70,7 @@ const sendHistoryPopulationListForFindOne = [
   ...sendHistoryPopulationListForFindAll
 ];
 
-const handleNewsletterLabelDuplicateKeyError = (err, res) => {
-  const isErrorHandled = duplicateKeyErrorHandle(
-    err,
-    'label',
-    newsletterResponseTypes.LABEL_ALREADY_EXISTS,
-    res
-  );
-  return isErrorHandled;
-};
-
-const emailSend = async (contact, emailAddress, title, message) => {
+const emailSend = async (contact, title, message) => {
   // console.log(emailAddress, title, message);
   let transporter = nodemailer.createTransport({
     host: 'email-smtp.ap-southeast-1.amazonaws.com',
@@ -96,9 +83,9 @@ const emailSend = async (contact, emailAddress, title, message) => {
   });
 
   // send mail with defined transport object
-  let info = await transporter.sendMail({
+  await transporter.sendMail({
     from: '<christopher.wong@ioiocreative.com>', // sender address
-    to: emailAddress, // Receivers
+    to: contact.emailAddress, // Receivers
     subject: title, // Subject line
     html: `${message}<br/><p>Yours sincerely,</p> <p>Barwo</p>` // html body
   });
@@ -140,10 +127,11 @@ router.post(
       title_en,
       message_tc,
       message_sc,
-      message_en
-      // newsletter
+      message_en,
+      _id
     } = req.body;
     // console.log(req.body);
+    console.log(_id);
     let contacts = [];
     try {
       const options = {
@@ -164,44 +152,28 @@ router.post(
         message_tc,
         message_sc,
         message_en,
-        // newsletter,
+        email: _id,
         sender: req.user._id
       });
-      await Promise.all(
-        contacts.docs.map(async contact => {
-          if (contact.language === 'TC') {
-            await emailSend(
-              contact,
-              contact.emailAddress,
-              title_tc,
-              message_tc
-            );
-          } else if (contact.language === 'SC') {
-            await emailSend(
-              contact,
-              contact.emailAddress,
-              title_sc,
-              message_sc
-            );
-          } else {
-            await emailSend(
-              contact,
-              contact.emailAddress,
-              title_en,
-              message_en
-            );
-          }
-        })
-      );
+
+      // await Promise.all(
+      //   contacts.docs.map(async contact => {
+      //     if (contact.language === 'TC') {
+      //       await emailSend(contact, title_tc, message_tc);
+      //     } else if (contact.language === 'SC') {
+      //       await emailSend(contact, title_sc, message_sc);
+      //     } else {
+      //       await emailSend(contact, title_en, message_en);
+      //     }
+      //   })
+      // );
 
       await sendHistory.save();
       // setSendHistoryInvolvedForNewsletter(sendHistory._id, newsletter);
 
       res.json(sendHistory);
     } catch (err) {
-      if (!handleNewsletterLabelDuplicateKeyError(err, res)) {
-        generalErrorHandle(err, res);
-      }
+      generalErrorHandle(err, res);
     }
   }
 );
@@ -263,5 +235,3 @@ router.get('/:_id', auth, async (req, res) => {
 });
 
 module.exports = router;
-
-module.exports.handleNewsletterLabelDuplicateKeyError = handleNewsletterLabelDuplicateKeyError;

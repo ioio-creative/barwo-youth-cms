@@ -6,9 +6,17 @@ function GlobalConstants() {
   this.latestShow_sc = '';
   this.latestShow_en = '';
 
+  this.latestShowIcon_tc = '';
+  this.latestShowIcon_sc = '';
+  this.latestShowIcon_en = '';
+
   this.scheduleOfShow_tc = '';
   this.scheduleOfShow_sc = '';
   this.scheduleOfShow_en = '';
+
+  this.team_tc = '';
+  this.team_sc = '';
+  this.team_en = '';
 
   this.artDirector_tc = '';
   this.artDirector_sc = '';
@@ -158,6 +166,10 @@ function GlobalConstants() {
   this.website_sc = '';
   this.website_en = '';
 
+  this.contactInfo_tc = '';
+  this.contactInfo_sc = '';
+  this.contactInfo_en = '';
+
   this.tel_tc = '';
   this.tel_sc = '';
   this.tel_en = '';
@@ -206,6 +218,10 @@ function GlobalConstants() {
   this.location_sc = '';
   this.location_en = '';
 
+  this.news_tc = '';
+  this.news_sc = '';
+  this.news_en = '';
+
   this.relatedNews_tc = '';
   this.relatedNews_sc = '';
   this.relatedNews_en = '';
@@ -225,6 +241,26 @@ function GlobalConstants() {
   this.ticketWebsite_tc = '';
   this.ticketWebsite_sc = '';
   this.ticketWebsite_en = '';
+
+  this.barwo_tc = '';
+  this.barwo_sc = '';
+  this.barwo_en = '';
+
+  this.plan_tc = '';
+  this.plan_sc = '';
+  this.plan_en = '';
+
+  this.admins_tc = '';
+  this.admins_sc = '';
+  this.admins_en = '';
+
+  this.organizer_tc = '';
+  this.organizer_sc = '';
+  this.organizer_en = '';
+
+  this.sponsor_tc = '';
+  this.sponsor_sc = '';
+  this.sponsor_en = '';
 
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
@@ -259,6 +295,19 @@ GlobalConstants.globalConstantsResponseTypes = {
   SCHEDULEOFSHOW_EN_REQUIRED: {
     type: 'SCHEDULEOFSHOW_EN_REQUIRED',
     msg: 'SCHEDULEOFSHOW_EN_REQUIRED'
+  },
+
+  TEAM_TC_REQUIRED: {
+    type: 'TEAM_TC_REQUIRED',
+    msg: 'TEAM_TC_REQUIRED'
+  },
+  TEAM_SC_REQUIRED: {
+    type: 'TEAM_SC_REQUIRED',
+    msg: 'TEAM_SC_REQUIRED'
+  },
+  TEAM_EN_REQUIRED: {
+    type: 'TEAM_EN_REQUIRED',
+    msg: 'TEAM_EN_REQUIRED'
   },
 
   ARTDIRECTOR_TC_REQUIRED: {
@@ -693,6 +742,19 @@ GlobalConstants.globalConstantsResponseTypes = {
     msg: 'CONTACT_EN_REQUIRED'
   },
 
+  CONTACTINFO_TC_REQUIRED: {
+    type: 'CONTACTINFO_TC_REQUIRED',
+    msg: 'CONTACTINFO_TC_REQUIRED'
+  },
+  CONTACTINFO_SC_REQUIRED: {
+    type: 'CONTACTINFO_SC_REQUIRED',
+    msg: 'CONTACTINFO_SC_REQUIRED'
+  },
+  CONTACTINFO_EN_REQUIRED: {
+    type: 'CONTACTINFO_EN_REQUIRED',
+    msg: 'CONTACTINFO_EN_REQUIRED'
+  },
+
   WEBSITE_TC_REQUIRED: {
     type: 'WEBSITE_TC_REQUIRED',
     msg: 'WEBSITE_TC_REQUIRED'
@@ -862,6 +924,19 @@ GlobalConstants.globalConstantsResponseTypes = {
     msg: 'LOCATION_EN_REQUIRED'
   },
 
+  NEWS_TC_REQUIRED: {
+    type: 'NEWS_TC_REQUIRED',
+    msg: 'NEWS_TC_REQUIRED'
+  },
+  NEWS_SC_REQUIRED: {
+    type: 'NEWS_SC_REQUIRED',
+    msg: 'NEWS_SC_REQUIRED'
+  },
+  NEWS_EN_REQUIRED: {
+    type: 'NEWS_EN_REQUIRED',
+    msg: 'NEWS_EN_REQUIRED'
+  },
+
   RELATEDNEWS_TC_REQUIRED: {
     type: 'RELATEDNEWS_TC_REQUIRED',
     msg: 'RELATEDNEWS_TC_REQUIRED'
@@ -916,6 +991,62 @@ GlobalConstants.globalConstantsResponseTypes = {
   TICKETWEBSITE_EN_REQUIRED: {
     type: 'TICKETWEBSITE_EN_REQUIRED',
     msg: 'TICKETWEBSITE_EN_REQUIRED'
+  },
+
+  BARWO_TC_REQUIRED: {
+    type: 'BARWO_TC_REQUIRED',
+    msg: 'BARWO_TC_REQUIRED'
+  },
+  BARWO_SC_REQUIRED: {
+    type: 'BARWO_SC_REQUIRED',
+    msg: 'BARWO_SC_REQUIRED'
+  },
+  BARWO_EN_REQUIRED: {
+    type: 'BARWO_EN_REQUIRED',
+    msg: 'BARWO_EN_REQUIRED'
+  },
+
+  PLAN_TC_REQUIRED: {
+    type: 'PLAN_TC_REQUIRED',
+    msg: 'PLAN_TC_REQUIRED'
+  },
+  PLAN_SC_REQUIRED: {
+    type: 'PLAN_SC_REQUIRED',
+    msg: 'PLAN_SC_REQUIRED'
+  },
+  PLAN_EN_REQUIRED: {
+    type: 'PLAN_EN_REQUIRED',
+    msg: 'PLAN_EN_REQUIRED'
+  },
+
+  ADMINS_TC_REQUIRED: { type: 'ADMINS_TC_REQUIRED', msg: 'ADMINS_TC_REQUIRED' },
+  ADMINS_SC_REQUIRED: { type: 'ADMINS_SC_REQUIRED', msg: 'ADMINS_SC_REQUIRED' },
+  ADMINS_EN_REQUIRED: { type: 'ADMINS_EN_REQUIRED', msg: 'ADMINS_EN_REQUIRED' },
+
+  ORGANIZER_TC_REQUIRED: {
+    type: 'ORGANIZER_TC_REQUIRED',
+    msg: 'ORGANIZER_TC_REQUIRED'
+  },
+  ORGANIZER_SC_REQUIRED: {
+    type: 'ORGANIZER_SC_REQUIRED',
+    msg: 'ORGANIZER_SC_REQUIRED'
+  },
+  ORGANIZER_EN_REQUIRED: {
+    type: 'ORGANIZER_EN_REQUIRED',
+    msg: 'ORGANIZER_EN_REQUIRED'
+  },
+
+  SPONSOR_TC_REQUIRED: {
+    type: 'SPONSOR_TC_REQUIRED',
+    msg: 'SPONSOR_TC_REQUIRED'
+  },
+  SPONSOR_SC_REQUIRED: {
+    type: 'SPONSOR_SC_REQUIRED',
+    msg: 'SPONSOR_SC_REQUIRED'
+  },
+  SPONSOR_EN_REQUIRED: {
+    type: 'SPONSOR_EN_REQUIRED',
+    msg: 'SPONSOR_EN_REQUIRED'
   },
 
   // db check

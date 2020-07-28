@@ -14,6 +14,19 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  latestShowIcon_tc: {
+    type: String,
+    require: true
+  },
+  latestShowIcon_sc: {
+    type: String,
+    require: true
+  },
+  latestShowIcon_en: {
+    type: String,
+    require: true
+  },
+
   scheduleOfShow_tc: {
     type: String,
     require: true
@@ -23,6 +36,19 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
   scheduleOfShow_en: {
+    type: String,
+    require: true
+  },
+
+  team_tc: {
+    type: String,
+    require: true
+  },
+  team_sc: {
+    type: String,
+    require: true
+  },
+  team_en: {
     type: String,
     require: true
   },
@@ -508,6 +534,19 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  contactInfo_tc: {
+    type: String,
+    require: true
+  },
+  contactInfo_sc: {
+    type: String,
+    require: true
+  },
+  contactInfo_en: {
+    type: String,
+    require: true
+  },
+
   tel_tc: {
     type: String,
     require: true
@@ -664,6 +703,19 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  news_tc: {
+    type: String,
+    require: true
+  },
+  news_sc: {
+    type: String,
+    require: true
+  },
+  news_en: {
+    type: String,
+    require: true
+  },
+
   relatedNews_tc: {
     type: String,
     require: true
@@ -729,6 +781,71 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  barwo_tc: {
+    type: String,
+    require: true
+  },
+  barwo_sc: {
+    type: String,
+    require: true
+  },
+  barwo_en: {
+    type: String,
+    require: true
+  },
+
+  plan_tc: {
+    type: String,
+    require: true
+  },
+  plan_sc: {
+    type: String,
+    require: true
+  },
+  plan_en: {
+    type: String,
+    require: true
+  },
+
+  admins_tc: {
+    type: String,
+    require: true
+  },
+  admins_sc: {
+    type: String,
+    require: true
+  },
+  admins_en: {
+    type: String,
+    require: true
+  },
+
+  organizer_tc: {
+    type: String,
+    require: true
+  },
+  organizer_sc: {
+    type: String,
+    require: true
+  },
+  organizer_en: {
+    type: String,
+    require: true
+  },
+
+  sponsor_tc: {
+    type: String,
+    require: true
+  },
+  sponsor_sc: {
+    type: String,
+    require: true
+  },
+  sponsor_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -750,9 +867,17 @@ module.exports.globalConstantsResponseTypes = {
   LATESTSHOW_SC_REQUIRED: 'LATESTSHOW_SC_REQUIRED',
   LATESTSHOW_EN_REQUIRED: 'LATESTSHOW_EN_REQUIRED',
 
+  LATESTSHOWICON_TC_REQUIRED: 'LATESTSHOWICON_TC_REQUIRED',
+  LATESTSHOWICON_SC_REQUIRED: 'LATESTSHOWICON_SC_REQUIRED',
+  LATESTSHOWICON_EN_REQUIRED: 'LATESTSHOWICON_EN_REQUIRED',
+
   SCHEDULEOFSHOW_TC_REQUIRED: 'SCHEDULEOFSHOW_TC_REQUIRED',
   SCHEDULEOFSHOW_SC_REQUIRED: 'SCHEDULEOFSHOW_SC_REQUIRED',
   SCHEDULEOFSHOW_EN_REQUIRED: 'SCHEDULEOFSHOW_EN_REQUIRED',
+
+  TEAMS_TC_REQUIRED: 'TEAMS_TC_REQUIRED',
+  TEAMS_SC_REQUIRED: 'TEAMS_SC_REQUIRED',
+  TEAMS_EN_REQUIRED: 'TEAMS_EN_REQUIRED',
 
   ARTDIRECTOR_TC_REQUIRED: 'ARTDIRECTOR_TC_REQUIRED',
   ARTDIRECTOR_SC_REQUIRED: 'ARTDIRECTOR_SC_REQUIRED',
@@ -902,6 +1027,10 @@ module.exports.globalConstantsResponseTypes = {
   WEBSITE_SC_REQUIRED: 'WEBSITE_SC_REQUIRED',
   WEBSITE_EN_REQUIRED: 'WEBSITE_EN_REQUIRED',
 
+  CONTACTINFO_TC_REQUIRED: 'CONTACTINFO_TC_REQUIRED',
+  CONTACTINFO_SC_REQUIRED: 'CONTACTINFO_SC_REQUIRED',
+  CONTACTINFO_EN_REQUIRED: 'CONTACTINFO_EN_REQUIRED',
+
   TEL_TC_REQUIRED: 'TEL_TC_REQUIRED',
   TEL_SC_REQUIRED: 'TEL_SC_REQUIRED',
   TEL_EN_REQUIRED: 'TEL_EN_REQUIRED',
@@ -950,6 +1079,10 @@ module.exports.globalConstantsResponseTypes = {
   LOCATION_SC_REQUIRED: 'LOCATION_SC_REQUIRED',
   LOCATION_EN_REQUIRED: 'LOCATION_EN_REQUIRED',
 
+  NEWS_TC_REQUIRED: 'NEWS_TC_REQUIRED',
+  NEWS_SC_REQUIRED: 'NEWS_SC_REQUIRED',
+  NEWS_EN_REQUIRED: 'NEWS_EN_REQUIRED',
+
   RELATEDNEWS_TC_REQUIRED: 'RELATEDNEWS_TC_REQUIRED',
   RELATEDNEWS_SC_REQUIRED: 'RELATEDNEWS_SC_REQUIRED',
   RELATEDNEWS_EN_REQUIRED: 'RELATEDNEWS_EN_REQUIRED',
@@ -970,6 +1103,42 @@ module.exports.globalConstantsResponseTypes = {
   TICKETWEBSITE_SC_REQUIRED: 'TICKETWEBSITE_SC_REQUIRED',
   TICKETWEBSITE_EN_REQUIRED: 'TICKETWEBSITE_EN_REQUIRED',
 
+  BARWO_TC_REQUIRED: {
+    type: 'BARWO_TC_REQUIRED',
+    msg: 'BARWO_TC_REQUIRED'
+  },
+  BARWO_SC_REQUIRED: {
+    type: 'BARWO_SC_REQUIRED',
+    msg: 'BARWO_SC_REQUIRED'
+  },
+  BARWO_EN_REQUIRED: {
+    type: 'BARWO_EN_REQUIRED',
+    msg: 'BARWO_EN_REQUIRED'
+  },
+
+  PLAN_TC_REQUIRED: {
+    type: 'PLAN_TC_REQUIRED',
+    msg: 'PLAN_TC_REQUIRED'
+  },
+  PLAN_SC_REQUIRED: {
+    type: 'PLAN_SC_REQUIRED',
+    msg: 'PLAN_SC_REQUIRED'
+  },
+  PLAN_EN_REQUIRED: {
+    type: 'PLAN_EN_REQUIRED',
+    msg: 'PLAN_EN_REQUIRED'
+  },
+
+  ADMINS_TC_REQUIRED: { type: 'ADMINS_TC_REQUIRED', msg: 'ADMINS_TC_REQUIRED' },
+  ADMINS_SC_REQUIRED: { type: 'ADMINS_SC_REQUIRED', msg: 'ADMINS_SC_REQUIRED' },
+  ADMINS_EN_REQUIRED: { type: 'ADMINS_EN_REQUIRED', msg: 'ADMINS_EN_REQUIRED' },
+
+  ORGANIZER_TC_REQUIRED: 'ORGANIZER_TC_REQUIRED',
+  ORGANIZER_SC_REQUIRED: 'ORGANIZER_SC_REQUIRED',
+  ORGANIZER_EN_REQUIRED: 'ORGANIZER_EN_REQUIRED',
+  SPONSOR_TC_REQUIRED: 'SPONSOR_TC_REQUIRED',
+  SPONSOR_SC_REQUIRED: 'SPONSOR_SC_REQUIRED',
+  SPONSOR_EN_REQUIRED: 'SPONSOR_EN_REQUIRED',
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'
 };

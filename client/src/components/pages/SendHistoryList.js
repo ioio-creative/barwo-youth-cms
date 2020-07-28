@@ -63,12 +63,12 @@ const headers = [
   // },
   {
     name: uiWordings['SendHistory.SendDTLabel'],
-    value: 'SendDTDisplay',
+    value: 'sendDTDisplay',
     isSortEnabled: true
   },
   {
     name: uiWordings['SendHistory.SenderLabel'],
-    value: 'SenderDisplay',
+    value: 'senderDisplay',
     isSortEnabled: true
   }
 ];

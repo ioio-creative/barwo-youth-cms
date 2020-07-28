@@ -47,6 +47,10 @@ Newsletter.newsletterResponseTypes = {
   },
 
   // db check
+  NEWSLETTER_SENDED_BEFORE: {
+    type: 'NEWSLETTER_SENDED_BEFORE',
+    msg: 'NEWSLETTER_SENDED_BEFORE'
+  },
   NEWSLETTER_NOT_EXISTS: {
     type: 'NEWSLETTER_NOT_EXISTS',
     msg: 'NEWSLETTER_NOT_EXISTS'
@@ -54,6 +58,10 @@ Newsletter.newsletterResponseTypes = {
   LABEL_ALREADY_EXISTS: {
     type: 'LABEL_ALREADY_EXISTS',
     msg: 'LABEL_ALREADY_EXISTS'
+  },
+  NEWSLETTER_DELETED: {
+    type: 'NEWSLETTER_DELETED',
+    msg: 'NEWSLETTER_DELETED'
   },
 
   // general

@@ -13,6 +13,7 @@ import {
   UPDATE_NEWSLETTER,
   NEWSLETTERS_ERRORS,
   CLEAR_NEWSLETTERS_ERRORS,
+  DELETE_NEWSLETTER,
   SET_NEWSLETTERS_LOADING,
   SEND_NEWSLETTER
 } from '../types';
@@ -139,9 +140,35 @@ const NewslettersState = ({ children }) => {
     return newNewsletter;
   }, []);
 
+  // Delete Newsletter
+  const deleteNewsletter = useCallback(async newsletter => {
+    let isSuccess = false;
+    dispatch({ type: SET_NEWSLETTERS_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const returnValue = await axios.delete(
+        `/api/backend/newsletters/newsletters/${newsletter._id}`,
+        newsletter,
+        config
+      );
+      isSuccess = !(
+        returnValue.type &&
+        returnValue.type ===
+          Newsletter.newsletterResponseTypes.NEWSLETTER_DELETED
+      );
+      dispatch({ type: DELETE_NEWSLETTER });
+    } catch (err) {
+      handleServerError(err, NEWSLETTERS_ERRORS, dispatch);
+    }
+    return isSuccess;
+  }, []);
+
   // Send newsletter
   const sendNewsletter = useCallback(async newsletter => {
-    // console.log('here');
     let newNewsletter = null;
     dispatch({ type: SET_NEWSLETTERS_LOADING });
     const config = {
@@ -155,7 +182,6 @@ const NewslettersState = ({ children }) => {
         newsletter,
         config
       );
-      // console.log(res);
       dispatch({ type: SEND_NEWSLETTER, payload: res.data });
       // console.log(res.data);
       newNewsletter = res.data;
@@ -185,6 +211,7 @@ const NewslettersState = ({ children }) => {
         clearNewsletter,
         addNewsletter,
         updateNewsletter,
+        deleteNewsletter,
         sendNewsletter,
         clearNewslettersErrors
       }}

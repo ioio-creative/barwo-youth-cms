@@ -10,6 +10,7 @@ function SendHistory() {
   this.message_sc = '';
   this.title_en = '';
   this.message_en = '';
+  this.email = '';
   this.sendDT = null;
   this.sender = null;
 }
