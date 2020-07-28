@@ -217,6 +217,8 @@ const FileUpload = ({
         pickedItems={filesInPickedList}
         getPickedItems={onGetPickedItems}
         onAddButtonClick={onAddButtonClick}
+        isMultiple={isMultiple}
+        mediaType={mediumType.apiRoute}
       />
     </div>
   );

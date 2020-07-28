@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import Label from 'components/form/Label';
 import Button from 'components/form/Button';
 import SortableList from './SortableList';
+import ModalFileManager from './ModalFileManager';
 
 const LabelSortableListPair = ({
   isHalf,
@@ -16,7 +17,9 @@ const LabelSortableListPair = ({
   getListStyle,
   pickedItems,
   getPickedItems,
-  onAddButtonClick
+  isMultiple,
+  onAddButtonClick,
+  mediaType
 }) => {
   /* event handlers */
 
@@ -45,8 +48,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseRemove
         ? newItemList => {
-            handleGetPickedItems(newItemList);
-          }
+          handleGetPickedItems(newItemList);
+        }
         : null;
     },
     [isUseRemove, handleGetPickedItems]
@@ -56,8 +59,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseToFirst
         ? newItemList => {
-            handleGetPickedItems(newItemList);
-          }
+          handleGetPickedItems(newItemList);
+        }
         : null;
     },
     [isUseToFirst, handleGetPickedItems]
@@ -67,8 +70,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseToLast
         ? newItemList => {
-            handleGetPickedItems(newItemList);
-          }
+          handleGetPickedItems(newItemList);
+        }
         : null;
     },
     [isUseToLast, handleGetPickedItems]
@@ -80,11 +83,19 @@ const LabelSortableListPair = ({
     <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label htmlFor={name} message={labelMessage} />
-        {isShowAddButton && (
-          <Button className='w3-margin-left' onClick={onAddButtonClick}>
+        {isShowAddButton && (<>
+          {/* <Button className='w3-margin-left' onClick={onAddButtonClick}>
             <i className='fa fa-plus' />
-          </Button>
-        )}
+          </Button> */}
+          <ModalFileManager
+            className='w3-margin-left'
+            title={`File Manager${isMultiple ? ' (Multiple)' : ''}`}
+            contentLabel={<i className='fa fa-plus' />}
+            mediaTypeParam={mediaType}
+            multiple={isMultiple}
+            onSelect={handleGetPickedItems}
+          />
+        </>)}
         <SortableList
           items={pickedItems}
           listWidth={listWidth}
