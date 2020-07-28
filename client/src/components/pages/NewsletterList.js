@@ -222,7 +222,10 @@ const NewsletterList = _ => {
           </div>
         </div>
         <div className='w3-right'>
-          <LinkButton to={routes.sendHistoryList(true)}>
+          <LinkButton
+            className='w3-margin-right'
+            to={routes.sendHistoryList(true)}
+          >
             {uiWordings['NewsletterList.SendHistoryList']}
           </LinkButton>
           <LinkButton to={routes.newsletterAdd(true)}>

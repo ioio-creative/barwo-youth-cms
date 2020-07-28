@@ -22,6 +22,7 @@ import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
+import SendOutList from '../sendhistory/SendOutList';
 
 const emptyNewsletter = new Newsletter();
 const defaultState = emptyNewsletter;
@@ -275,9 +276,16 @@ const NewsletterEdit = _ => {
     <>
       {backToNewsletterListButton}
       {!isSubmitEnabled && (
-        <Button onClick={onSendButtonClick}>
-          {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
-        </Button>
+        <>
+          <div className='w3-quarter'>
+            <Button onClick={onSendButtonClick}>
+              {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
+            </Button>
+          </div>
+          <div className='w3-right'>
+            <SendOutList emailId={newsletter._id} />
+          </div>
+        </>
       )}
       <Form onSubmit={onSubmit}>
         <h4>

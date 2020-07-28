@@ -182,25 +182,50 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
-        name='latestShowIcon_tc'
-        value={globalConstants.latestShowIcon_tc}
-        labelMessage={uiWordings['GlobalConstants.LatestShowIconTcLabel']}
+        name='latestShowIcon1_tc'
+        value={globalConstants.latestShowIcon1_tc}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIcon1TcLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='latestShowIcon_sc'
-        value={globalConstants.latestShowIcon_sc}
-        labelMessage={uiWordings['GlobalConstants.LatestShowIconScLabel']}
+        name='latestShowIcon1_sc'
+        value={globalConstants.latestShowIcon1_sc}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIcon1ScLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='latestShowIcon_en'
-        value={globalConstants.latestShowIcon_en}
-        labelMessage={uiWordings['GlobalConstants.LatestShowIconEnLabel']}
+        name='latestShowIcon1_en'
+        value={globalConstants.latestShowIcon1_en}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIcon1EnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='latestShowIcon2_tc'
+        value={globalConstants.latestShowIcon2_tc}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIcon2TcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='latestShowIcon2_sc'
+        value={globalConstants.latestShowIcon2_sc}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIcon2ScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='latestShowIcon2_en'
+        value={globalConstants.latestShowIcon2_en}
+        labelMessage={uiWordings['GlobalConstants.LatestShowIcon2EnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}

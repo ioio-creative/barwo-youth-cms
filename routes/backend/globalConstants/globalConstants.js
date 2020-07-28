@@ -36,15 +36,28 @@ const globalConstantsValidationChecks = [
   ).notEmpty(),
 
   check(
-    'latestShowIcon_tc',
+    'latestShowIcon1_tc',
     globalConstantsResponseTypes.LATESTSHOWICON_TC_REQUIRED
   ).notEmpty(),
   check(
-    'latestShowIcon_sc',
+    'latestShowIcon1_sc',
     globalConstantsResponseTypes.LATESTSHOWICON_SC_REQUIRED
   ).notEmpty(),
   check(
-    'latestShowIcon_en',
+    'latestShowIcon1_en',
+    globalConstantsResponseTypes.LATESTSHOWICON_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'latestShowIcon2_tc',
+    globalConstantsResponseTypes.LATESTSHOWICON_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'latestShowIcon2_sc',
+    globalConstantsResponseTypes.LATESTSHOWICON_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'latestShowIcon2_en',
     globalConstantsResponseTypes.LATESTSHOWICON_EN_REQUIRED
   ).notEmpty(),
 
@@ -742,9 +755,13 @@ router.post(
       latestShow_sc,
       latestShow_en,
 
-      latestShowIcon_tc,
-      latestShowIcon_sc,
-      latestShowIcon_en,
+      latestShowIcon1_tc,
+      latestShowIcon1_sc,
+      latestShowIcon1_en,
+
+      latestShowIcon2_tc,
+      latestShowIcon2_sc,
+      latestShowIcon2_en,
 
       scheduleOfShow_tc,
       scheduleOfShow_sc,
@@ -1007,9 +1024,13 @@ router.post(
     globalConstantsFields.latestShow_sc = latestShow_sc;
     globalConstantsFields.latestShow_en = latestShow_en;
 
-    globalConstantsFields.latestShowIcon_tc = latestShowIcon_tc;
-    globalConstantsFields.latestShowIcon_sc = latestShowIcon_sc;
-    globalConstantsFields.latestShowIcon_en = latestShowIcon_en;
+    globalConstantsFields.latestShowIcon1_tc = latestShowIcon1_tc;
+    globalConstantsFields.latestShowIcon1_sc = latestShowIcon1_sc;
+    globalConstantsFields.latestShowIcon1_en = latestShowIcon1_en;
+
+    globalConstantsFields.latestShowIcon2_tc = latestShowIcon2_tc;
+    globalConstantsFields.latestShowIcon2_sc = latestShowIcon2_sc;
+    globalConstantsFields.latestShowIcon2_en = latestShowIcon2_en;
 
     globalConstantsFields.scheduleOfShow_tc = scheduleOfShow_tc;
     globalConstantsFields.scheduleOfShow_sc = scheduleOfShow_sc;

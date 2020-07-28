@@ -14,15 +14,28 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
-  latestShowIcon_tc: {
+  latestShowIcon1_tc: {
     type: String,
     require: true
   },
-  latestShowIcon_sc: {
+  latestShowIcon1_sc: {
     type: String,
     require: true
   },
-  latestShowIcon_en: {
+  latestShowIcon1_en: {
+    type: String,
+    require: true
+  },
+
+  latestShowIcon2_tc: {
+    type: String,
+    require: true
+  },
+  latestShowIcon2_sc: {
+    type: String,
+    require: true
+  },
+  latestShowIcon2_en: {
     type: String,
     require: true
   },
@@ -867,9 +880,13 @@ module.exports.globalConstantsResponseTypes = {
   LATESTSHOW_SC_REQUIRED: 'LATESTSHOW_SC_REQUIRED',
   LATESTSHOW_EN_REQUIRED: 'LATESTSHOW_EN_REQUIRED',
 
-  LATESTSHOWICON_TC_REQUIRED: 'LATESTSHOWICON_TC_REQUIRED',
-  LATESTSHOWICON_SC_REQUIRED: 'LATESTSHOWICON_SC_REQUIRED',
-  LATESTSHOWICON_EN_REQUIRED: 'LATESTSHOWICON_EN_REQUIRED',
+  LATESTSHOWICON1_TC_REQUIRED: 'LATESTSHOWICON1_TC_REQUIRED',
+  LATESTSHOWICON1_SC_REQUIRED: 'LATESTSHOWICON1_SC_REQUIRED',
+  LATESTSHOWICON1_EN_REQUIRED: 'LATESTSHOWICON1_EN_REQUIRED',
+
+  LATESTSHOWICON2_TC_REQUIRED: 'LATESTSHOWICON2_TC_REQUIRED',
+  LATESTSHOWICON2_SC_REQUIRED: 'LATESTSHOWICON2_SC_REQUIRED',
+  LATESTSHOWICON2_EN_REQUIRED: 'LATESTSHOWICON2_EN_REQUIRED',
 
   SCHEDULEOFSHOW_TC_REQUIRED: 'SCHEDULEOFSHOW_TC_REQUIRED',
   SCHEDULEOFSHOW_SC_REQUIRED: 'SCHEDULEOFSHOW_SC_REQUIRED',
