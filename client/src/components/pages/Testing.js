@@ -20,6 +20,7 @@ const Testing = _ => {
   const [btn2Value, setBtn2Value] = useState('');
   const [btn3Value, setBtn3Value] = useState('');
   const [btn4Value, setBtn4Value] = useState('');
+  const [btn5Value, setBtn5Value] = useState('');
   const [contact, setContact] = useState(defaultState);
   // componentDidMount
   useEffect(_ => {
@@ -165,12 +166,43 @@ const Testing = _ => {
         >
           open pdf file manager
         </button>
-        <ModalFileManager />
+        <ModalFileManager
+          title="File Manager"
+          multiple={false}
+          onSelect={(e) => {
+            if (Array.isArray(e)) {
+              if (e.length > 1) {
+                setBtn5Value(e.length + ' files selected');
+              } else if (e.length === 1) {
+                setBtn5Value(e[0].name);
+              } else {
+                setBtn5Value("nth selected");
+              }
+            }
+          }}
+        />
+        <ModalFileManager
+          title="File Manager (multiple)"
+          mediaTypeParam="images"
+          multiple={true}
+          onSelect={(e) => {
+            if (Array.isArray(e)) {
+              if (e.length > 1) {
+                setBtn5Value(e.length + ' files selected');
+              } else if (e.length === 1) {
+                setBtn5Value(e[0].name);
+              } else {
+                setBtn5Value("nth selected");
+              }
+            }
+          }}
+        />
       </div>
       <LabelInputTextPair labelMessage='btn1' name='btn1' value={btn1Value} />
       <LabelInputTextPair labelMessage='btn2' name='btn2' value={btn2Value} />
       <LabelInputTextPair labelMessage='btn3' name='btn3' value={btn3Value} />
       <LabelInputTextPair labelMessage='btn4' name='btn4' value={btn4Value} />
+      <LabelInputTextPair labelMessage='btn5' name='btn5' value={btn5Value} />
       <br />
       <Form onSubmit={onSubmit}>
         <LabelInputTextPair

@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import Button from 'components/form/Button';
+import { invokeIfIsFunction } from 'utils/js/function/isFunction';
 
 // http://reactcommunity.org/react-modal/styles/
 const customModalStyles = {
@@ -10,8 +11,8 @@ const customModalStyles = {
 };
 
 // http://reactcommunity.org/react-modal/
-const MyModal = ({ contentLabel, children }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const MyModal = ({ className = '', isOpen = false, contentLabel, children, setParentIsOpen }) => {
+  const [isModalOpen, setIsModalOpen] = useState(isOpen);
 
   /* methods */
 
@@ -26,11 +27,19 @@ const MyModal = ({ contentLabel, children }) => {
     setIsModalOpen(false);
   }, []);
 
+  useEffect(() => {
+    setIsModalOpen(isOpen);
+  }, [isOpen]);
+
+  useEffect(() => {
+    invokeIfIsFunction(setParentIsOpen, isModalOpen);
+    // setParentIsOpen(isModalOpen);
+  }, [isModalOpen]);
   /* end of methods */
 
   return (
     <>
-      <Button onClick={openModal}>{contentLabel}</Button>
+      <Button className={className} onClick={openModal}>{contentLabel}</Button>
       <Modal
         isOpen={isModalOpen}
         //onAfterOpen={afterOpenModal}

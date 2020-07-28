@@ -81,7 +81,7 @@ const MediumElement = ({
           : ' hidden'
         }${selectedFile.includes(idx) ? ' selected' : ''}`}
       onClick={handleClick}
-      onDoubleClick={handleDoubleClick}
+    /* onDoubleClick={handleDoubleClick} */
     >
       <div className='medium-wrapper'>
         {
@@ -185,7 +185,7 @@ UploadingElement.defaultProps = {
 };
 
 const FileManager = ({
-  multiple = true,
+  multiple = false,
   mediaTypeParam = mediumTypes.IMAGE.apiRoute,
   onSelect
 }) => {
@@ -265,6 +265,7 @@ const FileManager = ({
       //console.log('CKEditorFuncNum:', CKEditorFuncNum);
       if (onSelect) {
         const selectedMedia = selectedFiles.map(idx => mediaList[idx]);
+        console.log('onSelect');
         onSelect(selectedMedia);
       } else if (
         CKEditorFuncNum &&
@@ -277,10 +278,11 @@ const FileManager = ({
         window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, medium.url);
         window.close();
       } else if (window.opener && window.opener.getMediaData) {
-        const selectedMedia = selectedFiles.map(idx => mediaList[idx]);
+        // const selectedMedia = selectedFiles.map(idx => mediaList[idx]);
+        const medium = mediaList[selectedFiles[0]];
         window.opener.getMediaData({
           additionalCallbackParam,
-          medium: selectedMedia
+          medium: medium
         });
         window.close();
       } else {
@@ -522,7 +524,7 @@ const FileManager = ({
 
   return (
     <div
-      className={`w3-stretch fileManager ${mediaType}`}
+      className={`w3-stretch fileManager ${mediumTypeObj.apiRoute} ${multiple ? 'multiple' : 'single'}`}
       ref={setFileManagerEl}
     >
       <div className='dragFileOverlay'>
@@ -718,12 +720,10 @@ const FileManager = ({
   );
 };
 
-const FileManagerWithContainer = ({
-
-}) => {
+const FileManagerWithContainer = (params) => {
   return (
     <MediaState>
-      <FileManager />
+      <FileManager {...params} />
     </MediaState>
   );
 };

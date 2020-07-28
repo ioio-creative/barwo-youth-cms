@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Modal from 'components/layout/Modal';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTextAreaPair from 'components/form/LabelTextAreaPair';
@@ -12,12 +12,16 @@ import FileManager from 'components/form/FileManager';
 
 const mediumTypes = Medium.mediumTypes;
 
-const ModalFileManager = ({ title = "File Manager", onSelect, multiple }) => {
-
+const ModalFileManager = ({ title = "File Manager", contentLabel = "File Manager", onSelect, multiple, mediaTypeParam }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const onSelectReturn = (e) => {
+    onSelect(e);
+    setIsModalOpen(false);
+  }
   return (
-    <Modal contentLabel={title}>
+    <Modal className='w3-margin-left' contentLabel={contentLabel} isOpen={isModalOpen} setParentIsOpen={setIsModalOpen} >
       <h4>{title}</h4>
-      <FileManager />
+      <FileManager onSelect={onSelectReturn} multiple={multiple} mediaTypeParam={mediaTypeParam} />
     </Modal>
   );
 };
