@@ -466,6 +466,7 @@ const AboutEdit = _ => {
           staffPersons={adminsPicked}
           onGetStaffPersons={onGetAdminsPicked}
           labelMessage={uiWordings['About.AdminsLabel']}
+          isUseTextAreaForName={true}
         />
         <AboutEditStaffPersonSelect
           staffPersons={productionPersonsPicked}

@@ -48,8 +48,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseRemove
         ? newItemList => {
-          handleGetPickedItems(newItemList);
-        }
+            handleGetPickedItems(newItemList);
+          }
         : null;
     },
     [isUseRemove, handleGetPickedItems]
@@ -59,8 +59,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseToFirst
         ? newItemList => {
-          handleGetPickedItems(newItemList);
-        }
+            handleGetPickedItems(newItemList);
+          }
         : null;
     },
     [isUseToFirst, handleGetPickedItems]
@@ -70,8 +70,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseToLast
         ? newItemList => {
-          handleGetPickedItems(newItemList);
-        }
+            handleGetPickedItems(newItemList);
+          }
         : null;
     },
     [isUseToLast, handleGetPickedItems]
@@ -83,19 +83,22 @@ const LabelSortableListPair = ({
     <div className='w3-row w3-section'>
       <div className={`${isHalf ? 'w3-half' : ''}`}>
         <Label htmlFor={name} message={labelMessage} />
-        {isShowAddButton && (<>
-          {/* <Button className='w3-margin-left' onClick={onAddButtonClick}>
-            <i className='fa fa-plus' />
-          </Button> */}
-          <ModalFileManager
-            className='w3-margin-left'
-            title={`File Manager${isMultiple ? ' (Multiple)' : ''}`}
-            contentLabel={<i className='fa fa-plus' />}
-            mediaTypeParam={mediaType}
-            multiple={isMultiple}
-            onSelect={handleGetPickedItems}
-          />
-        </>)}
+        {isShowAddButton && (
+          <>
+            <Button className='w3-margin-left' onClick={onAddButtonClick}>
+              <i className='fa fa-plus' />
+            </Button>
+            {/* TODO */}
+            {/* <ModalFileManager
+              className='w3-margin-left'
+              title={`File Manager${isMultiple ? ' (Multiple)' : ''}`}
+              contentLabel={<i className='fa fa-plus' />}
+              mediaTypeParam={mediaType}
+              multiple={isMultiple}
+              onSelect={handleGetPickedItems}
+            /> */}
+          </>
+        )}
         <SortableList
           items={pickedItems}
           listWidth={listWidth}
