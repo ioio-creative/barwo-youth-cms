@@ -9,7 +9,7 @@ const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivities');
 const distinct = require('../../../utils/js/array/distinct');
 const { mediumLinkTypes } = require('../../../types/mediumLink');
-const { Activity } = require('../../../models/Activity');
+const { Activity, activityTypesArray } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -90,10 +90,11 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
       .populate(activityPopulationListForFindAll);
 
     const safeActivities = getArraySafe(activities);
-    const types = distinct(safeActivities.map(activity => activity.type));
-    const typesForFrontEnd = [];
+    //const types = distinct(safeActivities.map(activity => activity.type));
 
-    for (const type of types) {
+    const jsonToReturn = {};
+
+    for (const type of activityTypesArray) {
       const activitiesOfType = safeActivities.filter(
         activity => activity.type === type
       );
@@ -106,13 +107,10 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
         }
       );
 
-      typesForFrontEnd.push({
-        type,
-        activities: sortedActivities
-      });
+      jsonToReturn[type] = sortedActivities;
     }
 
-    res.json(typesForFrontEnd);
+    res.json(jsonToReturn);
   } catch (err) {
     generalErrorHandle(err, res);
   }

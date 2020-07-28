@@ -7,7 +7,7 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { mediumLinkTypes } = require('../../../types/mediumLink');
-const { News } = require('../../../models/News');
+const { News, newsTypesArray } = require('../../../models/News');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -61,6 +61,20 @@ const getNewsForFrontEndFromDbNews = (news, language) => {
   };
 };
 
+const getNewsesInOrderFromDb = async newsType => {
+  return await getOrderingHandling(
+    null,
+    News,
+    false,
+    {
+      type: newsType
+    },
+    newsSelectForFindAll,
+    {},
+    newsPopulationListForFindAll
+  );
+};
+
 /* end of utilities */
 
 // @route   GET api/frontend/newses/:lang/newses
@@ -70,21 +84,17 @@ router.get('/:lang/newses', [languageHandling], async (req, res) => {
   try {
     const language = req.language;
 
-    const newses = await getOrderingHandling(
-      res,
-      News,
-      false,
-      {},
-      newsSelectForFindAll,
-      {},
-      newsPopulationListForFindAll
-    );
+    const jsonToReturn = {};
 
-    const newsesForFrontEnd = getArraySafe(newses).map(news => {
-      return getNewsForFrontEndFromDbNews(news, language);
-    });
+    for (const type of newsTypesArray) {
+      const newses = await getNewsesInOrderFromDb(type);
 
-    res.json(newsesForFrontEnd);
+      jsonToReturn[type] = getArraySafe(newses).map(news => {
+        return getNewsForFrontEndFromDbNews(news, language);
+      });
+    }
+
+    res.json(jsonToReturn);
   } catch (err) {
     generalErrorHandle(err, res);
   }
