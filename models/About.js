@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const AboutAdminSchema = mongoose.Schema({
+const AboutStaffPersonSchema = mongoose.Schema({
   title_tc: {
     type: String,
     require: true
@@ -122,7 +122,8 @@ const AboutSchema = mongoose.Schema({
   contactEmail: {
     type: String
   },
-  admins: [AboutAdminSchema],
+  admins: [AboutStaffPersonSchema],
+  productionPersons: [AboutStaffPersonSchema],
 
   lastModifyDT: {
     type: Date,
@@ -152,6 +153,12 @@ module.exports.aboutResponseTypes = {
   ADMIN_NAME_TC_REQUIRED: 'ADMIN_NAME_TC_REQUIRED',
   ADMIN_NAME_SC_REQUIRED: 'ADMIN_NAME_SC_REQUIRED',
   ADMIN_NAME_EN_REQUIRED: 'ADMIN_NAME_EN_REQUIRED',
+  PRODUCTION_PERSON_TITLE_TC_REQUIRED: 'PRODUCTION_PERSON_TITLE_TC_REQUIRED',
+  PRODUCTION_PERSON_TITLE_SC_REQUIRED: 'PRODUCTION_PERSON_TITLE_SC_REQUIRED',
+  PRODUCTION_PERSON_TITLE_EN_REQUIRED: 'PRODUCTION_PERSON_TITLE_EN_REQUIRED',
+  PRODUCTION_PERSON_NAME_TC_REQUIRED: 'PRODUCTION_PERSON_NAME_TC_REQUIRED',
+  PRODUCTION_PERSON_NAME_SC_REQUIRED: 'PRODUCTION_PERSON_NAME_SC_REQUIRED',
+  PRODUCTION_PERSON_NAME_EN_REQUIRED: 'PRODUCTION_PERSON_NAME_EN_REQUIRED',
 
   // db check
   ABOUT_NOT_EXISTS: 'ABOUT_NOT_EXISTS'

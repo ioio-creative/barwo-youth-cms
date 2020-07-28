@@ -75,6 +75,32 @@ const aboutAdminsValidation = admins => {
   return null;
 };
 
+const aboutProductionPersonsValidation = productionPersons => {
+  for (const productionPerson of getArraySafe(productionPersons)) {
+    let errorType = null;
+
+    if (!productionPerson.title_tc) {
+      errorType = aboutResponseTypes.PRODUCTION_PERSON_TITLE_TC_REQUIRED;
+    } else if (!productionPerson.title_sc) {
+      errorType = aboutResponseTypes.PRODUCTION_PERSON_TITLE_SC_REQUIRED;
+    } else if (!productionPerson.title_en) {
+      errorType = aboutResponseTypes.PRODUCTION_PERSON_TITLE_EN_REQUIRED;
+    } else if (!productionPerson.name_tc) {
+      errorType = aboutResponseTypes.PRODUCTION_PERSON_NAME_TC_REQUIRED;
+    } else if (!productionPerson.name_sc) {
+      errorType = aboutResponseTypes.PRODUCTION_PERSON_NAME_SC_REQUIRED;
+    } else if (!productionPerson.name_en) {
+      errorType = aboutResponseTypes.PRODUCTION_PERSON_NAME_EN_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
 const handleAboutRelationshipsValidationError = (errorType, res) => {
   // 400 bad request
   res.status(400).json({
@@ -82,10 +108,16 @@ const handleAboutRelationshipsValidationError = (errorType, res) => {
   });
 };
 
-const aboutRelationshipsValidation = (admins, res) => {
+const aboutRelationshipsValidation = (admins, productionPersons, res) => {
   let errorType = null;
 
   errorType = aboutAdminsValidation(admins);
+  if (errorType) {
+    handleAboutRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  errorType = aboutProductionPersonsValidation(productionPersons);
   if (errorType) {
     handleAboutRelationshipsValidationError(errorType, res);
     return false;
@@ -154,11 +186,16 @@ router.post(
       contactTel,
       contactFax,
       contactEmail,
-      admins
+      admins,
+      productionPersons
     } = req.body;
 
     // customed validations
-    let isSuccess = aboutRelationshipsValidation(admins, res);
+    let isSuccess = aboutRelationshipsValidation(
+      admins,
+      productionPersons,
+      res
+    );
     if (!isSuccess) {
       return;
     }
@@ -201,6 +238,7 @@ router.post(
     aboutFields.theaterImage = theaterImage;
 
     aboutFields.admins = getArraySafe(admins);
+    aboutFields.productionPersons = getArraySafe(productionPersons);
 
     aboutFields.lastModifyDT = new Date();
     aboutFields.lastModifyUser = req.user._id;

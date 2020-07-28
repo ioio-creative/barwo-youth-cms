@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useCallback, useMemo } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import SendHistoriesContext from 'contexts/sendHistories/sendHistoriesContext';
 import SendHistoriesPageContainer from 'components/sendhistory/sendHistoryPageContainer';
+import LinkButton from 'components/form/LinkButton';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Table from 'components/layout/Table/Table';
 import usePaginationAndSortForTable from 'components/layout/Table/usePaginationAndSortForTable';
@@ -73,7 +74,7 @@ const headers = [
   }
 ];
 
-const SendHistoryList = _ => {
+const SendHistoryList = ({ filter = undefined }) => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     sendHistories,
@@ -118,6 +119,28 @@ const SendHistoryList = _ => {
     []
   );
 
+  useEffect(
+    _ => {
+      if (filter !== undefined && !isUseFilter) {
+        // if (filterText === filter) {
+        //   setIsUseFilter(true);
+        // } else {
+        //   setFilterText(filter);
+        //   setIsUseFilter(false);
+        // }
+        // setTimeout(_ => setIsUseFilter(true), 0);
+        // setFilterText(filter);
+        const getOptions = {
+          ...prepareGetOptionsForPaginationAndSort(),
+          filterText: filter
+        };
+        // console.log(getOptions);
+        getSendHistories(getOptions);
+      }
+    },
+    [filter, isUseFilter]
+  );
+
   // set query string and getSendHistories
   useEffect(
     _ => {
@@ -134,8 +157,7 @@ const SendHistoryList = _ => {
           ...prepareGetOptionsForPaginationAndSort(),
           ...prepareGetOptionsForFilter()
         };
-        getSendHistories(getOptions);
-        setIsUseFilter(false);
+        getSendHistories(getOptions).then(_ => setIsUseFilter(false));
       }
     },
     [
@@ -193,29 +215,38 @@ const SendHistoryList = _ => {
     return <Loading />;
   }
 
+  const backToNewsletterListButton = (
+    <LinkButton to={routes.newsletterList(true)}>
+      {uiWordings['NewsletterEdit.BackToNewsletterList']}
+    </LinkButton>
+  );
+
   return (
     <>
-      <Form onSubmit={turnOnFilter}>
-        <div className='w3-quarter'>
-          <InputText
-            name='filterText'
-            className='w3-section'
-            placeholder={uiWordings['SendHistoryList.FilterTextPlaceHolder']}
-            onChange={onFilterChange}
-            value={filterText}
-          />
-        </div>
-        <div className='w3-show-inline-block'>
-          <div className='w3-bar'>
-            <Button className='w3-margin-left' onClick={turnOnFilter}>
-              {uiWordings['SendHistoryList.FilterButton']}
-            </Button>
-            <Button className='w3-margin-left' onClick={turnOffFilter}>
-              {uiWordings['SendHistoryList.ClearFilterButton']}
-            </Button>
+      {filter === undefined && (
+        <Form onSubmit={turnOnFilter}>
+          <div className='w3-quarter'>
+            <InputText
+              name='filterText'
+              className='w3-section'
+              placeholder={uiWordings['SendHistoryList.FilterTextPlaceHolder']}
+              onChange={onFilterChange}
+              value={filterText}
+            />
           </div>
-        </div>
-      </Form>
+          <div className='w3-right'>{backToNewsletterListButton}</div>
+          <div className='w3-show-inline-block'>
+            <div className='w3-bar'>
+              <Button className='w3-margin-left' onClick={turnOnFilter}>
+                {uiWordings['SendHistoryList.FilterButton']}
+              </Button>
+              <Button className='w3-margin-left' onClick={turnOffFilter}>
+                {uiWordings['SendHistoryList.ClearFilterButton']}
+              </Button>
+            </div>
+          </div>
+        </Form>
+      )}
       <Table
         headers={headers}
         rows={rows}
@@ -230,9 +261,9 @@ const SendHistoryList = _ => {
   );
 };
 
-const SendHistoryListWithContainer = _ => (
+const SendHistoryListWithContainer = ({ filter }) => (
   <SendHistoriesPageContainer>
-    <SendHistoryList />
+    <SendHistoryList filter={filter} />
   </SendHistoriesPageContainer>
 );
 

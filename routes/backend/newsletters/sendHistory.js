@@ -3,6 +3,7 @@ const router = express.Router();
 const config = require('config');
 const em = config.get('Email.smtp');
 const nodemailer = require('nodemailer');
+const objectID = require('mongodb').ObjectId;
 const { check } = require('express-validator');
 const listingHandling = require('../../../middleware/listingHandling');
 const auth = require('../../../middleware/auth');
@@ -199,8 +200,18 @@ router.get('/', [auth, listingHandling], async (req, res) => {
           { title_tc: filterTextRegex },
           { title_sc: filterTextRegex },
           { title_en: filterTextRegex }
+          // { sender: objectID(req.query.filterText) },
+          // { email: objectID(req.query.filterText) }
         ]
       };
+    }
+
+    var hex = /[0-9A-Fa-f]{24}/g;
+    if (hex.test(req.query.filterText)) {
+      findOptions['$or'].push(
+        { sender: objectID(req.query.filterText) },
+        { email: objectID(req.query.filterText) }
+      );
     }
 
     // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p

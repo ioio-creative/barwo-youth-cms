@@ -4,7 +4,7 @@ import AlertContext from 'contexts/alert/alertContext';
 import About from 'models/about';
 import AboutContext from 'contexts/about/aboutContext';
 import AboutContainer from 'components/about/AboutContainer';
-import AboutEditAdminSelect from 'components/about/AboutEditAdminSelect';
+import AboutEditStaffPersonSelect from 'components/about/AboutEditStaffPersonSelect';
 import Loading from 'components/layout/loading/DefaultLoading';
 import Region from 'components/layout/Region';
 import Form from 'components/form/Form';
@@ -48,6 +48,9 @@ const AboutEdit = _ => {
   // admins
   const [adminsPicked, setAdminsPicked] = useState([]);
 
+  // production persons
+  const [productionPersonsPicked, setProductionPersonsPicked] = useState([]);
+
   // componentDidMount
   useEffect(_ => {
     getAbout();
@@ -69,6 +72,9 @@ const AboutEdit = _ => {
           setPlanGalleryPicked(getArraySafe(fetchedAbout.planGallery));
           setTheaterImagePicked(fetchedAbout.theaterImage);
           setAdminsPicked(getArraySafe(fetchedAbout.admins));
+          setProductionPersonsPicked(
+            getArraySafe(fetchedAbout.productionPersons)
+          );
         }
         setIsAddMode(!fetchedAbout);
       }
@@ -174,6 +180,11 @@ const AboutEdit = _ => {
     setAdminsPicked(newItemList);
   }, []);
 
+  const onGetProductionPersonsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setProductionPersonsPicked(newItemList);
+  }, []);
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -188,16 +199,28 @@ const AboutEdit = _ => {
       // add theater image
       about.theaterImage = theaterImagePicked ? theaterImagePicked._id : null;
 
+      const mapStaffPersonFunc = ({
+        title_tc,
+        name_tc,
+        title_sc,
+        name_sc,
+        title_en,
+        name_en
+      }) => ({
+        title_tc,
+        name_tc,
+        title_sc,
+        name_sc,
+        title_en,
+        name_en
+      });
+
       // add admins
-      about.admins = getArraySafe(adminsPicked).map(
-        ({ title_tc, name_tc, title_sc, name_sc, title_en, name_en }) => ({
-          title_tc,
-          name_tc,
-          title_sc,
-          name_sc,
-          title_en,
-          name_en
-        })
+      about.admins = getArraySafe(adminsPicked).map(mapStaffPersonFunc);
+
+      // add production persons
+      about.productionPersons = getArraySafe(productionPersonsPicked).map(
+        mapStaffPersonFunc
       );
 
       let isSuccess = validInput(about);
@@ -229,6 +252,7 @@ const AboutEdit = _ => {
       theaterImagePicked,
       planGalleryPicked,
       adminsPicked,
+      productionPersonsPicked,
       validInput
     ]
   );
@@ -438,9 +462,15 @@ const AboutEdit = _ => {
       </Region>
 
       <Region isMarginBottom={false}>
-        <AboutEditAdminSelect
-          admins={adminsPicked}
-          onGetAdmins={onGetAdminsPicked}
+        <AboutEditStaffPersonSelect
+          staffPersons={adminsPicked}
+          onGetStaffPersons={onGetAdminsPicked}
+          labelMessage={uiWordings['About.AdminsLabel']}
+        />
+        <AboutEditStaffPersonSelect
+          staffPersons={productionPersonsPicked}
+          onGetStaffPersons={onGetProductionPersonsPicked}
+          labelMessage={uiWordings['About.ProductionPersonsLabel']}
         />
       </Region>
 

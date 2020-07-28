@@ -22,6 +22,10 @@ const NewsSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  type: {
+    type: String,
+    require: true
+  },
   //category: [String],
   desc_tc: {
     type: String
@@ -85,12 +89,23 @@ NewsSchema.plugin(mongoosePaginate);
 
 module.exports.News = mongoose.model('news', NewsSchema);
 
+const newsTypes = {
+  SPECIAL_NOTICE: 'SPECIAL_NOTICE',
+  PRESS_RELEASE: 'PRESS_RELEASE',
+  INTERVIEW: 'INTERVIEW'
+};
+
+module.exports.newsTypes = newsTypes;
+
+module.exports.newsTypesArray = Object.values(newsTypes);
+
 module.exports.newsResponseTypes = {
   // input validation
   LABEL_REQUIRED: 'LABEL_REQUIRED',
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  TYPE_REQUIRED: 'TYPE_REQUIRED',
 
   // db check
   NEWS_NOT_EXISTS: 'NEWS_NOT_EXISTS',

@@ -47,6 +47,11 @@ const headers = [
   //   value: 'name_en',
   //   isSortEnabled: true
   // },
+  {
+    name: uiWordings['News.TypeLabel'],
+    value: 'typeDisplay',
+    isSortEnabled: true
+  },
   // {
   //   name: uiWordings['News.DescTcLabel'],
   //   value: 'desc_tc',

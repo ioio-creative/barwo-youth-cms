@@ -102,14 +102,17 @@ ActivitySchema.plugin(mongoosePaginate);
 
 module.exports.Activity = mongoose.model('activity', ActivitySchema);
 
-module.exports.activityTypes = {
-  RESEARCH_AND_EDUCATION: 'RESEARCH_AND_EDUCATION',
+const activityTypes = {
+  GUIDED_TALK: 'GUIDED_TALK',
+  YOUTH_PROGRAMME: 'YOUTH_PROGRAMME',
   CANTONESE_OPERA_KNOWLEDGE: 'CANTONESE_OPERA_KNOWLEDGE',
-  TALK_AND_WORKSHOP: 'TALK_AND_WORKSHOP',
-  VIDEO_SHOW: 'VIDEO_SHOW',
-  SHARING: 'SHARING',
-  PAST_ACTIVITY: 'PAST_ACTIVITY'
+  COLLEGE_SHOW: 'COLLEGE_SHOW',
+  EXHIBITION: 'EXHIBITION'
 };
+
+module.exports.activityTypes = activityTypes;
+
+module.exports.activityTypesArray = Object.values(activityTypes);
 
 module.exports.activityResponseTypes = {
   // input validation

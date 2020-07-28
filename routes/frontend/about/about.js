@@ -48,6 +48,11 @@ router.get('/:lang/about', [languageHandling], async (req, res) => {
         .json({ errors: [aboutResponseTypes.ABOUT_NOT_EXISTS] });
     }
 
+    const mapStaffPersonFunc = staffPerson => ({
+      title: getEntityPropByLanguage(staffPerson, 'title', language),
+      name: getEntityPropByLanguage(staffPerson, 'name', language)
+    });
+
     const aboutForFrontEnd = {
       barwo: {
         description: getEntityPropByLanguage(about, 'barwoDesc', language)
@@ -84,10 +89,10 @@ router.get('/:lang/about', [languageHandling], async (req, res) => {
           email: about.contactEmail
         }
       },
-      admins: getArraySafe(about.admins).map(admin => ({
-        title: getEntityPropByLanguage(admin, 'title', language),
-        name: getEntityPropByLanguage(admin, 'name', language)
-      }))
+      admins: getArraySafe(about.admins).map(mapStaffPersonFunc),
+      productionPersons: getArraySafe(about.productionPersons).map(
+        mapStaffPersonFunc
+      )
     };
 
     res.json(aboutForFrontEnd);

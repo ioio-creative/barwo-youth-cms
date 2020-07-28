@@ -4,18 +4,23 @@ import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 import { defaultMediumLinkType } from 'types/mediumLink';
 
 const activityTypes = {
-  RESEARCH_AND_EDUCATION: {
-    value: 'RESEARCH_AND_EDUCATION',
-    label: 'RESEARCH_AND_EDUCATION'
+  GUIDED_TALK: {
+    value: 'GUIDED_TALK',
+    label: 'GUIDED_TALK'
+  },
+  YOUTH_PROGRAMME: {
+    value: 'YOUTH_PROGRAMME',
+    label: 'YOUTH_PROGRAMME'
   },
   CANTONESE_OPERA_KNOWLEDGE: {
     value: 'CANTONESE_OPERA_KNOWLEDGE',
     label: 'CANTONESE_OPERA_KNOWLEDGE'
   },
-  TALK_AND_WORKSHOP: { value: 'TALK_AND_WORKSHOP', label: 'TALK_AND_WORKSHOP' },
-  VIDEO_SHOW: { value: 'VIDEO_SHOW', label: 'VIDEO_SHOW' },
-  SHARING: { value: 'SHARING', label: 'SHARING' },
-  PAST_ACTIVITY: { value: 'PAST_ACTIVITY', label: 'PAST_ACTIVITY' }
+  COLLEGE_SHOW: { value: 'COLLEGE_SHOW', label: 'COLLEGE_SHOW' },
+  EXHIBITION: {
+    value: 'EXHIBITION',
+    label: 'EXHIBITION'
+  }
 };
 
 function Activity() {
@@ -23,7 +28,7 @@ function Activity() {
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
-  this.type = activityTypes.RESEARCH_AND_EDUCATION.value;
+  this.type = activityTypes.GUIDED_TALK.value;
   this.fromDate = null;
   this.toDate = null;
   this.location_tc = '';
