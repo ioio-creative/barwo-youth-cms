@@ -3,12 +3,25 @@ import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 import { defaultMediumLinkType } from 'types/mediumLink';
 
+const newsTypes = {
+  SPECIAL_NOTICE: {
+    value: 'SPECIAL_NOTICE',
+    label: 'SPECIAL_NOTICE'
+  },
+  PRESS_RELEASE: {
+    value: 'PRESS_RELEASE',
+    label: 'PRESS_RELEASE'
+  },
+  INTERVIEW: { value: 'INTERVIEW', label: 'INTERVIEW' }
+};
+
 function News() {
   this.label = '';
   this.order = null;
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
+  this.type = newsTypes.SPECIAL_NOTICE.value;
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
@@ -49,6 +62,10 @@ News.newsesResponseTypes = {
     type: 'NAME_EN_REQUIRED',
     msg: 'NAME_EN_REQUIRED'
   },
+  TYPE_REQUIRED: {
+    type: 'TYPE_REQUIRED',
+    msg: 'TYPE_REQUIRED'
+  },
 
   // db check
   NEWS_NOT_EXISTS: {
@@ -65,9 +82,13 @@ News.newsesResponseTypes = {
   CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
+News.newsTypes = newsTypes;
+News.newsTypeOptions = Object.values(newsTypes);
+
 News.getNewsForDisplay = news => {
   return {
     ...news,
+    typeDisplay: newsTypes[news.type].label,
     createDTDisplay: formatDateTimeString(news.createDT),
     lastModifyDTDisplay: formatDateTimeString(news.lastModifyDT),
     lastModifyUserDisplay: news.lastModifyUser ? news.lastModifyUser.name : '',
@@ -76,6 +97,7 @@ News.getNewsForDisplay = news => {
 };
 
 const displayFieldNames = [
+  'typeDisplay',
   'createDTDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',

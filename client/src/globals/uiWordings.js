@@ -656,6 +656,7 @@ export default {
   'News.NameTcLabel': 'Name TC',
   'News.NameScLabel': 'Name SC',
   'News.NameEnLabel': 'Name EN',
+  'News.TypeLabel': 'Type',
   'News.DescTcLabel': 'Desc TC',
   'News.DescScLabel': 'Desc SC',
   'News.DescEnLabel': 'Desc EN',

@@ -12,18 +12,14 @@ const activityTypes = {
     value: 'YOUTH_PROGRAMME',
     label: 'YOUTH_PROGRAMME'
   },
-  COLLEGE_SHOW: { value: 'COLLEGE_SHOW', label: 'COLLEGE_SHOW' },
-  COMMUNITY_PERFORMANCE: {
-    value: 'COMMUNITY_PERFORMANCE',
-    label: 'COMMUNITY_PERFORMANCE'
-  },
   CANTONESE_OPERA_KNOWLEDGE: {
     value: 'CANTONESE_OPERA_KNOWLEDGE',
     label: 'CANTONESE_OPERA_KNOWLEDGE'
   },
-  OTHER_OUTREACH_EVENT: {
-    value: 'OTHER_OUTREACH_EVENT',
-    label: 'OTHER_OUTREACH_EVENT'
+  COLLEGE_SHOW: { value: 'COLLEGE_SHOW', label: 'COLLEGE_SHOW' },
+  EXHIBITION: {
+    value: 'EXHIBITION',
+    label: 'EXHIBITION'
   }
 };
 

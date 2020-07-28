@@ -11,6 +11,7 @@ import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
+import LabelSelectPair from 'components/form/LabelSelectPair';
 import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
@@ -315,6 +316,14 @@ const NewsEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
+        />
+
+        <LabelSelectPair
+          name='type'
+          value={news.type}
+          options={News.newsTypeOptions}
+          labelMessage={uiWordings['Activity.TypeLabel']}
+          onChange={onChange}
         />
 
         <div className='w3-card w3-container'>

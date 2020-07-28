@@ -351,6 +351,7 @@ const ActivityEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
         <LabelSelectPair
           name='type'
           value={activity.type}
