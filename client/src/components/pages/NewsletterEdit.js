@@ -22,7 +22,7 @@ import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
-import SendOutList from './SendOutList';
+import SendOutList from '../sendhistory/SendOutList';
 
 const emptyNewsletter = new Newsletter();
 const defaultState = emptyNewsletter;
