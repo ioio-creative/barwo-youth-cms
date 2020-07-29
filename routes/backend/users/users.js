@@ -152,6 +152,7 @@ router.post(
         lastModifyUser: req.user._id
       });
       user.password = await hashPasswordInput(password);
+
       await user.save();
 
       res.json(user);

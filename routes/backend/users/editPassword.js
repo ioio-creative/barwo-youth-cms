@@ -8,6 +8,7 @@ const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { User, userResponseTypes } = require('../../../models/User');
 const hashPasswordInput = require('../../../utils/password/hashPasswordInput');
+const checkPassword = require('../../../utils/password/checkPassword');
 
 const userValidationChecks = [
   check('oldPassword', userResponseTypes.PASSWORD_INVALID).isLength({
@@ -36,13 +37,8 @@ router.put(
 
       const userFields = {};
 
-      console.log(user.password);
-      console.log(await hashPasswordInput(oldPassword));
-
-      console.log(oldPassword);
-
       // Check Old Password
-      if (user.password === (await hashPasswordInput(oldPassword))) {
+      if (await checkPassword(oldPassword, user.password)) {
         // Change Password
         userFields.password = await hashPasswordInput(newPassword);
         userFields.lastModifyUser = req.user._id;

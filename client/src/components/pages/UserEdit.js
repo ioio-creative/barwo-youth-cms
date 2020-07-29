@@ -132,7 +132,8 @@ const UserEdit = _ => {
   const onChangePasswordButtonClick = useCallback(_ => {
     setUser(prevUser => ({
       ...prevUser,
-      password: ''
+      password: '',
+      password2: ''
     }));
     setIsChangePassword(prevIsChangePassword => !prevIsChangePassword);
   }, []);

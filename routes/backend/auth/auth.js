@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
@@ -9,6 +8,7 @@ const { User } = require('../../../models/User');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
+const checkPassword = require('../../../utils/password/checkPassword');
 const {
   INVALID_CREDENTIALS,
   USER_DOES_NOT_HAVE_RIGHT
@@ -56,7 +56,7 @@ router.post(
         // 403 forbidden
         return res.status(403).json({ errors: [USER_DOES_NOT_HAVE_RIGHT] });
       }
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await checkPassword(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ errors: [INVALID_CREDENTIALS] });
       }
