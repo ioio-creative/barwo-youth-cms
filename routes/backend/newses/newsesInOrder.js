@@ -4,7 +4,11 @@ const router = express.Router();
 const auth = require('../../../middleware/auth');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const postOrderingHandling = require('../../../utils/ordering/postHandling');
-const { News } = require('../../../models/News');
+const {
+  News,
+  isValidNewsType,
+  newsResponseTypes
+} = require('../../../models/News');
 
 /* utilities */
 
@@ -20,11 +24,25 @@ const newsSort = {
 
 /* end of utilities */
 
-// @route   GET api/backend/newses/newsesInOrder
-// @desc    Get all newses in order
+// @route   GET api/backend/newses/newsesInOrder/:type
+// @desc    Get all newses in order of a particular type
 // @access  Private
-router.get('/', auth, async (req, res) => {
-  await getOrderingHandling(res, News, true, newsFind, newsSelect, newsSort);
+router.get('/:type', auth, async (req, res) => {
+  const type = req.params.type;
+
+  if (!isValidNewsType(type)) {
+    // 400 bad request
+    return res.status(400).json({ errors: [newsResponseTypes.TYPE_INVALID] });
+  }
+
+  await getOrderingHandling(
+    res,
+    News,
+    true,
+    { ...newsFind, type },
+    newsSelect,
+    newsSort
+  );
 });
 
 // @route   POST api/backend/newses/newsesInOrder

@@ -95,9 +95,15 @@ const newsTypes = {
   INTERVIEW: 'INTERVIEW'
 };
 
+const newsTypesArray = Object.values(newsTypes);
+
 module.exports.newsTypes = newsTypes;
 
-module.exports.newsTypesArray = Object.values(newsTypes);
+module.exports.newsTypesArray = newsTypesArray;
+
+module.exports.isValidNewsType = type => {
+  return newsTypesArray.includes(type);
+};
 
 module.exports.newsResponseTypes = {
   // input validation
@@ -106,6 +112,7 @@ module.exports.newsResponseTypes = {
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
+  TYPE_INVALID: 'TYPE_INVALID',
 
   // db check
   NEWS_NOT_EXISTS: 'NEWS_NOT_EXISTS',

@@ -298,7 +298,7 @@ router.put(
     if (isEnabled !== undefined) artistFields.isEnabled = isEnabled;
     artistFields.lastModifyDT = new Date();
     artistFields.lastModifyUser = req.user._id;
-    // set order to Number.Ma if disabled
+    // set order to null if disabled
     if (isEnabled === false) artistFields.order = null;
 
     try {

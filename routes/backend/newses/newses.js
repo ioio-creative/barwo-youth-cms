@@ -237,6 +237,11 @@ router.put(
           .status(404)
           .json({ errors: [newsResponseTypes.NEWS_NOT_EXISTS] });
 
+      // set order to null if disabled or type changed
+      if (isEnabled === false || type !== oldNews.type) {
+        newsFields.order = null;
+      }
+
       const newNews = await News.findByIdAndUpdate(
         newsId,
         { $set: newsFields },
