@@ -706,6 +706,19 @@ const globalConstantsValidationChecks = [
   ).notEmpty(),
 
   check(
+    'productionPersons_tc',
+    globalConstantsResponseTypes.PRODUCTIONPERSONS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'productionPersons_sc',
+    globalConstantsResponseTypes.PRODUCTIONPERSONS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'productionPersons_en',
+    globalConstantsResponseTypes.PRODUCTIONPERSONS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
     'organizer_tc',
     globalConstantsResponseTypes.ORGANIZER_TC_REQUIRED
   ).notEmpty(),

@@ -35,10 +35,22 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
       });
     }
 
+    // Note: different naming or capitalization of letters in fields of globalConstantsForFrontEnd and globalConstants is intentional here,
+    // to cater for different namings in barwo-frontend
     const globalConstantsForFrontEnd = {
       latestShow: getEntityPropByLanguage(
         globalConstants,
         'latestShow',
+        language
+      ),
+      latestShowIcon1: getEntityPropByLanguage(
+        globalConstants,
+        'latestShowIcon1',
+        language
+      ),
+      latestShowIcon2: getEntityPropByLanguage(
+        globalConstants,
+        'latestShowIcon2',
         language
       ),
       scheduleOfShow: getEntityPropByLanguage(
@@ -46,12 +58,14 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'scheduleOfShow',
         language
       ),
+      teams: getEntityPropByLanguage(globalConstants, 'teams', language),
       artDirector: getEntityPropByLanguage(
         globalConstants,
         'artDirector',
         language
       ),
       actor: getEntityPropByLanguage(globalConstants, 'actor', language),
+      artist: getEntityPropByLanguage(globalConstants, 'artist', language),
       detailsOfShow: getEntityPropByLanguage(
         globalConstants,
         'detailsOfShow',
@@ -112,7 +126,8 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'introduction',
         language
       ),
-      buynow: getEntityPropByLanguage(globalConstants, 'buynow', language),
+      // Note: different capitalizing of 'buyNow' here is intended
+      buynow: getEntityPropByLanguage(globalConstants, 'buyNow', language),
       participating: getEntityPropByLanguage(
         globalConstants,
         'participating',
@@ -151,6 +166,11 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
       traffic: getEntityPropByLanguage(globalConstants, 'traffic', language),
       contact: getEntityPropByLanguage(globalConstants, 'contact', language),
       website: getEntityPropByLanguage(globalConstants, 'website', language),
+      contactInfo: getEntityPropByLanguage(
+        globalConstants,
+        'contactInfo',
+        language
+      ),
       tel: getEntityPropByLanguage(globalConstants, 'tel', language),
       fax: getEntityPropByLanguage(globalConstants, 'fax', language),
       email: getEntityPropByLanguage(globalConstants, 'email', language),
@@ -191,6 +211,7 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         language
       ),
       location: getEntityPropByLanguage(globalConstants, 'location', language),
+      news: getEntityPropByLanguage(globalConstants, 'news', language),
       relatedNews: getEntityPropByLanguage(
         globalConstants,
         'relatedNews',
@@ -211,6 +232,53 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
       ticketWebsite: getEntityPropByLanguage(
         globalConstants,
         'ticketWebsite',
+        language
+      ),
+      barwo: getEntityPropByLanguage(globalConstants, 'barwo', language),
+      plan: getEntityPropByLanguage(globalConstants, 'plan', language),
+      admins: getEntityPropByLanguage(globalConstants, 'admins', language),
+      productionPersons: getEntityPropByLanguage(
+        globalConstants,
+        'productionPersons',
+        language
+      ),
+      organizer: getEntityPropByLanguage(
+        globalConstants,
+        'organizer',
+        language
+      ),
+      sponsor: getEntityPropByLanguage(globalConstants, 'sponsor', language),
+      search: getEntityPropByLanguage(globalConstants, 'search', language),
+      activity: getEntityPropByLanguage(globalConstants, 'activity', language),
+      event: getEntityPropByLanguage(globalConstants, 'event', language),
+      SPECIAL_NOTICE: getEntityPropByLanguage(
+        globalConstants,
+        'SPECIAL_NOTICE',
+        language
+      ),
+      PRESS_RELEASE: getEntityPropByLanguage(
+        globalConstants,
+        'PRESS_RELEASE',
+        language
+      ),
+      INTERVIEW: getEntityPropByLanguage(
+        globalConstants,
+        'INTERVIEW',
+        language
+      ),
+      EMAIL_SUCCESS: getEntityPropByLanguage(
+        globalConstants,
+        'EMAIL_SUCCESS',
+        language
+      ),
+      EMAIL_ADDRESS_INVALID: getEntityPropByLanguage(
+        globalConstants,
+        'EMAIL_ADDRESS_INVALID',
+        language
+      ),
+      EMAIL_ADDRESS_ALREADY_EXISTS: getEntityPropByLanguage(
+        globalConstants,
+        'event',
         language
       )
     };
