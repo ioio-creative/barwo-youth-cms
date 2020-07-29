@@ -234,7 +234,7 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
 
 module.exports = router;
 
-// aggregate example
+// aggregate example, added highlight example
 // await Artist.aggregate([
 //   {
 //     '$search': {
@@ -242,10 +242,22 @@ module.exports = router;
 //         'should': [
 //           {
 //             'search': {
-//               'query': queryStr,
+//               'query': '活命金牌', 
 //               'path': [
 //                 'name_tc', 'name_sc', 'name_en'
-//               ],
+//               ], 
+//               'score': {
+//                 'boost': {
+//                   'value': 3
+//                 }
+//               }
+//             }
+//           }, {
+//             'search': {
+//               'query': '西宮', 
+//               'path': [
+//                 'desc_tc', 'desc_sc', 'desc_en'
+//               ], 
 //               'score': {
 //                 'boost': {
 //                   'value': 2
@@ -254,24 +266,50 @@ module.exports = router;
 //             }
 //           }, {
 //             'search': {
-//               'query': queryStr,
+//               'query': '桃花湖畔鳳求凰', 
 //               'path': [
-//                 'desc_tc', 'desc_sc', 'desc_en'
-//               ]
+//                 'writer_tc', 'writer_sc', 'writer_en'
+//               ], 
+//               'score': {
+//                 'boost': {
+//                   'value': 1
+//                 }
+//               }
 //             }
 //           }
+//         ]
+//       }, 
+//       'highlight': {
+//         'path': [
+//           'desc_tc', 'desc_sc', 'desc_en'
 //         ]
 //       }
 //     }
 //   }, {
+//     '$lookup': {
+//       'from': 'media', 
+//       'localField': 'featuredImage', 
+//       'foreignField': '_id', 
+//       'as': 'imageData'
+//     }
+//   }, {
 //     '$project': {
-//       'name_tc': 1,
-//       'name_sc': 1,
-//       'name_en': 1,
+//       'name_en': 1, 
+//       'desc_en': 1, 
+//       'label': 1, 
+//       'image': {
+//         '$ifNull': [
+//           {
+//             '$arrayElemAt': [
+//               '$imageData.url', 0
+//             ]
+//           }, null
+//         ]
+//       }, 
 //       'score': {
 //         '$meta': 'searchScore'
-//       },
-//       'highlight': {
+//       }, 
+//       'highlights': {
 //         '$meta': 'searchHighlights'
 //       }
 //     }
