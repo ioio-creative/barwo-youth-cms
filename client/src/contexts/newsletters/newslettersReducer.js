@@ -57,7 +57,8 @@ export default (state, action) => {
     case NEWSLETTERS_ERRORS:
       return {
         ...state,
-        newslettersErrors: action.payload
+        newslettersErrors: action.payload,
+        newslettersLoading: false
       };
     case CLEAR_NEWSLETTERS_ERRORS:
       return {

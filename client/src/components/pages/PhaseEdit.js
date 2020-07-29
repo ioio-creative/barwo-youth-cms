@@ -89,17 +89,15 @@ const PhaseEdit = _ => {
   // fetchedPhase
   useEffect(
     _ => {
-      if (!phasesLoading) {
-        setPhase(
-          fetchedPhase ? Phase.getPhaseForDisplay(fetchedPhase) : defaultState
-        );
-        if (fetchedPhase) {
-          setEventsPicked(getArraySafe(fetchedPhase.events));
-        }
-        setIsAddMode(!fetchedPhase);
+      setPhase(
+        fetchedPhase ? Phase.getPhaseForDisplay(fetchedPhase) : defaultState
+      );
+      if (fetchedPhase) {
+        setEventsPicked(getArraySafe(fetchedPhase.events));
       }
+      setIsAddMode(!fetchedPhase);
     },
-    [phasesLoading, fetchedPhase]
+    [fetchedPhase]
   );
 
   // phasesErrors

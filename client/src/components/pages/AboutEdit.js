@@ -64,22 +64,20 @@ const AboutEdit = _ => {
   // fetchedAbout
   useEffect(
     _ => {
-      if (!aboutLoading) {
-        setAbout(
-          fetchedAbout ? About.getAboutForDisplay(fetchedAbout) : defaultState
+      setAbout(
+        fetchedAbout ? About.getAboutForDisplay(fetchedAbout) : defaultState
+      );
+      if (fetchedAbout) {
+        setPlanGalleryPicked(getArraySafe(fetchedAbout.planGallery));
+        setTheaterImagePicked(fetchedAbout.theaterImage);
+        setAdminsPicked(getArraySafe(fetchedAbout.admins));
+        setProductionPersonsPicked(
+          getArraySafe(fetchedAbout.productionPersons)
         );
-        if (fetchedAbout) {
-          setPlanGalleryPicked(getArraySafe(fetchedAbout.planGallery));
-          setTheaterImagePicked(fetchedAbout.theaterImage);
-          setAdminsPicked(getArraySafe(fetchedAbout.admins));
-          setProductionPersonsPicked(
-            getArraySafe(fetchedAbout.productionPersons)
-          );
-        }
-        setIsAddMode(!fetchedAbout);
       }
+      setIsAddMode(!fetchedAbout);
     },
-    [aboutLoading, fetchedAbout]
+    [fetchedAbout]
   );
 
   // aboutErrors

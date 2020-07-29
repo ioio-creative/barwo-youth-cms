@@ -50,7 +50,8 @@ export default (state, action) => {
     case MEDIA_ERRORS:
       return {
         ...state,
-        mediaErrors: action.payload
+        mediaErrors: action.payload,
+        mediaLoading: false
       };
     case CLEAR_MEDIA_ERRORS:
       return {

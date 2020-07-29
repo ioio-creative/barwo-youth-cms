@@ -55,7 +55,9 @@ export default (state, action) => {
     case NEWSES_ERRORS:
       return {
         ...state,
-        newsesErrors: action.payload
+        newsesErrors: action.payload,
+        newsesLoading: false,
+        newsesInOrderLoading: false
       };
     case CLEAR_NEWSES_ERRORS:
       return {

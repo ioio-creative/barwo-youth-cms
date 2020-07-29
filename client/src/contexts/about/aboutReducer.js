@@ -28,7 +28,8 @@ export default (state, action) => {
     case ABOUT_ERRORS:
       return {
         ...state,
-        aboutErrors: action.payload
+        aboutErrors: action.payload,
+        aboutLoading: false
       };
     case CLEAR_ABOUT_ERRORS:
       return {

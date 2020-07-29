@@ -93,23 +93,19 @@ const ArtistEdit = _ => {
   // fetchedArtist
   useEffect(
     _ => {
-      if (!artistsLoading) {
-        setArtist(
-          fetchedArtist
-            ? Artist.getArtistForDisplay(fetchedArtist)
-            : defaultState
-        );
-        if (fetchedArtist) {
-          setQnasPicked(getArraySafe(fetchedArtist.qnas));
-          setFeaturedImagePicked(fetchedArtist.featuredImage);
-          setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
-          setGalleryPicked(getArraySafe(fetchedArtist.gallery));
-          setSoundPicked(fetchedArtist.sound);
-        }
-        setIsAddMode(!fetchedArtist);
+      setArtist(
+        fetchedArtist ? Artist.getArtistForDisplay(fetchedArtist) : defaultState
+      );
+      if (fetchedArtist) {
+        setQnasPicked(getArraySafe(fetchedArtist.qnas));
+        setFeaturedImagePicked(fetchedArtist.featuredImage);
+        setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
+        setGalleryPicked(getArraySafe(fetchedArtist.gallery));
+        setSoundPicked(fetchedArtist.sound);
       }
+      setIsAddMode(!fetchedArtist);
     },
-    [artistsLoading, fetchedArtist]
+    [fetchedArtist]
   );
 
   // artistsErrors

@@ -53,7 +53,9 @@ export default (state, action) => {
     case EVENTS_ERRORS:
       return {
         ...state,
-        eventsErrors: action.payload
+        eventsErrors: action.payload,
+        eventsLoading: false,
+        phaseEventsLoading: false
       };
     case CLEAR_EVENTS_ERRORS:
       return {

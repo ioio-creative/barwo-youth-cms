@@ -71,16 +71,14 @@ const ContactEdit = _ => {
   // fetchedContact
   useEffect(
     _ => {
-      if (!contactsLoading) {
-        setContact(
-          fetchedContact
-            ? Contact.getContactForDisplay(fetchedContact)
-            : defaultState
-        );
-        setIsAddMode(!fetchedContact);
-      }
+      setContact(
+        fetchedContact
+          ? Contact.getContactForDisplay(fetchedContact)
+          : defaultState
+      );
+      setIsAddMode(!fetchedContact);
     },
-    [contactsLoading, fetchedContact]
+    [fetchedContact]
   );
 
   // contactsErrors

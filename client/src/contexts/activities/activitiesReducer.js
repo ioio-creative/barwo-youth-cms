@@ -51,7 +51,8 @@ export default (state, action) => {
     case ACTIVITIES_ERRORS:
       return {
         ...state,
-        activitiesErrors: action.payload
+        activitiesErrors: action.payload,
+        activitiesLoading: false
       };
     case CLEAR_ACTIVITIES_ERRORS:
       return {

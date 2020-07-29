@@ -54,22 +54,20 @@ const TicketingDefaultEdit = _ => {
   // fetchedTicketingDefault
   useEffect(
     _ => {
-      if (!ticketingDefaultLoading) {
-        setTicketingDefault(
-          fetchedTicketingDefault
-            ? TicketingDefault.getTicketingDefaultForDisplay(
-                fetchedTicketingDefault
-              )
-            : defaultState
-        );
-        if (fetchedTicketingDefault) {
-          setPricesPicked(getArraySafe(fetchedTicketingDefault.prices));
-          setPhonesPicked(getArraySafe(fetchedTicketingDefault.phones));
-        }
-        setIsAddMode(!fetchedTicketingDefault);
+      setTicketingDefault(
+        fetchedTicketingDefault
+          ? TicketingDefault.getTicketingDefaultForDisplay(
+              fetchedTicketingDefault
+            )
+          : defaultState
+      );
+      if (fetchedTicketingDefault) {
+        setPricesPicked(getArraySafe(fetchedTicketingDefault.prices));
+        setPhonesPicked(getArraySafe(fetchedTicketingDefault.phones));
       }
+      setIsAddMode(!fetchedTicketingDefault);
     },
-    [ticketingDefaultLoading, fetchedTicketingDefault]
+    [fetchedTicketingDefault]
   );
 
   // ticketingDefaultErrors

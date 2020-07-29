@@ -27,7 +27,6 @@ const GlobalConstantsEdit = _ => {
     updateGlobalConstants
   } = useContext(GlobalConstantsContext);
 
-  const [isFirstTimeDataLoaded, setIsFirstTimeDataLoaded] = useState(false);
   const [globalConstants, setGlobalConstants] = useState(defaultState);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
@@ -45,12 +44,7 @@ const GlobalConstantsEdit = _ => {
   // fetchedGlobalConstants
   useEffect(
     _ => {
-      if (
-        !isFirstTimeDataLoaded &&
-        !globalConstantsLoading &&
-        fetchedGlobalConstants
-      ) {
-        setIsFirstTimeDataLoaded(true);
+      if (fetchedGlobalConstants) {
         setGlobalConstants(
           fetchedGlobalConstants
             ? GlobalConstants.getGlobalConstantsForDisplay(
@@ -61,7 +55,7 @@ const GlobalConstantsEdit = _ => {
         setIsAddMode(!fetchedGlobalConstants);
       }
     },
-    [isFirstTimeDataLoaded, globalConstantsLoading, fetchedGlobalConstants]
+    [fetchedGlobalConstants]
   );
 
   // globalConstantsErrors

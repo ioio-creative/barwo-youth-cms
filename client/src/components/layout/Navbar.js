@@ -43,6 +43,8 @@ NavbarLink.defaultProps = {
 
 // https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_sidebar
 const Navbar = ({ className }) => {
+  const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
+
   const isPasswordChange = useRouteMatch(routes.editPassword);
   const isUserList = useRouteMatch(routes.userList(false));
   const isUserEdit = useRouteMatch(routes.userEditById);
@@ -92,8 +94,6 @@ const Navbar = ({ className }) => {
 
   const isTesting = useRouteMatch(routes.testing);
 
-  const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
-
   /* event handlers */
 
   const onLogout = useCallback(
@@ -110,7 +110,10 @@ const Navbar = ({ className }) => {
       {authUser && (
         <NavbarItem>{`${authUser.name}, ${uiWordings['Navbar.Greeting']}`}</NavbarItem>
       )}
-      <NavbarLink to={routes.editPassword} isSelected={isPasswordChange}>
+      <NavbarLink
+        to={routes.editPasswordWithId(true, authUser ? authUser._id : '')}
+        isSelected={isPasswordChange}
+      >
         {uiWordings['Navbar.ChangePasswoed']}
       </NavbarLink>
       <NavbarButton className='w3-border-bottom' onClick={onLogout}>

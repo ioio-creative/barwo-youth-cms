@@ -84,27 +84,23 @@ const NewsEdit = _ => {
   // fetchedNews
   useEffect(
     _ => {
-      if (!newsesLoading) {
-        setNews(
-          fetchedNews ? News.getNewsForDisplay(fetchedNews) : defaultState
-        );
-        if (fetchedNews) {
-          setFeaturedImagePicked(fetchedNews.featuredImage);
-          setDownloadData({
-            name_tc: fetchedNews.downloadName_tc,
-            name_sc: fetchedNews.downloadName_sc,
-            name_en: fetchedNews.downloadName_en,
-            type: fetchedNews.downloadType,
-            url_tc: fetchedNews.downloadUrl_tc,
-            url_sc: fetchedNews.downloadUrl_sc,
-            url_en: fetchedNews.downloadUrl_en,
-            medium: fetchedNews.downloadMedium
-          });
-        }
-        setIsAddMode(!fetchedNews);
+      setNews(fetchedNews ? News.getNewsForDisplay(fetchedNews) : defaultState);
+      if (fetchedNews) {
+        setFeaturedImagePicked(fetchedNews.featuredImage);
+        setDownloadData({
+          name_tc: fetchedNews.downloadName_tc,
+          name_sc: fetchedNews.downloadName_sc,
+          name_en: fetchedNews.downloadName_en,
+          type: fetchedNews.downloadType,
+          url_tc: fetchedNews.downloadUrl_tc,
+          url_sc: fetchedNews.downloadUrl_sc,
+          url_en: fetchedNews.downloadUrl_en,
+          medium: fetchedNews.downloadMedium
+        });
       }
+      setIsAddMode(!fetchedNews);
     },
-    [newsesLoading, fetchedNews]
+    [fetchedNews]
   );
 
   // newsesErrors

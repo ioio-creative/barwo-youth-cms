@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import UsersContext from 'contexts/users/usersContext';
 import PasswordChangePageContainer from 'components/users/UsersPageContainer';
@@ -10,8 +9,6 @@ import Alert from 'models/alert';
 import User from 'models/user';
 import uiWordings from 'globals/uiWordings';
 import config from 'config/default.json';
-import { goToUrl } from 'utils/history';
-import routes from 'globals/routes';
 import AuthContext from 'contexts/auth/authContext';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import Loading from 'components/layout/loading/DefaultLoading';
@@ -26,14 +23,11 @@ const defaultState = {
 };
 
 const PasswordEdit = () => {
-  const { userId } = useParams();
   const { authUser } = useContext(AuthContext);
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     clearUsersErrors,
     usersErrors,
-    getUser,
-    clearUser,
     editPassword,
     usersLoading
   } = useContext(UsersContext);
@@ -53,13 +47,9 @@ const PasswordEdit = () => {
     _ => {
       if (authUser) {
         setUser(authUser);
-        goToUrl(routes.editPasswordWithId(true, authUser._id));
       }
-      return _ => {
-        clearUser();
-      };
     },
-    [userId, getUser, clearUser, authUser]
+    [authUser]
   );
 
   // usersErrors
@@ -119,10 +109,12 @@ const PasswordEdit = () => {
       let isSuccess = false;
       let returnedUser = null;
       isSuccess = validInput(user);
-      const { password2, ...cleanedUser } = user;
       if (isSuccess) {
-        const funcToCall = editPassword;
-        returnedUser = await funcToCall(cleanedUser);
+        returnedUser = await editPassword({
+          ...user,
+          oldPassword: user.password,
+          newPassword: user.password1
+        });
         isSuccess = Boolean(returnedUser);
       }
       if (isSuccess) {
@@ -132,7 +124,7 @@ const PasswordEdit = () => {
             Alert.alertTypes.INFO
           )
         );
-        goToUrl(routes.editPasswordWithId(true, returnedUser._id));
+
         setUser(prevUser => ({
           ...prevUser,
           password: '',

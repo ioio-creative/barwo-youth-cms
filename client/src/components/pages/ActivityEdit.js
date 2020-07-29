@@ -88,30 +88,28 @@ const ActivityEdit = _ => {
   // fetchedActivity
   useEffect(
     _ => {
-      if (!activitiesLoading) {
-        setActivity(
-          fetchedActivity
-            ? Activity.getActivityForDisplay(fetchedActivity)
-            : defaultState
-        );
-        if (fetchedActivity) {
-          setFeaturedImagePicked(fetchedActivity.featuredImage);
-          setGalleryPicked(getArraySafe(fetchedActivity.gallery));
-          setDownloadData({
-            name_tc: fetchedActivity.downloadName_tc,
-            name_sc: fetchedActivity.downloadName_sc,
-            name_en: fetchedActivity.downloadName_en,
-            type: fetchedActivity.downloadType,
-            url_tc: fetchedActivity.downloadUrl_tc,
-            url_sc: fetchedActivity.downloadUrl_sc,
-            url_en: fetchedActivity.downloadUrl_en,
-            medium: fetchedActivity.downloadMedium
-          });
-        }
-        setIsAddMode(!fetchedActivity);
+      setActivity(
+        fetchedActivity
+          ? Activity.getActivityForDisplay(fetchedActivity)
+          : defaultState
+      );
+      if (fetchedActivity) {
+        setFeaturedImagePicked(fetchedActivity.featuredImage);
+        setGalleryPicked(getArraySafe(fetchedActivity.gallery));
+        setDownloadData({
+          name_tc: fetchedActivity.downloadName_tc,
+          name_sc: fetchedActivity.downloadName_sc,
+          name_en: fetchedActivity.downloadName_en,
+          type: fetchedActivity.downloadType,
+          url_tc: fetchedActivity.downloadUrl_tc,
+          url_sc: fetchedActivity.downloadUrl_sc,
+          url_en: fetchedActivity.downloadUrl_en,
+          medium: fetchedActivity.downloadMedium
+        });
       }
+      setIsAddMode(!fetchedActivity);
     },
-    [activitiesLoading, fetchedActivity]
+    [fetchedActivity]
   );
 
   // activitiesErrors
@@ -189,6 +187,7 @@ const ActivityEdit = _ => {
         );
       } else {
         goToUrl(routes.activityEditByIdWithValue(true, activity._id));
+        // TODO: should we getActivity from DB when delete fails?
         getActivity(activity._id);
         scrollToTop();
       }

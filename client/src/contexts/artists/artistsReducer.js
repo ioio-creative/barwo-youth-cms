@@ -60,7 +60,10 @@ export default (state, action) => {
     case ARTISTS_ERRORS:
       return {
         ...state,
-        artistsErrors: action.payload
+        artistsErrors: action.payload,
+        artistsLoading: false,
+        artDirectorsLoading: false,
+        eventArtistsLoading: false
       };
     case CLEAR_ARTISTS_ERRORS:
       return {

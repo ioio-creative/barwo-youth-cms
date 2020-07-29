@@ -39,7 +39,8 @@ export default (state, action) => {
     case SENDHISTORIES_ERRORS:
       return {
         ...state,
-        sendHistoriesErrors: action.payload
+        sendHistoriesErrors: action.payload,
+        sendHistoriesLoading: false
       };
     case CLEAR_SENDHISTORIES_ERRORS:
       return {

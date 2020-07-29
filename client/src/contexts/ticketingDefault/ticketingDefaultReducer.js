@@ -28,7 +28,8 @@ export default (state, action) => {
     case TICKETING_DEFAULT_ERRORS:
       return {
         ...state,
-        ticketingDefaultErrors: action.payload
+        ticketingDefaultErrors: action.payload,
+        ticketingDefaultLoading: false
       };
     case CLEAR_TICKETING_DEFAULT_ERRORS:
       return {

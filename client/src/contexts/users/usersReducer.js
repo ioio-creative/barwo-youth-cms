@@ -10,9 +10,7 @@ import {
   USERS_ERRORS,
   CLEAR_USERS_ERRORS,
   SET_USERS_LOADING,
-  EDIT_USER_PASSWORD,
-  USER_PASSWORD_ERRORS,
-  SET_USER_PASSWORD_LOADING
+  EDIT_USER_PASSWORD
 } from '../types';
 
 export default (state, action) => {
@@ -67,7 +65,8 @@ export default (state, action) => {
     case USERS_ERRORS:
       return {
         ...state,
-        usersErrors: action.payload
+        usersErrors: action.payload,
+        usersLoading: false
       };
     case CLEAR_USERS_ERRORS:
       return {
@@ -83,16 +82,6 @@ export default (state, action) => {
       return {
         ...state,
         usersLoading: false
-      };
-    case USER_PASSWORD_ERRORS:
-      return {
-        ...state,
-        usersErrors: action.payload
-      };
-    case SET_USER_PASSWORD_LOADING:
-      return {
-        ...state,
-        usersLoading: true
       };
     default:
       return state;

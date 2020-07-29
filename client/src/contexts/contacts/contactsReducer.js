@@ -52,7 +52,8 @@ export default (state, action) => {
     case CONTACTS_ERRORS:
       return {
         ...state,
-        contactsErrors: action.payload
+        contactsErrors: action.payload,
+        contactsLoading: false
       };
     case CLEAR_CONTACTS_ERRORS:
       return {

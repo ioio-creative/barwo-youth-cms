@@ -75,26 +75,24 @@ const LandingPageEdit = _ => {
   // fetchedLandingPage
   useEffect(
     _ => {
-      if (!landingPageLoading) {
-        setLandingPage(
-          fetchedLandingPage
-            ? LandingPage.getLandingPageForDisplay(fetchedLandingPage)
-            : defaultState
+      setLandingPage(
+        fetchedLandingPage
+          ? LandingPage.getLandingPageForDisplay(fetchedLandingPage)
+          : defaultState
+      );
+      if (fetchedLandingPage) {
+        setFeaturedVideoPicked(fetchedLandingPage.featuredVideo);
+        setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
+        setFeaturedArtistsPicked(
+          getArraySafe(fetchedLandingPage.featuredArtists)
         );
-        if (fetchedLandingPage) {
-          setFeaturedVideoPicked(fetchedLandingPage.featuredVideo);
-          setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
-          setFeaturedArtistsPicked(
-            getArraySafe(fetchedLandingPage.featuredArtists)
-          );
-          if (fetchedLandingPage.pageMeta) {
-            setPageMeta(fetchedLandingPage.pageMeta);
-          }
+        if (fetchedLandingPage.pageMeta) {
+          setPageMeta(fetchedLandingPage.pageMeta);
         }
-        setIsAddMode(!fetchedLandingPage);
       }
+      setIsAddMode(!fetchedLandingPage);
     },
-    [landingPageLoading, fetchedLandingPage]
+    [fetchedLandingPage]
   );
 
   // landingPageErrors

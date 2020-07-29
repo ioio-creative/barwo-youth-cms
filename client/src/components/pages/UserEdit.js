@@ -75,14 +75,10 @@ const UserEdit = _ => {
   // fetchedUser
   useEffect(
     _ => {
-      if (!usersLoading) {
-        setUser(
-          fetchedUser ? User.getUserForDisplay(fetchedUser) : defaultState
-        );
-        setIsAddMode(!fetchedUser);
-      }
+      setUser(fetchedUser ? User.getUserForDisplay(fetchedUser) : defaultState);
+      setIsAddMode(!fetchedUser);
     },
-    [usersLoading, fetchedUser]
+    [fetchedUser]
   );
 
   // usersErrors
@@ -217,6 +213,7 @@ const UserEdit = _ => {
   if (isAbandonEdit) {
     return <>{backToUserListButton}</>;
   }
+
   return (
     <>
       {backToUserListButton}

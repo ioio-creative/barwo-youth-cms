@@ -28,7 +28,8 @@ export default (state, action) => {
     case LANDING_PAGE_ERRORS:
       return {
         ...state,
-        landingPageErrors: action.payload
+        landingPageErrors: action.payload,
+        landingPageLoading: false
       };
     case CLEAR_LANDING_PAGE_ERRORS:
       return {

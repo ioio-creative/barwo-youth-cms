@@ -17,9 +17,7 @@ import {
   USERS_ERRORS,
   CLEAR_USERS_ERRORS,
   SET_USERS_LOADING,
-  EDIT_USER_PASSWORD,
-  USER_PASSWORD_ERRORS,
-  SET_USER_PASSWORD_LOADING
+  EDIT_USER_PASSWORD
 } from '../types';
 
 const initialState = {
@@ -143,14 +141,13 @@ const UsersState = ({ children }) => {
   // Edit Password
   const editPassword = useCallback(async user => {
     let newUser = null;
-    dispatch({ type: SET_USER_PASSWORD_LOADING });
+    dispatch({ type: SET_USERS_LOADING });
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     };
     try {
-      //console.log(user);
       const res = await axios.put(
         `/api/backend/users/editPassword/${user._id}`,
         user,
@@ -159,7 +156,7 @@ const UsersState = ({ children }) => {
       dispatch({ type: EDIT_USER_PASSWORD, payload: res.data });
       newUser = res.data;
     } catch (err) {
-      handleServerError(err, USER_PASSWORD_ERRORS, dispatch);
+      handleServerError(err, USERS_ERRORS, dispatch);
     }
     return newUser;
   }, []);

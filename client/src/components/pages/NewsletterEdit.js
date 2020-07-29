@@ -73,16 +73,14 @@ const NewsletterEdit = _ => {
   // fetchedNewsletter
   useEffect(
     _ => {
-      if (!newslettersLoading) {
-        setNewsletter(
-          fetchedNewsletter
-            ? Newsletter.getNewsletterForDisplay(fetchedNewsletter)
-            : defaultState
-        );
-        setIsAddMode(!fetchedNewsletter);
-      }
+      setNewsletter(
+        fetchedNewsletter
+          ? Newsletter.getNewsletterForDisplay(fetchedNewsletter)
+          : defaultState
+      );
+      setIsAddMode(!fetchedNewsletter);
     },
-    [newslettersLoading, fetchedNewsletter]
+    [fetchedNewsletter]
   );
 
   // newslettersErrors

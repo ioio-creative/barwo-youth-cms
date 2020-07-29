@@ -51,7 +51,8 @@ export default (state, action) => {
     case PHASES_ERRORS:
       return {
         ...state,
-        phasesErrors: action.payload
+        phasesErrors: action.payload,
+        phasesLoading: false
       };
     case CLEAR_PHASES_ERRORS:
       return {

@@ -134,25 +134,23 @@ const EventEdit = _ => {
   // fetchedEvent
   useEffect(
     _ => {
-      if (!eventsLoading) {
-        setEvent(
-          fetchedEvent ? Event.getEventForDisplay(fetchedEvent) : defaultState
-        );
-        if (fetchedEvent) {
-          setArtDirectorsPicked(getArraySafe(fetchedEvent.artDirectors));
-          setArtistsPicked(getArraySafe(fetchedEvent.artists));
-          setShowsPicked(getArraySafe(fetchedEvent.shows));
-          setScenaristsPicked(getArraySafe(fetchedEvent.scenarists));
-          // setPricesPicked(getArraySafe(fetchedEvent.prices));
-          // setPhonesPicked(getArraySafe(fetchedEvent.phones));
+      setEvent(
+        fetchedEvent ? Event.getEventForDisplay(fetchedEvent) : defaultState
+      );
+      if (fetchedEvent) {
+        setArtDirectorsPicked(getArraySafe(fetchedEvent.artDirectors));
+        setArtistsPicked(getArraySafe(fetchedEvent.artists));
+        setShowsPicked(getArraySafe(fetchedEvent.shows));
+        setScenaristsPicked(getArraySafe(fetchedEvent.scenarists));
+        // setPricesPicked(getArraySafe(fetchedEvent.prices));
+        // setPhonesPicked(getArraySafe(fetchedEvent.phones));
 
-          setFeaturedImagePicked(fetchedEvent.featuredImage);
-          setGalleryPicked(getArraySafe(fetchedEvent.gallery));
-        }
-        setIsAddMode(!fetchedEvent);
+        setFeaturedImagePicked(fetchedEvent.featuredImage);
+        setGalleryPicked(getArraySafe(fetchedEvent.gallery));
       }
+      setIsAddMode(!fetchedEvent);
     },
-    [eventsLoading, fetchedEvent]
+    [fetchedEvent]
   );
 
   // eventsErrors
