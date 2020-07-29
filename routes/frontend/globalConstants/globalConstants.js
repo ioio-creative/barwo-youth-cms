@@ -278,7 +278,7 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
       ),
       EMAIL_ADDRESS_ALREADY_EXISTS: getEntityPropByLanguage(
         globalConstants,
-        'event',
+        'EMAIL_ADDRESS_ALREADY_EXISTS',
         language
       )
     };
