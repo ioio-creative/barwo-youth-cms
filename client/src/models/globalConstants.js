@@ -262,6 +262,10 @@ function GlobalConstants() {
   this.admins_sc = '';
   this.admins_en = '';
 
+  this.productionPersons_tc = '';
+  this.productionPersons_sc = '';
+  this.productionPersons_en = '';
+
   this.organizer_tc = '';
   this.organizer_sc = '';
   this.organizer_en = '';
@@ -293,6 +297,18 @@ function GlobalConstants() {
   this.INTERVIEW_tc = '';
   this.INTERVIEW_sc = '';
   this.INTERVIEW_en = '';
+
+  this.EMAIL_SUCCESS_tc = '';
+  this.EMAIL_SUCCESS_sc = '';
+  this.EMAIL_SUCCESS_en = '';
+
+  this.EMAIL_ADDRESS_INVALID_tc = '';
+  this.EMAIL_ADDRESS_INVALID_sc = '';
+  this.EMAIL_ADDRESS_INVALID_en = '';
+
+  this.EMAIL_ADDRESS_ALREADY_EXISTS_tc = '';
+  this.EMAIL_ADDRESS_ALREADY_EXISTS_sc = '';
+  this.EMAIL_ADDRESS_ALREADY_EXISTS_en = '';
 
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
@@ -1094,6 +1110,19 @@ GlobalConstants.globalConstantsResponseTypes = {
   ADMINS_SC_REQUIRED: { type: 'ADMINS_SC_REQUIRED', msg: 'ADMINS_SC_REQUIRED' },
   ADMINS_EN_REQUIRED: { type: 'ADMINS_EN_REQUIRED', msg: 'ADMINS_EN_REQUIRED' },
 
+  PRODUCTIONPERSONS_TC_REQUIRED: {
+    type: 'PRODUCTIONPERSONS_TC_REQUIRED',
+    msg: 'PRODUCTIONPERSONS_TC_REQUIRED'
+  },
+  PRODUCTIONPERSONS_SC_REQUIRED: {
+    type: 'PRODUCTIONPERSONS_SC_REQUIRED',
+    msg: 'PRODUCTIONPERSONS_SC_REQUIRED'
+  },
+  PRODUCTIONPERSONS_EN_REQUIRED: {
+    type: 'PRODUCTIONPERSONS_EN_REQUIRED',
+    msg: 'PRODUCTIONPERSONS_EN_REQUIRED'
+  },
+
   ORGANIZER_TC_REQUIRED: {
     type: 'ORGANIZER_TC_REQUIRED',
     msg: 'ORGANIZER_TC_REQUIRED'
@@ -1187,6 +1216,45 @@ GlobalConstants.globalConstantsResponseTypes = {
   INTERVIEW_EN_REQUIRED: {
     type: 'INTERVIEW_EN_REQUIRED',
     msg: 'INTERVIEW_EN_REQUIRED'
+  },
+
+  EMAIL_SUCCESS_TC_REQUIRED: {
+    type: 'EMAIL_SUCCESS_TC_REQUIRED',
+    msg: 'EMAIL_SUCCESS_TC_REQUIRED'
+  },
+  EMAIL_SUCCESS_SC_REQUIRED: {
+    type: 'EMAIL_SUCCESS_SC_REQUIRED',
+    msg: 'EMAIL_SUCCESS_SC_REQUIRED'
+  },
+  EMAIL_SUCCESS_EN_REQUIRED: {
+    type: 'EMAIL_SUCCESS_EN_REQUIRED',
+    msg: 'EMAIL_SUCCESS_EN_REQUIRED'
+  },
+
+  EMAIL_INVALID_TC_REQUIRED: {
+    type: 'EMAIL_INVALID_TC_REQUIRED',
+    msg: 'EMAIL_INVALID_TC_REQUIRED'
+  },
+  EMAIL_INVALID_SC_REQUIRED: {
+    type: 'EMAIL_INVALID_SC_REQUIRED',
+    msg: 'EMAIL_INVALID_SC_REQUIRED'
+  },
+  EMAIL_INVALID_EN_REQUIRED: {
+    type: 'EMAIL_INVALID_EN_REQUIRED',
+    msg: 'EMAIL_INVALID_EN_REQUIRED'
+  },
+
+  EMAIL_ADDRESS_ALREADY_EXISTS_TC_REQUIRED: {
+    type: 'EMAIL_ADDRESS_ALREADY_EXISTS_TC_REQUIRED',
+    msg: 'EMAIL_ADDRESS_ALREADY_EXISTS_TC_REQUIRED'
+  },
+  EMAIL_ADDRESS_ALREADY_EXISTS_SC_REQUIRED: {
+    type: 'EMAIL_ADDRESS_ALREADY_EXISTS_SC_REQUIRED',
+    msg: 'EMAIL_ADDRESS_ALREADY_EXISTS_SC_REQUIRED'
+  },
+  EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED: {
+    type: 'EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED',
+    msg: 'EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED'
   },
 
   // db check

@@ -1786,6 +1786,31 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
+        name='productionPersons_tc'
+        value={globalConstants.productionPersons_tc}
+        labelMessage={uiWordings['GlobalConstants.ProductionPersonsTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='productionPersons_sc'
+        value={globalConstants.productionPersons_sc}
+        labelMessage={uiWordings['GlobalConstants.ProductionPersonsScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='productionPersons_en'
+        value={globalConstants.productionPersons_en}
+        labelMessage={uiWordings['GlobalConstants.ProductionPersonsEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
         name='organizer_tc'
         value={globalConstants.organizer_tc}
         labelMessage={uiWordings['GlobalConstants.OrganizerTcLabel']}
@@ -1980,6 +2005,93 @@ const GlobalConstantsEdit = _ => {
         name='INTERVIEW_en'
         value={globalConstants.INTERVIEW_en}
         labelMessage={uiWordings['GlobalConstants.INTERVIEWEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='EMAIL_SUCCESS_tc'
+        value={globalConstants.EMAIL_SUCCESS_tc}
+        labelMessage={uiWordings['GlobalConstants.EMAIL_SUCCESSTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='EMAIL_SUCCESS_sc'
+        value={globalConstants.EMAIL_SUCCESS_sc}
+        labelMessage={uiWordings['GlobalConstants.EMAIL_SUCCESSScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='EMAIL_SUCCESS_en'
+        value={globalConstants.EMAIL_SUCCESS_en}
+        labelMessage={uiWordings['GlobalConstants.EMAIL_SUCCESSEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='EMAIL_ADDRESS_INVALID_tc'
+        value={globalConstants.EMAIL_ADDRESS_INVALID_tc}
+        labelMessage={
+          uiWordings['GlobalConstants.EMAIL_ADDRESS_INVALIDTcLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='EMAIL_ADDRESS_INVALID_sc'
+        value={globalConstants.EMAIL_ADDRESS_INVALID_sc}
+        labelMessage={
+          uiWordings['GlobalConstants.EMAIL_ADDRESS_INVALIDScLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='EMAIL_ADDRESS_INVALID_en'
+        value={globalConstants.EMAIL_ADDRESS_INVALID_en}
+        labelMessage={
+          uiWordings['GlobalConstants.EMAIL_ADDRESS_INVALIDEnLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='EMAIL_ADDRESS_ALREADY_EXISTS_tc'
+        value={globalConstants.EMAIL_ADDRESS_ALREADY_EXISTS_tc}
+        labelMessage={
+          uiWordings['GlobalConstants.EMAIL_ADDRESS_ALREADY_EXISTSTcLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='EMAIL_ADDRESS_ALREADY_EXISTS_sc'
+        value={globalConstants.EMAIL_ADDRESS_ALREADY_EXISTS_sc}
+        labelMessage={
+          uiWordings['GlobalConstants.EMAIL_ADDRESS_ALREADY_EXISTSScLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='EMAIL_ADDRESS_ALREADY_EXISTS_en'
+        value={globalConstants.EMAIL_ADDRESS_ALREADY_EXISTS_en}
+        labelMessage={
+          uiWordings['GlobalConstants.EMAIL_ADDRESS_ALREADY_EXISTSEnLabel']
+        }
         placeholder=''
         onChange={onChange}
         required={true}

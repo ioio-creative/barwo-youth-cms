@@ -798,6 +798,45 @@ const globalConstantsValidationChecks = [
   check(
     'INTERVIEW_en',
     globalConstantsResponseTypes.INTERVIEW_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'EMAIL_SUCCESS_tc',
+    globalConstantsResponseTypes.EMAIL_SUCCESS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'EMAIL_SUCCESS_sc',
+    globalConstantsResponseTypes.EMAIL_SUCCESS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'EMAIL_SUCCESS_en',
+    globalConstantsResponseTypes.EMAIL_SUCCESS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'EMAIL_ADDRESS_INVALID_tc',
+    globalConstantsResponseTypes.EMAIL_ADDRESS_INVALID_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'EMAIL_ADDRESS_INVALID_sc',
+    globalConstantsResponseTypes.EMAIL_ADDRESS_INVALID_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'EMAIL_ADDRESS_INVALID_en',
+    globalConstantsResponseTypes.EMAIL_ADDRESS_INVALID_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'EMAIL_ADDRESS_ALREADY_EXISTS_tc',
+    globalConstantsResponseTypes.EMAIL_ADDRESS_ALREADY_EXISTS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'EMAIL_ADDRESS_ALREADY_EXISTS_sc',
+    globalConstantsResponseTypes.EMAIL_ADDRESS_ALREADY_EXISTS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'EMAIL_ADDRESS_ALREADY_EXISTS_en',
+    globalConstantsResponseTypes.EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1093,6 +1132,10 @@ router.post(
       admins_sc,
       admins_en,
 
+      productionPersons_tc,
+      productionPersons_sc,
+      productionPersons_en,
+
       organizer_tc,
       organizer_sc,
       organizer_en,
@@ -1123,7 +1166,19 @@ router.post(
 
       INTERVIEW_tc,
       INTERVIEW_sc,
-      INTERVIEW_en
+      INTERVIEW_en,
+
+      EMAIL_SUCCESS_tc,
+      EMAIL_SUCCESS_sc,
+      EMAIL_SUCCESS_en,
+
+      EMAIL_ADDRESS_INVALID_tc,
+      EMAIL_ADDRESS_INVALID_sc,
+      EMAIL_ADDRESS_INVALID_en,
+
+      EMAIL_ADDRESS_ALREADY_EXISTS_tc,
+      EMAIL_ADDRESS_ALREADY_EXISTS_sc,
+      EMAIL_ADDRESS_ALREADY_EXISTS_en
     } = req.body;
 
     // Build global constants object
@@ -1390,6 +1445,10 @@ router.post(
     globalConstantsFields.admins_sc = admins_sc;
     globalConstantsFields.admins_en = admins_en;
 
+    globalConstantsFields.productionPersons_tc = productionPersons_tc;
+    globalConstantsFields.productionPersons_sc = productionPersons_sc;
+    globalConstantsFields.productionPersons_en = productionPersons_en;
+
     globalConstantsFields.organizer_tc = organizer_tc;
     globalConstantsFields.organizer_sc = organizer_sc;
     globalConstantsFields.organizer_en = organizer_en;
@@ -1421,6 +1480,18 @@ router.post(
     globalConstantsFields.INTERVIEW_tc = INTERVIEW_tc;
     globalConstantsFields.INTERVIEW_sc = INTERVIEW_sc;
     globalConstantsFields.INTERVIEW_en = INTERVIEW_en;
+
+    globalConstantsFields.EMAIL_SUCCESS_tc = EMAIL_SUCCESS_tc;
+    globalConstantsFields.EMAIL_SUCCESS_sc = EMAIL_SUCCESS_sc;
+    globalConstantsFields.EMAIL_SUCCESS_en = EMAIL_SUCCESS_en;
+
+    globalConstantsFields.EMAIL_ADDRESS_INVALID_tc = EMAIL_ADDRESS_INVALID_tc;
+    globalConstantsFields.EMAIL_ADDRESS_INVALID_sc = EMAIL_ADDRESS_INVALID_sc;
+    globalConstantsFields.EMAIL_ADDRESS_INVALID_en = EMAIL_ADDRESS_INVALID_en;
+
+    globalConstantsFields.EMAIL_ADDRESS_ALREADY_EXISTS_tc = EMAIL_ADDRESS_ALREADY_EXISTS_tc;
+    globalConstantsFields.EMAIL_ADDRESS_ALREADY_EXISTS_sc = EMAIL_ADDRESS_ALREADY_EXISTS_sc;
+    globalConstantsFields.EMAIL_ADDRESS_ALREADY_EXISTS_en = EMAIL_ADDRESS_ALREADY_EXISTS_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

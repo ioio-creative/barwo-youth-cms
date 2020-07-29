@@ -846,6 +846,19 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  productionPersons_tc: {
+    type: String,
+    require: true
+  },
+  productionPersons_sc: {
+    type: String,
+    require: true
+  },
+  productionPersons_en: {
+    type: String,
+    require: true
+  },
+
   organizer_tc: {
     type: String,
     require: true
@@ -946,6 +959,45 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
   INTERVIEW_en: {
+    type: String,
+    require: true
+  },
+
+  EMAIL_SUCCESS_tc: {
+    type: String,
+    require: true
+  },
+  EMAIL_SUCCESS_sc: {
+    type: String,
+    require: true
+  },
+  EMAIL_SUCCESS_en: {
+    type: String,
+    require: true
+  },
+
+  EMAIL_ADDRESS_INVALID_tc: {
+    type: String,
+    require: true
+  },
+  EMAIL_ADDRESS_INVALID_sc: {
+    type: String,
+    require: true
+  },
+  EMAIL_ADDRESS_INVALID_en: {
+    type: String,
+    require: true
+  },
+
+  EMAIL_ADDRESS_ALREADY_EXISTS_tc: {
+    type: String,
+    require: true
+  },
+  EMAIL_ADDRESS_ALREADY_EXISTS_sc: {
+    type: String,
+    require: true
+  },
+  EMAIL_ADDRESS_ALREADY_EXISTS_en: {
     type: String,
     require: true
   },
@@ -1230,6 +1282,10 @@ module.exports.globalConstantsResponseTypes = {
   ADMINS_SC_REQUIRED: 'ADMINS_SC_REQUIRED',
   ADMINS_EN_REQUIRED: 'ADMINS_EN_REQUIRED',
 
+  PRODUCTIONPERSONS_TC_REQUIRED: 'PRODUCTIONPERSONS_TC_REQUIRED',
+  PRODUCTIONPERSONS_SC_REQUIRED: 'PRODUCTIONPERSONS_SC_REQUIRED',
+  PRODUCTIONPERSONS_EN_REQUIRED: 'PRODUCTIONPERSONS_EN_REQUIRED',
+
   ORGANIZER_TC_REQUIRED: 'ORGANIZER_TC_REQUIRED',
   ORGANIZER_SC_REQUIRED: 'ORGANIZER_SC_REQUIRED',
   ORGANIZER_EN_REQUIRED: 'ORGANIZER_EN_REQUIRED',
@@ -1261,6 +1317,21 @@ module.exports.globalConstantsResponseTypes = {
   INTERVIEW_TC_REQUIRED: 'INTERVIEW_TC_REQUIRED',
   INTERVIEW_SC_REQUIRED: 'INTERVIEW_SC_REQUIRED',
   INTERVIEW_EN_REQUIRED: 'INTERVIEW_EN_REQUIRED',
+
+  EMAIL_SUCCESS_TC_REQUIRED: 'EMAIL_SUCCESS_TC_REQUIRED',
+  EMAIL_SUCCESS_SC_REQUIRED: 'EMAIL_SUCCESS_SC_REQUIRED',
+  EMAIL_SUCCESS_EN_REQUIRED: 'EMAIL_SUCCESS_EN_REQUIRED',
+
+  EMAIL_ADDRESS_INVALID_TC_REQUIRED: 'EMAIL_ADDRESS_INVALID_TC_REQUIRED',
+  EMAIL_ADDRESS_INVALID_SC_REQUIRED: 'EMAIL_ADDRESS_INVALID_SC_REQUIRED',
+  EMAIL_ADDRESS_INVALID_EN_REQUIRED: 'EMAIL_ADDRESS_INVALID_EN_REQUIRED',
+
+  EMAIL_ADDRESS_ALREADY_EXISTS_TC_REQUIRED:
+    'EMAIL_ADDRESS_ALREADY_EXISTS_TC_REQUIRED',
+  EMAIL_ADDRESS_ALREADY_EXISTS_SC_REQUIRED:
+    'EMAIL_ADDRESS_ALREADY_EXISTS_SC_REQUIRED',
+  EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED:
+    'EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

@@ -446,6 +446,9 @@ export default {
   'GlobalConstants.AdminsTcLabel': 'Admins TC',
   'GlobalConstants.AdminsScLabel': 'Admins SC',
   'GlobalConstants.AdminsEnLabel': 'Admins EN',
+  'GlobalConstants.ProductionPersonsTcLabel': 'Production Persons TC',
+  'GlobalConstants.ProductionPersonsScLabel': 'Production Persons SC',
+  'GlobalConstants.ProductionPersonsEnLabel': 'Production Persons EN',
   'GlobalConstants.OrganizerTcLabel': 'Organizer TC',
   'GlobalConstants.OrganizerScLabel': 'Organizer SC',
   'GlobalConstants.OrganizerEnLabel': 'Organizer EN',
@@ -470,6 +473,18 @@ export default {
   'GlobalConstants.INTERVIEWTcLabel': 'INTERVIEW TC',
   'GlobalConstants.INTERVIEWScLabel': 'INTERVIEW SC',
   'GlobalConstants.INTERVIEWEnLabel': 'INTERVIEW EN',
+  'GlobalConstants.EMAIL_SUCCESSTcLabel': 'EMAIL SUCCESS TC',
+  'GlobalConstants.EMAIL_SUCCESSScLabel': 'EMAIL SUCCESS SC',
+  'GlobalConstants.EMAIL_SUCCESSEnLabel': 'EMAIL SUCCESS EN',
+  'GlobalConstants.EMAIL_ADDRESS_INVALIDTcLabel': 'EMAIL ADDRESS INVALID TC',
+  'GlobalConstants.EMAIL_ADDRESS_INVALIDScLabel': 'EMAIL ADDRESS INVALID SC',
+  'GlobalConstants.EMAIL_ADDRESS_INVALIDEnLabel': 'EMAIL ADDRESS INVALID EN',
+  'GlobalConstants.EMAIL_ADDRESS_ALREADY_EXISTSTcLabel':
+    'EMAIL ADDRESS ALREADY EXISTS TC',
+  'GlobalConstants.EMAIL_ADDRESS_ALREADY_EXISTSScLabel':
+    'EMAIL ADDRESS ALREADY EXISTS SC',
+  'GlobalConstants.EMAIL_ADDRESS_ALREADY_EXISTSEnLabel':
+    'EMAIL ADDRESS ALREADY EXISTS EN',
 
   'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
   'GlobalConstants.LastModifyUserLabel': 'Last Modify User',
