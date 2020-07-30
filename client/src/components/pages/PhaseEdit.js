@@ -186,11 +186,11 @@ const PhaseEdit = _ => {
         buttons: [
           {
             label: 'Yes',
-            onClick: () => phaseDelete(phase)
+            onClick: _ => phaseDelete(phase)
           },
           {
             label: 'No',
-            onClick: () => removeAlerts()
+            onClick: _ => removeAlerts()
           }
         ]
       });

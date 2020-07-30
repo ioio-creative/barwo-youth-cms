@@ -175,11 +175,11 @@ const NewsEdit = _ => {
         buttons: [
           {
             label: 'Yes',
-            onClick: () => newsDelete(news)
+            onClick: _ => newsDelete(news)
           },
           {
             label: 'No',
-            onClick: () => removeAlerts()
+            onClick: _ => removeAlerts()
           }
         ]
       });

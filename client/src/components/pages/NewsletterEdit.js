@@ -195,11 +195,11 @@ const NewsletterEdit = _ => {
         buttons: [
           {
             label: 'Yes',
-            onClick: () => newsletterDelete(newsletter)
+            onClick: _ => newsletterDelete(newsletter)
           },
           {
             label: 'No',
-            onClick: () => removeAlerts()
+            onClick: _ => removeAlerts()
           }
         ]
       });

@@ -26,12 +26,10 @@ const artistSelectForFindAll = {
 
 const artistSelectForFindOne = { ...artistSelectForFindAll };
 
-const artistDeleteSelectForFindAll = {
-  isFeaturedInLandingPage: 0
-};
-
 const artistDeleteSelectForFindOne = {
-  ...artistDeleteSelectForFindAll
+  eventsDirected: 1,
+  eventsPerformed: 1,
+  isFeaturedInLandingPage: 1
 };
 
 const artistPopulationListForFindAll = [
@@ -328,25 +326,41 @@ router.put(
 // @access  Private
 router.delete('/:_id', async (req, res) => {
   try {
-    let artist = await Artist.findById(req.params._id)
-      .select(artistDeleteSelectForFindOne)
-      .populate(artistPopulationListForFindOne);
+    let artist = await Artist.findById(req.params._id).select(
+      artistDeleteSelectForFindOne
+    );
+
     if (!artist)
       return res
         .status(404)
         .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
-    if (
-      !isNonEmptyArray(artist.eventsPerformed) &&
-      !isNonEmptyArray(artist.eventsDirected)
-    ) {
-      artist = await Artist.findByIdAndDelete(req.params._id);
-    } else {
-      return res
-        .status(400)
-        .json({ errors: [artistResponseTypes.ARTIST_USED_IN_EVENT] });
+
+    const deleteCheckFailResponse = errorType => {
+      // 400 bad request
+      return res.status(400).json({ errors: [errorType] });
+    };
+
+    if (isNonEmptyArray(artist.eventsPerformed)) {
+      return deleteCheckFailResponse(
+        artistResponseTypes.ARTIST_PERFORMED_IN_EVENTS
+      );
     }
 
-    res.json({ type: artistResponseTypes.ARTIST_DELETED });
+    if (isNonEmptyArray(artist.eventsDirected)) {
+      return deleteCheckFailResponse(
+        artistResponseTypes.ARTIST_DIRECTED_IN_EVENTS
+      );
+    }
+
+    if (artist.isFeaturedInLandingPage) {
+      return deleteCheckFailResponse(
+        artistResponseTypes.ARTIST_FEATURED_IN_LANDING
+      );
+    }
+
+    await Artist.findByIdAndDelete(req.params._id);
+
+    res.sendStatus(200);
   } catch (err) {
     generalErrorHandle(err, res);
   }

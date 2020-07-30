@@ -11,7 +11,13 @@ const customModalStyles = {
 };
 
 // http://reactcommunity.org/react-modal/
-const MyModal = ({ className = '', isOpen = false, contentLabel, children, setParentIsOpen }) => {
+const MyModal = ({
+  className = '',
+  isOpen = false,
+  contentLabel,
+  children,
+  setParentIsOpen
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(isOpen);
 
   /* methods */
@@ -27,19 +33,27 @@ const MyModal = ({ className = '', isOpen = false, contentLabel, children, setPa
     setIsModalOpen(false);
   }, []);
 
-  useEffect(() => {
-    setIsModalOpen(isOpen);
-  }, [isOpen]);
+  useEffect(
+    _ => {
+      setIsModalOpen(isOpen);
+    },
+    [isOpen]
+  );
 
-  useEffect(() => {
-    invokeIfIsFunction(setParentIsOpen, isModalOpen);
-    // setParentIsOpen(isModalOpen);
-  }, [isModalOpen]);
+  useEffect(
+    _ => {
+      invokeIfIsFunction(setParentIsOpen, isModalOpen);
+      // setParentIsOpen(isModalOpen);
+    },
+    [isModalOpen]
+  );
   /* end of methods */
 
   return (
     <>
-      <Button className={className} onClick={openModal}>{contentLabel}</Button>
+      <Button className={className} onClick={openModal}>
+        {contentLabel}
+      </Button>
       <Modal
         isOpen={isModalOpen}
         //onAfterOpen={afterOpenModal}

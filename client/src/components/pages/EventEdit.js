@@ -306,11 +306,11 @@ const EventEdit = _ => {
         buttons: [
           {
             label: 'Yes',
-            onClick: () => eventDelete(event)
+            onClick: _ => eventDelete(event)
           },
           {
             label: 'No',
-            onClick: () => removeAlerts()
+            onClick: _ => removeAlerts()
           }
         ]
       });

@@ -45,7 +45,11 @@ const Testing = _ => {
           break;
       }
       if (setFuncToCall) {
-        setFuncToCall(Array.isArray(medium) ? medium.length + ' files selected' : medium.name + ' - ' + medium.src);
+        setFuncToCall(
+          Array.isArray(medium)
+            ? medium.length + ' files selected'
+            : medium.name + ' - ' + medium.src
+        );
       }
     };
 
@@ -119,7 +123,7 @@ const Testing = _ => {
       </div>
       <div className=''>
         <button
-          onClick={() =>
+          onClick={_ =>
             window.open(
               generatePath(routes.fileManager, {
                 fileType: 'images',
@@ -131,7 +135,7 @@ const Testing = _ => {
           open image file manager
         </button>
         <button
-          onClick={() =>
+          onClick={_ =>
             window.open(
               generatePath(routes.fileManager, {
                 fileType: 'videos',
@@ -143,7 +147,7 @@ const Testing = _ => {
           open video file manager
         </button>
         <button
-          onClick={() =>
+          onClick={_ =>
             window.open(
               generatePath(routes.fileManager, {
                 fileType: 'audios',
@@ -155,7 +159,7 @@ const Testing = _ => {
           open audio file manager
         </button>
         <button
-          onClick={() =>
+          onClick={_ =>
             window.open(
               generatePath(routes.fileManager, {
                 fileType: 'pdfs',
@@ -167,32 +171,32 @@ const Testing = _ => {
           open pdf file manager
         </button>
         <ModalFileManager
-          title="File Manager"
+          title='File Manager'
           multiple={false}
-          onSelect={(e) => {
+          onSelect={e => {
             if (Array.isArray(e)) {
               if (e.length > 1) {
                 setBtn5Value(e.length + ' files selected');
               } else if (e.length === 1) {
                 setBtn5Value(e[0].name);
               } else {
-                setBtn5Value("nth selected");
+                setBtn5Value('nth selected');
               }
             }
           }}
         />
         <ModalFileManager
-          title="File Manager (multiple)"
-          mediaTypeParam="images"
+          title='File Manager (multiple)'
+          mediaTypeParam='images'
           multiple={true}
-          onSelect={(e) => {
+          onSelect={e => {
             if (Array.isArray(e)) {
               if (e.length > 1) {
                 setBtn5Value(e.length + ' files selected');
               } else if (e.length === 1) {
                 setBtn5Value(e[0].name);
               } else {
-                setBtn5Value("nth selected");
+                setBtn5Value('nth selected');
               }
             }
           }}
@@ -212,8 +216,8 @@ const Testing = _ => {
           labelMessage={'Contact.EmailAddress'}
           placeholder=''
           onChange={onChange}
-        // TODO:
-        //required={true}
+          // TODO:
+          //required={true}
         />
         {/* <LabelInputTextPair
           name='name'

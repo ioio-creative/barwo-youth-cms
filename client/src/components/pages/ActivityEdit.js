@@ -204,11 +204,11 @@ const ActivityEdit = _ => {
         buttons: [
           {
             label: 'Yes',
-            onClick: () => activityDelete(activity)
+            onClick: _ => activityDelete(activity)
           },
           {
             label: 'No',
-            onClick: () => removeAlerts()
+            onClick: _ => removeAlerts()
           }
         ]
       });

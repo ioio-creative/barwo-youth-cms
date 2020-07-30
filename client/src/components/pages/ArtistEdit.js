@@ -204,18 +204,17 @@ const ArtistEdit = _ => {
   const onDeleteButtonClick = useCallback(
     _ => {
       removeAlerts();
-      // console.log(artist);
       confirmAlert({
         title: 'Confirm to submit',
         message: 'Are you sure to delete?',
         buttons: [
           {
             label: 'Yes',
-            onClick: () => artistDelete(artist)
+            onClick: _ => artistDelete(artist)
           },
           {
             label: 'No',
-            onClick: () => removeAlerts()
+            onClick: _ => removeAlerts()
           }
         ]
       });

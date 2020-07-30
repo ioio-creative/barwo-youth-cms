@@ -442,74 +442,83 @@ const FileManager = ({
   /* end of methods */
 
   // componentDidMount
-  useEffect(() => {
-    document.addEventListener('dragenter', handleDragEnter, false);
-    document.addEventListener('dragover', handleDragOver, false);
-    document.addEventListener('dragleave', handleDragLeave, false);
-    document.addEventListener('mouseup', handleDragLeave, false);
-    document.addEventListener('drop', handleDropUpload, false);
-
-    getMedia(mediumTypeObj, {
-      // page,
-      sortOrder: -1,
-      sortBy: 'createDT',
-      filterText,
-      limit: numberOfFilesInExplorer
-    });
-    return () => {
-      document.removeEventListener('dragenter', handleDragEnter, false);
-      document.removeEventListener('dragover', handleDragOver, false);
-      document.removeEventListener('dragleave', handleDragLeave, false);
+  useEffect(
+    _ => {
+      document.addEventListener('dragenter', handleDragEnter, false);
+      document.addEventListener('dragover', handleDragOver, false);
+      document.addEventListener('dragleave', handleDragLeave, false);
       document.addEventListener('mouseup', handleDragLeave, false);
-      document.removeEventListener('drop', handleDropUpload, false);
+      document.addEventListener('drop', handleDropUpload, false);
 
-      clearMedia();
-      removeAlerts();
-    };
-  }, [
-    mediumTypeObj,
-    getMedia,
-    clearMedia,
-    removeAlerts,
-    filterText,
-    handleDragEnter,
-    handleDragOver,
-    handleDragLeave,
-    handleDropUpload
-  ]);
+      getMedia(mediumTypeObj, {
+        // page,
+        sortOrder: -1,
+        sortBy: 'createDT',
+        filterText,
+        limit: numberOfFilesInExplorer
+      });
+      return _ => {
+        document.removeEventListener('dragenter', handleDragEnter, false);
+        document.removeEventListener('dragover', handleDragOver, false);
+        document.removeEventListener('dragleave', handleDragLeave, false);
+        document.addEventListener('mouseup', handleDragLeave, false);
+        document.removeEventListener('drop', handleDropUpload, false);
 
-  useEffect(() => {
-    if (onSelect) {
-      returnElementType.current = RETURNTYPE.Modal;
-    } else if (
-      CKEditorFuncNum &&
-      window.opener &&
-      window.opener.CKEDITOR &&
-      window.opener.CKEDITOR.tools
-    ) {
-      // call from CKEditor
-      returnElementType.current = RETURNTYPE.CKEditor;
-      multipleSelect.current = false;
-    } else if (window.opener && window.opener.getMediaData) {
-      returnElementType.current = RETURNTYPE.Popup;
-    } else {
-      // maybe some other use case?
-      // window.close();
-      returnElementType.current = RETURNTYPE.Unknown;
-    }
-  }, [onSelect, CKEditorFuncNum, additionalCallbackParam]);
+        clearMedia();
+        removeAlerts();
+      };
+    },
+    [
+      mediumTypeObj,
+      getMedia,
+      clearMedia,
+      removeAlerts,
+      filterText,
+      handleDragEnter,
+      handleDragOver,
+      handleDragLeave,
+      handleDropUpload
+    ]
+  );
+
+  useEffect(
+    _ => {
+      if (onSelect) {
+        returnElementType.current = RETURNTYPE.Modal;
+      } else if (
+        CKEditorFuncNum &&
+        window.opener &&
+        window.opener.CKEDITOR &&
+        window.opener.CKEDITOR.tools
+      ) {
+        // call from CKEditor
+        returnElementType.current = RETURNTYPE.CKEditor;
+        multipleSelect.current = false;
+      } else if (window.opener && window.opener.getMediaData) {
+        returnElementType.current = RETURNTYPE.Popup;
+      } else {
+        // maybe some other use case?
+        // window.close();
+        returnElementType.current = RETURNTYPE.Unknown;
+      }
+    },
+    [onSelect, CKEditorFuncNum, additionalCallbackParam]
+  );
 
   // fetchedMedia
-  useEffect(() => {
-    if (fetchedMedia) {
-      setMediaList(
-        fetchedMedia.filter(
-          medium =>
-            medium.type === mediumTypeObj.value /* paramsToType[mediaType] */
-        )
-      );
-    }
-  }, [fetchedMedia, mediumTypeObj.value]);
+  useEffect(
+    _ => {
+      if (fetchedMedia) {
+        setMediaList(
+          fetchedMedia.filter(
+            medium =>
+              medium.type === mediumTypeObj.value /* paramsToType[mediaType] */
+          )
+        );
+      }
+    },
+    [fetchedMedia, mediumTypeObj.value]
+  );
 
   // mediaErrors
   useEffect(
@@ -550,7 +559,7 @@ const FileManager = ({
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
                       } tag`}
                     key={tag}
-                    onClick={() => selectTag(tag)}
+                    onClick={_ => selectTag(tag)}
                   >
                     {tag}
                   </div>
@@ -700,7 +709,7 @@ const FileManager = ({
                 </div>
                 {/* <div
                   className='w3-btn w3-text-red'
-                  onClick={() =>
+                  onClick={_ =>
                     alert(
                       'delete file from server here\nbut the file being deleted may be using somewhere'
                     )

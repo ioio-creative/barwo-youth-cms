@@ -22,7 +22,7 @@ const defaultState = {
   password2: ''
 };
 
-const PasswordEdit = () => {
+const PasswordEdit = _ => {
   const { authUser } = useContext(AuthContext);
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
