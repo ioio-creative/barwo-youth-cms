@@ -5,7 +5,7 @@ export default {
   'Navbar.Login': 'Login',
   'Navbar.Logout': 'Logout',
   'Navbar.Greeting': '你好',
-  'Navbar.ChangePasswoed': 'Change Password',
+  'Navbar.PasswordEdit': 'Password Edit',
   'Navbar.Users': 'Users',
   'Navbar.Artists': 'Artists',
   'Navbar.Events': 'Events',
@@ -15,6 +15,7 @@ export default {
   'Navbar.TicketingDefaultEdit': 'Ticketing Default',
   'Navbar.Contacts': 'Contacts',
   'Navbar.Newsletters': 'Newsletters',
+  'Navbar.SenderEdit': 'Sender',
   'Navbar.Activities': 'Activities',
   'Navbar.Newses': 'News',
   'Navbar.About': 'About Page',
@@ -48,6 +49,7 @@ export default {
   'UserEdit.BackToUserList': 'Back to User List',
   'UserEdit.AddUserTitle': 'Add User',
   'UserEdit.EditUserTitle': 'Edit User',
+  'UserEdit.PasswordEdit': 'Password Edit',
   'UserEdit.OldPasswordLabel': 'Old Password',
   'UserEdit.NewPasswordLabel': 'New Password',
   'UserEdit.ConfirmPasswordLabel': 'Confirm Password',
@@ -619,6 +621,14 @@ export default {
   'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sended',
   'NewsletterEdit.DeleteNewsletterSuccessMessage': 'Newsletter Deleted',
 
+  'NewsletterPreview.Title': 'Newsletter Preview',
+  'NewsletterPreview.TcLabel': 'Traditional Chinese',
+  'NewsletterPreview.ScLabel': 'Simpified Chinese',
+  'NewsletterPreview.EnLabel': 'English',
+  'NewsletterPreview.SubjectLabel': 'Subject: ',
+  'NewsletterPreview.FromLabel': 'From: ',
+  'NewsletterPreview.ToLabel': 'To: ',
+
   'SendHistories.Title': 'Send Histories',
 
   'SendHistory.LabelLabel': 'Label',
@@ -639,6 +649,19 @@ export default {
 
   'SendHistoryView.BackToSendHistoryList': 'Back to Send History List',
   'SendHistoryView.ViewSendHistory': 'Send History View',
+
+  'Sender.Title': 'Sender',
+
+  'Sender.EmailAddressLabel': 'Email Address',
+  'Sender.NameTcLabel': 'Name TC',
+  'Sender.NameScLabel': 'Name SC',
+  'Sender.NameEnLabel': 'Name EN',
+  'Sender.LastModifyDTLabel': 'Last Modify DT',
+  'Sender.LastModifyUserLabel': 'Last Modify User',
+
+  'SenderEdit.EditSenderTitle': 'Edit Sender',
+  'SenderEdit.UpdateSenderSubmit': 'Update Sender',
+  'SenderEdit.UpdateSenderSuccessMessage': 'Sender Updated',
 
   'Activities.Title': 'Activities',
 

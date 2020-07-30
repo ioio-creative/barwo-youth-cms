@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
-import NewslettersState from 'contexts/newsletters/NewslettersState';
+import UsersState from 'contexts/users/UsersState';
 import uiWordings from 'globals/uiWordings';
 
-const NewsletterPageContainer = ({ children }) => {
+const PasswordEditPageContainer = ({ children }) => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
 
   // componentDidMount
   useEffect(_ => {
-    setTitle(uiWordings['Newsletters.Title']);
+    setTitle(uiWordings['UserEdit.PasswordEdit']);
     return _ => {
       removeTitle();
     };
@@ -16,10 +16,10 @@ const NewsletterPageContainer = ({ children }) => {
   }, []);
 
   return (
-    <NewslettersState>
-      <div className='newsletter-page-container'>{children}</div>
-    </NewslettersState>
+    <UsersState>
+      <div className='password-edit-page-container'>{children}</div>
+    </UsersState>
   );
 };
 
-export default NewsletterPageContainer;
+export default PasswordEditPageContainer;

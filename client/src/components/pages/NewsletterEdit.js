@@ -23,6 +23,7 @@ import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
 import SendOutList from '../sendhistory/SendOutList';
+import NewsletterPreview from '../newsletters/NewslettwePreview';
 
 const emptyNewsletter = new Newsletter();
 const defaultState = emptyNewsletter;
@@ -273,19 +274,13 @@ const NewsletterEdit = _ => {
   return (
     <>
       {backToNewsletterListButton}
-      {!isSubmitEnabled && (
-        <>
-          <div className='w3-quarter'>
-            <Button onClick={onSendButtonClick}>
-              {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
-            </Button>
-          </div>
-          <div className='w3-right'>
-            <SendOutList newsletterId={newsletter._id} />
-          </div>
-        </>
-      )}
       <Form onSubmit={onSubmit}>
+        <Button onClick={onSendButtonClick} className='w3-container w3-right'>
+          {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
+        </Button>
+        <div className='w3-container w3-right'>
+          <SendOutList newsletterId={newsletter._id} />
+        </div>
         <h4>
           {isAddMode
             ? uiWordings['NewsletterEdit.AddNewsletterTitle']
@@ -356,10 +351,6 @@ const NewsletterEdit = _ => {
 
         {!isAddMode && (
           <>
-            {/* <LabelLabelPair
-              value={newsletter.createDTDisplay}
-              labelMessage={uiWordings['Newsletter.CreateDTLabel']}
-            /> */}
             <LabelLabelPair
               value={newsletter.lastModifyDTDisplay}
               labelMessage={uiWordings['Newsletter.LastModifyDTLabel']}
@@ -379,13 +370,18 @@ const NewsletterEdit = _ => {
           }
         />
         {!isAddMode && (
-          <Button
-            onClick={onDeleteButtonClick}
-            color='red'
-            className='w3-right'
-          >
-            {uiWordings['NewsletterEdit.DeleteNewsletter']}
-          </Button>
+          <>
+            <Button
+              onClick={onDeleteButtonClick}
+              color='red'
+              className='w3-container w3-right'
+            >
+              {uiWordings['NewsletterEdit.DeleteNewsletter']}
+            </Button>
+            <div className='w3-container w3-right'>
+              <NewsletterPreview newsletter={newsletter._id} />
+            </div>
+          </>
         )}
       </Form>
     </>

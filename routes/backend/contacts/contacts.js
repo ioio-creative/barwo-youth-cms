@@ -27,7 +27,7 @@ const contactPopulationListForFindAll = [
 const contactPopulationListForFindOne = [...contactPopulationListForFindAll];
 
 const contactValidationChecks = [
-  check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_REQUIRED)
+  check('emailAddress', contactResponseTypes.EMAIL_ADDRESS_INVALID)
     .isEmail()
     .notEmpty(),
   // check('name', contactResponseTypes.NAME_REQUIRED).notEmpty(),
