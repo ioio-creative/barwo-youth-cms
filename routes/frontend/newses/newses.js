@@ -53,7 +53,7 @@ const getNewsForFrontEndFromDbNews = (news, language) => {
     id: news._id,
     label: news.label,
     name: getEntityPropByLanguage(news, 'name', language),
-    description: getEntityPropByLanguage(news, 'description', language),
+    description: getEntityPropByLanguage(news, 'desc', language),
     featuredImage: {
       src: news.featuredImage && news.featuredImage.url
     },
