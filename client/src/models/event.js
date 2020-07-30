@@ -170,9 +170,9 @@ Event.eventsResponseTypes = {
     type: 'LABEL_ALREADY_EXISTS',
     msg: 'LABEL_ALREADY_EXISTS'
   },
-  EVENT_USED_IN_PHASE: {
-    type: 'EVENT_USED_IN_PHASE',
-    msg: 'EVENT_USED_IN_PHASE'
+  EVENT_INVOLVED_IN_PHASES: {
+    type: 'EVENT_INVOLVED_IN_PHASES',
+    msg: "EVENT_INVOLVED_IN_PHASES, hence can't be disabled or deleted"
   },
 
   // general

@@ -108,15 +108,15 @@ Artist.artistsResponseTypes = {
   },
   ARTIST_PERFORMED_IN_EVENTS: {
     type: 'ARTIST_PERFORMED_IN_EVENTS',
-    msg: 'ARTIST_PERFORMED_IN_EVENTS'
+    msg: "ARTIST_PERFORMED_IN_EVENTS, hence can't be disabled or deleted"
   },
   ARTIST_DIRECTED_IN_EVENTS: {
     type: 'ARTIST_DIRECTED_IN_EVENTS',
-    msg: 'ARTIST_DIRECTED_IN_EVENTS'
+    msg: "ARTIST_DIRECTED_IN_EVENTS, hence can't be disabled or deleted"
   },
   ARTIST_FEATURED_IN_LANDING: {
     type: 'ARTIST_FEATURED_IN_LANDING',
-    msg: 'ARTIST_FEATURED_IN_LANDING'
+    msg: "ARTIST_FEATURED_IN_LANDING, hence can't be disabled or deleted"
   },
 
   // general

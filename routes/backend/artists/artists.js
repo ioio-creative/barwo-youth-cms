@@ -18,19 +18,25 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
-const artistSelectForFindAll = {
-  eventsDirected: 0,
-  eventsPerformed: 0,
-  isFeaturedInLandingPage: 0
-};
+const relationshipFields = [
+  'eventsDirected',
+  'eventsPerformed',
+  'isFeaturedInLandingPage'
+];
+
+const artistSelectForFindAll = {};
+
+relationshipFields.forEach(fieldName => {
+  artistSelectForFindAll[fieldName] = 0;
+});
 
 const artistSelectForFindOne = { ...artistSelectForFindAll };
 
-const artistDeleteSelectForFindOne = {
-  eventsDirected: 1,
-  eventsPerformed: 1,
-  isFeaturedInLandingPage: 1
-};
+const artistDeleteSelectForFindOne = {};
+
+relationshipFields.forEach(fieldName => {
+  artistDeleteSelectForFindOne[fieldName] = 1;
+});
 
 const artistPopulationListForFindAll = [
   {
@@ -300,11 +306,42 @@ router.put(
     if (isEnabled === false) artistFields.order = null;
 
     try {
-      let artist = await Artist.findById(req.params._id);
-      if (!artist)
+      let artist = await Artist.findById(req.params._id)
+        .select(artistSelectForFindOne)
+        .populate(artistPopulationListForFindOne);
+
+      if (!artist) {
         return res
           .status(404)
           .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
+      }
+
+      /* disable check */
+
+      // const deleteCheckFailResponse = errorType => {
+      //   // 400 bad request
+      //   return res.status(400).json({ errors: [errorType] });
+      // };
+
+      // if (isNonEmptyArray(artist.eventsPerformed)) {
+      //   return deleteCheckFailResponse(
+      //     artistResponseTypes.ARTIST_PERFORMED_IN_EVENTS
+      //   );
+      // }
+
+      // if (isNonEmptyArray(artist.eventsDirected)) {
+      //   return deleteCheckFailResponse(
+      //     artistResponseTypes.ARTIST_DIRECTED_IN_EVENTS
+      //   );
+      // }
+
+      // if (artist.isFeaturedInLandingPage) {
+      //   return deleteCheckFailResponse(
+      //     artistResponseTypes.ARTIST_FEATURED_IN_LANDING
+      //   );
+      // }
+
+      /* end of disable check */
 
       artist = await Artist.findByIdAndUpdate(
         req.params._id,
@@ -324,16 +361,19 @@ router.put(
 // @route   DELETE api/backend/artists/artists/:_id
 // @desc    Delete artist
 // @access  Private
-router.delete('/:_id', async (req, res) => {
+router.delete('/:_id', [auth], async (req, res) => {
   try {
     let artist = await Artist.findById(req.params._id).select(
       artistDeleteSelectForFindOne
     );
 
-    if (!artist)
+    if (!artist) {
       return res
         .status(404)
         .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
+    }
+
+    /* delete check */
 
     const deleteCheckFailResponse = errorType => {
       // 400 bad request
@@ -357,6 +397,8 @@ router.delete('/:_id', async (req, res) => {
         artistResponseTypes.ARTIST_FEATURED_IN_LANDING
       );
     }
+
+    /* end of delete check */
 
     await Artist.findByIdAndDelete(req.params._id);
 

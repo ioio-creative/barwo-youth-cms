@@ -172,24 +172,13 @@ router.put(
 // @route   DELETE api/backend/Contacts/Contacts/:_id
 // @desc    Delete contact
 // @access  Private
-router.delete('/:_id', async (req, res) => {
+router.delete('/:_id', [auth], async (req, res) => {
   try {
-    let contact = await Contact.findById(req.params._id)
-      .select(contactSelectForFindOne)
-      .populate(contactPopulationListForFindOne);
-    if (!contact)
-      return res
-        .status(404)
-        .json({ errors: [contactResponseTypes.ACTIVITY_NOT_EXISTS] });
-
-    contact = await Contact.findByIdAndDelete(req.params._id);
-
-    res.json({ type: contactResponseTypes.ACTIVITY_DELETED });
+    await Contact.findByIdAndDelete(req.params._id);
+    res.sendStatus(200);
   } catch (err) {
     generalErrorHandle(err, res);
   }
 });
 
 module.exports = router;
-
-module.exports.handleContactLabelDuplicateKeyError = handleContactLabelDuplicateKeyError;

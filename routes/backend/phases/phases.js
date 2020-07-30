@@ -266,19 +266,10 @@ router.put(
 // @route   DELETE api/backend/phases/phases/:_id
 // @desc    Delete phase
 // @access  Private
-router.delete('/:_id', async (req, res) => {
+router.delete('/:_id', [auth], async (req, res) => {
   try {
-    let phase = await Phase.findById(req.params._id)
-      .select(phaseSelectForFindOne)
-      .populate(phasePopulationListForFindOne);
-    if (!phase)
-      return res
-        .status(404)
-        .json({ errors: [phaseResponseTypes.PHASE_NOT_EXISTS] });
-
-    phase = await Phase.findByIdAndDelete(req.params._id);
-
-    res.json({ type: phaseResponseTypes.PHASE_DELETED });
+    await Phase.findByIdAndDelete(req.params._id);
+    res.sendStatus(200);
   } catch (err) {
     generalErrorHandle(err, res);
   }

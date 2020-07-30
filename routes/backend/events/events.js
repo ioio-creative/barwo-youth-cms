@@ -24,15 +24,23 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
+const relationshipFields = ['phasesInvolved'];
+
 const eventSelectForFindAll = {
   phasesInvolved: 0
 };
 
+relationshipFields.forEach(fieldName => {
+  eventSelectForFindAll[fieldName] = 0;
+});
+
 const eventSelectForFindOne = { ...eventSelectForFindAll };
 
-const eventDeleteSelectForFindAll = {};
+const eventDeleteSelectForFindOne = {};
 
-const eventDeleteSelectForFindOne = { ...eventDeleteSelectForFindAll };
+relationshipFields.forEach(fieldName => {
+  eventDeleteSelectForFindOne[fieldName] = 1;
+});
 
 const eventPopulationListForFindAll = [
   {
@@ -644,25 +652,27 @@ router.put(
 // @route   DELETE api/backend/events/events/:_id
 // @desc    Delete event
 // @access  Private
-router.delete('/:_id', async (req, res) => {
+router.delete('/:_id', [auth], async (req, res) => {
   try {
-    let event = await Event.findById(req.params._id)
-      .select(eventDeleteSelectForFindOne)
-      .populate(eventPopulationListForFindOne);
-    if (!event)
+    let event = await Event.findById(req.params._id).select(
+      eventDeleteSelectForFindOne
+    );
+
+    if (!event) {
       return res
         .status(404)
         .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
-    if (!isNonEmptyArray(event.phasesInvolved)) {
-      console.log('delete');
-      // event = await Event.findByIdAndDelete(req.params._id);
-    } else {
-      return res
-        .status(400)
-        .json({ errors: [eventResponseTypes.EVENT_USED_IN_PHASE] });
     }
 
-    res.json({ type: eventResponseTypes.EVENT_DELETED });
+    if (isNonEmptyArray(event.phasesInvolved)) {
+      return res
+        .status(400)
+        .json({ errors: [eventResponseTypes.EVENT_INVOLVED_IN_PHASES] });
+    }
+
+    await Event.findByIdAndDelete(req.params._id);
+
+    res.sendStatus(200);
   } catch (err) {
     generalErrorHandle(err, res);
   }
