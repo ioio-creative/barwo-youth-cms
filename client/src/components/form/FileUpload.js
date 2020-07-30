@@ -27,22 +27,24 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
   padding: grid * 2,
-  margin: `0 ${grid}px 0 0`,
+  margin: `0 ${grid}px ${grid}px 0`,
 
   // change background colour if dragging
   background: isDragging ? 'lightgreen' : 'grey',
+  position: 'relative',
 
-  width: '100%',
+  // width: '100%',
 
   // styles we need to apply on draggables
   ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  background: (isDraggingOver ? 'lightblue' : 'lightgrey'),
   display: 'flex',
   padding: grid,
-  overflow: 'auto'
+  overflow: 'auto',
+  flexWrap: 'wrap'
 });
 
 /* end of constants */
@@ -67,7 +69,7 @@ const Item = ({ file, handleItemRemoved, index }) => {
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
       {(provided, snapshot) => (
         <div
-          className='file-upload-item'
+          className='file-upload-item w3-third'
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -76,7 +78,7 @@ const Item = ({ file, handleItemRemoved, index }) => {
             provided.draggableProps.style
           )}
         >
-          <div className='w3-third'>
+          <div className=''>
             <div className='medium-wrapper'>
               {
                 {
@@ -113,7 +115,7 @@ const Item = ({ file, handleItemRemoved, index }) => {
               }
             </div>
           </div>
-          <div className='w3-right'>
+          <div className='close-btn'>
             {isFunction(handleItemRemoved) ? (
               <LabelSortableListPair.ItemRemoveButton
                 onClick={onRemoveButtonClick}
@@ -149,7 +151,8 @@ const FileUpload = ({
   files,
   onGetFiles,
   mediumType,
-  isMultiple
+  isMultiple,
+  orderDirection
 }) => {
   const filesInPickedList = useMemo(
     _ => {
@@ -219,6 +222,7 @@ const FileUpload = ({
         onAddButtonClick={onAddButtonClick}
         isMultiple={isMultiple}
         mediaType={mediumType.apiRoute}
+        orderDirection={orderDirection}
       />
     </div>
   );

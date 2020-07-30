@@ -93,19 +93,23 @@ const ArtistEdit = _ => {
   // fetchedArtist
   useEffect(
     _ => {
-      setArtist(
-        fetchedArtist ? Artist.getArtistForDisplay(fetchedArtist) : defaultState
-      );
-      if (fetchedArtist) {
-        setQnasPicked(getArraySafe(fetchedArtist.qnas));
-        setFeaturedImagePicked(fetchedArtist.featuredImage);
-        setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
-        setGalleryPicked(getArraySafe(fetchedArtist.gallery));
-        setSoundPicked(fetchedArtist.sound);
+      if (!artistsLoading) {
+        setArtist(
+          fetchedArtist
+            ? Artist.getArtistForDisplay(fetchedArtist)
+            : defaultState
+        );
+        if (fetchedArtist) {
+          setQnasPicked(getArraySafe(fetchedArtist.qnas));
+          setFeaturedImagePicked(fetchedArtist.featuredImage);
+          setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
+          setGalleryPicked(getArraySafe(fetchedArtist.gallery));
+          setSoundPicked(fetchedArtist.sound);
+        }
+        setIsAddMode(!fetchedArtist);
       }
-      setIsAddMode(!fetchedArtist);
     },
-    [fetchedArtist]
+    [artistsLoading, fetchedArtist]
   );
 
   // artistsErrors
@@ -406,6 +410,7 @@ const ArtistEdit = _ => {
             onGetFiles={onGetGalleryPicked}
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
+            orderDirection={"horizontal"}
           />
           <FileUpload
             name='sound'

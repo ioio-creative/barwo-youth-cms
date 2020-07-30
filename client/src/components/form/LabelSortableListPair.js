@@ -19,7 +19,8 @@ const LabelSortableListPair = ({
   getPickedItems,
   isMultiple,
   onAddButtonClick,
-  mediaType
+  mediaType,
+  orderDirection
 }) => {
   /* event handlers */
 
@@ -48,8 +49,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseRemove
         ? newItemList => {
-            handleGetPickedItems(newItemList);
-          }
+          handleGetPickedItems(newItemList);
+        }
         : null;
     },
     [isUseRemove, handleGetPickedItems]
@@ -59,8 +60,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseToFirst
         ? newItemList => {
-            handleGetPickedItems(newItemList);
-          }
+          handleGetPickedItems(newItemList);
+        }
         : null;
     },
     [isUseToFirst, handleGetPickedItems]
@@ -70,8 +71,8 @@ const LabelSortableListPair = ({
     _ => {
       return isUseToLast
         ? newItemList => {
-            handleGetPickedItems(newItemList);
-          }
+          handleGetPickedItems(newItemList);
+        }
         : null;
     },
     [isUseToLast, handleGetPickedItems]
@@ -110,6 +111,7 @@ const LabelSortableListPair = ({
           onItemChange={handleSortableListItemChange}
           onItemToFirst={handleSortableListItemToFirst}
           onItemToLast={handleSortableListItemToLast}
+          orderDirection={orderDirection}
         />
       </div>
     </div>

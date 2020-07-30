@@ -29,7 +29,7 @@ const ItemRemoveButton = ({ className, onClick }) => {
   return (
     <span
       title={uiWordings['SortableList.ItemRemoveButton.Tooltip']}
-      className={`w3-margin-left item-button ${className || ''}`}
+      className={`item-button ${className || ''}`}
       onClick={onClick}
     >
       <i className='fa fa-times' />
@@ -159,7 +159,8 @@ const SortableList = ({
   onItemRemoved,
   onItemChange,
   onItemToFirst,
-  onItemToLast
+  onItemToLast,
+  orderDirection = "vertical"
 }) => {
   /* event handlers */
 
@@ -185,9 +186,9 @@ const SortableList = ({
     _ => {
       return isFunction(onItemRemoved)
         ? idxRemoved => {
-            const newItems = items.filter((_, idx) => idx !== idxRemoved);
-            onItemRemoved(newItems);
-          }
+          const newItems = items.filter((_, idx) => idx !== idxRemoved);
+          onItemRemoved(newItems);
+        }
         : null;
     },
     [items, onItemRemoved]
@@ -197,14 +198,14 @@ const SortableList = ({
     _ => {
       return isFunction(onItemChange)
         ? (newItem, newItemIdx) => {
-            const newItems = items.map((item, idx) => {
-              if (idx !== newItemIdx) {
-                return item;
-              }
-              return newItem;
-            });
-            onItemChange(newItems);
-          }
+          const newItems = items.map((item, idx) => {
+            if (idx !== newItemIdx) {
+              return item;
+            }
+            return newItem;
+          });
+          onItemChange(newItems);
+        }
         : null;
     },
     [items, onItemChange]
@@ -214,10 +215,10 @@ const SortableList = ({
     _ => {
       return isFunction(onItemToFirst)
         ? itemIdx => {
-            const newItems = items.filter((_, idx) => idx !== itemIdx);
-            newItems.unshift(items[itemIdx]);
-            onItemToFirst(newItems);
-          }
+          const newItems = items.filter((_, idx) => idx !== itemIdx);
+          newItems.unshift(items[itemIdx]);
+          onItemToFirst(newItems);
+        }
         : null;
     },
     [items, onItemToFirst]
@@ -227,10 +228,10 @@ const SortableList = ({
     _ => {
       return isFunction(onItemToLast)
         ? itemIdx => {
-            const newItems = items.filter((_, idx) => idx !== itemIdx);
-            newItems.push(items[itemIdx]);
-            onItemToLast(newItems);
-          }
+          const newItems = items.filter((_, idx) => idx !== itemIdx);
+          newItems.push(items[itemIdx]);
+          onItemToLast(newItems);
+        }
         : null;
     },
     [items, onItemToLast]
@@ -286,7 +287,7 @@ const SortableList = ({
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId={_id}>
+      <Droppable droppableId={_id} direction={orderDirection}>
         {(provided, snapshot) => (
           <div
             className='sortable-list'
