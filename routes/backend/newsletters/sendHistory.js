@@ -136,7 +136,7 @@ router.post(
 
       await Promise.all(
         contacts.docs.map(async contact => {
-          if (contact.language === 'TC') {
+          if (contact.language === 'TC' && contact.isEnable) {
             await emailSend(
               contact,
               sender.emailAddress,
@@ -144,7 +144,7 @@ router.post(
               title_tc,
               message_tc
             );
-          } else if (contact.language === 'SC') {
+          } else if (contact.language === 'SC' && contact.isEnable) {
             await emailSend(
               contact,
               sender.emailAddress,
@@ -152,7 +152,7 @@ router.post(
               title_sc,
               message_sc
             );
-          } else {
+          } else if (contact.language === 'EN' && contact.isEnable) {
             await emailSend(
               contact,
               sender.emailAddress,
