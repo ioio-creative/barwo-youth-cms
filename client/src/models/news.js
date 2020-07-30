@@ -1,7 +1,7 @@
 import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
-import { defaultMediumLinkType } from 'types/mediumLink';
+//import { defaultMediumLinkType } from 'types/mediumLink';
 
 const newsTypes = {
   SPECIAL_NOTICE: {
@@ -29,14 +29,14 @@ function News() {
   this.desc_en = '';
   /* media */
   this.featuredImage = null;
-  this.downloadName_tc = '';
-  this.downloadName_sc = '';
-  this.downloadName_en = '';
-  this.downloadType = defaultMediumLinkType.value;
-  this.downloadUrl_tc = '';
-  this.downloadUrl_sc = '';
-  this.downloadUrl_en = '';
-  this.downloadMedium = null;
+  // this.downloadName_tc = '';
+  // this.downloadName_sc = '';
+  // this.downloadName_en = '';
+  // this.downloadType = defaultMediumLinkType.value;
+  // this.downloadUrl_tc = '';
+  // this.downloadUrl_sc = '';
+  // this.downloadUrl_en = '';
+  // this.downloadMedium = null;
   /* end of media */
   this.isEnabled = true;
   this.createDT = null;

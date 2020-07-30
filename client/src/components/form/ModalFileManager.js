@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Modal from 'components/layout/Modal';
 import FileManager from 'components/form/FileManager';
+import uiWordings from 'globals/uiWordings';
 
 const ModalFileManager = ({
-  title = 'File Manager',
-  contentLabel = 'File Manager',
+  title,
+  contentLabel,
   onSelect,
-  multiple,
-  mediaTypeParam
+  isMultiple,
+  mediumType
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const onSelectReturn = e => {
-    onSelect(e);
-    setIsModalOpen(false);
-  };
+
+  const onSelectReturn = useCallback(
+    e => {
+      onSelect(e);
+      setIsModalOpen(false);
+    },
+    [onSelect]
+  );
+
   return (
     <Modal
       className='w3-margin-left'
@@ -24,11 +30,16 @@ const ModalFileManager = ({
       <h4>{title}</h4>
       <FileManager
         onSelect={onSelectReturn}
-        multiple={multiple}
-        mediaTypeParam={mediaTypeParam}
+        multiple={isMultiple}
+        mediumType={mediumType}
       />
     </Modal>
   );
+};
+
+ModalFileManager.defaultProps = {
+  title: uiWordings['FileManager.Title'],
+  contentLabel: uiWordings['FileManager.Title']
 };
 
 export default ModalFileManager;

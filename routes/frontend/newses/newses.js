@@ -6,7 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
-const { mediumLinkTypes } = require('../../../types/mediumLink');
+//const { mediumLinkTypes } = require('../../../types/mediumLink');
 const { News, newsTypesArray } = require('../../../models/News');
 const mediumSelect = require('../common/mediumSelect');
 
@@ -29,26 +29,26 @@ const newsPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  },
-  {
-    path: 'downloadMedium',
-    select: mediumSelect
   }
+  // {
+  //   path: 'downloadMedium',
+  //   select: mediumSelect
+  // }
 ];
 
 const newsPopulationListForFindOne = [...newsPopulationListForFindAll];
 
 const getNewsForFrontEndFromDbNews = (news, language) => {
-  let download = '';
-  switch (news.downloadType) {
-    case mediumLinkTypes.URL:
-      download = getEntityPropByLanguage(news, 'downloadUrl', language);
-      break;
-    case mediumLinkTypes.MEDIUM:
-    default:
-      download = news.downloadMedium && news.downloadMedium.url;
-      break;
-  }
+  // let download = '';
+  // switch (news.downloadType) {
+  //   case mediumLinkTypes.URL:
+  //     download = getEntityPropByLanguage(news, 'downloadUrl', language);
+  //     break;
+  //   case mediumLinkTypes.MEDIUM:
+  //   default:
+  //     download = news.downloadMedium && news.downloadMedium.url;
+  //     break;
+  // }
   return {
     id: news._id,
     label: news.label,
@@ -56,8 +56,8 @@ const getNewsForFrontEndFromDbNews = (news, language) => {
     description: getEntityPropByLanguage(news, 'desc', language),
     featuredImage: {
       src: news.featuredImage && news.featuredImage.url
-    },
-    download: download
+    }
+    //download: download
   };
 };
 

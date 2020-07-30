@@ -783,9 +783,13 @@ export default {
   'PageMeta.OgImageAltEnLabel': 'OG Image Alt EN',
   'PageMeta.FacebookAppIdLabel': 'Facebook App ID',
 
+  'FileManager.Title': 'File Manager',
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',
   'FileManager.UploadButton': 'Upload',
   'FileManager.DragToUploadHint': 'Drop File To Upload',
-  'FileManager.NumberOfFilesSelectedSuffix': ' files selected'
+  'FileManager.NumberOfFilesSelectedSuffix': ' files selected',
+
+  'FileUpload.TitleForSingleUpload': 'File Manager',
+  'FileUpload.TitleForMultipleUpload': 'File Manager (Multiple)'
 };

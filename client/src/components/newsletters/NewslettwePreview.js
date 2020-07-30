@@ -4,7 +4,6 @@ import Modal from 'components/layout/Modal';
 import uiWordings from 'globals/uiWordings';
 import Loading from 'components/layout/loading/DefaultLoading';
 import LabelLabelPair from 'components/form/LabelLabelPair';
-import TextArea from 'components/form//TextArea';
 import Alert from 'models/alert';
 import AlertContext from 'contexts/alert/alertContext';
 import Sender from 'models/sender';

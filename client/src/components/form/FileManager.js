@@ -52,8 +52,8 @@ const MediumElement = ({
   medium,
   selectedTag,
   selectedFile,
-  onSelectMedium,
-  onReturnMedium
+  onSelectMedium
+  //onReturnMedium
 }) => {
   const handleClick = useCallback(
     _ => {
@@ -111,6 +111,10 @@ const MediumElement = ({
       </div>
     </div>
   );
+};
+
+MediumElement.defaultProps = {
+  selectedTag: []
 };
 
 const UploadingElement = ({
@@ -186,9 +190,9 @@ UploadingElement.defaultProps = {
   mediumType: Medium.defaultMediumType
 };
 
-const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
+const FileManager = ({ multiple, mediumType, onSelect }) => {
   //const [showDetails, setShowDetails] = useState(false);
-  const [selectedTag, setSelectedTag] = useState([]);
+  //const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
   const [selectedFile, setSelectedFile] = useState([]);
   // const [showDetails, setShowDetails] = useState(false);
@@ -221,15 +225,18 @@ const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
 
   const CKEditorFuncNum = CKEditorFuncNumAndSetter[0];
 
-  const { fileType: mediaTypeParam, additionalCallbackParam } = useParams();
-  //console.log(mediaTypeParam);
+  const { fileType: mediumTypeFromUrl, additionalCallbackParam } = useParams();
+  //console.log(mediumTypeFromUrl);
   const mediumTypeObj = useMemo(
     _ => {
-      return Medium.getMediumTypeFromApiRoute(
-        mediaTypeApiRoute || mediaTypeParam || Medium.defaultMediumType.apiRoute
+      return (
+        mediumType ||
+        Medium.getMediumTypeFromApiRoute(
+          mediumTypeFromUrl || Medium.defaultMediumType.apiRoute
+        )
       );
     },
-    [mediaTypeApiRoute, mediaTypeParam]
+    [mediumType, mediumTypeFromUrl]
   );
   //console.log(mediumTypeObj);
 
@@ -264,7 +271,6 @@ const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
       //console.log('CKEditorFuncNum:', CKEditorFuncNum);
       if (onSelect) {
         const selectedMedia = selectedFiles.map(idx => mediaList[idx]);
-        console.log('onSelect');
         onSelect(selectedMedia);
       } else if (
         CKEditorFuncNum &&
@@ -612,7 +618,7 @@ const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
                       key={idx}
                       idx={idx}
                       medium={medium}
-                      selectedTag={selectedTag}
+                      //selectedTag={selectedTag}
                       selectedFile={selectedFile}
                       onSelectMedium={handleMediumElementSelectMedium}
                       onReturnMedium={handleMediumElementReturnMedium}
@@ -743,10 +749,10 @@ const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
 
 FileManager.defaultProps = {
   multiple: false
-  // Note: do not set default for mediaTypeApiRoute
-  // coz in that case, mediaTypeApiRoute will always override mediaTypeParam (from url)
+  // Note: do not set default for mediumType
+  // coz in that case, mediumType will always override mediumTypeFromUrl
   // even when the caller doesn't define it
-  //mediaTypeApiRoute: mediumTypes.defaultMediumType.apiRoute
+  //mediumType: mediumTypes.defaultMediumType
 };
 
 const FileManagerWithContainer = params => {

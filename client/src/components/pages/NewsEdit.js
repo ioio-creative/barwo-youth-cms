@@ -12,7 +12,7 @@ import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelSelectPair from 'components/form/LabelSelectPair';
-import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
+//import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -56,8 +56,8 @@ const NewsEdit = _ => {
   // featuredImage
   const [featuredImagePicked, setFeaturedImagePicked] = useState(null);
 
-  // download data
-  const [downloadData, setDownloadData] = useState({});
+  // // download data
+  // const [downloadData, setDownloadData] = useState({});
 
   // componentDidMount
   useEffect(_ => {
@@ -87,16 +87,16 @@ const NewsEdit = _ => {
       setNews(fetchedNews ? News.getNewsForDisplay(fetchedNews) : defaultState);
       if (fetchedNews) {
         setFeaturedImagePicked(fetchedNews.featuredImage);
-        setDownloadData({
-          name_tc: fetchedNews.downloadName_tc,
-          name_sc: fetchedNews.downloadName_sc,
-          name_en: fetchedNews.downloadName_en,
-          type: fetchedNews.downloadType,
-          url_tc: fetchedNews.downloadUrl_tc,
-          url_sc: fetchedNews.downloadUrl_sc,
-          url_en: fetchedNews.downloadUrl_en,
-          medium: fetchedNews.downloadMedium
-        });
+        // setDownloadData({
+        //   name_tc: fetchedNews.downloadName_tc,
+        //   name_sc: fetchedNews.downloadName_sc,
+        //   name_en: fetchedNews.downloadName_en,
+        //   type: fetchedNews.downloadType,
+        //   url_tc: fetchedNews.downloadUrl_tc,
+        //   url_sc: fetchedNews.downloadUrl_sc,
+        //   url_en: fetchedNews.downloadUrl_en,
+        //   medium: fetchedNews.downloadMedium
+        // });
       }
       setIsAddMode(!fetchedNews);
     },
@@ -153,9 +153,9 @@ const NewsEdit = _ => {
     setFeaturedImagePicked(firstOrDefault(newItemList, null));
   }, []);
 
-  const onDownloadDataChange = useCallback(newData => {
-    setDownloadData(newData);
-  }, []);
+  // const onDownloadDataChange = useCallback(newData => {
+  //   setDownloadData(newData);
+  // }, []);
 
   const newsDelete = useCallback(
     async news => {
@@ -196,25 +196,25 @@ const NewsEdit = _ => {
       // add featuredImage
       news.featuredImage = featuredImagePicked ? featuredImagePicked._id : null;
 
-      // add download data
-      const {
-        name_tc,
-        name_sc,
-        name_en,
-        type,
-        url_tc,
-        url_sc,
-        url_en,
-        medium
-      } = downloadData;
-      news.downloadName_tc = name_tc;
-      news.downloadName_sc = name_sc;
-      news.downloadName_en = name_en;
-      news.downloadType = type;
-      news.downloadUrl_tc = url_tc;
-      news.downloadUrl_sc = url_sc;
-      news.downloadUrl_en = url_en;
-      news.downloadMedium = medium ? medium._id : null;
+      // // add download data
+      // const {
+      //   name_tc,
+      //   name_sc,
+      //   name_en,
+      //   type,
+      //   url_tc,
+      //   url_sc,
+      //   url_en,
+      //   medium
+      // } = downloadData;
+      // news.downloadName_tc = name_tc;
+      // news.downloadName_sc = name_sc;
+      // news.downloadName_en = name_en;
+      // news.downloadType = type;
+      // news.downloadUrl_tc = url_tc;
+      // news.downloadUrl_sc = url_sc;
+      // news.downloadUrl_en = url_en;
+      // news.downloadMedium = medium ? medium._id : null;
 
       let isSuccess = validInput(news);
       let returnedNews = null;
@@ -248,8 +248,8 @@ const NewsEdit = _ => {
       setAlerts,
       removeAlerts,
       validInput,
-      featuredImagePicked,
-      downloadData
+      featuredImagePicked
+      //downloadData
     ]
   );
 
@@ -332,7 +332,7 @@ const NewsEdit = _ => {
             isMultiple={false}
             mediumType={mediumTypes.IMAGE}
           />
-          <FileUploadOrUrl
+          {/* <FileUploadOrUrl
             nameTcLabelMessage={uiWordings['News.DownloadNameTcLabel']}
             nameScLabelMessage={uiWordings['News.DownloadNameScLabel']}
             nameEnLabelMessage={uiWordings['News.DownloadNameEnLabel']}
@@ -344,7 +344,7 @@ const NewsEdit = _ => {
             mediumType={Medium.mediumTypes.PDF}
             data={downloadData}
             onChange={onDownloadDataChange}
-          />
+          /> */}
         </div>
 
         <LabelRichTextbox

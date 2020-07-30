@@ -11,7 +11,7 @@ import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
-import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
+//import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
@@ -60,8 +60,8 @@ const ActivityEdit = _ => {
   // gallery
   const [galleryPicked, setGalleryPicked] = useState([]);
 
-  // download data
-  const [downloadData, setDownloadData] = useState({});
+  // // download data
+  // const [downloadData, setDownloadData] = useState({});
 
   // componentDidMount
   useEffect(_ => {
@@ -96,16 +96,16 @@ const ActivityEdit = _ => {
       if (fetchedActivity) {
         setFeaturedImagePicked(fetchedActivity.featuredImage);
         setGalleryPicked(getArraySafe(fetchedActivity.gallery));
-        setDownloadData({
-          name_tc: fetchedActivity.downloadName_tc,
-          name_sc: fetchedActivity.downloadName_sc,
-          name_en: fetchedActivity.downloadName_en,
-          type: fetchedActivity.downloadType,
-          url_tc: fetchedActivity.downloadUrl_tc,
-          url_sc: fetchedActivity.downloadUrl_sc,
-          url_en: fetchedActivity.downloadUrl_en,
-          medium: fetchedActivity.downloadMedium
-        });
+        // setDownloadData({
+        //   name_tc: fetchedActivity.downloadName_tc,
+        //   name_sc: fetchedActivity.downloadName_sc,
+        //   name_en: fetchedActivity.downloadName_en,
+        //   type: fetchedActivity.downloadType,
+        //   url_tc: fetchedActivity.downloadUrl_tc,
+        //   url_sc: fetchedActivity.downloadUrl_sc,
+        //   url_en: fetchedActivity.downloadUrl_en,
+        //   medium: fetchedActivity.downloadMedium
+        // });
       }
       setIsAddMode(!fetchedActivity);
     },
@@ -169,9 +169,9 @@ const ActivityEdit = _ => {
     setGalleryPicked(newItemList);
   }, []);
 
-  const onDownloadDataChange = useCallback(newData => {
-    setDownloadData(newData);
-  }, []);
+  // const onDownloadDataChange = useCallback(newData => {
+  //   setDownloadData(newData);
+  // }, []);
 
   const activityDelete = useCallback(
     async activity => {
@@ -197,7 +197,6 @@ const ActivityEdit = _ => {
 
   const onDeleteButtonClick = useCallback(
     _ => {
-      console.log(activity);
       confirmAlert({
         title: 'Confirm to submit',
         message: 'Are you sure to delete?',
@@ -232,25 +231,25 @@ const ActivityEdit = _ => {
         return medium._id;
       });
 
-      // add download data
-      const {
-        name_tc,
-        name_sc,
-        name_en,
-        type,
-        url_tc,
-        url_sc,
-        url_en,
-        medium
-      } = downloadData;
-      activity.downloadName_tc = name_tc;
-      activity.downloadName_sc = name_sc;
-      activity.downloadName_en = name_en;
-      activity.downloadType = type;
-      activity.downloadUrl_tc = url_tc;
-      activity.downloadUrl_sc = url_sc;
-      activity.downloadUrl_en = url_en;
-      activity.downloadMedium = medium ? medium._id : null;
+      // // add download data
+      // const {
+      //   name_tc,
+      //   name_sc,
+      //   name_en,
+      //   type,
+      //   url_tc,
+      //   url_sc,
+      //   url_en,
+      //   medium
+      // } = downloadData;
+      // activity.downloadName_tc = name_tc;
+      // activity.downloadName_sc = name_sc;
+      // activity.downloadName_en = name_en;
+      // activity.downloadType = type;
+      // activity.downloadUrl_tc = url_tc;
+      // activity.downloadUrl_sc = url_sc;
+      // activity.downloadUrl_en = url_en;
+      // activity.downloadMedium = medium ? medium._id : null;
 
       let isSuccess = validInput(activity);
       let returnedActivity = null;
@@ -285,8 +284,8 @@ const ActivityEdit = _ => {
       removeAlerts,
       validInput,
       featuredImagePicked,
-      galleryPicked,
-      downloadData
+      galleryPicked
+      //downloadData
     ]
   );
 
@@ -377,7 +376,7 @@ const ActivityEdit = _ => {
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
           />
-          <FileUploadOrUrl
+          {/* <FileUploadOrUrl
             nameTcLabelMessage={uiWordings['Activity.DownloadNameTcLabel']}
             nameScLabelMessage={uiWordings['Activity.DownloadNameScLabel']}
             nameEnLabelMessage={uiWordings['Activity.DownloadNameEnLabel']}
@@ -389,7 +388,7 @@ const ActivityEdit = _ => {
             mediumType={Medium.mediumTypes.PDF}
             data={downloadData}
             onChange={onDownloadDataChange}
-          />
+          /> */}
         </div>
 
         <LabelDatePickerPair

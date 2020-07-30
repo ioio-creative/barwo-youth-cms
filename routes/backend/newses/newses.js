@@ -27,11 +27,11 @@ const newsPopulationListForFindAll = [
   {
     path: 'featuredImage',
     select: mediumSelect
-  },
-  {
-    path: 'downloadMedium',
-    select: mediumSelect
   }
+  // {
+  //   path: 'downloadMedium',
+  //   select: mediumSelect
+  // }
 ];
 
 const newsPopulationListForFindOne = [...newsPopulationListForFindAll];
@@ -127,14 +127,14 @@ router.post(
       desc_sc,
       desc_en,
       featuredImage,
-      downloadName_tc,
-      downloadName_sc,
-      downloadName_en,
-      downloadType,
-      downloadUrl_tc,
-      downloadUrl_sc,
-      downloadUrl_en,
-      downloadMedium,
+      // downloadName_tc,
+      // downloadName_sc,
+      // downloadName_en,
+      // downloadType,
+      // downloadUrl_tc,
+      // downloadUrl_sc,
+      // downloadUrl_en,
+      // downloadMedium,
       isEnabled
     } = req.body;
 
@@ -149,14 +149,14 @@ router.post(
         desc_sc,
         desc_en,
         featuredImage,
-        downloadName_tc,
-        downloadName_sc,
-        downloadName_en,
-        downloadType,
-        downloadUrl_tc,
-        downloadUrl_sc,
-        downloadUrl_en,
-        downloadMedium,
+        // downloadName_tc,
+        // downloadName_sc,
+        // downloadName_en,
+        // downloadType,
+        // downloadUrl_tc,
+        // downloadUrl_sc,
+        // downloadUrl_en,
+        // downloadMedium,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -189,14 +189,14 @@ router.put(
       desc_sc,
       desc_en,
       featuredImage,
-      downloadName_tc,
-      downloadName_sc,
-      downloadName_en,
-      downloadType,
-      downloadUrl_tc,
-      downloadUrl_sc,
-      downloadUrl_en,
-      downloadMedium,
+      // downloadName_tc,
+      // downloadName_sc,
+      // downloadName_en,
+      // downloadType,
+      // downloadUrl_tc,
+      // downloadUrl_sc,
+      // downloadUrl_en,
+      // downloadMedium,
       isEnabled
     } = req.body;
 
@@ -213,14 +213,14 @@ router.put(
     newsFields.desc_sc = desc_sc;
     newsFields.desc_en = desc_en;
     newsFields.featuredImage = featuredImage;
-    newsFields.downloadName_tc = downloadName_tc;
-    newsFields.downloadName_sc = downloadName_sc;
-    newsFields.downloadName_en = downloadName_en;
-    newsFields.downloadType = downloadType;
-    newsFields.downloadUrl_tc = downloadUrl_tc;
-    newsFields.downloadUrl_sc = downloadUrl_sc;
-    newsFields.downloadUrl_en = downloadUrl_en;
-    newsFields.downloadMedium = downloadMedium;
+    // newsFields.downloadName_tc = downloadName_tc;
+    // newsFields.downloadName_sc = downloadName_sc;
+    // newsFields.downloadName_en = downloadName_en;
+    // newsFields.downloadType = downloadType;
+    // newsFields.downloadUrl_tc = downloadUrl_tc;
+    // newsFields.downloadUrl_sc = downloadUrl_sc;
+    // newsFields.downloadUrl_en = downloadUrl_en;
+    // newsFields.downloadMedium = downloadMedium;
     if (isEnabled !== undefined) newsFields.isEnabled = isEnabled;
     newsFields.lastModifyDT = new Date();
     newsFields.lastModifyUser = req.user._id;

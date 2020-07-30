@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
-import { generatePath } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
+import ModalFileManager from 'components/form/ModalFileManager';
 import uiWordings from 'globals/uiWordings';
-import routes from 'globals/routes';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
 import guid from 'utils/guid';
@@ -17,7 +16,8 @@ const mediumTypes = Medium.mediumTypes;
 const mapFileToListItem = file => {
   return {
     ...file,
-    draggableId: file.draggableId || file._id || guid()
+    // TODO: can't use file._id here as users may choose a file more than once??
+    draggableId: file.draggableId /*|| file._id*/ || guid()
   };
 };
 
@@ -40,7 +40,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const getListStyle = isDraggingOver => ({
-  background: (isDraggingOver ? 'lightblue' : 'lightgrey'),
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
   display: 'flex',
   padding: grid,
   overflow: 'auto',
@@ -63,7 +63,7 @@ const Item = ({ file, handleItemRemoved, index }) => {
 
   /* end of event handlers */
 
-  const { name, alternativeText, type, /*tags,*/ url, draggableId } = file;
+  const { /*name,*/ alternativeText, type, /*tags,*/ url, draggableId } = file;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -170,32 +170,38 @@ const FileUpload = ({
     [onGetFiles]
   );
 
-  const addFile = useCallback(
-    file => {
-      dealWithGetFiles([...getArraySafe(files), file]);
+  const addFiles = useCallback(
+    newFiles => {
+      dealWithGetFiles(getArraySafe(files).concat(getArraySafe(newFiles)));
     },
     [files, dealWithGetFiles]
+  );
+
+  const addButtonRender = useCallback(
+    _ => {
+      return (
+        <ModalFileManager
+          className='w3-margin-left'
+          title={
+            uiWordings[
+              isMultiple
+                ? 'FileUpload.TitleForMultipleUpload'
+                : 'FileUpload.TitleForSingleUpload'
+            ]
+          }
+          contentLabel={<i className='fa fa-plus' />}
+          mediumType={mediumType}
+          isMultiple={isMultiple}
+          onSelect={addFiles}
+        />
+      );
+    },
+    [mediumType, isMultiple, addFiles]
   );
 
   /* end of methods */
 
   /* event handlers */
-
-  const onAddButtonClick = useCallback(
-    _ => {
-      window.getMediaData = ({ medium: file }) => {
-        addFile(file);
-        window.getMediaData = null;
-      };
-
-      window.open(
-        generatePath(routes.fileManager, {
-          fileType: mediumType.apiRoute
-        })
-      );
-    },
-    [addFile, mediumType]
-  );
 
   const onGetPickedItems = useCallback(
     newItemList => {
@@ -213,13 +219,13 @@ const FileUpload = ({
         isShowAddButton={
           isMultiple || getArraySafe(filesInPickedList).length === 0
         }
+        addButtonRender={addButtonRender}
         name={name}
         labelMessage={labelMessage}
         pickedItemRender={itemRender}
         getListStyle={getListStyle}
         pickedItems={filesInPickedList}
         getPickedItems={onGetPickedItems}
-        onAddButtonClick={onAddButtonClick}
         isMultiple={isMultiple}
         mediaType={mediumType.apiRoute}
         orderDirection={orderDirection}

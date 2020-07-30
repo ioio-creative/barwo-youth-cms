@@ -81,7 +81,7 @@ const NewsesOrder = _ => {
     _ => {
       getNewsesInOrder(newsTypePicked);
     },
-    [newsTypePicked]
+    [newsTypePicked, getNewsesInOrder]
   );
 
   /* event handlers */

@@ -7,7 +7,7 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivities');
-const { mediumLinkTypes } = require('../../../types/mediumLink');
+//const { mediumLinkTypes } = require('../../../types/mediumLink');
 const { Activity, activityTypesArray } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
 
@@ -30,26 +30,26 @@ const activityPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  },
-  {
-    path: 'downloadMedium',
-    select: mediumSelect
   }
+  // {
+  //   path: 'downloadMedium',
+  //   select: mediumSelect
+  // }
 ];
 
 const activityPopulationListForFindOne = [...activityPopulationListForFindAll];
 
 const getActivityForFrontEndFromDbActivity = (activity, language) => {
-  let download = '';
-  switch (activity.downloadType) {
-    case mediumLinkTypes.URL:
-      download = getEntityPropByLanguage(activity, 'downloadUrl', language);
-      break;
-    case mediumLinkTypes.MEDIUM:
-    default:
-      download = activity.downloadMedium && activity.downloadMedium.url;
-      break;
-  }
+  // let download = '';
+  // switch (activity.downloadType) {
+  //   case mediumLinkTypes.URL:
+  //     download = getEntityPropByLanguage(activity, 'downloadUrl', language);
+  //     break;
+  //   case mediumLinkTypes.MEDIUM:
+  //   default:
+  //     download = activity.downloadMedium && activity.downloadMedium.url;
+  //     break;
+  // }
   return {
     id: activity._id,
     label: activity.label,
@@ -68,8 +68,8 @@ const getActivityForFrontEndFromDbActivity = (activity, language) => {
       return {
         src: medium && medium.url
       };
-    }),
-    download: download
+    })
+    //download: download
   };
 };
 

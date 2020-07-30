@@ -32,11 +32,11 @@ const activityPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  },
-  {
-    path: 'downloadMedium',
-    select: mediumSelect
   }
+  // {
+  //   path: 'downloadMedium',
+  //   select: mediumSelect
+  // }
 ];
 
 const activityPopulationListForFindOne = [...activityPopulationListForFindAll];
@@ -138,14 +138,14 @@ router.post(
       desc_en,
       featuredImage,
       gallery,
-      downloadName_tc,
-      downloadName_sc,
-      downloadName_en,
-      downloadType,
-      downloadUrl_tc,
-      downloadUrl_sc,
-      downloadUrl_en,
-      downloadMedium,
+      // downloadName_tc,
+      // downloadName_sc,
+      // downloadName_en,
+      // downloadType,
+      // downloadUrl_tc,
+      // downloadUrl_sc,
+      // downloadUrl_en,
+      // downloadMedium,
       isEnabled
     } = req.body;
 
@@ -166,14 +166,14 @@ router.post(
         desc_en,
         featuredImage,
         gallery: getArraySafe(gallery),
-        downloadName_tc,
-        downloadName_sc,
-        downloadName_en,
-        downloadType,
-        downloadUrl_tc,
-        downloadUrl_sc,
-        downloadUrl_en,
-        downloadMedium,
+        // downloadName_tc,
+        // downloadName_sc,
+        // downloadName_en,
+        // downloadType,
+        // downloadUrl_tc,
+        // downloadUrl_sc,
+        // downloadUrl_en,
+        // downloadMedium,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -212,14 +212,14 @@ router.put(
       desc_en,
       featuredImage,
       gallery,
-      downloadName_tc,
-      downloadName_sc,
-      downloadName_en,
-      downloadType,
-      downloadUrl_tc,
-      downloadUrl_sc,
-      downloadUrl_en,
-      downloadMedium,
+      // downloadName_tc,
+      // downloadName_sc,
+      // downloadName_en,
+      // downloadType,
+      // downloadUrl_tc,
+      // downloadUrl_sc,
+      // downloadUrl_en,
+      // downloadMedium,
       isEnabled
     } = req.body;
 
@@ -242,14 +242,14 @@ router.put(
     activityFields.desc_en = desc_en;
     activityFields.featuredImage = featuredImage;
     activityFields.gallery = getArraySafe(gallery);
-    activityFields.downloadName_tc = downloadName_tc;
-    activityFields.downloadName_sc = downloadName_sc;
-    activityFields.downloadName_en = downloadName_en;
-    activityFields.downloadType = downloadType;
-    activityFields.downloadUrl_tc = downloadUrl_tc;
-    activityFields.downloadUrl_sc = downloadUrl_sc;
-    activityFields.downloadUrl_en = downloadUrl_en;
-    activityFields.downloadMedium = downloadMedium;
+    // activityFields.downloadName_tc = downloadName_tc;
+    // activityFields.downloadName_sc = downloadName_sc;
+    // activityFields.downloadName_en = downloadName_en;
+    // activityFields.downloadType = downloadType;
+    // activityFields.downloadUrl_tc = downloadUrl_tc;
+    // activityFields.downloadUrl_sc = downloadUrl_sc;
+    // activityFields.downloadUrl_en = downloadUrl_en;
+    // activityFields.downloadMedium = downloadMedium;
     if (isEnabled !== undefined) activityFields.isEnabled = isEnabled;
     activityFields.lastModifyDT = new Date();
     activityFields.lastModifyUser = req.user._id;

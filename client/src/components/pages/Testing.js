@@ -10,6 +10,9 @@ import axios from 'axios';
 import SubmitButton from 'components/form/SubmitButton';
 import Form from 'components/form/Form';
 import ModalFileManager from 'components/form/ModalFileManager';
+import Medium from 'models/medium';
+
+const mediumTypes = Medium.mediumTypes;
 
 const emptyContact = new Contact();
 const defaultState = emptyContact;
@@ -187,7 +190,7 @@ const Testing = _ => {
         />
         <ModalFileManager
           title='File Manager (multiple)'
-          mediaTypeParam='images'
+          mediumType={mediumTypes.IMAGE}
           multiple={true}
           onSelect={e => {
             if (Array.isArray(e)) {

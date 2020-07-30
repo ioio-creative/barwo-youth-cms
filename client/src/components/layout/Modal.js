@@ -43,9 +43,8 @@ const MyModal = ({
   useEffect(
     _ => {
       invokeIfIsFunction(setParentIsOpen, isModalOpen);
-      // setParentIsOpen(isModalOpen);
     },
-    [isModalOpen]
+    [isModalOpen, setParentIsOpen]
   );
   /* end of methods */
 

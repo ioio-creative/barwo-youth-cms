@@ -54,31 +54,31 @@ const ActivitySchema = mongoose.Schema({
     ref: 'medium'
   },
   gallery: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
-  downloadName_tc: {
-    type: String
-  },
-  downloadName_sc: {
-    type: String
-  },
-  downloadName_en: {
-    type: String
-  },
-  downloadType: {
-    type: String
-  },
-  downloadUrl_tc: {
-    type: String
-  },
-  downloadUrl_sc: {
-    type: String
-  },
-  downloadUrl_en: {
-    type: String
-  },
-  downloadMedium: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'medium'
-  },
+  // downloadName_tc: {
+  //   type: String
+  // },
+  // downloadName_sc: {
+  //   type: String
+  // },
+  // downloadName_en: {
+  //   type: String
+  // },
+  // downloadType: {
+  //   type: String
+  // },
+  // downloadUrl_tc: {
+  //   type: String
+  // },
+  // downloadUrl_sc: {
+  //   type: String
+  // },
+  // downloadUrl_en: {
+  //   type: String
+  // },
+  // downloadMedium: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'medium'
+  // },
   /* end of media */
   isEnabled: {
     type: Boolean,
