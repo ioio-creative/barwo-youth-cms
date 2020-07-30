@@ -129,7 +129,7 @@ const RichTextbox = ({
   value,
   onChange,
   required,
-  minLength,
+  //minLength,
   disabled,
   filebrowserBrowseUrl,
   debug,
@@ -288,7 +288,7 @@ const RichTextbox = ({
 RichTextbox.defaultProps = {
   config: defaultConfig,
   debug: false,
-  filebrowserBrowseUrl: routes.fileManagerForImages(true),
+  filebrowserBrowseUrl: routes.fileManagerForAll(true),
   value: null
 };
 

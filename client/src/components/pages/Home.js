@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
 
 //import TestFileUpload from 'components/testing/TestFileUpload';
-//import TestSearch from 'components/testing/TestSearch';
+import TestSearch from 'components/testing/TestSearch';
 
 const Home = _ => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
@@ -19,7 +19,7 @@ const Home = _ => {
   return (
     <div className='w3-container'>
       {/* <TestFileUpload /> */}
-      {/* <TestSearch /> */}
+      <TestSearch />
     </div>
   );
 };

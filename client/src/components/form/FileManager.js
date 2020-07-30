@@ -28,6 +28,8 @@ const maxFileUploadCount = config.FileManager.filesCount;
 const maxFileUploadSize = config.FileManager.fileSizeInMBs * 1024 * 1024;
 const fileUploadAlertTimeout = config.FileManager.fileUploadAlertTimeoutInMs;
 
+const mediumTypes = Medium.mediumTypes;
+
 // routes //
 // images
 // videos
@@ -504,7 +506,9 @@ const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
     _ => {
       if (fetchedMedia) {
         setMediaList(
-          fetchedMedia.filter(medium => medium.type === mediumTypeObj.value)
+          fetchedMedia.filter(medium =>
+            [mediumTypes.ALL.value, medium.type].includes(mediumTypeObj.value)
+          )
         );
       }
     },
@@ -595,7 +599,13 @@ const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
               })*/}
             {!mediaLoading ? (
               getArraySafe(mediaList)
-                .filter(medium => medium && medium.type === mediumTypeObj.value)
+                .filter(
+                  medium =>
+                    medium &&
+                    [mediumTypes.ALL.value, medium.type].includes(
+                      mediumTypeObj.value
+                    )
+                )
                 .map((medium, idx) => {
                   return (
                     <MediumElement
@@ -713,7 +723,7 @@ const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
               <div className='w3-row w3-section'>
                 <Label message='Media Preview' />
                 <br />
-                {selectedFile.length} files selected
+                {`${selectedFile.length}${uiWordings['FileManager.SelectFile']}`}
               </div>
               <div className='w3-center action-btn-wrapper'>
                 <div

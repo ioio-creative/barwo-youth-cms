@@ -127,6 +127,11 @@ export default {
   },
 
   fileManager: '/fileManager/:fileType/:additionalCallbackParam?',
+  fileManagerForAll: function (isLink) {
+    return generatePath(this.fileManager, {
+      fileType: mediumTypes.ALL.apiRoute
+    });
+  },
   fileManagerForImages: function (isLink) {
     return generatePath(this.fileManager, {
       fileType: mediumTypes.IMAGE.apiRoute

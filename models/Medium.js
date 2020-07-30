@@ -78,7 +78,19 @@ const mediumTypes = {
   PDF: { type: 'PDF', route: 'pdfs', allowedMimeTypes: ['application/pdf'] }
 };
 
+mediumTypes.ALL = {
+  type: 'ALL',
+  route: 'alls',
+  allowedMimeTypes: mediumTypes.IMAGE.allowedMimeTypes.concat(
+    mediumTypes.VIDEO.allowedMimeTypes,
+    mediumTypes.AUDIO.allowedMimeTypes,
+    mediumTypes.PDF.allowedMimeTypes
+  )
+};
+
 module.exports.mediumTypes = mediumTypes;
+
+module.exports.mediumTypesArray = Object.values(mediumTypes);
 
 module.exports.routesOfMediumTypes = Object.keys(mediumTypes).map(
   type => mediumTypes[type].route
