@@ -52,6 +52,7 @@ Medium.mediaResponseTypes = {
 };
 
 const mediumTypes = {
+  ALL: { value: 'ALL', label: 'all', apiRoute: 'alls' },
   IMAGE: { value: 'IMAGE', label: 'image', apiRoute: 'images' },
   VIDEO: { value: 'VIDEO', label: 'video', apiRoute: 'videos' },
   AUDIO: { value: 'AUDIO', label: 'audio', apiRoute: 'audios' },
@@ -59,6 +60,8 @@ const mediumTypes = {
 };
 
 Medium.mediumTypes = mediumTypes;
+
+Medium.defaultMediumType = mediumTypes.ALL;
 
 Medium.getMediumForDisplay = medium => {
   return {

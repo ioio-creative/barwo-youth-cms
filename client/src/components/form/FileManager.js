@@ -28,6 +28,8 @@ const maxFileUploadCount = config.FileManager.filesCount;
 const maxFileUploadSize = config.FileManager.fileSizeInMBs * 1024 * 1024;
 const fileUploadAlertTimeout = config.FileManager.fileUploadAlertTimeoutInMs;
 
+const mediumTypes = Medium.mediumTypes;
+
 // routes //
 // images
 // videos
@@ -41,7 +43,6 @@ const RETURNTYPE = {
   CKEditor: 2,
   Popup: 3
 };
-const mediumTypes = Medium.mediumTypes;
 
 const tags = [];
 // const tags = ["aaa", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc"];
@@ -60,12 +61,13 @@ const MediumElement = ({
     },
     [idx, onSelectMedium]
   );
-  const handleDoubleClick = useCallback(
-    _ => {
-      onReturnMedium(medium);
-    },
-    [medium, onReturnMedium]
-  );
+
+  // const handleDoubleClick = useCallback(
+  //   _ => {
+  //     onReturnMedium(medium);
+  //   },
+  //   [medium, onReturnMedium]
+  // );
 
   if (!medium) {
     return null;
@@ -181,14 +183,10 @@ const UploadingElement = ({
 };
 
 UploadingElement.defaultProps = {
-  mediumType: mediumTypes.IMAGE
+  mediumType: Medium.defaultMediumType
 };
 
-const FileManager = ({
-  multiple = false,
-  mediaTypeParam = mediumTypes.IMAGE.apiRoute,
-  onSelect
-}) => {
+const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
   //const [showDetails, setShowDetails] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
@@ -223,17 +221,15 @@ const FileManager = ({
 
   const CKEditorFuncNum = CKEditorFuncNumAndSetter[0];
 
-  const { fileType: mediaType, additionalCallbackParam } = useParams();
-  // console.log(mediaType);
+  const { fileType: mediaTypeParam, additionalCallbackParam } = useParams();
+  //console.log(mediaTypeParam);
   const mediumTypeObj = useMemo(
     _ => {
-      if (mediaTypeParam) {
-        return Medium.getMediumTypeFromApiRoute(mediaTypeParam);
-      } else {
-        return Medium.getMediumTypeFromApiRoute(mediaType);
-      }
+      return Medium.getMediumTypeFromApiRoute(
+        mediaTypeApiRoute || mediaTypeParam || Medium.defaultMediumType.apiRoute
+      );
     },
-    [mediaType, mediaTypeParam]
+    [mediaTypeApiRoute, mediaTypeParam]
   );
   //console.log(mediumTypeObj);
 
@@ -256,7 +252,7 @@ const FileManager = ({
       //   limit: numberOfFilesInExplorer
       // });
     },
-    [mediaList, selectedFile, mediumTypeObj]
+    [mediaList, selectedFile, mediumTypeObj, updateMedium]
   );
   const setFileManagerEl = useCallback(ref => {
     fileManagerEl.current = ref;
@@ -295,22 +291,22 @@ const FileManager = ({
     },
     [mediaList, onSelect, CKEditorFuncNum, additionalCallbackParam]
   );
-  const selectTag = useCallback(tagName => {
-    // send request to server?
-    // filter locally?
-    // .then( refresh )
-    setSelectedTag(prevSelectedTag => {
-      const searchTagIdx = prevSelectedTag.indexOf(tagName);
-      if (searchTagIdx === -1) {
-        return [...prevSelectedTag, tagName];
-      } else {
-        return [
-          ...prevSelectedTag.slice(0, searchTagIdx),
-          ...prevSelectedTag.slice(searchTagIdx + 1, prevSelectedTag.length)
-        ];
-      }
-    });
-  }, []);
+  // const selectTag = useCallback(tagName => {
+  //   // send request to server?
+  //   // filter locally?
+  //   // .then( refresh )
+  //   setSelectedTag(prevSelectedTag => {
+  //     const searchTagIdx = prevSelectedTag.indexOf(tagName);
+  //     if (searchTagIdx === -1) {
+  //       return [...prevSelectedTag, tagName];
+  //     } else {
+  //       return [
+  //         ...prevSelectedTag.slice(0, searchTagIdx),
+  //         ...prevSelectedTag.slice(searchTagIdx + 1, prevSelectedTag.length)
+  //       ];
+  //     }
+  //   });
+  // }, []);
   const addMedium = useCallback(newMedium => {
     setMediaList(prevMediaList => {
       return [newMedium, ...prevMediaList];
@@ -442,74 +438,82 @@ const FileManager = ({
   /* end of methods */
 
   // componentDidMount
-  useEffect(() => {
-    document.addEventListener('dragenter', handleDragEnter, false);
-    document.addEventListener('dragover', handleDragOver, false);
-    document.addEventListener('dragleave', handleDragLeave, false);
-    document.addEventListener('mouseup', handleDragLeave, false);
-    document.addEventListener('drop', handleDropUpload, false);
-
-    getMedia(mediumTypeObj, {
-      // page,
-      sortOrder: -1,
-      sortBy: 'createDT',
-      filterText,
-      limit: numberOfFilesInExplorer
-    });
-    return () => {
-      document.removeEventListener('dragenter', handleDragEnter, false);
-      document.removeEventListener('dragover', handleDragOver, false);
-      document.removeEventListener('dragleave', handleDragLeave, false);
+  useEffect(
+    _ => {
+      document.addEventListener('dragenter', handleDragEnter, false);
+      document.addEventListener('dragover', handleDragOver, false);
+      document.addEventListener('dragleave', handleDragLeave, false);
       document.addEventListener('mouseup', handleDragLeave, false);
-      document.removeEventListener('drop', handleDropUpload, false);
+      document.addEventListener('drop', handleDropUpload, false);
 
-      clearMedia();
-      removeAlerts();
-    };
-  }, [
-    mediumTypeObj,
-    getMedia,
-    clearMedia,
-    removeAlerts,
-    filterText,
-    handleDragEnter,
-    handleDragOver,
-    handleDragLeave,
-    handleDropUpload
-  ]);
+      getMedia(mediumTypeObj, {
+        // page,
+        sortOrder: -1,
+        sortBy: 'createDT',
+        filterText,
+        limit: numberOfFilesInExplorer
+      });
+      return _ => {
+        document.removeEventListener('dragenter', handleDragEnter, false);
+        document.removeEventListener('dragover', handleDragOver, false);
+        document.removeEventListener('dragleave', handleDragLeave, false);
+        document.addEventListener('mouseup', handleDragLeave, false);
+        document.removeEventListener('drop', handleDropUpload, false);
 
-  useEffect(() => {
-    if (onSelect) {
-      returnElementType.current = RETURNTYPE.Modal;
-    } else if (
-      CKEditorFuncNum &&
-      window.opener &&
-      window.opener.CKEDITOR &&
-      window.opener.CKEDITOR.tools
-    ) {
-      // call from CKEditor
-      returnElementType.current = RETURNTYPE.CKEditor;
-      multipleSelect.current = false;
-    } else if (window.opener && window.opener.getMediaData) {
-      returnElementType.current = RETURNTYPE.Popup;
-    } else {
-      // maybe some other use case?
-      // window.close();
-      returnElementType.current = RETURNTYPE.Unknown;
-    }
-  }, [onSelect, CKEditorFuncNum, additionalCallbackParam]);
+        clearMedia();
+        removeAlerts();
+      };
+    },
+    [
+      mediumTypeObj,
+      getMedia,
+      clearMedia,
+      removeAlerts,
+      filterText,
+      handleDragEnter,
+      handleDragOver,
+      handleDragLeave,
+      handleDropUpload
+    ]
+  );
+
+  useEffect(
+    _ => {
+      if (onSelect) {
+        returnElementType.current = RETURNTYPE.Modal;
+      } else if (
+        CKEditorFuncNum &&
+        window.opener &&
+        window.opener.CKEDITOR &&
+        window.opener.CKEDITOR.tools
+      ) {
+        // call from CKEditor
+        returnElementType.current = RETURNTYPE.CKEditor;
+        multipleSelect.current = false;
+      } else if (window.opener && window.opener.getMediaData) {
+        returnElementType.current = RETURNTYPE.Popup;
+      } else {
+        // maybe some other use case?
+        // window.close();
+        returnElementType.current = RETURNTYPE.Unknown;
+      }
+    },
+    [onSelect, CKEditorFuncNum, additionalCallbackParam]
+  );
 
   // fetchedMedia
-  useEffect(() => {
-    if (fetchedMedia) {
-      setMediaList(
-        fetchedMedia.filter(
-          medium =>
-            medium.type === mediumTypeObj.value /* paramsToType[mediaType] */
-        )
-      );
-    }
-  }, [fetchedMedia, mediumTypeObj.value]);
+  useEffect(
+    _ => {
+      if (fetchedMedia) {
+        setMediaList(
+          fetchedMedia.filter(medium =>
+            [mediumTypes.ALL.value, medium.type].includes(mediumTypeObj.value)
+          )
+        );
+      }
+    },
+    [fetchedMedia, mediumTypeObj.value]
+  );
 
   // mediaErrors
   useEffect(
@@ -550,7 +554,7 @@ const FileManager = ({
                       selectedTag.indexOf(tag) !== -1 ? ' w3-blue' : ''
                       } tag`}
                     key={tag}
-                    onClick={() => selectTag(tag)}
+                    onClick={_ => selectTag(tag)}
                   >
                     {tag}
                   </div>
@@ -598,8 +602,9 @@ const FileManager = ({
                 .filter(
                   medium =>
                     medium &&
-                    medium.type ===
-                      mediumTypeObj.value /* paramsToType[mediaType] */
+                    [mediumTypes.ALL.value, medium.type].includes(
+                      mediumTypeObj.value
+                    )
                 )
                 .map((medium, idx) => {
                   return (
@@ -700,7 +705,7 @@ const FileManager = ({
                 </div>
                 {/* <div
                   className='w3-btn w3-text-red'
-                  onClick={() =>
+                  onClick={_ =>
                     alert(
                       'delete file from server here\nbut the file being deleted may be using somewhere'
                     )
@@ -718,7 +723,7 @@ const FileManager = ({
               <div className='w3-row w3-section'>
                 <Label message='Media Preview' />
                 <br />
-                {selectedFile.length} files selected
+                {`${selectedFile.length}${uiWordings['FileManager.SelectFile']}`}
               </div>
               <div className='w3-center action-btn-wrapper'>
                 <div
@@ -734,6 +739,14 @@ const FileManager = ({
       </div>
     </div>
   );
+};
+
+FileManager.defaultProps = {
+  multiple: false
+  // Note: do not set default for mediaTypeApiRoute
+  // coz in that case, mediaTypeApiRoute will always override mediaTypeParam (from url)
+  // even when the caller doesn't define it
+  //mediaTypeApiRoute: mediumTypes.defaultMediumType.apiRoute
 };
 
 const FileManagerWithContainer = params => {

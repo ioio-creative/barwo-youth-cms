@@ -106,9 +106,17 @@ Artist.artistsResponseTypes = {
     type: 'LABEL_ALREADY_EXISTS',
     msg: 'LABEL_ALREADY_EXISTS'
   },
-  ARTIST_USED_IN_EVENT: {
-    type: 'ARTIST_USED_IN_EVENT',
-    msg: 'ARTIST_USED_IN_EVENT'
+  ARTIST_PERFORMED_IN_EVENTS: {
+    type: 'ARTIST_PERFORMED_IN_EVENTS',
+    msg: "ARTIST_PERFORMED_IN_EVENTS, hence can't be disabled or deleted"
+  },
+  ARTIST_DIRECTED_IN_EVENTS: {
+    type: 'ARTIST_DIRECTED_IN_EVENTS',
+    msg: "ARTIST_DIRECTED_IN_EVENTS, hence can't be disabled or deleted"
+  },
+  ARTIST_FEATURED_IN_LANDING: {
+    type: 'ARTIST_FEATURED_IN_LANDING',
+    msg: "ARTIST_FEATURED_IN_LANDING, hence can't be disabled or deleted"
   },
 
   // general
@@ -125,6 +133,7 @@ Artist.artistRoleOptions = Object.values(artistRoles);
 Artist.getArtistForDisplay = artist => {
   return {
     ...artist,
+    orderDisplay: Number.isInteger(artist.order) ? artist.order + 1 : '',
     typeDisplay: artistTypes[artist.type].label,
     roleDisplay: artistRoles[artist.role].label,
     createDTDisplay: formatDateTimeString(artist.createDT),
@@ -138,6 +147,7 @@ Artist.getArtistForDisplay = artist => {
 };
 
 const displayFieldNames = [
+  'orderDisplay',
   'typeDisplay',
   'roleDisplay',
   'createDTDisplay',

@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, useMemo, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  useRef
+} from 'react';
 import CKEditor from 'ckeditor4-react';
 import routes from 'globals/routes';
 import { invokeIfIsFunction } from 'utils/js/function/isFunction';
@@ -123,7 +129,7 @@ const RichTextbox = ({
   value,
   onChange,
   required,
-  minLength,
+  //minLength,
   disabled,
   filebrowserBrowseUrl,
   debug,
@@ -163,8 +169,12 @@ const RichTextbox = ({
             editorInstance.editor.setData(cleanedValue);
             console.log('RichTextbox loaded');
             // set every 50ms until successfully set
-            if (checkEditorTimeout.current) clearTimeout(checkEditorTimeout.current);
-            checkEditorTimeout.current = setTimeout(waitForInstanceInitialized, 50);
+            if (checkEditorTimeout.current)
+              clearTimeout(checkEditorTimeout.current);
+            checkEditorTimeout.current = setTimeout(
+              waitForInstanceInitialized,
+              50
+            );
           } else {
             setIsInitCompleted(true);
             console.log('RichTextbox cleanedValue set success');
@@ -181,7 +191,8 @@ const RichTextbox = ({
         // TODO: is it alright to do recursion when using react useCallback???
         console.log('RichTextbox ??? case');
         // why the instance not yet finish initialization ......
-        if (checkEditorTimeout.current) clearTimeout(checkEditorTimeout.current);
+        if (checkEditorTimeout.current)
+          clearTimeout(checkEditorTimeout.current);
         checkEditorTimeout.current = setTimeout(waitForInstanceInitialized, 50);
       }
     },
@@ -212,27 +223,30 @@ const RichTextbox = ({
   /* end of event handlers */
 
   /* useEffects */
-  useEffect(() => {
-    return () => {
+  useEffect(_ => {
+    return _ => {
       if (checkEditorTimeout.current) {
         clearTimeout(checkEditorTimeout.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
-  useEffect(() => {
-    // cleanedValue check null commented out by chris
-    if (editorInstance /*&& cleanedValue !== ''*/ && !isInitCompleted) {
-      waitForInstanceInitialized();
-    }
-  }, [
-    //cleanedValue,
-    editorInstance,
-    isInitCompleted,
-    waitForInstanceInitialized
-  ]);
+  useEffect(
+    _ => {
+      // cleanedValue check null commented out by chris
+      if (editorInstance /*&& cleanedValue !== ''*/ && !isInitCompleted) {
+        waitForInstanceInitialized();
+      }
+    },
+    [
+      //cleanedValue,
+      editorInstance,
+      isInitCompleted,
+      waitForInstanceInitialized
+    ]
+  );
 
-  // useEffect(() => {
+  // useEffect(_ => {
   //   if (textareaEl) {
   //     window.CKEDITOR.replace(textareaEl);
   //   }
@@ -263,7 +277,7 @@ const RichTextbox = ({
           config={{
             ...config,
             ...(disabled ? { toolbar: [] } : {}),
-            filebrowserBrowseUrl: filebrowserBrowseUrl,
+            filebrowserBrowseUrl: filebrowserBrowseUrl
           }}
         />
       </div>
@@ -274,7 +288,7 @@ const RichTextbox = ({
 RichTextbox.defaultProps = {
   config: defaultConfig,
   debug: false,
-  filebrowserBrowseUrl: routes.fileManagerForImages(true),
+  filebrowserBrowseUrl: routes.fileManagerForAll(true),
   value: null
 };
 

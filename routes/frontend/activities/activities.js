@@ -60,7 +60,7 @@ const getActivityForFrontEndFromDbActivity = (activity, language) => {
       to: formatDateStringForFrontEnd(activity.toDate)
     },
     location: getEntityPropByLanguage(activity, 'location', language),
-    description: getEntityPropByLanguage(activity, 'description', language),
+    description: getEntityPropByLanguage(activity, 'desc', language),
     featuredImage: {
       src: activity.featuredImage && activity.featuredImage.url
     },

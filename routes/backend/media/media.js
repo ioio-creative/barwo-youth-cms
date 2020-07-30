@@ -19,7 +19,12 @@ const {
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const prettyStringify = require('../../../utils/JSON/prettyStringify');
-const { Medium, mediumResponseTypes } = require('../../../models/Medium');
+const {
+  Medium,
+  mediumResponseTypes,
+  mediumTypes,
+  mediumTypesArray
+} = require('../../../models/Medium');
 const { MediumTag } = require('../../../models/MediumTag');
 
 /* s3 utils */
@@ -37,6 +42,12 @@ const s3 = new aws.S3({
   region: config.get('Aws.s3.region')
 });
 
+/**
+ * Note:
+ * upload middleware would change req.mediumType
+ * to a specific mediumType if req.mediumType === mediumTypes.ALL
+ * See storage field.
+ */
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -46,6 +57,18 @@ const upload = multer({
     // https://stackoverflow.com/questions/44028876/how-to-specify-upload-directory-in-multer-s3-for-aws-s3-bucket
     key: function (req, file, cb) {
       const changedFileName = changeFileName(file.originalname);
+
+      // to cater for mediumTypeFromUrl.type === mediumTypes.ALL.type case
+      const mediumTypeFromUrl = req.mediumType;
+      if (mediumTypeFromUrl.type === mediumTypes.ALL.type) {
+        for (let mediumType of mediumTypesArray) {
+          if (mediumType.allowedMimeTypes.includes(file.mimetype)) {
+            req.mediumType = mediumType;
+            break;
+          }
+        }
+      }
+
       const fullPath = `files/${req.mediumType.route}/${changedFileName}`;
       cb(null, fullPath);
     }
@@ -176,7 +199,12 @@ router.get(
         sort: mediumSortForFindAll
       };
 
-      let findOptions = { type: mediumTypeFromUrl.type };
+      let findOptions = {};
+
+      if (mediumTypeFromUrl.type !== mediumTypes.ALL.type) {
+        findOptions.type = mediumTypeFromUrl.type;
+      }
+
       const filterTextRegex = req.filterTextRegex;
       if (filterTextRegex) {
         findOptions = {
@@ -238,6 +266,13 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
 
     //await uploadMultipleFilesMiddleware(req, res);
     await uploadSingleFilesMiddleware(req, res);
+
+    /**
+     * Note:
+     * uploadMultipleFilesMiddleware would change req.mediumType
+     * to a specific mediumType if req.mediumType === mediumTypes.ALL
+     */
+    //console.log(req.mediumType);
 
     //const files = req.files;
     const file = req.file;

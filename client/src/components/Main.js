@@ -97,6 +97,9 @@ const AsyncSendHistoryList = asyncLoadingComponent(_ =>
 const AsyncSendHistoryView = asyncLoadingComponent(_ =>
   import('components/pages/SendHistoryView')
 );
+const AsyncSenderEdit = asyncLoadingComponent(_ =>
+  import('components/pages/SenderEdit')
+);
 
 const Main = _ => {
   const { loadUser } = useContext(AuthContext);
@@ -223,6 +226,10 @@ const Main = _ => {
               <Route
                 path={routes.newsletterAdd(false)}
                 component={AsyncNewsletterEdit}
+              />
+              <Route
+                path={routes.senderEdit(false)}
+                component={AsyncSenderEdit}
               />
 
               <Route

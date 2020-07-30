@@ -34,7 +34,7 @@ const headers = [
   },
   {
     name: uiWordings['Artist.OrderLabel'],
-    value: 'order',
+    value: 'orderDisplay',
     isSortEnabled: true
   },
   {

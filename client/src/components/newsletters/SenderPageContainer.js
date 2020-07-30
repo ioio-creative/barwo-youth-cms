@@ -1,15 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
+import SenderState from 'contexts/sender/SenderState';
+import uiWordings from 'globals/uiWordings';
 
-//import TestFileUpload from 'components/testing/TestFileUpload';
-import TestSearch from 'components/testing/TestSearch';
-
-const Home = _ => {
+const SenderPageContainer = ({ children }) => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
 
   // componentDidMount
   useEffect(_ => {
-    setTitle('Homepage');
+    setTitle(uiWordings['Sender.Title']);
     return _ => {
       removeTitle();
     };
@@ -17,11 +16,10 @@ const Home = _ => {
   }, []);
 
   return (
-    <div className='w3-container'>
-      {/* <TestFileUpload /> */}
-      <TestSearch />
-    </div>
+    <SenderState>
+      <div className='sender-page-container'>{children}</div>
+    </SenderState>
   );
 };
 
-export default Home;
+export default SenderPageContainer;

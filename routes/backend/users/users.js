@@ -207,29 +207,4 @@ router.put(
   }
 );
 
-// // @route   DELETE api/backend/users/users/:_id
-// // @desc    Delete user
-// // @access  Private
-// router.delete('/:_id', authIsAdmin, async (req, res) => {
-//   try {
-//     let user = await User.findById(req.params._id);
-//     if (!user) return res.status(404).json({ errors: [userResponseTypes.USER_NOT_EXISTS] });
-
-//     const userFields = {
-//       isEnabled: false,
-//       lastModifyUser: req.user._id
-//     };
-
-//     user = await User.findByIdAndUpdate(
-//       req.params._id,
-//       { $set: userFields },
-//       { new: true }
-//     );
-
-//     res.json({ type: USER_DELETED });
-//   } catch (err) {
-//     generalErrorHandle(err, res);
-//   }
-// });
-
 module.exports = router;

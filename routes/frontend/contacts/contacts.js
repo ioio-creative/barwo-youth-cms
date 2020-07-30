@@ -58,4 +58,20 @@ router.post(
   }
 );
 
+// @route   DELETE api/frontend/contacts/unsubscribe/:_id
+// @desc    Delete contact
+
+router.delete(
+  '/unsubscribe/:_id',
+  [constactValidationChecks, validationHandling],
+  async (req, res) => {
+    try {
+      await Contact.findByIdAndDelete(req.params._id);
+      res.sendStatus(200);
+    } catch (err) {
+      generalErrorHandle(err, res);
+    }
+  }
+);
+
 module.exports = router;

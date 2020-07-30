@@ -289,19 +289,10 @@ router.put(
 // @route   DELETE api/backend/activities/activities/:_id
 // @desc    Delete activity
 // @access  Private
-router.delete('/:_id', async (req, res) => {
+router.delete('/:_id', [auth], async (req, res) => {
   try {
-    let activity = await Activity.findById(req.params._id)
-      .select(activitySelectForFindOne)
-      .populate(activityPopulationListForFindOne);
-    if (!activity)
-      return res
-        .status(404)
-        .json({ errors: [activityResponseTypes.ACTIVITY_NOT_EXISTS] });
-
-    activity = await Activity.findByIdAndDelete(req.params._id);
-
-    res.json({ type: activityResponseTypes.ACTIVITY_DELETED });
+    await Activity.findByIdAndDelete(req.params._id);
+    res.sendStatus(200);
   } catch (err) {
     generalErrorHandle(err, res);
   }

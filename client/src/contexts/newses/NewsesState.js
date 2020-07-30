@@ -143,10 +143,10 @@ const NewsesState = ({ children }) => {
   }, []);
 
   // Get Newses in Order
-  const getNewsesInOrder = useCallback(async _ => {
+  const getNewsesInOrder = useCallback(async type => {
     dispatch({ type: SET_NEWSES_IN_ORDER_LOADING });
     try {
-      const res = await axios.get('/api/backend/newses/newsesInOrder');
+      const res = await axios.get(`/api/backend/newses/newsesInOrder/${type}`);
       dispatch({ type: GET_NEWSES_IN_ORDER, payload: res.data });
     } catch (err) {
       handleServerError(err, NEWSES_ERRORS, dispatch);

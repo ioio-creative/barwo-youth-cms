@@ -158,11 +158,11 @@ const ContactEdit = _ => {
         buttons: [
           {
             label: 'Yes',
-            onClick: () => contactDelete(contact)
+            onClick: _ => contactDelete(contact)
           },
           {
             label: 'No',
-            onClick: () => removeAlerts()
+            onClick: _ => removeAlerts()
           }
         ]
       });
