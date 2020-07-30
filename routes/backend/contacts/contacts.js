@@ -169,7 +169,7 @@ router.put(
   }
 );
 
-// @route   DELETE api/backend/Contacts/Contacts/:_id
+// @route   DELETE api/backend/contacts/contacts/:_id
 // @desc    Delete contact
 // @access  Private
 router.delete('/:_id', [auth], async (req, res) => {

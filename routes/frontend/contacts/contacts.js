@@ -58,6 +58,9 @@ router.post(
   }
 );
 
+// @route   DELETE api/frontend/contacts/unsubscribe/:_id
+// @desc    Delete contact
+
 router.delete(
   '/unsubscribe/:_id',
   [constactValidationChecks, validationHandling],
