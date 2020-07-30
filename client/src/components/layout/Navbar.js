@@ -92,6 +92,8 @@ const Navbar = ({ className }) => {
   const isNewsletterEdit = useRouteMatch(routes.newsletterEditById);
   const isNewsletterAdd = useRouteMatch(routes.newsletterAdd(false));
 
+  const isSenderEdit = useRouteMatch(routes.senderEdit(false));
+
   const isTesting = useRouteMatch(routes.testing);
 
   /* event handlers */
@@ -114,7 +116,7 @@ const Navbar = ({ className }) => {
         to={routes.editPasswordWithId(true, authUser ? authUser._id : '')}
         isSelected={isPasswordChange}
       >
-        {uiWordings['Navbar.ChangePasswoed']}
+        {uiWordings['Navbar.PasswordEdit']}
       </NavbarLink>
       <NavbarButton className='w3-border-bottom' onClick={onLogout}>
         <i className='fa fa-sign-out' /> {uiWordings['Navbar.Logout']}
@@ -200,11 +202,18 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.Contacts']}
       </NavbarLink>
       <NavbarLink
-        className='w3-border-bottom'
+        // className='w3-border-bottom'
         to={routes.newsletterList(true)}
         isSelected={isNewsletterList || isNewsletterEdit || isNewsletterAdd}
       >
         {uiWordings['Navbar.Newsletters']}
+      </NavbarLink>
+      <NavbarLink
+        className='w3-border-bottom'
+        to={routes.senderEdit(true)}
+        isSelected={isSenderEdit}
+      >
+        {uiWordings['Navbar.SenderEdit']}
       </NavbarLink>
       <NavbarLink to={routes.testing} isSelected={isTesting}>
         {uiWordings['Navbar.Testing']}

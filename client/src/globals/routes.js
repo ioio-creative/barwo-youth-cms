@@ -122,6 +122,9 @@ export default {
   sendHistoryViewByIdWithValue: function (isLink, sendHistoryId) {
     return '/sendHistoryView/' + sendHistoryId;
   },
+  senderEdit: function (isLink) {
+    return '/senderEdit';
+  },
 
   fileManager: '/fileManager/:fileType/:additionalCallbackParam?',
   fileManagerForImages: function (isLink) {

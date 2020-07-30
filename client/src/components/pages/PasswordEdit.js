@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import UsersContext from 'contexts/users/usersContext';
-import PasswordChangePageContainer from 'components/users/UsersPageContainer';
+import PasswordEditPageContainer from 'components/users/PasswordEditPageContainer';
 import Form from 'components/form/Form';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import SubmitButton from 'components/form/SubmitButton';
@@ -145,7 +145,7 @@ const PasswordEdit = () => {
   return (
     <>
       <Form onSubmit={onSubmit}>
-        <h4>{uiWordings['UserEdit.ChangePasswordLabel']}</h4>
+        <h4>{uiWordings['UserEdit.PasswordEdit']}</h4>
         <LabelInputTextPair
           name='password'
           value={user.password}
@@ -183,9 +183,9 @@ const PasswordEdit = () => {
 };
 
 const PasswordEditWithContainer = _ => (
-  <PasswordChangePageContainer>
+  <PasswordEditPageContainer>
     <PasswordEdit />
-  </PasswordChangePageContainer>
+  </PasswordEditPageContainer>
 );
 
 export default PasswordEditWithContainer;

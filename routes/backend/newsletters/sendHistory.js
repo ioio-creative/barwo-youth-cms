@@ -9,11 +9,9 @@ const listingHandling = require('../../../middleware/listingHandling');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const {
-  Newsletter,
-  newsletterResponseTypes
-} = require('../../../models/Newsletter');
+const { newsletterResponseTypes } = require('../../../models/Newsletter');
 const { Contact } = require('../../../models/Contact');
+const { Sender } = require('../../../models/Sender');
 const {
   SendHistory,
   sendHistoryResponseTypes
@@ -29,23 +27,12 @@ const contactPopulationListForFindAll = [
   }
 ];
 
-/* Newsletter */
-
-const newsletterSelectForFindAll = {
-  // eventsDirected: 0,
-  // eventsPerformed: 0
-};
-const newsletterSelectForFindOne = { ...newsletterSelectForFindAll };
-
-const newsletterPopulationListForFindAll = [
+const senderSelect = {};
+const senderPopulationList = [
   {
     path: 'lastModifyUser',
     select: 'name'
   }
-];
-
-const newsletterPopulationListForFindOne = [
-  ...newsletterPopulationListForFindAll
 ];
 
 const newsletterValidationChecks = [
@@ -71,8 +58,7 @@ const sendHistoryPopulationListForFindOne = [
   ...sendHistoryPopulationListForFindAll
 ];
 
-const emailSend = async (contact, title, message) => {
-  // console.log(emailAddress, title, message);
+const emailSend = async (contact, emailAddress, name, title, message) => {
   let transporter = nodemailer.createTransport({
     host: 'email-smtp.ap-southeast-1.amazonaws.com',
     port: 587,
@@ -85,34 +71,13 @@ const emailSend = async (contact, title, message) => {
 
   // send mail with defined transport object
   await transporter.sendMail({
-    from: '<christopher.wong@ioiocreative.com>', // sender address
+    from: `"${name}" ${emailAddress}`, // sender address
     to: contact.emailAddress, // Receivers
     subject: title, // Subject line
-    html: `${message}<br/><p>Yours sincerely,</p> <p>Barwo</p>` // html body
+    html: message // html body
   });
   // console.log(info);
 };
-
-// const setSendHistoryInvolvedForNewsletter = async (
-//   sendHistoryId,
-//   newsletter,
-//   session
-// ) => {
-//   // https://stackoverflow.com/questions/55264112/mongoose-many-to-many-relations
-
-//   const options = { session };
-//   // set newsletter's newsletterSended
-//   // artist.artist is artist's _id
-//   newsletter = await Newsletter.findByIdAndUpdate(
-//     newsletter.newsletter,
-//     {
-//       $addToSet: {
-//         newsletterSended: sendHistoryId
-//       }
-//     },
-//     options
-//   );
-// };
 
 // @route   POST api/backend/newsletters/sendHistory
 // @desc    Add sendHistory
@@ -132,18 +97,29 @@ router.post(
       _id
     } = req.body;
     // console.log(req.body);
-    console.log(_id);
+    // console.log(_id);
     let contacts = [];
     try {
       const options = {
         select: contactSelectForFindAll,
         populate: contactPopulationListForFindAll
       };
+
       let findOptions = {};
 
       // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
       contacts = await Contact.paginate(findOptions, options);
+      // console.log(contacts);
     } catch (err) {}
+
+    let sender = {};
+    try {
+      sender = await Sender.findOne({})
+        .select(senderSelect)
+        .populate(senderPopulationList);
+      // console.log(sender);
+    } catch (err) {}
+
     try {
       const sendHistory = new SendHistory({
         label,
@@ -156,21 +132,39 @@ router.post(
         email: _id,
         sender: req.user._id
       });
+      // console.log(sender.emailAddress, sender.name_tc);
 
-      // await Promise.all(
-      //   contacts.docs.map(async contact => {
-      //     if (contact.language === 'TC') {
-      //       await emailSend(contact, title_tc, message_tc);
-      //     } else if (contact.language === 'SC') {
-      //       await emailSend(contact, title_sc, message_sc);
-      //     } else {
-      //       await emailSend(contact, title_en, message_en);
-      //     }
-      //   })
-      // );
+      await Promise.all(
+        contacts.docs.map(async contact => {
+          if (contact.language === 'TC') {
+            await emailSend(
+              contact,
+              sender.emailAddress,
+              sender.name_tc,
+              title_tc,
+              message_tc
+            );
+          } else if (contact.language === 'SC') {
+            await emailSend(
+              contact,
+              sender.emailAddress,
+              sender.name_sc,
+              title_sc,
+              message_sc
+            );
+          } else {
+            await emailSend(
+              contact,
+              sender.emailAddress,
+              sender.name_en,
+              title_en,
+              message_en
+            );
+          }
+        })
+      );
 
       await sendHistory.save();
-      // setSendHistoryInvolvedForNewsletter(sendHistory._id, newsletter);
 
       res.json(sendHistory);
     } catch (err) {
@@ -200,8 +194,6 @@ router.get('/', [auth, listingHandling], async (req, res) => {
           { title_tc: filterTextRegex },
           { title_sc: filterTextRegex },
           { title_en: filterTextRegex }
-          // { sender: objectID(req.query.filterText) },
-          // { email: objectID(req.query.filterText) }
         ]
       };
     }

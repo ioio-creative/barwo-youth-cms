@@ -96,6 +96,10 @@ app.use(
   '/api/backend/newsletters/sendHistory',
   require('./routes/backend/newsletters/sendHistory')
 );
+app.use(
+  '/api/backend/sender/sender',
+  require('./routes/backend/sender/sender')
+);
 
 // media api
 app.use('/api/backend/media', require('./routes/backend/media/media'));
@@ -127,10 +131,7 @@ app.use(
   require('./routes/frontend/contacts/contacts')
 );
 // test search function
-app.use(
-  '/api/frontend/search',
-  require('./routes/frontend/search/search')
-);
+app.use('/api/frontend/search', require('./routes/frontend/search/search'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
