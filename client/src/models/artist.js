@@ -125,6 +125,7 @@ Artist.artistRoleOptions = Object.values(artistRoles);
 Artist.getArtistForDisplay = artist => {
   return {
     ...artist,
+    orderDisplay: Number.isInteger(artist.order) ? artist.order + 1 : '',
     typeDisplay: artistTypes[artist.type].label,
     roleDisplay: artistRoles[artist.role].label,
     createDTDisplay: formatDateTimeString(artist.createDT),
@@ -138,6 +139,7 @@ Artist.getArtistForDisplay = artist => {
 };
 
 const displayFieldNames = [
+  'orderDisplay',
   'typeDisplay',
   'roleDisplay',
   'createDTDisplay',

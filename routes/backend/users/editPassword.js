@@ -43,7 +43,8 @@ router.put(
         userFields.password = await hashPasswordInput(newPassword);
         userFields.lastModifyUser = req.user._id;
       } else {
-        return res.status(403).json({
+        // 400 bad request
+        return res.status(400).json({
           errors: [userResponseTypes.PASSWORD_CHANGE_OLD_PASSWORD_INVALID]
         });
       }

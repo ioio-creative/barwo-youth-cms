@@ -719,6 +719,7 @@ export default {
   'News.NameTcLabel': 'Name TC',
   'News.NameScLabel': 'Name SC',
   'News.NameEnLabel': 'Name EN',
+  'News.OrderLabel': 'Order',
   'News.TypeLabel': 'Type',
   'News.DescTcLabel': 'Desc TC',
   'News.DescScLabel': 'Desc SC',

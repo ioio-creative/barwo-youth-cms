@@ -15,13 +15,15 @@ const newsTypes = {
   INTERVIEW: { value: 'INTERVIEW', label: 'INTERVIEW' }
 };
 
+const defaultNewsType = newsTypes.SPECIAL_NOTICE;
+
 function News() {
   this.label = '';
   this.order = null;
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
-  this.type = newsTypes.SPECIAL_NOTICE.value;
+  this.type = defaultNewsType.value;
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
@@ -66,6 +68,10 @@ News.newsesResponseTypes = {
     type: 'TYPE_REQUIRED',
     msg: 'TYPE_REQUIRED'
   },
+  TYPE_INVALID: {
+    type: 'TYPE_INVALID',
+    msg: 'TYPE_INVALID'
+  },
 
   // db check
   NEWS_NOT_EXISTS: {
@@ -84,10 +90,12 @@ News.newsesResponseTypes = {
 
 News.newsTypes = newsTypes;
 News.newsTypeOptions = Object.values(newsTypes);
+News.defaultNewsType = defaultNewsType;
 
 News.getNewsForDisplay = news => {
   return {
     ...news,
+    orderDisplay: Number.isInteger(news.order) ? news.order + 1 : '',
     typeDisplay: newsTypes[news.type].label,
     createDTDisplay: formatDateTimeString(news.createDT),
     lastModifyDTDisplay: formatDateTimeString(news.lastModifyDT),
@@ -97,6 +105,7 @@ News.getNewsForDisplay = news => {
 };
 
 const displayFieldNames = [
+  'orderDisplay',
   'typeDisplay',
   'createDTDisplay',
   'lastModifyDTDisplay',

@@ -6,6 +6,7 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
+import LabelSelectPair from 'components/form/LabelSelectPair';
 import Ordering from 'components/form/Ordering';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
@@ -29,12 +30,16 @@ const NewsesOrder = _ => {
 
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
 
+  // news type
+  const [newsTypePicked, setNewsTypePicked] = useState(
+    News.defaultNewsType.value
+  );
+
   // newses
   const [newsesPicked, setNewsesPicked] = useState([]);
 
   // componentDidMount
   useEffect(_ => {
-    getNewsesInOrder();
     return _ => {
       clearNewsesInOrder();
       removeAlerts();
@@ -45,8 +50,9 @@ const NewsesOrder = _ => {
   // fetchedNewses
   useEffect(
     _ => {
-      if (isNonEmptyArray(fetchedNewses)) {
-        setNewsesPicked(fetchedNewses);
+      setNewsesPicked(getArraySafe(fetchedNewses));
+      if (!isNonEmptyArray(fetchedNewses)) {
+        setIsSubmitEnabled(false);
       }
     },
     [fetchedNewses]
@@ -70,7 +76,19 @@ const NewsesOrder = _ => {
     [newsesErrors, setAlerts, clearNewsesErrors]
   );
 
+  // newsTypePicked
+  useEffect(
+    _ => {
+      getNewsesInOrder(newsTypePicked);
+    },
+    [newsTypePicked]
+  );
+
   /* event handlers */
+
+  const onNewsTypeChange = useCallback(e => {
+    setNewsTypePicked(e.target.value);
+  }, []);
 
   const onGetNewsesPicked = useCallback(newItemList => {
     setIsSubmitEnabled(true);
@@ -120,6 +138,14 @@ const NewsesOrder = _ => {
         <h4 className='w3-show-inline-block w3-margin-right'>
           {uiWordings['NewsesOrder.Title']}
         </h4>
+
+        <LabelSelectPair
+          name='type'
+          value={newsTypePicked}
+          options={News.newsTypeOptions}
+          labelMessage={uiWordings['News.TypeLabel']}
+          onChange={onNewsTypeChange}
+        />
 
         <SubmitButton
           disabled={!isSubmitEnabled}

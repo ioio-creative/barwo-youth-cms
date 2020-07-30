@@ -23,12 +23,14 @@ const activityTypes = {
   }
 };
 
+const defaultActivityType = activityTypes.GUIDED_TALK;
+
 function Activity() {
   this.label = '';
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
-  this.type = activityTypes.GUIDED_TALK.value;
+  this.type = defaultActivityType.value;
   this.fromDate = null;
   this.toDate = null;
   this.location_tc = '';
@@ -97,6 +99,7 @@ Activity.activitiesResponseTypes = {
 
 Activity.activityTypes = activityTypes;
 Activity.activityTypeOptions = Object.values(activityTypes);
+Activity.defaultActivityType = defaultActivityType;
 
 Activity.getActivityForDisplay = activity => {
   return {

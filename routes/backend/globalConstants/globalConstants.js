@@ -74,9 +74,9 @@ const globalConstantsValidationChecks = [
     globalConstantsResponseTypes.SCHEDULEOFSHOW_EN_REQUIRED
   ).notEmpty(),
 
-  check('team_tc', globalConstantsResponseTypes.TEAMS_TC_REQUIRED).notEmpty(),
-  check('team_sc', globalConstantsResponseTypes.TEAMS_SC_REQUIRED).notEmpty(),
-  check('team_en', globalConstantsResponseTypes.TEAMS_EN_REQUIRED).notEmpty(),
+  check('teams_tc', globalConstantsResponseTypes.TEAMS_TC_REQUIRED).notEmpty(),
+  check('teams_sc', globalConstantsResponseTypes.TEAMS_SC_REQUIRED).notEmpty(),
+  check('teams_en', globalConstantsResponseTypes.TEAMS_EN_REQUIRED).notEmpty(),
 
   check(
     'artDirector_tc',
@@ -703,6 +703,19 @@ const globalConstantsValidationChecks = [
   check(
     'admins_en',
     globalConstantsResponseTypes.ADMINS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'productionPersons_tc',
+    globalConstantsResponseTypes.PRODUCTIONPERSONS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'productionPersons_sc',
+    globalConstantsResponseTypes.PRODUCTIONPERSONS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'productionPersons_en',
+    globalConstantsResponseTypes.PRODUCTIONPERSONS_EN_REQUIRED
   ).notEmpty(),
 
   check(

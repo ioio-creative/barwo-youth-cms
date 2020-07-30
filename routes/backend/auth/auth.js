@@ -50,6 +50,7 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
+        // 400 bad request
         return res.status(400).json({ errors: [INVALID_CREDENTIALS] });
       }
       if (user.isEnabled === false) {
@@ -58,6 +59,7 @@ router.post(
       }
       const isMatch = await checkPassword(password, user.password);
       if (!isMatch) {
+        // 400 bad request
         return res.status(400).json({ errors: [INVALID_CREDENTIALS] });
       }
 
