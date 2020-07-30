@@ -41,7 +41,6 @@ const RETURNTYPE = {
   CKEditor: 2,
   Popup: 3
 };
-const mediumTypes = Medium.mediumTypes;
 
 const tags = [];
 // const tags = ["aaa", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc", "bbb", "ccc"];
@@ -60,12 +59,13 @@ const MediumElement = ({
     },
     [idx, onSelectMedium]
   );
-  const handleDoubleClick = useCallback(
-    _ => {
-      onReturnMedium(medium);
-    },
-    [medium, onReturnMedium]
-  );
+
+  // const handleDoubleClick = useCallback(
+  //   _ => {
+  //     onReturnMedium(medium);
+  //   },
+  //   [medium, onReturnMedium]
+  // );
 
   if (!medium) {
     return null;
@@ -181,14 +181,10 @@ const UploadingElement = ({
 };
 
 UploadingElement.defaultProps = {
-  mediumType: mediumTypes.IMAGE
+  mediumType: Medium.defaultMediumType
 };
 
-const FileManager = ({
-  multiple = false,
-  mediaTypeParam = mediumTypes.IMAGE.apiRoute,
-  onSelect
-}) => {
+const FileManager = ({ multiple, mediaTypeApiRoute, onSelect }) => {
   //const [showDetails, setShowDetails] = useState(false);
   const [selectedTag, setSelectedTag] = useState([]);
   // const [selectedFile, setSelectedFile] = useState('');
@@ -223,17 +219,15 @@ const FileManager = ({
 
   const CKEditorFuncNum = CKEditorFuncNumAndSetter[0];
 
-  const { fileType: mediaType, additionalCallbackParam } = useParams();
-  // console.log(mediaType);
+  const { fileType: mediaTypeParam, additionalCallbackParam } = useParams();
+  //console.log(mediaTypeParam);
   const mediumTypeObj = useMemo(
     _ => {
-      if (mediaTypeParam) {
-        return Medium.getMediumTypeFromApiRoute(mediaTypeParam);
-      } else {
-        return Medium.getMediumTypeFromApiRoute(mediaType);
-      }
+      return Medium.getMediumTypeFromApiRoute(
+        mediaTypeApiRoute || mediaTypeParam || Medium.defaultMediumType.apiRoute
+      );
     },
-    [mediaType, mediaTypeParam]
+    [mediaTypeApiRoute, mediaTypeParam]
   );
   //console.log(mediumTypeObj);
 
@@ -256,7 +250,7 @@ const FileManager = ({
       //   limit: numberOfFilesInExplorer
       // });
     },
-    [mediaList, selectedFile, mediumTypeObj]
+    [mediaList, selectedFile, mediumTypeObj, updateMedium]
   );
   const setFileManagerEl = useCallback(ref => {
     fileManagerEl.current = ref;
@@ -295,22 +289,22 @@ const FileManager = ({
     },
     [mediaList, onSelect, CKEditorFuncNum, additionalCallbackParam]
   );
-  const selectTag = useCallback(tagName => {
-    // send request to server?
-    // filter locally?
-    // .then( refresh )
-    setSelectedTag(prevSelectedTag => {
-      const searchTagIdx = prevSelectedTag.indexOf(tagName);
-      if (searchTagIdx === -1) {
-        return [...prevSelectedTag, tagName];
-      } else {
-        return [
-          ...prevSelectedTag.slice(0, searchTagIdx),
-          ...prevSelectedTag.slice(searchTagIdx + 1, prevSelectedTag.length)
-        ];
-      }
-    });
-  }, []);
+  // const selectTag = useCallback(tagName => {
+  //   // send request to server?
+  //   // filter locally?
+  //   // .then( refresh )
+  //   setSelectedTag(prevSelectedTag => {
+  //     const searchTagIdx = prevSelectedTag.indexOf(tagName);
+  //     if (searchTagIdx === -1) {
+  //       return [...prevSelectedTag, tagName];
+  //     } else {
+  //       return [
+  //         ...prevSelectedTag.slice(0, searchTagIdx),
+  //         ...prevSelectedTag.slice(searchTagIdx + 1, prevSelectedTag.length)
+  //       ];
+  //     }
+  //   });
+  // }, []);
   const addMedium = useCallback(newMedium => {
     setMediaList(prevMediaList => {
       return [newMedium, ...prevMediaList];
@@ -510,10 +504,7 @@ const FileManager = ({
     _ => {
       if (fetchedMedia) {
         setMediaList(
-          fetchedMedia.filter(
-            medium =>
-              medium.type === mediumTypeObj.value /* paramsToType[mediaType] */
-          )
+          fetchedMedia.filter(medium => medium.type === mediumTypeObj.value)
         );
       }
     },
@@ -604,12 +595,7 @@ const FileManager = ({
               })*/}
             {!mediaLoading ? (
               getArraySafe(mediaList)
-                .filter(
-                  medium =>
-                    medium &&
-                    medium.type ===
-                      mediumTypeObj.value /* paramsToType[mediaType] */
-                )
+                .filter(medium => medium && medium.type === mediumTypeObj.value)
                 .map((medium, idx) => {
                   return (
                     <MediumElement
@@ -743,6 +729,14 @@ const FileManager = ({
       </div>
     </div>
   );
+};
+
+FileManager.defaultProps = {
+  multiple: false
+  // Note: do not set default for mediaTypeApiRoute
+  // coz in that case, mediaTypeApiRoute will always override mediaTypeParam (from url)
+  // even when the caller doesn't define it
+  //mediaTypeApiRoute: mediumTypes.defaultMediumType.apiRoute
 };
 
 const FileManagerWithContainer = params => {

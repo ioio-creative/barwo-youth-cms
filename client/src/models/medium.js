@@ -60,6 +60,8 @@ const mediumTypes = {
 
 Medium.mediumTypes = mediumTypes;
 
+Medium.defaultMediumType = mediumTypes.IMAGE;
+
 Medium.getMediumForDisplay = medium => {
   return {
     ...medium,
