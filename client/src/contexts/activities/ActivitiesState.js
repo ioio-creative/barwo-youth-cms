@@ -143,20 +143,11 @@ const ActivitiesState = ({ children }) => {
   }, []);
 
   // Delete Activity
-  const deleteActivity = useCallback(async activity => {
+  const deleteActivity = useCallback(async activityId => {
     let isSuccess = false;
     dispatch({ type: SET_ACTIVITIES_LOADING });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
     try {
-      await axios.delete(
-        `/api/backend/activities/activities/${activity._id}`,
-        activity,
-        config
-      );
+      await axios.delete(`/api/backend/activities/activities/${activityId}`);
       dispatch({ type: DELETE_ACTIVITY });
       isSuccess = true;
     } catch (err) {

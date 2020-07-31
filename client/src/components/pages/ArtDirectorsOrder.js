@@ -22,7 +22,7 @@ const ArtDirectorsOrder = _ => {
     clearArtistsErrors,
     artDirectors: fetchedArtDirectors,
     artDirectorsLoading: fetchedArtDirectorsLoading,
-    getArtDirectors,
+    getArtDirectorsInOrder,
     clearArtDirectors,
     orderArtDirectors
   } = useContext(ArtistsContext);
@@ -34,7 +34,7 @@ const ArtDirectorsOrder = _ => {
 
   // componentDidMount
   useEffect(_ => {
-    getArtDirectors();
+    getArtDirectorsInOrder();
     return _ => {
       clearArtDirectors();
       removeAlerts();

@@ -7,16 +7,19 @@ module.exports = async (
   findParams = {},
   selectParams = {},
   sortParams = {},
-  populateList = []
+  populateList = [],
+  isFilterOutDisabled = true
 ) => {
   let itemsInOrder = [];
 
-  const myFindParams = {
-    isEnabled: {
-      $ne: false
-    },
-    ...findParams
-  };
+  const myFindParams = isFilterOutDisabled
+    ? {
+        isEnabled: {
+          $ne: false
+        },
+        ...findParams
+      }
+    : findParams;
   const mySelectParams = {
     ...selectParams
   };

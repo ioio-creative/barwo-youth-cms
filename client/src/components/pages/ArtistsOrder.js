@@ -22,7 +22,7 @@ const ArtistsOrder = _ => {
     clearArtistsErrors,
     eventArtists: fetchedArtists,
     eventArtistsLoading: fetchedArtistsLoading,
-    getEventArtists,
+    getEventArtistsInOrder,
     clearEventArtists,
     orderEventArtists
   } = useContext(ArtistsContext);
@@ -34,7 +34,7 @@ const ArtistsOrder = _ => {
 
   // componentDidMount
   useEffect(_ => {
-    getEventArtists();
+    getEventArtistsInOrder();
     return _ => {
       clearEventArtists();
       removeAlerts();

@@ -83,7 +83,9 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
     const language = req.language;
 
     const activities = await Activity.find({
-      isEnabled: true
+      isEnabled: {
+        $ne: false
+      }
     })
       .select(activitySelectForFindAll)
       .populate(activityPopulationListForFindAll);

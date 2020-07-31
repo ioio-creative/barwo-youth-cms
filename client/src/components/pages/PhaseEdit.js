@@ -148,6 +148,15 @@ const PhaseEdit = _ => {
     return true;
   }, []);
 
+  const phaseDelete = useCallback(
+    async phase => {
+      // console.log(phase);
+      await deletePhase(phase._id);
+      goToUrl(routes.phaseList(true));
+    },
+    [deletePhase]
+  );
+
   /* end of methods */
 
   /* event handlers */
@@ -168,18 +177,8 @@ const PhaseEdit = _ => {
     setEventsPicked(newItemList);
   }, []);
 
-  const phaseDelete = useCallback(
-    async phase => {
-      // console.log(phase);
-      await deletePhase(phase);
-      goToUrl(routes.phaseList(true));
-    },
-    [deletePhase]
-  );
-
   const onDeleteButtonClick = useCallback(
     _ => {
-      console.log(phase);
       confirmAlert({
         title: 'Confirm to submit',
         message: 'Are you sure to delete?',

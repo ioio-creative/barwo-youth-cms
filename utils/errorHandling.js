@@ -12,7 +12,8 @@ const prettyPrintError = err => {
 
 module.exports.generalErrorHandle = (err, res) => {
   console.error('generalErrorHandle:');
-  prettyPrintError(err);
+  //prettyPrintError(err);
+  console.error(err);
   res.status(500).json({ errors: [SERVER_ERROR] });
 };
 
@@ -22,14 +23,14 @@ module.exports.duplicateKeyErrorHandle = (
   errorTypeToUse,
   res
 ) => {
-  console.error('duplicateKeyErrorHandle:');
-  prettyPrintError(err);
   const { code, keyPattern } = err;
   const isDuplicateKeyError =
     code === 11000 && keyPattern && Object.keys(keyPattern).includes(fieldName);
 
   if (isDuplicateKeyError) {
-    // bad request
+    console.error('duplicateKeyErrorHandle:');
+    prettyPrintError(err);
+    // 400 bad request
     res.status(400).json({
       errors: [errorTypeToUse]
     });

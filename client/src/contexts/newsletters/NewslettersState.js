@@ -141,26 +141,15 @@ const NewslettersState = ({ children }) => {
   }, []);
 
   // Delete Newsletter
-  const deleteNewsletter = useCallback(async newsletter => {
+  const deleteNewsletter = useCallback(async newsletterId => {
     let isSuccess = false;
     dispatch({ type: SET_NEWSLETTERS_LOADING });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
     try {
-      const returnValue = await axios.delete(
-        `/api/backend/newsletters/newsletters/${newsletter._id}`,
-        newsletter,
-        config
-      );
-      isSuccess = !(
-        returnValue.type &&
-        returnValue.type ===
-          Newsletter.newsletterResponseTypes.NEWSLETTER_DELETED
+      await axios.delete(
+        `/api/backend/newsletters/newsletters/${newsletterId}`
       );
       dispatch({ type: DELETE_NEWSLETTER });
+      isSuccess = true;
     } catch (err) {
       handleServerError(err, NEWSLETTERS_ERRORS, dispatch);
     }

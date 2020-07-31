@@ -47,9 +47,9 @@ Newsletter.newsletterResponseTypes = {
   },
 
   // db check
-  NEWSLETTER_SENDED_BEFORE: {
-    type: 'NEWSLETTER_SENDED_BEFORE',
-    msg: 'NEWSLETTER_SENDED_BEFORE'
+  NEWSLETTER_SENT_BEFORE: {
+    type: 'NEWSLETTER_SENT_BEFORE',
+    msg: 'NEWSLETTER_SENT_BEFORE'
   },
   NEWSLETTER_NOT_EXISTS: {
     type: 'NEWSLETTER_NOT_EXISTS',

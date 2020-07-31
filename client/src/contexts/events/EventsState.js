@@ -53,7 +53,7 @@ const EventsState = ({ children }) => {
         ''
       );
     }
-    //console.log(url + queryString);
+
     try {
       const res = await axios.get(url + queryString);
       const { docs, ...meta } = res.data;
@@ -143,24 +143,13 @@ const EventsState = ({ children }) => {
   }, []);
 
   // Delete Event
-  const deleteEvent = useCallback(async event => {
+  const deleteEvent = useCallback(async eventId => {
     let isSuccess = false;
     dispatch({ type: SET_EVENTS_LOADING });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
     try {
-      if (!isNonEmptyArray(event.phaseInvolved)) {
-        await axios.delete(
-          `/api/backend/events/events/${event._id}`,
-          event,
-          config
-        );
-        isSuccess = true;
-      }
+      await axios.delete(`/api/backend/events/events/${eventId}`);
       dispatch({ type: DELETE_EVENT });
+      isSuccess = true;
     } catch (err) {
       handleServerError(err, EVENTS_ERRORS, dispatch);
     }

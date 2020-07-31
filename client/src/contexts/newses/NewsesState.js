@@ -177,20 +177,11 @@ const NewsesState = ({ children }) => {
     return isSuccess;
   }, []);
 
-  const deleteNews = useCallback(async news => {
+  const deleteNews = useCallback(async newsId => {
     let isSuccess = false;
     dispatch({ type: SET_NEWSES_LOADING });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
     try {
-      await axios.delete(
-        `/api/backend/newses/newses/${news._id}`,
-        news,
-        config
-      );
+      await axios.delete(`/api/backend/newses/newses/${newsId}`);
       dispatch({ type: DELETE_NEWS });
       isSuccess = true;
     } catch (err) {

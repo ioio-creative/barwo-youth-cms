@@ -131,7 +131,7 @@ const ContactEdit = _ => {
   const contactDelete = useCallback(
     async contact => {
       // console.log(contact);
-      const isSuccess = await deleteContact(contact);
+      const isSuccess = await deleteContact(contact._id);
       if (isSuccess) {
         goToUrl(routes.contactList(true));
         setAlerts(

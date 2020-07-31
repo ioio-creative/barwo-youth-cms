@@ -96,8 +96,7 @@ router.post(
       message_en,
       _id
     } = req.body;
-    // console.log(req.body);
-    // console.log(_id);
+
     let contacts = [];
     try {
       const options = {
@@ -109,16 +108,20 @@ router.post(
 
       // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
       contacts = await Contact.paginate(findOptions, options);
-      // console.log(contacts);
-    } catch (err) {}
+    } catch (err) {
+      // TODO:
+      console.error(err);
+    }
 
     let sender = {};
     try {
       sender = await Sender.findOne({})
         .select(senderSelect)
         .populate(senderPopulationList);
-      // console.log(sender);
-    } catch (err) {}
+    } catch (err) {
+      // TODO:
+      console.error(err);
+    }
 
     try {
       const sendHistory = new SendHistory({
@@ -132,7 +135,6 @@ router.post(
         email: _id,
         sender: req.user._id
       });
-      // console.log(sender.emailAddress, sender.name_tc);
 
       await Promise.all(
         contacts.docs.map(async contact => {
@@ -229,7 +231,7 @@ router.get('/:_id', auth, async (req, res) => {
     }
     res.json(sendHistory);
   } catch (err) {
-    // console.error(err);
+    console.error(err);
     //generalErrorHandle(err, res);
     return res
       .status(404)

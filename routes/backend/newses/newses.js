@@ -224,6 +224,8 @@ router.put(
     if (isEnabled !== undefined) newsFields.isEnabled = isEnabled;
     newsFields.lastModifyDT = new Date();
     newsFields.lastModifyUser = req.user._id;
+    // set order to null if disabled
+    if (isEnabled === false) newsFields.order = null;
 
     const session = await mongoose.startSession();
     session.startTransaction();

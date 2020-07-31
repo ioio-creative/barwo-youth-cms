@@ -22,7 +22,9 @@ import {
   GET_EVENT_ARTISTS,
   CLEAR_EVENT_ARTISTS,
   SET_EVENT_ARTISTS_LOADING,
-  ORDER_EVENT_ARTISTS
+  ORDER_EVENT_ARTISTS,
+  GET_ART_DIRECTORS_IN_ORDER,
+  GET_EVENT_ARTISTS_IN_ORDER
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
@@ -154,27 +156,13 @@ const ArtistsState = ({ children }) => {
   }, []);
 
   // Delete Artist
-  const deleteArtist = useCallback(async artist => {
+  const deleteArtist = useCallback(async artistId => {
     let isSuccess = false;
     dispatch({ type: SET_ARTISTS_LOADING });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
     try {
-      if (
-        !isNonEmptyArray(artist.eventsPerformed) &&
-        !isNonEmptyArray(artist.eventsDirected)
-      ) {
-        await axios.delete(
-          `/api/backend/artists/artists/${artist._id}`,
-          artist,
-          config
-        );
-        isSuccess = true;
-      }
+      await axios.delete(`/api/backend/artists/artists/${artistId}`);
       dispatch({ type: DELETE_ARTIST });
+      isSuccess = true;
     } catch (err) {
       handleServerError(err, ARTISTS_ERRORS, dispatch);
     }
@@ -259,6 +247,28 @@ const ArtistsState = ({ children }) => {
     return isSuccess;
   }, []);
 
+  // Get Art Directors in Order
+  const getArtDirectorsInOrder = useCallback(async _ => {
+    dispatch({ type: SET_ART_DIRECTORS_LOADING });
+    try {
+      const res = await axios.get('/api/backend/artists/artDirectors/ordering');
+      dispatch({ type: GET_ART_DIRECTORS_IN_ORDER, payload: res.data });
+    } catch (err) {
+      handleServerError(err, ARTISTS_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Get Event Artists in Order
+  const getEventArtistsInOrder = useCallback(async _ => {
+    dispatch({ type: SET_EVENT_ARTISTS_LOADING });
+    try {
+      const res = await axios.get('/api/backend/artists/eventArtists/ordering');
+      dispatch({ type: GET_EVENT_ARTISTS_IN_ORDER, payload: res.data });
+    } catch (err) {
+      handleServerError(err, ARTISTS_ERRORS, dispatch);
+    }
+  }, []);
+
   return (
     <ArtistsContext.Provider
       value={{
@@ -284,7 +294,9 @@ const ArtistsState = ({ children }) => {
         orderArtDirectors,
         getEventArtists,
         clearEventArtists,
-        orderEventArtists
+        orderEventArtists,
+        getArtDirectorsInOrder,
+        getEventArtistsInOrder
       }}
     >
       {children}

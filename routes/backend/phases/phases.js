@@ -10,7 +10,10 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  getArraySafe,
+  isNonEmptyArray
+} = require('../../../utils/js/array/isNonEmptyArray');
 const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const { Event } = require('../../../models/Event');
 
@@ -19,6 +22,10 @@ const { Event } = require('../../../models/Event');
 const phaseSelectForFindAll = {};
 
 const phaseSelectForFindOne = { ...phaseSelectForFindAll };
+
+const phaseDeleteSelectForFindOne = {
+  events: 1
+};
 
 const phasePopulationListForFindAll = [
   {
@@ -267,11 +274,31 @@ router.put(
 // @desc    Delete phase
 // @access  Private
 router.delete('/:_id', [auth], async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    await Phase.findByIdAndDelete(req.params._id);
+    const phase = await Phase.findById(req.params._id)
+      .select(phaseDeleteSelectForFindOne)
+      .session(session);
+
+    if (!phase) {
+      await session.commitTransaction();
+      return res
+        .status(404)
+        .json({ errors: [phaseResponseTypes.PHASE_NOT_EXISTS] });
+    }
+
+    await removePhasesInvolvedForEvents(phase, session);
+    await Phase.findByIdAndDelete(req.params._id, { session });
+    await session.commitTransaction();
+
     res.sendStatus(200);
   } catch (err) {
+    await session.abortTransaction();
     generalErrorHandle(err, res);
+  } finally {
+    session.endSession();
   }
 });
 

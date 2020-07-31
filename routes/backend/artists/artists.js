@@ -18,25 +18,19 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
-const relationshipFields = [
-  'eventsDirected',
-  'eventsPerformed',
-  'isFeaturedInLandingPage'
-];
-
-const artistSelectForFindAll = {};
-
-relationshipFields.forEach(fieldName => {
-  artistSelectForFindAll[fieldName] = 0;
-});
+const artistSelectForFindAll = {
+  eventsDirected: 0,
+  eventsPerformed: 0,
+  isFeaturedInLandingPage: 0
+};
 
 const artistSelectForFindOne = { ...artistSelectForFindAll };
 
-const artistDeleteSelectForFindOne = {};
-
-relationshipFields.forEach(fieldName => {
-  artistDeleteSelectForFindOne[fieldName] = 1;
-});
+const artistSelectForDeleteOne = {
+  eventsDirected: 1,
+  eventsPerformed: 1,
+  isFeaturedInLandingPage: 1
+};
 
 const artistPopulationListForFindAll = [
   {
@@ -306,42 +300,13 @@ router.put(
     if (isEnabled === false) artistFields.order = null;
 
     try {
-      let artist = await Artist.findById(req.params._id)
-        .select(artistSelectForFindOne)
-        .populate(artistPopulationListForFindOne);
+      let artist = await Artist.findById(req.params._id);
 
       if (!artist) {
         return res
           .status(404)
           .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
       }
-
-      /* disable check */
-
-      // const deleteCheckFailResponse = errorType => {
-      //   // 400 bad request
-      //   return res.status(400).json({ errors: [errorType] });
-      // };
-
-      // if (isNonEmptyArray(artist.eventsPerformed)) {
-      //   return deleteCheckFailResponse(
-      //     artistResponseTypes.ARTIST_PERFORMED_IN_EVENTS
-      //   );
-      // }
-
-      // if (isNonEmptyArray(artist.eventsDirected)) {
-      //   return deleteCheckFailResponse(
-      //     artistResponseTypes.ARTIST_DIRECTED_IN_EVENTS
-      //   );
-      // }
-
-      // if (artist.isFeaturedInLandingPage) {
-      //   return deleteCheckFailResponse(
-      //     artistResponseTypes.ARTIST_FEATURED_IN_LANDING
-      //   );
-      // }
-
-      /* end of disable check */
 
       artist = await Artist.findByIdAndUpdate(
         req.params._id,
@@ -364,7 +329,7 @@ router.put(
 router.delete('/:_id', [auth], async (req, res) => {
   try {
     let artist = await Artist.findById(req.params._id).select(
-      artistDeleteSelectForFindOne
+      artistSelectForDeleteOne
     );
 
     if (!artist) {

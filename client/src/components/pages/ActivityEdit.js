@@ -176,7 +176,7 @@ const ActivityEdit = _ => {
   const activityDelete = useCallback(
     async activity => {
       // console.log(activity);
-      const isSuccess = await deleteActivity(activity);
+      const isSuccess = await deleteActivity(activity._id);
       if (isSuccess) {
         goToUrl(routes.activityList(true));
         setAlerts(

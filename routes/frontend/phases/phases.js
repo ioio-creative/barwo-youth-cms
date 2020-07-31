@@ -116,7 +116,9 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
     const language = req.language;
 
     const phases = await Phase.find({
-      isEnabled: true
+      isEnabled: {
+        $ne: false
+      }
     })
       .select(phaseSelectForFindAll)
       .populate(phasePopulationListForFindAll)

@@ -172,7 +172,7 @@ Event.eventsResponseTypes = {
   },
   EVENT_INVOLVED_IN_PHASES: {
     type: 'EVENT_INVOLVED_IN_PHASES',
-    msg: "EVENT_INVOLVED_IN_PHASES, hence can't be disabled or deleted"
+    msg: "EVENT_INVOLVED_IN_PHASES, hence can't be deleted"
   },
 
   // general

@@ -135,7 +135,9 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
     const language = req.language;
 
     const events = await Event.find({
-      isEnabled: true
+      isEnabled: {
+        $ne: false
+      }
     })
       .select(eventSelectForFindAll)
       .populate(eventPopulationListForFindAll);
@@ -161,7 +163,9 @@ router.get(
       const language = req.language;
 
       const events = await Event.find({
-        isEnabled: true
+        isEnabled: {
+          $ne: false
+        }
       })
         .select(eventSelectForFindAll)
         .populate(eventPopulationListForFindAll);

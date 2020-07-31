@@ -124,7 +124,6 @@ router.post(
       message_en,
       isEnabled
     } = req.body;
-    console.log(req.body);
 
     try {
       const newsletter = new Newsletter({
@@ -206,27 +205,18 @@ router.put(
 
 router.delete('/:_id', async (req, res) => {
   try {
-    let newsletter = await Newsletter.findById(req.params._id)
-      .select(newsletterSelectForFindOne)
-      .populate(newsletterPopulationListForFindOne);
-    if (!newsletter)
-      return res
-        .status(404)
-        .json({ errors: [newsletterResponseTypes.NEWSLETTER_NOT_EXISTS] });
-    if (!(await SendHistory.exists({ email: req.params._id }))) {
-      newsletter = await Newsletter.findByIdAndDelete(req.params._id);
-    } else {
+    if (await SendHistory.exists({ email: req.params._id })) {
       return res
         .status(400)
-        .json({ errors: [newsletterResponseTypes.NEWSLETTER_SENDED_BEFORE] });
+        .json({ errors: [newsletterResponseTypes.NEWSLETTER_SENT_BEFORE] });
     }
 
-    res.json({ type: newsletterResponseTypes.NEWSLETTER_DELETED });
+    await Newsletter.findByIdAndDelete(req.params._id);
+
+    res.sendStatus(200);
   } catch (err) {
     generalErrorHandle(err, res);
   }
 });
 
 module.exports = router;
-
-module.exports.handleNewsletterLabelDuplicateKeyError = handleNewsletterLabelDuplicateKeyError;

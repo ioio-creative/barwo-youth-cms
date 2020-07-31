@@ -71,7 +71,8 @@ const getNewsesInOrderFromDb = async newsType => {
     },
     newsSelectForFindAll,
     {},
-    newsPopulationListForFindAll
+    newsPopulationListForFindAll,
+    true
   );
 };
 

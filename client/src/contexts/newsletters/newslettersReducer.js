@@ -7,6 +7,7 @@ import {
   UPDATE_NEWSLETTER,
   NEWSLETTERS_ERRORS,
   CLEAR_NEWSLETTERS_ERRORS,
+  DELETE_NEWSLETTER,
   SET_NEWSLETTERS_LOADING,
   SEND_NEWSLETTER
 } from '../types';
@@ -64,6 +65,11 @@ export default (state, action) => {
       return {
         ...state,
         newslettersErrors: null
+      };
+    case DELETE_NEWSLETTER:
+      return {
+        ...state,
+        newslettersLoading: false
       };
     case SET_NEWSLETTERS_LOADING:
       return {

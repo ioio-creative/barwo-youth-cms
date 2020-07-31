@@ -159,8 +159,7 @@ const NewsEdit = _ => {
 
   const newsDelete = useCallback(
     async news => {
-      // console.log(news);
-      await deleteNews(news);
+      await deleteNews(news._id);
       goToUrl(routes.newsList(true));
     },
     [deleteNews]

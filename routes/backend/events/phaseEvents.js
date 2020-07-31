@@ -10,11 +10,8 @@ const { Event } = require('../../../models/Event');
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const events = await Event.find({
-      isEnabled: {
-        $ne: false
-      }
-    })
+    // allow disabled events
+    const events = await Event.find({})
       .select({
         label: 1
       })

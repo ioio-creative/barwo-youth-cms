@@ -16,7 +16,9 @@ import {
   GET_EVENT_ARTISTS,
   CLEAR_EVENT_ARTISTS,
   SET_EVENT_ARTISTS_LOADING,
-  ORDER_EVENT_ARTISTS
+  ORDER_EVENT_ARTISTS,
+  GET_ART_DIRECTORS_IN_ORDER,
+  GET_EVENT_ARTISTS_IN_ORDER
 } from '../types';
 
 export default (state, action) => {
@@ -81,6 +83,7 @@ export default (state, action) => {
         artistsLoading: true
       };
     case GET_ART_DIRECTORS:
+    case GET_ART_DIRECTORS_IN_ORDER:
       return {
         ...state,
         artDirectors: action.payload,
@@ -103,6 +106,7 @@ export default (state, action) => {
         artDirectorsLoading: false
       };
     case GET_EVENT_ARTISTS:
+    case GET_EVENT_ARTISTS_IN_ORDER:
       return {
         ...state,
         eventArtists: action.payload,

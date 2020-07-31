@@ -216,6 +216,26 @@ const EventEdit = _ => {
     [setAlerts]
   );
 
+  const eventDelete = useCallback(
+    async event => {
+      const isSuccess = await deleteEvent(event._id);
+      if (isSuccess) {
+        goToUrl(routes.eventList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['EventEdit.DeleteEventSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        goToUrl(routes.eventEditByIdWithValue(true, event._id));
+        getEvent(event._id);
+        scrollToTop();
+      }
+    },
+    [deleteEvent, setAlerts, getEvent]
+  );
+
   /* end of methods */
 
   /* event handlers */
@@ -275,31 +295,9 @@ const EventEdit = _ => {
     setGalleryPicked(newItemList);
   }, []);
 
-  const eventDelete = useCallback(
-    async event => {
-      // console.log(event);
-      const isSuccess = await deleteEvent(event);
-      if (isSuccess) {
-        goToUrl(routes.eventList(true));
-        setAlerts(
-          new Alert(
-            uiWordings['EventEdit.DeleteEventSuccessMessage'],
-            Alert.alertTypes.INFO
-          )
-        );
-      } else {
-        goToUrl(routes.eventEditByIdWithValue(true, event._id));
-        getEvent(event._id);
-        scrollToTop();
-      }
-    },
-    [deleteEvent, setAlerts, getEvent]
-  );
-
   const onDeleteButtonClick = useCallback(
     _ => {
       removeAlerts();
-      console.log(event);
       confirmAlert({
         title: 'Confirm to submit',
         message: 'Are you sure to delete?',
@@ -560,7 +558,6 @@ const EventEdit = _ => {
           value={event.desc_tc}
           labelMessage={uiWordings['Event.DescTcLabel']}
           onChange={onChange}
-          required={true}
         />
         <LabelRichTextbox
           name='desc_sc'
@@ -573,27 +570,25 @@ const EventEdit = _ => {
           value={event.desc_en}
           labelMessage={uiWordings['Event.DescEnLabel']}
           onChange={onChange}
-          required={true}
         />
-        <LabelInputTextPair
+
+        <LabelRichTextbox
           name='remarks_tc'
           value={event.remarks_tc}
           labelMessage={uiWordings['Event.RemarksTcLabel']}
-          placeholder=''
           onChange={onChange}
         />
-        <LabelInputTextPair
+        <LabelRichTextbox
           name='remarks_sc'
           value={event.remarks_sc}
           labelMessage={uiWordings['Event.RemarksScLabel']}
           placeholder=''
           onChange={onChange}
         />
-        <LabelInputTextPair
+        <LabelRichTextbox
           name='remarks_en'
           value={event.remarks_en}
           labelMessage={uiWordings['Event.RemarksEnLabel']}
-          placeholder=''
           onChange={onChange}
         />
 

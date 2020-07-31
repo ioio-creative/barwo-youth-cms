@@ -40,7 +40,8 @@ const MyDatePicker = ({ name, value, onChange, dateFormat, placeholder }) => {
   );
 
   let cleanedValue;
-  if ([undefined, null].includes(value)) {
+  // sometimes database will give '' value
+  if ([undefined, null, ''].includes(value)) {
     cleanedValue = nullDateValue;
   } else {
     cleanedValue = new Date(value);

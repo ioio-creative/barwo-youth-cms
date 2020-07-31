@@ -187,7 +187,7 @@ const ArtistEdit = _ => {
   const artistDelete = useCallback(
     async artist => {
       // console.log(artist);
-      const isSuccess = await deleteArtist(artist);
+      const isSuccess = await deleteArtist(artist._id);
       if (isSuccess) {
         goToUrl(routes.artistList(true));
         setAlerts(
@@ -409,7 +409,7 @@ const ArtistEdit = _ => {
             onGetFiles={onGetGalleryPicked}
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
-            orderDirection={"horizontal"}
+            orderDirection={'horizontal'}
           />
           <FileUpload
             name='sound'
@@ -427,14 +427,12 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.DescTcLabel']}
           // placeholder=''
           onChange={onChange}
-          required={true}
         />
         <LabelRichTextbox
           name='desc_sc'
           value={artist.desc_sc}
           labelMessage={uiWordings['Artist.DescScLabel']}
           onChange={onChange}
-          required={true}
         />
         <LabelRichTextbox
           name='desc_en'

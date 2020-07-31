@@ -255,7 +255,8 @@ const artistsGetHandling = async (req, res, isFindArtDirectors = false) => {
       findParams,
       artistSelectForFindAll,
       {},
-      artistPopulationListForFindAll
+      artistPopulationListForFindAll,
+      true
     );
 
     const artistsForFrontEnd = getArraySafe(artists).map(artist => {

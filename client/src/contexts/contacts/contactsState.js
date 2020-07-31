@@ -105,13 +105,10 @@ const ContactsState = ({ children }) => {
         contact,
         config
       );
-      console.log(res);
       dispatch({ type: ADD_CONTACT, payload: res.data });
-      console.log(res.data);
       newContact = res.data;
     } catch (err) {
       handleServerError(err, CONTACTS_ERRORS, dispatch);
-      console.error(err);
     }
     return newContact;
   }, []);
@@ -145,20 +142,11 @@ const ContactsState = ({ children }) => {
   }, []);
 
   // Delete Contact
-  const deleteContact = useCallback(async contact => {
+  const deleteContact = useCallback(async contactId => {
     let isSuccess = false;
     dispatch({ type: SET_CONTACTS_LOADING });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
     try {
-      await axios.delete(
-        `/api/backend/contacts/contacts/${contact._id}`,
-        contact,
-        config
-      );
+      await axios.delete(`/api/backend/contacts/contacts/${contactId}`);
       dispatch({ type: DELETE_CONTACT });
       isSuccess = true;
     } catch (err) {

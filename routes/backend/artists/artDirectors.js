@@ -4,6 +4,7 @@ const router = express.Router();
 const auth = require('../../../middleware/auth');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const postOrderingHandling = require('../../../utils/ordering/postHandling');
+const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { Artist, artDirectorTypes } = require('../../../models/Artist');
 
 /* utilities */
@@ -28,14 +29,34 @@ const artDirectorSort = {
 // @route   GET api/backend/artists/artDirectors
 // @desc    Get all art directors
 // @access  Private
+// Note: this route is used in frontend's EventEdit
 router.get('/', auth, async (req, res) => {
+  try {
+    // allow disabled art directors
+    const artDirectors = await Artist.find(artDirectorFind)
+      .select(artDirectorSelect)
+      .sort(artDirectorSort);
+
+    res.json(artDirectors);
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
+
+// @route   GET api/backend/artists/artDirectors/ordering
+// @desc    Get all art directors in order
+// @access  Private
+// Note: this route is used in frontend's ArtDirectorsOrder
+router.get('/ordering', auth, async (req, res) => {
   await getOrderingHandling(
     res,
     Artist,
     true,
     artDirectorFind,
     artDirectorSelect,
-    artDirectorSort
+    artDirectorSort,
+    [],
+    true // not allow disabled art directors
   );
 });
 

@@ -57,7 +57,7 @@ const NewsletterEdit = _ => {
     // eslint-disable-next-line
   }, []);
 
-  // NewsletterId
+  // newsletterId
   useEffect(
     _ => {
       if (newsletterId) {
@@ -89,9 +89,9 @@ const NewsletterEdit = _ => {
     _ => {
       if (isNonEmptyArray(newslettersErrors)) {
         setAlerts(
-          newslettersErrors.map(NewsletterError => {
+          newslettersErrors.map(newsletterError => {
             return new Alert(
-              Newsletter.newsletterResponseTypes[NewsletterError].msg,
+              Newsletter.newsletterResponseTypes[newsletterError].msg,
               Alert.alertTypes.WARNING
             );
           })
@@ -122,7 +122,6 @@ const NewsletterEdit = _ => {
 
   const onSendButtonClick = useCallback(
     async e => {
-      // console.log('onSendButtonClick');
       setIsSubmitEnabled(false);
       removeAlerts();
       e.preventDefault();
@@ -167,8 +166,7 @@ const NewsletterEdit = _ => {
 
   const newsletterDelete = useCallback(
     async newsletter => {
-      // console.log(newsletter);
-      const isSuccess = await deleteNewsletter(newsletter);
+      const isSuccess = await deleteNewsletter(newsletter._id);
       if (isSuccess) {
         goToUrl(routes.newsletterList(true));
         setAlerts(
@@ -178,8 +176,8 @@ const NewsletterEdit = _ => {
           )
         );
       } else {
-        goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
-        getNewsletter(newsletter._id);
+        // TODO: calling getNewsletter would some how clear newsletterErrors???
+        //getNewsletter(newsletter._id);
         scrollToTop();
       }
     },
@@ -189,7 +187,6 @@ const NewsletterEdit = _ => {
   const onDeleteButtonClick = useCallback(
     _ => {
       removeAlerts();
-      // console.log(newsletter);
       confirmAlert({
         title: 'Confirm to submit',
         message: 'Are you sure to delete?',
@@ -218,9 +215,7 @@ const NewsletterEdit = _ => {
       let returnedNewsletter = null;
       if (isSuccess) {
         const funcToCall = isAddMode ? addNewsletter : updateNewsletter;
-        // console.log('debug');
         returnedNewsletter = await funcToCall(newsletter);
-        // console.log(returnedNewsletter);
         isSuccess = Boolean(returnedNewsletter);
       }
       if (isSuccess) {

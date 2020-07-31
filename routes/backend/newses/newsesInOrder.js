@@ -41,7 +41,9 @@ router.get('/:type', auth, async (req, res) => {
     true,
     { ...newsFind, type },
     newsSelect,
-    newsSort
+    newsSort,
+    [],
+    true
   );
 });
 

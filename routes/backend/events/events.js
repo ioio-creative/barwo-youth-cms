@@ -24,23 +24,17 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
-const relationshipFields = ['phasesInvolved'];
-
 const eventSelectForFindAll = {
   phasesInvolved: 0
 };
 
-relationshipFields.forEach(fieldName => {
-  eventSelectForFindAll[fieldName] = 0;
-});
-
 const eventSelectForFindOne = { ...eventSelectForFindAll };
 
-const eventDeleteSelectForFindOne = {};
-
-relationshipFields.forEach(fieldName => {
-  eventDeleteSelectForFindOne[fieldName] = 1;
-});
+const eventSelectForDeleteOne = {
+  phasesInvolved: 1,
+  artists: 1,
+  artDirectors: 1
+};
 
 const eventPopulationListForFindAll = [
   {
@@ -82,8 +76,14 @@ const eventValidationChecks = [
 
 const eventArtDirectorsValidation = artDirectors => {
   for (const artDirector of getArraySafe(artDirectors)) {
+    let errorType = null;
+
     if (!artDirector) {
-      return eventResponseTypes.EVENT_ART_DIRECTOR_REQUIRED;
+      errorType = eventResponseTypes.EVENT_ART_DIRECTOR_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
     }
   }
   return null;
@@ -292,7 +292,6 @@ const removeEventsInvolvedForArtDirectorsAndArtists = async (
   session
 ) => {
   const options = { session };
-
   for (const artDirector of getArraySafe(event.artDirectors)) {
     await Artist.findByIdAndUpdate(
       artDirector,
@@ -615,10 +614,12 @@ router.put(
 
     try {
       const oldEvent = await Event.findById(eventId).session(session);
-      if (!oldEvent)
+      if (!oldEvent) {
+        await session.commitTransaction();
         return res
           .status(404)
           .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
+      }
 
       await removeEventsInvolvedForArtDirectorsAndArtists(oldEvent, session);
 
@@ -653,28 +654,38 @@ router.put(
 // @desc    Delete event
 // @access  Private
 router.delete('/:_id', [auth], async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    let event = await Event.findById(req.params._id).select(
-      eventDeleteSelectForFindOne
-    );
+    const event = await Event.findById(req.params._id)
+      .select(eventSelectForDeleteOne)
+      .session(session);
 
     if (!event) {
+      await session.commitTransaction();
       return res
         .status(404)
         .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
     }
 
     if (isNonEmptyArray(event.phasesInvolved)) {
+      await session.commitTransaction();
       return res
         .status(400)
         .json({ errors: [eventResponseTypes.EVENT_INVOLVED_IN_PHASES] });
     }
 
-    await Event.findByIdAndDelete(req.params._id);
+    await removeEventsInvolvedForArtDirectorsAndArtists(event, session);
+    await Event.findByIdAndDelete(req.params._id, { session });
+    await session.commitTransaction();
 
     res.sendStatus(200);
   } catch (err) {
+    await session.abortTransaction();
     generalErrorHandle(err, res);
+  } finally {
+    session.endSession();
   }
 });
 

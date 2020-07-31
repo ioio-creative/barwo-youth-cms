@@ -137,20 +137,11 @@ const PhasesState = ({ children }) => {
   }, []);
 
   // Delete Phase
-  const deletePhase = useCallback(async phase => {
+  const deletePhase = useCallback(async phaseId => {
     let isSuccess = false;
     dispatch({ type: SET_PHASES_LOADING });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
     try {
-      await axios.delete(
-        `/api/backend/phases/phases/${phase._id}`,
-        phase,
-        config
-      );
+      await axios.delete(`/api/backend/phases/phases/${phaseId}`);
       dispatch({ type: DELETE_PHASE });
       isSuccess = true;
     } catch (err) {

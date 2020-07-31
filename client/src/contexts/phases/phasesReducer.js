@@ -62,7 +62,7 @@ export default (state, action) => {
     case DELETE_PHASE:
       return {
         ...state,
-        activitiesLoading: false
+        phasesLoading: false
       };
     case SET_PHASES_LOADING:
       return {
