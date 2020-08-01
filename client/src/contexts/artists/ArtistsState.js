@@ -27,7 +27,6 @@ import {
   GET_EVENT_ARTISTS_IN_ORDER
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const initialState = {
   artists: null,

@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import NewslettersContext from 'contexts/newsletters/newslettersContext';
 import NewslettersPageContainer from 'components/newsletters/NewslettersPageContainer';
@@ -9,13 +7,14 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
-import Button from '../form/Button';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
+import Button from 'components/form/Button';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import Newsletter from 'models/newsletter';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
@@ -165,8 +164,8 @@ const NewsletterEdit = _ => {
   );
 
   const newsletterDelete = useCallback(
-    async newsletter => {
-      const isSuccess = await deleteNewsletter(newsletter._id);
+    async _ => {
+      const isSuccess = await deleteNewsletter(newsletterId);
       if (isSuccess) {
         goToUrl(routes.newsletterList(true));
         setAlerts(
@@ -176,33 +175,10 @@ const NewsletterEdit = _ => {
           )
         );
       } else {
-        // TODO: calling getNewsletter would some how clear newsletterErrors???
-        //getNewsletter(newsletter._id);
         scrollToTop();
       }
     },
-    [deleteNewsletter, setAlerts, getNewsletter]
-  );
-
-  const onDeleteButtonClick = useCallback(
-    _ => {
-      removeAlerts();
-      confirmAlert({
-        title: 'Confirm to submit',
-        message: 'Are you sure to delete?',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: _ => newsletterDelete(newsletter)
-          },
-          {
-            label: 'No',
-            onClick: _ => removeAlerts()
-          }
-        ]
-      });
-    },
-    [newsletter, newsletterDelete, removeAlerts]
+    [newsletterId, deleteNewsletter, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -366,15 +342,14 @@ const NewsletterEdit = _ => {
         />
         {!isAddMode && (
           <>
-            <Button
-              onClick={onDeleteButtonClick}
-              color='red'
+            <DeleteWithConfirmButton
               className='w3-container w3-right'
+              onConfirmYes={newsletterDelete}
             >
               {uiWordings['NewsletterEdit.DeleteNewsletter']}
-            </Button>
+            </DeleteWithConfirmButton>
             <div className='w3-container w3-right'>
-              <NewsletterPreview newsletter={newsletter._id} />
+              <NewsletterPreview newsletterId={newsletterId} />
             </div>
           </>
         )}

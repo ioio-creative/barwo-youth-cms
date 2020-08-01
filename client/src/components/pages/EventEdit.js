@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsState from 'contexts/artists/ArtistsState';
 import ArtistsContext from 'contexts/artists/artistsContext';
@@ -17,7 +15,6 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 //import Region from 'components/layout/Region';
 import GroupContainer from 'components/layout/GroupContainer';
-import Button from 'components/form/Button';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -27,6 +24,7 @@ import LabelRichTextbox from 'components/form/LabelRichTextbox';
 import LabelColorPickerPair from 'components/form/LabelColorPickerPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import Artist from 'models/artist';
 import Event from 'models/event';
 import Medium from 'models/medium';
@@ -216,26 +214,6 @@ const EventEdit = _ => {
     [setAlerts]
   );
 
-  const eventDelete = useCallback(
-    async event => {
-      const isSuccess = await deleteEvent(event._id);
-      if (isSuccess) {
-        goToUrl(routes.eventList(true));
-        setAlerts(
-          new Alert(
-            uiWordings['EventEdit.DeleteEventSuccessMessage'],
-            Alert.alertTypes.INFO
-          )
-        );
-      } else {
-        goToUrl(routes.eventEditByIdWithValue(true, event._id));
-        getEvent(event._id);
-        scrollToTop();
-      }
-    },
-    [deleteEvent, setAlerts, getEvent]
-  );
-
   /* end of methods */
 
   /* event handlers */
@@ -295,25 +273,22 @@ const EventEdit = _ => {
     setGalleryPicked(newItemList);
   }, []);
 
-  const onDeleteButtonClick = useCallback(
-    _ => {
-      removeAlerts();
-      confirmAlert({
-        title: 'Confirm to submit',
-        message: 'Are you sure to delete?',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: _ => eventDelete(event)
-          },
-          {
-            label: 'No',
-            onClick: _ => removeAlerts()
-          }
-        ]
-      });
+  const eventDelete = useCallback(
+    async _ => {
+      const isSuccess = await deleteEvent(eventId);
+      if (isSuccess) {
+        goToUrl(routes.eventList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['EventEdit.DeleteEventSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        scrollToTop();
+      }
     },
-    [event, eventDelete, removeAlerts]
+    [eventId, deleteEvent, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -703,13 +678,12 @@ const EventEdit = _ => {
           }
         />
         {!isAddMode && (
-          <Button
-            onClick={onDeleteButtonClick}
-            color='red'
+          <DeleteWithConfirmButton
             className='w3-right'
+            onConfirmYes={eventDelete}
           >
             {uiWordings['EventEdit.DeleteEvent']}
-          </Button>
+          </DeleteWithConfirmButton>
         )}
       </Form>
     </>

@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import Modal from 'components/layout/Modal';
 import uiWordings from 'globals/uiWordings';
 import Loading from 'components/layout/loading/DefaultLoading';
@@ -20,8 +19,7 @@ const defaultNewsletterState = emptyNewsletter;
 const originalSender = new Sender();
 const defaultSenderState = originalSender;
 
-const NewsletterPreview = () => {
-  const { newsletterId } = useParams();
+const NewsletterPreview = ({ newsletterId }) => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     newsletter: fetchedNewsletter,
@@ -43,6 +41,7 @@ const NewsletterPreview = () => {
 
   const [newsletter, setNewsletter] = useState(defaultNewsletterState);
   const [sender, setSender] = useState(defaultSenderState);
+
   // componentDidMount
   useEffect(_ => {
     getSender();

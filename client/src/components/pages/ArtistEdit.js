@@ -1,14 +1,11 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import ArtistEditQnaSelect from 'components/artists/ArtistEditQnaSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
-import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
@@ -19,6 +16,7 @@ import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import Artist from 'models/artist';
 import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
@@ -185,9 +183,8 @@ const ArtistEdit = _ => {
   }, []);
 
   const artistDelete = useCallback(
-    async artist => {
-      // console.log(artist);
-      const isSuccess = await deleteArtist(artist._id);
+    async _ => {
+      const isSuccess = await deleteArtist(artistId);
       if (isSuccess) {
         goToUrl(routes.artistList(true));
         setAlerts(
@@ -197,33 +194,10 @@ const ArtistEdit = _ => {
           )
         );
       } else {
-        goToUrl(routes.artistEditByIdWithValue(true, artist._id));
-        getArtist(artist._id);
         scrollToTop();
       }
     },
-    [deleteArtist, setAlerts, getArtist]
-  );
-
-  const onDeleteButtonClick = useCallback(
-    _ => {
-      removeAlerts();
-      confirmAlert({
-        title: 'Confirm to submit',
-        message: 'Are you sure to delete?',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: _ => artistDelete(artist)
-          },
-          {
-            label: 'No',
-            onClick: _ => removeAlerts()
-          }
-        ]
-      });
-    },
-    [artist, artistDelete, removeAlerts]
+    [artistId, deleteArtist, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -475,13 +449,12 @@ const ArtistEdit = _ => {
           }
         />
         {!isAddMode && (
-          <Button
-            onClick={onDeleteButtonClick}
-            color='red'
+          <DeleteWithConfirmButton
             className='w3-right'
+            onConfirmYes={artistDelete}
           >
             {uiWordings['ArtistEdit.DeleteArtist']}
-          </Button>
+          </DeleteWithConfirmButton>
         )}
       </Form>
     </>

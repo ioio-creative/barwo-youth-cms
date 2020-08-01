@@ -1,13 +1,10 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import NewsesContext from 'contexts/newses/newsesContext';
 import NewsesPageContainer from 'components/newses/NewsesPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
-import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
@@ -19,6 +16,7 @@ import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import News from 'models/news';
 import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
@@ -158,32 +156,21 @@ const NewsEdit = _ => {
   // }, []);
 
   const newsDelete = useCallback(
-    async news => {
-      await deleteNews(news._id);
-      goToUrl(routes.newsList(true));
+    async _ => {
+      const isSuccess = await deleteNews(newsId);
+      if (isSuccess) {
+        goToUrl(routes.newsList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['NewsEdit.DeleteNewsSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        scrollToTop();
+      }
     },
-    [deleteNews]
-  );
-
-  const onDeleteButtonClick = useCallback(
-    _ => {
-      console.log(news);
-      confirmAlert({
-        title: 'Confirm to submit',
-        message: 'Are you sure to delete?',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: _ => newsDelete(news)
-          },
-          {
-            label: 'No',
-            onClick: _ => removeAlerts()
-          }
-        ]
-      });
-    },
-    [news, newsDelete, removeAlerts]
+    [newsId, deleteNews, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -398,13 +385,12 @@ const NewsEdit = _ => {
           }
         />
         {!isAddMode && (
-          <Button
-            onClick={onDeleteButtonClick}
-            color='red'
+          <DeleteWithConfirmButton
             className='w3-right'
+            onConfirmYes={newsDelete}
           >
             {uiWordings['NewsEdit.DeleteNews']}
-          </Button>
+          </DeleteWithConfirmButton>
         )}
       </Form>
     </>

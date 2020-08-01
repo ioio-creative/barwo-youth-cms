@@ -229,6 +229,7 @@ export default {
   'PhaseEdit.DeletePhase': 'Delete Phase',
   'PhaseEdit.AddPhaseSuccessMessage': 'Phase Added',
   'PhaseEdit.UpdatePhaseSuccessMessage': 'Phase Updated',
+  'PhaseEdit.DeletePhaseSuccessMessage': 'Phase Deleted',
 
   'PhaseEdit.SelectEventsPlaceholder': 'Select Events...',
   'PhaseEdit.SelectFromDatePlaceholder': 'Click to select date',
@@ -753,6 +754,7 @@ export default {
   'NewsEdit.DeleteNews': 'Delete News',
   'NewsEdit.AddNewsSuccessMessage': 'News Added',
   'NewsEdit.UpdateNewsSuccessMessage': 'News Updated',
+  'NewsEdit.DeleteNewsSuccessMessage': 'News Deleted',
 
   'NewsEdit.Media.Title': 'Media',
 
@@ -782,6 +784,11 @@ export default {
   'PageMeta.OgImageAltScLabel': 'OG Image Alt SC',
   'PageMeta.OgImageAltEnLabel': 'OG Image Alt EN',
   'PageMeta.FacebookAppIdLabel': 'Facebook App ID',
+
+  'DeleteWithConfirmButton.ConfirmTitle': 'Confirm to submit',
+  'DeleteWithConfirmButton.ConfirmMessage': 'Are you sure to delete?',
+  'DeleteWithConfirmButton.ConfirmYesLabel': 'Yes',
+  'DeleteWithConfirmButton.ConfirmNoLabel': 'No',
 
   'FileManager.Title': 'File Manager',
   'FileManager.SelectFile': 'Select File',

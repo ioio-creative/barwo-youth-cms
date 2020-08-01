@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import EventsState from 'contexts/events/EventsState';
 import EventsContext from 'contexts/events/eventsContext';
@@ -10,7 +9,6 @@ import PhasesPageContainer from 'components/phases/PhasesPageContainer';
 import PhaseEditEventSelect from 'components/phases/PhaseEditEventSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
-import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
@@ -20,6 +18,7 @@ import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import Event from 'models/event';
 import Phase from 'models/phase';
 import uiWordings from 'globals/uiWordings';
@@ -148,15 +147,6 @@ const PhaseEdit = _ => {
     return true;
   }, []);
 
-  const phaseDelete = useCallback(
-    async phase => {
-      // console.log(phase);
-      await deletePhase(phase._id);
-      goToUrl(routes.phaseList(true));
-    },
-    [deletePhase]
-  );
-
   /* end of methods */
 
   /* event handlers */
@@ -177,24 +167,22 @@ const PhaseEdit = _ => {
     setEventsPicked(newItemList);
   }, []);
 
-  const onDeleteButtonClick = useCallback(
-    _ => {
-      confirmAlert({
-        title: 'Confirm to submit',
-        message: 'Are you sure to delete?',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: _ => phaseDelete(phase)
-          },
-          {
-            label: 'No',
-            onClick: _ => removeAlerts()
-          }
-        ]
-      });
+  const phaseDelete = useCallback(
+    async _ => {
+      const isSuccess = await deletePhase(phaseId);
+      if (isSuccess) {
+        goToUrl(routes.phaseList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['PhaseEdit.DeletePhaseSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        scrollToTop();
+      }
     },
-    [phase, phaseDelete, removeAlerts]
+    [phaseId, deletePhase, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -350,13 +338,12 @@ const PhaseEdit = _ => {
           }
         />
         {!isAddMode && (
-          <Button
-            onClick={onDeleteButtonClick}
-            color='red'
+          <DeleteWithConfirmButton
             className='w3-right'
+            onConfirmYes={phaseDelete}
           >
             {uiWordings['PhaseEdit.DeletePhase']}
-          </Button>
+          </DeleteWithConfirmButton>
         )}
       </Form>
     </>

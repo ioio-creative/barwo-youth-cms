@@ -1,13 +1,10 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import ActivitiesContext from 'contexts/activities/activitiesContext';
 import ActivitiesPageContainer from 'components/activities/ActivitiesPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
-import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
@@ -20,6 +17,7 @@ import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import Activity from 'models/activity';
 import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
@@ -174,9 +172,8 @@ const ActivityEdit = _ => {
   // }, []);
 
   const activityDelete = useCallback(
-    async activity => {
-      // console.log(activity);
-      const isSuccess = await deleteActivity(activity._id);
+    async _ => {
+      const isSuccess = await deleteActivity(activityId);
       if (isSuccess) {
         goToUrl(routes.activityList(true));
         setAlerts(
@@ -186,33 +183,10 @@ const ActivityEdit = _ => {
           )
         );
       } else {
-        goToUrl(routes.activityEditByIdWithValue(true, activity._id));
-        // TODO: should we getActivity from DB when delete fails?
-        getActivity(activity._id);
         scrollToTop();
       }
     },
-    [deleteActivity, setAlerts, getActivity]
-  );
-
-  const onDeleteButtonClick = useCallback(
-    _ => {
-      confirmAlert({
-        title: 'Confirm to submit',
-        message: 'Are you sure to delete?',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: _ => activityDelete(activity)
-          },
-          {
-            label: 'No',
-            onClick: _ => removeAlerts()
-          }
-        ]
-      });
-    },
-    [activity, activityDelete, removeAlerts]
+    [activityId, deleteActivity, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -478,13 +452,12 @@ const ActivityEdit = _ => {
           }
         />
         {!isAddMode && (
-          <Button
-            onClick={onDeleteButtonClick}
-            color='red'
+          <DeleteWithConfirmButton
             className='w3-right'
+            onConfirmYes={activityDelete}
           >
             {uiWordings['ActivityEdit.DeleteActivity']}
-          </Button>
+          </DeleteWithConfirmButton>
         )}
       </Form>
     </>

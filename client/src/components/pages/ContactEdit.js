@@ -1,13 +1,10 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import AlertContext from 'contexts/alert/alertContext';
 import ContactsContext from 'contexts/contacts/contactsContext';
 import ContactsPageContainer from 'components/contacts/ContactsPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
-import Button from 'components/form/Button';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
@@ -16,6 +13,7 @@ import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
+import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import Contact from 'models/contact';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
@@ -129,9 +127,8 @@ const ContactEdit = _ => {
   );
 
   const contactDelete = useCallback(
-    async contact => {
-      // console.log(contact);
-      const isSuccess = await deleteContact(contact._id);
+    async _ => {
+      const isSuccess = await deleteContact(contactId);
       if (isSuccess) {
         goToUrl(routes.contactList(true));
         setAlerts(
@@ -141,33 +138,10 @@ const ContactEdit = _ => {
           )
         );
       } else {
-        goToUrl(routes.contactEditByIdWithValue(true, contact._id));
-        getContact(contact._id);
         scrollToTop();
       }
     },
-    [deleteContact, setAlerts, getContact]
-  );
-
-  const onDeleteButtonClick = useCallback(
-    _ => {
-      console.log(contact);
-      confirmAlert({
-        title: 'Confirm to submit',
-        message: 'Are you sure to delete?',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: _ => contactDelete(contact)
-          },
-          {
-            label: 'No',
-            onClick: _ => removeAlerts()
-          }
-        ]
-      });
-    },
-    [contact, contactDelete, removeAlerts]
+    [contactId, deleteContact, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -300,13 +274,12 @@ const ContactEdit = _ => {
           }
         />
         {!isAddMode && (
-          <Button
-            onClick={onDeleteButtonClick}
-            color='red'
+          <DeleteWithConfirmButton
             className='w3-right'
+            onConfirmYes={contactDelete}
           >
             {uiWordings['ContactEdit.DeleteContact']}
-          </Button>
+          </DeleteWithConfirmButton>
         )}
       </Form>
     </>

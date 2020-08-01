@@ -20,7 +20,6 @@ import {
   SET_PHASE_EVENTS_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 
 const initialState = {
   events: null,
