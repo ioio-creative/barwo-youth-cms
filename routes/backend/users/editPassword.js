@@ -30,10 +30,11 @@ router.put(
 
     try {
       let user = await User.findById(req.params._id);
-      if (!user)
+      if (!user) {
         return res
           .status(404)
           .json({ errors: [userResponseTypes.USER_NOT_EXISTS] });
+      }
 
       const userFields = {};
 

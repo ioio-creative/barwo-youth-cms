@@ -27,7 +27,7 @@ const passwordMinLength = config.User.password.minLength;
 const emptyUser = new User();
 const defaultState = {
   ...emptyUser,
-  password2: ''
+  passwordConfirm: ''
 };
 
 const UserEdit = _ => {
@@ -110,7 +110,7 @@ const UserEdit = _ => {
   const validInput = useCallback(
     userInput => {
       if (isAddMode || isChangePassword) {
-        if (userInput.password !== userInput.password2) {
+        if (userInput.password !== userInput.passwordConfirm) {
           setAlerts(
             new Alert(
               uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
@@ -133,7 +133,7 @@ const UserEdit = _ => {
     setUser(prevUser => ({
       ...prevUser,
       password: '',
-      password2: ''
+      passwordConfirm: ''
     }));
     setIsChangePassword(prevIsChangePassword => !prevIsChangePassword);
   }, []);
@@ -158,7 +158,7 @@ const UserEdit = _ => {
       let isSuccess = false;
       let returnedUser = null;
       isSuccess = validInput(user);
-      const { password2, ...cleanedUser } = user;
+      const { passwordConfirm, ...cleanedUser } = user;
       if (!isAddMode && !isChangePassword) {
         cleanedUser.password = null;
       }
@@ -255,8 +255,8 @@ const UserEdit = _ => {
               minLength={passwordMinLength}
             />
             <LabelInputTextPair
-              name='password2'
-              value={user.password2}
+              name='passwordConfirm'
+              value={user.passwordConfirm}
               inputType='password'
               labelMessage={uiWordings['UserEdit.ConfirmPasswordLabel']}
               placeholder=''

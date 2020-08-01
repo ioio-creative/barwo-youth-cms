@@ -92,6 +92,9 @@ const Navbar = ({ className }) => {
   const isNewsletterEdit = useRouteMatch(routes.newsletterEditById);
   const isNewsletterAdd = useRouteMatch(routes.newsletterAdd(false));
 
+  const isSendHistoryList = useRouteMatch(routes.sendHistoryList(false));
+  const isSendHistoryView = useRouteMatch(routes.sendHistoryViewById);
+
   const isSenderEdit = useRouteMatch(routes.senderEdit(false));
 
   const isTesting = useRouteMatch(routes.testing);
@@ -138,13 +141,16 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.GlobalConstants']}
       </NavbarLink>
       <NavbarLink
-        className='w3-border-bottom'
         to={routes.landingPageEdit(true)}
         isSelected={isLandingPageEdit}
       >
         {uiWordings['Navbar.LandingPage']}
       </NavbarLink>
-      <NavbarLink to={routes.aboutEdit(true)} isSelected={isAboutEdit}>
+      <NavbarLink
+        className='w3-border-bottom'
+        to={routes.aboutEdit(true)}
+        isSelected={isAboutEdit}
+      >
         {uiWordings['Navbar.About']}
       </NavbarLink>
 
@@ -182,6 +188,7 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.Artists']}
       </NavbarLink>
       <NavbarLink
+        className='w3-border-bottom'
         to={routes.activityList(true)}
         isSelected={isActivityList || isActivityEdit || isActivityAdd}
       >
@@ -196,17 +203,23 @@ const Navbar = ({ className }) => {
       </NavbarLink>
       <NavbarLink
         // className='w3-border-bottom'
+        to={routes.newsletterList(true)}
+        isSelected={
+          isNewsletterList ||
+          isNewsletterEdit ||
+          isNewsletterAdd ||
+          isSendHistoryList ||
+          isSendHistoryView
+        }
+      >
+        {uiWordings['Navbar.Newsletters']}
+      </NavbarLink>
+      <NavbarLink
+        // className='w3-border-bottom'
         to={routes.contactList(true)}
         isSelected={isContactList || isContactEdit || isContactAdd}
       >
         {uiWordings['Navbar.Contacts']}
-      </NavbarLink>
-      <NavbarLink
-        // className='w3-border-bottom'
-        to={routes.newsletterList(true)}
-        isSelected={isNewsletterList || isNewsletterEdit || isNewsletterAdd}
-      >
-        {uiWordings['Navbar.Newsletters']}
       </NavbarLink>
       <NavbarLink
         className='w3-border-bottom'

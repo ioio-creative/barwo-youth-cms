@@ -630,7 +630,7 @@ export default {
   'NewsletterPreview.FromLabel': 'From: ',
   'NewsletterPreview.ToLabel': 'To: ',
 
-  'SendHistories.Title': 'Send Histories',
+  'SendHistories.Title': 'Send History',
 
   'SendHistory.LabelLabel': 'Label',
   'SendHistory.TitleTcLabel': 'Title TC',
@@ -643,7 +643,7 @@ export default {
   'SendHistory.SenderLabel': 'Sender',
   'SendHistory.IsEnabledLabel': 'Is Enabled ?',
 
-  'SendHistoryList.SendHistoriesList': 'Send Histories List',
+  'SendHistoryList.SendHistoriesList': 'Send History List',
   'SendHistoryList.FilterTextPlaceHolder': 'Filter Send Historys by name...',
   'SendHistoryList.FilterButton': 'Filter',
   'SendHistoryList.ClearFilterButton': 'Clear Filter',

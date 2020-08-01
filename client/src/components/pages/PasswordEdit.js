@@ -15,11 +15,10 @@ import Loading from 'components/layout/loading/DefaultLoading';
 
 const passwordMinLength = config.User.password.minLength;
 
-const emptyUser = new User();
 const defaultState = {
-  ...emptyUser,
-  password1: '',
-  password2: ''
+  oldPassword: '',
+  newPassword: '',
+  newPasswordConfirm: ''
 };
 
 const PasswordEdit = _ => {
@@ -42,7 +41,7 @@ const PasswordEdit = _ => {
     // eslint-disable-next-line
   }, []);
 
-  // userId
+  // authUser
   useEffect(
     _ => {
       if (authUser) {
@@ -74,7 +73,7 @@ const PasswordEdit = _ => {
 
   const validInput = useCallback(
     userInput => {
-      if (userInput.password1 !== userInput.password2) {
+      if (userInput.newPassword !== userInput.newPasswordConfirm) {
         setAlerts(
           new Alert(
             uiWordings['UserEdit.ConfirmPasswordDoesNotMatchMessage'],
@@ -112,8 +111,8 @@ const PasswordEdit = _ => {
       if (isSuccess) {
         returnedUser = await editPassword({
           ...user,
-          oldPassword: user.password,
-          newPassword: user.password1
+          oldPassword: user.oldPassword,
+          newPassword: user.newPassword
         });
         isSuccess = Boolean(returnedUser);
       }
@@ -126,10 +125,8 @@ const PasswordEdit = _ => {
         );
 
         setUser(prevUser => ({
-          ...prevUser,
-          password: '',
-          password1: '',
-          password2: ''
+          ...prevUser, // prevUser contains _id
+          ...defaultState
         }));
       }
     },
@@ -147,8 +144,8 @@ const PasswordEdit = _ => {
       <Form onSubmit={onSubmit}>
         <h4>{uiWordings['UserEdit.PasswordEdit']}</h4>
         <LabelInputTextPair
-          name='password'
-          value={user.password}
+          name='oldPassword'
+          value={user.oldPassword}
           inputType='password'
           labelMessage={uiWordings['UserEdit.OldPasswordLabel']}
           placeholder=''
@@ -157,8 +154,8 @@ const PasswordEdit = _ => {
           minLength={passwordMinLength}
         />
         <LabelInputTextPair
-          name='password1'
-          value={user.password1}
+          name='newPassword'
+          value={user.newPassword}
           inputType='password'
           labelMessage={uiWordings['UserEdit.NewPasswordLabel']}
           placeholder=''
@@ -167,8 +164,8 @@ const PasswordEdit = _ => {
           minLength={passwordMinLength}
         />
         <LabelInputTextPair
-          name='password2'
-          value={user.password2}
+          name='newPasswordConfirm'
+          value={user.newPasswordConfirm}
           inputType='password'
           labelMessage={uiWordings['UserEdit.ConfirmPasswordLabel']}
           placeholder=''
