@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert';
 import AlertContext from 'contexts/alert/alertContext';
 import EventsState from 'contexts/events/EventsState';
 import EventsContext from 'contexts/events/eventsContext';
