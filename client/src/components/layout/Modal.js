@@ -12,26 +12,15 @@ const customModalStyles = {
 
 // http://reactcommunity.org/react-modal/
 const MyModal = ({
-  className = '',
-  isOpen = false,
+  openButtonClassName,
+  openButtonColor,
+  openButtonTextColor,
+  isOpen,
+  setParentIsOpen,
   contentLabel,
-  children,
-  setParentIsOpen
+  children
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(isOpen);
-
-  /* methods */
-
-  const openModal = useCallback(_ => {
-    setIsModalOpen(true);
-  }, []);
-
-  // const afterOpenModal = useCallback(_ => {
-  // }, []);
-
-  const closeModal = useCallback(_ => {
-    setIsModalOpen(false);
-  }, []);
 
   useEffect(
     _ => {
@@ -46,11 +35,30 @@ const MyModal = ({
     },
     [isModalOpen, setParentIsOpen]
   );
+
+  /* methods */
+
+  const openModal = useCallback(_ => {
+    setIsModalOpen(true);
+  }, []);
+
+  // const afterOpenModal = useCallback(_ => {
+  // }, []);
+
+  const closeModal = useCallback(_ => {
+    setIsModalOpen(false);
+  }, []);
+
   /* end of methods */
 
   return (
     <>
-      <Button className={className} onClick={openModal}>
+      <Button
+        className={openButtonClassName}
+        color={openButtonColor}
+        textColor={openButtonTextColor}
+        onClick={openModal}
+      >
         {contentLabel}
       </Button>
       <Modal
@@ -67,6 +75,8 @@ const MyModal = ({
 };
 
 MyModal.defaultProps = {
+  openButtonClassName: '',
+  isOpen: false,
   /* String indicating how the content container should be announced
      to screenreaders */
   contentLabel: 'Modal'

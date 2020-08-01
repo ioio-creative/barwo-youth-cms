@@ -22,10 +22,10 @@ const ModalFileManager = ({
 
   return (
     <Modal
-      className='w3-margin-left'
-      contentLabel={contentLabel}
+      openButtonClassName='w3-margin-left'
       isOpen={isModalOpen}
       setParentIsOpen={setIsModalOpen}
+      contentLabel={contentLabel}
     >
       <h4>{title}</h4>
       <FileManager

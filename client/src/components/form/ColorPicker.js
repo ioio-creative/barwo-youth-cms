@@ -41,4 +41,6 @@ MyColorPicker.defaultProps = {
   width: 250
 };
 
+MyColorPicker.defaultValue = defaultValue;
+
 export default MyColorPicker;

@@ -21,7 +21,7 @@ import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from 'components/form/LabelRichTextbox';
-import LabelColorPickerPair from 'components/form/LabelColorPickerPair';
+import ColorPickerModal from 'components/form/ColorPickerModal';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
@@ -436,6 +436,15 @@ const EventEdit = _ => {
       {backToEventListButton}
 
       <Form onSubmit={onSubmit}>
+        <span className='w3-right'>
+          <ColorPickerModal
+            name='themeColor'
+            value={event.themeColor || defaultState.themeColor}
+            labelMessage={uiWordings['Event.ThemeColorLabel']}
+            onChange={onChange}
+          />
+        </span>
+
         <h4>
           {isAddMode
             ? uiWordings['EventEdit.AddEventTitle']
@@ -638,13 +647,6 @@ const EventEdit = _ => {
             onChange={onChange}
           />
         </Region> */}
-
-        <LabelColorPickerPair
-          name='themeColor'
-          value={event.themeColor || defaultState.themeColor}
-          labelMessage={uiWordings['Event.ThemeColorLabel']}
-          onChange={onChange}
-        />
 
         <LabelTogglePair
           name='isEnabled'

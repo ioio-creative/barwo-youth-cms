@@ -11,7 +11,7 @@ import Loading from 'components/layout/loading/DefaultLoading';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
-import LabelColorPickerPair from 'components/form/LabelColorPickerPair';
+import ColorPickerModal from 'components/form/ColorPickerModal';
 import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -257,6 +257,15 @@ const PhaseEdit = _ => {
       {backToPhaseListButton}
 
       <Form onSubmit={onSubmit}>
+        <span className='w3-right'>
+          <ColorPickerModal
+            name='themeColor'
+            value={phase.themeColor || defaultState.themeColor}
+            labelMessage={uiWordings['Phase.ThemeColorLabel']}
+            onChange={onChange}
+          />
+        </span>
+
         <h4>
           {isAddMode
             ? uiWordings['PhaseEdit.AddPhaseTitle']
@@ -296,13 +305,6 @@ const PhaseEdit = _ => {
         <PhaseEditEventSelect
           eventsPicked={eventsPicked}
           onGetEventsPicked={onGetEventsPicked}
-        />
-
-        <LabelColorPickerPair
-          name='themeColor'
-          value={phase.themeColor || defaultState.themeColor}
-          labelMessage={uiWordings['Phase.ThemeColorLabel']}
-          onChange={onChange}
         />
 
         <LabelTogglePair

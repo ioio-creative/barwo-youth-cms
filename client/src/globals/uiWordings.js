@@ -790,6 +790,8 @@ export default {
   'DeleteWithConfirmButton.ConfirmYesLabel': 'Yes',
   'DeleteWithConfirmButton.ConfirmNoLabel': 'No',
 
+  'LabelColorPickerPair.OpenButton': 'Open Color Picker',
+
   'FileManager.Title': 'File Manager',
   'FileManager.SelectFile': 'Select File',
   'FileManager.DeleteFile': 'Delete File',
