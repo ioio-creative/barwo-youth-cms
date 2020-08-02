@@ -242,10 +242,10 @@ const Testing = _ => {
           name='language'
           value={contact.language}
           options={Contact.contactLanguageOptions}
-          labelMessage={'Contact.Language'}
+          labelMessage='Contact Language'
           onChange={onChange}
         />
-        <SubmitButton label={'AddContactSubmit'} />
+        <SubmitButton label='Add Contact' />
       </Form>
     </div>
   );

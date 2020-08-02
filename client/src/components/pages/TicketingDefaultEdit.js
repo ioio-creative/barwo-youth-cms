@@ -231,6 +231,20 @@ const TicketingDefaultEdit = _ => {
         onGetPrices={onGetPricesPicked}
       />
 
+      <TicketingDefaultEditPhoneSelect
+        phones={phonesPicked}
+        onGetPhones={onGetPhonesPicked}
+      />
+
+      <LabelInputTextPair
+        name='ticketUrl'
+        value={ticketingDefault.ticketUrl}
+        labelMessage={uiWordings['TicketingDefault.ticketUrlLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       <LabelRichTextbox
         name='priceRemarks_tc'
         value={ticketingDefault.priceRemarks_tc}
@@ -248,20 +262,6 @@ const TicketingDefaultEdit = _ => {
         value={ticketingDefault.priceRemarks_en}
         labelMessage={uiWordings['TicketingDefault.PriceRemarksEnLabel']}
         onChange={onChange}
-      />
-
-      <TicketingDefaultEditPhoneSelect
-        phones={phonesPicked}
-        onGetPhones={onGetPhonesPicked}
-      />
-
-      <LabelInputTextPair
-        name='ticketUrl'
-        value={ticketingDefault.ticketUrl}
-        labelMessage={uiWordings['TicketingDefault.ticketUrlLabel']}
-        placeholder=''
-        onChange={onChange}
-        required={true}
       />
 
       {!isAddMode && (

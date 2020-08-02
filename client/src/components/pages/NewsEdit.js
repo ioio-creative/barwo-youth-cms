@@ -5,13 +5,15 @@ import NewsesContext from 'contexts/newses/newsesContext';
 import NewsesPageContainer from 'components/newses/NewsesPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import AccordionRegion from 'components/layout/AccordionRegion';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 //import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import LabelTogglePair from 'components/form/LabelTogglePair';
+import Label from 'components/form/Label';
+import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import SubmitButton from 'components/form/SubmitButton';
@@ -262,11 +264,29 @@ const NewsEdit = _ => {
       {backToNewsListButton}
 
       <Form onSubmit={onSubmit}>
-        <h4>
-          {isAddMode
-            ? uiWordings['NewsEdit.AddNewsTitle']
-            : uiWordings['NewsEdit.EditNewsTitle']}
-        </h4>
+        <div className='w3-row'>
+          <div className='w3-col m10'>
+            <h4>
+              {isAddMode
+                ? uiWordings['NewsEdit.AddNewsTitle']
+                : uiWordings['NewsEdit.EditNewsTitle']}
+            </h4>
+          </div>
+          <div className='w3-col m2 w3-row'>
+            <div className='w3-col m12'>
+              <Label
+                htmlFor='isEnabled'
+                message={uiWordings['News.IsEnabledLabel']}
+              />
+              <Toggle
+                name='isEnabled'
+                value={news.isEnabled}
+                onChange={onChange}
+              />
+            </div>
+          </div>
+        </div>
+
         <LabelInputTextPair
           name='label'
           value={news.label}
@@ -308,8 +328,7 @@ const NewsEdit = _ => {
           onChange={onChange}
         />
 
-        <div className='w3-card w3-container'>
-          <h4>{uiWordings['NewsEdit.Media.Title']}</h4>
+        <AccordionRegion title={uiWordings['NewsEdit.MediaRegionTitle']}>
           <FileUpload
             name='featuredImage'
             labelMessage={uiWordings['News.FeaturedImageLabel']}
@@ -331,34 +350,29 @@ const NewsEdit = _ => {
             data={downloadData}
             onChange={onDownloadDataChange}
           /> */}
-        </div>
+        </AccordionRegion>
 
-        <LabelRichTextbox
-          name='desc_tc'
-          value={news.desc_tc}
-          labelMessage={uiWordings['News.DescTcLabel']}
-          // placeholder=''
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_sc'
-          value={news.desc_sc}
-          labelMessage={uiWordings['News.DescScLabel']}
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_en'
-          value={news.desc_en}
-          labelMessage={uiWordings['News.DescEnLabel']}
-          onChange={onChange}
-        />
-
-        <LabelTogglePair
-          name='isEnabled'
-          value={news.isEnabled}
-          labelMessage={uiWordings['News.IsEnabledLabel']}
-          onChange={onChange}
-        />
+        <AccordionRegion title={uiWordings['NewsEdit.DescriptionRegionTitle']}>
+          <LabelRichTextbox
+            name='desc_tc'
+            value={news.desc_tc}
+            labelMessage={uiWordings['News.DescTcLabel']}
+            // placeholder=''
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_sc'
+            value={news.desc_sc}
+            labelMessage={uiWordings['News.DescScLabel']}
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_en'
+            value={news.desc_en}
+            labelMessage={uiWordings['News.DescEnLabel']}
+            onChange={onChange}
+          />
+        </AccordionRegion>
 
         {!isAddMode && (
           <>
@@ -385,12 +399,11 @@ const NewsEdit = _ => {
           }
         />
         {!isAddMode && (
-          <DeleteWithConfirmButton
-            className='w3-right'
-            onConfirmYes={newsDelete}
-          >
-            {uiWordings['NewsEdit.DeleteNews']}
-          </DeleteWithConfirmButton>
+          <div className='w3-right'>
+            <DeleteWithConfirmButton onConfirmYes={newsDelete}>
+              {uiWordings['NewsEdit.DeleteNews']}
+            </DeleteWithConfirmButton>
+          </div>
         )}
       </Form>
     </>

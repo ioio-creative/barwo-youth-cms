@@ -5,13 +5,15 @@ import ActivitiesContext from 'contexts/activities/activitiesContext';
 import ActivitiesPageContainer from 'components/activities/ActivitiesPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import AccordionRegion from 'components/layout/AccordionRegion';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 //import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import LabelTogglePair from 'components/form/LabelTogglePair';
+import Label from 'components/form/Label';
+import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
@@ -286,11 +288,29 @@ const ActivityEdit = _ => {
       {backToActivityListButton}
 
       <Form onSubmit={onSubmit}>
-        <h4>
-          {isAddMode
-            ? uiWordings['ActivityEdit.AddActivityTitle']
-            : uiWordings['ActivityEdit.EditActivityTitle']}
-        </h4>
+        <div className='w3-row'>
+          <div className='w3-col m10'>
+            <h4>
+              {isAddMode
+                ? uiWordings['ActivityEdit.AddActivityTitle']
+                : uiWordings['ActivityEdit.EditActivityTitle']}
+            </h4>
+          </div>
+          <div className='w3-col m2 w3-row'>
+            <div className='w3-col m12'>
+              <Label
+                htmlFor='isEnabled'
+                message={uiWordings['Activity.IsEnabledLabel']}
+              />
+              <Toggle
+                name='isEnabled'
+                value={activity.isEnabled}
+                onChange={onChange}
+              />
+            </div>
+          </div>
+        </div>
+
         <LabelInputTextPair
           name='label'
           value={activity.label}
@@ -332,8 +352,22 @@ const ActivityEdit = _ => {
           onChange={onChange}
         />
 
-        <div className='w3-card w3-container'>
-          <h4>{uiWordings['ActivityEdit.Media.Title']}</h4>
+        <LabelDatePickerPair
+          name='fromDate'
+          value={activity.fromDate}
+          labelMessage={uiWordings['Activity.FromDateLabel']}
+          placeholder={uiWordings['ActivityEdit.SelectFromDatePlaceholder']}
+          onChange={onChange}
+        />
+        <LabelDatePickerPair
+          name='toDate'
+          value={activity.toDate}
+          labelMessage={uiWordings['Activity.ToDateLabel']}
+          placeholder={uiWordings['ActivityEdit.SelectToDatePlaceholder']}
+          onChange={onChange}
+        />
+
+        <AccordionRegion title={uiWordings['ActivityEdit.MediaRegionTitle']}>
           <FileUpload
             name='featuredImage'
             labelMessage={uiWordings['Activity.FeaturedImageLabel']}
@@ -363,69 +397,53 @@ const ActivityEdit = _ => {
             data={downloadData}
             onChange={onDownloadDataChange}
           /> */}
-        </div>
+        </AccordionRegion>
 
-        <LabelDatePickerPair
-          name='fromDate'
-          value={activity.fromDate}
-          labelMessage={uiWordings['Activity.FromDateLabel']}
-          placeholder={uiWordings['ActivityEdit.SelectFromDatePlaceholder']}
-          onChange={onChange}
-        />
-        <LabelDatePickerPair
-          name='toDate'
-          value={activity.toDate}
-          labelMessage={uiWordings['Activity.ToDateLabel']}
-          placeholder={uiWordings['ActivityEdit.SelectToDatePlaceholder']}
-          onChange={onChange}
-        />
+        <AccordionRegion title={uiWordings['ActivityEdit.LocationRegionTitle']}>
+          <LabelRichTextbox
+            name='location_tc'
+            value={activity.location_tc}
+            labelMessage={uiWordings['Activity.LocationTcLabel']}
+            // placeholder=''
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='location_sc'
+            value={activity.location_sc}
+            labelMessage={uiWordings['Activity.LocationScLabel']}
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='location_en'
+            value={activity.location_en}
+            labelMessage={uiWordings['Activity.LocationEnLabel']}
+            onChange={onChange}
+          />
+        </AccordionRegion>
 
-        <LabelRichTextbox
-          name='location_tc'
-          value={activity.location_tc}
-          labelMessage={uiWordings['Activity.LocationTcLabel']}
-          // placeholder=''
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='location_sc'
-          value={activity.location_sc}
-          labelMessage={uiWordings['Activity.LocationScLabel']}
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='location_en'
-          value={activity.location_en}
-          labelMessage={uiWordings['Activity.LocationEnLabel']}
-          onChange={onChange}
-        />
-
-        <LabelRichTextbox
-          name='desc_tc'
-          value={activity.desc_tc}
-          labelMessage={uiWordings['Activity.DescTcLabel']}
-          // placeholder=''
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_sc'
-          value={activity.desc_sc}
-          labelMessage={uiWordings['Activity.DescScLabel']}
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_en'
-          value={activity.desc_en}
-          labelMessage={uiWordings['Activity.DescEnLabel']}
-          onChange={onChange}
-        />
-
-        <LabelTogglePair
-          name='isEnabled'
-          value={activity.isEnabled}
-          labelMessage={uiWordings['Activity.IsEnabledLabel']}
-          onChange={onChange}
-        />
+        <AccordionRegion
+          title={uiWordings['ActivityEdit.DescriptionRegionTitle']}
+        >
+          <LabelRichTextbox
+            name='desc_tc'
+            value={activity.desc_tc}
+            labelMessage={uiWordings['Activity.DescTcLabel']}
+            // placeholder=''
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_sc'
+            value={activity.desc_sc}
+            labelMessage={uiWordings['Activity.DescScLabel']}
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_en'
+            value={activity.desc_en}
+            labelMessage={uiWordings['Activity.DescEnLabel']}
+            onChange={onChange}
+          />
+        </AccordionRegion>
 
         {!isAddMode && (
           <>
@@ -452,12 +470,11 @@ const ActivityEdit = _ => {
           }
         />
         {!isAddMode && (
-          <DeleteWithConfirmButton
-            className='w3-right'
-            onConfirmYes={activityDelete}
-          >
-            {uiWordings['ActivityEdit.DeleteActivity']}
-          </DeleteWithConfirmButton>
+          <div className='w3-right'>
+            <DeleteWithConfirmButton onConfirmYes={activityDelete}>
+              {uiWordings['ActivityEdit.DeleteActivity']}
+            </DeleteWithConfirmButton>
+          </div>
         )}
       </Form>
     </>

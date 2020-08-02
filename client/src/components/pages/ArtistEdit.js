@@ -6,12 +6,14 @@ import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
 import ArtistEditQnaSelect from 'components/artists/ArtistEditQnaSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import AccordionRegion from 'components/layout/AccordionRegion';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import LabelTogglePair from 'components/form/LabelTogglePair';
+import Label from 'components/form/Label';
+import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import SubmitButton from 'components/form/SubmitButton';
@@ -306,11 +308,29 @@ const ArtistEdit = _ => {
       {backToArtistListButton}
 
       <Form onSubmit={onSubmit}>
-        <h4>
-          {isAddMode
-            ? uiWordings['ArtistEdit.AddArtistTitle']
-            : uiWordings['ArtistEdit.EditArtistTitle']}
-        </h4>
+        <div className='w3-row'>
+          <div className='w3-col m10'>
+            <h4>
+              {isAddMode
+                ? uiWordings['ArtistEdit.AddArtistTitle']
+                : uiWordings['ArtistEdit.EditArtistTitle']}
+            </h4>
+          </div>
+          <div className='w3-col m2 w3-row'>
+            <div className='w3-col m12'>
+              <Label
+                htmlFor='isEnabled'
+                message={uiWordings['Artist.IsEnabledLabel']}
+              />
+              <Toggle
+                name='isEnabled'
+                value={artist.isEnabled}
+                onChange={onChange}
+              />
+            </div>
+          </div>
+        </div>
+
         <LabelInputTextPair
           name='label'
           value={artist.label}
@@ -344,22 +364,21 @@ const ArtistEdit = _ => {
           required={true}
         />
         <LabelSelectPair
-          name='role'
-          value={artist.role}
-          options={Artist.artistRoleOptions}
-          labelMessage={uiWordings['Artist.RoleLabel']}
-          onChange={onChange}
-        />
-        <LabelSelectPair
           name='type'
           value={artist.type}
           options={Artist.artistTypeOptions}
           labelMessage={uiWordings['Artist.TypeLabel']}
           onChange={onChange}
         />
+        <LabelSelectPair
+          name='role'
+          value={artist.role}
+          options={Artist.artistRoleOptions}
+          labelMessage={uiWordings['Artist.RoleLabel']}
+          onChange={onChange}
+        />
 
-        <div className='w3-card w3-container'>
-          <h4>{uiWordings['ArtistEdit.Media.Title']}</h4>
+        <AccordionRegion title={uiWordings['ArtistEdit.MediaRegionTitle']}>
           <FileUpload
             name='featuredImage'
             labelMessage={uiWordings['Artist.FeaturedImageLabel']}
@@ -393,36 +412,35 @@ const ArtistEdit = _ => {
             isMultiple={false}
             mediumType={mediumTypes.AUDIO}
           />
-        </div>
+        </AccordionRegion>
 
-        <LabelRichTextbox
-          name='desc_tc'
-          value={artist.desc_tc}
-          labelMessage={uiWordings['Artist.DescTcLabel']}
-          // placeholder=''
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_sc'
-          value={artist.desc_sc}
-          labelMessage={uiWordings['Artist.DescScLabel']}
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_en'
-          value={artist.desc_en}
-          labelMessage={uiWordings['Artist.DescEnLabel']}
-          onChange={onChange}
-        />
+        <AccordionRegion
+          title={uiWordings['ArtistEdit.DescriptionRegionTitle']}
+        >
+          <LabelRichTextbox
+            name='desc_tc'
+            value={artist.desc_tc}
+            labelMessage={uiWordings['Artist.DescTcLabel']}
+            // placeholder=''
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_sc'
+            value={artist.desc_sc}
+            labelMessage={uiWordings['Artist.DescScLabel']}
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_en'
+            value={artist.desc_en}
+            labelMessage={uiWordings['Artist.DescEnLabel']}
+            onChange={onChange}
+          />
+        </AccordionRegion>
 
-        <ArtistEditQnaSelect qnas={qnasPicked} onGetQnas={onGetQnasPicked} />
-
-        <LabelTogglePair
-          name='isEnabled'
-          value={artist.isEnabled}
-          labelMessage={uiWordings['Artist.IsEnabledLabel']}
-          onChange={onChange}
-        />
+        <AccordionRegion title={uiWordings['ArtistEdit.QnasRegionTitle']}>
+          <ArtistEditQnaSelect qnas={qnasPicked} onGetQnas={onGetQnasPicked} />
+        </AccordionRegion>
 
         {!isAddMode && (
           <>
@@ -449,12 +467,11 @@ const ArtistEdit = _ => {
           }
         />
         {!isAddMode && (
-          <DeleteWithConfirmButton
-            className='w3-right'
-            onConfirmYes={artistDelete}
-          >
-            {uiWordings['ArtistEdit.DeleteArtist']}
-          </DeleteWithConfirmButton>
+          <div className='w3-right'>
+            <DeleteWithConfirmButton onConfirmYes={artistDelete}>
+              {uiWordings['ArtistEdit.DeleteArtist']}
+            </DeleteWithConfirmButton>
+          </div>
         )}
       </Form>
     </>

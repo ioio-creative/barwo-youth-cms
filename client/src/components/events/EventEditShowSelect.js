@@ -87,7 +87,7 @@ const Item = ({ show, handleItemRemoved, handleItemChange, index }) => {
               name='date'
               value={date}
               onChange={onChange}
-              placeholder={uiWordings['PhaseEdit.Show.SelectDatePlaceholder']}
+              placeholder={uiWordings['EventEdit.Show.SelectDatePlaceholder']}
             />
           </div>
           <div className='w3-show-inline-block w3-margin-left'>

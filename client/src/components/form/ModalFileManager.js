@@ -5,7 +5,7 @@ import uiWordings from 'globals/uiWordings';
 
 const ModalFileManager = ({
   title,
-  contentLabel,
+  openButtonChildren,
   onSelect,
   isMultiple,
   mediumType
@@ -25,7 +25,8 @@ const ModalFileManager = ({
       openButtonClassName='w3-margin-left'
       isOpen={isModalOpen}
       setParentIsOpen={setIsModalOpen}
-      contentLabel={contentLabel}
+      contentLabel={title}
+      openButtonChildren={openButtonChildren}
     >
       <h4>{title}</h4>
       <FileManager

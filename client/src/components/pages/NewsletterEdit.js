@@ -245,6 +245,7 @@ const NewsletterEdit = _ => {
   return (
     <>
       {backToNewsletterListButton}
+
       <Form onSubmit={onSubmit}>
         <Button onClick={onSendButtonClick} className='w3-container w3-right'>
           {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
@@ -252,11 +253,13 @@ const NewsletterEdit = _ => {
         <div className='w3-container w3-right'>
           <SendOutList newsletterId={newsletter._id} />
         </div>
+
         <h4>
           {isAddMode
             ? uiWordings['NewsletterEdit.AddNewsletterTitle']
             : uiWordings['NewsletterEdit.EditNewsletterTitle']}
         </h4>
+
         <LabelInputTextPair
           name='label'
           value={newsletter.label}
@@ -265,6 +268,7 @@ const NewsletterEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
         <LabelInputTextPair
           name='title_tc'
           value={newsletter.title_tc}
@@ -281,6 +285,7 @@ const NewsletterEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
         <LabelInputTextPair
           name='title_sc'
           value={newsletter.title_sc}
@@ -297,6 +302,7 @@ const NewsletterEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
         <LabelInputTextPair
           name='title_en'
           value={newsletter.title_en}
@@ -313,6 +319,7 @@ const NewsletterEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
         <LabelTogglePair
           name='isEnabled'
           value={newsletter.isEnabled}
@@ -332,6 +339,7 @@ const NewsletterEdit = _ => {
             />
           </>
         )}
+
         <SubmitButton
           disabled={!isSubmitEnabled}
           label={
@@ -340,6 +348,7 @@ const NewsletterEdit = _ => {
               : uiWordings['NewsletterEdit.UpdateNewsletterSubmit']
           }
         />
+
         {!isAddMode && (
           <>
             <DeleteWithConfirmButton

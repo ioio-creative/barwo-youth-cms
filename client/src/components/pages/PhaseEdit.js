@@ -13,7 +13,8 @@ import Form from 'components/form/Form';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import ColorPickerModal from 'components/form/ColorPickerModal';
 import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
-import LabelTogglePair from 'components/form/LabelTogglePair';
+import Label from 'components/form/Label';
+import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
@@ -257,20 +258,36 @@ const PhaseEdit = _ => {
       {backToPhaseListButton}
 
       <Form onSubmit={onSubmit}>
-        <span className='w3-right'>
-          <ColorPickerModal
-            name='themeColor'
-            value={phase.themeColor || defaultState.themeColor}
-            labelMessage={uiWordings['Phase.ThemeColorLabel']}
-            onChange={onChange}
-          />
-        </span>
-
-        <h4>
-          {isAddMode
-            ? uiWordings['PhaseEdit.AddPhaseTitle']
-            : uiWordings['PhaseEdit.EditPhaseTitle']}
-        </h4>
+        <div className='w3-row'>
+          <div className='w3-col m8'>
+            <h4>
+              {isAddMode
+                ? uiWordings['PhaseEdit.AddPhaseTitle']
+                : uiWordings['PhaseEdit.EditPhaseTitle']}
+            </h4>
+          </div>
+          <div className='w3-col m4 w3-row'>
+            <div className='w3-col m6'>
+              <ColorPickerModal
+                name='themeColor'
+                value={phase.themeColor || defaultState.themeColor}
+                labelMessage={uiWordings['Phase.ThemeColorLabel']}
+                onChange={onChange}
+              />
+            </div>
+            <div className='w3-col m6'>
+              <Label
+                htmlFor='isEnabled'
+                message={uiWordings['Phase.IsEnabledLabel']}
+              />
+              <Toggle
+                name='isEnabled'
+                value={phase.isEnabled}
+                onChange={onChange}
+              />
+            </div>
+          </div>
+        </div>
 
         <LabelSelectPair
           name='year'
@@ -307,13 +324,6 @@ const PhaseEdit = _ => {
           onGetEventsPicked={onGetEventsPicked}
         />
 
-        <LabelTogglePair
-          name='isEnabled'
-          value={phase.isEnabled}
-          labelMessage={uiWordings['Phase.IsEnabledLabel']}
-          onChange={onChange}
-        />
-
         {!isAddMode && (
           <>
             <LabelLabelPair
@@ -339,12 +349,11 @@ const PhaseEdit = _ => {
           }
         />
         {!isAddMode && (
-          <DeleteWithConfirmButton
-            className='w3-right'
-            onConfirmYes={phaseDelete}
-          >
-            {uiWordings['PhaseEdit.DeletePhase']}
-          </DeleteWithConfirmButton>
+          <div className='w3-right'>
+            <DeleteWithConfirmButton onConfirmYes={phaseDelete}>
+              {uiWordings['PhaseEdit.DeletePhase']}
+            </DeleteWithConfirmButton>
+          </div>
         )}
       </Form>
     </>

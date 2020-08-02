@@ -1,8 +1,7 @@
 import React from 'react';
 import Modal from 'components/layout/Modal';
 import ColorPicker from './ColorPicker';
-
-const openButtonTextColor = 'black';
+import { complementColorOfHex } from 'utils/color';
 
 const ColorPickerModal = ({
   name,
@@ -14,7 +13,7 @@ const ColorPickerModal = ({
   return (
     <Modal
       openButtonColor={value || ColorPicker.defaultValue}
-      openButtonTextColor={openButtonTextColor}
+      openButtonTextColor={complementColorOfHex(value) || 'black'}
       contentLabel={labelMessage}
     >
       <ColorPicker

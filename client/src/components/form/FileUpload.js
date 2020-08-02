@@ -189,7 +189,7 @@ const FileUpload = ({
                 : 'FileUpload.TitleForSingleUpload'
             ]
           }
-          contentLabel={<i className='fa fa-plus' />}
+          openButtonChildren={<i className='fa fa-plus' />}
           mediumType={mediumType}
           isMultiple={isMultiple}
           onSelect={addFiles}

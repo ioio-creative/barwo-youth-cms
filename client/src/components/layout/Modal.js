@@ -18,6 +18,7 @@ const MyModal = ({
   isOpen,
   setParentIsOpen,
   contentLabel,
+  openButtonChildren,
   children
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(isOpen);
@@ -59,7 +60,7 @@ const MyModal = ({
         textColor={openButtonTextColor}
         onClick={openModal}
       >
-        {contentLabel}
+        {openButtonChildren || contentLabel}
       </Button>
       <Modal
         isOpen={isModalOpen}

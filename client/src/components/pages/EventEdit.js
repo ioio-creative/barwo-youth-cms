@@ -13,12 +13,13 @@ import EventEditScenaristSelect from 'components/events/EventEditScenaristSelect
 // import EventEditPhoneSelect from 'components/events/EventEditPhoneSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
-//import Region from 'components/layout/Region';
+import AccordionRegion from 'components/layout/AccordionRegion';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import LabelTogglePair from 'components/form/LabelTogglePair';
+import Label from 'components/form/Label';
+import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from 'components/form/LabelRichTextbox';
 import ColorPickerModal from 'components/form/ColorPickerModal';
@@ -436,20 +437,36 @@ const EventEdit = _ => {
       {backToEventListButton}
 
       <Form onSubmit={onSubmit}>
-        <span className='w3-right'>
-          <ColorPickerModal
-            name='themeColor'
-            value={event.themeColor || defaultState.themeColor}
-            labelMessage={uiWordings['Event.ThemeColorLabel']}
-            onChange={onChange}
-          />
-        </span>
-
-        <h4>
-          {isAddMode
-            ? uiWordings['EventEdit.AddEventTitle']
-            : uiWordings['EventEdit.EditEventTitle']}
-        </h4>
+        <div className='w3-row'>
+          <div className='w3-col m8'>
+            <h4>
+              {isAddMode
+                ? uiWordings['EventEdit.AddEventTitle']
+                : uiWordings['EventEdit.EditEventTitle']}
+            </h4>
+          </div>
+          <div className='w3-col m4 w3-row'>
+            <div className='w3-col m6'>
+              <ColorPickerModal
+                name='themeColor'
+                value={event.themeColor || defaultState.themeColor}
+                labelMessage={uiWordings['Event.ThemeColorLabel']}
+                onChange={onChange}
+              />
+            </div>
+            <div className='w3-col m6'>
+              <Label
+                htmlFor='isEnabled'
+                message={uiWordings['Event.IsEnabledLabel']}
+              />
+              <Toggle
+                name='isEnabled'
+                value={event.isEnabled}
+                onChange={onChange}
+              />
+            </div>
+          </div>
+        </div>
 
         <LabelInputTextPair
           name='label'
@@ -484,8 +501,7 @@ const EventEdit = _ => {
           required={true}
         />
 
-        <div className='w3-card w3-container'>
-          <h4>{uiWordings['EventEdit.Media.Title']}</h4>
+        <AccordionRegion title={uiWordings['EventEdit.MediaRegionTitle']}>
           <FileUpload
             name='featuredImage'
             labelMessage={uiWordings['Event.FeaturedImageLabel']}
@@ -502,86 +518,51 @@ const EventEdit = _ => {
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
           />
-        </div>
+        </AccordionRegion>
 
-        <EventEditArtDirectorSelect
-          artDirectorsPicked={artDirectorsPicked}
-          onGetArtDirectorsPicked={onGetArtDirectorsPicked}
-        />
-        <EventEditScenaristSelect
-          scenarists={scenaristsPicked}
-          onGetScenarists={onGetScenaristsPicked}
-        />
-        <EventEditShowSelect
-          shows={showsPicked}
-          onGetShows={onGetShowsPicked}
-        />
-        <LabelInputTextPair
-          name='descHeadline_tc'
-          value={event.descHeadline_tc}
-          labelMessage={uiWordings['Event.DescHeadlineTcLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='descHeadline_sc'
-          value={event.descHeadline_sc}
-          labelMessage={uiWordings['Event.DescHeadlineScLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelInputTextPair
-          name='descHeadline_en'
-          value={event.descHeadline_en}
-          labelMessage={uiWordings['Event.DescHeadlineEnLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_tc'
-          value={event.desc_tc}
-          labelMessage={uiWordings['Event.DescTcLabel']}
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_sc'
-          value={event.desc_sc}
-          labelMessage={uiWordings['Event.DescScLabel']}
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='desc_en'
-          value={event.desc_en}
-          labelMessage={uiWordings['Event.DescEnLabel']}
-          onChange={onChange}
-        />
+        <AccordionRegion title={uiWordings['EventEdit.PeopleRegionTitle']}>
+          <EventEditArtDirectorSelect
+            artDirectorsPicked={artDirectorsPicked}
+            onGetArtDirectorsPicked={onGetArtDirectorsPicked}
+          />
+          <EventEditScenaristSelect
+            scenarists={scenaristsPicked}
+            onGetScenarists={onGetScenaristsPicked}
+          />
+          <EventEditArtistSelect
+            artistsPicked={artistsPicked}
+            onGetArtistsPicked={onGetArtistsPicked}
+          />
+        </AccordionRegion>
 
-        <LabelRichTextbox
-          name='remarks_tc'
-          value={event.remarks_tc}
-          labelMessage={uiWordings['Event.RemarksTcLabel']}
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='remarks_sc'
-          value={event.remarks_sc}
-          labelMessage={uiWordings['Event.RemarksScLabel']}
-          placeholder=''
-          onChange={onChange}
-        />
-        <LabelRichTextbox
-          name='remarks_en'
-          value={event.remarks_en}
-          labelMessage={uiWordings['Event.RemarksEnLabel']}
-          onChange={onChange}
-        />
+        <AccordionRegion title={uiWordings['EventEdit.ShowsRegionTitle']}>
+          <EventEditShowSelect
+            shows={showsPicked}
+            onGetShows={onGetShowsPicked}
+          />
 
-        <EventEditArtistSelect
-          artistsPicked={artistsPicked}
-          onGetArtistsPicked={onGetArtistsPicked}
-        />
+          <LabelRichTextbox
+            name='remarks_tc'
+            value={event.remarks_tc}
+            labelMessage={uiWordings['Event.RemarksTcLabel']}
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='remarks_sc'
+            value={event.remarks_sc}
+            labelMessage={uiWordings['Event.RemarksScLabel']}
+            placeholder=''
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='remarks_en'
+            value={event.remarks_en}
+            labelMessage={uiWordings['Event.RemarksEnLabel']}
+            onChange={onChange}
+          />
+        </AccordionRegion>
 
-        {/* <Region title={uiWordings['EventEdit.Ticket.Title']}>
+        {/* <AccordionRegion title={uiWordings['EventEdit.TicketRegionTitle']}>
           <LabelInputTextPair
             name='venue_tc'
             required={true}
@@ -646,14 +627,49 @@ const EventEdit = _ => {
             placeholder=''
             onChange={onChange}
           />
-        </Region> */}
+        </AccordionRegion> */}
 
-        <LabelTogglePair
-          name='isEnabled'
-          value={event.isEnabled}
-          labelMessage={uiWordings['Event.IsEnabledLabel']}
-          onChange={onChange}
-        />
+        <AccordionRegion title={uiWordings['EventEdit.DescriptionRegionTitle']}>
+          <LabelInputTextPair
+            name='descHeadline_tc'
+            value={event.descHeadline_tc}
+            labelMessage={uiWordings['Event.DescHeadlineTcLabel']}
+            placeholder=''
+            onChange={onChange}
+          />
+          <LabelInputTextPair
+            name='descHeadline_sc'
+            value={event.descHeadline_sc}
+            labelMessage={uiWordings['Event.DescHeadlineScLabel']}
+            placeholder=''
+            onChange={onChange}
+          />
+          <LabelInputTextPair
+            name='descHeadline_en'
+            value={event.descHeadline_en}
+            labelMessage={uiWordings['Event.DescHeadlineEnLabel']}
+            placeholder=''
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_tc'
+            value={event.desc_tc}
+            labelMessage={uiWordings['Event.DescTcLabel']}
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_sc'
+            value={event.desc_sc}
+            labelMessage={uiWordings['Event.DescScLabel']}
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='desc_en'
+            value={event.desc_en}
+            labelMessage={uiWordings['Event.DescEnLabel']}
+            onChange={onChange}
+          />
+        </AccordionRegion>
 
         {!isAddMode && (
           <>
@@ -680,12 +696,11 @@ const EventEdit = _ => {
           }
         />
         {!isAddMode && (
-          <DeleteWithConfirmButton
-            className='w3-right'
-            onConfirmYes={eventDelete}
-          >
-            {uiWordings['EventEdit.DeleteEvent']}
-          </DeleteWithConfirmButton>
+          <div className='w3-right'>
+            <DeleteWithConfirmButton onConfirmYes={eventDelete}>
+              {uiWordings['EventEdit.DeleteEvent']}
+            </DeleteWithConfirmButton>
+          </div>
         )}
       </Form>
     </>

@@ -81,7 +81,7 @@ export default {
   'Artist.DescTcLabel': 'Desc TC',
   'Artist.DescScLabel': 'Desc SC',
   'Artist.DescEnLabel': 'Desc EN',
-  'Artist.QnasLabel': 'Q & As',
+  'Artist.QnasLabel': "Q & A's",
   'Artist.CreateDTLabel': 'Create DT',
   'Artist.LastModifyDTLabel': 'Last Modify DT',
   'Artist.LastModifyUserLabel': 'Last Modify User',
@@ -113,7 +113,9 @@ export default {
   'ArtistEdit.Qna.QuestionEnPlaceholder': 'Question EN',
   'ArtistEdit.Qna.AnswerEnPlaceholder': 'Answer EN',
 
-  'ArtistEdit.Media.Title': 'Media',
+  'ArtistEdit.MediaRegionTitle': 'Media',
+  'ArtistEdit.DescriptionRegionTitle': 'Description',
+  'ArtistEdit.QnasRegionTitle': "Q & A's",
 
   'ArtDirectorsOrder.Title': 'Order Art Directors',
   'ArtDirectorsOrder.BackToArtistList': 'Back to Artist List',
@@ -196,11 +198,13 @@ export default {
   'EventEdit.Phone.LabelEnPlaceholder': 'Label EN',
   'EventEdit.Phone.PhonePlaceholder': 'Phone',
 
-  'EventEdit.Ticket.Title': 'Ticketing',
+  'EventEdit.Show.SelectDatePlaceholder': 'Click to select date',
 
-  'EventEdit.Media.Title': 'Media',
-
-  'PhaseEdit.Show.SelectDatePlaceholder': 'Click to select date',
+  'EventEdit.TicketRegionTitle': 'Ticketing',
+  'EventEdit.MediaRegionTitle': 'Media',
+  'EventEdit.PeopleRegionTitle': 'People',
+  'EventEdit.ShowsRegionTitle': 'Shows',
+  'EventEdit.DescriptionRegionTitle': 'Description',
 
   'Phases.Title': 'Phases',
 
@@ -552,7 +556,7 @@ export default {
   'About.PlanDescScLabel': 'Description SC',
   'About.PlanDescEnLabel': 'Description EN',
   'About.PlanGalleryLabel': 'Gallery',
-  'About.TheaterRegionLabel': 'Theater',
+  'About.TheaterBasicInfoRegionLabel': 'Theater: Basic Info',
   'About.TheaterLocationNameTcLabel': 'Location TC',
   'About.TheaterLocationNameScLabel': 'Location SC',
   'About.TheaterLocationNameEnLabel': 'Location EN',
@@ -565,16 +569,18 @@ export default {
   'About.TheaterLocationDesc2TcLabel': 'Desc 2 TC',
   'About.TheaterLocationDesc2ScLabel': 'Desc 2 SC',
   'About.TheaterLocationDesc2EnLabel': 'Desc 2 EN',
+  'About.TheaterImageLabel': 'Image',
+  'About.TheaterTrafficAndContactRegionLabel': 'Theater: Transport & Contact',
   'About.TheaterTrafficTcLabel': 'Traffic TC',
   'About.TheaterTrafficScLabel': 'Traffic SC',
   'About.TheaterTrafficEnLabel': 'Traffic EN',
-  'About.TheaterImageLabel': 'Image',
-  'About.ContactRegionLabel': 'Contact',
   'About.ContactWebsiteLabel': 'Website',
   'About.ContactTelLabel': 'Tel',
   'About.ContactFaxLabel': 'Fax',
   'About.ContactEmailLabel': 'Email',
-  'About.AdminsLabel': 'Administration',
+  'About.AdminsRegionLabel': 'Admin Team',
+  'About.AdminsLabel': 'Admin Team',
+  'About.ProductionPersonsRegionLabel': 'Production Team',
   'About.ProductionPersonsLabel': 'Production Team',
 
   'About.LastModifyDTLabel': 'Last Modify DT',
@@ -712,7 +718,9 @@ export default {
   'ActivityEdit.SelectFromDatePlaceholder': 'Click to select date',
   'ActivityEdit.SelectToDatePlaceholder': 'Click to select date',
 
-  'ActivityEdit.Media.Title': 'Media',
+  'ActivityEdit.MediaRegionTitle': 'Media',
+  'ActivityEdit.LocationRegionTitle': 'Location',
+  'ActivityEdit.DescriptionRegionTitle': 'Description',
 
   'Newses.Title': 'News',
 
@@ -756,7 +764,8 @@ export default {
   'NewsEdit.UpdateNewsSuccessMessage': 'News Updated',
   'NewsEdit.DeleteNewsSuccessMessage': 'News Deleted',
 
-  'NewsEdit.Media.Title': 'Media',
+  'NewsEdit.MediaRegionTitle': 'Media',
+  'NewsEdit.DescriptionRegionTitle': 'Description',
 
   'NewsesOrder.Title': 'Order News',
   'NewsesOrder.BackToNewsList': 'Back to News List',

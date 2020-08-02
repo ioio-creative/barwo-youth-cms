@@ -6,7 +6,7 @@ import AboutContext from 'contexts/about/aboutContext';
 import AboutContainer from 'components/about/AboutContainer';
 import AboutEditStaffPersonSelect from 'components/about/AboutEditStaffPersonSelect';
 import Loading from 'components/layout/loading/DefaultLoading';
-import Region from 'components/layout/Region';
+import AccordionRegion from 'components/layout/AccordionRegion';
 import Form from 'components/form/Form';
 import LabelRichTextbox from 'components/form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -265,7 +265,7 @@ const AboutEdit = _ => {
     <Form onSubmit={onSubmit}>
       <h4>{uiWordings['AboutEdit.EditAboutTitle']}</h4>
 
-      <Region title={uiWordings['About.BarwoRegionLabel']}>
+      <AccordionRegion title={uiWordings['About.BarwoRegionLabel']}>
         <LabelRichTextbox
           name='barwoDesc_tc'
           value={about.barwoDesc_tc}
@@ -287,9 +287,17 @@ const AboutEdit = _ => {
           onChange={onChange}
           required={true}
         />
-      </Region>
+      </AccordionRegion>
 
-      <Region title={uiWordings['About.PlanRegionLabel']}>
+      <AccordionRegion title={uiWordings['About.PlanRegionLabel']}>
+        <FileUpload
+          name='planGallery'
+          labelMessage={uiWordings['About.PlanGalleryLabel']}
+          files={getArraySafe(planGalleryPicked)}
+          onGetFiles={onGetPlanGalleryPicked}
+          isMultiple={true}
+          mediumType={mediumTypes.IMAGE}
+        />
         <LabelRichTextbox
           name='planDesc_tc'
           value={about.planDesc_tc}
@@ -311,17 +319,17 @@ const AboutEdit = _ => {
           onChange={onChange}
           required={true}
         />
+      </AccordionRegion>
+
+      <AccordionRegion title={uiWordings['About.TheaterBasicInfoRegionLabel']}>
         <FileUpload
-          name='planGallery'
-          labelMessage={uiWordings['About.PlanGalleryLabel']}
-          files={getArraySafe(planGalleryPicked)}
-          onGetFiles={onGetPlanGalleryPicked}
-          isMultiple={true}
+          name='theaterImage'
+          labelMessage={uiWordings['About.TheaterImageLabel']}
+          files={theaterImagePicked ? [theaterImagePicked] : null}
+          onGetFiles={onGetTheaterImagePicked}
+          isMultiple={false}
           mediumType={mediumTypes.IMAGE}
         />
-      </Region>
-
-      <Region title={uiWordings['About.TheaterRegionLabel']}>
         <LabelRichTextbox
           name='theaterLocationName_tc'
           value={about.theaterLocationName_tc}
@@ -400,6 +408,11 @@ const AboutEdit = _ => {
           labelMessage={uiWordings['About.TheaterLocationDesc2EnLabel']}
           onChange={onChange}
         />
+      </AccordionRegion>
+
+      <AccordionRegion
+        title={uiWordings['About.TheaterTrafficAndContactRegionLabel']}
+      >
         <LabelRichTextbox
           name='theaterTraffic_tc'
           value={about.theaterTraffic_tc}
@@ -418,17 +431,6 @@ const AboutEdit = _ => {
           labelMessage={uiWordings['About.TheaterTrafficEnLabel']}
           onChange={onChange}
         />
-        <FileUpload
-          name='theaterImage'
-          labelMessage={uiWordings['About.TheaterImageLabel']}
-          files={theaterImagePicked ? [theaterImagePicked] : null}
-          onGetFiles={onGetTheaterImagePicked}
-          isMultiple={false}
-          mediumType={mediumTypes.IMAGE}
-        />
-      </Region>
-
-      <Region title={uiWordings['About.ContactRegionLabel']}>
         <LabelInputTextPair
           name='contactWebsite'
           value={about.contactWebsite}
@@ -457,22 +459,28 @@ const AboutEdit = _ => {
           placeholder=''
           onChange={onChange}
         />
-      </Region>
+      </AccordionRegion>
 
-      <Region isMarginBottom={false}>
+      <AccordionRegion title={uiWordings['About.AdminsRegionLabel']}>
         <AboutEditStaffPersonSelect
           staffPersons={adminsPicked}
           onGetStaffPersons={onGetAdminsPicked}
           labelMessage={uiWordings['About.AdminsLabel']}
           isUseTextAreaForName={true}
         />
+      </AccordionRegion>
+
+      <AccordionRegion
+        title={uiWordings['About.ProductionPersonsRegionLabel']}
+        isMarginBottom={false}
+      >
         <AboutEditStaffPersonSelect
           staffPersons={productionPersonsPicked}
           onGetStaffPersons={onGetProductionPersonsPicked}
           labelMessage={uiWordings['About.ProductionPersonsLabel']}
           isUseTextAreaForName={true}
         />
-      </Region>
+      </AccordionRegion>
 
       {!isAddMode && (
         <>
