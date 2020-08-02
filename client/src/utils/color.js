@@ -41,11 +41,11 @@ function RGB2HSV(rgb) {
   const hsv = {};
   const max = max3(rgb.r, rgb.g, rgb.b);
   const dif = max - min3(rgb.r, rgb.g, rgb.b);
-  hsv.saturation = max == 0.0 ? 0 : (100 * dif) / max;
-  if (hsv.saturation == 0) hsv.hue = 0;
-  else if (rgb.r == max) hsv.hue = (60.0 * (rgb.g - rgb.b)) / dif;
-  else if (rgb.g == max) hsv.hue = 120.0 + (60.0 * (rgb.b - rgb.r)) / dif;
-  else if (rgb.b == max) hsv.hue = 240.0 + (60.0 * (rgb.r - rgb.g)) / dif;
+  hsv.saturation = max === 0.0 ? 0 : (100 * dif) / max;
+  if (hsv.saturation === 0) hsv.hue = 0;
+  else if (rgb.r === max) hsv.hue = (60.0 * (rgb.g - rgb.b)) / dif;
+  else if (rgb.g === max) hsv.hue = 120.0 + (60.0 * (rgb.b - rgb.r)) / dif;
+  else if (rgb.b === max) hsv.hue = 240.0 + (60.0 * (rgb.r - rgb.g)) / dif;
   if (hsv.hue < 0.0) hsv.hue += 360.0;
   hsv.value = Math.round((max * 100) / 255);
   hsv.hue = Math.round(hsv.hue);
@@ -58,7 +58,7 @@ function RGB2HSV(rgb) {
 function HSV2RGB(aHsvObj) {
   const hsv = { ...aHsvObj };
   const rgb = {};
-  if (hsv.saturation == 0) {
+  if (hsv.saturation === 0) {
     rgb.r = rgb.g = rgb.b = Math.round(hsv.value * 2.55);
   } else {
     hsv.hue /= 60;
