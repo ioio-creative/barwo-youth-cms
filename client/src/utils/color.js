@@ -38,7 +38,7 @@ function rgbaToHex(rgba) {
 }
 
 function RGB2HSV(rgb) {
-  const hsv = new Object();
+  const hsv = {};
   const max = max3(rgb.r, rgb.g, rgb.b);
   const dif = max - min3(rgb.r, rgb.g, rgb.b);
   hsv.saturation = max == 0.0 ? 0 : (100 * dif) / max;
