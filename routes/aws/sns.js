@@ -3,8 +3,11 @@ const router = express.Router();
 const config = require('config');
 const { generalErrorHandle } = require('../../utils/errorHandling');
 const { Contact } = require('../../models/Contact');
-const { Bounces } = require('../../models/Bounces');
-const { Complaints } = require('../../models/Complaints');
+
+/**
+ * https://medium.com/@serbanmihai/how-to-handle-aws-ses-bounces-and-complaints-53d6e7455443
+ * https://gist.github.com/mihaiserban/8a03fd28e54cac8856dbdfebd95bd7b3
+ */
 
 const AWS = require('aws-sdk');
 AWS.config.update({
@@ -71,20 +74,15 @@ const handleResponse = async (topicArn, req, res) => {
 
 router.post('/handle-bounces', async function (req, res) {
   try {
-    // console.log('bounces');
     await handleResponse(topicArnBounce, req, res);
 
-    const bounceInfo = new Bounces({
-      emailAddresses: req.body.Message.bounce.bouncedRecipients.map(
-        bouncedRecipient => {
-          return bouncedRecipient.emailAddress;
-        }
-      )
-    });
+    const emailAddresses = req.body.Message.bounce.bouncedRecipients.map(
+      bouncedRecipient => {
+        return bouncedRecipient.emailAddress;
+      }
+    );
 
-    // console.log(bounceInfo);
-
-    for (const emailAddress of bounceInfo.emailAddresses) {
+    for (const emailAddress of emailAddresses) {
       await Contact.findOneAndUpdate(
         { emailAddress: emailAddress },
         { $set: { isEnabled: false } },
@@ -108,15 +106,13 @@ router.post('/handle-complaints', async function (req, res) {
   try {
     handleResponse(topicArnComplaint, req, res);
 
-    const complaintsInfo = new Complaints({
-      emailAddresses: req.body.Message.complaints.complaintsdRecipients.map(
-        complaintsdRecipient => {
-          return complaintsdRecipient.emailAddress;
-        }
-      )
-    });
+    const emailAddresses = req.body.Message.complaints.complaintsdRecipients.map(
+      complaintsdRecipient => {
+        return complaintsdRecipient.emailAddress;
+      }
+    );
 
-    for (const emailAddress of complaintsInfo.emailAddresses) {
+    for (const emailAddress of emailAddresses) {
       await Contact.findOneAndUpdate(
         { emailAddress: emailAddress },
         { $set: { isEnabled: false } },

@@ -76,6 +76,14 @@ app.use(
   require('./routes/backend/newses/newsesInOrder')
 );
 app.use(
+  '/api/backend/newsMediaItems/newsMediaItems',
+  require('./routes/backend/newsMediaItems/newsMediaItems')
+);
+app.use(
+  '/api/backend/newsMediaGroups/newsMediaGroups',
+  require('./routes/backend/newsMediaGroups/newsMediaGroups')
+);
+app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );
@@ -131,10 +139,10 @@ app.use(
   require('./routes/frontend/contacts/contacts')
 );
 
-// test search function.
+// search
 app.use('/api/frontend/search', require('./routes/frontend/search/search'));
 
-// bounces and complaints
+// aws: for email bounces and complaints
 app.use('/api/aws/sns', require('./routes/aws/sns'));
 app.use(function (req, res, next) {
   if (req.get('x-amz-sns-message-type')) {

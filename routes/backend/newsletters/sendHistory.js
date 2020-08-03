@@ -17,6 +17,7 @@ const {
   SendHistory,
   sendHistoryResponseTypes
 } = require('../../../models/SendHistory');
+const { languages } = require('../../../globals/languages');
 
 /* utilities */
 
@@ -123,33 +124,37 @@ router.post(
       });
 
       await Promise.all(
-        getArraySafe(contacts).map(async contact => {
-          if (contact.language === 'TC' && contact.isEnabled) {
-            await emailSend(
-              contact,
-              sender.emailAddress,
-              sender.name_tc,
-              title_tc,
-              message_tc
-            );
-          } else if (contact.language === 'SC' && contact.isEnabled) {
-            await emailSend(
-              contact,
-              sender.emailAddress,
-              sender.name_sc,
-              title_sc,
-              message_sc
-            );
-          } else if (contact.language === 'EN' && contact.isEnabled) {
-            await emailSend(
-              contact,
-              sender.emailAddress,
-              sender.name_en,
-              title_en,
-              message_en
-            );
-          }
-        })
+        getArraySafe(contacts)
+          .filter(contact => contact.isEnabled !== false)
+          .map(async contact => {
+            if (contact.language === languages.TC._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_tc,
+                title_tc,
+                message_tc
+              );
+            } else if (contact.language === languages.SC._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_sc,
+                title_sc,
+                message_sc
+              );
+            } else if (contact.language === languages.EN._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_en,
+                title_en,
+                message_en
+              );
+            }
+
+            return null;
+          })
       );
 
       await sendHistory.save();
