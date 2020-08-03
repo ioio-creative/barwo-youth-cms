@@ -32,7 +32,7 @@ NewsMediaGroupSchema.plugin(mongoosePaginate);
 
 module.exports.NewsMediaGroup = mongoose.model(
   'newsMediaGroup',
-  newsMediaGroup
+  NewsMediaGroupSchema
 );
 
 module.exports.newsMediaGroupResponseTypes = {

@@ -51,7 +51,10 @@ const NewsMediaItemSchema = mongoose.Schema({
 
 NewsMediaItemSchema.plugin(mongoosePaginate);
 
-module.exports.NewsMediaItem = mongoose.model('', NewsMediaItemSchema);
+module.exports.NewsMediaItem = mongoose.model(
+  'newsMediaItem',
+  NewsMediaItemSchema
+);
 
 module.exports.newsMediaItemResponseTypes = {
   // input validation
