@@ -112,12 +112,9 @@ const NewsletterEdit = _ => {
 
   /* methods */
 
-  const validInput = useCallback(
-    newsletter => {
-      return true;
-    },
-    [newsletter]
-  );
+  const validInput = useCallback(newsletter => {
+    return true;
+  }, []);
 
   /* end of methods */
 

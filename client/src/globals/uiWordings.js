@@ -20,7 +20,6 @@ export default {
   'Navbar.Newses': 'News',
   'Navbar.NewsMediaItems': 'News Media Items',
   'Navbar.NewsMediaGroups': 'News Media Groups',
-  'Navbar.Newses': 'News',
   'Navbar.About': 'About Page',
   'Navbar.Testing': 'Testing Page',
 
