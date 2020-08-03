@@ -250,9 +250,11 @@ const NewsletterEdit = _ => {
       {backToNewsletterListButton}
 
       <Form onSubmit={onSubmit}>
-        <Button onClick={onSendButtonClick} className='w3-container w3-right'>
-          {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
-        </Button>
+        {!isSubmitEnabled && (
+          <Button onClick={onSendButtonClick} className='w3-container w3-right'>
+            {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
+          </Button>
+        )}
         <div className='w3-container w3-right'>
           <SendOutList newsletterId={newsletter._id} />
         </div>
