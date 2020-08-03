@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { generalErrorHandle } = require('../../../utils/errorHandling');
 const config = require('config');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const { generalErrorHandle } = require('../../utils/errorHandling');
 const { Contact } = require('../../models/Contact');
 const { Bounces } = require('../../models/Bounces');
 const { Complaints } = require('../../models/Complaints');
@@ -11,13 +10,14 @@ const AWS = require('aws-sdk');
 AWS.config.update({
   accessKeyId: config.get('Aws.accessKeyId'),
   secretAccessKey: config.get('Aws.secretAccessKey'),
-  region: config.get('Aws.s3.region')
+  region: 'ap-southeast-1'
 });
 
 const sns = new AWS.SNS();
 
 const topicArnBounce =
   'arn:aws:sns:ap-southeast-1:697502200750:ses-bounces-topic-prod';
+
 var paramsTopicBounces = {
   Protocol: 'http',
   TopicArn: topicArnBounce,
@@ -26,8 +26,9 @@ var paramsTopicBounces = {
 
 const topicArnComplaint =
   'arn:aws:sns:ap-southeast-1:697502200750:ses-complaints-topic-prod';
+
 var paramsTopicComplaints = {
-  Protocol: 'https',
+  Protocol: 'http',
   TopicArn: topicArnComplaint,
   Endpoint: 'http://testbarwocms.ioiocreative.com/api/aws/sns/handle-complaints'
 };
@@ -43,31 +44,7 @@ sns.subscribe(paramsTopicComplaints, function (error, data) {
 });
 
 const handleSnsNotification = async (req, res) => {
-  const message = JSON.parse(req.body.Message);
-  if (
-    (message && message.notificationType == 'Bounce') ||
-    message.notificationType == 'Complaint'
-  ) {
-    const mail = message.mail;
-    if (mail && mail.destination) {
-      for (let i = 0; i < mail.destination.length; i++) {
-        const address = mail.destination[i];
-
-        try {
-          const user = await User.findOne({ email: address }).exec();
-
-          if (!user) continue;
-          user.emailError = true;
-          user.emailErrorDescription = message.notificationType;
-
-          await user.save();
-        } catch (error) {
-          console.error(error.message);
-          generalErrorHandle(err, res);
-        }
-      }
-    }
-  }
+  return;
 };
 
 const handleResponse = async (topicArn, req, res) => {
@@ -75,6 +52,7 @@ const handleResponse = async (topicArn, req, res) => {
     req.headers['x-amz-sns-message-type'] === 'Notification' &&
     req.body.Message
   ) {
+    // console.log(req.body.Message);
     await handleSnsNotification(req, res);
   } else if (
     req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation'
@@ -93,25 +71,27 @@ const handleResponse = async (topicArn, req, res) => {
 
 router.post('/handle-bounces', async function (req, res) {
   try {
+    // console.log('bounces');
     await handleResponse(topicArnBounce, req, res);
-    console.log('bounces');
 
-    // let bounceInfo = [];
-    // bounceInfo = new Bounces({
-    //   emailAddresses: bounce.bouncedRecipients.map(bouncedRecipient => {
-    //     return bouncedRecipient.emailAddress;
-    //   })
-    // });
+    const bounceInfo = new Bounces({
+      emailAddresses: req.body.Message.bounce.bouncedRecipients.map(
+        bouncedRecipient => {
+          return bouncedRecipient.emailAddress;
+        }
+      )
+    });
 
-    // let contacts = await Contact.find({});
+    // console.log(bounceInfo);
 
-    // for (index in bounceInfo) {
-    //   getArraySafe(contacts).findOneAndUpdate(
-    //     { emailAddress: bounceInfo[index].emailAddress },
-    //     { $set: (isEnabled = false) },
-    //     { new: true }
-    //   );
-    // }
+    for (index in bounceInfo.emailAddresses) {
+      console.log(index);
+      await Contact.findOneAndUpdate(
+        { emailAddress: bounceInfo.emailAddresses[index] },
+        { $set: { isEnabled: false } },
+        { new: true }
+      );
+    }
 
     res.status(200).json({
       success: true,
@@ -122,7 +102,6 @@ router.post('/handle-bounces', async function (req, res) {
       success: false,
       message: error.message
     });
-    generalErrorHandle(err, res);
   }
 });
 
@@ -130,24 +109,22 @@ router.post('/handle-complaints', async function (req, res) {
   try {
     handleResponse(topicArnComplaint, req, res);
 
-    // let complaintInfo = [];
-    // complaintInfo = new Complaints({
-    //   emailAddresses: complaint.complaintdRecipients.map(
-    //     complaintdRecipient => {
-    //       return complaintdRecipient.emailAddress;
-    //     }
-    //   )
-    // });
+    const complaintsInfo = new Complaints({
+      emailAddresses: req.body.Message.complaints.complaintsdRecipients.map(
+        complaintsdRecipient => {
+          return complaintsdRecipient.emailAddress;
+        }
+      )
+    });
 
-    // let contacts = await Contact.find({});
-
-    // for (index in complaintInfo) {
-    //   getArraySafe(contacts).findOneAndUpdate(
-    //     { emailAddress: complaintInfo[index].emailAddress },
-    //     { $set: (isEnabled = false) },
-    //     { new: true }
-    //   );
-    // }
+    for (index in complaintsInfo.emailAddresses) {
+      console.log(index);
+      await Contact.findOneAndUpdate(
+        { emailAddress: complaintsInfo.emailAddresses[index] },
+        { $set: { isEnabled: false } },
+        { new: true }
+      );
+    }
 
     res.status(200).json({
       success: true,

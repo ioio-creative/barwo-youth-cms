@@ -135,7 +135,7 @@ app.use(
 app.use('/api/frontend/search', require('./routes/frontend/search/search'));
 
 // bounces and complaints
-// app.use('/api/aws/sns', require('./routes/aws/sns'));
+app.use('/api/aws/sns', require('./routes/aws/sns'));
 app.use(function (req, res, next) {
   if (req.get('x-amz-sns-message-type')) {
     req.headers['content-type'] = 'application/json'; //IMPORTANT, otherwise content-type is text for topic confirmation reponse, and body is empty
