@@ -18,6 +18,9 @@ export default {
   'Navbar.SenderEdit': 'Sender',
   'Navbar.Activities': 'Activities',
   'Navbar.Newses': 'News',
+  'Navbar.NewsMediaItems': 'News Media Items',
+  'Navbar.NewsMediaGroups': 'News Media Groups',
+  'Navbar.Newses': 'News',
   'Navbar.About': 'About Page',
   'Navbar.Testing': 'Testing Page',
 
@@ -102,7 +105,6 @@ export default {
   'ArtistEdit.UpdateArtistSubmit': 'Update Artist',
   'ArtistEdit.DeleteArtist': 'Delete Artist',
   'ArtistEdit.DeleteArtistSuccessMessage': 'Artist Deleted',
-  'ArtistEdit.DeleteArtistUnsuccessMessage': 'Fail To Delete Artist',
   'ArtistEdit.AddArtistSuccessMessage': 'Artist Added',
   'ArtistEdit.UpdateArtistSuccessMessage': 'Artist Updated',
 
@@ -771,6 +773,43 @@ export default {
   'NewsesOrder.BackToNewsList': 'Back to News List',
   'NewsesOrder.Submit': 'Save',
   'NewsesOrder.OrderNewsesSuccessMessage': 'News Order Saved',
+
+  'NewsMediaItems.Title': 'News Media Items',
+
+  'NewsMediaItem.LabelLabel': 'Label',
+  'NewsMediaItem.NameTcLabel': 'Name TC',
+  'NewsMediaItem.NameScLabel': 'Name SC',
+  'NewsMediaItem.NameEnLabel': 'Name EN',
+  'NewsMediaItem.DescTcLabel': 'Desc TC',
+  'NewsMediaItem.DescScLabel': 'Desc SC',
+  'NewsMediaItem.DescEnLabel': 'Desc EN',
+  'NewsMediaItem.GalleryLabel': 'Gallery',
+  'NewsMediaItem.CreateDTLabel': 'Create DT',
+  'NewsMediaItem.LastModifyDTLabel': 'Last Modify DT',
+  'NewsMediaItem.LastModifyUserLabel': 'Last Modify User',
+
+  'NewsMediaItemList.AddNewsMediaItem': 'Add News Media Item',
+  'NewsMediaItemList.FilterTextPlaceHolder':
+    'Filter News Media Items by name...',
+  'NewsMediaItemList.FilterButton': 'Filter',
+  'NewsMediaItemList.ClearFilterButton': 'Clear Filter',
+
+  'NewsMediaItemEdit.BackToNewsMediaItemList': 'Back to News Media Item List',
+  'NewsMediaItemEdit.AddNewsMediaItemTitle': 'Add News Media Item',
+  'NewsMediaItemEdit.EditNewsMediaItemTitle': 'Edit News Media Item',
+  'NewsMediaItemEdit.AddNewsMediaItemSubmit': 'Add News Media Item',
+  'NewsMediaItemEdit.UpdateNewsMediaItemSubmit': 'Update News Media Item',
+  'NewsMediaItemEdit.DeleteNewsMediaItem': 'Delete News Media Item',
+  'NewsMediaItemEdit.DeleteNewsMediaItemSuccessMessage':
+    'News Media Item Deleted',
+  'NewsMediaItemEdit.AddNewsMediaItemSuccessMessage': 'News Media Item Added',
+  'NewsMediaItemEdit.UpdateNewsMediaItemSuccessMessage':
+    'News Media Item Updated',
+
+  'NewsMediaItemEdit.MediaRegionTitle': 'Media',
+  'NewsMediaItemEdit.DescriptionRegionTitle': 'Description',
+
+  'NewsMediaGroups.Title': 'News Media Groups',
 
   'PageMeta.Title': 'Page Meta Tags',
   'PageMeta.TitleTcLabel': 'Title TC',

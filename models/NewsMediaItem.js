@@ -32,9 +32,6 @@ const NewsMediaItemSchema = mongoose.Schema({
   newsMediaGroupsInvolved: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'newsMediaGroup' }
   ],
-  themeColor: {
-    type: String
-  },
   createDT: {
     type: Date,
     default: Date.now

@@ -5,6 +5,7 @@ import SendHistoriesContext from 'contexts/sendHistories/sendHistoriesContext';
 import SendHistoryPageContainer from 'components/sendhistory/sendHistoryPageContainer';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
+import Region from 'components/layout/Region';
 import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
@@ -117,18 +118,19 @@ const SendHistoryView = _ => {
   if (isAbandonEdit) {
     return <>{backToSendHistoryListButton}</>;
   }
-  // console.log(sendHistory);
 
   return (
     <>
       {backToSendHistoryListButton}
+
       <div>
-        <>
-          <h4>{uiWordings['SendHistoryView.ViewSendHistory']}</h4>
-          <LabelLabelPair
-            value={sendHistory.label}
-            labelMessage={uiWordings['SendHistory.LabelLabel']}
-          />
+        <h4>{uiWordings['SendHistoryView.ViewSendHistory']}</h4>
+        <LabelLabelPair
+          value={sendHistory.label}
+          labelMessage={uiWordings['SendHistory.LabelLabel']}
+        />
+
+        <Region>
           <LabelLabelPair
             value={sendHistory.title_tc}
             labelMessage={uiWordings['SendHistory.TitleTcLabel']}
@@ -138,6 +140,9 @@ const SendHistoryView = _ => {
             disabled={true}
             labelMessage={uiWordings['SendHistory.MessageTcLabel']}
           />
+        </Region>
+
+        <Region>
           <LabelLabelPair
             value={sendHistory.title_sc}
             labelMessage={uiWordings['SendHistory.TitleScLabel']}
@@ -147,6 +152,9 @@ const SendHistoryView = _ => {
             disabled={true}
             labelMessage={uiWordings['SendHistory.MessageScLabel']}
           />
+        </Region>
+
+        <Region>
           <LabelLabelPair
             value={sendHistory.title_en}
             labelMessage={uiWordings['SendHistory.TitleEnLabel']}
@@ -156,16 +164,16 @@ const SendHistoryView = _ => {
             disabled={true}
             labelMessage={uiWordings['SendHistory.MessageEnLabel']}
           />
+        </Region>
 
-          <LabelLabelPair
-            value={sendHistory.sendDTDisplay}
-            labelMessage={uiWordings['SendHistory.SendDTLabel']}
-          />
-          <LabelLabelPair
-            value={sendHistory.senderDisplay}
-            labelMessage={uiWordings['SendHistory.SenderLabel']}
-          />
-        </>
+        <LabelLabelPair
+          value={sendHistory.sendDTDisplay}
+          labelMessage={uiWordings['SendHistory.SendDTLabel']}
+        />
+        <LabelLabelPair
+          value={sendHistory.senderDisplay}
+          labelMessage={uiWordings['SendHistory.SenderLabel']}
+        />
       </div>
     </>
   );

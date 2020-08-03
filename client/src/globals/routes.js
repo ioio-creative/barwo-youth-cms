@@ -86,6 +86,29 @@ export default {
   newsesOrder: function (isLink) {
     return '/newsesOrder';
   },
+  newsMediaItemList: function (isLink) {
+    return '/newsMediaItemList';
+  },
+  newsMediaItemEditById: '/newsMediaItemEdit/:newsMediaItemId',
+  newsMediaItemEditByIdWithValue: function (isLink, newsMediaItemId) {
+    return '/newsMediaItemEdit/' + newsMediaItemId;
+  },
+  newsMediaItemAdd: function (isLink) {
+    return '/newsMediaItemAdd';
+  },
+  newsMediaGroupList: function (isLink) {
+    return '/newsMediaGroupList';
+  },
+  newsMediaGroupEditById: '/newsMediaGroupEdit/:newsMediaGroupId',
+  newsMediaGroupEditByIdWithValue: function (isLink, newsMediaGroupId) {
+    return '/newsMediaGroupEdit/' + newsMediaGroupId;
+  },
+  newsMediaGroupAdd: function (isLink) {
+    return '/newsMediaGroupAdd';
+  },
+  newsMediaGroupsOrder: function (isLink) {
+    return '/newsMediaGroupsOrder';
+  },
   aboutEdit: function (isLink) {
     return '/aboutEdit';
   },

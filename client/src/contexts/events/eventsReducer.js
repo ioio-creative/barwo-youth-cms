@@ -7,6 +7,7 @@ import {
   UPDATE_EVENT,
   EVENTS_ERRORS,
   CLEAR_EVENTS_ERRORS,
+  DELETE_EVENT,
   SET_EVENTS_LOADING,
   GET_PHASE_EVENTS,
   CLEAR_PHASE_EVENTS,
@@ -61,6 +62,11 @@ export default (state, action) => {
       return {
         ...state,
         eventsErrors: null
+      };
+    case DELETE_EVENT:
+      return {
+        ...state,
+        eventsLoading: false
       };
     case SET_EVENTS_LOADING:
       return {

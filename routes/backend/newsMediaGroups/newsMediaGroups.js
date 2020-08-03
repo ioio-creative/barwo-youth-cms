@@ -43,6 +43,10 @@ const newsMediaGroupPopulationListForFindOne = [
 ];
 
 const newsMediaGroupValidationChecks = [
+  check('label', newsMediaGroupResponseTypes.LABEL_REQUIRED).notEmpty(),
+  check('name_tc', newsMediaGroupResponseTypes.NAME_TC_REQUIRED).notEmpty(),
+  check('name_sc', newsMediaGroupResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  check('name_en', newsMediaGroupResponseTypes.NAME_EN_REQUIRED).notEmpty(),
   check('year', newsMediaGroupResponseTypes.YEAR_REQUIRED).notEmpty()
 ];
 
@@ -155,13 +159,25 @@ router.post(
   '/',
   [auth, newsMediaGroupValidationChecks, validationHandling],
   async (req, res) => {
-    const { year, newsMediaItems, isEnabled } = req.body;
+    const {
+      label,
+      name_tc,
+      name_sc,
+      name_en,
+      year,
+      newsMediaItems,
+      isEnabled
+    } = req.body;
 
     const session = await mongoose.startSession();
     session.startTransaction();
 
     try {
       const newsMediaGroup = new NewsMediaGroup({
+        label,
+        name_tc,
+        name_sc,
+        name_en,
         year,
         newsMediaItems,
         isEnabled,
@@ -197,12 +213,24 @@ router.put(
   '/:_id',
   [auth, newsMediaGroupValidationChecks, validationHandling],
   async (req, res) => {
-    const { year, newsMediaItems, isEnabled } = req.body;
+    const {
+      label,
+      name_tc,
+      name_sc,
+      name_en,
+      year,
+      newsMediaItems,
+      isEnabled
+    } = req.body;
 
     // Build news media group object
     // Note:
     // non-required fields do not need null check
     const newsMediaGroupFields = {};
+    if (label) newsMediaGroupFields.label = label;
+    if (name_tc) newsMediaGroupFields.name_tc = name_tc;
+    if (name_sc) newsMediaGroupFields.name_sc = name_sc;
+    if (name_en) newsMediaGroupFields.name_en = name_en;
     if (year) newsMediaGroupFields.year = year;
     newsMediaGroupFields.newsMediaItems = getArraySafe(newsMediaItems);
     if (isEnabled !== undefined) newsMediaGroupFields.isEnabled = isEnabled;

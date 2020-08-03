@@ -6,6 +6,7 @@ import NewslettersPageContainer from 'components/newsletters/NewslettersPageCont
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import GroupContainer from 'components/layout/GroupContainer';
+import Region from 'components/layout/Region';
 import Form from 'components/form/Form';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -274,56 +275,62 @@ const NewsletterEdit = _ => {
           required={true}
         />
 
-        <LabelInputTextPair
-          name='title_tc'
-          value={newsletter.title_tc}
-          labelMessage={uiWordings['Newsletter.TitleTcLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        />
-        <LabelRichTextbox
-          name='message_tc'
-          value={newsletter.message_tc}
-          labelMessage={uiWordings['Newsletter.MessageTcLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        />
+        <Region>
+          <LabelInputTextPair
+            name='title_tc'
+            value={newsletter.title_tc}
+            labelMessage={uiWordings['Newsletter.TitleTcLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+          <LabelRichTextbox
+            name='message_tc'
+            value={newsletter.message_tc}
+            labelMessage={uiWordings['Newsletter.MessageTcLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+        </Region>
 
-        <LabelInputTextPair
-          name='title_sc'
-          value={newsletter.title_sc}
-          labelMessage={uiWordings['Newsletter.TitleScLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        />
-        <LabelRichTextbox
-          name='message_sc'
-          value={newsletter.message_sc}
-          labelMessage={uiWordings['Newsletter.MessageScLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        />
+        <Region>
+          <LabelInputTextPair
+            name='title_sc'
+            value={newsletter.title_sc}
+            labelMessage={uiWordings['Newsletter.TitleScLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+          <LabelRichTextbox
+            name='message_sc'
+            value={newsletter.message_sc}
+            labelMessage={uiWordings['Newsletter.MessageScLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+        </Region>
 
-        <LabelInputTextPair
-          name='title_en'
-          value={newsletter.title_en}
-          labelMessage={uiWordings['Newsletter.TitleEnLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        />
-        <LabelRichTextbox
-          name='message_en'
-          value={newsletter.message_en}
-          labelMessage={uiWordings['Newsletter.MessageEnLabel']}
-          placeholder=''
-          onChange={onChange}
-          required={true}
-        />
+        <Region>
+          <LabelInputTextPair
+            name='title_en'
+            value={newsletter.title_en}
+            labelMessage={uiWordings['Newsletter.TitleEnLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+          <LabelRichTextbox
+            name='message_en'
+            value={newsletter.message_en}
+            labelMessage={uiWordings['Newsletter.MessageEnLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+        </Region>
 
         <LabelTogglePair
           name='isEnabled'
