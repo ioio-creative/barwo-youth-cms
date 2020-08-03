@@ -4,7 +4,8 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const NewsletterSchema = mongoose.Schema({
   label: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   title_tc: {
     type: String,

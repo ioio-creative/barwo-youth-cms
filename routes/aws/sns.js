@@ -84,10 +84,9 @@ router.post('/handle-bounces', async function (req, res) {
 
     // console.log(bounceInfo);
 
-    for (index in bounceInfo.emailAddresses) {
-      console.log(index);
+    for (const emailAddress of bounceInfo.emailAddresses) {
       await Contact.findOneAndUpdate(
-        { emailAddress: bounceInfo.emailAddresses[index] },
+        { emailAddress: emailAddress },
         { $set: { isEnabled: false } },
         { new: true }
       );
@@ -117,10 +116,9 @@ router.post('/handle-complaints', async function (req, res) {
       )
     });
 
-    for (index in complaintsInfo.emailAddresses) {
-      console.log(index);
+    for (const emailAddress of complaintsInfo.emailAddresses) {
       await Contact.findOneAndUpdate(
-        { emailAddress: complaintsInfo.emailAddresses[index] },
+        { emailAddress: emailAddress },
         { $set: { isEnabled: false } },
         { new: true }
       );
