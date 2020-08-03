@@ -140,6 +140,7 @@ router.post(
       await newsletter.save();
 
       res.json(newsletter);
+      return res.status(200);
     } catch (err) {
       if (!handleNewsletterLabelDuplicateKeyError(err, res)) {
         generalErrorHandle(err, res);

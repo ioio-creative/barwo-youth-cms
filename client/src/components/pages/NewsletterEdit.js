@@ -111,9 +111,12 @@ const NewsletterEdit = _ => {
 
   /* methods */
 
-  const validInput = useCallback(newsletter => {
-    return true;
-  }, []);
+  const validInput = useCallback(
+    newsletter => {
+      return true;
+    },
+    [newsletter]
+  );
 
   /* end of methods */
 
@@ -127,20 +130,20 @@ const NewsletterEdit = _ => {
 
       let isSuccess = validInput(newsletter);
       if (isSuccess) {
-        await sendNewsletter(newsletter);
-      }
-      if (isSuccess) {
+        isSuccess = await sendNewsletter(newsletter);
+
+        goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
+        getNewsletter(newsletter._id);
+        scrollToTop();
         setAlerts(
           new Alert(
             uiWordings['NewsletterEdit.SendNewsletterSuccessMessage'],
             Alert.alertTypes.INFO
           )
         );
-
-        goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
-        getNewsletter(newsletter._id);
+      } else {
+        scrollToTop();
       }
-      scrollToTop();
     },
     [
       getNewsletter,
