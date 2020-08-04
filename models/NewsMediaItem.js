@@ -19,6 +19,10 @@ const NewsMediaItemSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  fromDate: {
+    type: Date,
+    require: true
+  },
   desc_tc: {
     type: String
   },
@@ -59,6 +63,7 @@ module.exports.newsMediaItemResponseTypes = {
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  FROM_DATE_REQUIRED: 'FROM_DATE_REQUIRED',
 
   // db check
   NEWS_MEDIA_ITEM_NOT_EXISTS: 'NEWS_MEDIA_ITEM_NOT_EXISTS',

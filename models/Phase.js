@@ -20,7 +20,8 @@ const PhaseSchema = mongoose.Schema({
     type: String
   },
   fromDate: {
-    type: Date
+    type: Date,
+    require: true
   },
   toDate: {
     type: Date
@@ -51,6 +52,7 @@ module.exports.phaseResponseTypes = {
   // input validation
   YEAR_REQUIRED: 'YEAR_REQUIRED',
   PHASE_NUMBER_REQUIRED: 'PHASE_NUMBER_REQUIRED',
+  FROM_DATE_REQUIRED: 'FROM_DATE_REQUIRED',
 
   // db check
   PHASE_NOT_EXISTS: 'PHASE_NOT_EXISTS',

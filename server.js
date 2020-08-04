@@ -80,14 +80,6 @@ app.use(
   require('./routes/backend/newsMediaItems/newsMediaItems')
 );
 app.use(
-  '/api/backend/newsMediaItems/newsMediaItemsForGrouping',
-  require('./routes/backend/newsMediaItems/newsMediaItemsForGrouping')
-);
-app.use(
-  '/api/backend/newsMediaGroups/newsMediaGroups',
-  require('./routes/backend/newsMediaGroups/newsMediaGroups')
-);
-app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );

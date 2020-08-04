@@ -88,13 +88,6 @@ const Navbar = ({ className }) => {
   const isNewsMediaItemEdit = useRouteMatch(routes.newsMediaItemEditById);
   const isNewsMediaItemAdd = useRouteMatch(routes.newsMediaItemAdd(false));
 
-  const isNewsMediaGroupList = useRouteMatch(routes.newsMediaGroupList(false));
-  const isNewsMediaGroupEdit = useRouteMatch(routes.newsMediaGroupEditById);
-  const isNewsMediaGroupAdd = useRouteMatch(routes.newsMediaGroupAdd(false));
-  const isNewsMediaGroupsOrder = useRouteMatch(
-    routes.newsMediaGroupsOrder(false)
-  );
-
   const isContactList = useRouteMatch(routes.contactList(false));
   const isContactEdit = useRouteMatch(routes.contactEditById);
   const isContactAdd = useRouteMatch(routes.contactAdd(false));
@@ -211,18 +204,6 @@ const Navbar = ({ className }) => {
         isSelected={isNewsList || isNewsEdit || isNewsAdd || isNewsesOrder}
       >
         {uiWordings['Navbar.Newses']}
-      </NavbarLink>
-      <NavbarLink
-        //className='w3-border-bottom'
-        to={routes.newsMediaGroupList(true)}
-        isSelected={
-          isNewsMediaGroupList ||
-          isNewsMediaGroupEdit ||
-          isNewsMediaGroupAdd ||
-          isNewsMediaGroupsOrder
-        }
-      >
-        {uiWordings['Navbar.NewsMediaGroups']}
       </NavbarLink>
       <NavbarLink
         className='w3-border-bottom'

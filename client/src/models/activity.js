@@ -81,6 +81,10 @@ Activity.activitiesResponseTypes = {
     type: 'TYPE_REQUIRED',
     msg: 'TYPE_REQUIRED'
   },
+  FROM_DATE_REQUIRED: {
+    type: 'FROM_DATE_REQUIRED',
+    msg: 'FROM_DATE_REQUIRED'
+  },
 
   // db check
   ACTIVITY_NOT_EXISTS: {

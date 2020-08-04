@@ -39,7 +39,8 @@ const phasePopulationListForFindOne = [...phasePopulationListForFindAll];
 
 const phaseValidationChecks = [
   check('year', phaseResponseTypes.YEAR_REQUIRED).notEmpty(),
-  check('phaseNumber', phaseResponseTypes.PHASE_NUMBER_REQUIRED).notEmpty()
+  check('phaseNumber', phaseResponseTypes.PHASE_NUMBER_REQUIRED).notEmpty(),
+  check('fromDate', phaseResponseTypes.FROM_DATE_REQUIRED).notEmpty()
 ];
 
 const setPhasesInvolvedForEvents = async (phaseId, events, session) => {
@@ -224,7 +225,7 @@ router.put(
     }
     phaseFields.events = getArraySafe(events);
     phaseFields.themeColor = themeColor;
-    phaseFields.fromDate = fromDate;
+    if (fromDate) phaseFields.fromDate = fromDate;
     phaseFields.toDate = toDate;
     if (isEnabled !== undefined) phaseFields.isEnabled = isEnabled;
     phaseFields.lastModifyDT = new Date();

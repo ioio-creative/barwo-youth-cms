@@ -7,6 +7,7 @@ function NewsMediaItem() {
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
+  this.fromDate = null;
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
@@ -26,6 +27,10 @@ NewsMediaItem.newsMediaItemsResponseTypes = {
   NAME_TC_REQUIRED: { type: 'NAME_TC_REQUIRED', msg: 'NAME_TC_REQUIRED' },
   NAME_SC_REQUIRED: { type: 'NAME_SC_REQUIRED', msg: 'NAME_SC_REQUIRED' },
   NAME_EN_REQUIRED: { type: 'NAME_EN_REQUIRED', msg: 'NAME_EN_REQUIRED' },
+  FROM_DATE_REQUIRED: {
+    type: 'FROM_DATE_REQUIRED',
+    msg: 'FROM_DATE_REQUIRED'
+  },
 
   // db check
   NEWS_MEDIA_ITEM_NOT_EXISTS: {
@@ -49,6 +54,9 @@ NewsMediaItem.newsMediaItemsResponseTypes = {
 NewsMediaItem.getNewsMediaItemForDisplay = newsMediaItem => {
   return {
     ...newsMediaItem,
+    fromDateDisplay: newsMediaItem.fromDate
+      ? formatDateTimeString(newsMediaItem.fromDate)
+      : null,
     createDTDisplay: formatDateTimeString(newsMediaItem.createDT),
     lastModifyDTDisplay: formatDateTimeString(newsMediaItem.lastModifyDT),
     lastModifyUserDisplay: newsMediaItem.lastModifyUser
@@ -58,6 +66,7 @@ NewsMediaItem.getNewsMediaItemForDisplay = newsMediaItem => {
 };
 
 const displayFieldNames = [
+  'fromDateDisplay',
   'createDTDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay'

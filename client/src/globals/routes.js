@@ -96,19 +96,6 @@ export default {
   newsMediaItemAdd: function (isLink) {
     return '/newsMediaItemAdd';
   },
-  newsMediaGroupList: function (isLink) {
-    return '/newsMediaGroupList';
-  },
-  newsMediaGroupEditById: '/newsMediaGroupEdit/:newsMediaGroupId',
-  newsMediaGroupEditByIdWithValue: function (isLink, newsMediaGroupId) {
-    return '/newsMediaGroupEdit/' + newsMediaGroupId;
-  },
-  newsMediaGroupAdd: function (isLink) {
-    return '/newsMediaGroupAdd';
-  },
-  newsMediaGroupsOrder: function (isLink) {
-    return '/newsMediaGroupsOrder';
-  },
   aboutEdit: function (isLink) {
     return '/aboutEdit';
   },

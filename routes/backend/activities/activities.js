@@ -46,7 +46,8 @@ const activityValidationChecks = [
   check('name_tc', activityResponseTypes.NAME_TC_REQUIRED).notEmpty(),
   check('name_sc', activityResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', activityResponseTypes.NAME_EN_REQUIRED).notEmpty(),
-  check('type', activityResponseTypes.TYPE_REQUIRED).notEmpty()
+  check('type', activityResponseTypes.TYPE_REQUIRED).notEmpty(),
+  check('fromDate', activityResponseTypes.FROM_DATE_REQUIRED).notEmpty()
 ];
 
 const handleActivityLabelDuplicateKeyError = (err, res) => {
@@ -232,7 +233,7 @@ router.put(
     if (name_sc) activityFields.name_sc = name_sc;
     if (name_en) activityFields.name_en = name_en;
     if (type) activityFields.type = type;
-    activityFields.fromDate = fromDate;
+    if (fromDate) activityFields.fromDate = fromDate;
     activityFields.toDate = toDate;
     activityFields.location_tc = location_tc;
     activityFields.location_sc = location_sc;

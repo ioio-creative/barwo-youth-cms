@@ -31,6 +31,10 @@ Phase.phasesResponseTypes = {
     type: 'PHASE_NUMBER_REQUIRED',
     msg: 'PHASE_NUMBER_REQUIRED'
   },
+  FROM_DATE_REQUIRED: {
+    type: 'FROM_DATE_REQUIRED',
+    msg: 'FROM_DATE_REQUIRED'
+  },
 
   // db check
   PHASE_NOT_EXISTS: {

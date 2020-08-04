@@ -88,15 +88,6 @@ const AsyncNewsMediaItemList = asyncLoadingComponent(_ =>
 const AsyncNewsMediaItemEdit = asyncLoadingComponent(_ =>
   import('components/pages/NewsMediaItemEdit')
 );
-// const AsyncNewsMediaGroupList = asyncLoadingComponent(_ =>
-//   import('components/pages/NewsMediaGroupList')
-// );
-// const AsyncNewsMediaGroupEdit = asyncLoadingComponent(_ =>
-//   import('components/pages/NewsMediaGroupEdit')
-// );
-// const AsyncNewsMediaGroupsOrder = asyncLoadingComponent(_ =>
-//   import('components/pages/NewsMediaGroupsOrder')
-// );
 const AsyncNewsletterList = asyncLoadingComponent(_ =>
   import('components/pages/NewsletterList')
 );
@@ -280,23 +271,6 @@ const Main = _ => {
                 path={routes.newsMediaItemAdd(false)}
                 component={AsyncNewsMediaItemEdit}
               />
-
-              {/* <Route
-                path={routes.newsMediaGroupList(false)}
-                component={AsyncNewsMediaGroupList}
-              />
-              <Route
-                path={routes.newsMediaGroupEditById}
-                component={AsyncNewsMediaGroupEdit}
-              />
-              <Route
-                path={routes.newsMediaGroupAdd(false)}
-                component={AsyncNewsMediaGroupEdit}
-              />
-              <Route
-                path={routes.newsMediaGroupsOrder(false)}
-                component={AsyncNewsMediaGroupsOrder}
-              /> */}
 
               <Route path={routes.testing} component={AsyncTesting} />
               <Route path={routes.fileManager} component={AsyncFileManager} />

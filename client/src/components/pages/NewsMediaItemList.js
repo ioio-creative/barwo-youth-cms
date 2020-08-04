@@ -47,6 +47,11 @@ const headers = [
   //   value: 'name_en',
   //   isSortEnabled: true
   // },
+  {
+    name: uiWordings['NewsMediaItem.FromDateLabel'],
+    value: 'fromDateDisplay',
+    isSortEnabled: true
+  },
   // {
   //   name: uiWordings['NewsMediaItem.DescTcLabel'],
   //   value: 'desc_tc',
