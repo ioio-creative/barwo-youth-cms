@@ -33,6 +33,10 @@ const newsMediaItemPopulationListForFindAll = [
     select: 'name'
   },
   {
+    path: 'thumbnail',
+    select: mediumSelect
+  },
+  {
     path: 'gallery',
     select: mediumSelect
   }
@@ -135,6 +139,7 @@ router.post(
       desc_tc,
       desc_sc,
       desc_en,
+      thumbnail,
       gallery,
       isEnabled
     } = req.body;
@@ -149,6 +154,7 @@ router.post(
         desc_tc,
         desc_sc,
         desc_en,
+        thumbnail,
         gallery: getArraySafe(gallery),
         isEnabled,
         lastModifyUser: req.user._id
@@ -181,6 +187,7 @@ router.put(
       desc_tc,
       desc_sc,
       desc_en,
+      thumbnail,
       gallery,
       isEnabled
     } = req.body;
@@ -197,6 +204,7 @@ router.put(
     newsMediaItemFields.desc_tc = desc_tc;
     newsMediaItemFields.desc_sc = desc_sc;
     newsMediaItemFields.desc_en = desc_en;
+    newsMediaItemFields.thumbnail = thumbnail;
     newsMediaItemFields.gallery = getArraySafe(gallery);
     if (isEnabled !== undefined) newsMediaItemFields.isEnabled = isEnabled;
     newsMediaItemFields.lastModifyDT = new Date();

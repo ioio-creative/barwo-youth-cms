@@ -782,6 +782,7 @@ export default {
   'NewsMediaItem.DescTcLabel': 'Desc TC',
   'NewsMediaItem.DescScLabel': 'Desc SC',
   'NewsMediaItem.DescEnLabel': 'Desc EN',
+  'NewsMediaItem.ThumbnailLabel': 'Thumbnail',
   'NewsMediaItem.GalleryLabel': 'Gallery',
   'NewsMediaItem.CreateDTLabel': 'Create DT',
   'NewsMediaItem.LastModifyDTLabel': 'Last Modify DT',

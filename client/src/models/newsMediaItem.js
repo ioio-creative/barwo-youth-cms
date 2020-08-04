@@ -12,6 +12,7 @@ function NewsMediaItem() {
   this.desc_sc = '';
   this.desc_en = '';
   /* media */
+  this.thumbnail = '';
   this.gallery = [];
   /* end of media */
   this.isEnabled = true;

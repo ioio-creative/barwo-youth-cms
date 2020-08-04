@@ -32,6 +32,10 @@ const NewsMediaItemSchema = mongoose.Schema({
   desc_en: {
     type: String
   },
+  thumbnail: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
+  },
   gallery: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
   isEnabled: {
     type: Boolean,

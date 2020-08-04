@@ -80,6 +80,10 @@ const ActivitySchema = mongoose.Schema({
   //   ref: 'medium'
   // },
   /* end of media */
+  isFeaturedInLandingPage: {
+    type: Boolean,
+    default: false
+  },
   isEnabled: {
     type: Boolean,
     default: true

@@ -8,7 +8,7 @@
     }
   },
   "FileManager": {
-    "numberOfFilesInExplorer": 30,
+    "numberOfFilesInExplorer": 5,
     "filesCount": 20,
     "fileSizeInMBs": 20,
     "fileUploadAlertTimeoutInMs": 5000,

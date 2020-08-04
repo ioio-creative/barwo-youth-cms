@@ -23,6 +23,10 @@ const newsMediaItemSelectForFindOne = {
 
 const newsMediaItemPopulationListForFindAll = [
   {
+    path: 'thumbnail',
+    select: mediumSelect
+  },
+  {
     path: 'gallery',
     select: mediumSelect
   }
@@ -41,6 +45,9 @@ const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
     name: getEntityPropByLanguage(newsMediaItem, 'name', language),
     fromDate: formatDateStringForFrontEnd(newsMediaItem.fromDate),
     description: getEntityPropByLanguage(newsMediaItem, 'desc', language),
+    thumbnail: {
+      src: newsMediaItem.thumbnail && newsMediaItem.thumbnail.url
+    },
     gallery: getArraySafe(newsMediaItem.gallery).map(medium => {
       return {
         src: medium && medium.url

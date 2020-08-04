@@ -24,6 +24,7 @@ import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 import { formatDateString } from 'utils/datetime';
 
@@ -52,6 +53,10 @@ const NewsMediaItemEdit = _ => {
   const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
+  // thumbnail
+  const [thumbnailPicked, setThumbnailPicked] = useState(null);
+
+  // gallery
   const [galleryPicked, setGalleryPicked] = useState([]);
 
   // componentDidMount
@@ -85,6 +90,7 @@ const NewsMediaItemEdit = _ => {
           : defaultState
       );
       if (fetchedNewsMediaItem) {
+        setThumbnailPicked(fetchedNewsMediaItem.thumbnail);
         setGalleryPicked(getArraySafe(fetchedNewsMediaItem.gallery));
       }
       setIsAddMode(!fetchedNewsMediaItem);
@@ -145,6 +151,11 @@ const NewsMediaItemEdit = _ => {
     [removeAlerts]
   );
 
+  const onGetThumbnailPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setThumbnailPicked(firstOrDefault(newItemList, null));
+  }, []);
+
   const onGetGalleryPicked = useCallback(newItemList => {
     setIsSubmitEnabled(true);
     setGalleryPicked(newItemList);
@@ -176,6 +187,9 @@ const NewsMediaItemEdit = _ => {
 
       // format dates
       newsMediaItem.fromDate = formatDateString(newsMediaItem.fromDate);
+
+      // add thumbnail
+      newsMediaItem.thumbnail = thumbnailPicked ? thumbnailPicked._id : null;
 
       // add gallery
       newsMediaItem.gallery = getArraySafe(galleryPicked).map(medium => {
@@ -213,9 +227,10 @@ const NewsMediaItemEdit = _ => {
       getNewsMediaItem,
       newsMediaItem,
       setAlerts,
+      removeAlerts,
       validInput,
-      galleryPicked,
-      removeAlerts
+      thumbnailPicked,
+      galleryPicked
     ]
   );
 
@@ -311,6 +326,14 @@ const NewsMediaItemEdit = _ => {
         <AccordionRegion
           title={uiWordings['NewsMediaItemEdit.MediaRegionTitle']}
         >
+          <FileUpload
+            name='thumbnail'
+            labelMessage={uiWordings['NewsMediaItem.ThumbnailLabel']}
+            files={thumbnailPicked ? [thumbnailPicked] : null}
+            onGetFiles={onGetThumbnailPicked}
+            isMultiple={false}
+            mediumType={mediumTypes.IMAGE}
+          />
           <FileUpload
             name='gallery'
             labelMessage={uiWordings['NewsMediaItem.GalleryLabel']}

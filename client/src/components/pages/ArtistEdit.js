@@ -270,13 +270,13 @@ const ArtistEdit = _ => {
       getArtist,
       artist,
       setAlerts,
+      removeAlerts,
       validInput,
       qnasPicked,
       featuredImagePicked,
       withoutMaskImagePicked,
       galleryPicked,
-      soundPicked,
-      removeAlerts
+      soundPicked
     ]
   );
 
