@@ -81,6 +81,11 @@ const headers = [
     name: uiWordings['NewsMediaItem.LastModifyUserLabel'],
     value: 'lastModifyUserDisplay',
     isSortEnabled: true
+  },
+  {
+    name: uiWordings['NewsMediaItem.IsEnabledLabel'],
+    value: 'isEnabledDisplay',
+    isSortEnabled: true
   }
 ];
 

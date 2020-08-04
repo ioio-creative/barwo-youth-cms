@@ -16,7 +16,6 @@ import Alert from 'models/alert';
 import User from 'models/user';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
-import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
 import config from 'config/default.json';

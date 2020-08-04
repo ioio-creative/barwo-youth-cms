@@ -33,9 +33,10 @@ const NewsMediaItemSchema = mongoose.Schema({
     type: String
   },
   gallery: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
-  newsMediaGroupsInvolved: [
-    { type: mongoose.Schema.Types.ObjectId, ref: 'newsMediaGroup' }
-  ],
+  isEnabled: {
+    type: Boolean,
+    default: true
+  },
   createDT: {
     type: Date,
     default: Date.now
@@ -67,6 +68,5 @@ module.exports.newsMediaItemResponseTypes = {
 
   // db check
   NEWS_MEDIA_ITEM_NOT_EXISTS: 'NEWS_MEDIA_ITEM_NOT_EXISTS',
-  LABEL_ALREADY_EXISTS: 'LABEL_ALREADY_EXISTS',
-  NEWS_MEDIA_ITEM_INVOLVED_IN_GROUPS: 'NEWS_MEDIA_ITEM_INVOLVED_IN_GROUPS'
+  LABEL_ALREADY_EXISTS: 'LABEL_ALREADY_EXISTS'
 };

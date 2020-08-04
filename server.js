@@ -122,6 +122,10 @@ app.use(
 );
 app.use('/api/frontend/newses', require('./routes/frontend/newses/newses'));
 app.use(
+  '/api/frontend/newsMediaItems',
+  require('./routes/frontend/newsMediaItems/newsMediaItems')
+);
+app.use(
   '/api/frontend/globalConstants',
   require('./routes/frontend/globalConstants/globalConstants')
 );

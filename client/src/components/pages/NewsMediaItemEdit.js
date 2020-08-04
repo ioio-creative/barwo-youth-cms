@@ -10,6 +10,8 @@ import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
+import Label from 'components/form/Label';
+import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
@@ -249,7 +251,17 @@ const NewsMediaItemEdit = _ => {
             </h4>
           </div>
           <div className='w3-col m2 w3-row'>
-            <div className='w3-col m12'></div>
+            <div className='w3-col m12'>
+              <Label
+                htmlFor='isEnabled'
+                message={uiWordings['NewsMediaItem.IsEnabledLabel']}
+              />
+              <Toggle
+                name='isEnabled'
+                value={newsMediaItem.isEnabled}
+                onChange={onChange}
+              />
+            </div>
           </div>
         </div>
 

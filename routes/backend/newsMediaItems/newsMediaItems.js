@@ -21,15 +21,11 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
-const newsMediaItemSelectForFindAll = {
-  newsMediaGroupsInvolved: 0
-};
+const newsMediaItemSelectForFindAll = {};
 
 const newsMediaItemSelectForFindOne = { ...newsMediaItemSelectForFindAll };
 
-const newsMediaItemSelectForDeleteOne = {
-  newsMediaGroupsInvolved: 1
-};
+const newsMediaItemSelectForDeleteOne = {};
 
 const newsMediaItemPopulationListForFindAll = [
   {
@@ -139,7 +135,8 @@ router.post(
       desc_tc,
       desc_sc,
       desc_en,
-      gallery
+      gallery,
+      isEnabled
     } = req.body;
 
     try {
@@ -153,6 +150,7 @@ router.post(
         desc_sc,
         desc_en,
         gallery: getArraySafe(gallery),
+        isEnabled,
         lastModifyUser: req.user._id
       });
 
@@ -183,7 +181,8 @@ router.put(
       desc_tc,
       desc_sc,
       desc_en,
-      gallery
+      gallery,
+      isEnabled
     } = req.body;
 
     // Build news media item object
@@ -199,6 +198,7 @@ router.put(
     newsMediaItemFields.desc_sc = desc_sc;
     newsMediaItemFields.desc_en = desc_en;
     newsMediaItemFields.gallery = getArraySafe(gallery);
+    if (isEnabled !== undefined) newsMediaItemFields.isEnabled = isEnabled;
     newsMediaItemFields.lastModifyDT = new Date();
     newsMediaItemFields.lastModifyUser = req.user._id;
 
@@ -240,12 +240,6 @@ router.delete('/:_id', [auth], async (req, res) => {
     if (!newsMediaItem) {
       return res.status(404).json({
         errors: [newsMediaItemResponseTypes.NEWS_MEDIA_ITEM_NOT_EXISTS]
-      });
-    }
-
-    if (isNonEmptyArray(newsMediaItem.newsMediaGroupsInvolved)) {
-      return res.status(400).json({
-        errors: [newsMediaItemResponseTypes.NEWS_MEDIA_ITEM_INVOLVED_IN_GROUPS]
       });
     }
 

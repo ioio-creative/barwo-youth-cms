@@ -14,6 +14,7 @@ function NewsMediaItem() {
   /* media */
   this.gallery = [];
   /* end of media */
+  this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
   this.lastModifyUser = null;
@@ -41,10 +42,6 @@ NewsMediaItem.newsMediaItemsResponseTypes = {
     type: 'LABEL_ALREADY_EXISTS',
     msg: 'LABEL_ALREADY_EXISTS'
   },
-  NEWS_MEDIA_ITEM_INVOLVED_IN_GROUPS: {
-    type: 'NEWS_MEDIA_ITEM_INVOLVED_IN_GROUPS',
-    msg: 'NEWS_MEDIA_ITEM_INVOLVED_IN_GROUPS'
-  },
 
   // general
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
@@ -61,7 +58,8 @@ NewsMediaItem.getNewsMediaItemForDisplay = newsMediaItem => {
     lastModifyDTDisplay: formatDateTimeString(newsMediaItem.lastModifyDT),
     lastModifyUserDisplay: newsMediaItem.lastModifyUser
       ? newsMediaItem.lastModifyUser.name
-      : ''
+      : '',
+    isEnabledDisplay: newsMediaItem.isEnabled.toString()
   };
 };
 
@@ -69,7 +67,8 @@ const displayFieldNames = [
   'fromDateDisplay',
   'createDTDisplay',
   'lastModifyDTDisplay',
-  'lastModifyUserDisplay'
+  'lastModifyUserDisplay',
+  'isEnabledDisplay'
 ];
 
 NewsMediaItem.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);

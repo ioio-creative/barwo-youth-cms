@@ -39,7 +39,7 @@ export default {
   'User.CreateDTLabel': 'Create DT',
   'User.LastModifyDTLabel': 'Last Modify DT',
   'User.LastModifyUserLabel': 'Last Modify User',
-  'User.IsEnabledLabel': 'Is Enabled ?',
+  'User.IsEnabledLabel': 'Is Enabled?',
 
   'Users.Title': 'Users',
   'Users.ForbiddenAccessMessage': 'You are forbidden to access user records.',
@@ -86,7 +86,7 @@ export default {
   'Artist.CreateDTLabel': 'Create DT',
   'Artist.LastModifyDTLabel': 'Last Modify DT',
   'Artist.LastModifyUserLabel': 'Last Modify User',
-  'Artist.IsEnabledLabel': 'Is Enabled ?',
+  'Artist.IsEnabledLabel': 'Is Enabled?',
 
   'ArtistList.AddArtist': 'Add Artist',
   'ArtistList.FilterTextPlaceHolder': 'Filter Artists by name...',
@@ -162,7 +162,7 @@ export default {
   'Event.CreateDTLabel': 'Create DT',
   'Event.LastModifyDTLabel': 'Last Modify DT',
   'Event.LastModifyUserLabel': 'Last Modify User',
-  'Event.IsEnabledLabel': 'Is Enabled ?',
+  'Event.IsEnabledLabel': 'Is Enabled?',
 
   'EventList.AddEvent': 'Add Event',
   'EventList.FilterTextPlaceHolder': 'Filter Events by name...',
@@ -218,7 +218,7 @@ export default {
   'Phase.CreateDTLabel': 'Create DT',
   'Phase.LastModifyDTLabel': 'Last Modify DT',
   'Phase.LastModifyUserLabel': 'Last Modify User',
-  'Phase.IsEnabledLabel': 'Is Enabled ?',
+  'Phase.IsEnabledLabel': 'Is Enabled?',
 
   'PhaseList.AddPhase': 'Add Phase',
   'PhaseList.FilterTextPlaceHolder': 'Filter Phases by year...',
@@ -528,7 +528,7 @@ export default {
   'Contact.LanguageLabel': 'Language',
   'Contact.LastModifyDTLabel': 'Last Modify DT',
   'Contact.LastModifyUserLabel': 'Last Modify User',
-  'Contact.IsEnabledLabel': 'Is Enabled ?',
+  'Contact.IsEnabledLabel': 'Is Enabled?',
 
   'ContactList.AddContact': 'Add Contact',
   'ContactList.FilterTextPlaceHolder': 'Filter Contacts by name...',
@@ -608,7 +608,7 @@ export default {
   'Newsletter.MessageEnLabel': 'Message EN',
   'Newsletter.LastModifyDTLabel': 'Last Modify DT',
   'Newsletter.LastModifyUserLabel': 'Last Modify User',
-  'Newsletter.IsEnabledLabel': 'Is Enabled ?',
+  'Newsletter.IsEnabledLabel': 'Is Enabled?',
 
   'NewsletterList.AddNewsletter': 'Add Newsletter',
   'NewsletterList.SendHistoryList': 'Send History List',
@@ -647,7 +647,7 @@ export default {
   'SendHistory.MessageEnLabel': 'Message EN',
   'SendHistory.SendDTLabel': 'Send DT',
   'SendHistory.SenderLabel': 'Sender',
-  'SendHistory.IsEnabledLabel': 'Is Enabled ?',
+  'SendHistory.IsEnabledLabel': 'Is Enabled?',
 
   'SendHistoryList.SendHistoriesList': 'Send History List',
   'SendHistoryList.FilterTextPlaceHolder': 'Filter Send Historys by name...',
@@ -698,7 +698,7 @@ export default {
   'Activity.CreateDTLabel': 'Create DT',
   'Activity.LastModifyDTLabel': 'Last Modify DT',
   'Activity.LastModifyUserLabel': 'Last Modify User',
-  'Activity.IsEnabledLabel': 'Is Enabled ?',
+  'Activity.IsEnabledLabel': 'Is Enabled?',
 
   'ActivityList.AddActivity': 'Add Activity',
   'ActivityList.FilterTextPlaceHolder': 'Filter Activities by name...',
@@ -745,7 +745,7 @@ export default {
   'News.CreateDTLabel': 'Create DT',
   'News.LastModifyDTLabel': 'Last Modify DT',
   'News.LastModifyUserLabel': 'Last Modify User',
-  'News.IsEnabledLabel': 'Is Enabled ?',
+  'News.IsEnabledLabel': 'Is Enabled?',
 
   'NewsList.AddNews': 'Add News',
   'NewsList.FilterTextPlaceHolder': 'Filter Activities by name...',
@@ -786,6 +786,7 @@ export default {
   'NewsMediaItem.CreateDTLabel': 'Create DT',
   'NewsMediaItem.LastModifyDTLabel': 'Last Modify DT',
   'NewsMediaItem.LastModifyUserLabel': 'Last Modify User',
+  'NewsMediaItem.IsEnabledLabel': 'Is Enabled?',
 
   'NewsMediaItemList.AddNewsMediaItem': 'Add News Media Item',
   'NewsMediaItemList.FilterTextPlaceHolder':

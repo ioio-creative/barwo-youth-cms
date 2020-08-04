@@ -503,7 +503,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
         clearTimeout(searchDelayTimer.current);
       };
     },
-    [filterText]
+    [getMedia, mediumTypeObj, filterText]
   );
 
   useEffect(
