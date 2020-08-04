@@ -76,6 +76,14 @@ app.use(
   require('./routes/backend/newses/newsesInOrder')
 );
 app.use(
+  '/api/backend/newsMediaItems/newsMediaItems',
+  require('./routes/backend/newsMediaItems/newsMediaItems')
+);
+app.use(
+  '/api/backend/newsMediaGroups/newsMediaGroups',
+  require('./routes/backend/newsMediaGroups/newsMediaGroups')
+);
+app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );
@@ -130,8 +138,21 @@ app.use(
   '/api/frontend/contacts',
   require('./routes/frontend/contacts/contacts')
 );
-// test search function
+
+// search
 app.use('/api/frontend/search', require('./routes/frontend/search/search'));
+
+// aws: for email bounces and complaints
+app.use('/api/aws/sns', require('./routes/aws/sns'));
+app.use(function (req, res, next) {
+  if (req.get('x-amz-sns-message-type')) {
+    req.headers['content-type'] = 'application/json'; //IMPORTANT, otherwise content-type is text for topic confirmation reponse, and body is empty
+  }
+  next();
+});
+
+// Load body parser to handle POST requests
+// app.use(bodyParser.json());
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

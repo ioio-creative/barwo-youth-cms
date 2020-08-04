@@ -363,6 +363,7 @@ const ArtistEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
         <LabelSelectPair
           name='type'
           value={artist.type}
@@ -402,7 +403,7 @@ const ArtistEdit = _ => {
             onGetFiles={onGetGalleryPicked}
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
-            orderDirection={'horizontal'}
+            orderDirection='horizontal'
           />
           <FileUpload
             name='sound'

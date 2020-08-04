@@ -10,10 +10,7 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
-const {
-  getArraySafe,
-  isNonEmptyArray
-} = require('../../../utils/js/array/isNonEmptyArray');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const { Event } = require('../../../models/Event');
 

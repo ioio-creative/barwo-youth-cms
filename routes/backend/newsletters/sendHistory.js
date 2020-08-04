@@ -9,6 +9,7 @@ const listingHandling = require('../../../middleware/listingHandling');
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { newsletterResponseTypes } = require('../../../models/Newsletter');
 const { Contact } = require('../../../models/Contact');
 const { Sender } = require('../../../models/Sender');
@@ -16,16 +17,9 @@ const {
   SendHistory,
   sendHistoryResponseTypes
 } = require('../../../models/SendHistory');
+const { languages } = require('../../../globals/languages');
 
 /* utilities */
-/* Contact */
-const contactSelectForFindAll = {};
-const contactPopulationListForFindAll = [
-  {
-    path: 'lastModifyUser',
-    select: 'name'
-  }
-];
 
 const senderSelect = {};
 const senderPopulationList = [
@@ -59,23 +53,22 @@ const sendHistoryPopulationListForFindOne = [
 ];
 
 const emailSend = async (contact, emailAddress, name, title, message) => {
-  let transporter = nodemailer.createTransport({
-    host: 'email-smtp.ap-southeast-1.amazonaws.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: em.username, // generated ethereal user
-      pass: em.password // generated ethereal password
-    }
-  });
-
-  // send mail with defined transport object
-  await transporter.sendMail({
-    from: `"${name}" ${emailAddress}`, // sender address
-    to: contact.emailAddress, // Receivers
-    subject: title, // Subject line
-    html: message // html body
-  });
+  // let transporter = nodemailer.createTransport({
+  //   host: 'email-smtp.ap-southeast-1.amazonaws.com',
+  //   port: 587,
+  //   secure: false, // true for 465, false for other ports
+  //   auth: {
+  //     user: em.username, // generated ethereal user
+  //     pass: em.password // generated ethereal password
+  //   }
+  // });
+  // // send mail with defined transport object
+  // const info = await transporter.sendMail({
+  //   from: `"${name}" ${emailAddress}`, // sender address
+  //   to: contact.emailAddress, // Receivers
+  //   subject: title, // Subject line
+  //   html: message // html body
+  // });
   // console.log(info);
 };
 
@@ -99,15 +92,9 @@ router.post(
 
     let contacts = [];
     try {
-      const options = {
-        select: contactSelectForFindAll,
-        populate: contactPopulationListForFindAll
-      };
-
-      let findOptions = {};
-
       // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
-      contacts = await Contact.paginate(findOptions, options);
+      contacts = await Contact.find({});
+      // console.log(contacts);
     } catch (err) {
       // TODO:
       console.error(err);
@@ -137,33 +124,37 @@ router.post(
       });
 
       await Promise.all(
-        contacts.docs.map(async contact => {
-          if (contact.language === 'TC' && contact.isEnable) {
-            await emailSend(
-              contact,
-              sender.emailAddress,
-              sender.name_tc,
-              title_tc,
-              message_tc
-            );
-          } else if (contact.language === 'SC' && contact.isEnable) {
-            await emailSend(
-              contact,
-              sender.emailAddress,
-              sender.name_sc,
-              title_sc,
-              message_sc
-            );
-          } else if (contact.language === 'EN' && contact.isEnable) {
-            await emailSend(
-              contact,
-              sender.emailAddress,
-              sender.name_en,
-              title_en,
-              message_en
-            );
-          }
-        })
+        getArraySafe(contacts)
+          .filter(contact => contact.isEnabled !== false)
+          .map(async contact => {
+            if (contact.language === languages.TC._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_tc,
+                title_tc,
+                message_tc
+              );
+            } else if (contact.language === languages.SC._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_sc,
+                title_sc,
+                message_sc
+              );
+            } else if (contact.language === languages.EN._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_en,
+                title_en,
+                message_en
+              );
+            }
+
+            return null;
+          })
       );
 
       await sendHistory.save();
@@ -231,6 +222,7 @@ router.get('/:_id', auth, async (req, res) => {
     }
     res.json(sendHistory);
   } catch (err) {
+    // console.log('error');
     console.error(err);
     //generalErrorHandle(err, res);
     return res
