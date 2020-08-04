@@ -27,6 +27,7 @@ const numberOfFilesInExplorer = config.FileManager.numberOfFilesInExplorer;
 const maxFileUploadCount = config.FileManager.filesCount;
 const maxFileUploadSize = config.FileManager.fileSizeInMBs * 1024 * 1024;
 const fileUploadAlertTimeout = config.FileManager.fileUploadAlertTimeoutInMs;
+const searchDelayTimeout = config.FileManager.searchDelayTimeout;
 
 const mediumTypes = Medium.mediumTypes;
 
@@ -78,12 +79,12 @@ const MediumElement = ({
     <div
       className={`w3-col s3 medium-item${
         selectedTag.length === 0 ||
-        medium.tags.some(r => selectedTag.indexOf(r) >= 0)
+          medium.tags.some(r => selectedTag.indexOf(r) >= 0)
           ? ''
           : ' hidden'
-      }${selectedFile.includes(idx) ? ' selected' : ''}`}
+        }${selectedFile.includes(idx) ? ' selected' : ''}`}
       onClick={handleClick}
-      /* onDoubleClick={handleDoubleClick} */
+    /* onDoubleClick={handleDoubleClick} */
     >
       <div className='medium-wrapper'>
         {
@@ -199,6 +200,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
   const [uploadingQueue, setUploadingQueue] = useState([]);
   //const [uploadedQueue, setUploadedQueue] = useState([]);
   const returnElementType = useRef(null);
+  const searchDelayTimer = useRef(null);
   const multipleSelect = useRef(multiple);
 
   const { setAlerts, removeAlerts } = useContext(AlertContext);
@@ -456,7 +458,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
         // page,
         sortOrder: -1,
         sortBy: 'createDT',
-        filterText,
+        // filterText,
         limit: numberOfFilesInExplorer
       });
       return _ => {
@@ -475,12 +477,34 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
       getMedia,
       clearMedia,
       removeAlerts,
-      filterText,
+      // filterText,
       handleDragEnter,
       handleDragOver,
       handleDragLeave,
       handleDropUpload
     ]
+  );
+
+  useEffect(
+    _ => {
+      if (searchDelayTimer.current) {
+        clearTimeout(searchDelayTimer.current);
+      }
+      searchDelayTimer.current = setTimeout(() => {
+        getMedia(mediumTypeObj, {
+          // page,
+          sortOrder: -1,
+          sortBy: 'createDT',
+          filterText,
+          limit: numberOfFilesInExplorer
+        })
+      },
+        searchDelayTimeout);
+      return _ => {
+        clearTimeout(searchDelayTimer.current);
+      };
+    },
+    [filterText]
   );
 
   useEffect(
@@ -543,7 +567,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
     <div
       className={`w3-stretch fileManager ${mediumTypeObj.apiRoute} ${
         multiple ? 'multiple' : 'single'
-      }`}
+        }`}
       ref={setFileManagerEl}
     >
       <div className='dragFileOverlay'>
@@ -626,8 +650,8 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
                   );
                 })
             ) : (
-              <Loading />
-            )}
+                <Loading />
+              )}
           </div>
         </div>
       </div>
@@ -691,9 +715,9 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
                 isHalf={false}
                 value={selectedFetchedMedium.name}
                 onChange={async e => await updateMediaName(e.target.value)}
-                // onChange direct update
-                // TODO: can use useTimeout to implement own throttle for
-                // limiting the frequency of calling updateMediaName
+              // onChange direct update
+              // TODO: can use useTimeout to implement own throttle for
+              // limiting the frequency of calling updateMediaName
               />
               {/* <LabelInputTextPair
                 labelMessage='Alternate text'
