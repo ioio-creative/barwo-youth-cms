@@ -79,12 +79,12 @@ const MediumElement = ({
     <div
       className={`w3-col s3 medium-item${
         selectedTag.length === 0 ||
-          medium.tags.some(r => selectedTag.indexOf(r) >= 0)
+        medium.tags.some(r => selectedTag.indexOf(r) >= 0)
           ? ''
           : ' hidden'
-        }${selectedFile.includes(idx) ? ' selected' : ''}`}
+      }${selectedFile.includes(idx) ? ' selected' : ''}`}
       onClick={handleClick}
-    /* onDoubleClick={handleDoubleClick} */
+      /* onDoubleClick={handleDoubleClick} */
     >
       <div className='medium-wrapper'>
         {
@@ -490,16 +490,15 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
       if (searchDelayTimer.current) {
         clearTimeout(searchDelayTimer.current);
       }
-      searchDelayTimer.current = setTimeout(() => {
+      searchDelayTimer.current = setTimeout(_ => {
         getMedia(mediumTypeObj, {
           // page,
           sortOrder: -1,
           sortBy: 'createDT',
           filterText,
           limit: numberOfFilesInExplorer
-        })
-      },
-        searchDelayTimeout);
+        });
+      }, searchDelayTimeout);
       return _ => {
         clearTimeout(searchDelayTimer.current);
       };
@@ -567,7 +566,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
     <div
       className={`w3-stretch fileManager ${mediumTypeObj.apiRoute} ${
         multiple ? 'multiple' : 'single'
-        }`}
+      }`}
       ref={setFileManagerEl}
     >
       <div className='dragFileOverlay'>
@@ -650,8 +649,8 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
                   );
                 })
             ) : (
-                <Loading />
-              )}
+              <Loading />
+            )}
           </div>
         </div>
       </div>
@@ -715,9 +714,9 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
                 isHalf={false}
                 value={selectedFetchedMedium.name}
                 onChange={async e => await updateMediaName(e.target.value)}
-              // onChange direct update
-              // TODO: can use useTimeout to implement own throttle for
-              // limiting the frequency of calling updateMediaName
+                // onChange direct update
+                // TODO: can use useTimeout to implement own throttle for
+                // limiting the frequency of calling updateMediaName
               />
               {/* <LabelInputTextPair
                 labelMessage='Alternate text'

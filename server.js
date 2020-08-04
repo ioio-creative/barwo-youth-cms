@@ -181,24 +181,24 @@ app.listen(PORT, _ => {
   console.log(`Server started on ${PORT}`);
 });
 
-// test ssl
-try {
-  const SSLPORT = config.get('Network.sslport') || process.env.PORT || 5000;
-  if (SSLPORT && SSLPORT !== PORT) {
-    const https = require('https');
-    const { readFileSync } = require("fs");
+// // test ssl
+// try {
+//   const SSLPORT = config.get('Network.sslport') || process.env.PORT || 5000;
+//   if (SSLPORT && SSLPORT !== PORT) {
+//     const https = require('https');
+//     const { readFileSync } = require("fs");
 
-    const sslServer = https.createServer({
-      // key: fs.readFileSync("/etc/letsencrypt/live/testbarwocms.ioiocreative.com/privkey.pem", 'utf-8'),
-      // cert: fs.readFileSync("/etc/letsencrypt/live/testbarwocms.ioiocreative.com/cert.pem", 'utf-8'),
-      // ca: fs.readFileSync("/etc/letsencrypt/live/testbarwocms.ioiocreative.com/chain.pem", 'utf-8'),
-      key: readFileSync("./cert/privkey.pem", 'utf-8'),
-      cert: readFileSync("./cert/cert.pem", 'utf-8'),
-    }, app);
-    sslServer.listen(SSLPORT, _ => {
-      console.log(`SSL Server started on ${SSLPORT}`);
-    });
-  }
-} catch (e) {
-  console.log(e);
-}
+//     const sslServer = https.createServer({
+//       // key: fs.readFileSync("/etc/letsencrypt/live/testbarwocms.ioiocreative.com/privkey.pem", 'utf-8'),
+//       // cert: fs.readFileSync("/etc/letsencrypt/live/testbarwocms.ioiocreative.com/cert.pem", 'utf-8'),
+//       // ca: fs.readFileSync("/etc/letsencrypt/live/testbarwocms.ioiocreative.com/chain.pem", 'utf-8'),
+//       key: readFileSync("./cert/privkey.pem", 'utf-8'),
+//       cert: readFileSync("./cert/cert.pem", 'utf-8'),
+//     }, app);
+//     sslServer.listen(SSLPORT, _ => {
+//       console.log(`SSL Server started on ${SSLPORT}`);
+//     });
+//   }
+// } catch (e) {
+//   console.log(e);
+// }

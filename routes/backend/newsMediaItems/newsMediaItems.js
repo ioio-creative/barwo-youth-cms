@@ -154,7 +154,7 @@ router.post(
         lastModifyUser: req.user._id
       });
 
-      await NewsMediaItem.save();
+      await newsMediaItem.save();
 
       res.json(newsMediaItem);
     } catch (err) {
