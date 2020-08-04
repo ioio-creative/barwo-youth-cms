@@ -14,7 +14,10 @@ import {
   NEWS_MEDIA_ITEMS_ERRORS,
   CLEAR_NEWS_MEDIA_ITEMS_ERRORS,
   SET_NEWS_MEDIA_ITEMS_LOADING,
-  DELETE_NEWS_MEDIA_ITEM
+  DELETE_NEWS_MEDIA_ITEM,
+  GET_NEWS_MEDIA_ITEMS_FOR_GROUPING,
+  CLEAR_NEWS_MEDIA_ITEMS_FOR_GROUPING,
+  SET_NEWS_MEDIA_ITEMS_FOR_GROUPING_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -23,7 +26,9 @@ const initialState = {
   newsMediaItemsPaginationMeta: null,
   newsMediaItem: null,
   newsMediaItemsErrors: null,
-  newsMediaItemsLoading: false
+  newsMediaItemsLoading: false,
+  newsMediaItemsForGrouping: null,
+  newsMediaItemsForGroupingLoading: false
 };
 
 const NewsMediaItemsState = ({ children }) => {
@@ -161,6 +166,24 @@ const NewsMediaItemsState = ({ children }) => {
     return isSuccess;
   }, []);
 
+  // Get News Media Items for Grouping
+  const getNewsMediaItemsForGrouping = useCallback(async _ => {
+    dispatch({ type: SET_NEWS_MEDIA_ITEMS_FOR_GROUPING_LOADING });
+    try {
+      const res = await axios.get(
+        '/api/backend/newsMediaItems/newsMediaItemsForGrouping'
+      );
+      dispatch({ type: GET_NEWS_MEDIA_ITEMS_FOR_GROUPING, payload: res.data });
+    } catch (err) {
+      handleServerError(err, NEWS_MEDIA_ITEMS_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Clear News Media Items for Grouping
+  const clearNewsMediaItemsForGrouping = useCallback(_ => {
+    dispatch({ type: CLEAR_NEWS_MEDIA_ITEMS_FOR_GROUPING });
+  }, []);
+
   return (
     <NewsMediaItemsContext.Provider
       value={{
@@ -169,6 +192,9 @@ const NewsMediaItemsState = ({ children }) => {
         newsMediaItem: state.newsMediaItem,
         newsMediaItemsErrors: state.newsMediaItemsErrors,
         newsMediaItemsLoading: state.newsMediaItemsLoading,
+        newsMediaItemsForGrouping: state.newsMediaItemsForGrouping,
+        newsMediaItemsForGroupingLoading:
+          state.newsMediaItemsForGroupingLoading,
         getNewsMediaItems,
         clearNewsMediaItems,
         getNewsMediaItem,
@@ -176,7 +202,9 @@ const NewsMediaItemsState = ({ children }) => {
         addNewsMediaItem,
         updateNewsMediaItem,
         clearNewsMediaItemsErrors,
-        deleteNewsMediaItem
+        deleteNewsMediaItem,
+        getNewsMediaItemsForGrouping,
+        clearNewsMediaItemsForGrouping
       }}
     >
       {children}

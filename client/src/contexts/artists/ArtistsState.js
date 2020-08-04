@@ -195,7 +195,7 @@ const ArtistsState = ({ children }) => {
     };
     try {
       await axios.post(
-        '/api/backend/artists/artDirectors/ordering',
+        '/api/backend/artists/artDirectors/artDirectorsInOrder',
         { artDirectors },
         config
       );
@@ -234,7 +234,7 @@ const ArtistsState = ({ children }) => {
     };
     try {
       await axios.post(
-        '/api/backend/artists/eventArtists/ordering',
+        '/api/backend/artists/eventArtists/eventArtistsInOrder',
         { artists },
         config
       );
@@ -250,7 +250,9 @@ const ArtistsState = ({ children }) => {
   const getArtDirectorsInOrder = useCallback(async _ => {
     dispatch({ type: SET_ART_DIRECTORS_LOADING });
     try {
-      const res = await axios.get('/api/backend/artists/artDirectors/ordering');
+      const res = await axios.get(
+        '/api/backend/artists/artDirectors/artDirectorsInOrder'
+      );
       dispatch({ type: GET_ART_DIRECTORS_IN_ORDER, payload: res.data });
     } catch (err) {
       handleServerError(err, ARTISTS_ERRORS, dispatch);
@@ -261,7 +263,9 @@ const ArtistsState = ({ children }) => {
   const getEventArtistsInOrder = useCallback(async _ => {
     dispatch({ type: SET_EVENT_ARTISTS_LOADING });
     try {
-      const res = await axios.get('/api/backend/artists/eventArtists/ordering');
+      const res = await axios.get(
+        '/api/backend/artists/eventArtists/eventArtistsInOrder'
+      );
       dispatch({ type: GET_EVENT_ARTISTS_IN_ORDER, payload: res.data });
     } catch (err) {
       handleServerError(err, ARTISTS_ERRORS, dispatch);

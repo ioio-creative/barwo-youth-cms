@@ -44,11 +44,11 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   GET api/backend/artists/eventArtists/ordering
+// @route   GET api/backend/artists/eventArtists/eventArtistsInOrder
 // @desc    Get all event artists in order
 // @access  Private
 // Note: this route is used in frontend's ArtistsOrder
-router.get('/ordering', auth, async (req, res) => {
+router.get('/eventArtistsInOrder', auth, async (req, res) => {
   await getOrderingHandling(
     res,
     Artist,
@@ -61,10 +61,10 @@ router.get('/ordering', auth, async (req, res) => {
   );
 });
 
-// @route   POST api/backend/artists/eventArtists/ordering
+// @route   POST api/backend/artists/eventArtists/eventArtistsInOrder
 // @desc    Update all event artists' order
 // @access  Private
-router.post('/ordering', auth, async (req, res) => {
+router.post('/eventArtistsInOrder', auth, async (req, res) => {
   const { artists } = req.body;
   await postOrderingHandling(res, artists, Artist, true);
 });

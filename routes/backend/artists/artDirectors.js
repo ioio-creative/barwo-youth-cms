@@ -43,11 +43,11 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   GET api/backend/artists/artDirectors/ordering
+// @route   GET api/backend/artists/artDirectors/artDirectorsInOrder
 // @desc    Get all art directors in order
 // @access  Private
 // Note: this route is used in frontend's ArtDirectorsOrder
-router.get('/ordering', auth, async (req, res) => {
+router.get('/artDirectorsInOrder', auth, async (req, res) => {
   await getOrderingHandling(
     res,
     Artist,
@@ -60,10 +60,10 @@ router.get('/ordering', auth, async (req, res) => {
   );
 });
 
-// @route   POST api/backend/artists/artDirectors/ordering
+// @route   POST api/backend/artists/artDirectors/artDirectorsInOrder
 // @desc    Update all art directors' order
 // @access  Private
-router.post('/ordering', auth, async (req, res) => {
+router.post('/artDirectorsInOrder', auth, async (req, res) => {
   const { artDirectors } = req.body;
   await postOrderingHandling(res, artDirectors, Artist, true);
 });

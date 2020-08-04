@@ -388,7 +388,6 @@ const EventEdit = _ => {
           )
         );
 
-        goToUrl(routes.eventEditByIdWithValue(true, returnedEvent._id));
         getEvent(returnedEvent._id);
       }
 

@@ -8,7 +8,10 @@ import {
   NEWS_MEDIA_ITEMS_ERRORS,
   CLEAR_NEWS_MEDIA_ITEMS_ERRORS,
   SET_NEWS_MEDIA_ITEMS_LOADING,
-  DELETE_NEWS_MEDIA_ITEM
+  DELETE_NEWS_MEDIA_ITEM,
+  GET_NEWS_MEDIA_ITEMS_FOR_GROUPING,
+  CLEAR_NEWS_MEDIA_ITEMS_FOR_GROUPING,
+  SET_NEWS_MEDIA_ITEMS_FOR_GROUPING_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -53,7 +56,8 @@ export default (state, action) => {
       return {
         ...state,
         newsMediaItemsErrors: action.payload,
-        newsMediaItemsLoading: false
+        newsMediaItemsLoading: false,
+        newsMediaItemsForGroupingLoading: false
       };
     case CLEAR_NEWS_MEDIA_ITEMS_ERRORS:
       return {
@@ -69,6 +73,23 @@ export default (state, action) => {
       return {
         ...state,
         newsMediaItemsLoading: true
+      };
+    case GET_NEWS_MEDIA_ITEMS_FOR_GROUPING:
+      return {
+        ...state,
+        newsMediaItemsForGrouping: action.payload,
+        newsMediaItemsForGroupingLoading: false
+      };
+    case CLEAR_NEWS_MEDIA_ITEMS_FOR_GROUPING:
+      return {
+        ...state,
+        newsMediaItemsForGrouping: null,
+        newsMediaItemsErrors: null
+      };
+    case SET_NEWS_MEDIA_ITEMS_FOR_GROUPING_LOADING:
+      return {
+        ...state,
+        newsMediaItemsForGroupingLoading: true
       };
     default:
       return state;

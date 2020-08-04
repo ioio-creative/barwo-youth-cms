@@ -221,7 +221,6 @@ const NewsEdit = _ => {
           )
         );
 
-        goToUrl(routes.newsEditByIdWithValue(true, returnedNews._id));
         getNews(returnedNews._id);
       }
 

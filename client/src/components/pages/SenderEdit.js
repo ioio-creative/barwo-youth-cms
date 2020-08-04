@@ -44,14 +44,10 @@ const SenderEdit = _ => {
   // fetchedSender
   useEffect(
     _ => {
-      if (fetchedSender) {
-        setSender(
-          fetchedSender
-            ? Sender.getSenderForDisplay(fetchedSender)
-            : defaultState
-        );
-        setIsAddMode(!fetchedSender);
-      }
+      setSender(
+        fetchedSender ? Sender.getSenderForDisplay(fetchedSender) : defaultState
+      );
+      setIsAddMode(!fetchedSender);
     },
     [fetchedSender]
   );

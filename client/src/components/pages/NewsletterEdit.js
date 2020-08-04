@@ -205,9 +205,6 @@ const NewsletterEdit = _ => {
           )
         );
 
-        goToUrl(
-          routes.newsletterEditByIdWithValue(true, returnedNewsletter._id)
-        );
         getNewsletter(returnedNewsletter._id);
       }
 

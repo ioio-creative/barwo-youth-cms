@@ -810,6 +810,43 @@ export default {
 
   'NewsMediaGroups.Title': 'News Media Groups',
 
+  'NewsMediaGroup.LabelLabel': 'Label',
+  'NewsMediaGroup.OrderLabel': 'Order',
+  'NewsMediaGroup.NameTcLabel': 'Name TC',
+  'NewsMediaGroup.NameScLabel': 'Name SC',
+  'NewsMediaGroup.NameEnLabel': 'Name EN',
+  'NewsMediaGroup.YearLabel': 'Year',
+  'NewsMediaGroup.NewsMediaItemsLabel': 'News Media Items',
+  'NewsMediaGroup.CreateDTLabel': 'Create DT',
+  'NewsMediaGroup.LastModifyDTLabel': 'Last Modify DT',
+  'NewsMediaGroup.LastModifyUserLabel': 'Last Modify User',
+  'NewsMediaGroup.IsEnabledLabel': 'Is Enabled ?',
+
+  'NewsMediaGroupList.AddNewsMediaGroup': 'Add News Media Group',
+  'NewsMediaGroupList.FilterTextPlaceHolder':
+    'Filter News Media Groups by name...',
+  'NewsMediaGroupList.FilterButton': 'Filter',
+  'NewsMediaGroupList.ClearFilterButton': 'Clear Filter',
+
+  'NewsMediaGroupList.NewsMediaGroupsOrder': 'Order News Media Groups',
+
+  'NewsMediaGroupEdit.BackToNewsMediaGroupList':
+    'Back to News Media Group List',
+  'NewsMediaGroupEdit.AddNewsMediaGroupTitle': 'Add News Media Group',
+  'NewsMediaGroupEdit.EditNewsMediaGroupTitle': 'Edit News Media Group',
+  'NewsMediaGroupEdit.AddNewsMediaGroupSubmit': 'Add News Media Group',
+  'NewsMediaGroupEdit.UpdateNewsMediaGroupSubmit': 'Update News Media Group',
+  'NewsMediaGroupEdit.DeleteNewsMediaGroup': 'Delete News Media Group',
+  'NewsMediaGroupEdit.DeleteNewsMediaGroupSuccessMessage':
+    'News Media Group Deleted',
+  'NewsMediaGroupEdit.AddNewsMediaGroupSuccessMessage':
+    'News Media Group Added',
+  'NewsMediaGroupEdit.UpdateNewsMediaGroupSuccessMessage':
+    'News Media Group Updated',
+
+  'NewsMediaGroupEdit.SelectNewsMediaItemsPlaceholder':
+    'Select News Media Items...',
+
   'PageMeta.Title': 'Page Meta Tags',
   'PageMeta.TitleTcLabel': 'Title TC',
   'PageMeta.TitleScLabel': 'Title SC',

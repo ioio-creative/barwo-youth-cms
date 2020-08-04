@@ -244,7 +244,6 @@ const ActivityEdit = _ => {
           )
         );
 
-        goToUrl(routes.activityEditByIdWithValue(true, returnedActivity._id));
         getActivity(returnedActivity._id);
       }
 

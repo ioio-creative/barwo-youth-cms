@@ -11,8 +11,6 @@ function NewsMediaGroup() {
   this.name_en = '';
   this.year = new Date().getFullYear();
   this.newsMediaItems = [];
-  this.sound = '';
-  /* end of media */
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
@@ -57,7 +55,7 @@ NewsMediaGroup.getNewsMediaGroupForDisplay = newsMediaGroup => {
     orderDisplay: Number.isInteger(newsMediaGroup.order)
       ? newsMediaGroup.order + 1
       : '',
-    yearDisplay: mapYearToDisplay(newsMediaGroup.year),
+    yearDisplay: newsMediaGroup.year.toString(),
     newsMediaItemsDisplay: firstOrDefault(newsMediaGroup.newsMediaItems, {
       label: ''
     }).label,

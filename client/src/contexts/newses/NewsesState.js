@@ -177,6 +177,7 @@ const NewsesState = ({ children }) => {
     return isSuccess;
   }, []);
 
+  // Delete News
   const deleteNews = useCallback(async newsId => {
     let isSuccess = false;
     dispatch({ type: SET_NEWSES_LOADING });

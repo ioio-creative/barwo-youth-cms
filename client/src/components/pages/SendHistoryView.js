@@ -58,15 +58,13 @@ const SendHistoryView = _ => {
   // fetchedSendHistory
   useEffect(
     _ => {
-      if (!sendHistoriesLoading) {
-        setSendHistory(
-          fetchedSendHistory
-            ? SendHistory.getSendHistoryForDisplay(fetchedSendHistory)
-            : defaultState
-        );
-      }
+      setSendHistory(
+        fetchedSendHistory
+          ? SendHistory.getSendHistoryForDisplay(fetchedSendHistory)
+          : defaultState
+      );
     },
-    [sendHistoriesLoading, fetchedSendHistory]
+    [fetchedSendHistory]
   );
 
   // sendHistoriesErrors

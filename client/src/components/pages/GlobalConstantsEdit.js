@@ -44,16 +44,12 @@ const GlobalConstantsEdit = _ => {
   // fetchedGlobalConstants
   useEffect(
     _ => {
-      if (fetchedGlobalConstants) {
-        setGlobalConstants(
-          fetchedGlobalConstants
-            ? GlobalConstants.getGlobalConstantsForDisplay(
-                fetchedGlobalConstants
-              )
-            : defaultState
-        );
-        setIsAddMode(!fetchedGlobalConstants);
-      }
+      setGlobalConstants(
+        fetchedGlobalConstants
+          ? GlobalConstants.getGlobalConstantsForDisplay(fetchedGlobalConstants)
+          : defaultState
+      );
+      setIsAddMode(!fetchedGlobalConstants);
     },
     [fetchedGlobalConstants]
   );

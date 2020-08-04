@@ -216,7 +216,6 @@ const PhaseEdit = _ => {
           )
         );
 
-        goToUrl(routes.phaseEditByIdWithValue(true, returnedPhase._id));
         getPhase(returnedPhase._id);
       }
 

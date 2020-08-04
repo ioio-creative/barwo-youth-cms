@@ -53,23 +53,23 @@ const sendHistoryPopulationListForFindOne = [
 ];
 
 const emailSend = async (contact, emailAddress, name, title, message) => {
-  // let transporter = nodemailer.createTransport({
-  //   host: 'email-smtp.ap-southeast-1.amazonaws.com',
-  //   port: 587,
-  //   secure: false, // true for 465, false for other ports
-  //   auth: {
-  //     user: em.username, // generated ethereal user
-  //     pass: em.password // generated ethereal password
-  //   }
-  // });
-  // // send mail with defined transport object
-  // const info = await transporter.sendMail({
-  //   from: `"${name}" ${emailAddress}`, // sender address
-  //   to: contact.emailAddress, // Receivers
-  //   subject: title, // Subject line
-  //   html: message // html body
-  // });
-  // console.log(info);
+  const transporter = nodemailer.createTransport({
+    host: 'email-smtp.ap-southeast-1.amazonaws.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: em.username, // generated ethereal user
+      pass: em.password // generated ethereal password
+    }
+  });
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: `"${name}" ${emailAddress}`, // sender address
+    to: contact.emailAddress, // Receivers
+    subject: title, // Subject line
+    html: message // html body
+  });
+  //console.log(info);
 };
 
 // @route   POST api/backend/newsletters/sendHistory

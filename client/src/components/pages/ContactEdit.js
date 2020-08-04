@@ -169,7 +169,6 @@ const ContactEdit = _ => {
           )
         );
 
-        goToUrl(routes.contactEditByIdWithValue(true, returnedContact._id));
         getContact(returnedContact._id);
       }
 

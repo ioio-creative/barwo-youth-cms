@@ -75,19 +75,17 @@ const NewsMediaItemEdit = _ => {
   // fetchedNewsMediaItem
   useEffect(
     _ => {
-      if (!newsMediaItemsLoading) {
-        setNewsMediaItem(
-          fetchedNewsMediaItem
-            ? NewsMediaItem.getNewsMediaItemForDisplay(fetchedNewsMediaItem)
-            : defaultState
-        );
-        if (fetchedNewsMediaItem) {
-          setGalleryPicked(getArraySafe(fetchedNewsMediaItem.gallery));
-        }
-        setIsAddMode(!fetchedNewsMediaItem);
+      setNewsMediaItem(
+        fetchedNewsMediaItem
+          ? NewsMediaItem.getNewsMediaItemForDisplay(fetchedNewsMediaItem)
+          : defaultState
+      );
+      if (fetchedNewsMediaItem) {
+        setGalleryPicked(getArraySafe(fetchedNewsMediaItem.gallery));
       }
+      setIsAddMode(!fetchedNewsMediaItem);
     },
-    [newsMediaItemsLoading, fetchedNewsMediaItem]
+    [fetchedNewsMediaItem]
   );
 
   // newsMediaItemsErrors
@@ -196,9 +194,6 @@ const NewsMediaItemEdit = _ => {
           )
         );
 
-        goToUrl(
-          routes.newsMediaItemEditByIdWithValue(true, returnedNewsMediaItem._id)
-        );
         getNewsMediaItem(returnedNewsMediaItem._id);
       }
 
