@@ -12,6 +12,7 @@ import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import LabelRichTextbox from '../form/LabelRichTextbox';
+import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
@@ -22,6 +23,7 @@ import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
+import { formatDateString } from 'utils/datetime';
 
 const emptyNewsMediaItem = new NewsMediaItem();
 const defaultState = emptyNewsMediaItem;
@@ -170,6 +172,9 @@ const NewsMediaItemEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
+      // format dates
+      newsMediaItem.fromDate = formatDateString(newsMediaItem.fromDate);
+
       // add gallery
       newsMediaItem.gallery = getArraySafe(galleryPicked).map(medium => {
         return medium._id;
@@ -279,6 +284,16 @@ const NewsMediaItemEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
+        />
+
+        <LabelDatePickerPair
+          name='fromDate'
+          value={newsMediaItem.fromDate}
+          labelMessage={uiWordings['NewsMediaItem.FromDateLabel']}
+          placeholder={
+            uiWordings['NewsMediaItemEdit.SelectFromDatePlaceholder']
+          }
+          onChange={onChange}
         />
 
         <AccordionRegion

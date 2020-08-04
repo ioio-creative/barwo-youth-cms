@@ -805,6 +805,8 @@ export default {
   'NewsMediaItemEdit.UpdateNewsMediaItemSuccessMessage':
     'News Media Item Updated',
 
+  'NewsMediaItemEdit.SelectFromDatePlaceholder': 'Click to select date',
+
   'NewsMediaItemEdit.MediaRegionTitle': 'Media',
   'NewsMediaItemEdit.DescriptionRegionTitle': 'Description',
 

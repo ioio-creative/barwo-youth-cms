@@ -28,6 +28,7 @@ import { goToUrl } from 'utils/history';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
+import { formatDateString } from 'utils/datetime';
 
 const emptyActivity = new Activity();
 const defaultState = emptyActivity;
@@ -196,6 +197,10 @@ const ActivityEdit = _ => {
       setIsSubmitEnabled(false);
       removeAlerts();
       e.preventDefault();
+
+      // format dates
+      activity.fromDate = formatDateString(activity.fromDate);
+      activity.toDate = formatDateString(activity.toDate);
 
       // add featuredImage
       activity.featuredImage = featuredImagePicked

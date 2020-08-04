@@ -1,4 +1,4 @@
-import { formatDateTimeString } from 'utils/datetime';
+import { formatDateString, formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
@@ -55,7 +55,7 @@ NewsMediaItem.getNewsMediaItemForDisplay = newsMediaItem => {
   return {
     ...newsMediaItem,
     fromDateDisplay: newsMediaItem.fromDate
-      ? formatDateTimeString(newsMediaItem.fromDate)
+      ? formatDateString(newsMediaItem.fromDate)
       : null,
     createDTDisplay: formatDateTimeString(newsMediaItem.createDT),
     lastModifyDTDisplay: formatDateTimeString(newsMediaItem.lastModifyDT),
