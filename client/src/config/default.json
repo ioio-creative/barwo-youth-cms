@@ -11,6 +11,7 @@
     "numberOfFilesInExplorer": 30,
     "filesCount": 20,
     "fileSizeInMBs": 20,
-    "fileUploadAlertTimeoutInMs": 5000
+    "fileUploadAlertTimeoutInMs": 5000,
+    "searchDelayTimeout": 600
   }
 }
