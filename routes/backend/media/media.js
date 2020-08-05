@@ -342,6 +342,7 @@ router.get(
 // @access  Private
 // Note: req.query may contain width and height if the file uploaded is an image
 // e.g. req.query.width, req.query.height
+// image width and height are for resizing in multer-s3-transform
 router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
   try {
     /* upload to s3 */
