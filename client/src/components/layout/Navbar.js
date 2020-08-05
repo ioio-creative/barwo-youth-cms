@@ -45,63 +45,75 @@ NavbarLink.defaultProps = {
 const Navbar = ({ className }) => {
   const { logout, authUser, isAuthUserAdmin } = useContext(AuthContext);
 
-  const isPasswordChange = useRouteMatch(routes.editPassword);
-  const isUserList = useRouteMatch(routes.userList(false));
-  const isUserEdit = useRouteMatch(routes.userEditById);
-  const isUserAdd = useRouteMatch(routes.userAdd(false));
+  const isPasswordChange = Boolean(useRouteMatch(routes.editPassword));
+  const isUserList = Boolean(useRouteMatch(routes.userList(false)));
+  const isUserEdit = Boolean(useRouteMatch(routes.userEditById));
+  const isUserAdd = Boolean(useRouteMatch(routes.userAdd(false)));
 
-  const isAboutEdit = useRouteMatch(routes.aboutEdit(false));
+  const isAboutEdit = Boolean(useRouteMatch(routes.aboutEdit(false)));
 
-  const isGlobalConstantsEdit = useRouteMatch(
-    routes.globalConstantsEdit(false)
+  const isGlobalConstantsEdit = Boolean(
+    useRouteMatch(routes.globalConstantsEdit(false))
   );
-  const isLandingPageEdit = useRouteMatch(routes.landingPageEdit(false));
-
-  const isPhaseList = useRouteMatch(routes.phaseList(false));
-  const isPhaseEdit = useRouteMatch(routes.phaseEditById);
-  const isPhaseAdd = useRouteMatch(routes.phaseAdd(false));
-
-  const isEventList = useRouteMatch(routes.eventList(false));
-  const isEventEdit = useRouteMatch(routes.eventEditById);
-  const isEventAdd = useRouteMatch(routes.eventAdd(false));
-
-  const isTicketingDefaultEdit = useRouteMatch(
-    routes.ticketingDefaultEdit(false)
+  const isLandingPageEdit = Boolean(
+    useRouteMatch(routes.landingPageEdit(false))
   );
 
-  const isArtistList = useRouteMatch(routes.artistList(false));
-  const isArtistEdit = useRouteMatch(routes.artistEditById);
-  const isArtistAdd = useRouteMatch(routes.artistAdd(false));
-  const isArtDirectorsOrder = useRouteMatch(routes.artDirectorsOrder(false));
-  const isArtistsOrder = useRouteMatch(routes.artistsOrder(false));
+  const isPhaseList = Boolean(useRouteMatch(routes.phaseList(false)));
+  const isPhaseEdit = Boolean(useRouteMatch(routes.phaseEditById));
+  const isPhaseAdd = Boolean(useRouteMatch(routes.phaseAdd(false)));
 
-  const isActivityList = useRouteMatch(routes.activityList(false));
-  const isActivityEdit = useRouteMatch(routes.activityEditById);
-  const isActivityAdd = useRouteMatch(routes.activityAdd(false));
+  const isEventList = Boolean(useRouteMatch(routes.eventList(false)));
+  const isEventEdit = Boolean(useRouteMatch(routes.eventEditById));
+  const isEventAdd = Boolean(useRouteMatch(routes.eventAdd(false)));
 
-  const isNewsList = useRouteMatch(routes.newsList(false));
-  const isNewsEdit = useRouteMatch(routes.newsEditById);
-  const isNewsAdd = useRouteMatch(routes.newsAdd(false));
-  const isNewsesOrder = useRouteMatch(routes.newsesOrder(false));
+  const isTicketingDefaultEdit = Boolean(
+    useRouteMatch(routes.ticketingDefaultEdit(false))
+  );
 
-  const isNewsMediaItemList = useRouteMatch(routes.newsMediaItemList(false));
-  const isNewsMediaItemEdit = useRouteMatch(routes.newsMediaItemEditById);
-  const isNewsMediaItemAdd = useRouteMatch(routes.newsMediaItemAdd(false));
+  const isArtistList = Boolean(useRouteMatch(routes.artistList(false)));
+  const isArtistEdit = Boolean(useRouteMatch(routes.artistEditById));
+  const isArtistAdd = Boolean(useRouteMatch(routes.artistAdd(false)));
+  const isArtDirectorsOrder = Boolean(
+    useRouteMatch(routes.artDirectorsOrder(false))
+  );
+  const isArtistsOrder = Boolean(useRouteMatch(routes.artistsOrder(false)));
 
-  const isContactList = useRouteMatch(routes.contactList(false));
-  const isContactEdit = useRouteMatch(routes.contactEditById);
-  const isContactAdd = useRouteMatch(routes.contactAdd(false));
+  const isActivityList = Boolean(useRouteMatch(routes.activityList(false)));
+  const isActivityEdit = Boolean(useRouteMatch(routes.activityEditById));
+  const isActivityAdd = Boolean(useRouteMatch(routes.activityAdd(false)));
 
-  const isNewsletterList = useRouteMatch(routes.newsletterList(false));
-  const isNewsletterEdit = useRouteMatch(routes.newsletterEditById);
-  const isNewsletterAdd = useRouteMatch(routes.newsletterAdd(false));
+  const isNewsList = Boolean(useRouteMatch(routes.newsList(false)));
+  const isNewsEdit = Boolean(useRouteMatch(routes.newsEditById));
+  const isNewsAdd = Boolean(useRouteMatch(routes.newsAdd(false)));
+  const isNewsesOrder = Boolean(useRouteMatch(routes.newsesOrder(false)));
 
-  const isSendHistoryList = useRouteMatch(routes.sendHistoryList(false));
-  const isSendHistoryView = useRouteMatch(routes.sendHistoryViewById);
+  const isNewsMediaItemList = Boolean(
+    useRouteMatch(routes.newsMediaItemList(false))
+  );
+  const isNewsMediaItemEdit = Boolean(
+    useRouteMatch(routes.newsMediaItemEditById)
+  );
+  const isNewsMediaItemAdd = Boolean(
+    useRouteMatch(routes.newsMediaItemAdd(false))
+  );
 
-  const isSenderEdit = useRouteMatch(routes.senderEdit(false));
+  const isContactList = Boolean(useRouteMatch(routes.contactList(false)));
+  const isContactEdit = Boolean(useRouteMatch(routes.contactEditById));
+  const isContactAdd = Boolean(useRouteMatch(routes.contactAdd(false)));
 
-  const isTesting = useRouteMatch(routes.testing);
+  const isNewsletterList = Boolean(useRouteMatch(routes.newsletterList(false)));
+  const isNewsletterEdit = Boolean(useRouteMatch(routes.newsletterEditById));
+  const isNewsletterAdd = Boolean(useRouteMatch(routes.newsletterAdd(false)));
+
+  const isSendHistoryList = Boolean(
+    useRouteMatch(routes.sendHistoryList(false))
+  );
+  const isSendHistoryView = Boolean(useRouteMatch(routes.sendHistoryViewById));
+
+  const isSenderEdit = Boolean(useRouteMatch(routes.senderEdit(false)));
+
+  const isTesting = Boolean(useRouteMatch(routes.testing));
 
   /* event handlers */
 

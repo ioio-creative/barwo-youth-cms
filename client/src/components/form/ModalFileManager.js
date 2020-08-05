@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import Modal from 'components/layout/Modal';
+import Alerts from 'components/layout/Alerts';
 import FileManager from 'components/form/FileManager';
 import uiWordings from 'globals/uiWordings';
 
@@ -28,7 +29,8 @@ const ModalFileManager = ({
       contentLabel={title}
       openButtonChildren={openButtonChildren}
     >
-      <h4>{title}</h4>
+      <Alerts />
+      {title && <h4>{title}</h4>}
       <FileManager
         onSelect={onSelectReturn}
         multiple={isMultiple}

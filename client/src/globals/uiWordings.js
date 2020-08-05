@@ -846,7 +846,7 @@ export default {
   'FileManager.DeleteFile': 'Delete File',
   'FileManager.UploadButton': 'Upload',
   'FileManager.DragToUploadHint': 'Drop File To Upload',
-  'FileManager.NumberOfFilesSelectedSuffix': ' files selected',
+  'FileManager.NumberOfFilesSelectedSuffix': 'files selected',
 
   'FileUpload.TitleForSingleUpload': 'File Manager',
   'FileUpload.TitleForMultipleUpload': 'File Manager (Multiple)'

@@ -7,7 +7,8 @@ const { check } = require('express-validator');
 const config = require('config');
 const aws = require('aws-sdk');
 const multer = require('multer');
-const multerS3 = require('multer-s3');
+const multerS3 = require('multer-s3-transform');
+const sharp = require('sharp');
 
 const auth = require('../../../middleware/auth');
 const validationHandling = require('../../../middleware/validationHandling');
@@ -18,6 +19,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const firstOrDefault = require('../../../utils/js/array/firstOrDefault');
 const prettyStringify = require('../../../utils/JSON/prettyStringify');
 const {
   Medium,
@@ -27,19 +29,54 @@ const {
 } = require('../../../models/Medium');
 const { MediumTag } = require('../../../models/MediumTag');
 
+/* constants */
+
+const awsAccessKeyId = config.get('Aws.accessKeyId');
+const awsSecretAccessKey = config.get('Aws.secretAccessKey');
+
+const awsS3Region = config.get('Aws.s3.region');
+const awsS3Bucket = config.get('Aws.s3.bucket');
+const awsS3LimitsFileSizeInMbs = config.get('Aws.s3.limits.fileSizeInMBs');
+const awsS3LimitsFiles = config.get('Aws.s3.limits.files');
+
+const imageWidthCeiling = config.get('Media.image.widthCeiling');
+const imageHeightCeiling = config.get('Media.image.heightCeiling');
+
+const resizeImageTransformId = 'resizeImage';
+
+/* end of constants */
+
 /* s3 utils */
 // https://www.npmjs.com/package/multer-s3
+// https://www.npmjs.com/package/multer-s3-transform (same thing?)
 
-const changeFileName = originalName => {
+const getNewFileName = originalName => {
   const extWithDot = path.extname(originalName);
   const nameWithoutExt = originalName.substr(0, originalName.lastIndexOf('.'));
   return `${nameWithoutExt}-${Date.now()}${extWithDot}`;
 };
 
+const getFileKey = (mediumTypeObj, fileOriginalName) => {
+  const newFileName = getNewFileName(fileOriginalName);
+  return `files/${mediumTypeObj.route}/${newFileName}`;
+};
+
+// to cater for mediumTypeFromUrl.type === mediumTypes.ALL.type case
+const changeReqMediumTypeIfItEqualsAllType = (req, fileMimeType) => {
+  if (req.mediumType.type === mediumTypes.ALL.type) {
+    for (let mediumType of mediumTypesArray) {
+      if (mediumType.allowedMimeTypes.includes(fileMimeType)) {
+        req.mediumType = mediumType;
+        break;
+      }
+    }
+  }
+};
+
 const s3 = new aws.S3({
-  accessKeyId: config.get('Aws.accessKeyId'),
-  secretAccessKey: config.get('Aws.secretAccessKey'),
-  region: config.get('Aws.s3.region')
+  accessKeyId: awsAccessKeyId,
+  secretAccessKey: awsSecretAccessKey,
+  region: awsS3Region
 });
 
 /**
@@ -51,33 +88,76 @@ const s3 = new aws.S3({
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: config.get('Aws.s3.bucket'),
+    bucket: awsS3Bucket,
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     // https://stackoverflow.com/questions/44028876/how-to-specify-upload-directory-in-multer-s3-for-aws-s3-bucket
     key: function (req, file, cb) {
-      const changedFileName = changeFileName(file.originalname);
-
       // to cater for mediumTypeFromUrl.type === mediumTypes.ALL.type case
-      const mediumTypeFromUrl = req.mediumType;
-      if (mediumTypeFromUrl.type === mediumTypes.ALL.type) {
-        for (let mediumType of mediumTypesArray) {
-          if (mediumType.allowedMimeTypes.includes(file.mimetype)) {
-            req.mediumType = mediumType;
-            break;
-          }
+      changeReqMediumTypeIfItEqualsAllType(req, file.mimetype);
+
+      const fullPath = getFileKey(req.mediumType, file.originalname);
+      cb(null, fullPath);
+    },
+    // https://www.npmjs.com/package/multer-s3-transform
+    shouldTransform: function (req, file, cb) {
+      // to cater for mediumTypeFromUrl.type === mediumTypes.ALL.type case
+      changeReqMediumTypeIfItEqualsAllType(req, file.mimetype);
+
+      let isTransformRequired = false;
+
+      if (
+        req.mediumType.type === mediumTypes.IMAGE.type &&
+        mediumTypes.IMAGE.resizableMimeTypes.includes(file.mimetype)
+      ) {
+        const width = req.query.width;
+        const height = req.query.height;
+        if (width && height) {
+          const isHorizontal = width >= height;
+          isTransformRequired =
+            (isHorizontal && width > imageWidthCeiling) ||
+            (!isHorizontal && height > imageHeightCeiling);
         }
       }
 
-      const fullPath = `files/${req.mediumType.route}/${changedFileName}`;
-      cb(null, fullPath);
-    }
+      cb(null, isTransformRequired);
+    },
+    // https://stackoverflow.com/questions/45281726/how-to-resize-an-image-and-upload-using-multer-in-nodejs-to-s3-and-using-easy-im
+    transforms: [
+      {
+        id: resizeImageTransformId,
+        key: function (req, file, cb) {
+          const fullPath = getFileKey(req.mediumType, file.originalname);
+          cb(null, fullPath);
+        },
+        transform: function (req, file, cb) {
+          let transformFunc = null;
+
+          if (
+            req.mediumType.type === mediumTypes.IMAGE.type &&
+            mediumTypes.IMAGE.resizableMimeTypes.includes(file.mimetype)
+          ) {
+            const width = req.query.width;
+            const height = req.query.height;
+            if (width && height) {
+              isHorizontal = width >= height;
+              transformFunc = sharp().resize({
+                width: isHorizontal ? imageWidthCeiling : null,
+                height: !isHorizontal ? imageHeightCeiling : null,
+                fit: 'contain'
+              });
+            }
+          }
+          cb(null, transformFunc);
+        }
+      }
+    ]
   }),
   // https://www.npmjs.com/package/multer#limits
   limits: {
     // https://stackoverflow.com/questions/56640410/cant-upload-large-files-to-aws-with-multer-s3-nodejs
-    fileSize: config.get('Aws.s3.limits.fileSizeInMBs') * 1024 * 1024,
-    files: config.get('Aws.s3.limits.files')
+    fileSize: awsS3LimitsFileSizeInMbs * 1024 * 1024,
+    files: awsS3LimitsFiles
   },
   // https://www.npmjs.com/package/multer
   fileFilter: async function (req, file, cb) {
@@ -99,10 +179,10 @@ const upload = multer({
 });
 
 const getUploadMultipleFilesMiddleware = fieldName =>
-  util.promisify(upload.array(fieldName, config.get('Aws.s3.limits.files')));
+  util.promisify(upload.array(fieldName, awsS3LimitsFiles));
 
 const getUploadSingleFilesMiddleware = fieldName =>
-  util.promisify(upload.single(fieldName, config.get('Aws.s3.limits.files')));
+  util.promisify(upload.single(fieldName));
 
 const uploadMultipleFilesMiddleware = getUploadMultipleFilesMiddleware('media');
 
@@ -260,6 +340,8 @@ router.get(
 // @route   POST api/backend/media/:mediumType
 // @desc    Add medium of a particular mediumType, e.g. 'images', 'videos', etc.
 // @access  Private
+// Note: req.query may contain width and height if the file uploaded is an image
+// e.g. req.query.width, req.query.height
 router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
   try {
     /* upload to s3 */
@@ -289,45 +371,58 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
 
     /* save to db */
 
-    const {
-      alernativeText,
-      tags,
-      //usages,
-      isEnabled
-    } = req.body;
-    const name = path.basename(file.key);
-    const type = req.mediumType.type;
-    const url = file.location;
+    // const {
+    //   alernativeText,
+    //   tags,
+    //   //usages,
+    //   isEnabled
+    // } = req.body;
 
-    const session = await mongoose.startSession();
-    session.startTransaction();
+    const resizeImageTransform = firstOrDefault(
+      getArraySafe(file.transforms).filter(
+        transform => transform.id === resizeImageTransformId
+      ),
+      null
+    );
+
+    const name = path.basename(
+      file.key || (resizeImageTransform ? resizeImageTransform.key : '')
+    );
+    const type = req.mediumType.type;
+    const url =
+      file.location ||
+      (resizeImageTransform ? resizeImageTransform.location : '');
+
+    // const session = await mongoose.startSession();
+    // session.startTransaction();
 
     try {
       const medium = new Medium({
         name,
-        alernativeText,
+        //alernativeText,
         type,
         url,
-        tags: getArraySafe(tags),
+        //tags: getArraySafe(tags),
         //usages,
-        isEnabled,
+        //isEnabled,
         lastModifyUser: req.user._id
       });
 
-      await medium.save({ session });
+      //await medium.save({ session });
+      medium.save();
 
-      await setMediumForTags(medium._id, tags, session);
+      //await setMediumForTags(medium._id, tags, session);
 
-      await session.commitTransaction();
+      //await session.commitTransaction();
 
       res.json(medium);
     } catch (err) {
-      await session.abortTransaction();
+      //await session.abortTransaction();
       if (!handleMediumNameDuplicateKeyError(err, res)) {
         generalErrorHandle(err, res);
       }
     } finally {
-      session.endSession();
+      //session.endSession();
     }
   } catch (err) {
     console.error(prettyStringify(err));

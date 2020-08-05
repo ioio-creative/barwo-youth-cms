@@ -52,12 +52,43 @@ Medium.mediaResponseTypes = {
 };
 
 const mediumTypes = {
-  ALL: { value: 'ALL', label: 'all', apiRoute: 'alls' },
-  IMAGE: { value: 'IMAGE', label: 'image', apiRoute: 'images' },
-  VIDEO: { value: 'VIDEO', label: 'video', apiRoute: 'videos' },
-  AUDIO: { value: 'AUDIO', label: 'audio', apiRoute: 'audios' },
-  PDF: { value: 'PDF', label: 'pdf', apiRoute: 'pdfs' }
+  ALL: {
+    value: 'ALL',
+    label: 'all',
+    apiRoute: 'alls'
+  },
+  IMAGE: {
+    value: 'IMAGE',
+    label: 'image',
+    apiRoute: 'images',
+    allowedMimeTypes: ['image/png', 'image/gif', 'image/jpeg', 'image/webp'],
+    resizableMimeTypes: ['image/png', 'image/jpeg', 'image/webp']
+  },
+  VIDEO: {
+    value: 'VIDEO',
+    label: 'video',
+    apiRoute: 'videos',
+    allowedMimeTypes: ['video/mpeg', 'video/webm', 'video/mp4']
+  },
+  AUDIO: {
+    value: 'AUDIO',
+    label: 'audio',
+    apiRoute: 'audios',
+    allowedMimeTypes: ['audio/mpeg', 'audio/ogg', 'audio/wav']
+  },
+  PDF: {
+    value: 'PDF',
+    label: 'pdf',
+    apiRoute: 'pdfs',
+    allowedMimeTypes: ['application/pdf']
+  }
 };
+
+mediumTypes.ALL.allowedMimeTypes = mediumTypes.IMAGE.allowedMimeTypes.concat(
+  mediumTypes.VIDEO.allowedMimeTypes,
+  mediumTypes.AUDIO.allowedMimeTypes,
+  mediumTypes.PDF.allowedMimeTypes
+);
 
 Medium.mediumTypes = mediumTypes;
 

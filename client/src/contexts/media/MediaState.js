@@ -91,28 +91,34 @@ const MediaState = ({ children }) => {
   }, []);
 
   // Add Medium
-  const addMedium = useCallback(async (mediumType, medium, userConfig) => {
-    let newMedium = null;
-    dispatch({ type: SET_MEDIA_LOADING });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      ...userConfig
-    };
-    try {
-      const res = await axios.post(
-        `/api/backend/media/${mediumType.apiRoute}`,
-        medium,
-        config
-      );
-      dispatch({ type: ADD_MEDIUM, payload: res.data });
-      newMedium = res.data;
-    } catch (err) {
-      handleServerError(err, MEDIA_ERRORS, dispatch);
-    }
-    return newMedium;
-  }, []);
+  const addMedium = useCallback(
+    async (mediumType, medium, userConfig, query) => {
+      let newMedium = null;
+      dispatch({ type: SET_MEDIA_LOADING });
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        ...userConfig
+      };
+      const queryString = setQueryStringValues({
+        ...query
+      });
+      try {
+        const res = await axios.post(
+          `/api/backend/media/${mediumType.apiRoute}${queryString}`,
+          medium,
+          config
+        );
+        dispatch({ type: ADD_MEDIUM, payload: res.data });
+        newMedium = res.data;
+      } catch (err) {
+        handleServerError(err, MEDIA_ERRORS, dispatch);
+      }
+      return newMedium;
+    },
+    []
+  );
 
   // Update Medium
   const updateMedium = useCallback(async (mediumType, medium) => {

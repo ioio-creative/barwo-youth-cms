@@ -14,11 +14,19 @@ const newsMediaItemSelectForFindAll = {
   isEnabled: 0,
   createDT: 0,
   lastModifyDT: 0,
-  lastModifyUser: 0
+  lastModifyUser: 0,
+
+  desc_tc: 0,
+  desc_sc: 0,
+  desc_en: 0
 };
 
 const newsMediaItemSelectForFindOne = {
-  ...newsMediaItemSelectForFindAll
+  ...newsMediaItemSelectForFindAll,
+
+  desc_tc: 1,
+  desc_sc: 1,
+  desc_en: 1
 };
 
 const newsMediaItemPopulationListForFindAll = [

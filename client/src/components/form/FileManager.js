@@ -9,6 +9,7 @@ import React, {
 import { useParams } from 'react-router-dom';
 import { useQueryParam, NumberParam } from 'use-query-params';
 
+import Loading from 'components/layout/loading/DefaultLoading';
 import MediaState from 'contexts/media/MediaState';
 import MediaContext from 'contexts/media/mediaContext';
 import AlertContext from 'contexts/alert/alertContext';
@@ -19,7 +20,7 @@ import Label from './Label';
 import InputText from './InputText';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
-import Loading from 'components/layout/loading/DefaultLoading';
+import getImageFromFile from 'utils/image/getImageFromFile';
 import config from 'config/default.json';
 import './FileManager.css';
 
@@ -136,32 +137,52 @@ const UploadingElement = ({
       formData.append('media', file);
       // }
 
-      const additonalFormData = {
-        alernativeText: 'alt',
-        tags: [],
-        isEnabled: true
-      };
+      /**
+       * Note: the current backend POST route does not cater for additonalFormData
+       * But can change these fields in PUT route
+       */
+      // const additonalFormData = {
+      //   alernativeText: 'alt',
+      //   tags: [],
+      //   isEnabled: true
+      // };
 
-      for (const pair of Object.entries(additonalFormData)) {
-        formData.append(pair[0], pair[1]);
-      }
-
-      // console.log('formData to upload:');
-      // for (const pair of formData.entries()) {
-      //   console.log(pair[0] + ', ' + pair[1]);
+      // for (const pair of Object.entries(additonalFormData)) {
+      //   formData.append(pair[0], pair[1]);
       // }
 
-      const addMediumPromise = addMedium(mediumType, formData, {
-        onUploadProgress: event => {
-          setUploadedPercent((event.loaded / event.total) * 100);
-        }
-      });
+      const asyncOperation = async _ => {
+        const query = {};
 
-      addMediumPromise.then(newMedium => {
+        // if it's image, add width and height to query
+        if (mediumTypes.IMAGE.resizableMimeTypes.includes(file.type)) {
+          const img = await getImageFromFile(file);
+          query.width = img.width;
+          query.height = img.height;
+        }
+
+        // console.log('formData to upload:');
+        // for (const pair of formData.entries()) {
+        //   console.log(pair[0] + ', ' + pair[1]);
+        // }
+
+        const newMedium = await addMedium(
+          mediumType,
+          formData,
+          {
+            onUploadProgress: event => {
+              setUploadedPercent((event.loaded / event.total) * 100);
+            }
+          },
+          query
+        );
+
         // console.log('newMedium:');
         // console.log(newMedium);
         onComplete(newMedium);
-      });
+      };
+
+      asyncOperation();
     },
     [file, mediumType, onComplete, addMedium]
   );
@@ -326,10 +347,9 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
   const handleUpload = useCallback(
     files => {
       const filesArray = Array.from(files);
-      // TODO: can set the limit number of files and file size here
+      // set the limit number of files and file size here
       if (filesArray.length > maxFileUploadCount) {
         setAlerts(
-          // mediaErrors.map(mediaError => {
           [
             new Alert(
               Medium.mediaResponseTypes.TOO_MANY_FILES.msg,
@@ -337,13 +357,24 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
             )
           ],
           fileUploadAlertTimeout
-          // })
         );
       }
       const newQueue = filesArray.slice(0, maxFileUploadCount).map(file => {
+        if (!mediumTypeObj.allowedMimeTypes.includes(file.type)) {
+          setAlerts(
+            [
+              new Alert(
+                `${file.name} - ${Medium.mediaResponseTypes.NO_FILE_UPLOADED_OR_OF_WRONG_TYPE.msg}`,
+                Alert.alertTypes.WARNING
+              )
+            ],
+            fileUploadAlertTimeout
+          );
+          return null;
+        }
+
         if (file.size > maxFileUploadSize) {
           setAlerts(
-            // mediaErrors.map(mediaError => {
             [
               new Alert(
                 `${file.name} - ${Medium.mediaResponseTypes.FILE_TOO_LARGE.msg}`,
@@ -351,19 +382,18 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
               )
             ],
             fileUploadAlertTimeout
-            // })
           );
           return null;
-        } else {
-          return (
-            <UploadingElement
-              key={Date.now()}
-              file={file}
-              onComplete={addMedium}
-              mediumType={mediumTypeObj}
-            />
-          );
         }
+
+        return (
+          <UploadingElement
+            key={Date.now()}
+            file={file}
+            onComplete={addMedium}
+            mediumType={mediumTypeObj}
+          />
+        );
       });
       setUploadingQueue(prevUploadingQueue => {
         return [...prevUploadingQueue, ...newQueue];
@@ -752,7 +782,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
               <div className='w3-row w3-section'>
                 <Label message='Media Preview' />
                 <br />
-                {`${selectedFile.length}${uiWordings['FileManager.SelectFile']}`}
+                {`${selectedFile.length} ${uiWordings['FileManager.NumberOfFilesSelectedSuffix']}`}
               </div>
               <div className='w3-center action-btn-wrapper'>
                 <div

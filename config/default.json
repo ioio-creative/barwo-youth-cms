@@ -38,5 +38,11 @@
     "password": {
       "minLength": 6
     }
+  },
+  "Media": {
+    "image": {
+      "widthCeiling": 1920,
+      "heightCeiling": 1920
+    }
   }
 }

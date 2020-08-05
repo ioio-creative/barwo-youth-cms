@@ -19,8 +19,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         console.log('PrivateRoute: redirect to login');
       }
     },
-    [isAuthenticated, authLoading]
+    [isRedirectToLogin]
   );
+
   return (
     <Route
       {...rest}
