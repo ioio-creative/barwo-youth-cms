@@ -244,6 +244,7 @@ export default {
   'LandingPage.FeaturedVideoLabel': 'Featured Video',
   'LandingPage.FeaturedVideo2Label': 'Featured Video 2',
   'LandingPage.FeaturedArtistsLabel': 'Featured Artists',
+  'LandingPage.FeaturedActivitiesLabel': 'Featured Activities',
   'LandingPage.LastModifyDTLabel': 'Last Modify DT',
   'LandingPage.LastModifyUserLabel': 'Last Modify User',
 
@@ -252,6 +253,10 @@ export default {
   'LandingPageEdit.UpdateLandingPageSuccessMessage': 'Landing Page Updated',
   'LandingPageEdit.SelectFeaturedArtistsPlaceholder':
     'Select Featured Artists...',
+  'LandingPageEdit.SelectFeaturedActivitiesPlaceholder':
+    'Select Featured Activities...',
+
+  'LandingPageEdit.MediaRegionTitle': 'Media',
 
   'GlobalConstants.Title': 'Global Constants',
 
@@ -784,6 +789,7 @@ export default {
   'NewsMediaItem.DescEnLabel': 'Desc EN',
   'NewsMediaItem.ThumbnailLabel': 'Thumbnail',
   'NewsMediaItem.GalleryLabel': 'Gallery',
+  'NewsMediaItem.VideoLinksLabel': 'Video Links',
   'NewsMediaItem.CreateDTLabel': 'Create DT',
   'NewsMediaItem.LastModifyDTLabel': 'Last Modify DT',
   'NewsMediaItem.LastModifyUserLabel': 'Last Modify User',

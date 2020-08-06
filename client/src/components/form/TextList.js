@@ -1,23 +1,31 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback /*, useEffect*/ } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import InputText from 'components/form/InputText';
+import TextArea from 'components/form/TextArea';
+//import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
 import guid from 'utils/guid';
 
-/* globals */
-
-let inputTextType = 'text';
-
-/* end of globals */
-
 /* constants */
 
-const mapTextToListItem = text => {
+const emptyTextItemForAdd = {
+  text: ''
+};
+
+const mapTextToTextItem = text => {
   return {
-    text: text,
-    draggableId: guid()
+    text
+  };
+};
+
+const getTextFromTextItem = textItem => textItem.text;
+
+const mapTextItemToListItem = textItem => {
+  return {
+    ...textItem,
+    draggableId: textItem.draggableId || guid()
   };
 };
 
@@ -25,33 +33,40 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...LabelSortableListPair.getItemStyleDefault(isDragging, draggableStyle)
 });
 
-const getListStyle = isDraggingOver => ({
-  ...LabelSortableListPair.getListStyleDefault(isDraggingOver),
-  width: 350
-});
-
 /* end of constants */
 
 /* item */
 
-const Item = ({ text, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({
+  textItem,
+  handleItemRemoved,
+  handleItemChange,
+  inputType,
+  isUseTextArea,
+  index
+}) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
-    newText => {
-      handleItemChange(newText, index);
+    newTextItem => {
+      handleItemChange(newTextItem, index);
     },
     [handleItemChange, index]
   );
+
+  /* end of methods */
 
   /* event handlers */
 
   const onChange = useCallback(
     e => {
-      const newText = e.target.value;
-      dealWithItemChange(newText);
+      const newTextItem = {
+        ...textItem,
+        [e.target.name]: e.target.value
+      };
+      dealWithItemChange(newTextItem);
     },
-    [dealWithItemChange]
+    [textItem, dealWithItemChange]
   );
 
   const onRemoveButtonClick = useCallback(
@@ -62,6 +77,8 @@ const Item = ({ text, handleItemRemoved, handleItemChange, index }) => {
   );
 
   /* end of event handlers */
+
+  const { text, draggableId } = textItem;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -76,14 +93,24 @@ const Item = ({ text, handleItemRemoved, handleItemChange, index }) => {
             provided.draggableProps.style
           )}
         >
-          <div className='w3-show-inline-block w3-margin-right'>
-            <InputText
-              name='text'
-              value={text}
-              type={inputTextType}
-              onChange={onChange}
-              required={true}
-            />
+          <div className='w3-col m11'>
+            {isUseTextArea ? (
+              <TextArea
+                name='text'
+                value={text}
+                onChange={onChange}
+                placeholder=''
+                required={true}
+              />
+            ) : (
+              <InputText
+                name='text'
+                value={text}
+                type={inputType}
+                onChange={onChange}
+                required={true}
+              />
+            )}
           </div>
           <div className='w3-right'>
             {isFunction(handleItemRemoved) ? (
@@ -99,18 +126,31 @@ const Item = ({ text, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...text },
+  {
+    handleItemRemoved,
+    handleItemChange,
+    inputType,
+    isUseTextArea,
+    ...textItem
+  },
   index
 ) => {
   return (
     <Item
       key={index}
-      text={text}
+      textItem={textItem}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
+      inputType={inputType}
+      isUseTextArea={isUseTextArea}
       index={index}
     />
   );
+};
+
+const itemRenderFactory = (inputType, isUseTextArea) => {
+  return (itemObj, index) =>
+    itemRender({ ...itemObj, inputType, isUseTextArea }, index);
 };
 
 /* end of item */
@@ -118,68 +158,64 @@ const itemRender = (
 const TextList = ({
   name,
   labelMessage,
+  listWidth,
+  textItems,
+  onGetTextItems,
   inputType,
-  texts,
-  onGetTexts,
-  emptyTextForAdd
+  isUseTextArea
 }) => {
-  const textsInPickedList = useMemo(
+  const textItemsInPickedList = useMemo(
     _ => {
-      return getArraySafe(texts).map(mapTextToListItem);
+      return getArraySafe(textItems).map(mapTextItemToListItem);
     },
-    [texts]
-  );
-
-  // inputType
-  useEffect(
-    _ => {
-      inputTextType = inputType;
-    },
-    [inputType]
+    [textItems]
   );
 
   /* methods */
 
-  const dealWithGetTexts = useCallback(
+  const dealWithGetTextItems = useCallback(
     newItemList => {
-      onGetTexts(newItemList);
+      onGetTextItems(newItemList);
     },
-    [onGetTexts]
+    [onGetTextItems]
   );
 
-  const addText = useCallback(
+  const addTextItem = useCallback(
     _ => {
-      dealWithGetTexts([...getArraySafe(texts), emptyTextForAdd]);
+      dealWithGetTextItems([
+        ...getArraySafe(textItemsInPickedList),
+        emptyTextItemForAdd
+      ]);
     },
-    [texts, dealWithGetTexts]
+    [textItemsInPickedList, dealWithGetTextItems]
   );
 
   /* end of methods */
 
-  // texts
-  useEffect(
-    _ => {
-      if (!isNonEmptyArray(texts)) {
-        addText();
-      }
-    },
-    [texts, addText]
-  );
+  // // textItems
+  // useEffect(
+  //   _ => {
+  //     if (!isNonEmptyArray(textItems)) {
+  //       addTextItem();
+  //     }
+  //   },
+  //   [textItems, addTextItem]
+  // );
 
   /* event handlers */
 
   const onAddButtonClick = useCallback(
     _ => {
-      addText();
+      addTextItem();
     },
-    [addText]
+    [addTextItem]
   );
 
   const onGetPickedItems = useCallback(
     newItemList => {
-      dealWithGetTexts(newItemList);
+      dealWithGetTextItems(newItemList);
     },
-    [dealWithGetTexts]
+    [dealWithGetTextItems]
   );
 
   /* end of event handlers */
@@ -188,9 +224,9 @@ const TextList = ({
     <LabelSortableListPair
       name={name}
       labelMessage={labelMessage}
-      pickedItemRender={itemRender}
-      getListStyle={getListStyle}
-      pickedItems={textsInPickedList}
+      listWidth={listWidth}
+      pickedItemRender={itemRenderFactory(inputType, isUseTextArea)}
+      pickedItems={textItemsInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
@@ -199,7 +235,10 @@ const TextList = ({
 
 TextList.defaultProps = {
   name: 'texts',
-  emptyTextForAdd: ''
+  listWidth: 350
 };
+
+TextList.mapTextToTextItem = mapTextToTextItem;
+TextList.getTextFromTextItem = getTextFromTextItem;
 
 export default TextList;

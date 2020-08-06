@@ -5,6 +5,7 @@ const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const getPageMetaForFrontEnd = require('../../../utils/pageMeta/getPageMetaForFrontEnd');
 const {
   LandingPage,
@@ -35,6 +36,23 @@ const landingPopulationList = [
       name_tc: 1,
       name_sc: 1,
       name_en: 1,
+      featuredImage: 1
+    },
+    populate: {
+      path: 'featuredImage',
+      select: mediumSelect
+    }
+  },
+  {
+    path: 'featuredActivities',
+    select: {
+      label: 1,
+      name_tc: 1,
+      name_sc: 1,
+      name_en: 1,
+      type: 1,
+      fromDate: 1,
+      toDate: 1,
       featuredImage: 1
     },
     populate: {
@@ -81,6 +99,21 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
           src: artist.featuredImage && artist.featuredImage.url
         }
       })),
+      featuredActivities: getArraySafe(landing.featuredActivities).map(
+        activity => ({
+          id: activity._id,
+          label: activity.label,
+          name: getEntityPropByLanguage(activity, 'name', language),
+          section: activity.type,
+          date: {
+            from: formatDateStringForFrontEnd(activity.fromDate),
+            to: formatDateStringForFrontEnd(activity.toDate)
+          },
+          featuredImage: {
+            src: activity.featuredImage && activity.featuredImage.url
+          }
+        })
+      ),
       pageMeta: getPageMetaForFrontEnd(landing.pageMeta)
     };
 

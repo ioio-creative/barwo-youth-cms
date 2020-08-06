@@ -2,12 +2,17 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsState from 'contexts/artists/ArtistsState';
 import ArtistsContext from 'contexts/artists/artistsContext';
+import ActivitiesState from 'contexts/activities/ActivitiesState';
+import ActivitiesContext from 'contexts/activities/activitiesContext';
 import LandingPageContext from 'contexts/landingPage/landingPageContext';
 import LandingPageContainer from 'components/landingPage/LandingPageContainer';
 import LandingPageEditFeaturedArtistSelect from 'components/landingPage/LandingPageEditFeaturedArtistSelect';
+import LandingPageEditFeaturedActivitySelect from 'components/landingPage/LandingPageEditFeaturedActivitySelect';
 import Alert from 'models/alert';
 import Artist from 'models/artist';
+import Activity from 'models/activity';
 import Loading from 'components/layout/loading/DefaultLoading';
+import AccordionRegion from 'components/layout/AccordionRegion';
 import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import FileUpload from 'components/form/FileUpload';
@@ -35,6 +40,12 @@ const LandingPageEdit = _ => {
     clearEventArtists
   } = useContext(ArtistsContext);
   const {
+    activitiesErrors,
+    clearActivitiesErrors,
+    getActivitiesForSelect,
+    clearActivitiesForSelect
+  } = useContext(ActivitiesContext);
+  const {
     landingPage: fetchedLandingPage,
     landingPageErrors,
     landingPageLoading,
@@ -57,6 +68,9 @@ const LandingPageEdit = _ => {
   // featuredArtists
   const [featuredArtistsPicked, setFeaturedArtistsPicked] = useState([]);
 
+  // featuredActivities
+  const [featuredActivitiesPicked, setFeaturedActivitiesPicked] = useState([]);
+
   // pageMeta
   const [pageMeta, setPageMeta] = useState(new PageMeta());
 
@@ -64,9 +78,11 @@ const LandingPageEdit = _ => {
   useEffect(_ => {
     getLandingPage();
     getEventArtists();
+    getActivitiesForSelect();
     return _ => {
       clearLandingPage();
       clearEventArtists();
+      clearActivitiesForSelect();
       removeAlerts();
     };
     // eslint-disable-next-line
@@ -85,6 +101,9 @@ const LandingPageEdit = _ => {
         setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
         setFeaturedArtistsPicked(
           getArraySafe(fetchedLandingPage.featuredArtists)
+        );
+        setFeaturedActivitiesPicked(
+          getArraySafe(fetchedLandingPage.featuredActivities)
         );
         if (fetchedLandingPage.pageMeta) {
           setPageMeta(fetchedLandingPage.pageMeta);
@@ -138,6 +157,24 @@ const LandingPageEdit = _ => {
     [artistsErrors, setAlerts, clearArtistsErrors]
   );
 
+  // activitiesErrors
+  useEffect(
+    _ => {
+      if (isNonEmptyArray(activitiesErrors)) {
+        setAlerts(
+          activitiesErrors.map(activitiesError => {
+            return new Alert(
+              Activity.activitiesResponseTypes[activitiesError].msg,
+              Alert.alertTypes.WARNING
+            );
+          })
+        );
+        clearActivitiesErrors();
+      }
+    },
+    [activitiesErrors, setAlerts, clearActivitiesErrors]
+  );
+
   /* methods */
 
   const validInput = useCallback(landingPageInput => {
@@ -174,6 +211,11 @@ const LandingPageEdit = _ => {
     setFeaturedArtistsPicked(newItemList);
   }, []);
 
+  const onGetFeaturedActivitiesPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedActivitiesPicked(newItemList);
+  }, []);
+
   const setPageMetaFunc = useCallback(setterFunc => {
     setIsSubmitEnabled(true);
     setPageMeta(setterFunc);
@@ -199,6 +241,11 @@ const LandingPageEdit = _ => {
       landingPage.featuredArtists = getArraySafe(featuredArtistsPicked).map(
         artist => artist._id
       );
+
+      // add featuredActivities
+      landingPage.featuredActivities = getArraySafe(
+        featuredActivitiesPicked
+      ).map(activity => activity._id);
 
       // add pageMeta
       landingPage.pageMeta = pageMeta;
@@ -232,6 +279,7 @@ const LandingPageEdit = _ => {
       featuredVideoPicked,
       featuredVideo2Picked,
       featuredArtistsPicked,
+      featuredActivitiesPicked,
       pageMeta
     ]
   );
@@ -258,27 +306,34 @@ const LandingPageEdit = _ => {
         </div>
       </div>
 
-      <FileUpload
-        name='featuredVideo'
-        labelMessage={uiWordings['LandingPage.FeaturedVideoLabel']}
-        files={featuredVideoPicked ? [featuredVideoPicked] : null}
-        onGetFiles={onGetFeaturedVideoPicked}
-        isMultiple={false}
-        mediumType={mediumTypes.VIDEO}
-      />
+      <AccordionRegion title={uiWordings['LandingPageEdit.MediaRegionTitle']}>
+        <FileUpload
+          name='featuredVideo'
+          labelMessage={uiWordings['LandingPage.FeaturedVideoLabel']}
+          files={featuredVideoPicked ? [featuredVideoPicked] : null}
+          onGetFiles={onGetFeaturedVideoPicked}
+          isMultiple={false}
+          mediumType={mediumTypes.VIDEO}
+        />
 
-      <FileUpload
-        name='featuredVideo2'
-        labelMessage={uiWordings['LandingPage.FeaturedVideo2Label']}
-        files={featuredVideo2Picked ? [featuredVideo2Picked] : null}
-        onGetFiles={onGetFeaturedVideo2Picked}
-        isMultiple={false}
-        mediumType={mediumTypes.VIDEO}
-      />
+        <FileUpload
+          name='featuredVideo2'
+          labelMessage={uiWordings['LandingPage.FeaturedVideo2Label']}
+          files={featuredVideo2Picked ? [featuredVideo2Picked] : null}
+          onGetFiles={onGetFeaturedVideo2Picked}
+          isMultiple={false}
+          mediumType={mediumTypes.VIDEO}
+        />
+      </AccordionRegion>
 
       <LandingPageEditFeaturedArtistSelect
         featuredArtistsPicked={featuredArtistsPicked}
         onGetFeaturedArtistsPicked={onGetFeaturedArtistsPicked}
+      />
+
+      <LandingPageEditFeaturedActivitySelect
+        featuredActivitiesPicked={featuredActivitiesPicked}
+        onGetFeaturedActivitiesPicked={onGetFeaturedActivitiesPicked}
       />
 
       {!isAddMode && (
@@ -304,7 +359,9 @@ const LandingPageEdit = _ => {
 const LandingPageEditWithContainer = _ => (
   <LandingPageContainer>
     <ArtistsState>
-      <LandingPageEdit />
+      <ActivitiesState>
+        <LandingPageEdit />
+      </ActivitiesState>
     </ArtistsState>
   </LandingPageContainer>
 );

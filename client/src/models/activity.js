@@ -95,6 +95,10 @@ Activity.activitiesResponseTypes = {
     type: 'LABEL_ALREADY_EXISTS',
     msg: 'LABEL_ALREADY_EXISTS'
   },
+  ACTIVITY_FEATURED_IN_LANDING: {
+    type: 'ACTIVITY_FEATURED_IN_LANDING',
+    msg: 'ACTIVITY_FEATURED_IN_LANDING'
+  },
 
   // general
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,

@@ -10,6 +10,7 @@ const {
   landingPageResponseTypes
 } = require('../../../models/LandingPage');
 const { Artist } = require('../../../models/Artist');
+const { Activity } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -34,6 +35,10 @@ const landingPopulationList = [
     select: 'label'
   },
   {
+    path: 'featuredActivities',
+    select: 'label'
+  },
+  {
     path: 'pageMeta.ogImage',
     select: mediumSelect
   }
@@ -49,6 +54,16 @@ const landingPageFeaturedArtistsValidation = featuredArtists => {
   return null;
 };
 
+const landingPageFeaturedActivitiesValidation = featuredActivities => {
+  for (const featuredActivity of getArraySafe(featuredActivities)) {
+    // featuredActivity is the _id
+    if (!featuredActivity) {
+      return landingPageResponseTypes.LANDING_PAGE_ACTIVITY_REQUIRED;
+    }
+  }
+  return null;
+};
+
 const handleLandingPageRelationshipsValidationError = (errorType, res) => {
   // 400 bad request
   res.status(400).json({
@@ -56,7 +71,11 @@ const handleLandingPageRelationshipsValidationError = (errorType, res) => {
   });
 };
 
-const landingPageRelationshipsValidation = (featuredArtists, res) => {
+const landingPageRelationshipsValidation = (
+  featuredArtists,
+  featuredActivities,
+  res
+) => {
   let errorType = null;
 
   errorType = landingPageFeaturedArtistsValidation(featuredArtists);
@@ -65,10 +84,19 @@ const landingPageRelationshipsValidation = (featuredArtists, res) => {
     return false;
   }
 
+  errorType = landingPageFeaturedActivitiesValidation(featuredActivities);
+  if (errorType) {
+    handleLandingPageRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
   return true;
 };
 
-const setIsFeaturedInLandingPageForArtists = async (landing, session) => {
+const setIsFeaturedInLandingPageForArtistsAndActivities = async (
+  landing,
+  session
+) => {
   // https://stackoverflow.com/questions/55264112/mongoose-many-to-many-relations
 
   const options = { session };
@@ -84,14 +112,39 @@ const setIsFeaturedInLandingPageForArtists = async (landing, session) => {
       options
     );
   }
+
+  // set activity's isFeaturedInLandingPage
+  for (const featuredActivity of getArraySafe(landing.featuredActivities)) {
+    // featuredActivity is the _id
+    await Activity.findByIdAndUpdate(
+      featuredActivity,
+      {
+        isFeaturedInLandingPage: true
+      },
+      options
+    );
+  }
 };
 
-const removeIsFeaturedInLandingPageForAndArtists = async (landing, session) => {
+const removeIsFeaturedInLandingPageForAndArtistsAndActivities = async (
+  landing,
+  session
+) => {
   const options = { session };
 
   for (const featuredArtist of getArraySafe(landing.featuredArtists)) {
     await Artist.findByIdAndUpdate(
       featuredArtist,
+      {
+        isFeaturedInLandingPage: false
+      },
+      options
+    );
+  }
+
+  for (const featuredActivity of getArraySafe(landing.featuredActivities)) {
+    await Activity.findByIdAndUpdate(
+      featuredActivity,
       {
         isFeaturedInLandingPage: false
       },
@@ -128,10 +181,20 @@ router.get('/', auth, async (req, res) => {
 // @desc    Add landing page
 // @access  Private
 router.post('/', [auth], async (req, res) => {
-  const { featuredVideo, featuredVideo2, featuredArtists, pageMeta } = req.body;
+  const {
+    featuredVideo,
+    featuredVideo2,
+    featuredArtists,
+    featuredActivities,
+    pageMeta
+  } = req.body;
 
   // customed validations
-  let isSuccess = landingPageRelationshipsValidation(featuredArtists, res);
+  let isSuccess = landingPageRelationshipsValidation(
+    featuredArtists,
+    featuredActivities,
+    res
+  );
   if (!isSuccess) {
     return;
   }
@@ -143,6 +206,7 @@ router.post('/', [auth], async (req, res) => {
   landingFields.featuredVideo = featuredVideo;
   landingFields.featuredVideo2 = featuredVideo2;
   landingFields.featuredArtists = getArraySafe(featuredArtists);
+  landingFields.featuredActivities = getArraySafe(featuredActivities);
   landingFields.pageMeta = pageMeta;
   landingFields.lastModifyDT = new Date();
   landingFields.lastModifyUser = req.user._id;
@@ -156,21 +220,27 @@ router.post('/', [auth], async (req, res) => {
 
     if (oldLanding) {
       // update flow
-      await removeIsFeaturedInLandingPageForAndArtists(oldLanding, session);
+      await removeIsFeaturedInLandingPageForAndArtistsAndActivities(
+        oldLanding,
+        session
+      );
 
       newLanding = await LandingPage.findOneAndUpdate(
         {},
         { $set: landingFields },
         { session, new: true }
       );
-
-      await setIsFeaturedInLandingPageForArtists(newLanding, session);
     } else {
       // insert flow
       newLanding = new LandingPage(landingFields);
 
       await newLanding.save({ session });
     }
+
+    await setIsFeaturedInLandingPageForArtistsAndActivities(
+      newLanding,
+      session
+    );
 
     await session.commitTransaction();
 

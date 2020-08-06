@@ -9,10 +9,7 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
-const {
-  getArraySafe,
-  isNonEmptyArray
-} = require('../../../utils/js/array/isNonEmptyArray');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const {
   NewsMediaItem,
   newsMediaItemResponseTypes
@@ -53,6 +50,41 @@ const newsMediaItemValidationChecks = [
   check('name_en', newsMediaItemResponseTypes.NAME_EN_REQUIRED).notEmpty(),
   check('fromDate', newsMediaItemResponseTypes.FROM_DATE_REQUIRED).notEmpty()
 ];
+
+const newsMediaItemVideoLinkValidation = videoLinks => {
+  for (const videoLink of getArraySafe(videoLinks)) {
+    let errorType = null;
+
+    if (!videoLink) {
+      errorType = newsMediaItemResponseTypes.VIDEO_LINK_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
+const handleNewsMediaItemRelationshipsValidationError = (errorType, res) => {
+  // 400 bad request
+  res.status(400).json({
+    errors: [errorType]
+  });
+};
+
+const newsMediaItemRelationshipsValidation = (videoLinks, res) => {
+  let errorType = null;
+
+  errorType = newsMediaItemVideoLinkValidation(videoLinks);
+  if (errorType) {
+    handleNewsMediaItemRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  return true;
+};
 
 const handleNewsMediaItemLabelDuplicateKeyError = (err, res) => {
   const isErrorHandled = duplicateKeyErrorHandle(
@@ -141,8 +173,15 @@ router.post(
       desc_en,
       thumbnail,
       gallery,
+      videoLinks,
       isEnabled
     } = req.body;
+
+    // customed validations
+    let isSuccess = newsMediaItemRelationshipsValidation(videoLinks, res);
+    if (!isSuccess) {
+      return;
+    }
 
     try {
       const newsMediaItem = new NewsMediaItem({
@@ -156,6 +195,7 @@ router.post(
         desc_en,
         thumbnail,
         gallery: getArraySafe(gallery),
+        videoLinks: getArraySafe(videoLinks),
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -189,8 +229,15 @@ router.put(
       desc_en,
       thumbnail,
       gallery,
+      videoLinks,
       isEnabled
     } = req.body;
+
+    // customed validations
+    let isSuccess = newsMediaItemRelationshipsValidation(videoLinks, res);
+    if (!isSuccess) {
+      return;
+    }
 
     // Build news media item object
     // Note:
@@ -206,6 +253,7 @@ router.put(
     newsMediaItemFields.desc_en = desc_en;
     newsMediaItemFields.thumbnail = thumbnail;
     newsMediaItemFields.gallery = getArraySafe(gallery);
+    newsMediaItemFields.videoLinks = getArraySafe(videoLinks);
     if (isEnabled !== undefined) newsMediaItemFields.isEnabled = isEnabled;
     newsMediaItemFields.lastModifyDT = new Date();
     newsMediaItemFields.lastModifyUser = req.user._id;

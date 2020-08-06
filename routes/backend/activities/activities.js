@@ -16,9 +16,15 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
-const activitySelectForFindAll = {};
+const activitySelectForFindAll = {
+  isFeaturedInLandingPage: 0
+};
 
 const activitySelectForFindOne = { ...activitySelectForFindAll };
+
+const activitySelectForDeleteOne = {
+  isFeaturedInLandingPage: 1
+};
 
 const activityPopulationListForFindAll = [
   {
@@ -292,7 +298,33 @@ router.put(
 // @access  Private
 router.delete('/:_id', [auth], async (req, res) => {
   try {
+    let activity = await Activity.findById(req.params._id).select(
+      activitySelectForDeleteOne
+    );
+
+    if (!activity) {
+      return res
+        .status(404)
+        .json({ errors: [activityResponseTypes.ACTIVITY_NOT_EXISTS] });
+    }
+
+    /* delete check */
+
+    const deleteCheckFailResponse = errorType => {
+      // 400 bad request
+      return res.status(400).json({ errors: [errorType] });
+    };
+
+    if (activity.isFeaturedInLandingPage) {
+      return deleteCheckFailResponse(
+        activityResponseTypes.ACTIVITY_FEATURED_IN_LANDING
+      );
+    }
+
+    /* end of delete check */
+
     await Activity.findByIdAndDelete(req.params._id);
+
     res.sendStatus(200);
   } catch (err) {
     generalErrorHandle(err, res);

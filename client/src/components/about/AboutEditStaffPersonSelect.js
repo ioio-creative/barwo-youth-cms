@@ -4,9 +4,9 @@ import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import InputText from 'components/form/InputText';
 import TextArea from 'components/form/TextArea';
 import uiWordings from 'globals/uiWordings';
+//import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
-//import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
 import guid from 'utils/guid';
 
 /* constants */
@@ -35,7 +35,13 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 /* item */
 
-const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({
+  staffPerson,
+  handleItemRemoved,
+  handleItemChange,
+  isUseTextAreaForName,
+  index
+}) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
@@ -44,6 +50,8 @@ const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
     },
     [handleItemChange, index]
   );
+
+  /* end of methods */
 
   /* event handlers */
 
@@ -74,9 +82,7 @@ const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
     name_sc,
     title_en,
     name_en,
-    draggableId,
-
-    isUseTextAreaForName
+    draggableId
   } = staffPerson;
 
   const ComponentForName = isUseTextAreaForName ? TextArea : InputText;
@@ -188,7 +194,7 @@ const Item = ({ staffPerson, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...staffPerson },
+  { handleItemRemoved, handleItemChange, isUseTextAreaForName, ...staffPerson },
   index
 ) => {
   return (
@@ -197,6 +203,7 @@ const itemRender = (
       staffPerson={staffPerson}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
+      isUseTextAreaForName={isUseTextAreaForName}
       index={index}
     />
   );

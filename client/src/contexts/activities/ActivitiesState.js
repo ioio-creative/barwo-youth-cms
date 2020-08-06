@@ -14,7 +14,10 @@ import {
   ACTIVITIES_ERRORS,
   CLEAR_ACTIVITIES_ERRORS,
   DELETE_ACTIVITY,
-  SET_ACTIVITIES_LOADING
+  SET_ACTIVITIES_LOADING,
+  GET_ACTIVITIES_FOR_SELECT,
+  CLEAR_ACTIVITIES_FOR_SELECT,
+  SET_ACTIVITIES_FOR_SELECT_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -23,7 +26,9 @@ const initialState = {
   activitiesPaginationMeta: null,
   activity: null,
   activitiesErrors: null,
-  activitiesLoading: false
+  activitiesLoading: false,
+  activitiesForSelect: null,
+  activitiesForSelectLoading: false
 };
 
 const ActivitiesState = ({ children }) => {
@@ -156,6 +161,24 @@ const ActivitiesState = ({ children }) => {
     return isSuccess;
   }, []);
 
+  // Get Activites for Select
+  const getActivitiesForSelect = useCallback(async _ => {
+    dispatch({ type: SET_ACTIVITIES_FOR_SELECT_LOADING });
+    try {
+      const res = await axios.get(
+        '/api/backend/activities/activitiesForSelect'
+      );
+      dispatch({ type: GET_ACTIVITIES_FOR_SELECT, payload: res.data });
+    } catch (err) {
+      handleServerError(err, ACTIVITIES_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Clear Activites for Select
+  const clearActivitiesForSelect = useCallback(_ => {
+    dispatch({ type: CLEAR_ACTIVITIES_FOR_SELECT });
+  }, []);
+
   return (
     <ActivitiesContext.Provider
       value={{
@@ -164,6 +187,8 @@ const ActivitiesState = ({ children }) => {
         activity: state.activity,
         activitiesErrors: state.activitiesErrors,
         activitiesLoading: state.activitiesLoading,
+        activitiesForSelect: state.activitiesForSelect,
+        activitiesForSelectLoading: state.activitiesForSelectLoading,
         getActivities,
         clearActivities,
         getActivity,
@@ -171,7 +196,9 @@ const ActivitiesState = ({ children }) => {
         addActivity,
         updateActivity,
         clearActivitiesErrors,
-        deleteActivity
+        deleteActivity,
+        getActivitiesForSelect,
+        clearActivitiesForSelect
       }}
     >
       {children}

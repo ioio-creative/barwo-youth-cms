@@ -18,6 +18,7 @@ import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
+import TextList from 'components/form/TextList';
 import NewsMediaItem from 'models/newsMediaItem';
 import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
@@ -59,6 +60,9 @@ const NewsMediaItemEdit = _ => {
   // gallery
   const [galleryPicked, setGalleryPicked] = useState([]);
 
+  // videoLinks
+  const [videoLinksPicked, setVideoLinksPicked] = useState([]);
+
   // componentDidMount
   useEffect(_ => {
     return _ => {
@@ -92,6 +96,11 @@ const NewsMediaItemEdit = _ => {
       if (fetchedNewsMediaItem) {
         setThumbnailPicked(fetchedNewsMediaItem.thumbnail);
         setGalleryPicked(getArraySafe(fetchedNewsMediaItem.gallery));
+        setVideoLinksPicked(
+          getArraySafe(fetchedNewsMediaItem.videoLinks).map(
+            TextList.mapTextToTextItem
+          )
+        );
       }
       setIsAddMode(!fetchedNewsMediaItem);
     },
@@ -161,6 +170,11 @@ const NewsMediaItemEdit = _ => {
     setGalleryPicked(newItemList);
   }, []);
 
+  const onGetVideoLinksPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setVideoLinksPicked(newItemList);
+  }, []);
+
   const newsMediaItemDelete = useCallback(
     async _ => {
       const isSuccess = await deleteNewsMediaItem(newsMediaItemId);
@@ -196,6 +210,11 @@ const NewsMediaItemEdit = _ => {
         return medium._id;
       });
 
+      // add videoLinks
+      newsMediaItem.videoLinks = getArraySafe(videoLinksPicked).map(
+        TextList.getTextFromTextItem
+      );
+
       let isSuccess = validInput(newsMediaItem);
       let returnedNewsMediaItem = null;
       if (isSuccess) {
@@ -230,7 +249,8 @@ const NewsMediaItemEdit = _ => {
       removeAlerts,
       validInput,
       thumbnailPicked,
-      galleryPicked
+      galleryPicked,
+      videoLinksPicked
     ]
   );
 
@@ -342,6 +362,12 @@ const NewsMediaItemEdit = _ => {
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
             orderDirection='horizontal'
+          />
+          <TextList
+            name='videoLinks'
+            labelMessage={uiWordings['NewsMediaItem.VideoLinksLabel']}
+            textItems={videoLinksPicked}
+            onGetTextItems={onGetVideoLinksPicked}
           />
         </AccordionRegion>
 

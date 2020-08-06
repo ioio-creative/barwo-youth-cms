@@ -37,6 +37,12 @@ const NewsMediaItemSchema = mongoose.Schema({
     ref: 'medium'
   },
   gallery: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
+  videoLinks: [
+    {
+      type: String,
+      require: true
+    }
+  ],
   isEnabled: {
     type: Boolean,
     default: true
@@ -69,6 +75,7 @@ module.exports.newsMediaItemResponseTypes = {
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
   FROM_DATE_REQUIRED: 'FROM_DATE_REQUIRED',
+  VIDEO_LINK_REQUIRED: 'VIDEO_LINK_REQUIRED',
 
   // db check
   NEWS_MEDIA_ITEM_NOT_EXISTS: 'NEWS_MEDIA_ITEM_NOT_EXISTS',

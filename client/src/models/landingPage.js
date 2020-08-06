@@ -5,6 +5,8 @@ import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 function LandingPage() {
   this.featuredVideo = '';
   this.featuredVideo2 = '';
+  this.featuredArtists = [];
+  this.featuredActivities = [];
   this.lastModifyDT = null;
   this.lastModifyUser = null;
 }
@@ -16,6 +18,10 @@ LandingPage.landingPageResponseTypes = {
   LANDING_PAGE_ARTIST_REQUIRED: {
     type: 'LANDING_PAGE_ARTIST_REQUIRED',
     msg: 'LANDING_PAGE_ARTIST_REQUIRED'
+  },
+  LANDING_PAGE_ACTIVITY_REQUIRED: {
+    type: 'LANDING_PAGE_ACTIVITY_REQUIRED',
+    msg: 'LANDING_PAGE_ACTIVITY_REQUIRED'
   },
 
   // db check

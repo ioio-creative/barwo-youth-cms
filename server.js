@@ -68,6 +68,10 @@ app.use(
   require('./routes/backend/activities/activities')
 );
 app.use(
+  '/api/backend/activities/activitiesForSelect',
+  require('./routes/backend/activities/activitiesForSelect')
+);
+app.use(
   '/api/backend/newses/newses',
   require('./routes/backend/newses/newses')
 );

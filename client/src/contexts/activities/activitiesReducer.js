@@ -8,7 +8,10 @@ import {
   ACTIVITIES_ERRORS,
   CLEAR_ACTIVITIES_ERRORS,
   DELETE_ACTIVITY,
-  SET_ACTIVITIES_LOADING
+  SET_ACTIVITIES_LOADING,
+  GET_ACTIVITIES_FOR_SELECT,
+  CLEAR_ACTIVITIES_FOR_SELECT,
+  SET_ACTIVITIES_FOR_SELECT_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -52,7 +55,8 @@ export default (state, action) => {
       return {
         ...state,
         activitiesErrors: action.payload,
-        activitiesLoading: false
+        activitiesLoading: false,
+        activitiesForSelectLoading: false
       };
     case CLEAR_ACTIVITIES_ERRORS:
       return {
@@ -69,7 +73,23 @@ export default (state, action) => {
         ...state,
         activitiesLoading: true
       };
-
+    case GET_ACTIVITIES_FOR_SELECT:
+      return {
+        ...state,
+        activitiesForSelect: action.payload,
+        activitiesForSelectLoading: false
+      };
+    case CLEAR_ACTIVITIES_FOR_SELECT:
+      return {
+        ...state,
+        activitiesForSelect: null,
+        activitiesErrors: null
+      };
+    case SET_ACTIVITIES_FOR_SELECT_LOADING:
+      return {
+        ...state,
+        activitiesForSelectLoading: true
+      };
     default:
       return state;
   }

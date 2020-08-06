@@ -15,6 +15,7 @@ function NewsMediaItem() {
   this.thumbnail = '';
   this.gallery = [];
   /* end of media */
+  this.videoLinks = [];
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
@@ -32,6 +33,10 @@ NewsMediaItem.newsMediaItemsResponseTypes = {
   FROM_DATE_REQUIRED: {
     type: 'FROM_DATE_REQUIRED',
     msg: 'FROM_DATE_REQUIRED'
+  },
+  VIDEO_LINK_REQUIRED: {
+    type: 'VIDEO_LINK_REQUIRED',
+    msg: 'VIDEO_LINK_REQUIRED'
   },
 
   // db check

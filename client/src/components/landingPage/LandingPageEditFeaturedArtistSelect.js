@@ -21,6 +21,7 @@ const LandingPageEditFeaturedArtistSelect = ({
     eventArtists: fetchedOptions,
     eventArtistsLoading: fetchedOptionsLoading
   } = useContext(ArtistsContext);
+
   const options = useMemo(
     _ => {
       return getArraySafe(fetchedOptions).map(mapArtistToListItem);

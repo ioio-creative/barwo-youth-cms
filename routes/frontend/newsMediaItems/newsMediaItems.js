@@ -60,7 +60,8 @@ const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
       return {
         src: medium && medium.url
       };
-    })
+    }),
+    videoLinks: getArraySafe(newsMediaItem.videoLinks)
   };
 };
 
