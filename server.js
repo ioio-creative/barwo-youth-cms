@@ -124,10 +124,10 @@ app.use(
   '/api/frontend/activities',
   require('./routes/frontend/activities/activities')
 );
-app.use(
-  '/api/frontend/newses/newsCombined',
-  require('./routes/frontend/newses/newsCombined')
-);
+// app.use(
+//   '/api/frontend/newses/newsCombined',
+//   require('./routes/frontend/newses/newsCombined')
+// );
 app.use(
   '/api/frontend/newses',
   require('./routes/frontend/newses/newses').router

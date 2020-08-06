@@ -4,10 +4,14 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  isNonEmptyArray,
+  getArraySafe
+} = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const { Event, eventResponseTypes } = require('../../../models/Event');
+const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -68,6 +72,31 @@ const eventPopulationListForFindAll = [
 ];
 
 const eventPopulationListForFindOne = [...eventPopulationListForFindAll];
+
+const eventPopulationListForRelatedEvents = [
+  {
+    path: 'events',
+    select: {
+      label: 1,
+      name_tc: 1,
+      name_sc: 1,
+      name_en: 1,
+      shows: 1,
+      artDirectors: 1
+    },
+    populate: [
+      {
+        path: 'artDirectors',
+        select: {
+          label: 1,
+          name_tc: 1,
+          name_sc: 1,
+          name_en: 1
+        }
+      }
+    ]
+  }
+];
 
 const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
   const event = dbEvent;
@@ -204,6 +233,64 @@ router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
     }
 
     const eventForFrontEnd = getEventForFrontEndFromDbEvent(event, language);
+
+    /* finding related events, i.e. events in the same phase */
+
+    const relatedEvents = [];
+
+    for (const phaseId of getArraySafe(event.phasesInvolved)) {
+      const phase = await Phase.findById(phaseId)
+        .select({
+          events: 1
+        })
+        .populate(eventPopulationListForRelatedEvents);
+
+      if (!phase) {
+        return res
+          .status(404)
+          .json({ errors: [phaseResponseTypes.PHASE_NOT_EXISTS] });
+      }
+
+      for (const relatedEvent of getArraySafe(phase.events)) {
+        const relatedEventForFrontEnd = {
+          id: relatedEvent._id,
+          label: relatedEvent.label,
+          name: getEntityPropByLanguage(relatedEvent, 'name', language),
+          artDirectors: getArraySafe(relatedEvent.artDirectors).map(
+            artDirector => ({
+              id: artDirector._id,
+              label: artDirector.label,
+              name: getEntityPropByLanguage(artDirector, 'name', language)
+            })
+          )
+        };
+
+        if (isNonEmptyArray(relatedEvent.shows)) {
+          const firstShow = relatedEvent.shows[0];
+          const lastShow = relatedEvent.shows[relatedEvent.shows.length - 1];
+          relatedEventForFrontEnd.fromDate = firstShow.date
+            ? formatDateStringForFrontEnd(firstShow.date)
+            : null;
+          relatedEventForFrontEnd.toDate = lastShow.date
+            ? formatDateStringForFrontEnd(lastShow.date)
+            : null;
+        } else {
+          relatedEventForFrontEnd.fromDate = null;
+          relatedEventForFrontEnd.toDate = null;
+        }
+
+        relatedEvents.push(relatedEventForFrontEnd);
+      }
+
+      if (relatedEvents.length > 0) {
+        // break phase loop
+        break;
+      }
+    }
+
+    /* end of finding related events */
+
+    eventForFrontEnd.relatedEvents = relatedEvents;
 
     res.json(eventForFrontEnd);
   } catch (err) {
