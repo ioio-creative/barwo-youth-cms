@@ -80,6 +80,20 @@ const getNewsesInOrderFromDb = async newsType => {
   );
 };
 
+const getNewsList = async language => {
+  const newsesByType = {};
+
+  for (const type of newsTypesArray) {
+    const newses = await getNewsesInOrderFromDb(type);
+
+    newsesByType[type] = getArraySafe(newses).map(news => {
+      return getNewsForFrontEndFromDbNews(news, language);
+    });
+  }
+
+  return newsesByType;
+};
+
 /* end of utilities */
 
 // @route   GET api/frontend/newses/:lang/newses
@@ -87,19 +101,7 @@ const getNewsesInOrderFromDb = async newsType => {
 // @access  Public
 router.get('/:lang/newses', [languageHandling], async (req, res) => {
   try {
-    const language = req.language;
-
-    const jsonToReturn = {};
-
-    for (const type of newsTypesArray) {
-      const newses = await getNewsesInOrderFromDb(type);
-
-      jsonToReturn[type] = getArraySafe(newses).map(news => {
-        return getNewsForFrontEndFromDbNews(news, language);
-      });
-    }
-
-    res.json(jsonToReturn);
+    res.json(await getNewsList(req.language));
   } catch (err) {
     generalErrorHandle(err, res);
   }
@@ -132,4 +134,6 @@ router.get('/:lang/newses/:label', [languageHandling], async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports.router = router;
+
+module.exports.getNewsList = getNewsList;

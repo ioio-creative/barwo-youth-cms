@@ -78,6 +78,57 @@ const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
   };
 };
 
+const getNewsMediaItemList = async language => {
+  const newsMediaItems = await NewsMediaItem.find({
+    isEnabled: {
+      $ne: false
+    }
+  })
+    .select(newsMediaItemSelectForFindAll)
+    .populate(newsMediaItemPopulationListForFindAll)
+    .sort({
+      // sort in ascending order here
+      // coz within a year, the items should be ascending according to fromDate
+      fromDate: 1
+    });
+
+  const safeNewsMediaItems = getArraySafe(newsMediaItems).map(newsMediaItem => {
+    // !!!Important!!! somehow destructuring gives extended object with lots of unrelated fields...
+    // return {
+    //   ...newsMediaItem,
+    //   year: newsMediaItem.fromDate.getFullYear()
+    // }
+    newsMediaItem.year = newsMediaItem.fromDate.getFullYear();
+    return newsMediaItem;
+  });
+
+  const years = distinct(
+    safeNewsMediaItems.map(newsMediaItem => newsMediaItem.year)
+  ); //.sort();
+
+  const newsMediaItemsByYear = [];
+
+  // descending year here
+  for (let i = years.length - 1; i >= 0; i--) {
+    const year = years[i];
+    const newsMediaItemsOfYear = safeNewsMediaItems
+      .filter(newsMediaItem => newsMediaItem.year === year)
+      .map(newsMediaItem => {
+        return getNewsMediaItemForFrontEndFromDbNewsMediaItem(
+          newsMediaItem,
+          language
+        );
+      });
+
+    newsMediaItemsByYear.push({
+      year: year,
+      newsMediaItems: newsMediaItemsOfYear
+    });
+  }
+
+  return newsMediaItemsByYear;
+};
+
 /* end of utilities */
 
 // @route   GET api/frontend/newsMediaItems/:lang/newsMediaItems
@@ -85,58 +136,7 @@ const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
 // @access  Public
 router.get('/:lang/newsMediaItems', [languageHandling], async (req, res) => {
   try {
-    const language = req.language;
-
-    const newsMediaItems = await NewsMediaItem.find({
-      isEnabled: {
-        $ne: false
-      }
-    })
-      .select(newsMediaItemSelectForFindAll)
-      .populate(newsMediaItemPopulationListForFindAll)
-      .sort({
-        // sort in ascending order here
-        // coz within a year, the items should be ascending according to fromDate
-        fromDate: 1
-      });
-
-    const safeNewsMediaItems = getArraySafe(newsMediaItems).map(
-      newsMediaItem => {
-        // !!!Important!!! somehow destructuring gives extended object with lots of unrelated fields...
-        // return {
-        //   ...newsMediaItem,
-        //   year: newsMediaItem.fromDate.getFullYear()
-        // }
-        newsMediaItem.year = newsMediaItem.fromDate.getFullYear();
-        return newsMediaItem;
-      }
-    );
-
-    const years = distinct(
-      safeNewsMediaItems.map(newsMediaItem => newsMediaItem.year)
-    ); //.sort();
-
-    const yearsForFrontEnd = [];
-
-    // descending year here
-    for (let i = years.length - 1; i >= 0; i--) {
-      const year = years[i];
-      const newsMediaItemsOfYear = safeNewsMediaItems
-        .filter(newsMediaItem => newsMediaItem.year === year)
-        .map(newsMediaItem => {
-          return getNewsMediaItemForFrontEndFromDbNewsMediaItem(
-            newsMediaItem,
-            language
-          );
-        });
-
-      yearsForFrontEnd.push({
-        year: year,
-        newsMediaItems: newsMediaItemsOfYear
-      });
-    }
-
-    res.json(yearsForFrontEnd);
+    res.json(await getNewsMediaItemList(req.language));
   } catch (err) {
     generalErrorHandle(err, res);
   }
@@ -176,4 +176,6 @@ router.get(
   }
 );
 
-module.exports = router;
+module.exports.router = router;
+
+module.exports.getNewsMediaItemList = getNewsMediaItemList;

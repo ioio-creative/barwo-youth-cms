@@ -124,10 +124,21 @@ app.use(
   '/api/frontend/activities',
   require('./routes/frontend/activities/activities')
 );
-app.use('/api/frontend/newses', require('./routes/frontend/newses/newses'));
+app.use(
+  '/api/frontend/newses/newsCombined',
+  require('./routes/frontend/newses/newsCombined')
+);
+app.use(
+  '/api/frontend/newses',
+  require('./routes/frontend/newses/newses').router
+);
+app.use(
+  '/api/frontend/newsletters',
+  require('./routes/frontend/newsletters/newsletters').router
+);
 app.use(
   '/api/frontend/newsMediaItems',
-  require('./routes/frontend/newsMediaItems/newsMediaItems')
+  require('./routes/frontend/newsMediaItems/newsMediaItems').router
 );
 app.use(
   '/api/frontend/globalConstants',

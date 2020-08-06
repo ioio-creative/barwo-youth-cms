@@ -35,6 +35,10 @@ const NewsletterSchema = mongoose.Schema({
     type: Boolean,
     default: true
   },
+  createDT: {
+    type: Date,
+    default: Date.now
+  },
   lastModifyDT: {
     type: Date,
     default: Date.now
