@@ -252,6 +252,10 @@ router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
       }
 
       for (const relatedEvent of getArraySafe(phase.events)) {
+        if (relatedEvent.label === req.params.label) {
+          continue;
+        }
+
         const relatedEventForFrontEnd = {
           id: relatedEvent._id,
           label: relatedEvent.label,
