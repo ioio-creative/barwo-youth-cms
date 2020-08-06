@@ -42,6 +42,7 @@ router.get('/:lang/about', [languageHandling], async (req, res) => {
     const about = await About.findOne({})
       .select(aboutSelect)
       .populate(aboutPopulationList);
+
     if (!about) {
       return res
         .status(404)

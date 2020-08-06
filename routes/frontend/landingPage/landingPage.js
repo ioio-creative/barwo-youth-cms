@@ -78,6 +78,7 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
     const landing = await LandingPage.findOne({})
       .select(landingSelect)
       .populate(landingPopulationList);
+
     if (!landing) {
       return res
         .status(404)

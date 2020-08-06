@@ -7,7 +7,7 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
-const { Event } = require('../../../models/Event');
+const { Event, eventResponseTypes } = require('../../../models/Event');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -196,6 +196,12 @@ router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
     })
       .select(eventSelectForFindOne)
       .populate(eventPopulationListForFindOne);
+
+    if (!event) {
+      return res
+        .status(404)
+        .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
+    }
 
     const eventForFrontEnd = getEventForFrontEndFromDbEvent(event, language);
 

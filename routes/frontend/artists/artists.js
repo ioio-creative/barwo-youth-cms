@@ -11,6 +11,7 @@ const {
   Artist,
   artistRoles,
   artDirectorTypes,
+  artistResponseTypes,
   isArtDirector
 } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
@@ -305,6 +306,12 @@ router.get('/:lang/artists/:label', [languageHandling], async (req, res) => {
     })
       .select(artistSelectForFindOne)
       .populate(artistPopulationListForFindOne);
+
+    if (!artist) {
+      return res
+        .status(404)
+        .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
+    }
 
     const artistForFrontEnd = getArtistForFrontEndFromDbArtist(
       artist,

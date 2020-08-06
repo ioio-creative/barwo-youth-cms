@@ -7,7 +7,10 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const distinct = require('../../../utils/js/array/distinct');
-const { NewsMediaItem } = require('../../../models/NewsMediaItem');
+const {
+  NewsMediaItem,
+  newsMediaItemResponseTypes
+} = require('../../../models/NewsMediaItem');
 const mediumSelect = require('../common/mediumSelect');
 
 const newsMediaItemSelectForFindAll = {
@@ -21,12 +24,22 @@ const newsMediaItemSelectForFindAll = {
   desc_en: 0
 };
 
-const newsMediaItemSelectForFindOne = {
-  ...newsMediaItemSelectForFindAll,
+// The following would cause this error:
+// MongoDB: Can't canonicalize query: BadValue Projection cannot have a mix of inclusion and exclusion
+// https://stackoverflow.com/questions/24949544/mongodb-cant-canonicalize-query-badvalue-projection-cannot-have-a-mix-of-incl
+// const newsMediaItemSelectForFindOne = {
+//   ...newsMediaItemSelectForFindAll,
 
-  desc_tc: 1,
-  desc_sc: 1,
-  desc_en: 1
+//   desc_tc: 1,
+//   desc_sc: 1,
+//   desc_en: 1
+// };
+
+const newsMediaItemSelectForFindOne = {
+  isEnabled: 0,
+  createDT: 0,
+  lastModifyDT: 0,
+  lastModifyUser: 0
 };
 
 const newsMediaItemPopulationListForFindAll = [
@@ -144,6 +157,12 @@ router.get(
       })
         .select(newsMediaItemSelectForFindOne)
         .populate(newsMediaItemPopulationListForFindOne);
+
+      if (!newsMediaItem) {
+        return res.status(404).json({
+          errors: [newsMediaItemResponseTypes.NEWS_MEDIA_ITEM_NOT_EXISTS]
+        });
+      }
 
       const newsMediaItemForFrontEnd = getNewsMediaItemForFrontEndFromDbNewsMediaItem(
         newsMediaItem,

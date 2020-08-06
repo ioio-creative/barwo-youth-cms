@@ -8,7 +8,11 @@ const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivities');
 //const { mediumLinkTypes } = require('../../../types/mediumLink');
-const { Activity, activityTypesArray } = require('../../../models/Activity');
+const {
+  Activity,
+  activityTypesArray,
+  activityResponseTypes
+} = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -128,6 +132,12 @@ router.get('/:lang/activities/:label', [languageHandling], async (req, res) => {
     })
       .select(activitySelectForFindOne)
       .populate(activityPopulationListForFindOne);
+
+    if (!activity) {
+      return res
+        .status(404)
+        .json({ errors: [activityResponseTypes.ACTIVITY_NOT_EXISTS] });
+    }
 
     const activityForFrontEnd = getActivityForFrontEndFromDbActivity(
       activity,

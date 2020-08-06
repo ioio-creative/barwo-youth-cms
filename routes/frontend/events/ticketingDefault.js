@@ -31,6 +31,7 @@ router.get('/:lang', [languageHandling], async (req, res) => {
     const ticketingDefault = await TicketingDefault.findOne({})
       .select(ticketingDefaultSelect)
       .populate(ticketingDefaultPopulationList);
+
     if (!ticketingDefault) {
       return res.status(404).json({
         errors: [ticketingDefaultResponseTypes.TICKETING_DEFAULT_NOT_EXISTS]

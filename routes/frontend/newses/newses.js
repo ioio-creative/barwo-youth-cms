@@ -7,7 +7,11 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 //const { mediumLinkTypes } = require('../../../types/mediumLink');
-const { News, newsTypesArray } = require('../../../models/News');
+const {
+  News,
+  newsTypesArray,
+  newsResponseTypes
+} = require('../../../models/News');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -113,6 +117,12 @@ router.get('/:lang/newses/:label', [languageHandling], async (req, res) => {
     })
       .select(newsSelectForFindOne)
       .populate(newsPopulationListForFindOne);
+
+    if (!news) {
+      return res
+        .status(404)
+        .json({ errors: [newsResponseTypes.NEWS_NOT_EXISTS] });
+    }
 
     const newsForFrontEnd = getNewsForFrontEndFromDbNews(news, language);
 
