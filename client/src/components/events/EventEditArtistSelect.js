@@ -10,10 +10,12 @@ import ArtistsContext from 'contexts/artists/artistsContext';
 import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import AsyncSelect from 'components/form/AsyncSelect';
 import InputText from 'components/form/InputText';
+import Checkbox from 'components/form/Checkbox';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
 import guid from 'utils/guid';
+import './EventEditArtistSelect.css';
 
 /* constants */
 
@@ -21,7 +23,11 @@ const emptyArtistInEventForAdd = {
   role_tc: '',
   role_sc: '',
   role_en: '',
-  artist: { _id: '' }
+  isGuestArtist: false,
+  artist: { _id: '' },
+  guestArtistName_tc: '',
+  guestArtistName_sc: '',
+  guestArtistName_en: ''
 };
 
 const mapArtistToListItem = artist => {
@@ -160,7 +166,20 @@ const Item = ({
 
   /* end of event handlers */
 
-  const { role_tc, role_sc, role_en, artist, draggableId } = artistInEvent;
+  // artist is _id
+  const {
+    role_tc,
+    role_sc,
+    role_en,
+    isGuestArtist,
+    artist,
+    guestArtistName_tc,
+    guestArtistName_sc,
+    guestArtistName_en,
+    draggableId
+  } = artistInEvent;
+
+  const isShowGuestStuff = isGuestArtist === true;
 
   return (
     <Draggable key={draggableId} draggableId={draggableId} index={index}>
@@ -175,42 +194,103 @@ const Item = ({
             provided.draggableProps.style
           )}
         >
-          <div className='w3-col m11 w3-row'>
-            <div className='w3-col m3'>
-              <InputText
-                className='w3-margin-right'
-                name='role_tc'
-                value={role_tc}
-                placeholder={uiWordings['EventEdit.Artist.RoleTcPlaceholder']}
-                onChange={onChange}
-                required={true}
-              />
+          <div className='w3-col m11'>
+            <div className='w3-row'>
+              <div className='w3-col m3'>
+                <InputText
+                  className='w3-margin-right'
+                  name='role_tc'
+                  value={role_tc}
+                  placeholder={uiWordings['EventEdit.Artist.RoleTcPlaceholder']}
+                  onChange={onChange}
+                  required={true}
+                />
+              </div>
+              <div className='w3-col m3'>
+                <InputText
+                  className='w3-margin-right'
+                  name='role_sc'
+                  value={role_sc}
+                  placeholder={uiWordings['EventEdit.Artist.RoleScPlaceholder']}
+                  onChange={onChange}
+                  required={true}
+                />
+              </div>
+              <div className='w3-col m3'>
+                <InputText
+                  className='w3-margin-right'
+                  name='role_en'
+                  value={role_en}
+                  placeholder={uiWordings['EventEdit.Artist.RoleEnPlaceholder']}
+                  onChange={onChange}
+                  required={true}
+                />
+              </div>
+              <div className={`w3-col m3 ${isShowGuestStuff ? 'w3-hide' : ''}`}>
+                <ArtistSelect
+                  artistSelected={artist}
+                  onGetArtistSelected={onGetArtistSelected}
+                />
+              </div>
             </div>
-            <div className='w3-col m3'>
-              <InputText
-                className='w3-margin-right'
-                name='role_sc'
-                value={role_sc}
-                placeholder={uiWordings['EventEdit.Artist.RoleScPlaceholder']}
-                onChange={onChange}
-                required={true}
-              />
-            </div>
-            <div className='w3-col m3'>
-              <InputText
-                className='w3-margin-right'
-                name='role_en'
-                value={role_en}
-                placeholder={uiWordings['EventEdit.Artist.RoleEnPlaceholder']}
-                onChange={onChange}
-                required={true}
-              />
-            </div>
-            <div className='w3-col m3'>
-              <ArtistSelect
-                artistSelected={artist}
-                onGetArtistSelected={onGetArtistSelected}
-              />
+
+            <div className='w3-row w3-margin-top'>
+              <div className='w3-col m2'>
+                <div
+                  className={`is-guest-artist-checkbox ${
+                    isShowGuestStuff ? 'checked' : 'unchecked'
+                  }`}
+                >
+                  <Checkbox
+                    message={uiWordings['EventEdit.Artist.IsGuestArtistLabel']}
+                    name='isGuestArtist'
+                    value={isGuestArtist}
+                    onChange={onChange}
+                  />
+                </div>
+              </div>
+
+              <div className={`${!isShowGuestStuff ? 'w3-hide' : ''}`}>
+                <div className='w3-col m3'>
+                  <InputText
+                    className='w3-margin-right'
+                    name='guestArtistName_tc'
+                    value={guestArtistName_tc}
+                    placeholder={
+                      uiWordings[
+                        'EventEdit.Artist.GuestArtistNameTcPlaceholder'
+                      ]
+                    }
+                    onChange={onChange}
+                  />
+                </div>
+                <div className='w3-col m3'>
+                  <InputText
+                    className='w3-margin-right'
+                    name='guestArtistName_sc'
+                    value={guestArtistName_sc}
+                    placeholder={
+                      uiWordings[
+                        'EventEdit.Artist.GuestArtistNameScPlaceholder'
+                      ]
+                    }
+                    onChange={onChange}
+                  />
+                </div>
+                <div className='w3-col m3'>
+                  <InputText
+                    //className='w3-margin-right'
+                    name='guestArtistName_en'
+                    value={guestArtistName_en}
+                    placeholder={
+                      uiWordings[
+                        'EventEdit.Artist.GuestArtistNameEnPlaceholder'
+                      ]
+                    }
+                    onChange={onChange}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className='w3-rest'>
@@ -300,15 +380,17 @@ const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
   /* end of event handlers */
 
   return (
-    <LabelSortableListPair
-      name='artists'
-      labelMessage={uiWordings['Event.ArtistsLabel']}
-      pickedItemRender={itemRender}
-      getListStyle={getListStyle}
-      pickedItems={artistsInPickedList}
-      getPickedItems={onGetPickedItems}
-      onAddButtonClick={onAddButtonClick}
-    />
+    <div className='event-edit-artist-select'>
+      <LabelSortableListPair
+        name='artists'
+        labelMessage={uiWordings['Event.ArtistsLabel']}
+        pickedItemRender={itemRender}
+        getListStyle={getListStyle}
+        pickedItems={artistsInPickedList}
+        getPickedItems={onGetPickedItems}
+        onAddButtonClick={onAddButtonClick}
+      />
+    </div>
   );
 };
 

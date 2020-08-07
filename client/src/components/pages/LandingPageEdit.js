@@ -296,7 +296,7 @@ const LandingPageEdit = _ => {
         <div className='w3-col m10'>
           <h4>{uiWordings['LandingPageEdit.EditLandingPageTitle']}</h4>
         </div>
-        <div className='w3-col m2 w3-row'>
+        <div className='w3-rest w3-row'>
           <div className='w3-col m12'>
             <PageMetaEdit
               pageMeta={pageMeta}

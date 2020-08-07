@@ -109,6 +109,18 @@ Event.eventsResponseTypes = {
     type: 'EVENT_ARTIST_REQUIRED',
     msg: 'One of the event artists is missing.'
   },
+  EVENT_GUEST_ARTIST_NAME_TC_REQUIRED: {
+    type: 'EVENT_GUEST_ARTIST_NAME_TC_REQUIRED',
+    msg: 'EVENT_GUEST_ARTIST_NAME_TC_REQUIRED'
+  },
+  EVENT_GUEST_ARTIST_NAME_SC_REQUIRED: {
+    type: 'EVENT_GUEST_ARTIST_NAME_SC_REQUIRED',
+    msg: 'EVENT_GUEST_ARTIST_NAME_SC_REQUIRED'
+  },
+  EVENT_GUEST_ARTIST_NAME_EN_REQUIRED: {
+    type: 'EVENT_GUEST_ARTIST_NAME_EN_REQUIRED',
+    msg: 'EVENT_GUEST_ARTIST_NAME_EN_REQUIRED'
+  },
   EVENT_SHOW_DATE_REQUIRED: {
     type: 'EVENT_SHOW_DATE_REQUIRED',
     msg: 'One of the event show date is missing.'

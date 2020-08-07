@@ -1,0 +1,19 @@
+.event-edit-artist-select
+  .is-guest-artist-checkbox.unchecked
+  input[type='checkbox'] {
+  vertical-align: top;
+}
+
+.event-edit-artist-select .is-guest-artist-checkbox.unchecked label {
+  vertical-align: top;
+}
+
+.event-edit-artist-select
+  .is-guest-artist-checkbox.checked
+  input[type='checkbox'] {
+  vertical-align: sub;
+}
+
+.event-edit-artist-select .is-guest-artist-checkbox.checked label {
+  vertical-align: sub;
+}

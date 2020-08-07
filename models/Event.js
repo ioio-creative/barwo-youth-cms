@@ -14,9 +14,22 @@ const EventArtistSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  isGuestArtist: {
+    type: Boolean,
+    default: false
+  },
   artist: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'artist'
+  },
+  guestArtistName_tc: {
+    type: String
+  },
+  guestArtistName_sc: {
+    type: String
+  },
+  guestArtistName_en: {
+    type: String
   }
 });
 
@@ -201,6 +214,9 @@ module.exports.eventResponseTypes = {
   EVENT_ARTIST_ROLE_SC_REQUIRED: 'EVENT_ARTIST_ROLE_SC_REQUIRED',
   EVENT_ARTIST_ROLE_EN_REQUIRED: 'EVENT_ARTIST_ROLE_EN_REQUIRED',
   EVENT_ARTIST_REQUIRED: 'EVENT_ARTIST_REQUIRED',
+  EVENT_GUEST_ARTIST_NAME_TC_REQUIRED: 'EVENT_GUEST_ARTIST_NAME_TC_REQUIRED',
+  EVENT_GUEST_ARTIST_NAME_SC_REQUIRED: 'EVENT_GUEST_ARTIST_NAME_SC_REQUIRED',
+  EVENT_GUEST_ARTIST_NAME_EN_REQUIRED: 'EVENT_GUEST_ARTIST_NAME_EN_REQUIRED',
   EVENT_SHOW_DATE_REQUIRED: 'EVENT_SHOW_DATE_REQUIRED',
   EVENT_SHOW_START_TIME_REQUIRED: 'EVENT_SHOW_START_TIME_REQUIRED',
   EVENT_SCENARIST_NAME_TC_REQUIRED: 'EVENT_SCENARIST_NAME_TC_REQUIRED',

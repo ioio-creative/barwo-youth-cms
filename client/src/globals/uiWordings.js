@@ -183,7 +183,11 @@ export default {
   'EventEdit.Artist.RoleTcPlaceholder': 'Role TC',
   'EventEdit.Artist.RoleScPlaceholder': 'Role SC',
   'EventEdit.Artist.RoleEnPlaceholder': 'Role EN',
+  'EventEdit.Artist.IsGuestArtistLabel': 'Guest?',
   'EventEdit.Artist.ArtistPlaceholder': 'Select Artist...',
+  'EventEdit.Artist.GuestArtistNameTcPlaceholder': 'Guest Name TC',
+  'EventEdit.Artist.GuestArtistNameScPlaceholder': 'Guest Name SC',
+  'EventEdit.Artist.GuestArtistNameEnPlaceholder': 'Guest Name EN',
 
   'EventEdit.Scenarist.NameTcPlaceholder': 'Name TC',
   'EventEdit.Scenarist.NameScPlaceholder': 'Name SC',

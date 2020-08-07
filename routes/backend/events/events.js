@@ -93,8 +93,16 @@ const eventArtistsValidation = artists => {
   for (const artist of getArraySafe(artists)) {
     let errorType = null;
 
-    if (!artist.artist) {
+    if (artist.isGuestArtist !== true && !artist.artist) {
       errorType = eventResponseTypes.EVENT_ARTIST_REQUIRED;
+    } else if (artist.isGuestArtist === true) {
+      if (!artist.guestArtistName_tc) {
+        errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_TC_REQUIRED;
+      } else if (!artist.guestArtistName_sc) {
+        errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_SC_REQUIRED;
+      } else if (!artist.guestArtistName_en) {
+        errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_EN_REQUIRED;
+      }
     } else if (!artist.role_tc) {
       errorType = eventResponseTypes.EVENT_ARTIST_ROLE_TC_REQUIRED;
     } else if (!artist.role_sc) {
@@ -273,7 +281,9 @@ const setEventsInvolvedForArtDirectorsAndArtists = async (
   }
 
   // set artist's eventsPerformed
-  for (const artist of getArraySafe(artists)) {
+  for (const artist of getArraySafe(artists).filter(
+    artist => artist.isGuestArtist !== true
+  )) {
     // artist.artist is artist's _id
     await Artist.findByIdAndUpdate(
       artist.artist,
@@ -304,7 +314,9 @@ const removeEventsInvolvedForArtDirectorsAndArtists = async (
     );
   }
 
-  for (const artist of getArraySafe(event.artists)) {
+  for (const artist of getArraySafe(event.artists).filter(
+    artist => artist.isGuestArtist !== true
+  )) {
     await Artist.findByIdAndUpdate(
       artist.artist,
       {
@@ -315,6 +327,14 @@ const removeEventsInvolvedForArtDirectorsAndArtists = async (
       options
     );
   }
+};
+
+const getCleanedEventArtists = eventArtists => {
+  return getArraySafe(eventArtists).map(eventArtist => ({
+    ...eventArtist,
+    // since MongoDB does not accept ObjectId to be empty string
+    artist: eventArtist.artist === '' ? null : eventArtist.artist
+  }));
 };
 
 const compareShows = (show1, show2) => {
@@ -475,10 +495,10 @@ router.post(
         remarks_en,
         isEnabled,
         lastModifyUser: req.user._id,
-        artDirectors,
-        artists,
-        shows,
-        scenarists,
+        artDirectors: getArraySafe(artDirectors),
+        artists: getCleanedEventArtists(artists),
+        shows: sortShows(shows),
+        scenarists: getArraySafe(scenarists),
         // venue_tc,
         // venue_sc,
         // venue_en,
@@ -589,7 +609,7 @@ router.put(
     eventFields.remarks_en = remarks_en;
     if (isEnabled !== undefined) eventFields.isEnabled = isEnabled;
     eventFields.artDirectors = getArraySafe(artDirectors);
-    eventFields.artists = getArraySafe(artists);
+    eventFields.artists = getCleanedEventArtists(artists);
     eventFields.shows = sortShows(shows);
     eventFields.scenarists = getArraySafe(scenarists);
     // if (venue_tc) eventFields.venue_tc = venue_tc;

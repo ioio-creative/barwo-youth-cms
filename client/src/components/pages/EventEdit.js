@@ -198,15 +198,34 @@ const EventEdit = _ => {
 
   const validInput = useCallback(
     eventInput => {
+      // Note: artist is an object
       for (const artist of eventInput.artists) {
-        // artist is acutally a string, which is artistId
-        if (!artist) {
+        let errorType = null;
+
+        if (artist.isGuestArtist === true) {
+          if (!artist.guestArtistName_tc) {
+            errorType =
+              Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_TC_REQUIRED;
+          } else if (!artist.guestArtistName_sc) {
+            errorType =
+              Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_SC_REQUIRED;
+          } else if (!artist.guestArtistName_en) {
+            errorType =
+              Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_EN_REQUIRED;
+          }
+        } else {
+          // artist.artist is acutally a string, which is artistId
+          if (!artist.artist) {
+            errorType = Event.eventsResponseTypes.EVENT_ARTIST_REQUIRED;
+          }
+        }
+
+        if (errorType) {
+          const alertMsgPrefix = `${uiWordings['Event.ArtistsLabel']} - ${uiWordings['EventEdit.Artist.RoleTcPlaceholder']} - ${artist.role_tc} - `;
           setAlerts(
-            new Alert(
-              Event.eventsResponseTypes.EVENT_ARTIST_REQUIRED.msg,
-              Alert.alertTypes.WARNING
-            )
+            new Alert(alertMsgPrefix + errorType.msg, Alert.alertTypes.WARNING)
           );
+
           return false;
         }
       }
@@ -305,12 +324,27 @@ const EventEdit = _ => {
 
       // add artists
       event.artists = getArraySafe(
-        artistsPicked.map(({ role_tc, role_sc, role_en, artist: { _id } }) => ({
-          role_tc,
-          role_sc,
-          role_en,
-          artist: _id
-        }))
+        artistsPicked.map(
+          ({
+            role_tc,
+            role_sc,
+            role_en,
+            artist,
+            isGuestArtist,
+            guestArtistName_tc,
+            guestArtistName_sc,
+            guestArtistName_en
+          }) => ({
+            role_tc,
+            role_sc,
+            role_en,
+            artist: artist ? artist._id : null,
+            isGuestArtist,
+            guestArtistName_tc,
+            guestArtistName_sc,
+            guestArtistName_en
+          })
+        )
       );
 
       // add shows
@@ -444,7 +478,7 @@ const EventEdit = _ => {
                 : uiWordings['EventEdit.EditEventTitle']}
             </h4>
           </div>
-          <div className='w3-col m4 w3-row'>
+          <div className='w3-rest w3-row'>
             <div className='w3-col m6'>
               <ColorPickerModal
                 name='themeColor'

@@ -141,14 +141,28 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
       const artist = artistWithRole.artist;
       return {
         role: getEntityPropByLanguage(artistWithRole, 'role', language),
-        artist: {
-          id: artist._id,
-          label: artist.label,
-          name: getEntityPropByLanguage(artist, 'name', language),
-          featuredImage: {
-            src: artist.featuredImage && artist.featuredImage.url
-          }
-        }
+        artist:
+          artistWithRole.isGuestArtist !== true
+            ? {
+                id: artist._id,
+                label: artist.label,
+                name: getEntityPropByLanguage(artist, 'name', language),
+                featuredImage: {
+                  src: artist.featuredImage && artist.featuredImage.url
+                }
+              }
+            : {
+                id: null,
+                label: null,
+                name: getEntityPropByLanguage(
+                  artistWithRole,
+                  'guestArtistName',
+                  language
+                ),
+                featuredImage: {
+                  src: null
+                }
+              }
       };
     })
   };
