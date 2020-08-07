@@ -193,6 +193,15 @@ Event.eventsResponseTypes = {
 };
 
 Event.getEventForDisplay = event => {
+  let artistsDisplay = '';
+  const firstArtistWithRole = firstOrDefault(event.artists);
+  if (firstArtistWithRole) {
+    if (firstArtistWithRole.isGuestArtist === true) {
+      artistsDisplay = firstArtistWithRole.guestArtistName_tc;
+    } else {
+      artistsDisplay = firstArtistWithRole.artist.label;
+    }
+  }
   return {
     ...event,
     createDTDisplay: formatDateTimeString(event.createDT),
@@ -202,9 +211,8 @@ Event.getEventForDisplay = event => {
       : '',
     isEnabledDisplay: event.isEnabled.toString(),
     artDirectorsDisplay: firstOrDefault(event.artDirectors, { label: '' })
-      .name_tc,
-    artistsDisplay: firstOrDefault(event.artists, { artist: { label: '' } })
-      .artist.name_tc,
+      .label,
+    artistsDisplay: artistsDisplay,
     showsDisplay: formatDateString(
       firstOrDefault(event.shows, { date: null }).date
     ),
