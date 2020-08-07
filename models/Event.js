@@ -30,6 +30,19 @@ const EventArtistSchema = mongoose.Schema({
   },
   guestArtistName_en: {
     type: String
+  },
+  guestArtistRemarks_tc: {
+    type: String
+  },
+  guestArtistRemarks_sc: {
+    type: String
+  },
+  guestArtistRemarks_en: {
+    type: String
+  },
+  guestArtistImage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
   }
 });
 

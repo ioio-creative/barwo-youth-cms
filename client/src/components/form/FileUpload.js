@@ -11,8 +11,6 @@ import './FileUpload.css';
 
 /* constants */
 
-const mediumTypes = Medium.mediumTypes;
-
 const mapFileToListItem = file => {
   return {
     ...file,
@@ -236,7 +234,7 @@ const FileUpload = ({
 
 FileUpload.defaultProps = {
   name: 'files',
-  mediumType: mediumTypes.IMAGE,
+  mediumType: Medium.defaultMediumType,
   onGetFiles: files => {
     console.log(files);
   },

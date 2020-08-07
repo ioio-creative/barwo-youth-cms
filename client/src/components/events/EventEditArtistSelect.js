@@ -11,6 +11,7 @@ import LabelSortableListPair from 'components/form/LabelSortableListPair';
 import AsyncSelect from 'components/form/AsyncSelect';
 import InputText from 'components/form/InputText';
 import Checkbox from 'components/form/Checkbox';
+import SimpleFileUpload from 'components/form/SimpleFileUpload';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import isFunction from 'utils/js/function/isFunction';
@@ -157,6 +158,14 @@ const Item = ({
     [artistInEvent, dealWithItemChange]
   );
 
+  const onGetGuestArtistImage = useCallback(file => {
+    const newArtistInEvent = {
+      ...artistInEvent,
+      guestArtistImage: file
+    };
+    dealWithItemChange(newArtistInEvent);
+  }, []);
+
   const onRemoveButtonClick = useCallback(
     _ => {
       handleItemRemoved(index);
@@ -176,6 +185,10 @@ const Item = ({
     guestArtistName_tc,
     guestArtistName_sc,
     guestArtistName_en,
+    guestArtistRemarks_tc,
+    guestArtistRemarks_sc,
+    guestArtistRemarks_en,
+    guestArtistImage,
     draggableId
   } = artistInEvent;
 
@@ -290,6 +303,60 @@ const Item = ({
                     onChange={onChange}
                   />
                 </div>
+              </div>
+            </div>
+
+            <div className={`${!isShowGuestStuff ? 'w3-hide' : ''}`}>
+              <div className='w3-row w3-margin-top'>
+                <div className='w3-col m2' />
+                <div className='w3-col m3'>
+                  <InputText
+                    className='w3-margin-right'
+                    name='guestArtistRemarks_tc'
+                    value={guestArtistRemarks_tc}
+                    placeholder={
+                      uiWordings[
+                        'EventEdit.Artist.GuestArtistRemarksTcPlaceholder'
+                      ]
+                    }
+                    onChange={onChange}
+                  />
+                </div>
+                <div className='w3-col m3'>
+                  <InputText
+                    className='w3-margin-right'
+                    name='guestArtistRemarks_sc'
+                    value={guestArtistRemarks_sc}
+                    placeholder={
+                      uiWordings[
+                        'EventEdit.Artist.GuestArtistRemarksScPlaceholder'
+                      ]
+                    }
+                    onChange={onChange}
+                  />
+                </div>
+                <div className='w3-col m3'>
+                  <InputText
+                    //className='w3-margin-right'
+                    name='guestArtistRemarks_en'
+                    value={guestArtistRemarks_en}
+                    placeholder={
+                      uiWordings[
+                        'EventEdit.Artist.GuestArtistRemarksEnPlaceholder'
+                      ]
+                    }
+                    onChange={onChange}
+                  />
+                </div>
+              </div>
+              <div className='w3-row w3-margin-top'>
+                <SimpleFileUpload
+                  buttonLabel={
+                    uiWordings['EventEdit.Artist.GuestArtistImageAdd']
+                  }
+                  file={guestArtistImage}
+                  onGetFile={onGetGuestArtistImage}
+                />
               </div>
             </div>
           </div>

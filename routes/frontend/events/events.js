@@ -62,6 +62,12 @@ const eventPopulationListForFindAll = [
     }
   },
   {
+    path: 'artists.guestArtistImage',
+    select: {
+      url: 1
+    }
+  },
+  {
     path: 'featuredImage',
     select: mediumSelect
   },
@@ -160,8 +166,15 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
                   language
                 ),
                 featuredImage: {
-                  src: null
-                }
+                  src:
+                    artistWithRole.guestArtistImage &&
+                    artistWithRole.guestArtistImage.url
+                },
+                remarks: getEntityPropByLanguage(
+                  artistWithRole,
+                  'guestArtistRemarks',
+                  language
+                )
               }
       };
     })

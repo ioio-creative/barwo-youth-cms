@@ -148,6 +148,7 @@ const upload = multer({
               });
             }
           }
+
           cb(null, transformFunc);
         }
       }

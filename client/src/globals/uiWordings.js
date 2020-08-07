@@ -188,6 +188,10 @@ export default {
   'EventEdit.Artist.GuestArtistNameTcPlaceholder': 'Guest Name TC',
   'EventEdit.Artist.GuestArtistNameScPlaceholder': 'Guest Name SC',
   'EventEdit.Artist.GuestArtistNameEnPlaceholder': 'Guest Name EN',
+  'EventEdit.Artist.GuestArtistRemarksTcPlaceholder': 'Guest Remarks TC',
+  'EventEdit.Artist.GuestArtistRemarksScPlaceholder': 'Guest Remarks SC',
+  'EventEdit.Artist.GuestArtistRemarksEnPlaceholder': 'Guest Remarks EN',
+  'EventEdit.Artist.GuestArtistImageAdd': 'Guest Image',
 
   'EventEdit.Scenarist.NameTcPlaceholder': 'Name TC',
   'EventEdit.Scenarist.NameScPlaceholder': 'Name SC',
@@ -859,5 +863,9 @@ export default {
   'FileManager.NumberOfFilesSelectedSuffix': 'files selected',
 
   'FileUpload.TitleForSingleUpload': 'File Manager',
-  'FileUpload.TitleForMultipleUpload': 'File Manager (Multiple)'
+  'FileUpload.TitleForMultipleUpload': 'File Manager (Multiple)',
+
+  'SimpleFileUpload.UrlPlaceholder': 'File URL...',
+  'SimpleFileUpload.RemoveFile': 'Remove',
+  'SimpleFileUpload.PickFile': 'Pick'
 };
