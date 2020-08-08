@@ -94,11 +94,13 @@ router.post('/handle-bounces', async function (req, res) {
       success: true,
       message: 'Successfully received message'
     });
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({
       success: false,
-      message: error.message
+      message: err.message
     });
+    //generalErrorHandle(err, res);
   }
 });
 
@@ -130,7 +132,7 @@ router.post('/handle-complaints', async function (req, res) {
     console.error(err);
     res.status(500).json({
       success: false,
-      message: error.message
+      message: err.message
     });
     //generalErrorHandle(err, res);
   }
