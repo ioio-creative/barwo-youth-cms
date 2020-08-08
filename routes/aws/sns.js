@@ -124,12 +124,13 @@ router.post('/handle-complaints', async function (req, res) {
       success: true,
       message: 'Successfully received message.'
     });
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({
       success: false,
       message: error.message
     });
-    generalErrorHandle(err, res);
+    //generalErrorHandle(err, res);
   }
 });
 
