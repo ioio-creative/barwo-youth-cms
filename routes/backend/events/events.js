@@ -50,6 +50,10 @@ const eventPopulationListForFindAll = [
     select: 'label'
   },
   {
+    path: 'artists.guestArtistImage',
+    select: mediumSelect
+  },
+  {
     path: 'shows'
   },
   {

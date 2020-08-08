@@ -158,13 +158,16 @@ const Item = ({
     [artistInEvent, dealWithItemChange]
   );
 
-  const onGetGuestArtistImage = useCallback(file => {
-    const newArtistInEvent = {
-      ...artistInEvent,
-      guestArtistImage: file
-    };
-    dealWithItemChange(newArtistInEvent);
-  }, []);
+  const onGetGuestArtistImage = useCallback(
+    file => {
+      const newArtistInEvent = {
+        ...artistInEvent,
+        guestArtistImage: file
+      };
+      dealWithItemChange(newArtistInEvent);
+    },
+    [artistInEvent, dealWithItemChange]
+  );
 
   const onRemoveButtonClick = useCallback(
     _ => {

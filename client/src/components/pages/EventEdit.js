@@ -333,7 +333,11 @@ const EventEdit = _ => {
             isGuestArtist,
             guestArtistName_tc,
             guestArtistName_sc,
-            guestArtistName_en
+            guestArtistName_en,
+            guestArtistRemarks_tc,
+            guestArtistRemarks_sc,
+            guestArtistRemarks_en,
+            guestArtistImage
           }) => ({
             role_tc,
             role_sc,
@@ -342,7 +346,11 @@ const EventEdit = _ => {
             isGuestArtist,
             guestArtistName_tc,
             guestArtistName_sc,
-            guestArtistName_en
+            guestArtistName_en,
+            guestArtistRemarks_tc,
+            guestArtistRemarks_sc,
+            guestArtistRemarks_en,
+            guestArtistImage: guestArtistImage ? guestArtistImage._id : null
           })
         )
       );
