@@ -108,26 +108,28 @@ router.post('/handle-complaints', async function (req, res) {
   try {
     handleResponse(topicArnComplaint, req, res);
 
-    console.log(req.body);
+    console.log('handle-complaints');
 
-    const emailAddresses = req.body.Message.complaints.complaintsdRecipients.map(
-      complaintsdRecipient => {
-        return complaintsdRecipient.emailAddress;
-      }
-    );
-
-    for (const emailAddress of emailAddresses) {
-      await Contact.findOneAndUpdate(
-        { emailAddress: emailAddress },
-        { $set: { isEnabled: false } },
-        { new: true }
+    if (req.body.Message) {
+      const emailAddresses = req.body.Message.complaints.complaintsdRecipients.map(
+        complaintsdRecipient => {
+          return complaintsdRecipient.emailAddress;
+        }
       );
-    }
 
-    res.status(200).json({
-      success: true,
-      message: 'Successfully received message.'
-    });
+      for (const emailAddress of emailAddresses) {
+        await Contact.findOneAndUpdate(
+          { emailAddress: emailAddress },
+          { $set: { isEnabled: false } },
+          { new: true }
+        );
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Successfully received message.'
+      });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({
