@@ -1,20 +1,55 @@
 const mongoose = require('mongoose');
 
 const MiscellaneousInfoSchema = mongoose.Schema({
-  /* contact us */
-  contactUsOrganizationName_tc: {
+  termsAndConditionsTitle_tc: {
     type: String,
     require: true
   },
-  contactUsOrganizationName_sc: {
+  termsAndConditionsTitle_sc: {
     type: String,
     require: true
   },
-  contactUsOrganizationName_en: {
+  termsAndConditionsTitle_en: {
+    type: String,
+    require: true
+  },
+  termsAndConditionsDesc_tc: {
+    type: String,
+    require: true
+  },
+  termsAndConditionsDesc_sc: {
+    type: String,
+    require: true
+  },
+  termsAndConditionsDesc_en: {
+    type: String,
+    require: true
+  },
+
+  privacyPolicyTitle_tc: {
+    type: String,
+    require: true
+  },
+  privacyPolicyTitle_sc: {
+    type: String,
+    require: true
+  },
+  privacyPolicyTitle_en: {
+    type: String,
+    require: true
+  },
+  privacyPolicyTitle_tc: {
+    type: String,
+    require: true
+  },
+  privacyPolicyTitle_sc: {
+    type: String,
+    require: true
+  },
+  privacyPolicyTitle_en: {
     type: String,
     require: true
   }
-  /* end of contact us */
 });
 
 module.exports.MiscellaneousInfo = mongoose.model(

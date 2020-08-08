@@ -106,6 +106,8 @@ router.post('/handle-complaints', async function (req, res) {
   try {
     handleResponse(topicArnComplaint, req, res);
 
+    console.log(req.body);
+
     const emailAddresses = req.body.Message.complaints.complaintsdRecipients.map(
       complaintsdRecipient => {
         return complaintsdRecipient.emailAddress;
