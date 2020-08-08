@@ -323,7 +323,7 @@ const EventEdit = _ => {
         scrollToTop();
       }
     },
-    [eventId, deleteEvent, setAlerts]
+    [isCommunityPerformance, eventId, deleteEvent, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -465,6 +465,7 @@ const EventEdit = _ => {
       scrollToTop();
     },
     [
+      isCommunityPerformance,
       isAddMode,
       updateEvent,
       addEvent,

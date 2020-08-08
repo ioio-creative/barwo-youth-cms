@@ -202,8 +202,6 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
       type = defaultEventType;
     }
 
-    console.log(type);
-
     const language = req.language;
 
     const events = await Event.find({

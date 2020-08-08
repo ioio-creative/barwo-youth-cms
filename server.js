@@ -84,18 +84,22 @@ app.use(
   require('./routes/backend/newsMediaItems/newsMediaItems')
 );
 app.use(
+  '/api/backend/globalConstants/globalConstants',
+  require('./routes/backend/globalConstants/globalConstants')
+);
+app.use(
   '/api/backend/landingPage/landingPage',
   require('./routes/backend/landingPage/landingPage')
 );
+app.use('/api/backend/about/about', require('./routes/backend/about/about'));
 app.use(
-  '/api/backend/globalConstants/globalConstants',
-  require('./routes/backend/globalConstants/globalConstants')
+  '/api/backend/miscellaneousInfo/miscellaneousInfo',
+  require('./routes/backend/miscellaneousInfo/miscellaneousInfo')
 );
 app.use(
   '/api/backend/contacts/contacts',
   require('./routes/backend/contacts/contacts')
 );
-app.use('/api/backend/about/about', require('./routes/backend/about/about'));
 app.use(
   '/api/backend/newsletters/newsletters',
   require('./routes/backend/newsletters/newsletters')
@@ -149,6 +153,10 @@ app.use(
   require('./routes/frontend/landingPage/landingPage')
 );
 app.use('/api/frontend/about', require('./routes/frontend/about/about'));
+app.use(
+  '/api/frontend/miscellaneousInfo',
+  require('./routes/frontend/miscellaneousInfo/miscellaneousInfo')
+);
 app.use(
   '/api/frontend/contacts',
   require('./routes/frontend/contacts/contacts')

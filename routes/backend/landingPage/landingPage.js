@@ -170,10 +170,7 @@ router.get('/', auth, async (req, res) => {
     }
     res.json(landing);
   } catch (err) {
-    //generalErrorHandle(err, res);
-    return res
-      .status(404)
-      .json({ errors: [landingPageResponseTypes.LANDING_PAGE_NOT_EXISTS] });
+    generalErrorHandle(err, res);
   }
 });
 
