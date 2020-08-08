@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const eventTypes = {
+  EVENT: 'EVENT',
+  COMMUNITY_PERFORMANCE: 'COMMUNITY_PERFORMANCE'
+};
+
+const eventTypesArray = Object.values(eventTypes);
+
 const EventArtistSchema = mongoose.Schema({
   role_tc: {
     type: String,
@@ -124,6 +131,10 @@ const EventSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  type: {
+    type: String,
+    default: eventTypes.EVENT
+  },
   shows: [EventShowSchema],
   scenarists: [EventScenaristSchema],
   descHeadline_tc: {
@@ -216,12 +227,21 @@ EventSchema.plugin(mongoosePaginate);
 
 module.exports.Event = mongoose.model('event', EventSchema);
 
+module.exports.eventTypes = eventTypes;
+
+module.exports.defaultEventType = eventTypes.EVENT;
+
+module.exports.isValidEventType = type => {
+  return eventTypesArray.includes(type && type.toUpperCase());
+};
+
 module.exports.eventResponseTypes = {
   // input validation
   LABEL_REQUIRED: 'LABEL_REQUIRED',
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  TYPE_REQUIRED: 'TYPE_REQUIRED',
   EVENT_ART_DIRECTOR_REQUIRED: 'EVENT_ART_DIRECTOR_REQUIRED',
   EVENT_ARTIST_ROLE_TC_REQUIRED: 'EVENT_ARTIST_ROLE_TC_REQUIRED',
   EVENT_ARTIST_ROLE_SC_REQUIRED: 'EVENT_ARTIST_ROLE_SC_REQUIRED',

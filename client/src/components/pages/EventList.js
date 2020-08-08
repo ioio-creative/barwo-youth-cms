@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useCallback, useMemo } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import EventsContext from 'contexts/events/eventsContext';
 import EventsPageContainer from 'components/events/EventsPageContainer';
@@ -17,6 +18,8 @@ import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import Event from 'models/event';
 import Alert from 'models/alert';
+
+const eventTypes = Event.eventTypes;
 
 const defaultInitialSortBy = 'label';
 const defaultInitialSortOrder = 1;
@@ -185,6 +188,10 @@ const headers = [
 ];
 
 const EventList = _ => {
+  const isCommunityPerformance = Boolean(
+    useRouteMatch(routes.communityPerformanceList(false))
+  );
+
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     events,
@@ -218,6 +225,21 @@ const EventList = _ => {
     turnOffFilter
   } = useFilterForTable();
 
+  /* methods */
+
+  const getEventsWithType = useCallback(
+    getOptions => {
+      const extendedGetOptions = { ...getOptions };
+      if (isCommunityPerformance) {
+        extendedGetOptions.type = eventTypes.COMMUNITY_PERFORMANCE.value;
+      }
+      getEvents(extendedGetOptions);
+    },
+    [isCommunityPerformance, getEvents]
+  );
+
+  /* end of methods */
+
   // componentDidMount
   useEffect(
     _ => {
@@ -232,9 +254,10 @@ const EventList = _ => {
   // set query string and getEvents
   useEffect(
     _ => {
-      getEvents(prepareGetOptionsForPaginationAndSort());
+      const getOptions = prepareGetOptionsForPaginationAndSort();
+      getEventsWithType(getOptions);
     },
-    [prepareGetOptionsForPaginationAndSort, getEvents]
+    [prepareGetOptionsForPaginationAndSort, getEventsWithType]
   );
 
   // filter and getEvents
@@ -245,7 +268,7 @@ const EventList = _ => {
           ...prepareGetOptionsForPaginationAndSort(),
           ...prepareGetOptionsForFilter()
         };
-        getEvents(getOptions);
+        getEventsWithType(getOptions);
         setIsUseFilter(false);
       }
     },
@@ -254,7 +277,7 @@ const EventList = _ => {
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,
       prepareGetOptionsForFilter,
-      getEvents
+      getEventsWithType
     ]
   );
 
@@ -309,7 +332,15 @@ const EventList = _ => {
           <InputText
             name='filterText'
             className='w3-section'
-            placeholder={uiWordings['EventList.FilterTextPlaceHolder']}
+            placeholder={
+              uiWordings[
+                `${
+                  isCommunityPerformance
+                    ? 'CommunityPerformanceList.FilterTextPlaceHolder'
+                    : 'EventList.FilterTextPlaceHolder'
+                }`
+              ]
+            }
             onChange={onFilterChange}
             value={filterText}
           />
@@ -325,8 +356,22 @@ const EventList = _ => {
           </div>
         </div>
         <div className='w3-right'>
-          <LinkButton to={routes.eventAdd(true)}>
-            {uiWordings['EventList.AddEvent']}
+          <LinkButton
+            to={
+              isCommunityPerformance
+                ? routes.communityPerformanceAdd(true)
+                : routes.eventAdd(true)
+            }
+          >
+            {
+              uiWordings[
+                `${
+                  isCommunityPerformance
+                    ? 'CommunityPerformanceList.AddCommunityPerformance'
+                    : 'EventList.AddEvent'
+                }`
+              ]
+            }
           </LinkButton>
         </div>
       </Form>

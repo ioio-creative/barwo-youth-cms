@@ -9,6 +9,7 @@ export default {
   'Navbar.Users': 'Users',
   'Navbar.Artists': 'Artists',
   'Navbar.Events': 'Events',
+  'Navbar.CommunityPerformances': 'Community Performances',
   'Navbar.Phases': 'Phases',
   'Navbar.LandingPage': 'Landing Page',
   'Navbar.GlobalConstants': 'Global Constants',
@@ -129,6 +130,7 @@ export default {
   'ArtistsOrder.OrderArtistsSuccessMessage': 'Artists Order Saved',
 
   'Events.Title': 'Events',
+  'CommunityPerformances.Title': 'Community Performances',
 
   'Event.LabelLabel': 'Label',
   'Event.NameTcLabel': 'Name TC',
@@ -169,6 +171,11 @@ export default {
   'EventList.FilterButton': 'Filter',
   'EventList.ClearFilterButton': 'Clear Filter',
 
+  'CommunityPerformanceList.AddCommunityPerformance':
+    'Add Community Performance',
+  'CommunityPerformanceList.FilterTextPlaceHolder':
+    'Filter Community Performances...',
+
   'EventEdit.BackToEventList': 'Back to Event List',
   'EventEdit.AddEventTitle': 'Add Event',
   'EventEdit.EditEventTitle': 'Edit Event',
@@ -178,6 +185,25 @@ export default {
   'EventEdit.AddEventSuccessMessage': 'Event Added',
   'EventEdit.UpdateEventSuccessMessage': 'Event Updated',
   'EventEdit.DeleteEventSuccessMessage': 'Event Deleted',
+
+  'CommunityPerformanceEdit.BackToCommunityPerformanceList':
+    'Back to Community Performance List',
+  'CommunityPerformanceEdit.AddCommunityPerformanceTitle':
+    'Add Community Performance',
+  'CommunityPerformanceEdit.EditCommunityPerformanceTitle':
+    'Edit Community Performance',
+  'CommunityPerformanceEdit.AddCommunityPerformanceSubmit':
+    'Add Community Performance',
+  'CommunityPerformanceEdit.UpdateCommunityPerformanceSubmit':
+    'Update Community Performance',
+  'CommunityPerformanceEdit.DeleteCommunityPerformance':
+    'Delete Community Performance',
+  'CommunityPerformanceEdit.AddCommunityPerformanceSuccessMessage':
+    'Community Performance Added',
+  'CommunityPerformanceEdit.UpdateCommunityPerformanceSuccessMessage':
+    'Community Performance Updated',
+  'CommunityPerformanceEdit.DeleteCommunityPerformanceSuccessMessage':
+    'Community Performance Deleted',
 
   'EventEdit.SelectArtDirectorsPlaceholder': 'Select Art Directors...',
   'EventEdit.Artist.RoleTcPlaceholder': 'Role TC',

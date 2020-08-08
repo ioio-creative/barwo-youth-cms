@@ -288,10 +288,7 @@ router.get(
 
       const filterTextRegex = req.filterTextRegex;
       if (filterTextRegex) {
-        findOptions = {
-          ...findOptions,
-          name: filterTextRegex
-        };
+        findOptions.name = filterTextRegex;
       }
 
       const media = await Medium.paginate(findOptions, options);

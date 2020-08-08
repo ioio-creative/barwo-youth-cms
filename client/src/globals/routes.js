@@ -50,6 +50,20 @@ export default {
   eventAdd: function (isLink) {
     return '/eventAdd';
   },
+  communityPerformanceList: function (isLink) {
+    return '/communityPerformanceList';
+  },
+  communityPerformanceEditById:
+    '/communityPerformanceEdit/:communityPerformanceId',
+  communityPerformanceEditByIdWithValue: function (
+    isLink,
+    communityPerformanceId
+  ) {
+    return '/communityPerformanceEdit/' + communityPerformanceId;
+  },
+  communityPerformanceAdd: function (isLink) {
+    return '/communityPerformanceAdd';
+  },
   ticketingDefaultEdit: function (isLink) {
     return '/ticketingDefaultEdit';
   },

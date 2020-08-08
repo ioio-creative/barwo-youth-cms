@@ -40,14 +40,25 @@ const EventsState = ({ children }) => {
     let url = '/api/backend/events/events';
     let queryString = '';
     if (options) {
-      const { page, sortOrder, sortBy, filterText, limit } = options;
+      const {
+        // paging
+        page,
+        sortOrder,
+        sortBy,
+        limit,
+        // filter
+        filterText,
+        // query
+        type
+      } = options;
       queryString = setQueryStringValues(
         {
           page,
           sortOrder,
           sortBy,
+          limit,
           filterText,
-          limit
+          type
         },
         ''
       );

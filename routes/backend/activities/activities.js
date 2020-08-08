@@ -83,6 +83,7 @@ router.get('/', [auth, listingHandling], async (req, res) => {
     const filterTextRegex = req.filterTextRegex;
     if (filterTextRegex) {
       findOptions = {
+        ...findOptions,
         $or: [
           { label: filterTextRegex },
           { name_tc: filterTextRegex },

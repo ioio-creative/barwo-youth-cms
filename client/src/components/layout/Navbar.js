@@ -67,6 +67,16 @@ const Navbar = ({ className }) => {
   const isEventEdit = Boolean(useRouteMatch(routes.eventEditById));
   const isEventAdd = Boolean(useRouteMatch(routes.eventAdd(false)));
 
+  const isCommunityPerformanceList = Boolean(
+    useRouteMatch(routes.communityPerformanceList(false))
+  );
+  const isCommunityPerformanceEdit = Boolean(
+    useRouteMatch(routes.communityPerformanceEditById)
+  );
+  const isCommunityPerformanceAdd = Boolean(
+    useRouteMatch(routes.communityPerformanceAdd(false))
+  );
+
   const isTicketingDefaultEdit = Boolean(
     useRouteMatch(routes.ticketingDefaultEdit(false))
   );
@@ -177,11 +187,22 @@ const Navbar = ({ className }) => {
       >
         {uiWordings['Navbar.Phases']}
       </NavbarLink>
+
       <NavbarLink
         to={routes.eventList(true)}
         isSelected={isEventList || isEventEdit || isEventAdd}
       >
         {uiWordings['Navbar.Events']}
+      </NavbarLink>
+      <NavbarLink
+        to={routes.communityPerformanceList(true)}
+        isSelected={
+          isCommunityPerformanceList ||
+          isCommunityPerformanceEdit ||
+          isCommunityPerformanceAdd
+        }
+      >
+        {uiWordings['Navbar.CommunityPerformances']}
       </NavbarLink>
       <NavbarLink
         className='w3-border-bottom'
@@ -190,6 +211,7 @@ const Navbar = ({ className }) => {
       >
         {uiWordings['Navbar.TicketingDefaultEdit']}
       </NavbarLink>
+
       <NavbarLink
         className='w3-border-bottom'
         to={routes.artistList(true)}

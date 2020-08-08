@@ -168,6 +168,20 @@ const Main = _ => {
               <Route path={routes.eventEditById} component={AsyncEventEdit} />
               <Route path={routes.eventAdd(false)} component={AsyncEventEdit} />
 
+              {/* Community Performances would use the same components as Events. */}
+              <Route
+                path={routes.communityPerformanceList(false)}
+                component={AsyncEventList}
+              />
+              <Route
+                path={routes.communityPerformanceEditById}
+                component={AsyncEventEdit}
+              />
+              <Route
+                path={routes.communityPerformanceAdd(false)}
+                component={AsyncEventEdit}
+              />
+
               <Route
                 path={routes.ticketingDefaultEdit(false)}
                 component={AsyncTicketingDefaultEdit}

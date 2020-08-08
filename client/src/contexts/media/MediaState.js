@@ -101,9 +101,14 @@ const MediaState = ({ children }) => {
         },
         ...userConfig
       };
-      const queryString = setQueryStringValues({
-        ...query
-      });
+      let queryString = '';
+      if (query) {
+        const { width, height } = query;
+        queryString = setQueryStringValues({
+          width,
+          height
+        });
+      }
       try {
         const res = await axios.post(
           `/api/backend/media/${mediumType.apiRoute}${queryString}`,

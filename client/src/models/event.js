@@ -3,11 +3,20 @@ import firstOrDefault from 'utils/js/array/firstOrDefault';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
+const eventTypes = {
+  EVENT: { value: 'EVENT', label: 'Event' },
+  COMMUNITY_PERFORMANCE: {
+    value: 'COMMUNITY_PERFORMANCE',
+    label: 'Community performance'
+  }
+};
+
 function Event() {
   this.label = '';
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
+  //this.type = '';  // front-end actually does not need to know the type
   this.themeColor = '';
   this.artDirectors = [];
   this.shows = [];
@@ -88,6 +97,10 @@ Event.eventsResponseTypes = {
   NAME_EN_REQUIRED: {
     type: 'NAME_EN_REQUIRED',
     msg: 'NAME_EN_REQUIRED'
+  },
+  TYPE_REQUIRED: {
+    type: 'TYPE_REQUIRED',
+    msg: 'TYPE_REQUIRED'
   },
   EVENT_ART_DIRECTOR_REQUIRED: {
     type: 'EVENT_ART_DIRECTOR_REQUIRED',
@@ -191,6 +204,9 @@ Event.eventsResponseTypes = {
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
   CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
+
+Event.eventTypes = eventTypes;
+Event.eventTypeOptions = Object.values(eventTypes);
 
 Event.getEventForDisplay = event => {
   let artistsDisplay = '';

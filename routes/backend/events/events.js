@@ -18,7 +18,12 @@ const {
   compareForStringsAscending
 } = require('../../../utils/js/string/compareForStrings');
 const { compareForDatesAscending } = require('../../../utils/datetime');
-const { Event, eventResponseTypes } = require('../../../models/Event');
+const {
+  Event,
+  eventResponseTypes,
+  defaultEventType,
+  isValidEventType
+} = require('../../../models/Event');
 const { Artist } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
 
@@ -72,7 +77,8 @@ const eventValidationChecks = [
   check('label', eventResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).notEmpty(),
   check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).notEmpty(),
-  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty()
+  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty(),
+  check('type', eventResponseTypes.TYPE_REQUIRED)
   // check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).notEmpty(),
   // check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).notEmpty(),
   // check('venue_en', eventResponseTypes.VENUE_EN_REQUIRED).notEmpty()
@@ -370,16 +376,27 @@ const handleEventLabelDuplicateKeyError = (err, res) => {
 // @access  Private
 router.get('/', [auth, listingHandling], async (req, res) => {
   try {
+    // query
+    const query = req.query;
+    let type = query.type && query.type.toUpperCase();
+
+    if (!isValidEventType(type)) {
+      type = defaultEventType;
+    }
+
     const options = {
       ...req.paginationOptions,
       select: eventSelectForFindAll,
       populate: eventPopulationListForFindAll
     };
 
-    let findOptions = {};
+    let findOptions = {
+      type
+    };
     const filterTextRegex = req.filterTextRegex;
     if (filterTextRegex) {
       findOptions = {
+        ...findOptions,
         $or: [
           { label: filterTextRegex },
           { name_tc: filterTextRegex },
@@ -436,6 +453,7 @@ router.post(
       name_tc,
       name_sc,
       name_en,
+      type,
       descHeadline_tc,
       descHeadline_sc,
       descHeadline_en,
@@ -488,6 +506,7 @@ router.post(
         name_tc,
         name_sc,
         name_en,
+        type,
         descHeadline_tc,
         descHeadline_sc,
         descHeadline_en,
@@ -552,6 +571,7 @@ router.put(
       name_tc,
       name_sc,
       name_en,
+      type,
       descHeadline_tc,
       descHeadline_sc,
       descHeadline_en,
@@ -602,6 +622,7 @@ router.put(
     if (name_tc) eventFields.name_tc = name_tc;
     if (name_sc) eventFields.name_sc = name_sc;
     if (name_en) eventFields.name_en = name_en;
+    if (type) eventFields.type = type;
     eventFields.descHeadline_tc = descHeadline_tc;
     eventFields.descHeadline_sc = descHeadline_sc;
     eventFields.descHeadline_en = descHeadline_en;
