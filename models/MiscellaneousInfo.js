@@ -51,6 +51,31 @@ const MiscellaneousInfoSchema = mongoose.Schema({
     require: true
   },
 
+  contactAddress_tc: {
+    type: String,
+    require: true
+  },
+  contactAddress_sc: {
+    type: String,
+    require: true
+  },
+  contactAddress_en: {
+    type: String,
+    require: true
+  },
+  contactTel: {
+    type: String,
+    require: true
+  },
+  contactFax: {
+    type: String,
+    require: true
+  },
+  contactEmail: {
+    type: String,
+    require: true
+  },
+
   footerOrganizerLogos: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -102,6 +127,14 @@ module.exports.miscellaneousInfoResponseTypes = {
   PRIVACY_POLICY_DESC_TC_REQUIRED: 'PRIVACY_POLICY_DESC_TC_REQUIRED',
   PRIVACY_POLICY_DESC_SC_REQUIRED: 'PRIVACY_POLICY_DESC_SC_REQUIRED',
   PRIVACY_POLICY_DESC_EN_REQUIRED: 'PRIVACY_POLICY_DESC_EN_REQUIRED',
+
+  CONTACT_ADDRESS_TC_REQUIRED: 'CONTACT_ADDRESS_TC_REQUIRED',
+  CONTACT_ADDRESS_SC_REQUIRED: 'CONTACT_ADDRESS_SC_REQUIRED',
+  CONTACT_ADDRESS_EN_REQUIRED: 'CONTACT_ADDRESS_EN_REQUIRED',
+
+  CONTACT_TEL_REQUIRED: 'CONTACT_TEL_REQUIRED',
+  CONTACT_FAX_REQUIRED: 'CONTACT_FAX_REQUIRED',
+  CONTACT_EMAIL_REQUIRED: 'CONTACT_EMAIL_REQUIRED',
 
   // db check
   MISCELLANEOUS_INFO_NOT_EXISTS: 'MISCELLANEOUS_INFO_NOT_EXISTS'

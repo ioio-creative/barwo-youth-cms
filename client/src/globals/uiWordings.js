@@ -13,6 +13,8 @@ export default {
   'Navbar.Phases': 'Phases',
   'Navbar.LandingPage': 'Landing Page',
   'Navbar.GlobalConstants': 'Global Constants',
+  'Navbar.About': 'About Page',
+  'Navbar.MiscellaneousInfo': 'Miscellaneous Info',
   'Navbar.TicketingDefaultEdit': 'Ticketing Default',
   'Navbar.Contacts': 'Contacts',
   'Navbar.Newsletters': 'Newsletters',
@@ -20,7 +22,6 @@ export default {
   'Navbar.Activities': 'Activities',
   'Navbar.Newses': 'News',
   'Navbar.NewsMediaItems': 'News Media Items',
-  'Navbar.About': 'About Page',
   'Navbar.Testing': 'Testing Page',
 
   'SortableList.ItemRemoveButton.Tooltip': 'Remove',
@@ -638,6 +639,42 @@ export default {
   'AboutEdit.StaffPerson.NameScPlaceholder': 'Name SC',
   'AboutEdit.StaffPerson.TitleEnPlaceholder': 'Title EN',
   'AboutEdit.StaffPerson.NameEnPlaceholder': 'Name EN',
+
+  'MiscellaneousInfo.Title': 'Miscellaneous Info',
+
+  'MiscellaneousInfo.ContactRegionLabel': 'Contact Us',
+  'MiscellaneousInfo.ContactAddressTcLabel': 'Address TC',
+  'MiscellaneousInfo.ContactAddressScLabel': 'Address SC',
+  'MiscellaneousInfo.ContactAddressEnLabel': 'Address EN',
+  'MiscellaneousInfo.ContactTelLabel': 'Tel',
+  'MiscellaneousInfo.ContactFaxLabel': 'Fax',
+  'MiscellaneousInfo.ContactEmailLabel': 'Email',
+  'MiscellaneousInfo.FooterRegionLabel': 'Footer',
+  'MiscellaneousInfo.FooterOrganizerLogosLabel': 'Organizer Logos',
+  'MiscellaneousInfo.FooterSponsorLogosLabel': 'Sponsor Logos',
+  'MiscellaneousInfo.TermsAndConditionsRegionLabel': 'Terms And Conditions',
+  'MiscellaneousInfo.TermsAndConditionsTitleTcLabel': 'Title TC',
+  'MiscellaneousInfo.TermsAndConditionsTitleScLabel': 'Title SC',
+  'MiscellaneousInfo.TermsAndConditionsTitleEnLabel': 'Title EN',
+  'MiscellaneousInfo.TermsAndConditionsDescTcLabel': 'Description TC',
+  'MiscellaneousInfo.TermsAndConditionsDescScLabel': 'Description SC',
+  'MiscellaneousInfo.TermsAndConditionsDescEnLabel': 'Description EN',
+  'MiscellaneousInfo.PrivacyPolicyRegionLabel': 'Privacy Policy',
+  'MiscellaneousInfo.PrivacyPolicyTitleTcLabel': 'Title TC',
+  'MiscellaneousInfo.PrivacyPolicyTitleScLabel': 'Title SC',
+  'MiscellaneousInfo.PrivacyPolicyTitleEnLabel': 'Title EN',
+  'MiscellaneousInfo.PrivacyPolicyDescTcLabel': 'Description TC',
+  'MiscellaneousInfo.PrivacyPolicyDescScLabel': 'Description SC',
+  'MiscellaneousInfo.PrivacyPolicyDescEnLabel': 'Description EN',
+
+  'MiscellaneousInfo.LastModifyDTLabel': 'Last Modify DT',
+  'MiscellaneousInfo.LastModifyUserLabel': 'Last Modify User',
+
+  'MiscellaneousInfoEdit.EditMiscellaneousInfoTitle': 'Edit Miscellaneous Info',
+  'MiscellaneousInfoEdit.UpdateMiscellaneousInfoSubmit':
+    'Update Miscellaneous Info',
+  'MiscellaneousInfoEdit.UpdateMiscellaneousInfoSuccessMessage':
+    'Miscellaneous Info Updated',
 
   'Newsletters.Title': 'Newsletters',
 

@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
-import AboutState from 'contexts/about/AboutState';
+import MiscellaneousInfoState from 'contexts/miscellaneousInfo/MiscellaneousInfoState';
 import uiWordings from 'globals/uiWordings';
 
-const AboutContainer = ({ children }) => {
+const MiscellaneousInfoContainer = ({ children }) => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
 
   // componentDidMount
   useEffect(_ => {
-    setTitle(uiWordings['About.Title']);
+    setTitle(uiWordings['MiscellaneousInfo.Title']);
     return _ => {
       removeTitle();
     };
@@ -16,10 +16,10 @@ const AboutContainer = ({ children }) => {
   }, []);
 
   return (
-    <AboutState>
-      <div className='about-container'>{children}</div>
-    </AboutState>
+    <MiscellaneousInfoState>
+      <div className='miscellaneous-info-container'>{children}</div>
+    </MiscellaneousInfoState>
   );
 };
 
-export default AboutContainer;
+export default MiscellaneousInfoContainer;

@@ -84,7 +84,6 @@ router.get('/:lang/about', [languageHandling], async (req, res) => {
         },
         traffic: getEntityPropByLanguage(about, 'theaterTraffic', language),
         contact: {
-          address: getEntityPropByLanguage(about, 'contactAddress', language),
           website: about.contactWebsite,
           tel: about.contactTel,
           fax: about.contactFax,

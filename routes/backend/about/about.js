@@ -178,9 +178,6 @@ router.post(
       theaterTraffic_tc,
       theaterTraffic_sc,
       theaterTraffic_en,
-      contactAddress_tc,
-      contactAddress_sc,
-      contactAddress_en,
       contactWebsite,
       contactTel,
       contactFax,
@@ -230,9 +227,6 @@ router.post(
     aboutFields.theaterTraffic_tc = theaterTraffic_tc;
     aboutFields.theaterTraffic_sc = theaterTraffic_sc;
     aboutFields.theaterTraffic_en = theaterTraffic_en;
-    aboutFields.contactAddress_tc = contactAddress_tc;
-    aboutFields.contactAddress_sc = contactAddress_sc;
-    aboutFields.contactAddress_en = contactAddress_en;
     aboutFields.contactWebsite = contactWebsite;
     aboutFields.contactTel = contactTel;
     aboutFields.contactFax = contactFax;

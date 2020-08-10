@@ -73,6 +73,16 @@ router.get('/:lang/miscellaneousInfo', [languageHandling], async (req, res) => {
           language
         )
       },
+      contact: {
+        address: getEntityPropByLanguage(
+          miscellaneousInfo,
+          'contactAddress',
+          language
+        ),
+        tel: miscellaneousInfo.contactTel,
+        fax: miscellaneousInfo.contactFax,
+        email: miscellaneousInfo.contactEmail
+      },
       footer: {
         organizerLogos: getArraySafe(
           miscellaneousInfo.footerOrganizerLogos

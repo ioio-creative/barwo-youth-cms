@@ -119,6 +119,9 @@ export default {
   landingPageEdit: function (isLink) {
     return '/landingPageEdit';
   },
+  miscellaneousInfoEdit: function (isLink) {
+    return '/miscellaneousInfoEdit';
+  },
   contactList: function (isLink) {
     return '/contactList';
   },

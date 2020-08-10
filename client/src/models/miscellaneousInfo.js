@@ -19,6 +19,14 @@ function MiscellaneousInfo() {
   this.privacyPolicyDesc_sc = '';
   this.privacyPolicyDesc_en = '';
 
+  this.contactAddress_tc = '';
+  this.contactAddress_sc = '';
+  this.contactAddress_en = '';
+
+  this.contactTel = '';
+  this.contactFax = '';
+  this.contactEmail = '';
+
   this.footerOrganizerLogos = [];
   this.footerSponsorLogos = [];
 
@@ -82,8 +90,37 @@ MiscellaneousInfo.miscellaneousInfoResponseTypes = {
     msg: 'PRIVACY_POLICY_DESC_EN_REQUIRED'
   },
 
+  CONTACT_ADDRESS_TC_REQUIRED: {
+    type: 'CONTACT_ADDRESS_TC_REQUIRED',
+    msg: 'CONTACT_ADDRESS_TC_REQUIRED'
+  },
+  CONTACT_ADDRESS_SC_REQUIRED: {
+    type: 'CONTACT_ADDRESS_SC_REQUIRED',
+    msg: 'CONTACT_ADDRESS_SC_REQUIRED'
+  },
+  CONTACT_ADDRESS_EN_REQUIRED: {
+    type: 'CONTACT_ADDRESS_EN_REQUIRED',
+    msg: 'CONTACT_ADDRESS_EN_REQUIRED'
+  },
+
+  CONTACT_TEL_REQUIRED: {
+    type: 'CONTACT_TEL_REQUIRED',
+    msg: 'CONTACT_TEL_REQUIRED'
+  },
+  CONTACT_FAX_REQUIRED: {
+    type: 'CONTACT_FAX_REQUIRED',
+    msg: 'CONTACT_FAX_REQUIRED'
+  },
+  CONTACT_EMAIL_REQUIRED: {
+    type: 'CONTACT_EMAIL_REQUIRED',
+    msg: 'CONTACT_EMAIL_REQUIRED'
+  },
+
   // db check
-  MISCELLANEOUS_INFO_NOT_EXISTS: 'MISCELLANEOUS_INFO_NOT_EXISTS',
+  MISCELLANEOUS_INFO_NOT_EXISTS: {
+    type: 'MISCELLANEOUS_INFO_NOT_EXISTS',
+    msg: 'MISCELLANEOUS_INFO_NOT_EXISTS'
+  },
 
   // general
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,
@@ -93,8 +130,10 @@ MiscellaneousInfo.miscellaneousInfoResponseTypes = {
 MiscellaneousInfo.getMiscellaneousInfoForDisplay = miscellaneousInfo => {
   return {
     ...miscellaneousInfo,
-    lastModifyDTDisplay: formatDateTimeString(about.lastModifyDT),
-    lastModifyUserDisplay: about.lastModifyUser ? about.lastModifyUser.name : ''
+    lastModifyDTDisplay: formatDateTimeString(miscellaneousInfo.lastModifyDT),
+    lastModifyUserDisplay: miscellaneousInfo.lastModifyUser
+      ? miscellaneousInfo.lastModifyUser.name
+      : ''
   };
 };
 

@@ -82,6 +82,32 @@ const miscellaneousInfoValidationChecks = [
   check(
     'privacyPolicyDesc_en',
     miscellaneousInfoResponseTypes.PRIVACY_POLICY_DESC_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'contactAddress_tc',
+    miscellaneousInfoResponseTypes.CONTACT_ADDRESS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactAddress_sc',
+    miscellaneousInfoResponseTypes.CONTACT_ADDRESS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactAddress_en',
+    miscellaneousInfoResponseTypes.CONTACT_ADDRESS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'contactTel',
+    miscellaneousInfoResponseTypes.CONTACT_TEL_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactFax',
+    miscellaneousInfoResponseTypes.CONTACT_FAX_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactEmail',
+    miscellaneousInfoResponseTypes.CONTACT_EMAIL_REQUIRED
   ).notEmpty()
 ];
 
@@ -130,6 +156,14 @@ router.post(
       privacyPolicyDesc_sc,
       privacyPolicyDesc_en,
 
+      contactAddress_tc,
+      contactAddress_sc,
+      contactAddress_en,
+
+      contactTel,
+      contactFax,
+      contactEmail,
+
       footerOrganizerLogos,
       footerSponsorLogos
     } = req.body;
@@ -166,6 +200,17 @@ router.post(
       miscellaneousFields.privacyPolicyDesc_sc = privacyPolicyDesc_sc;
     if (privacyPolicyDesc_en)
       miscellaneousFields.privacyPolicyDesc_en = privacyPolicyDesc_en;
+
+    if (contactAddress_tc)
+      miscellaneousFields.contactAddress_tc = contactAddress_tc;
+    if (contactAddress_sc)
+      miscellaneousFields.contactAddress_sc = contactAddress_sc;
+    if (contactAddress_en)
+      miscellaneousFields.contactAddress_en = contactAddress_en;
+
+    if (contactTel) miscellaneousFields.contactTel = contactTel;
+    if (contactFax) miscellaneousFields.contactFax = contactFax;
+    if (contactEmail) miscellaneousFields.contactEmail = contactEmail;
 
     miscellaneousFields.footerOrganizerLogos = getArraySafe(
       footerOrganizerLogos

@@ -51,12 +51,14 @@ const Navbar = ({ className }) => {
   const isUserAdd = Boolean(useRouteMatch(routes.userAdd(false)));
 
   const isAboutEdit = Boolean(useRouteMatch(routes.aboutEdit(false)));
-
   const isGlobalConstantsEdit = Boolean(
     useRouteMatch(routes.globalConstantsEdit(false))
   );
   const isLandingPageEdit = Boolean(
     useRouteMatch(routes.landingPageEdit(false))
+  );
+  const isMiscellaneousInfoEdit = Boolean(
+    useRouteMatch(routes.miscellaneousInfoEdit(false))
   );
 
   const isPhaseList = Boolean(useRouteMatch(routes.phaseList(false)));
@@ -173,11 +175,18 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.LandingPage']}
       </NavbarLink>
       <NavbarLink
-        className='w3-border-bottom'
+        //className='w3-border-bottom'
         to={routes.aboutEdit(true)}
         isSelected={isAboutEdit}
       >
         {uiWordings['Navbar.About']}
+      </NavbarLink>
+      <NavbarLink
+        className='w3-border-bottom'
+        to={routes.miscellaneousInfoEdit(true)}
+        isSelected={isMiscellaneousInfoEdit}
+      >
+        {uiWordings['Navbar.MiscellaneousInfo']}
       </NavbarLink>
 
       <NavbarLink

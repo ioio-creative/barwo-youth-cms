@@ -19,8 +19,8 @@ import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
-const originalAbout = new About();
-const defaultState = originalAbout;
+const emptyAbout = new About();
+const defaultState = emptyAbout;
 const mediumTypes = Medium.mediumTypes;
 
 const AboutEdit = _ => {
@@ -92,7 +92,6 @@ const AboutEdit = _ => {
               );
             })
             .map(aboutError => {
-              console.log(aboutError);
               return new Alert(
                 About.aboutResponseTypes[aboutError].msg,
                 Alert.alertTypes.WARNING
@@ -350,27 +349,6 @@ const AboutEdit = _ => {
           labelMessage={uiWordings['About.TheaterLocationNameEnLabel']}
           onChange={onChange}
           required={true}
-        />
-        <LabelInputTextPair
-          name='contactAddress_tc'
-          value={about.contactAddress_tc}
-          labelMessage={uiWordings['About.ContactAddressTcLabel']}
-          onChange={onChange}
-          placeholder=''
-        />
-        <LabelInputTextPair
-          name='contactAddress_sc'
-          value={about.contactAddress_sc}
-          labelMessage={uiWordings['About.ContactAddressScLabel']}
-          onChange={onChange}
-          placeholder=''
-        />
-        <LabelInputTextPair
-          name='contactAddress_en'
-          value={about.contactAddress_en}
-          labelMessage={uiWordings['About.ContactAddressEnLabel']}
-          onChange={onChange}
-          placeholder=''
         />
         <LabelInputTextPair
           name='theaterLocationHref_tc'
