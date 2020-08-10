@@ -179,15 +179,37 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       // }),
       // still need artists for related artists field
       artists: getArraySafe(event.artists).map(artistWithRole => {
-        const artist = artistWithRole.artist;
-        return {
-          id: artist._id,
-          label: artist.label,
-          name: getEntityPropByLanguage(artist, 'name', language),
-          featuredImage: {
-            src: artist.featuredImage && artist.featuredImage.url
-          }
-        };
+        if (artistWithRole.isGuestArtist !== true) {
+          const artist = artistWithRole.artist;
+          return {
+            id: artist._id,
+            label: artist.label,
+            name: getEntityPropByLanguage(artist, 'name', language),
+            featuredImage: {
+              src: artist.featuredImage && artist.featuredImage.url
+            }
+          };
+        } else {
+          return {
+            id: null,
+            label: null,
+            name: getEntityPropByLanguage(
+              artistWithRole,
+              'guestArtistName',
+              language
+            ),
+            featuredImage: {
+              src:
+                artistWithRole.guestArtistImage &&
+                artistWithRole.guestArtistImage.url
+            },
+            remarks: getEntityPropByLanguage(
+              artistWithRole,
+              'guestArtistRemarks',
+              language
+            )
+          };
+        }
       }),
       artistRole: artistRoleInEvent,
       shows: getArraySafe(event.shows)
