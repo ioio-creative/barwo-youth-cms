@@ -112,11 +112,19 @@ const eventPopulationListForRelatedEvents = [
 
 const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
   const event = dbEvent;
+  let firstShowDate = null;
+  if (isNonEmptyArray(event.shows)) {
+    const firstShow = event.shows[0];
+    firstShowDate = firstShow.date
+      ? formatDateStringForFrontEnd(firstShow.date)
+      : null;
+  }
 
   return {
     id: event._id,
     label: event.label,
     name: getEntityPropByLanguage(event, 'name', language),
+    type: event.type,
     themeColor: event.themeColor,
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
       id: artDirector._id,
@@ -126,6 +134,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
         src: artDirector.featuredImage && artDirector.featuredImage.url
       }
     })),
+    fromDate: firstShowDate,
     schedule: getArraySafe(event.shows).map(show => ({
       date: {
         from: show.date ? formatDateStringForFrontEnd(show.date) : null,
