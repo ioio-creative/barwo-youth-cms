@@ -110,6 +110,15 @@ const AboutSchema = mongoose.Schema({
   theaterTraffic_en: {
     type: String
   },
+  contactAddress_tc: {
+    type: String
+  },
+  contactAddress_sc: {
+    type: String
+  },
+  contactAddress_en: {
+    type: String
+  },
   contactWebsite: {
     type: String
   },

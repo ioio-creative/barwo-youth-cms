@@ -352,6 +352,27 @@ const AboutEdit = _ => {
           required={true}
         />
         <LabelInputTextPair
+          name='contactAddress_tc'
+          value={about.contactAddress_tc}
+          labelMessage={uiWordings['About.ContactAddressTcLabel']}
+          onChange={onChange}
+          placeholder=''
+        />
+        <LabelInputTextPair
+          name='contactAddress_sc'
+          value={about.contactAddress_sc}
+          labelMessage={uiWordings['About.ContactAddressScLabel']}
+          onChange={onChange}
+          placeholder=''
+        />
+        <LabelInputTextPair
+          name='contactAddress_en'
+          value={about.contactAddress_en}
+          labelMessage={uiWordings['About.ContactAddressEnLabel']}
+          onChange={onChange}
+          placeholder=''
+        />
+        <LabelInputTextPair
           name='theaterLocationHref_tc'
           value={about.theaterLocationHref_tc}
           labelMessage={uiWordings['About.TheaterLocationHrefTcLabel']}

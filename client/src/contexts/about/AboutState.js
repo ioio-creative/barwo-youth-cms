@@ -27,7 +27,6 @@ const AboutState = ({ children }) => {
     try {
       const res = await axios.get('/api/backend/about/about');
       dispatch({ type: GET_ABOUT, payload: res.data });
-      // console.log(res.data);
     } catch (err) {
       handleServerError(err, ABOUT_ERRORS, dispatch);
     }
