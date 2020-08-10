@@ -15,7 +15,6 @@ import SubmitButton from 'components/form/SubmitButton';
 import uiWordings from 'globals/uiWordings';
 import Medium from 'models/medium';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
-import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyMiscellaneousInfo = new MiscellaneousInfo();
