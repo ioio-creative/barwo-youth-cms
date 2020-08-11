@@ -10,8 +10,8 @@ const { isFunction } = require('../js/function/isFunction');
 const { formatDateString } = require('../datetime');
 
 const mapAndSortEvents = (events, mapFunc = null) => {
-  const eventsWithTimestamps = getArraySafe(events).map((event, index) => {
-    const eventFields = isFunction(mapFunc) ? mapFunc(event, index) : event;
+  const eventsWithTimestamps = getArraySafe(events).map(event => {
+    const eventFields = isFunction(mapFunc) ? mapFunc(event) : event;
 
     const showTimestamps = getArraySafe(event.shows).map(show => {
       return Date.parse(`${formatDateString(show.date)} ${show.startTime}`);

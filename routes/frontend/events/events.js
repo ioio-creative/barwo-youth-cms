@@ -114,29 +114,31 @@ const eventPopulationListForRelatedEvents = [
 ];
 
 // !!!Important!!!
-// addThemeColorDefaultsToEvents is separate from getEventForFrontEndFromDbEvent
+// mapThemeColorDefaultToEvent is separate from getEventForFrontEndFromDbEvent
 // because at the time when getEventForFrontEndFromDbEvent is called,
 // the events in the array may not be in the right order
-const addThemeColorDefaultsToEvents = events => {
-  return getArraySafe(events).map((event, index) => {
-    let themeColor = event.themeColor;
-    if (!themeColor) {
-      if (index !== null) {
-        themeColor =
-          index % 2 === 0 ? eventThemeColorDefault1 : eventThemeColorDefault2;
-      } else {
-        themeColor = eventThemeColorDefault1;
-      }
-    } else if (themeColor.length === 9 && themeColor.substr(7) === '00') {
-      // themeColor = #rrggbbaa
-      // transparent case
+const mapThemeColorDefaultToEvent = (event, index = null) => {
+  let themeColor = event.themeColor;
+  if (!themeColor) {
+    if (index !== null) {
+      themeColor =
+        index % 2 === 0 ? eventThemeColorDefault1 : eventThemeColorDefault2;
+    } else {
       themeColor = eventThemeColorDefault1;
     }
-    return {
-      ...event,
-      themeColor
-    };
-  });
+  } else if (themeColor.length === 9 && themeColor.substr(7) === '00') {
+    // themeColor = #rrggbbaa
+    // transparent case
+    themeColor = eventThemeColorDefault1;
+  }
+  return {
+    ...event,
+    themeColor
+  };
+};
+
+const addThemeColorDefaultsToEvents = events => {
+  return getArraySafe(events).map(mapThemeColorDefaultToEvent);
 };
 
 const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
@@ -252,8 +254,8 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
       .select(eventSelectForFindAll)
       .populate(eventPopulationListForFindAll);
 
-    const { sortedEvents } = mapAndSortEvents(events, (event, index) => {
-      return getEventForFrontEndFromDbEvent(event, language, index);
+    const { sortedEvents } = mapAndSortEvents(events, event => {
+      return getEventForFrontEndFromDbEvent(event, language);
     });
 
     res.json(addThemeColorDefaultsToEvents(sortedEvents));
@@ -291,8 +293,8 @@ router.get(
 
       const { sortedEvents, closestEventIdx } = mapAndSortEvents(
         events,
-        (event, index) => {
-          return getEventForFrontEndFromDbEvent(event, language, index);
+        event => {
+          return getEventForFrontEndFromDbEvent(event, language);
         }
       );
 
@@ -392,7 +394,7 @@ router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
 
     /* end of finding related events */
 
-    res.json(eventForFrontEnd);
+    res.json(mapThemeColorDefaultToEvent(eventForFrontEnd));
   } catch (err) {
     generalErrorHandle(err, res);
   }
