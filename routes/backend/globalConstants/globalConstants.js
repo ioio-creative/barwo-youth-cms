@@ -814,6 +814,32 @@ const globalConstantsValidationChecks = [
   ).notEmpty(),
 
   check(
+    'newsmedia_tc',
+    globalConstantsResponseTypes.NEWSMEDIA_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'newsmedia_sc',
+    globalConstantsResponseTypes.NEWSMEDIA_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'newsmedia_en',
+    globalConstantsResponseTypes.NEWSMEDIA_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'newsletter_tc',
+    globalConstantsResponseTypes.NEWSLETTER_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'newsletter_sc',
+    globalConstantsResponseTypes.NEWSLETTER_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'newsletter_en',
+    globalConstantsResponseTypes.NEWSLETTER_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
     'EMAIL_SUCCESS_tc',
     globalConstantsResponseTypes.EMAIL_SUCCESS_TC_REQUIRED
   ).notEmpty(),
@@ -850,6 +876,32 @@ const globalConstantsValidationChecks = [
   check(
     'EMAIL_ADDRESS_ALREADY_EXISTS_en',
     globalConstantsResponseTypes.EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'subscribeMsg_tc',
+    globalConstantsResponseTypes.SUBSCRIBE_MSG_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'subscribeMsg_sc',
+    globalConstantsResponseTypes.SUBSCRIBE_MSG_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'subscribeMsg_en',
+    globalConstantsResponseTypes.SUBSCRIBE_MSG_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'contactus_tc',
+    globalConstantsResponseTypes.CONTACTUS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactus_sc',
+    globalConstantsResponseTypes.CONTACTUS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'contactus_en',
+    globalConstantsResponseTypes.CONTACTUS_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1178,6 +1230,14 @@ router.post(
       INTERVIEW_sc,
       INTERVIEW_en,
 
+      newsmedia_tc,
+      newsmedia_sc,
+      newsmedia_en,
+
+      newsletter_tc,
+      newsletter_sc,
+      newsletter_en,
+
       EMAIL_SUCCESS_tc,
       EMAIL_SUCCESS_sc,
       EMAIL_SUCCESS_en,
@@ -1188,7 +1248,15 @@ router.post(
 
       EMAIL_ADDRESS_ALREADY_EXISTS_tc,
       EMAIL_ADDRESS_ALREADY_EXISTS_sc,
-      EMAIL_ADDRESS_ALREADY_EXISTS_en
+      EMAIL_ADDRESS_ALREADY_EXISTS_en,
+
+      subscribeMsg_tc,
+      subscribeMsg_sc,
+      subscribeMsg_en,
+
+      contactus_tc,
+      contactus_sc,
+      contactus_en
     } = req.body;
 
     // Build global constants object
@@ -1491,6 +1559,14 @@ router.post(
     globalConstantsFields.INTERVIEW_sc = INTERVIEW_sc;
     globalConstantsFields.INTERVIEW_en = INTERVIEW_en;
 
+    globalConstantsFields.newsmedia_tc = newsmedia_tc;
+    globalConstantsFields.newsmedia_sc = newsmedia_sc;
+    globalConstantsFields.newsmedia_en = newsmedia_en;
+
+    globalConstantsFields.newsletter_tc = newsletter_tc;
+    globalConstantsFields.newsletter_sc = newsletter_sc;
+    globalConstantsFields.newsletter_en = newsletter_en;
+
     globalConstantsFields.EMAIL_SUCCESS_tc = EMAIL_SUCCESS_tc;
     globalConstantsFields.EMAIL_SUCCESS_sc = EMAIL_SUCCESS_sc;
     globalConstantsFields.EMAIL_SUCCESS_en = EMAIL_SUCCESS_en;
@@ -1502,6 +1578,14 @@ router.post(
     globalConstantsFields.EMAIL_ADDRESS_ALREADY_EXISTS_tc = EMAIL_ADDRESS_ALREADY_EXISTS_tc;
     globalConstantsFields.EMAIL_ADDRESS_ALREADY_EXISTS_sc = EMAIL_ADDRESS_ALREADY_EXISTS_sc;
     globalConstantsFields.EMAIL_ADDRESS_ALREADY_EXISTS_en = EMAIL_ADDRESS_ALREADY_EXISTS_en;
+
+    globalConstantsFields.subscribeMsg_tc = subscribeMsg_tc;
+    globalConstantsFields.subscribeMsg_sc = subscribeMsg_sc;
+    globalConstantsFields.subscribeMsg_en = subscribeMsg_en;
+
+    globalConstantsFields.contactus_tc = contactus_tc;
+    globalConstantsFields.contactus_sc = contactus_sc;
+    globalConstantsFields.contactus_en = contactus_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

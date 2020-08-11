@@ -963,6 +963,32 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  newsmedia_tc: {
+    type: String,
+    require: true
+  },
+  newsmedia_sc: {
+    type: String,
+    require: true
+  },
+  newsmedia_en: {
+    type: String,
+    require: true
+  },
+
+  newsletter_tc: {
+    type: String,
+    require: true
+  },
+  newsletter_sc: {
+    type: String,
+    require: true
+  },
+  newsletter_en: {
+    type: String,
+    require: true
+  },
+
   EMAIL_SUCCESS_tc: {
     type: String,
     require: true
@@ -998,6 +1024,32 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
   EMAIL_ADDRESS_ALREADY_EXISTS_en: {
+    type: String,
+    require: true
+  },
+
+  subscribeMsg_tc: {
+    type: String,
+    require: true
+  },
+  subscribeMsg_sc: {
+    type: String,
+    require: true
+  },
+  subscribeMsg_en: {
+    type: String,
+    require: true
+  },
+
+  contactus_tc: {
+    type: String,
+    require: true
+  },
+  contactus_sc: {
+    type: String,
+    require: true
+  },
+  contactus_en: {
     type: String,
     require: true
   },
@@ -1318,6 +1370,14 @@ module.exports.globalConstantsResponseTypes = {
   INTERVIEW_SC_REQUIRED: 'INTERVIEW_SC_REQUIRED',
   INTERVIEW_EN_REQUIRED: 'INTERVIEW_EN_REQUIRED',
 
+  NEWSMEDIA_TC_REQUIRED: 'NEWSMEDIA_TC_REQUIRED',
+  NEWSMEDIA_SC_REQUIRED: 'NEWSMEDIA_SC_REQUIRED',
+  NEWSMEDIA_EN_REQUIRED: 'NEWSMEDIA_EN_REQUIRED',
+
+  NEWSLETTER_TC_REQUIRED: 'NEWSLETTER_TC_REQUIRED',
+  NEWSLETTER_SC_REQUIRED: 'NEWSLETTER_SC_REQUIRED',
+  NEWSLETTER_EN_REQUIRED: 'NEWSLETTER_EN_REQUIRED',
+
   EMAIL_SUCCESS_TC_REQUIRED: 'EMAIL_SUCCESS_TC_REQUIRED',
   EMAIL_SUCCESS_SC_REQUIRED: 'EMAIL_SUCCESS_SC_REQUIRED',
   EMAIL_SUCCESS_EN_REQUIRED: 'EMAIL_SUCCESS_EN_REQUIRED',
@@ -1332,6 +1392,14 @@ module.exports.globalConstantsResponseTypes = {
     'EMAIL_ADDRESS_ALREADY_EXISTS_SC_REQUIRED',
   EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED:
     'EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED',
+
+  SUBSCRIBE_MSG_TC_REQUIRED: 'SUBSCRIBE_MSG_TC_REQUIRED',
+  SUBSCRIBE_MSG_SC_REQUIRED: 'SUBSCRIBE_MSG_SC_REQUIRED',
+  SUBSCRIBE_MSG_EN_REQUIRED: 'SUBSCRIBE_MSG_EN_REQUIRED',
+
+  CONTACTUS_TC_REQUIRED: 'CONTACTUS_TC_REQUIRED',
+  CONTACTUS_SC_REQUIRED: 'CONTACTUS_SC_REQUIRED',
+  CONTACTUS_EN_REQUIRED: 'CONTACTUS_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

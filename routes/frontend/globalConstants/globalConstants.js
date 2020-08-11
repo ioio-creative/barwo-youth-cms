@@ -266,6 +266,16 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'INTERVIEW',
         language
       ),
+      newsmedia: getEntityPropByLanguage(
+        globalConstants,
+        'newsmedia',
+        language
+      ),
+      newsletter: getEntityPropByLanguage(
+        globalConstants,
+        'newsletter',
+        language
+      ),
       EMAIL_SUCCESS: getEntityPropByLanguage(
         globalConstants,
         'EMAIL_SUCCESS',
@@ -280,7 +290,13 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'EMAIL_ADDRESS_ALREADY_EXISTS',
         language
-      )
+      ),
+      subscribeMsg: getEntityPropByLanguage(
+        globalConstants,
+        'subscribeMsg',
+        language
+      ),
+      contactus: getEntityPropByLanguage(globalConstants, 'contactus', language)
     };
     res.json(globalConstantsForFrontEnd);
   } catch (err) {

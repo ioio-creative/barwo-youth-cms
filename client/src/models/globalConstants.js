@@ -298,6 +298,14 @@ function GlobalConstants() {
   this.INTERVIEW_sc = '';
   this.INTERVIEW_en = '';
 
+  this.newsmedia_tc = '';
+  this.newsmedia_sc = '';
+  this.newsmedia_en = '';
+
+  this.newsletter_tc = '';
+  this.newsletter_sc = '';
+  this.newsletter_en = '';
+
   this.EMAIL_SUCCESS_tc = '';
   this.EMAIL_SUCCESS_sc = '';
   this.EMAIL_SUCCESS_en = '';
@@ -309,6 +317,14 @@ function GlobalConstants() {
   this.EMAIL_ADDRESS_ALREADY_EXISTS_tc = '';
   this.EMAIL_ADDRESS_ALREADY_EXISTS_sc = '';
   this.EMAIL_ADDRESS_ALREADY_EXISTS_en = '';
+
+  this.subscribeMsg_tc = '';
+  this.subscribeMsg_sc = '';
+  this.subscribeMsg_en = '';
+
+  this.contactus_tc = '';
+  this.contactus_sc = '';
+  this.contactus_en = '';
 
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
@@ -1218,6 +1234,32 @@ GlobalConstants.globalConstantsResponseTypes = {
     msg: 'INTERVIEW_EN_REQUIRED'
   },
 
+  NEWSMEDIA_TC_REQUIRED: {
+    type: 'NEWSMEDIA_TC_REQUIRED',
+    msg: 'NEWSMEDIA_TC_REQUIRED'
+  },
+  NEWSMEDIA_SC_REQUIRED: {
+    type: 'NEWSMEDIA_SC_REQUIRED',
+    msg: 'NEWSMEDIA_SC_REQUIRED'
+  },
+  NEWSMEDIA_EN_REQUIRED: {
+    type: 'NEWSMEDIA_EN_REQUIRED',
+    msg: 'NEWSMEDIA_EN_REQUIRED'
+  },
+
+  NEWSLETTER_TC_REQUIRED: {
+    type: 'NEWSLETTER_TC_REQUIRED',
+    msg: 'NEWSLETTER_TC_REQUIRED'
+  },
+  NEWSLETTER_SC_REQUIRED: {
+    type: 'NEWSLETTER_SC_REQUIRED',
+    msg: 'NEWSLETTER_SC_REQUIRED'
+  },
+  NEWSLETTER_EN_REQUIRED: {
+    type: 'NEWSLETTER_EN_REQUIRED',
+    msg: 'NEWSLETTER_EN_REQUIRED'
+  },
+
   EMAIL_SUCCESS_TC_REQUIRED: {
     type: 'EMAIL_SUCCESS_TC_REQUIRED',
     msg: 'EMAIL_SUCCESS_TC_REQUIRED'
@@ -1255,6 +1297,32 @@ GlobalConstants.globalConstantsResponseTypes = {
   EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED: {
     type: 'EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED',
     msg: 'EMAIL_ADDRESS_ALREADY_EXISTS_EN_REQUIRED'
+  },
+
+  SUBSCRIBE_MSG_TC_REQUIRED: {
+    type: 'SUBSCRIBE_MSG_TC_REQUIRED',
+    msg: 'SUBSCRIBE_MSG_TC_REQUIRED'
+  },
+  SUBSCRIBE_MSG_SC_REQUIRED: {
+    type: 'SUBSCRIBE_MSG_SC_REQUIRED',
+    msg: 'SUBSCRIBE_MSG_SC_REQUIRED'
+  },
+  SUBSCRIBE_MSG_EN_REQUIRED: {
+    type: 'SUBSCRIBE_MSG_EN_REQUIRED',
+    msg: 'SUBSCRIBE_MSG_EN_REQUIRED'
+  },
+
+  CONTACTUS_TC_REQUIRED: {
+    type: 'CONTACTUS_TC_REQUIRED',
+    msg: 'CONTACTUS_TC_REQUIRED'
+  },
+  CONTACTUS_SC_REQUIRED: {
+    type: 'CONTACTUS_SC_REQUIRED',
+    msg: 'CONTACTUS_SC_REQUIRED'
+  },
+  CONTACTUS_EN_REQUIRED: {
+    type: 'CONTACTUS_EN_REQUIRED',
+    msg: 'CONTACTUS_EN_REQUIRED'
   },
 
   // db check

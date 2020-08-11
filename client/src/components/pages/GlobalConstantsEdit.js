@@ -2007,6 +2007,56 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
+        name='newsmedia_tc'
+        value={globalConstants.newsmedia_tc}
+        labelMessage={uiWordings['GlobalConstants.NewsMediaTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='newsmedia_sc'
+        value={globalConstants.newsmedia_sc}
+        labelMessage={uiWordings['GlobalConstants.NewsMediaScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='newsmedia_en'
+        value={globalConstants.newsmedia_en}
+        labelMessage={uiWordings['GlobalConstants.NewsMediaEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='newsletter_tc'
+        value={globalConstants.newsletter_tc}
+        labelMessage={uiWordings['GlobalConstants.NewsletterTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='newsletter_sc'
+        value={globalConstants.newsletter_sc}
+        labelMessage={uiWordings['GlobalConstants.NewsletterScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='newsletter_en'
+        value={globalConstants.newsletter_en}
+        labelMessage={uiWordings['GlobalConstants.NewsletterEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
         name='EMAIL_SUCCESS_tc'
         value={globalConstants.EMAIL_SUCCESS_tc}
         labelMessage={uiWordings['GlobalConstants.EMAIL_SUCCESSTcLabel']}
@@ -2088,6 +2138,56 @@ const GlobalConstantsEdit = _ => {
         labelMessage={
           uiWordings['GlobalConstants.EMAIL_ADDRESS_ALREADY_EXISTSEnLabel']
         }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='subscribeMsg_tc'
+        value={globalConstants.subscribeMsg_tc}
+        labelMessage={uiWordings['GlobalConstants.SubscribeMsgTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='subscribeMsg_sc'
+        value={globalConstants.subscribeMsg_sc}
+        labelMessage={uiWordings['GlobalConstants.SubscribeMsgScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='subscribeMsg_en'
+        value={globalConstants.subscribeMsg_en}
+        labelMessage={uiWordings['GlobalConstants.SubscribeMsgEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='contactus_tc'
+        value={globalConstants.contactus_tc}
+        labelMessage={uiWordings['GlobalConstants.ContactusTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='contactus_sc'
+        value={globalConstants.contactus_sc}
+        labelMessage={uiWordings['GlobalConstants.ContactusScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='contactus_en'
+        value={globalConstants.contactus_en}
+        labelMessage={uiWordings['GlobalConstants.ContactusEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
