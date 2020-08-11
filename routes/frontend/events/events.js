@@ -133,6 +133,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language, index = null) => {
       themeColor = eventThemeColorDefault1;
     }
   } else if (themeColor.length === 9 && themeColor.substr(7) === '00') {
+    // themeColor = #rrggbbaa
     // transparent case
     themeColor = eventThemeColorDefault1;
   }
@@ -142,13 +143,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language, index = null) => {
     label: event.label,
     name: getEntityPropByLanguage(event, 'name', language),
     type: event.type,
-    themeColor:
-      event.themeColor ||
-      (index !== null
-        ? index % 2 === 0
-          ? eventThemeColorDefault1
-          : eventThemeColorDefault2
-        : eventThemeColorDefault1),
+    themeColor: themeColor,
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
       id: artDirector._id,
       label: artDirector.label,
