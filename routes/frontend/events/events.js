@@ -113,7 +113,33 @@ const eventPopulationListForRelatedEvents = [
   }
 ];
 
-const getEventForFrontEndFromDbEvent = (dbEvent, language, index = null) => {
+// !!!Important!!!
+// addThemeColorDefaultsToEvents is separate from getEventForFrontEndFromDbEvent
+// because at the time when getEventForFrontEndFromDbEvent is called,
+// the events in the array may not be in the right order
+const addThemeColorDefaultsToEvents = events => {
+  return getArraySafe(events).map((event, index) => {
+    let themeColor = event.themeColor;
+    if (!themeColor) {
+      if (index !== null) {
+        themeColor =
+          index % 2 === 0 ? eventThemeColorDefault1 : eventThemeColorDefault2;
+      } else {
+        themeColor = eventThemeColorDefault1;
+      }
+    } else if (themeColor.length === 9 && themeColor.substr(7) === '00') {
+      // themeColor = #rrggbbaa
+      // transparent case
+      themeColor = eventThemeColorDefault1;
+    }
+    return {
+      ...event,
+      themeColor
+    };
+  });
+};
+
+const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
   const event = dbEvent;
 
   let firstShowDate = null;
@@ -124,26 +150,12 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language, index = null) => {
       : null;
   }
 
-  let themeColor = event.themeColor;
-  if (!themeColor) {
-    if (index !== null) {
-      themeColor =
-        index % 2 === 0 ? eventThemeColorDefault1 : eventThemeColorDefault2;
-    } else {
-      themeColor = eventThemeColorDefault1;
-    }
-  } else if (themeColor.length === 9 && themeColor.substr(7) === '00') {
-    // themeColor = #rrggbbaa
-    // transparent case
-    themeColor = eventThemeColorDefault1;
-  }
-
   return {
     id: event._id,
     label: event.label,
     name: getEntityPropByLanguage(event, 'name', language),
     type: event.type,
-    themeColor: themeColor,
+    themeColor: event.themeColor,
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
       id: artDirector._id,
       label: artDirector.label,
@@ -244,7 +256,7 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
       return getEventForFrontEndFromDbEvent(event, language, index);
     });
 
-    res.json(sortedEvents);
+    res.json(addThemeColorDefaultsToEvents(sortedEvents));
   } catch (err) {
     generalErrorHandle(err, res);
   }
@@ -284,7 +296,11 @@ router.get(
         }
       );
 
-      res.json(sortedEvents.slice(closestEventIdx >= 0 ? closestEventIdx : 0));
+      res.json(
+        addThemeColorDefaultsToEvents(
+          sortedEvents.slice(closestEventIdx >= 0 ? closestEventIdx : 0)
+        )
+      );
     } catch (err) {
       generalErrorHandle(err, res);
     }
