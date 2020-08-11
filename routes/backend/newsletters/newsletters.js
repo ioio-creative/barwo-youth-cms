@@ -127,7 +127,7 @@ router.post(
 
     try {
       const newsletter = new Newsletter({
-        label,
+        label: label.trim(),
         title_tc,
         title_sc,
         title_en,
@@ -171,7 +171,7 @@ router.put(
     // Note:
     // non-required fields do not need null check
     const newsletterFields = {};
-    if (label) newsletterFields.label = label;
+    if (label) newsletterFields.label = label.trim();
     if (title_tc) newsletterFields.title_tc = title_tc;
     if (title_sc) newsletterFields.title_sc = title_sc;
     if (title_en) newsletterFields.title_en = title_en;

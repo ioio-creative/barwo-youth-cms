@@ -112,7 +112,7 @@ router.post(
 
     try {
       const sendHistory = new SendHistory({
-        label,
+        label: label.trim(),
         title_tc,
         title_sc,
         title_en,

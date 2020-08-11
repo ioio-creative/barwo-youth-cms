@@ -186,7 +186,7 @@ router.post(
 
     try {
       const newsMediaItem = new NewsMediaItem({
-        label,
+        label: label.trim(),
         name_tc,
         name_sc,
         name_en,
@@ -244,7 +244,7 @@ router.put(
     // Note:
     // non-required fields do not need null check
     const newsMediaItemFields = {};
-    if (label) newsMediaItemFields.label = label;
+    if (label) newsMediaItemFields.label = label.trim();
     if (name_tc) newsMediaItemFields.name_tc = name_tc;
     if (name_sc) newsMediaItemFields.name_sc = name_sc;
     if (name_en) newsMediaItemFields.name_en = name_en;

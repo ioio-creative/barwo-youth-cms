@@ -141,7 +141,7 @@ router.post(
 
     try {
       const news = new News({
-        label,
+        label: label.trim(),
         name_tc,
         name_sc,
         name_en,
@@ -205,7 +205,7 @@ router.put(
     // Note:
     // non-required fields do not need null check
     const newsFields = {};
-    if (label) newsFields.label = label;
+    if (label) newsFields.label = label.trim();
     if (name_tc) newsFields.name_tc = name_tc;
     if (name_sc) newsFields.name_sc = name_sc;
     if (name_en) newsFields.name_en = name_en;

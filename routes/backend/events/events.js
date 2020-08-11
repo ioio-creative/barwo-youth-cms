@@ -502,7 +502,7 @@ router.post(
 
     try {
       const event = new Event({
-        label,
+        label: label.trim(),
         name_tc,
         name_sc,
         name_en,
@@ -618,7 +618,7 @@ router.put(
     // Note:
     // non-required fields do not need null check
     const eventFields = {};
-    if (label) eventFields.label = label;
+    if (label) eventFields.label = label.trim();
     if (name_tc) eventFields.name_tc = name_tc;
     if (name_sc) eventFields.name_sc = name_sc;
     if (name_en) eventFields.name_en = name_en;
