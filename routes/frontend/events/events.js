@@ -113,7 +113,7 @@ const eventPopulationListForRelatedEvents = [
   }
 ];
 
-const getEventForFrontEndFromDbEvent = (dbEvent, language, index) => {
+const getEventForFrontEndFromDbEvent = (dbEvent, language, index = null) => {
   const event = dbEvent;
   let firstShowDate = null;
   if (isNonEmptyArray(event.shows)) {
@@ -130,7 +130,11 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language, index) => {
     type: event.type,
     themeColor:
       event.themeColor ||
-      (index % 2 === 0 ? eventThemeColorDefault1 : eventThemeColorDefault2),
+      (index !== null
+        ? index % 2 === 0
+          ? eventThemeColorDefault1
+          : eventThemeColorDefault2
+        : eventThemeColorDefault1),
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
       id: artDirector._id,
       label: artDirector.label,
@@ -227,8 +231,8 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
       .select(eventSelectForFindAll)
       .populate(eventPopulationListForFindAll);
 
-    const { sortedEvents } = mapAndSortEvents(events, event => {
-      return getEventForFrontEndFromDbEvent(event, language);
+    const { sortedEvents } = mapAndSortEvents(events, (event, index) => {
+      return getEventForFrontEndFromDbEvent(event, language, index);
     });
 
     res.json(sortedEvents);
@@ -266,8 +270,8 @@ router.get(
 
       const { sortedEvents, closestEventIdx } = mapAndSortEvents(
         events,
-        event => {
-          return getEventForFrontEndFromDbEvent(event, language);
+        (event, index) => {
+          return getEventForFrontEndFromDbEvent(event, language, index);
         }
       );
 
