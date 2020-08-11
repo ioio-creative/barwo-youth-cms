@@ -80,7 +80,10 @@ const mapAndSortEvents = (events, mapFunc = null) => {
     }
   }
 
-  let closestEvent = minBy(
+  let closestEvent = null;
+  let closestEventInPresentOrFuture = null;
+
+  closestEvent = closestEventInPresentOrFuture = minBy(
     eventsWithPositiveTimestampDistanceFromCurrent,
     'timestampDistanceFromCurrent'
   );
@@ -106,17 +109,25 @@ const mapAndSortEvents = (events, mapFunc = null) => {
 
   // set isClosest field for events
   let closestEventIdx = -1;
+  let closestEventInPresentOrFutureIdx = -1;
   sortedEvents.forEach((eventWithTimestamps, idx) => {
     eventWithTimestamps.isClosest = eventWithTimestamps === closestEvent;
+    eventWithTimestamps.isClosestInPresentOrFuture =
+      eventWithTimestamps === closestEventInPresentOrFuture;
     if (eventWithTimestamps.isClosest) {
       closestEventIdx = idx;
+    }
+    if (eventWithTimestamps.isClosestInPresentOrFuture) {
+      closestEventInPresentOrFutureIdx = idx;
     }
   });
 
   return {
     sortedEvents,
     closestEvent,
-    closestEventIdx
+    closestEventIdx,
+    closestEventInPresentOrFuture,
+    closestEventInPresentOrFutureIdx
   };
 };
 

@@ -228,6 +228,45 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
   };
 };
 
+const getSortedEvents = async req => {
+  // query
+  const query = req.query;
+  let type = query.type && query.type.toUpperCase();
+
+  if (!isValidEventType(type)) {
+    type = defaultEventType;
+  }
+
+  const language = req.language;
+
+  const events = await Event.find({
+    isEnabled: {
+      $ne: false
+    },
+    type
+  })
+    .select(eventSelectForFindAll)
+    .populate(eventPopulationListForFindAll);
+
+  const {
+    sortedEvents,
+    closestEvent,
+    closestEventIdx,
+    closestEventInPresentOrFuture,
+    closestEventInPresentOrFutureIdx
+  } = mapAndSortEvents(events, event => {
+    return getEventForFrontEndFromDbEvent(event, language);
+  });
+
+  return {
+    sortedEvents,
+    closestEvent,
+    closestEventIdx,
+    closestEventInPresentOrFuture,
+    closestEventInPresentOrFutureIdx
+  };
+};
+
 /* end of utilities */
 
 // @route   GET api/frontend/events/:lang/events
@@ -235,28 +274,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
 // @access  Public
 router.get('/:lang/events', [languageHandling], async (req, res) => {
   try {
-    // query
-    const query = req.query;
-    let type = query.type && query.type.toUpperCase();
-
-    if (!isValidEventType(type)) {
-      type = defaultEventType;
-    }
-
-    const language = req.language;
-
-    const events = await Event.find({
-      isEnabled: {
-        $ne: false
-      },
-      type
-    })
-      .select(eventSelectForFindAll)
-      .populate(eventPopulationListForFindAll);
-
-    const { sortedEvents } = mapAndSortEvents(events, event => {
-      return getEventForFrontEndFromDbEvent(event, language);
-    });
+    const { sortedEvents } = await getSortedEvents(req);
 
     res.json(addThemeColorDefaultsToEvents(sortedEvents));
   } catch (err) {
@@ -272,42 +290,53 @@ router.get(
   [languageHandling],
   async (req, res) => {
     try {
-      // query
-      const query = req.query;
-      let type = query.type;
+      const {
+        sortedEvents,
+        closestEventIdx,
+        closestEventInPresentOrFutureIdx
+      } = await getSortedEvents(req);
 
-      if (!isValidEventType(type)) {
-        type = defaultEventType;
+      let eventsToReturn = [];
+      if (closestEventInPresentOrFutureIdx >= 0) {
+        eventsToReturn = sortedEvents.slice(closestEventInPresentOrFutureIdx);
+      } else if (closestEventIdx > 0) {
+        eventsToReturn = sortedEvents.slice(closestEventIdx);
+      } else {
+        eventsToReturn = sortedEvents;
       }
 
-      const language = req.language;
-
-      const events = await Event.find({
-        isEnabled: {
-          $ne: false
-        },
-        type
-      })
-        .select(eventSelectForFindAll)
-        .populate(eventPopulationListForFindAll);
-
-      const { sortedEvents, closestEventIdx } = mapAndSortEvents(
-        events,
-        event => {
-          return getEventForFrontEndFromDbEvent(event, language);
-        }
-      );
-
-      res.json(
-        addThemeColorDefaultsToEvents(
-          sortedEvents.slice(closestEventIdx >= 0 ? closestEventIdx : 0)
-        )
-      );
+      res.json(addThemeColorDefaultsToEvents(eventsToReturn));
     } catch (err) {
       generalErrorHandle(err, res);
     }
   }
 );
+
+// @route   GET api/frontend/events/:lang/pastEvents
+// @desc    Get all events - past
+// @access  Public
+router.get('/:lang/pastEvents', [languageHandling], async (req, res) => {
+  try {
+    const {
+      sortedEvents,
+      closestEventIdx,
+      closestEventInPresentOrFutureIdx
+    } = await getSortedEvents(req);
+
+    let eventsToReturn = [];
+    if (closestEventInPresentOrFutureIdx >= 0) {
+      eventsToReturn = sortedEvents.slice(0, closestEventInPresentOrFutureIdx);
+    } else if (closestEventIdx >= 0) {
+      eventsToReturn = sortedEvents.slice(0, closestEventIdx);
+    } else {
+      eventsToReturn = sortedEvents;
+    }
+
+    res.json(addThemeColorDefaultsToEvents(eventsToReturn).reverse());
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
 
 // @route   GET api/frontend/events/:lang/events/:label
 // @desc    Get event by label
