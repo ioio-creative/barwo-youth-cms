@@ -99,9 +99,14 @@ const mapAndSortEvents = (events, mapFunc = null) => {
     );
   }
 
+  const sortedEvents = sortBy(eventsWithTimestamps, [
+    'minShowTimestamp',
+    'maxShowTimestamp'
+  ]);
+
   // set isClosest field for events
   let closestEventIdx = -1;
-  eventsWithTimestamps.forEach((eventWithTimestamps, idx) => {
+  sortedEvents.forEach((eventWithTimestamps, idx) => {
     eventWithTimestamps.isClosest = eventWithTimestamps === closestEvent;
     if (eventWithTimestamps.isClosest) {
       closestEventIdx = idx;
@@ -109,10 +114,7 @@ const mapAndSortEvents = (events, mapFunc = null) => {
   });
 
   return {
-    sortedEvents: sortBy(eventsWithTimestamps, [
-      'minShowTimestamp',
-      'maxShowTimestamp'
-    ]),
+    sortedEvents,
     closestEvent,
     closestEventIdx
   };
