@@ -16,6 +16,9 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
+const eventThemeColorDefault1 = '#A6C2B6';
+const eventThemeColorDefault2 = '#E66A59';
+
 const eventSelectForFindAll = {
   isEnabled: 0,
   createDT: 0,
@@ -98,14 +101,16 @@ const eventPopulationListForRelatedEvents = [
   }
 ];
 
-const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
+const getEventForFrontEndFromDbEvent = (dbEvent, language, index) => {
   const event = dbEvent;
 
   return {
     id: event._id,
     label: event.label,
     name: getEntityPropByLanguage(event, 'name', language),
-    themeColor: event.themeColor,
+    themeColor:
+      event.themeColor ||
+      (index % 2 === 0 ? eventThemeColorDefault1 : eventThemeColorDefault2),
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
       id: artDirector._id,
       label: artDirector.label,
