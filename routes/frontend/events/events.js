@@ -115,12 +115,26 @@ const eventPopulationListForRelatedEvents = [
 
 const getEventForFrontEndFromDbEvent = (dbEvent, language, index = null) => {
   const event = dbEvent;
+
   let firstShowDate = null;
   if (isNonEmptyArray(event.shows)) {
     const firstShow = event.shows[0];
     firstShowDate = firstShow.date
       ? formatDateStringForFrontEnd(firstShow.date)
       : null;
+  }
+
+  let themeColor = event.themeColor;
+  if (!themeColor) {
+    if (index !== null) {
+      themeColor =
+        index % 2 === 0 ? eventThemeColorDefault1 : eventThemeColorDefault2;
+    } else {
+      themeColor = eventThemeColorDefault1;
+    }
+  } else if (themeColor.length === 9 && themeColor.substr(7) === '00') {
+    // transparent case
+    themeColor = eventThemeColorDefault1;
   }
 
   return {
