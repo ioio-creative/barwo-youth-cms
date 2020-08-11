@@ -10,7 +10,13 @@ const {
 } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
-const { Event, eventResponseTypes } = require('../../../models/Event');
+const {
+  Event,
+  eventResponseTypes,
+  defaultEventType,
+  isValidEventType,
+  eventTypes
+} = require('../../../models/Event');
 const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const mediumSelect = require('../common/mediumSelect');
 
@@ -65,6 +71,12 @@ const eventPopulationListForFindAll = [
     }
   },
   {
+    path: 'artists.guestArtistImage',
+    select: {
+      url: 1
+    }
+  },
+  {
     path: 'featuredImage',
     select: mediumSelect
   },
@@ -103,11 +115,19 @@ const eventPopulationListForRelatedEvents = [
 
 const getEventForFrontEndFromDbEvent = (dbEvent, language, index) => {
   const event = dbEvent;
+  let firstShowDate = null;
+  if (isNonEmptyArray(event.shows)) {
+    const firstShow = event.shows[0];
+    firstShowDate = firstShow.date
+      ? formatDateStringForFrontEnd(firstShow.date)
+      : null;
+  }
 
   return {
     id: event._id,
     label: event.label,
     name: getEntityPropByLanguage(event, 'name', language),
+    type: event.type,
     themeColor:
       event.themeColor ||
       (index % 2 === 0 ? eventThemeColorDefault1 : eventThemeColorDefault2),
@@ -119,6 +139,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language, index) => {
         src: artDirector.featuredImage && artDirector.featuredImage.url
       }
     })),
+    fromDate: firstShowDate,
     schedule: getArraySafe(event.shows).map(show => ({
       date: {
         from: show.date ? formatDateStringForFrontEnd(show.date) : null,
@@ -146,14 +167,35 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language, index) => {
       const artist = artistWithRole.artist;
       return {
         role: getEntityPropByLanguage(artistWithRole, 'role', language),
-        artist: {
-          id: artist._id,
-          label: artist.label,
-          name: getEntityPropByLanguage(artist, 'name', language),
-          featuredImage: {
-            src: artist.featuredImage && artist.featuredImage.url
-          }
-        }
+        artist:
+          artistWithRole.isGuestArtist !== true
+            ? {
+                id: artist._id,
+                label: artist.label,
+                name: getEntityPropByLanguage(artist, 'name', language),
+                featuredImage: {
+                  src: artist.featuredImage && artist.featuredImage.url
+                }
+              }
+            : {
+                id: null,
+                label: null,
+                name: getEntityPropByLanguage(
+                  artistWithRole,
+                  'guestArtistName',
+                  language
+                ),
+                featuredImage: {
+                  src:
+                    artistWithRole.guestArtistImage &&
+                    artistWithRole.guestArtistImage.url
+                },
+                remarks: getEntityPropByLanguage(
+                  artistWithRole,
+                  'guestArtistRemarks',
+                  language
+                )
+              }
       };
     })
   };
@@ -166,12 +208,21 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language, index) => {
 // @access  Public
 router.get('/:lang/events', [languageHandling], async (req, res) => {
   try {
+    // query
+    const query = req.query;
+    let type = query.type && query.type.toUpperCase();
+
+    if (!isValidEventType(type)) {
+      type = defaultEventType;
+    }
+
     const language = req.language;
 
     const events = await Event.find({
       isEnabled: {
         $ne: false
-      }
+      },
+      type
     })
       .select(eventSelectForFindAll)
       .populate(eventPopulationListForFindAll);
@@ -194,12 +245,21 @@ router.get(
   [languageHandling],
   async (req, res) => {
     try {
+      // query
+      const query = req.query;
+      let type = query.type;
+
+      if (!isValidEventType(type)) {
+        type = defaultEventType;
+      }
+
       const language = req.language;
 
       const events = await Event.find({
         isEnabled: {
           $ne: false
-        }
+        },
+        type
       })
         .select(eventSelectForFindAll)
         .populate(eventPopulationListForFindAll);
@@ -241,65 +301,67 @@ router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
 
     /* finding related events, i.e. events in the same phase */
 
-    const relatedEvents = [];
+    if (event.type === eventTypes.EVENT) {
+      const relatedEvents = [];
 
-    for (const phaseId of getArraySafe(event.phasesInvolved)) {
-      const phase = await Phase.findById(phaseId)
-        .select({
-          events: 1
-        })
-        .populate(eventPopulationListForRelatedEvents);
+      for (const phaseId of getArraySafe(event.phasesInvolved)) {
+        const phase = await Phase.findById(phaseId)
+          .select({
+            events: 1
+          })
+          .populate(eventPopulationListForRelatedEvents);
 
-      if (!phase) {
-        return res
-          .status(404)
-          .json({ errors: [phaseResponseTypes.PHASE_NOT_EXISTS] });
-      }
-
-      for (const relatedEvent of getArraySafe(phase.events)) {
-        if (relatedEvent.label === req.params.label) {
-          continue;
+        if (!phase) {
+          return res
+            .status(404)
+            .json({ errors: [phaseResponseTypes.PHASE_NOT_EXISTS] });
         }
 
-        const relatedEventForFrontEnd = {
-          id: relatedEvent._id,
-          label: relatedEvent.label,
-          name: getEntityPropByLanguage(relatedEvent, 'name', language),
-          artDirectors: getArraySafe(relatedEvent.artDirectors).map(
-            artDirector => ({
-              id: artDirector._id,
-              label: artDirector.label,
-              name: getEntityPropByLanguage(artDirector, 'name', language)
-            })
-          )
-        };
+        for (const relatedEvent of getArraySafe(phase.events)) {
+          if (relatedEvent.label === req.params.label) {
+            continue;
+          }
 
-        if (isNonEmptyArray(relatedEvent.shows)) {
-          const firstShow = relatedEvent.shows[0];
-          const lastShow = relatedEvent.shows[relatedEvent.shows.length - 1];
-          relatedEventForFrontEnd.fromDate = firstShow.date
-            ? formatDateStringForFrontEnd(firstShow.date)
-            : null;
-          relatedEventForFrontEnd.toDate = lastShow.date
-            ? formatDateStringForFrontEnd(lastShow.date)
-            : null;
-        } else {
-          relatedEventForFrontEnd.fromDate = null;
-          relatedEventForFrontEnd.toDate = null;
+          const relatedEventForFrontEnd = {
+            id: relatedEvent._id,
+            label: relatedEvent.label,
+            name: getEntityPropByLanguage(relatedEvent, 'name', language),
+            artDirectors: getArraySafe(relatedEvent.artDirectors).map(
+              artDirector => ({
+                id: artDirector._id,
+                label: artDirector.label,
+                name: getEntityPropByLanguage(artDirector, 'name', language)
+              })
+            )
+          };
+
+          if (isNonEmptyArray(relatedEvent.shows)) {
+            const firstShow = relatedEvent.shows[0];
+            const lastShow = relatedEvent.shows[relatedEvent.shows.length - 1];
+            relatedEventForFrontEnd.fromDate = firstShow.date
+              ? formatDateStringForFrontEnd(firstShow.date)
+              : null;
+            relatedEventForFrontEnd.toDate = lastShow.date
+              ? formatDateStringForFrontEnd(lastShow.date)
+              : null;
+          } else {
+            relatedEventForFrontEnd.fromDate = null;
+            relatedEventForFrontEnd.toDate = null;
+          }
+
+          relatedEvents.push(relatedEventForFrontEnd);
         }
 
-        relatedEvents.push(relatedEventForFrontEnd);
+        if (relatedEvents.length > 0) {
+          // break phase loop
+          break;
+        }
       }
 
-      if (relatedEvents.length > 0) {
-        // break phase loop
-        break;
-      }
+      eventForFrontEnd.relatedEvents = relatedEvents;
     }
 
     /* end of finding related events */
-
-    eventForFrontEnd.relatedEvents = relatedEvents;
 
     res.json(eventForFrontEnd);
   } catch (err) {

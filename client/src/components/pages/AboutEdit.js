@@ -19,8 +19,8 @@ import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
-const originalAbout = new About();
-const defaultState = originalAbout;
+const emptyAbout = new About();
+const defaultState = emptyAbout;
 const mediumTypes = Medium.mediumTypes;
 
 const AboutEdit = _ => {
@@ -92,7 +92,6 @@ const AboutEdit = _ => {
               );
             })
             .map(aboutError => {
-              console.log(aboutError);
               return new Alert(
                 About.aboutResponseTypes[aboutError].msg,
                 Alert.alertTypes.WARNING

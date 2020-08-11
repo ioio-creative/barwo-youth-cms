@@ -11,7 +11,8 @@ const MyButton = ({
   icon,
   children,
   onClick,
-  disabled
+  disabled,
+  isSection
 }) => {
   const iconElement = icon ? <i className={icon} /> : null;
   let style = {};
@@ -23,7 +24,9 @@ const MyButton = ({
   }
   return (
     <Button
-      className={`w3-button w3-ripple w3-${color} w3-text-${textColor} w3-section ${className}`}
+      className={`w3-button w3-ripple w3-${color} w3-text-${textColor} ${
+        isSection ? 'w3-section' : ''
+      } ${className}`}
       style={style}
       icon={iconElement}
       onClick={onClick}
@@ -38,7 +41,8 @@ MyButton.defaultProps = {
   className: '',
   color: 'blue',
   textColor: 'white',
-  icon: null
+  icon: null,
+  isSection: true
 };
 
 export default MyButton;

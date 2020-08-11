@@ -49,6 +49,7 @@ const resizeImageTransformId = 'resizeImage';
 /* s3 utils */
 // https://www.npmjs.com/package/multer-s3
 // https://www.npmjs.com/package/multer-s3-transform (same thing?)
+// https://npmdoc.github.io/node-npmdoc-multer-s3/build/apidoc.html
 
 const getNewFileName = originalName => {
   const extWithDot = path.extname(originalName);
@@ -90,7 +91,10 @@ const upload = multer({
     s3: s3,
     bucket: awsS3Bucket,
     acl: 'public-read',
-    contentType: multerS3.AUTO_CONTENT_TYPE,
+    //contentType: multerS3.AUTO_CONTENT_TYPE,
+    contentType: function (req, file, cb) {
+      cb(null, file.mimetype);
+    },
     // https://stackoverflow.com/questions/44028876/how-to-specify-upload-directory-in-multer-s3-for-aws-s3-bucket
     key: function (req, file, cb) {
       // to cater for mediumTypeFromUrl.type === mediumTypes.ALL.type case
@@ -148,6 +152,7 @@ const upload = multer({
               });
             }
           }
+
           cb(null, transformFunc);
         }
       }
@@ -287,10 +292,7 @@ router.get(
 
       const filterTextRegex = req.filterTextRegex;
       if (filterTextRegex) {
-        findOptions = {
-          ...findOptions,
-          name: filterTextRegex
-        };
+        findOptions.name = filterTextRegex;
       }
 
       const media = await Medium.paginate(findOptions, options);

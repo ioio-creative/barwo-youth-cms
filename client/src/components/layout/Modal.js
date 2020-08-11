@@ -12,6 +12,7 @@ const customModalStyles = {
 
 // http://reactcommunity.org/react-modal/
 const MyModal = ({
+  isOpenButtonSection,
   openButtonClassName,
   openButtonColor,
   openButtonTextColor,
@@ -59,6 +60,7 @@ const MyModal = ({
         color={openButtonColor}
         textColor={openButtonTextColor}
         onClick={openModal}
+        isSection={isOpenButtonSection}
       >
         {openButtonChildren || contentLabel}
       </Button>

@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const eventTypes = {
+  EVENT: 'EVENT',
+  COMMUNITY_PERFORMANCE: 'COMMUNITY_PERFORMANCE'
+};
+
+const eventTypesArray = Object.values(eventTypes);
+
 const EventArtistSchema = mongoose.Schema({
   role_tc: {
     type: String,
@@ -14,9 +21,35 @@ const EventArtistSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  isGuestArtist: {
+    type: Boolean,
+    default: false
+  },
   artist: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'artist'
+  },
+  guestArtistName_tc: {
+    type: String
+  },
+  guestArtistName_sc: {
+    type: String
+  },
+  guestArtistName_en: {
+    type: String
+  },
+  guestArtistRemarks_tc: {
+    type: String
+  },
+  guestArtistRemarks_sc: {
+    type: String
+  },
+  guestArtistRemarks_en: {
+    type: String
+  },
+  guestArtistImage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
   }
 });
 
@@ -97,6 +130,10 @@ const EventSchema = mongoose.Schema({
   name_en: {
     type: String,
     require: true
+  },
+  type: {
+    type: String,
+    default: eventTypes.EVENT
   },
   shows: [EventShowSchema],
   scenarists: [EventScenaristSchema],
@@ -190,17 +227,29 @@ EventSchema.plugin(mongoosePaginate);
 
 module.exports.Event = mongoose.model('event', EventSchema);
 
+module.exports.eventTypes = eventTypes;
+
+module.exports.defaultEventType = eventTypes.EVENT;
+
+module.exports.isValidEventType = type => {
+  return eventTypesArray.includes(type && type.toUpperCase());
+};
+
 module.exports.eventResponseTypes = {
   // input validation
   LABEL_REQUIRED: 'LABEL_REQUIRED',
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  TYPE_REQUIRED: 'TYPE_REQUIRED',
   EVENT_ART_DIRECTOR_REQUIRED: 'EVENT_ART_DIRECTOR_REQUIRED',
   EVENT_ARTIST_ROLE_TC_REQUIRED: 'EVENT_ARTIST_ROLE_TC_REQUIRED',
   EVENT_ARTIST_ROLE_SC_REQUIRED: 'EVENT_ARTIST_ROLE_SC_REQUIRED',
   EVENT_ARTIST_ROLE_EN_REQUIRED: 'EVENT_ARTIST_ROLE_EN_REQUIRED',
   EVENT_ARTIST_REQUIRED: 'EVENT_ARTIST_REQUIRED',
+  EVENT_GUEST_ARTIST_NAME_TC_REQUIRED: 'EVENT_GUEST_ARTIST_NAME_TC_REQUIRED',
+  EVENT_GUEST_ARTIST_NAME_SC_REQUIRED: 'EVENT_GUEST_ARTIST_NAME_SC_REQUIRED',
+  EVENT_GUEST_ARTIST_NAME_EN_REQUIRED: 'EVENT_GUEST_ARTIST_NAME_EN_REQUIRED',
   EVENT_SHOW_DATE_REQUIRED: 'EVENT_SHOW_DATE_REQUIRED',
   EVENT_SHOW_START_TIME_REQUIRED: 'EVENT_SHOW_START_TIME_REQUIRED',
   EVENT_SCENARIST_NAME_TC_REQUIRED: 'EVENT_SCENARIST_NAME_TC_REQUIRED',

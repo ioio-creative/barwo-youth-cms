@@ -9,9 +9,12 @@ export default {
   'Navbar.Users': 'Users',
   'Navbar.Artists': 'Artists',
   'Navbar.Events': 'Events',
+  'Navbar.CommunityPerformances': 'Community Performances',
   'Navbar.Phases': 'Phases',
   'Navbar.LandingPage': 'Landing Page',
   'Navbar.GlobalConstants': 'Global Constants',
+  'Navbar.About': 'About Page',
+  'Navbar.MiscellaneousInfo': 'Miscellaneous Info',
   'Navbar.TicketingDefaultEdit': 'Ticketing Default',
   'Navbar.Contacts': 'Contacts',
   'Navbar.Newsletters': 'Newsletters',
@@ -19,7 +22,6 @@ export default {
   'Navbar.Activities': 'Activities',
   'Navbar.Newses': 'News',
   'Navbar.NewsMediaItems': 'News Media Items',
-  'Navbar.About': 'About Page',
   'Navbar.Testing': 'Testing Page',
 
   'SortableList.ItemRemoveButton.Tooltip': 'Remove',
@@ -129,6 +131,7 @@ export default {
   'ArtistsOrder.OrderArtistsSuccessMessage': 'Artists Order Saved',
 
   'Events.Title': 'Events',
+  'CommunityPerformances.Title': 'Community Performances',
 
   'Event.LabelLabel': 'Label',
   'Event.NameTcLabel': 'Name TC',
@@ -169,6 +172,11 @@ export default {
   'EventList.FilterButton': 'Filter',
   'EventList.ClearFilterButton': 'Clear Filter',
 
+  'CommunityPerformanceList.AddCommunityPerformance':
+    'Add Community Performance',
+  'CommunityPerformanceList.FilterTextPlaceHolder':
+    'Filter Community Performances...',
+
   'EventEdit.BackToEventList': 'Back to Event List',
   'EventEdit.AddEventTitle': 'Add Event',
   'EventEdit.EditEventTitle': 'Edit Event',
@@ -179,11 +187,38 @@ export default {
   'EventEdit.UpdateEventSuccessMessage': 'Event Updated',
   'EventEdit.DeleteEventSuccessMessage': 'Event Deleted',
 
+  'CommunityPerformanceEdit.BackToCommunityPerformanceList':
+    'Back to Community Performance List',
+  'CommunityPerformanceEdit.AddCommunityPerformanceTitle':
+    'Add Community Performance',
+  'CommunityPerformanceEdit.EditCommunityPerformanceTitle':
+    'Edit Community Performance',
+  'CommunityPerformanceEdit.AddCommunityPerformanceSubmit':
+    'Add Community Performance',
+  'CommunityPerformanceEdit.UpdateCommunityPerformanceSubmit':
+    'Update Community Performance',
+  'CommunityPerformanceEdit.DeleteCommunityPerformance':
+    'Delete Community Performance',
+  'CommunityPerformanceEdit.AddCommunityPerformanceSuccessMessage':
+    'Community Performance Added',
+  'CommunityPerformanceEdit.UpdateCommunityPerformanceSuccessMessage':
+    'Community Performance Updated',
+  'CommunityPerformanceEdit.DeleteCommunityPerformanceSuccessMessage':
+    'Community Performance Deleted',
+
   'EventEdit.SelectArtDirectorsPlaceholder': 'Select Art Directors...',
   'EventEdit.Artist.RoleTcPlaceholder': 'Role TC',
   'EventEdit.Artist.RoleScPlaceholder': 'Role SC',
   'EventEdit.Artist.RoleEnPlaceholder': 'Role EN',
+  'EventEdit.Artist.IsGuestArtistLabel': 'Guest?',
   'EventEdit.Artist.ArtistPlaceholder': 'Select Artist...',
+  'EventEdit.Artist.GuestArtistNameTcPlaceholder': 'Guest Name TC',
+  'EventEdit.Artist.GuestArtistNameScPlaceholder': 'Guest Name SC',
+  'EventEdit.Artist.GuestArtistNameEnPlaceholder': 'Guest Name EN',
+  'EventEdit.Artist.GuestArtistRemarksTcPlaceholder': 'Guest Remarks TC',
+  'EventEdit.Artist.GuestArtistRemarksScPlaceholder': 'Guest Remarks SC',
+  'EventEdit.Artist.GuestArtistRemarksEnPlaceholder': 'Guest Remarks EN',
+  'EventEdit.Artist.GuestArtistImageAdd': 'Guest Image',
 
   'EventEdit.Scenarist.NameTcPlaceholder': 'Name TC',
   'EventEdit.Scenarist.NameScPlaceholder': 'Name SC',
@@ -579,6 +614,9 @@ export default {
   'About.TheaterTrafficTcLabel': 'Traffic TC',
   'About.TheaterTrafficScLabel': 'Traffic SC',
   'About.TheaterTrafficEnLabel': 'Traffic EN',
+  'About.ContactAddressTcLabel': 'Address Plain Text TC',
+  'About.ContactAddressScLabel': 'Address Plain Text SC',
+  'About.ContactAddressEnLabel': 'Address Plain Text EN',
   'About.ContactWebsiteLabel': 'Website',
   'About.ContactTelLabel': 'Tel',
   'About.ContactFaxLabel': 'Fax',
@@ -601,6 +639,42 @@ export default {
   'AboutEdit.StaffPerson.NameScPlaceholder': 'Name SC',
   'AboutEdit.StaffPerson.TitleEnPlaceholder': 'Title EN',
   'AboutEdit.StaffPerson.NameEnPlaceholder': 'Name EN',
+
+  'MiscellaneousInfo.Title': 'Miscellaneous Info',
+
+  'MiscellaneousInfo.ContactRegionLabel': 'Contact Us',
+  'MiscellaneousInfo.ContactAddressTcLabel': 'Address TC',
+  'MiscellaneousInfo.ContactAddressScLabel': 'Address SC',
+  'MiscellaneousInfo.ContactAddressEnLabel': 'Address EN',
+  'MiscellaneousInfo.ContactTelLabel': 'Tel',
+  'MiscellaneousInfo.ContactFaxLabel': 'Fax',
+  'MiscellaneousInfo.ContactEmailLabel': 'Email',
+  'MiscellaneousInfo.FooterRegionLabel': 'Footer',
+  'MiscellaneousInfo.FooterOrganizerLogosLabel': 'Organizer Logos',
+  'MiscellaneousInfo.FooterSponsorLogosLabel': 'Sponsor Logos',
+  'MiscellaneousInfo.TermsAndConditionsRegionLabel': 'Terms And Conditions',
+  'MiscellaneousInfo.TermsAndConditionsTitleTcLabel': 'Title TC',
+  'MiscellaneousInfo.TermsAndConditionsTitleScLabel': 'Title SC',
+  'MiscellaneousInfo.TermsAndConditionsTitleEnLabel': 'Title EN',
+  'MiscellaneousInfo.TermsAndConditionsDescTcLabel': 'Description TC',
+  'MiscellaneousInfo.TermsAndConditionsDescScLabel': 'Description SC',
+  'MiscellaneousInfo.TermsAndConditionsDescEnLabel': 'Description EN',
+  'MiscellaneousInfo.PrivacyPolicyRegionLabel': 'Privacy Policy',
+  'MiscellaneousInfo.PrivacyPolicyTitleTcLabel': 'Title TC',
+  'MiscellaneousInfo.PrivacyPolicyTitleScLabel': 'Title SC',
+  'MiscellaneousInfo.PrivacyPolicyTitleEnLabel': 'Title EN',
+  'MiscellaneousInfo.PrivacyPolicyDescTcLabel': 'Description TC',
+  'MiscellaneousInfo.PrivacyPolicyDescScLabel': 'Description SC',
+  'MiscellaneousInfo.PrivacyPolicyDescEnLabel': 'Description EN',
+
+  'MiscellaneousInfo.LastModifyDTLabel': 'Last Modify DT',
+  'MiscellaneousInfo.LastModifyUserLabel': 'Last Modify User',
+
+  'MiscellaneousInfoEdit.EditMiscellaneousInfoTitle': 'Edit Miscellaneous Info',
+  'MiscellaneousInfoEdit.UpdateMiscellaneousInfoSubmit':
+    'Update Miscellaneous Info',
+  'MiscellaneousInfoEdit.UpdateMiscellaneousInfoSuccessMessage':
+    'Miscellaneous Info Updated',
 
   'Newsletters.Title': 'Newsletters',
 
@@ -855,5 +929,9 @@ export default {
   'FileManager.NumberOfFilesSelectedSuffix': 'files selected',
 
   'FileUpload.TitleForSingleUpload': 'File Manager',
-  'FileUpload.TitleForMultipleUpload': 'File Manager (Multiple)'
+  'FileUpload.TitleForMultipleUpload': 'File Manager (Multiple)',
+
+  'SimpleFileUpload.UrlPlaceholder': 'File URL...',
+  'SimpleFileUpload.RemoveFile': 'Remove',
+  'SimpleFileUpload.PickFile': 'Pick'
 };

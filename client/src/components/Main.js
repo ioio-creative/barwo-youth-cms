@@ -61,6 +61,9 @@ const AsyncLandingPage = asyncLoadingComponent(_ =>
 const AsyncGlobalConstantsEdit = asyncLoadingComponent(_ =>
   import('components/pages/GlobalConstantsEdit')
 );
+const AsyncMiscellaneousInfo = asyncLoadingComponent(_ =>
+  import('components/pages/MiscellaneousInfoEdit')
+);
 const AsyncContactList = asyncLoadingComponent(_ =>
   import('components/pages/ContactList')
 );
@@ -168,6 +171,20 @@ const Main = _ => {
               <Route path={routes.eventEditById} component={AsyncEventEdit} />
               <Route path={routes.eventAdd(false)} component={AsyncEventEdit} />
 
+              {/* Community Performances would use the same components as Events. */}
+              <Route
+                path={routes.communityPerformanceList(false)}
+                component={AsyncEventList}
+              />
+              <Route
+                path={routes.communityPerformanceEditById}
+                component={AsyncEventEdit}
+              />
+              <Route
+                path={routes.communityPerformanceAdd(false)}
+                component={AsyncEventEdit}
+              />
+
               <Route
                 path={routes.ticketingDefaultEdit(false)}
                 component={AsyncTicketingDefaultEdit}
@@ -193,6 +210,11 @@ const Main = _ => {
               <Route
                 path={routes.landingPageEdit(false)}
                 component={AsyncLandingPage}
+              />
+
+              <Route
+                path={routes.miscellaneousInfoEdit(false)}
+                component={AsyncMiscellaneousInfo}
               />
 
               <Route

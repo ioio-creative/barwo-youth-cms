@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsState from 'contexts/artists/ArtistsState';
 import ArtistsContext from 'contexts/artists/artistsContext';
@@ -37,6 +37,8 @@ import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
+const eventTypes = Event.eventTypes;
+
 const emptyEvent = new Event();
 const defaultState = emptyEvent;
 
@@ -53,6 +55,15 @@ const cleanShow = show => ({
 
 const EventEdit = _ => {
   const { eventId } = useParams();
+  const isCommunityPerformanceEdit = Boolean(
+    useRouteMatch(routes.communityPerformanceEditById)
+  );
+  const isCommunityPerformanceAdd = Boolean(
+    useRouteMatch(routes.communityPerformanceAdd(false))
+  );
+  const isCommunityPerformance =
+    isCommunityPerformanceEdit || isCommunityPerformanceAdd;
+
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
     artistsErrors,
@@ -198,15 +209,34 @@ const EventEdit = _ => {
 
   const validInput = useCallback(
     eventInput => {
+      // Note: artist is an object
       for (const artist of eventInput.artists) {
-        // artist is acutally a string, which is artistId
-        if (!artist) {
+        let errorType = null;
+
+        if (artist.isGuestArtist === true) {
+          if (!artist.guestArtistName_tc) {
+            errorType =
+              Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_TC_REQUIRED;
+          } else if (!artist.guestArtistName_sc) {
+            errorType =
+              Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_SC_REQUIRED;
+          } else if (!artist.guestArtistName_en) {
+            errorType =
+              Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_EN_REQUIRED;
+          }
+        } else {
+          // artist.artist is acutally a string, which is artistId
+          if (!artist.artist) {
+            errorType = Event.eventsResponseTypes.EVENT_ARTIST_REQUIRED;
+          }
+        }
+
+        if (errorType) {
+          const alertMsgPrefix = `${uiWordings['Event.ArtistsLabel']} - ${uiWordings['EventEdit.Artist.RoleTcPlaceholder']} - ${artist.role_tc} - `;
           setAlerts(
-            new Alert(
-              Event.eventsResponseTypes.EVENT_ARTIST_REQUIRED.msg,
-              Alert.alertTypes.WARNING
-            )
+            new Alert(alertMsgPrefix + errorType.msg, Alert.alertTypes.WARNING)
           );
+
           return false;
         }
       }
@@ -281,7 +311,11 @@ const EventEdit = _ => {
         goToUrl(routes.eventList(true));
         setAlerts(
           new Alert(
-            uiWordings['EventEdit.DeleteEventSuccessMessage'],
+            uiWordings[
+              isCommunityPerformance
+                ? 'CommunityPerformanceEdit.DeleteCommunityPerformanceSuccessMessage'
+                : 'EventEdit.DeleteEventSuccessMessage'
+            ],
             Alert.alertTypes.INFO
           )
         );
@@ -289,7 +323,7 @@ const EventEdit = _ => {
         scrollToTop();
       }
     },
-    [eventId, deleteEvent, setAlerts]
+    [isCommunityPerformance, eventId, deleteEvent, setAlerts]
   );
 
   const onSubmit = useCallback(
@@ -298,6 +332,12 @@ const EventEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
+      // add type
+      event.type = (isCommunityPerformance
+        ? eventTypes.COMMUNITY_PERFORMANCE
+        : eventTypes.EVENT
+      ).value;
+
       // add art directors
       event.artDirectors = getArraySafe(artDirectorsPicked).map(
         artDirector => artDirector._id
@@ -305,12 +345,35 @@ const EventEdit = _ => {
 
       // add artists
       event.artists = getArraySafe(
-        artistsPicked.map(({ role_tc, role_sc, role_en, artist: { _id } }) => ({
-          role_tc,
-          role_sc,
-          role_en,
-          artist: _id
-        }))
+        artistsPicked.map(
+          ({
+            role_tc,
+            role_sc,
+            role_en,
+            artist,
+            isGuestArtist,
+            guestArtistName_tc,
+            guestArtistName_sc,
+            guestArtistName_en,
+            guestArtistRemarks_tc,
+            guestArtistRemarks_sc,
+            guestArtistRemarks_en,
+            guestArtistImage
+          }) => ({
+            role_tc,
+            role_sc,
+            role_en,
+            artist: artist ? artist._id : null,
+            isGuestArtist,
+            guestArtistName_tc,
+            guestArtistName_sc,
+            guestArtistName_en,
+            guestArtistRemarks_tc,
+            guestArtistRemarks_sc,
+            guestArtistRemarks_en,
+            guestArtistImage: guestArtistImage ? guestArtistImage._id : null
+          })
+        )
       );
 
       // add shows
@@ -382,8 +445,16 @@ const EventEdit = _ => {
         setAlerts(
           new Alert(
             isAddMode
-              ? uiWordings['EventEdit.AddEventSuccessMessage']
-              : uiWordings['EventEdit.UpdateEventSuccessMessage'],
+              ? uiWordings[
+                  isCommunityPerformance
+                    ? 'CommunityPerformanceEdit.AddCommunityPerformanceSuccessMessage'
+                    : 'EventEdit.AddEventSuccessMessage'
+                ]
+              : uiWordings[
+                  isCommunityPerformance
+                    ? 'CommunityPerformanceEdit.UpdateCommunityPerformanceSuccessMessage'
+                    : 'EventEdit.UpdateEventSuccessMessage'
+                ],
             Alert.alertTypes.INFO
           )
         );
@@ -394,6 +465,7 @@ const EventEdit = _ => {
       scrollToTop();
     },
     [
+      isCommunityPerformance,
       isAddMode,
       updateEvent,
       addEvent,
@@ -422,7 +494,15 @@ const EventEdit = _ => {
   const backToEventListButton = (
     <GroupContainer>
       <LinkButton to={routes.eventList(true)}>
-        {uiWordings['EventEdit.BackToEventList']}
+        {
+          uiWordings[
+            `${
+              isCommunityPerformance
+                ? 'CommunityPerformanceEdit.BackToCommunityPerformanceList'
+                : 'EventEdit.BackToEventList'
+            }`
+          ]
+        }
       </LinkButton>
     </GroupContainer>
   );
@@ -440,11 +520,23 @@ const EventEdit = _ => {
           <div className='w3-col m8'>
             <h4>
               {isAddMode
-                ? uiWordings['EventEdit.AddEventTitle']
-                : uiWordings['EventEdit.EditEventTitle']}
+                ? uiWordings[
+                    `${
+                      isCommunityPerformance
+                        ? 'CommunityPerformanceEdit.AddCommunityPerformanceTitle'
+                        : 'EventEdit.AddEventTitle'
+                    }`
+                  ]
+                : uiWordings[
+                    `${
+                      isCommunityPerformance
+                        ? 'CommunityPerformanceEdit.EditCommunityPerformanceTitle'
+                        : 'EventEdit.EditEventTitle'
+                    }`
+                  ]}
             </h4>
           </div>
-          <div className='w3-col m4 w3-row'>
+          <div className='w3-rest w3-row'>
             <div className='w3-col m6'>
               <ColorPickerModal
                 name='themeColor'
@@ -690,14 +782,34 @@ const EventEdit = _ => {
           disabled={!isSubmitEnabled}
           label={
             isAddMode
-              ? uiWordings['EventEdit.AddEventSubmit']
-              : uiWordings['EventEdit.UpdateEventSubmit']
+              ? uiWordings[
+                  `${
+                    isCommunityPerformance
+                      ? 'CommunityPerformanceEdit.AddCommunityPerformanceSubmit'
+                      : 'EventEdit.AddEventSubmit'
+                  }`
+                ]
+              : uiWordings[
+                  `${
+                    isCommunityPerformance
+                      ? 'CommunityPerformanceEdit.UpdateCommunityPerformanceSubmit'
+                      : 'EventEdit.UpdateEventSubmit'
+                  }`
+                ]
           }
         />
         {!isAddMode && (
           <div className='w3-right'>
             <DeleteWithConfirmButton onConfirmYes={eventDelete}>
-              {uiWordings['EventEdit.DeleteEvent']}
+              {
+                uiWordings[
+                  `${
+                    isCommunityPerformance
+                      ? 'CommunityPerformanceEdit.DeleteCommunityPerformance'
+                      : 'EventEdit.DeleteEvent'
+                  }`
+                ]
+              }
             </DeleteWithConfirmButton>
           </div>
         )}

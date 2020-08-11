@@ -18,7 +18,12 @@ const {
   compareForStringsAscending
 } = require('../../../utils/js/string/compareForStrings');
 const { compareForDatesAscending } = require('../../../utils/datetime');
-const { Event, eventResponseTypes } = require('../../../models/Event');
+const {
+  Event,
+  eventResponseTypes,
+  defaultEventType,
+  isValidEventType
+} = require('../../../models/Event');
 const { Artist } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
 
@@ -50,6 +55,10 @@ const eventPopulationListForFindAll = [
     select: 'label'
   },
   {
+    path: 'artists.guestArtistImage',
+    select: mediumSelect
+  },
+  {
     path: 'shows'
   },
   {
@@ -68,7 +77,8 @@ const eventValidationChecks = [
   check('label', eventResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).notEmpty(),
   check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).notEmpty(),
-  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty()
+  check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty(),
+  check('type', eventResponseTypes.TYPE_REQUIRED)
   // check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).notEmpty(),
   // check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).notEmpty(),
   // check('venue_en', eventResponseTypes.VENUE_EN_REQUIRED).notEmpty()
@@ -93,8 +103,16 @@ const eventArtistsValidation = artists => {
   for (const artist of getArraySafe(artists)) {
     let errorType = null;
 
-    if (!artist.artist) {
+    if (artist.isGuestArtist !== true && !artist.artist) {
       errorType = eventResponseTypes.EVENT_ARTIST_REQUIRED;
+    } else if (artist.isGuestArtist === true) {
+      if (!artist.guestArtistName_tc) {
+        errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_TC_REQUIRED;
+      } else if (!artist.guestArtistName_sc) {
+        errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_SC_REQUIRED;
+      } else if (!artist.guestArtistName_en) {
+        errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_EN_REQUIRED;
+      }
     } else if (!artist.role_tc) {
       errorType = eventResponseTypes.EVENT_ARTIST_ROLE_TC_REQUIRED;
     } else if (!artist.role_sc) {
@@ -273,7 +291,9 @@ const setEventsInvolvedForArtDirectorsAndArtists = async (
   }
 
   // set artist's eventsPerformed
-  for (const artist of getArraySafe(artists)) {
+  for (const artist of getArraySafe(artists).filter(
+    artist => artist.isGuestArtist !== true
+  )) {
     // artist.artist is artist's _id
     await Artist.findByIdAndUpdate(
       artist.artist,
@@ -304,7 +324,9 @@ const removeEventsInvolvedForArtDirectorsAndArtists = async (
     );
   }
 
-  for (const artist of getArraySafe(event.artists)) {
+  for (const artist of getArraySafe(event.artists).filter(
+    artist => artist.isGuestArtist !== true
+  )) {
     await Artist.findByIdAndUpdate(
       artist.artist,
       {
@@ -315,6 +337,14 @@ const removeEventsInvolvedForArtDirectorsAndArtists = async (
       options
     );
   }
+};
+
+const getCleanedEventArtists = eventArtists => {
+  return getArraySafe(eventArtists).map(eventArtist => ({
+    ...eventArtist,
+    // since MongoDB does not accept ObjectId to be empty string
+    artist: eventArtist.artist === '' ? null : eventArtist.artist
+  }));
 };
 
 const compareShows = (show1, show2) => {
@@ -346,16 +376,27 @@ const handleEventLabelDuplicateKeyError = (err, res) => {
 // @access  Private
 router.get('/', [auth, listingHandling], async (req, res) => {
   try {
+    // query
+    const query = req.query;
+    let type = query.type && query.type.toUpperCase();
+
+    if (!isValidEventType(type)) {
+      type = defaultEventType;
+    }
+
     const options = {
       ...req.paginationOptions,
       select: eventSelectForFindAll,
       populate: eventPopulationListForFindAll
     };
 
-    let findOptions = {};
+    let findOptions = {
+      type
+    };
     const filterTextRegex = req.filterTextRegex;
     if (filterTextRegex) {
       findOptions = {
+        ...findOptions,
         $or: [
           { label: filterTextRegex },
           { name_tc: filterTextRegex },
@@ -412,6 +453,7 @@ router.post(
       name_tc,
       name_sc,
       name_en,
+      type,
       descHeadline_tc,
       descHeadline_sc,
       descHeadline_en,
@@ -464,6 +506,7 @@ router.post(
         name_tc,
         name_sc,
         name_en,
+        type,
         descHeadline_tc,
         descHeadline_sc,
         descHeadline_en,
@@ -475,10 +518,10 @@ router.post(
         remarks_en,
         isEnabled,
         lastModifyUser: req.user._id,
-        artDirectors,
-        artists,
-        shows,
-        scenarists,
+        artDirectors: getArraySafe(artDirectors),
+        artists: getCleanedEventArtists(artists),
+        shows: sortShows(shows),
+        scenarists: getArraySafe(scenarists),
         // venue_tc,
         // venue_sc,
         // venue_en,
@@ -528,6 +571,7 @@ router.put(
       name_tc,
       name_sc,
       name_en,
+      type,
       descHeadline_tc,
       descHeadline_sc,
       descHeadline_en,
@@ -578,6 +622,7 @@ router.put(
     if (name_tc) eventFields.name_tc = name_tc;
     if (name_sc) eventFields.name_sc = name_sc;
     if (name_en) eventFields.name_en = name_en;
+    if (type) eventFields.type = type;
     eventFields.descHeadline_tc = descHeadline_tc;
     eventFields.descHeadline_sc = descHeadline_sc;
     eventFields.descHeadline_en = descHeadline_en;
@@ -589,7 +634,7 @@ router.put(
     eventFields.remarks_en = remarks_en;
     if (isEnabled !== undefined) eventFields.isEnabled = isEnabled;
     eventFields.artDirectors = getArraySafe(artDirectors);
-    eventFields.artists = getArraySafe(artists);
+    eventFields.artists = getCleanedEventArtists(artists);
     eventFields.shows = sortShows(shows);
     eventFields.scenarists = getArraySafe(scenarists);
     // if (venue_tc) eventFields.venue_tc = venue_tc;

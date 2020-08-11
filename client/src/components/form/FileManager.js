@@ -360,6 +360,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
         );
       }
       const newQueue = filesArray.slice(0, maxFileUploadCount).map(file => {
+        console.log(file);
         if (!mediumTypeObj.allowedMimeTypes.includes(file.type)) {
           setAlerts(
             [
@@ -415,6 +416,9 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
       handleUpload(e.target.files);
       e.preventDefault();
       e.stopPropagation();
+
+      // https://stackoverflow.com/questions/4109276/how-to-detect-input-type-file-change-for-the-same-file
+      e.target.value = '';
     },
     [handleUpload]
   );

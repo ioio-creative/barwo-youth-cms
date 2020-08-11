@@ -6,6 +6,7 @@ import uiWordings from 'globals/uiWordings';
 
 const ModalFileManager = ({
   title,
+  isOpenButtonSection,
   openButtonChildren,
   onSelect,
   isMultiple,
@@ -23,6 +24,7 @@ const ModalFileManager = ({
 
   return (
     <Modal
+      isOpenButtonSection={isOpenButtonSection}
       openButtonClassName='w3-margin-left'
       isOpen={isModalOpen}
       setParentIsOpen={setIsModalOpen}

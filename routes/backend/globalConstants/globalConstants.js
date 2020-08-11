@@ -870,10 +870,7 @@ router.get('/', auth, async (req, res) => {
     }
     res.json(globalConstants);
   } catch (err) {
-    //generalErrorHandle(err, res);
-    return res.status(404).json({
-      errors: [globalConstantsResponseTypes.GLOBAL_CONSTANTS_NOT_EXISTS]
-    });
+    generalErrorHandle(err, res);
   }
 });
 

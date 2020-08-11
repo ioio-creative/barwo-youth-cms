@@ -250,6 +250,7 @@ const NewsletterEdit = _ => {
             {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
           </Button>
         )}
+
         <div className='w3-container w3-right'>
           <SendOutList newsletterId={newsletter._id} />
         </div>

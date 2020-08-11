@@ -17,7 +17,7 @@ const AboutContainer = ({ children }) => {
 
   return (
     <AboutState>
-      <div className='about-page-container'>{children}</div>
+      <div className='about-container'>{children}</div>
     </AboutState>
   );
 };

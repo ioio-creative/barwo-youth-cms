@@ -63,7 +63,13 @@ const mediumTypes = {
   IMAGE: {
     type: 'IMAGE',
     route: 'images',
-    allowedMimeTypes: ['image/png', 'image/gif', 'image/jpeg', 'image/webp'],
+    allowedMimeTypes: [
+      'image/png',
+      'image/gif',
+      'image/jpeg',
+      'image/webp',
+      'image/svg+xml'
+    ],
     resizableMimeTypes: ['image/png', 'image/jpeg', 'image/webp']
   },
   VIDEO: {

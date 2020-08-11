@@ -3,7 +3,7 @@ const router = express.Router();
 
 const auth = require('../../../middleware/auth');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { Event } = require('../../../models/Event');
+const { Event, eventTypes } = require('../../../models/Event');
 
 // @route   GET api/backend/events/phaseArtists
 // @desc    Get all phase events
@@ -11,7 +11,9 @@ const { Event } = require('../../../models/Event');
 router.get('/', auth, async (req, res) => {
   try {
     // allow disabled events
-    const events = await Event.find({})
+    const events = await Event.find({
+      type: eventTypes.EVENT
+    })
       .select({
         label: 1
       })

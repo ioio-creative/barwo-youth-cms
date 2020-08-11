@@ -51,12 +51,14 @@ const Navbar = ({ className }) => {
   const isUserAdd = Boolean(useRouteMatch(routes.userAdd(false)));
 
   const isAboutEdit = Boolean(useRouteMatch(routes.aboutEdit(false)));
-
   const isGlobalConstantsEdit = Boolean(
     useRouteMatch(routes.globalConstantsEdit(false))
   );
   const isLandingPageEdit = Boolean(
     useRouteMatch(routes.landingPageEdit(false))
+  );
+  const isMiscellaneousInfoEdit = Boolean(
+    useRouteMatch(routes.miscellaneousInfoEdit(false))
   );
 
   const isPhaseList = Boolean(useRouteMatch(routes.phaseList(false)));
@@ -66,6 +68,16 @@ const Navbar = ({ className }) => {
   const isEventList = Boolean(useRouteMatch(routes.eventList(false)));
   const isEventEdit = Boolean(useRouteMatch(routes.eventEditById));
   const isEventAdd = Boolean(useRouteMatch(routes.eventAdd(false)));
+
+  const isCommunityPerformanceList = Boolean(
+    useRouteMatch(routes.communityPerformanceList(false))
+  );
+  const isCommunityPerformanceEdit = Boolean(
+    useRouteMatch(routes.communityPerformanceEditById)
+  );
+  const isCommunityPerformanceAdd = Boolean(
+    useRouteMatch(routes.communityPerformanceAdd(false))
+  );
 
   const isTicketingDefaultEdit = Boolean(
     useRouteMatch(routes.ticketingDefaultEdit(false))
@@ -163,11 +175,18 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.LandingPage']}
       </NavbarLink>
       <NavbarLink
-        className='w3-border-bottom'
+        //className='w3-border-bottom'
         to={routes.aboutEdit(true)}
         isSelected={isAboutEdit}
       >
         {uiWordings['Navbar.About']}
+      </NavbarLink>
+      <NavbarLink
+        className='w3-border-bottom'
+        to={routes.miscellaneousInfoEdit(true)}
+        isSelected={isMiscellaneousInfoEdit}
+      >
+        {uiWordings['Navbar.MiscellaneousInfo']}
       </NavbarLink>
 
       <NavbarLink
@@ -177,11 +196,22 @@ const Navbar = ({ className }) => {
       >
         {uiWordings['Navbar.Phases']}
       </NavbarLink>
+
       <NavbarLink
         to={routes.eventList(true)}
         isSelected={isEventList || isEventEdit || isEventAdd}
       >
         {uiWordings['Navbar.Events']}
+      </NavbarLink>
+      <NavbarLink
+        to={routes.communityPerformanceList(true)}
+        isSelected={
+          isCommunityPerformanceList ||
+          isCommunityPerformanceEdit ||
+          isCommunityPerformanceAdd
+        }
+      >
+        {uiWordings['Navbar.CommunityPerformances']}
       </NavbarLink>
       <NavbarLink
         className='w3-border-bottom'
@@ -190,6 +220,7 @@ const Navbar = ({ className }) => {
       >
         {uiWordings['Navbar.TicketingDefaultEdit']}
       </NavbarLink>
+
       <NavbarLink
         className='w3-border-bottom'
         to={routes.artistList(true)}

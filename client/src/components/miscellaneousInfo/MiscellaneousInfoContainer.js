@@ -1,18 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
-import FileManagerComponent from 'components/form/FileManager';
+import MiscellaneousInfoState from 'contexts/miscellaneousInfo/MiscellaneousInfoState';
 import uiWordings from 'globals/uiWordings';
 
-const containerStyle = {
-  height: 'calc(100vh - 51px)'
-};
-
-const FileManager = _ => {
+const MiscellaneousInfoContainer = ({ children }) => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
 
   // componentDidMount
   useEffect(_ => {
-    setTitle(uiWordings['FileManager.Title']);
+    setTitle(uiWordings['MiscellaneousInfo.Title']);
     return _ => {
       removeTitle();
     };
@@ -20,10 +16,10 @@ const FileManager = _ => {
   }, []);
 
   return (
-    <div style={containerStyle}>
-      <FileManagerComponent />
-    </div>
+    <MiscellaneousInfoState>
+      <div className='miscellaneous-info-container'>{children}</div>
+    </MiscellaneousInfoState>
   );
 };
 
-export default FileManager;
+export default MiscellaneousInfoContainer;

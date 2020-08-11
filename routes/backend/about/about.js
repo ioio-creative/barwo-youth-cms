@@ -143,11 +143,7 @@ router.get('/', auth, async (req, res) => {
     }
     res.json(about);
   } catch (err) {
-    console.error(err);
-    //generalErrorHandle(err, res);
-    return res.status(404).json({
-      errors: [aboutResponseTypes.ABOUT_NOT_EXISTS]
-    });
+    generalErrorHandle(err, res);
   }
 });
 

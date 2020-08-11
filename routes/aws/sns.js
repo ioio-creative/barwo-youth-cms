@@ -94,11 +94,13 @@ router.post('/handle-bounces', async function (req, res) {
       success: true,
       message: 'Successfully received message'
     });
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({
       success: false,
-      message: error.message
+      message: err.message
     });
+    //generalErrorHandle(err, res);
   }
 });
 
@@ -106,30 +108,35 @@ router.post('/handle-complaints', async function (req, res) {
   try {
     handleResponse(topicArnComplaint, req, res);
 
-    const emailAddresses = req.body.Message.complaints.complaintsdRecipients.map(
-      complaintsdRecipient => {
-        return complaintsdRecipient.emailAddress;
-      }
-    );
+    console.log('handle-complaints');
 
-    for (const emailAddress of emailAddresses) {
-      await Contact.findOneAndUpdate(
-        { emailAddress: emailAddress },
-        { $set: { isEnabled: false } },
-        { new: true }
+    if (req.body.Message) {
+      const emailAddresses = req.body.Message.complaints.complaintsdRecipients.map(
+        complaintsdRecipient => {
+          return complaintsdRecipient.emailAddress;
+        }
       );
-    }
 
-    res.status(200).json({
-      success: true,
-      message: 'Successfully received message.'
-    });
-  } catch (error) {
+      for (const emailAddress of emailAddresses) {
+        await Contact.findOneAndUpdate(
+          { emailAddress: emailAddress },
+          { $set: { isEnabled: false } },
+          { new: true }
+        );
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Successfully received message.'
+      });
+    }
+  } catch (err) {
+    console.error(err);
     res.status(500).json({
       success: false,
-      message: error.message
+      message: err.message
     });
-    generalErrorHandle(err, res);
+    //generalErrorHandle(err, res);
   }
 });
 

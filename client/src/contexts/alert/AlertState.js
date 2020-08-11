@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from 'react';
+import React, { useReducer, useCallback, useRef } from 'react';
 //import guid from 'utils/guid';
 import AlertContext from './alertContext';
 import alertReducer from './alertReducer';
@@ -7,6 +7,8 @@ import { SET_ALERTS, REMOVE_ALERTS } from '../types';
 const initialState = [];
 
 const AlertState = ({ children }) => {
+  const removeAlertsHandle = useRef(null);
+
   const [state, dispatch] = useReducer(alertReducer, initialState);
 
   // Set Alert
@@ -18,7 +20,12 @@ const AlertState = ({ children }) => {
     dispatch({ type: SET_ALERTS, payload: tamperedAlerts });
 
     if (timeout >= 0) {
-      setTimeout(_ => dispatch({ type: REMOVE_ALERTS }), timeout);
+      removeAlertsHandle.current = setTimeout(_ => {
+        dispatch({ type: REMOVE_ALERTS });
+        if (removeAlertsHandle.current) {
+          clearTimeout(removeAlertsHandle.current);
+        }
+      }, timeout);
     }
 
     //return _id;

@@ -3,11 +3,20 @@ import firstOrDefault from 'utils/js/array/firstOrDefault';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
+const eventTypes = {
+  EVENT: { value: 'EVENT', label: 'Event' },
+  COMMUNITY_PERFORMANCE: {
+    value: 'COMMUNITY_PERFORMANCE',
+    label: 'Community performance'
+  }
+};
+
 function Event() {
   this.label = '';
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
+  //this.type = '';  // front-end actually does not need to know the type
   this.themeColor = '';
   this.artDirectors = [];
   this.shows = [];
@@ -89,6 +98,10 @@ Event.eventsResponseTypes = {
     type: 'NAME_EN_REQUIRED',
     msg: 'NAME_EN_REQUIRED'
   },
+  TYPE_REQUIRED: {
+    type: 'TYPE_REQUIRED',
+    msg: 'TYPE_REQUIRED'
+  },
   EVENT_ART_DIRECTOR_REQUIRED: {
     type: 'EVENT_ART_DIRECTOR_REQUIRED',
     msg: 'One of the event art directors is missing.'
@@ -108,6 +121,18 @@ Event.eventsResponseTypes = {
   EVENT_ARTIST_REQUIRED: {
     type: 'EVENT_ARTIST_REQUIRED',
     msg: 'One of the event artists is missing.'
+  },
+  EVENT_GUEST_ARTIST_NAME_TC_REQUIRED: {
+    type: 'EVENT_GUEST_ARTIST_NAME_TC_REQUIRED',
+    msg: 'EVENT_GUEST_ARTIST_NAME_TC_REQUIRED'
+  },
+  EVENT_GUEST_ARTIST_NAME_SC_REQUIRED: {
+    type: 'EVENT_GUEST_ARTIST_NAME_SC_REQUIRED',
+    msg: 'EVENT_GUEST_ARTIST_NAME_SC_REQUIRED'
+  },
+  EVENT_GUEST_ARTIST_NAME_EN_REQUIRED: {
+    type: 'EVENT_GUEST_ARTIST_NAME_EN_REQUIRED',
+    msg: 'EVENT_GUEST_ARTIST_NAME_EN_REQUIRED'
   },
   EVENT_SHOW_DATE_REQUIRED: {
     type: 'EVENT_SHOW_DATE_REQUIRED',
@@ -180,7 +205,19 @@ Event.eventsResponseTypes = {
   CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
+Event.eventTypes = eventTypes;
+Event.eventTypeOptions = Object.values(eventTypes);
+
 Event.getEventForDisplay = event => {
+  let artistsDisplay = '';
+  const firstArtistWithRole = firstOrDefault(event.artists);
+  if (firstArtistWithRole) {
+    if (firstArtistWithRole.isGuestArtist === true) {
+      artistsDisplay = firstArtistWithRole.guestArtistName_tc;
+    } else {
+      artistsDisplay = firstArtistWithRole.artist.label;
+    }
+  }
   return {
     ...event,
     createDTDisplay: formatDateTimeString(event.createDT),
@@ -190,9 +227,8 @@ Event.getEventForDisplay = event => {
       : '',
     isEnabledDisplay: event.isEnabled.toString(),
     artDirectorsDisplay: firstOrDefault(event.artDirectors, { label: '' })
-      .name_tc,
-    artistsDisplay: firstOrDefault(event.artists, { artist: { label: '' } })
-      .artist.name_tc,
+      .label,
+    artistsDisplay: artistsDisplay,
     showsDisplay: formatDateString(
       firstOrDefault(event.shows, { date: null }).date
     ),

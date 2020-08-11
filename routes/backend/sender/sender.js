@@ -44,10 +44,7 @@ router.get('/', auth, async (req, res) => {
     }
     res.json(sender);
   } catch (err) {
-    //generalErrorHandle(err, res);
-    return res.status(404).json({
-      errors: [senderResponseTypes.SENDER_NOT_EXISTS]
-    });
+    generalErrorHandle(err, res);
   }
 });
 
