@@ -5,16 +5,18 @@ const {
 const firstOrDefault = require('../js/array/firstOrDefault');
 const maxBy = require('../js/array/maxBy');
 const minBy = require('../js/array/minBy');
-const sortBy = require('../js/array/sortBy');
+const orderBy = require('../js/array/orderBy');
 const { isFunction } = require('../js/function/isFunction');
 const { formatDateString } = require('../datetime');
 
-const mapAndSortEvents = (events, mapFunc = null) => {
+// sortOrder: 1 ascending, -1 descending
+const mapAndSortEvents = (events, mapFunc = null, sortOrder = 1) => {
   const eventsWithTimestamps = getArraySafe(events).map(event => {
     const eventFields = isFunction(mapFunc) ? mapFunc(event) : event;
 
     const showTimestamps = getArraySafe(event.shows).map(show => {
-      return Date.parse(`${formatDateString(show.date)} ${show.startTime}`);
+      //return Date.parse(`${formatDateString(show.date)} ${show.startTime}`);
+      return Date.parse(formatDateString(show.date));
     });
 
     let minShowTimestamp = null;
@@ -24,7 +26,20 @@ const mapAndSortEvents = (events, mapFunc = null) => {
       maxShowTimestamp = showTimestamps[showTimestamps.length - 1];
     }
 
-    const currTimestamp = Date.now();
+    //const currTimestamp = Date.now();
+    const currentDate = new Date();
+    const currTimestamp = Date.parse(
+      formatDateString(
+        new Date(
+          currentDate.getUTCFullYear(),
+          currentDate.getUTCMonth(),
+          currentDate.getUTCDate(),
+          0,
+          0,
+          0
+        )
+      )
+    );
     let isShowOn = false;
     if (minShowTimestamp !== null && maxShowTimestamp !== null) {
       isShowOn =
@@ -102,10 +117,14 @@ const mapAndSortEvents = (events, mapFunc = null) => {
     );
   }
 
-  const sortedEvents = sortBy(eventsWithTimestamps, [
-    'minShowTimestamp',
-    'maxShowTimestamp'
-  ]);
+  const sortedEvents =
+    sortOrder === -1
+      ? orderBy(
+          eventsWithTimestamps,
+          ['maxShowTimestamp', 'minShowTimestamp'],
+          ['desc', 'desc']
+        )
+      : orderBy(eventsWithTimestamps, ['minShowTimestamp', 'maxShowTimestamp']);
 
   // set isClosest field for events
   let closestEventIdx = -1;

@@ -134,7 +134,7 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
 
     const yearsForFrontEnd = [];
 
-    const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getUTCFullYear();
 
     for (const year of years) {
       const phasesOfYear = safePhases.filter(phase => phase.year === year);

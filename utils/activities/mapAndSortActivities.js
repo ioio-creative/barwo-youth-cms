@@ -5,7 +5,7 @@ const {
 const firstOrDefault = require('../js/array/firstOrDefault');
 const maxBy = require('../js/array/maxBy');
 const minBy = require('../js/array/minBy');
-const sortBy = require('../js/array/sortBy');
+const orderBy = require('../js/array/orderBy');
 const { isFunction } = require('../js/function/isFunction');
 const { formatDateString } = require('../datetime');
 
@@ -14,13 +14,26 @@ const mapAndSortActivities = (activities, mapFunc = null) => {
     const activityFields = isFunction(mapFunc) ? mapFunc(activity) : activity;
 
     const activityFromTimestamp = activity.fromDate
-      ? Date.parse(activity.fromDate)
+      ? Date.parse(formatDateString(activity.fromDate))
       : null;
     const activityToTimestamp = activity.toDate
-      ? Date.parse(activity.toDate)
+      ? Date.parse(formatDateString(activity.toDate))
       : null;
 
-    const currTimestamp = Date.now();
+    //const currTimestamp = Date.now();
+    const currentDate = new Date();
+    const currTimestamp = Date.parse(
+      formatDateString(
+        new Date(
+          currentDate.getUTCFullYear(),
+          currentDate.getUTCMonth(),
+          currentDate.getUTCDate(),
+          0,
+          0,
+          0
+        )
+      )
+    );
     let isActivityOn = false;
     if (activityFromTimestamp !== null && activityToTimestamp !== null) {
       isActivityOn =
@@ -81,7 +94,10 @@ const mapAndSortActivities = (activities, mapFunc = null) => {
     }
   }
 
-  let closestActivity = minBy(
+  let closestActivity = null;
+  let closestActivityInPresentOrFuture = null;
+
+  closestActivity = closestActivityInPresentOrFuture = minBy(
     activitiesWithPositiveTimestampDistanceFromCurrent,
     'timestampDistanceFromCurrent'
   );
@@ -100,23 +116,33 @@ const mapAndSortActivities = (activities, mapFunc = null) => {
     );
   }
 
+  const sortedActivities = orderBy(activitiesWithTimestamps, [
+    'fromTimestamp',
+    'toTimestamp'
+  ]);
+
   // set isClosest field for activities
   let closestActivityIdx = -1;
+  let closestActivityInPresentOrFutureIdx = -1;
   activitiesWithTimestamps.forEach((activityWithTimestamps, idx) => {
     activityWithTimestamps.isClosest =
       activityWithTimestamps === closestActivity;
+    activityWithTimestamps.isClosestInPresentOrFuture =
+      activityWithTimestamps === closestActivityInPresentOrFuture;
     if (activityWithTimestamps.isClosest) {
       closestActivityIdx = idx;
+    }
+    if (activityWithTimestamps.isClosestInPresentOrFuture) {
+      closestActivityInPresentOrFutureIdx = idx;
     }
   });
 
   return {
-    sortedActivities: sortBy(activitiesWithTimestamps, [
-      'fromTimestamp',
-      'toTimestamp'
-    ]),
+    sortedActivities,
     closestActivity,
-    closestActivityIdx
+    closestActivityIdx,
+    closestActivityInPresentOrFuture,
+    closestActivityInPresentOrFutureIdx
   };
 };
 

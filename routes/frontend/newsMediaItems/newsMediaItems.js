@@ -96,9 +96,9 @@ const getNewsMediaItemList = async language => {
     // !!!Important!!! somehow destructuring gives extended object with lots of unrelated fields...
     // return {
     //   ...newsMediaItem,
-    //   year: newsMediaItem.fromDate.getFullYear()
+    //   year: newsMediaItem.fromDate.getUTCFullYear()
     // }
-    newsMediaItem.year = newsMediaItem.fromDate.getFullYear();
+    newsMediaItem.year = newsMediaItem.fromDate.getUTCFullYear();
     return newsMediaItem;
   });
 
