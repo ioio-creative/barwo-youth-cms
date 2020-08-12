@@ -373,7 +373,6 @@ router.get('/:lang/archive', [languageHandling], async (req, res) => {
           eventsByYear[yearStr] = {};
         }
 
-        console.log(event.month);
         if (Number.isInteger(event.month)) {
           const monthStr = event.month.toString();
           if (Array.isArray(eventsByYear[yearStr][monthStr])) {

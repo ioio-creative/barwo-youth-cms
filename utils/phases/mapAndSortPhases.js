@@ -6,7 +6,7 @@ const orderBy = require('../js/array/orderBy');
 const { isFunction } = require('../js/function/isFunction');
 const { formatDateString } = require('../datetime');
 
-const mapAndSortPhases = (phases, mapFunc = null) => {
+const mapAndSortPhases = (phases, mapFunc = null, sortOrder = -1) => {
   const phasesWithTimestamps = getArraySafe(phases).map(phase => {
     const phaseFields = isFunction(mapFunc) ? mapFunc(phase) : phase;
 
@@ -54,7 +54,7 @@ const mapAndSortPhases = (phases, mapFunc = null) => {
     return {
       ...phaseFields,
       fromTimestamp: phaseFromTimestamp,
-      toTimestamp: phaseToTimestamp,
+      toTimestamp: phaseToTimestamp || phaseFromTimestamp,
       timestampDistanceFromCurrent
     };
   });
@@ -109,10 +109,14 @@ const mapAndSortPhases = (phases, mapFunc = null) => {
     );
   }
 
-  const sortedPhases = orderBy(phasesWithTimestamps, [
-    'fromTimestamp',
-    'toTimestamp'
-  ]);
+  const sortedPhases =
+    sortOrder === -1
+      ? orderBy(
+          phasesWithTimestamps,
+          ['toTimestamp', 'fromTimestamp'],
+          ['desc', 'desc']
+        )
+      : orderBy(phasesWithTimestamps, ['fromTimestamp', 'toTimestamp']);
 
   // set isClosest field for phases
   let closestPhaseIdx = -1;
