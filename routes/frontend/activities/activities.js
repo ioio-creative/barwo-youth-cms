@@ -108,7 +108,8 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
         activitiesOfType,
         activity => {
           return getActivityForFrontEndFromDbActivity(activity, language);
-        }
+        },
+        -1
       );
 
       jsonToReturn[type] = sortedActivities;

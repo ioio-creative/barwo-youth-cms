@@ -9,7 +9,7 @@ const orderBy = require('../js/array/orderBy');
 const { isFunction } = require('../js/function/isFunction');
 const { formatDateString } = require('../datetime');
 
-const mapAndSortActivities = (activities, mapFunc = null) => {
+const mapAndSortActivities = (activities, mapFunc = null, sortOrder = 1) => {
   const activitiesWithTimestamps = getArraySafe(activities).map(activity => {
     const activityFields = isFunction(mapFunc) ? mapFunc(activity) : activity;
 
@@ -57,7 +57,7 @@ const mapAndSortActivities = (activities, mapFunc = null) => {
     return {
       ...activityFields,
       fromTimestamp: activityFromTimestamp,
-      toTimestamp: activityToTimestamp,
+      toTimestamp: activityToTimestamp || activityFromTimestamp,
       timestampDistanceFromCurrent
     };
   });
@@ -116,10 +116,14 @@ const mapAndSortActivities = (activities, mapFunc = null) => {
     );
   }
 
-  const sortedActivities = orderBy(activitiesWithTimestamps, [
-    'fromTimestamp',
-    'toTimestamp'
-  ]);
+  const sortedActivities =
+    sortOrder === -1
+      ? orderBy(
+          activitiesWithTimestamps,
+          ['toTimestamp', 'fromTimestamp'],
+          ['desc', 'desc']
+        )
+      : orderBy(activitiesWithTimestamps, ['fromTimestamp', 'toTimestamp']);
 
   // set isClosest field for activities
   let closestActivityIdx = -1;

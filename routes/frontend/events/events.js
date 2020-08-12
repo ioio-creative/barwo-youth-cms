@@ -147,12 +147,14 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
 
   let firstShowDate = null;
   let firstShowYear = null;
+  let firstShowMonth = null;
   if (isNonEmptyArray(event.shows)) {
     const firstShow = event.shows[0];
     firstShowDate = firstShow.date
       ? formatDateStringForFrontEnd(firstShow.date)
       : null;
     firstShowYear = firstShow.date ? firstShow.date.getUTCFullYear() : null;
+    firstShowMonth = firstShow.date ? firstShow.date.getUTCMonth() : null;
   }
 
   return {
@@ -171,6 +173,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
     })),
     fromDate: firstShowDate,
     year: firstShowYear,
+    month: firstShowMonth,
     schedule: getArraySafe(event.shows).map(show => ({
       date: {
         from: show.date ? formatDateStringForFrontEnd(show.date) : null,
@@ -366,10 +369,18 @@ router.get('/:lang/archive', [languageHandling], async (req, res) => {
       // filter out future years.
       if (event.year && event.year <= currentYear) {
         const yearStr = event.year.toString();
-        if (Array.isArray(eventsByYear[yearStr])) {
-          eventsByYear[yearStr].push(event);
-        } else {
-          eventsByYear[yearStr] = [event];
+        if (!eventsByYear[yearStr]) {
+          eventsByYear[yearStr] = {};
+        }
+
+        console.log(event.month);
+        if (Number.isInteger(event.month)) {
+          const monthStr = event.month.toString();
+          if (Array.isArray(eventsByYear[yearStr][monthStr])) {
+            eventsByYear[yearStr][monthStr].push(event);
+          } else {
+            eventsByYear[yearStr][monthStr] = [event];
+          }
         }
       }
     });
