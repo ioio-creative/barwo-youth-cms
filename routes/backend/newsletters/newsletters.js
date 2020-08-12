@@ -14,6 +14,7 @@ const {
   newsletterResponseTypes
 } = require('../../../models/Newsletter');
 const { SendHistory } = require('../../../models/SendHistory');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -25,6 +26,10 @@ const newsletterPopulationListForFindAll = [
   {
     path: 'lastModifyUser',
     select: 'name'
+  },
+  {
+    path: 'featuredImage',
+    select: mediumSelect
   }
 ];
 
@@ -122,6 +127,7 @@ router.post(
       message_tc,
       message_sc,
       message_en,
+      featuredImage,
       isEnabled
     } = req.body;
 
@@ -134,6 +140,7 @@ router.post(
         message_tc,
         message_sc,
         message_en,
+        featuredImage,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -164,6 +171,7 @@ router.put(
       message_tc,
       message_sc,
       message_en,
+      featuredImage,
       isEnabled
     } = req.body;
 
@@ -178,6 +186,7 @@ router.put(
     if (message_tc) newsletterFields.message_tc = message_tc;
     if (message_sc) newsletterFields.message_sc = message_sc;
     if (message_en) newsletterFields.message_en = message_en;
+    newsletterFields.featuredImage = featuredImage;
     if (isEnabled !== undefined) newsletterFields.isEnabled = isEnabled;
     newsletterFields.lastModifyDT = new Date();
     newsletterFields.lastModifyUser = req.user._id;

@@ -31,6 +31,12 @@ const NewsletterSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  /* media */
+  featuredImage: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
+  },
+  /* end of media */
   isEnabled: {
     type: Boolean,
     default: true

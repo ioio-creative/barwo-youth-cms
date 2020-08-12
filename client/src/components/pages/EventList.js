@@ -301,9 +301,16 @@ const EventList = _ => {
 
   /* event handlers */
 
-  const onEdit = useCallback(event => {
-    goToUrl(routes.eventEditByIdWithValue(true, event._id));
-  }, []);
+  const onEdit = useCallback(
+    event => {
+      goToUrl(
+        isCommunityPerformance
+          ? routes.eventEditByIdWithValue(true, event._id)
+          : routes.communityPerformanceEditByIdWithValue(true, event._id)
+      );
+    },
+    [isCommunityPerformance]
+  );
 
   const onFilterChange = useCallback(
     e => {

@@ -9,6 +9,7 @@ const {
   Newsletter,
   newsletterResponseTypes
 } = require('../../../models/Newsletter');
+const mediumSelect = require('../common/mediumSelect');
 
 const newsletterSelectForFindAll = {
   isEnabled: 0,
@@ -28,11 +29,25 @@ const newsletterSelectForFindOne = {
   lastModifyUser: 0
 };
 
+const newsletterPopulationListForFindAll = [
+  {
+    path: 'featuredImage',
+    select: mediumSelect
+  }
+];
+
+const newsletterPopulationListForFindOne = [
+  ...newsletterPopulationListForFindAll
+];
+
 const getNewsletterForFrontEndFromDbNewsletter = (newsletter, language) => {
   return {
     label: newsletter.label,
     title: getEntityPropByLanguage(newsletter, 'title', language),
-    message: getEntityPropByLanguage(newsletter, 'message', language)
+    message: getEntityPropByLanguage(newsletter, 'message', language),
+    featuredImage: {
+      src: newsletter.featuredImage && newsletter.featuredImage.url
+    }
   };
 };
 
@@ -43,6 +58,7 @@ const getNewsletterList = async language => {
     }
   })
     .select(newsletterSelectForFindAll)
+    .populate(newsletterPopulationListForFindAll)
     .sort({
       createDT: 1
     });
@@ -77,7 +93,9 @@ router.get(
 
       const newsletter = await Newsletter.findOne({
         label: req.params.label
-      }).select(newsletterSelectForFindOne);
+      })
+        .select(newsletterSelectForFindOne)
+        .populate(newsletterPopulationListForFindOne);
 
       if (!newsletter) {
         return res.status(404).json({

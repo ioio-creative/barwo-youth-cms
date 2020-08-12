@@ -10,6 +10,9 @@ function Newsletter() {
   this.message_tc = '';
   this.message_sc = '';
   this.message_en = '';
+  /* media */
+  this.featuredImage = null;
+  /* end of media */
   this.isEnabled = true;
   this.lastModifyDT = null;
   this.lastModifyUser = null;

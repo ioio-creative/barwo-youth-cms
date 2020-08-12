@@ -698,6 +698,7 @@ export default {
   'Newsletter.MessageTcLabel': 'Message TC',
   'Newsletter.MessageScLabel': 'Message SC',
   'Newsletter.MessageEnLabel': 'Message EN',
+  'Newsletter.FeaturedImageLabel': 'Featured Image',
   'Newsletter.LastModifyDTLabel': 'Last Modify DT',
   'Newsletter.LastModifyUserLabel': 'Last Modify User',
   'Newsletter.IsEnabledLabel': 'Is Enabled?',

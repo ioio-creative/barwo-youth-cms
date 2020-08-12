@@ -8,6 +8,7 @@ import Loading from 'components/layout/loading/DefaultLoading';
 import GroupContainer from 'components/layout/GroupContainer';
 import Region from 'components/layout/Region';
 import Form from 'components/form/Form';
+import FileUpload from 'components/form/FileUpload';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTogglePair from 'components/form/LabelTogglePair';
@@ -17,16 +18,20 @@ import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import Newsletter from 'models/newsletter';
+import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
-import SendOutList from '../sendhistory/SendOutList';
-import NewsletterPreview from '../newsletters/NewslettwePreview';
+import SendOutList from 'components/sendhistory/SendOutList';
+import NewsletterPreview from 'components/newsletters/NewslettwePreview';
 
 const emptyNewsletter = new Newsletter();
 const defaultState = emptyNewsletter;
+
+const mediumTypes = Medium.mediumTypes;
 
 const NewsletterEdit = _ => {
   const { newsletterId } = useParams();
@@ -48,6 +53,9 @@ const NewsletterEdit = _ => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
+
+  // featuredImage
+  const [featuredImagePicked, setFeaturedImagePicked] = useState(null);
 
   // componentDidMount
   useEffect(_ => {
@@ -79,6 +87,9 @@ const NewsletterEdit = _ => {
           ? Newsletter.getNewsletterForDisplay(fetchedNewsletter)
           : defaultState
       );
+      if (fetchedNewsletter) {
+        setFeaturedImagePicked(fetchedNewsletter.featuredImage);
+      }
       setIsAddMode(!fetchedNewsletter);
     },
     [fetchedNewsletter]
@@ -153,6 +164,11 @@ const NewsletterEdit = _ => {
     ]
   );
 
+  const onGetFeaturedImagePicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedImagePicked(firstOrDefault(newItemList, null));
+  }, []);
+
   const onChange = useCallback(
     e => {
       setIsSubmitEnabled(true);
@@ -188,6 +204,11 @@ const NewsletterEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
+      // add featuredImage
+      newsletter.featuredImage = featuredImagePicked
+        ? featuredImagePicked._id
+        : null;
+
       let isSuccess = validInput(newsletter);
       let returnedNewsletter = null;
       if (isSuccess) {
@@ -218,7 +239,8 @@ const NewsletterEdit = _ => {
       newsletter,
       setAlerts,
       removeAlerts,
-      validInput
+      validInput,
+      featuredImagePicked
     ]
   );
 
@@ -260,6 +282,15 @@ const NewsletterEdit = _ => {
             ? uiWordings['NewsletterEdit.AddNewsletterTitle']
             : uiWordings['NewsletterEdit.EditNewsletterTitle']}
         </h4>
+
+        <FileUpload
+          name='featuredImage'
+          labelMessage={uiWordings['Newsletter.FeaturedImageLabel']}
+          files={featuredImagePicked ? [featuredImagePicked] : null}
+          onGetFiles={onGetFeaturedImagePicked}
+          isMultiple={false}
+          mediumType={mediumTypes.IMAGE}
+        />
 
         <LabelInputTextPair
           name='label'
