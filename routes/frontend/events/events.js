@@ -113,11 +113,7 @@ const eventPopulationListForRelatedEvents = [
   }
 ];
 
-// !!!Important!!!
-// mapThemeColorDefaultToEvent is separate from getEventForFrontEndFromDbEvent
-// because at the time when getEventForFrontEndFromDbEvent is called,
-// the events in the array may not be in the right order
-const mapThemeColorDefaultToEvent = (event, index = null) => {
+const getThemeColorForEvent = (event, index = null) => {
   let themeColor = event.themeColor;
   if (!themeColor) {
     if (index !== null) {
@@ -131,25 +127,32 @@ const mapThemeColorDefaultToEvent = (event, index = null) => {
     // transparent case
     themeColor = eventThemeColorDefault1;
   }
-  return {
-    ...event,
-    themeColor
-  };
+  return themeColor;
 };
 
-const addThemeColorDefaultsToEvents = events => {
-  return getArraySafe(events).map(mapThemeColorDefaultToEvent);
+const addThemeColorDefaultToEvent = (event, index) => {
+  event.themeColor = getThemeColorForEvent(event, index);
+};
+
+// !!!Important!!!
+// addThemeColorDefaultToEvents is separate from getEventForFrontEndFromDbEvent
+// because at the time when getEventForFrontEndFromDbEvent is called,
+// the events in the array may not be in the right order
+const addThemeColorDefaultToEvents = events => {
+  getArraySafe(events).forEach(addThemeColorDefaultToEvent);
 };
 
 const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
   const event = dbEvent;
 
   let firstShowDate = null;
+  let firstShowYear = null;
   if (isNonEmptyArray(event.shows)) {
     const firstShow = event.shows[0];
     firstShowDate = firstShow.date
       ? formatDateStringForFrontEnd(firstShow.date)
       : null;
+    firstShowYear = firstShow.date ? firstShow.date.getUTCFullYear() : null;
   }
 
   return {
@@ -167,6 +170,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
       }
     })),
     fromDate: firstShowDate,
+    year: firstShowYear,
     schedule: getArraySafe(event.shows).map(show => ({
       date: {
         from: show.date ? formatDateStringForFrontEnd(show.date) : null,
@@ -228,7 +232,7 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
   };
 };
 
-const getSortedEvents = async req => {
+const getSortedEvents = async (req, sortOrder = 1) => {
   // query
   const query = req.query;
   let type = query.type && query.type.toUpperCase();
@@ -254,9 +258,13 @@ const getSortedEvents = async req => {
     closestEventIdx,
     closestEventInPresentOrFuture,
     closestEventInPresentOrFutureIdx
-  } = mapAndSortEvents(events, event => {
-    return getEventForFrontEndFromDbEvent(event, language);
-  });
+  } = mapAndSortEvents(
+    events,
+    event => {
+      return getEventForFrontEndFromDbEvent(event, language);
+    },
+    sortOrder
+  );
 
   return {
     sortedEvents,
@@ -276,7 +284,8 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
   try {
     const { sortedEvents } = await getSortedEvents(req);
 
-    res.json(addThemeColorDefaultsToEvents(sortedEvents));
+    addThemeColorDefaultToEvents(sortedEvents);
+    res.json(sortedEvents);
   } catch (err) {
     generalErrorHandle(err, res);
   }
@@ -305,7 +314,8 @@ router.get(
         eventsToReturn = sortedEvents;
       }
 
-      res.json(addThemeColorDefaultsToEvents(eventsToReturn));
+      addThemeColorDefaultToEvents(eventsToReturn);
+      res.json(eventsToReturn);
     } catch (err) {
       generalErrorHandle(err, res);
     }
@@ -332,7 +342,50 @@ router.get('/:lang/pastEvents', [languageHandling], async (req, res) => {
       eventsToReturn = sortedEvents;
     }
 
-    res.json(addThemeColorDefaultsToEvents(eventsToReturn).reverse());
+    addThemeColorDefaultToEvents(eventsToReturn);
+    res.json(eventsToReturn.reverse());
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
+
+// @route   GET api/frontend/events/:lang/archive
+// @desc    Get all events - archive
+// @access  Public
+router.get('/:lang/archive', [languageHandling], async (req, res) => {
+  try {
+    const { sortedEvents } = await getSortedEvents(req);
+
+    const currentYear = new Date().getUTCFullYear();
+
+    const eventsByYear = {};
+    sortedEvents.forEach((event, index) => {
+      addThemeColorDefaultToEvent(event, index);
+
+      // year field added to event by getEventForFrontEndFromDbEvent().
+      // filter out future years.
+      if (event.year && event.year <= currentYear) {
+        const yearStr = event.year.toString();
+        if (Array.isArray(eventsByYear[yearStr])) {
+          eventsByYear[yearStr].push(event);
+        } else {
+          eventsByYear[yearStr] = [event];
+        }
+      }
+    });
+
+    // descending year here
+    const eventsByYearArray = Object.keys(eventsByYear)
+      .sort()
+      .reverse()
+      .map(year => {
+        return {
+          year: year,
+          events: eventsByYear[year]
+        };
+      });
+
+    res.json(eventsByYearArray);
   } catch (err) {
     generalErrorHandle(err, res);
   }
