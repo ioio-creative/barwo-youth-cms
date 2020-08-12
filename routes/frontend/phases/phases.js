@@ -4,14 +4,24 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  isNonEmptyArray,
+  getArraySafe
+} = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const distinct = require('../../../utils/js/array/distinct');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const mapAndSortPhases = require('../../../utils/phases/mapAndSortPhases');
 const { Phase } = require('../../../models/Phase');
+const getDerivedLabel = require('../../../utils/phases/getDerivedLabel');
 
 /* utilities */
+
+const phaseFindForFindAll = {
+  isEnabled: {
+    $ne: false
+  }
+};
 
 const phaseSelectForFindAll = {
   isEnabled: 0,
@@ -58,6 +68,41 @@ const phasePopulationListForFindAll = [
 ];
 
 //const phasePopulationListForFindOne = [...phasePopulationListForFindAll];
+
+const findClosestYears = years => {
+  let closestYear = null;
+  if (isNonEmptyArray(years)) {
+    const currentYear = new Date().getUTCFullYear();
+
+    // find closestYear from future first
+    let smallestYearsDiff = 100;
+    for (const year of years) {
+      const yearsDiff = year - currentYear;
+      if (yearsDiff >= 0 && yearsDiff < smallestYearsDiff) {
+        smallestYearsDiff = yearsDiff;
+        closestYear = year;
+      }
+    }
+
+    if (!closestYear) {
+      // find closestYear from past
+      smallestYearsDiff = 100;
+      for (const year of years) {
+        const yearsDiff = currentYear - year;
+        if (yearsDiff >= 0 && yearsDiff < smallestYearsDiff) {
+          smallestYearsDiff = yearsDiff;
+          closestYear = year;
+        }
+      }
+    }
+  }
+
+  return closestYear;
+};
+
+const mapYearToYearForFrontEnd = year => {
+  return `${year} - ${year + 1}`;
+};
 
 const getPhaseForFrontEndFromDbPhase = (phase, language) => {
   /* events */
@@ -115,11 +160,7 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
   try {
     const language = req.language;
 
-    const phases = await Phase.find({
-      isEnabled: {
-        $ne: false
-      }
-    })
+    const phases = await Phase.find(phaseFindForFindAll)
       .select(phaseSelectForFindAll)
       .populate(phasePopulationListForFindAll)
       .sort({
@@ -128,16 +169,14 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
 
     const safePhases = getArraySafe(phases);
 
-    //console.log(safePhases[0].events);
-
     // descending years
     const years = distinct(safePhases.map(phase => phase.year))
       .sort()
       .reverse();
 
-    const yearsForFrontEnd = [];
+    const closestYear = findClosestYears(years);
 
-    const currentYear = new Date().getUTCFullYear();
+    const yearsForFrontEnd = [];
 
     for (const year of years) {
       const phasesOfYear = safePhases.filter(phase => phase.year === year);
@@ -148,13 +187,86 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
       );
 
       yearsForFrontEnd.push({
-        year: `${year} - ${year + 1}`,
+        year: mapYearToYearForFrontEnd(year),
         shows: sortedPhases,
-        isClosest: currentYear === year
+        isClosest: closestYear === year
       });
     }
 
     res.json(yearsForFrontEnd);
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
+
+// @route   GET api/frontend/phases/:lang/closestYearPhases
+// @desc    Get all phases in the closest year
+// @access  Public
+router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
+  try {
+    const language = req.language;
+
+    const phases = await Phase.find(phaseFindForFindAll)
+      .select(phaseSelectForFindAll)
+      .populate(phasePopulationListForFindAll)
+      .sort({
+        derivedLabel: 1
+      });
+
+    const safePhases = getArraySafe(phases);
+
+    // descending years
+    const years = distinct(safePhases.map(phase => phase.year));
+
+    const closestYear = findClosestYears(years);
+
+    let showsOfClosestYear = {};
+
+    if (closestYear) {
+      const phasesOfYear = safePhases.filter(
+        phase => phase.year === closestYear
+      );
+
+      // set phasesOfYearForFrontEnd
+      const {
+        sortedPhases,
+        closestPhaseIdx,
+        closestPhaseInPresentAndFutureIdx
+      } = mapAndSortPhases(phasesOfYear, phase =>
+        getPhaseForFrontEndFromDbPhase(phase, language)
+      );
+
+      let phasesToReturn = [];
+      if (closestPhaseInPresentAndFutureIdx >= 0) {
+        phasesToReturn = sortedPhases.slice(closestPhaseInPresentAndFutureIdx);
+      } else if (closestPhaseIdx > 0) {
+        phasesToReturn = sortedPhases.slice(closestPhaseIdx);
+      } else {
+        phasesToReturn = sortedPhases;
+      }
+
+      // cater for last phase of the year case,
+      // add one phase from the next year
+      if (phasesToReturn.length === 1) {
+        const nextPhase = await Phase.findOne({
+          ...phaseFindForFindAll,
+          derivedLabel: getDerivedLabel(closestYear + 1, 1)
+        })
+          .select(phaseSelectForFindAll)
+          .populate(phasePopulationListForFindAll);
+
+        if (nextPhase) {
+          phasesToReturn.push(nextPhase);
+        }
+      }
+
+      showsOfClosestYear = {
+        year: mapYearToYearForFrontEnd(closestYear),
+        shows: phasesToReturn
+      };
+    }
+
+    res.json(showsOfClosestYear);
   } catch (err) {
     generalErrorHandle(err, res);
   }

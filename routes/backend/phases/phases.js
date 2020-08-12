@@ -11,6 +11,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const getDerivedLabel = require('../../../utils/phases/getDerivedLabel');
 const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const { Event } = require('../../../models/Event');
 
@@ -75,14 +76,6 @@ const removePhasesInvolvedForEvents = async (phase, session) => {
       options
     );
   }
-};
-
-const getDerivedLabel = (year, phaseNumber) => {
-  return (
-    year.toString().padStart(4, '0') +
-    '_' +
-    phaseNumber.toString().padStart(2, '0')
-  );
 };
 
 const handlePhaseDerivedLabelDuplicateKeyError = (err, res) => {

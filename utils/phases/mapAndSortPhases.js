@@ -6,7 +6,7 @@ const orderBy = require('../js/array/orderBy');
 const { isFunction } = require('../js/function/isFunction');
 const { formatDateString } = require('../datetime');
 
-const mapAndSortPhases = (phases, mapFunc = null, sortOrder = -1) => {
+const mapAndSortPhases = (phases, mapFunc = null, sortOrder = 1) => {
   const phasesWithTimestamps = getArraySafe(phases).map(phase => {
     const phaseFields = isFunction(mapFunc) ? mapFunc(phase) : phase;
 
