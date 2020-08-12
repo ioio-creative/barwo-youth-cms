@@ -486,7 +486,9 @@ router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
 
     /* end of finding related events */
 
-    res.json(mapThemeColorDefaultToEvent(eventForFrontEnd));
+    addThemeColorDefaultToEvent(eventForFrontEnd);
+
+    res.json(eventForFrontEnd);
   } catch (err) {
     generalErrorHandle(err, res);
   }
