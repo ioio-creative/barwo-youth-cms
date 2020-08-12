@@ -3,7 +3,8 @@ import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function LandingPage() {
-  this.featuredVideo = '';
+  this.landingVideos = [];
+  this.featuredVideo1 = '';
   this.featuredVideo2 = '';
   this.featuredArtists = [];
   this.featuredActivities = [];

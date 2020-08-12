@@ -22,7 +22,11 @@ const landingSelect = {
 
 const landingPopulationList = [
   {
-    path: 'featuredVideo',
+    path: 'landingVideos',
+    select: mediumSelect
+  },
+  {
+    path: 'featuredVideo1',
     select: mediumSelect
   },
   {
@@ -86,8 +90,11 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
     }
 
     const landingForFrontEnd = {
-      featuredVideo: {
-        src: landing.featuredVideo && landing.featuredVideo.url
+      landingVideos: getArraySafe(landing.landingVideos).map(video => ({
+        src: video && video.url
+      })),
+      featuredVideo1: {
+        src: landing.featuredVideo1 && landing.featuredVideo1.url
       },
       featuredVideo2: {
         src: landing.featuredVideo2 && landing.featuredVideo2.url

@@ -59,8 +59,11 @@ const LandingPageEdit = _ => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
 
-  // featuredVideo
-  const [featuredVideoPicked, setFeaturedVideoPicked] = useState(null);
+  // landingVideos
+  const [landingVideosPicked, setLandingVideosPicked] = useState(null);
+
+  // featuredVideo1
+  const [featuredVideo1Picked, setFeaturedVideo1Picked] = useState(null);
 
   // featuredVideo2
   const [featuredVideo2Picked, setFeaturedVideo2Picked] = useState(null);
@@ -97,7 +100,8 @@ const LandingPageEdit = _ => {
           : defaultState
       );
       if (fetchedLandingPage) {
-        setFeaturedVideoPicked(fetchedLandingPage.featuredVideo);
+        setLandingVideosPicked(getArraySafe(fetchedLandingPage.landingVideos));
+        setFeaturedVideo1Picked(fetchedLandingPage.featuredVideo1);
         setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
         setFeaturedArtistsPicked(
           getArraySafe(fetchedLandingPage.featuredArtists)
@@ -196,9 +200,14 @@ const LandingPageEdit = _ => {
   //   [removeAlerts]
   // );
 
-  const onGetFeaturedVideoPicked = useCallback(newItemList => {
+  const onGetLandingVideosPicked = useCallback(newItemList => {
     setIsSubmitEnabled(true);
-    setFeaturedVideoPicked(firstOrDefault(newItemList, null));
+    setLandingVideosPicked(newItemList);
+  }, []);
+
+  const onGetFeaturedVideo1Picked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedVideo1Picked(firstOrDefault(newItemList, null));
   }, []);
 
   const onGetFeaturedVideo2Picked = useCallback(newItemList => {
@@ -227,9 +236,16 @@ const LandingPageEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
-      // add featuredVideo
-      landingPage.featuredVideo = featuredVideoPicked
-        ? featuredVideoPicked._id
+      // add landingVideos
+      landingPage.landingVideos = getArraySafe(landingVideosPicked).map(
+        medium => {
+          return medium._id;
+        }
+      );
+
+      // add featuredVideo1
+      landingPage.featuredVideo1 = featuredVideo1Picked
+        ? featuredVideo1Picked._id
         : null;
 
       // add featuredVideo2
@@ -276,7 +292,8 @@ const LandingPageEdit = _ => {
       setAlerts,
       removeAlerts,
       validInput,
-      featuredVideoPicked,
+      landingVideosPicked,
+      featuredVideo1Picked,
       featuredVideo2Picked,
       featuredArtistsPicked,
       featuredActivitiesPicked,
@@ -308,14 +325,21 @@ const LandingPageEdit = _ => {
 
       <AccordionRegion title={uiWordings['LandingPageEdit.MediaRegionTitle']}>
         <FileUpload
-          name='featuredVideo'
-          labelMessage={uiWordings['LandingPage.FeaturedVideoLabel']}
-          files={featuredVideoPicked ? [featuredVideoPicked] : null}
-          onGetFiles={onGetFeaturedVideoPicked}
+          name='landingVideos'
+          labelMessage={uiWordings['LandingPage.LandingVideosLabel']}
+          files={getArraySafe(landingVideosPicked)}
+          onGetFiles={onGetLandingVideosPicked}
+          isMultiple={true}
+          mediumType={mediumTypes.VIDEO}
+        />
+        <FileUpload
+          name='featuredVideo1'
+          labelMessage={uiWordings['LandingPage.FeaturedVideo1Label']}
+          files={featuredVideo1Picked ? [featuredVideo1Picked] : null}
+          onGetFiles={onGetFeaturedVideo1Picked}
           isMultiple={false}
           mediumType={mediumTypes.VIDEO}
         />
-
         <FileUpload
           name='featuredVideo2'
           labelMessage={uiWordings['LandingPage.FeaturedVideo2Label']}

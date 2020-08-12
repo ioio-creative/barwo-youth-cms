@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const { PageMetaSchema } = require('./PageMeta');
 
 const LandingPageSchema = mongoose.Schema({
-  featuredVideo: { type: mongoose.Schema.Types.ObjectId, ref: 'medium' },
+  landingVideos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
+  featuredVideo1: { type: mongoose.Schema.Types.ObjectId, ref: 'medium' },
   featuredVideo2: { type: mongoose.Schema.Types.ObjectId, ref: 'medium' },
   featuredArtists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'artist' }],
   featuredActivities: [

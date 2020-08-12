@@ -276,7 +276,8 @@ export default {
 
   'LandingPage.Title': 'Landing Page',
 
-  'LandingPage.FeaturedVideoLabel': 'Featured Video',
+  'LandingPage.LandingVideosLabel': 'Landing Videos',
+  'LandingPage.FeaturedVideo1Label': 'Featured Video 1',
   'LandingPage.FeaturedVideo2Label': 'Featured Video 2',
   'LandingPage.FeaturedArtistsLabel': 'Featured Artists',
   'LandingPage.FeaturedActivitiesLabel': 'Featured Activities',

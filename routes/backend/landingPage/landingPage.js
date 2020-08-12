@@ -23,7 +23,11 @@ const landingPopulationList = [
     select: 'name'
   },
   {
-    path: 'featuredVideo',
+    path: 'landingVideos',
+    select: mediumSelect
+  },
+  {
+    path: 'featuredVideo1',
     select: mediumSelect
   },
   {
@@ -179,7 +183,8 @@ router.get('/', auth, async (req, res) => {
 // @access  Private
 router.post('/', [auth], async (req, res) => {
   const {
-    featuredVideo,
+    landingVideos,
+    featuredVideo1,
     featuredVideo2,
     featuredArtists,
     featuredActivities,
@@ -200,7 +205,8 @@ router.post('/', [auth], async (req, res) => {
   // Note:
   // non-required fields do not need null check
   const landingFields = {};
-  landingFields.featuredVideo = featuredVideo;
+  landingFields.landingVideos = landingVideos;
+  landingFields.featuredVideo1 = featuredVideo1;
   landingFields.featuredVideo2 = featuredVideo2;
   landingFields.featuredArtists = getArraySafe(featuredArtists);
   landingFields.featuredActivities = getArraySafe(featuredActivities);
