@@ -305,8 +305,8 @@ const EventList = _ => {
     event => {
       goToUrl(
         isCommunityPerformance
-          ? routes.eventEditByIdWithValue(true, event._id)
-          : routes.communityPerformanceEditByIdWithValue(true, event._id)
+          ? routes.communityPerformanceEditByIdWithValue(true, event._id)
+          : routes.eventEditByIdWithValue(true, event._id)
       );
     },
     [isCommunityPerformance]

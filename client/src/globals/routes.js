@@ -53,13 +53,10 @@ export default {
   communityPerformanceList: function (isLink) {
     return '/communityPerformanceList';
   },
-  communityPerformanceEditById:
-    '/communityPerformanceEdit/:communityPerformanceId',
-  communityPerformanceEditByIdWithValue: function (
-    isLink,
-    communityPerformanceId
-  ) {
-    return '/communityPerformanceEdit/' + communityPerformanceId;
+  // !!!Important!!! the parameter is still called eventId here for use in EventEdit
+  communityPerformanceEditById: '/communityPerformanceEdit/:eventId',
+  communityPerformanceEditByIdWithValue: function (isLink, eventId) {
+    return '/communityPerformanceEdit/' + eventId;
   },
   communityPerformanceAdd: function (isLink) {
     return '/communityPerformanceAdd';

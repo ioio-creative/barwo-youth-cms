@@ -125,7 +125,7 @@ const Navbar = ({ className }) => {
 
   const isSenderEdit = Boolean(useRouteMatch(routes.senderEdit(false)));
 
-  const isTesting = Boolean(useRouteMatch(routes.testing));
+  //const isTesting = Boolean(useRouteMatch(routes.testing));
 
   /* event handlers */
 
