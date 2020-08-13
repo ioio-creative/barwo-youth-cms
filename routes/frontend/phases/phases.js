@@ -153,6 +153,7 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
 
 /* end of utilities */
 
+// Note: this api route is currently not used
 // @route   GET api/frontend/phases/:lang/phases
 // @desc    Get all phases
 // @access  Public
@@ -202,6 +203,7 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
 // @route   GET api/frontend/phases/:lang/closestYearPhases
 // @desc    Get all phases in the closest year
 // @access  Public
+// @query   isShowAllPhases=1
 router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
   try {
     // query

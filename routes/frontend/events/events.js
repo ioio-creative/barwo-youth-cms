@@ -283,6 +283,7 @@ const getSortedEvents = async (req, sortOrder = 1) => {
 // @route   GET api/frontend/events/:lang/events
 // @desc    Get all events
 // @access  Public
+// @query   type=EVENT or COMMUNITY_PERFORMANCE
 router.get('/:lang/events', [languageHandling], async (req, res) => {
   try {
     const { sortedEvents } = await getSortedEvents(req);
@@ -297,6 +298,7 @@ router.get('/:lang/events', [languageHandling], async (req, res) => {
 // @route   GET api/frontend/events/:lang/currentAndFutureEvents
 // @desc    Get all events - current and future
 // @access  Public
+// @query   type=EVENT or COMMUNITY_PERFORMANCE
 router.get(
   '/:lang/currentAndFutureEvents',
   [languageHandling],
@@ -328,6 +330,7 @@ router.get(
 // @route   GET api/frontend/events/:lang/pastEvents
 // @desc    Get all events - past
 // @access  Public
+// @query   type=EVENT or COMMUNITY_PERFORMANCE
 router.get('/:lang/pastEvents', [languageHandling], async (req, res) => {
   try {
     const {
@@ -353,8 +356,9 @@ router.get('/:lang/pastEvents', [languageHandling], async (req, res) => {
 });
 
 // @route   GET api/frontend/events/:lang/archive
-// @desc    Get all events - archive
+// @desc    Get all events - archive (i.e. excluding future years)
 // @access  Public
+// @query   type=EVENT or COMMUNITY_PERFORMANCE
 router.get('/:lang/archive', [languageHandling], async (req, res) => {
   try {
     const { sortedEvents } = await getSortedEvents(req);
