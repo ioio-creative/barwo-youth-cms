@@ -208,7 +208,7 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
   try {
     // query
     const query = req.query;
-    const isShowAllPhases = query.isShowAllPhases === 1;
+    const isShowAllPhases = Number(query.isShowAllPhases) === 1;
 
     const language = req.language;
 
