@@ -204,6 +204,10 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
 // @access  Public
 router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
   try {
+    // query
+    const query = req.query;
+    const isShowAllPhases = query.isShowAllPhases === 1;
+
     const language = req.language;
 
     const phases = await Phase.find(phaseFindForFindAll)
@@ -236,13 +240,20 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
         getPhaseForFrontEndFromDbPhase(phase, language)
       );
 
-      let phasesToReturn = [];
-      if (closestPhaseInPresentAndFutureIdx >= 0) {
-        phasesToReturn = sortedPhases.slice(closestPhaseInPresentAndFutureIdx);
-      } else if (closestPhaseIdx > 0) {
-        phasesToReturn = sortedPhases.slice(closestPhaseIdx);
-      } else {
-        phasesToReturn = sortedPhases;
+      // sortedPhases contain all phases of the year
+      let phasesToReturn = sortedPhases;
+
+      if (!isShowAllPhases) {
+        // only show present and future phases of the year
+        if (closestPhaseInPresentAndFutureIdx >= 0) {
+          phasesToReturn = sortedPhases.slice(
+            closestPhaseInPresentAndFutureIdx
+          );
+        } else if (closestPhaseIdx > 0) {
+          phasesToReturn = sortedPhases.slice(closestPhaseIdx);
+        } else {
+          phasesToReturn = sortedPhases;
+        }
       }
 
       // cater for last phase of the year case,

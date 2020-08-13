@@ -284,9 +284,9 @@ const Navbar = ({ className }) => {
       >
         {uiWordings['Navbar.SenderEdit']}
       </NavbarLink>
-      <NavbarLink to={routes.testing} isSelected={isTesting}>
+      {/* <NavbarLink to={routes.testing} isSelected={isTesting}>
         {uiWordings['Navbar.Testing']}
-      </NavbarLink>
+      </NavbarLink> */}
     </>
   );
 
