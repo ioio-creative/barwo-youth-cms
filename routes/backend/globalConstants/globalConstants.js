@@ -902,6 +902,19 @@ const globalConstantsValidationChecks = [
   check(
     'contactus_en',
     globalConstantsResponseTypes.CONTACTUS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'pastEvents_tc',
+    globalConstantsResponseTypes.PAST_EVENTS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'pastEvents_sc',
+    globalConstantsResponseTypes.PAST_EVENTS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'pastEvents_en',
+    globalConstantsResponseTypes.PAST_EVENTS_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1256,7 +1269,11 @@ router.post(
 
       contactus_tc,
       contactus_sc,
-      contactus_en
+      contactus_en,
+
+      pastEvents_tc,
+      pastEvents_sc,
+      pastEvents_en
     } = req.body;
 
     // Build global constants object
@@ -1586,6 +1603,10 @@ router.post(
     globalConstantsFields.contactus_tc = contactus_tc;
     globalConstantsFields.contactus_sc = contactus_sc;
     globalConstantsFields.contactus_en = contactus_en;
+
+    globalConstantsFields.pastEvents_tc = pastEvents_tc;
+    globalConstantsFields.pastEvents_sc = pastEvents_sc;
+    globalConstantsFields.pastEvents_en = pastEvents_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

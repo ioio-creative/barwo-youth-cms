@@ -2193,6 +2193,31 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
+      <LabelInputTextPair
+        name='pastEvents_tc'
+        value={globalConstants.pastEvents_tc}
+        labelMessage={uiWordings['GlobalConstants.PastEventsTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='pastEvents_sc'
+        value={globalConstants.pastEvents_sc}
+        labelMessage={uiWordings['GlobalConstants.PastEventsScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='pastEvents_en'
+        value={globalConstants.pastEvents_en}
+        labelMessage={uiWordings['GlobalConstants.PastEventsEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair

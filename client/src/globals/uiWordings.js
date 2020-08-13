@@ -545,6 +545,9 @@ export default {
   'GlobalConstants.ContactusTcLabel': 'Contact Us TC',
   'GlobalConstants.ContactusScLabel': 'Contact Us SC',
   'GlobalConstants.ContactusEnLabel': 'Contact Us EN',
+  'GlobalConstants.PastEventsTcLabel': 'Past Events TC',
+  'GlobalConstants.PastEventsScLabel': 'Past Events SC',
+  'GlobalConstants.PastEventsEnLabel': 'Past Events EN',
 
   'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
   'GlobalConstants.LastModifyUserLabel': 'Last Modify User',

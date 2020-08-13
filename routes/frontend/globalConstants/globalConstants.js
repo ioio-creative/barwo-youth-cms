@@ -296,7 +296,16 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'subscribeMsg',
         language
       ),
-      contactus: getEntityPropByLanguage(globalConstants, 'contactus', language)
+      contactus: getEntityPropByLanguage(
+        globalConstants,
+        'contactus',
+        language
+      ),
+      passEvent: getEntityPropByLanguage(
+        globalConstants,
+        'pastEvents',
+        language
+      )
     };
     res.json(globalConstantsForFrontEnd);
   } catch (err) {

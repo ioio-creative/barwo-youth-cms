@@ -326,6 +326,10 @@ function GlobalConstants() {
   this.contactus_sc = '';
   this.contactus_en = '';
 
+  this.pastEvents_tc = '';
+  this.pastEvents_sc = '';
+  this.pastEvents_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -1323,6 +1327,19 @@ GlobalConstants.globalConstantsResponseTypes = {
   CONTACTUS_EN_REQUIRED: {
     type: 'CONTACTUS_EN_REQUIRED',
     msg: 'CONTACTUS_EN_REQUIRED'
+  },
+
+  PAST_EVENTS_TC_REQUIRED: {
+    type: 'PAST_EVENTS_TC_REQUIRED',
+    msg: 'PAST_EVENTS_TC_REQUIRED'
+  },
+  PAST_EVENTS_SC_REQUIRED: {
+    type: 'PAST_EVENTS_SC_REQUIRED',
+    msg: 'PAST_EVENTS_SC_REQUIRED'
+  },
+  PAST_EVENTS_EN_REQUIRED: {
+    type: 'PAST_EVENTS_EN_REQUIRED',
+    msg: 'PAST_EVENTS_EN_REQUIRED'
   },
 
   // db check
