@@ -239,7 +239,7 @@ const Item = ({
                   value={role_en}
                   placeholder={uiWordings['EventEdit.Artist.RoleEnPlaceholder']}
                   onChange={onChange}
-                  required={true}
+                  //required={true}
                 />
               </div>
               <div className={`w3-col m3 ${isShowGuestStuff ? 'w3-hide' : ''}`}>

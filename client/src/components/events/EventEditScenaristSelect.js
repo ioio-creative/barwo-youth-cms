@@ -117,7 +117,7 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
                 placeholder={
                   uiWordings['EventEdit.Scenarist.NameEnPlaceholder']
                 }
-                required={true}
+                //required={true}
               />
             </div>
           </div>

@@ -110,16 +110,16 @@ const eventArtistsValidation = artists => {
         errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_TC_REQUIRED;
       } else if (!artist.guestArtistName_sc) {
         errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_SC_REQUIRED;
-      } else if (!artist.guestArtistName_en) {
+      } /*else if (!artist.guestArtistName_en) {
         errorType = eventResponseTypes.EVENT_GUEST_ARTIST_NAME_EN_REQUIRED;
-      }
+      }*/
     } else if (!artist.role_tc) {
       errorType = eventResponseTypes.EVENT_ARTIST_ROLE_TC_REQUIRED;
     } else if (!artist.role_sc) {
       errorType = eventResponseTypes.EVENT_ARTIST_ROLE_SC_REQUIRED;
-    } else if (!artist.role_en) {
+    } /*else if (!artist.role_en) {
       errorType = eventResponseTypes.EVENT_ARTIST_ROLE_EN_REQUIRED;
-    }
+    }*/
 
     if (errorType) {
       return errorType;
@@ -155,9 +155,9 @@ const eventScenaristsValidation = scenarists => {
       errorType = eventResponseTypes.EVENT_SCENARIST_NAME_TC_REQUIRED;
     } else if (!scenarist.name_sc) {
       errorType = eventResponseTypes.EVENT_SCENARIST_NAME_SC_REQUIRED;
-    } else if (!scenarist.name_en) {
+    } /*else if (!scenarist.name_en) {
       errorType = eventResponseTypes.EVENT_SCENARIST_NAME_EN_REQUIRED;
-    }
+    }*/
 
     if (errorType) {
       return errorType;

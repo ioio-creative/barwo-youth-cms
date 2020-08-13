@@ -220,10 +220,10 @@ const EventEdit = _ => {
           } else if (!artist.guestArtistName_sc) {
             errorType =
               Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_SC_REQUIRED;
-          } else if (!artist.guestArtistName_en) {
+          } /*else if (!artist.guestArtistName_en) {
             errorType =
               Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_EN_REQUIRED;
-          }
+          }*/
         } else {
           // artist.artist is acutally a string, which is artistId
           if (!artist.artist) {
