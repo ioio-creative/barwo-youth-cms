@@ -5,6 +5,7 @@ const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const {
   Newsletter,
   newsletterResponseTypes
@@ -52,16 +53,27 @@ const getNewsletterForFrontEndFromDbNewsletter = (newsletter, language) => {
 };
 
 const getNewsletterList = async language => {
-  const newsletters = await Newsletter.find({
-    isEnabled: {
-      $ne: false
-    }
-  })
-    .select(newsletterSelectForFindAll)
-    .populate(newsletterPopulationListForFindAll)
-    .sort({
-      createDT: 1
-    });
+  // const newsletters = await Newsletter.find({
+  //   isEnabled: {
+  //     $ne: false
+  //   }
+  // })
+  //   .select(newsletterSelectForFindAll)
+  //   .populate(newsletterPopulationListForFindAll)
+  //   .sort({
+  //     createDT: 1
+  //   });
+
+  const newsletters = await getOrderingHandling(
+    null,
+    Newsletter,
+    false,
+    null,
+    newsletterSelectForFindAll,
+    null,
+    newsletterPopulationListForFindAll,
+    true
+  );
 
   return getArraySafe(newsletters).map(newsletter =>
     getNewsletterForFrontEndFromDbNewsletter(newsletter, language)

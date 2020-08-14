@@ -98,7 +98,7 @@ const NewsletterPreview = ({ newsletterId }) => {
         setAlerts(
           newslettersErrors.map(NewsletterError => {
             return new Alert(
-              Newsletter.newsletterResponseTypes[NewsletterError].msg,
+              Newsletter.newslettersResponseTypes[NewsletterError].msg,
               Alert.alertTypes.WARNING
             );
           })

@@ -105,6 +105,10 @@ app.use(
   require('./routes/backend/newsletters/newsletters')
 );
 app.use(
+  '/api/backend/newsletters/newslettersInOrder',
+  require('./routes/backend/newsletters/newslettersInOrder')
+);
+app.use(
   '/api/backend/newsletters/sendHistory',
   require('./routes/backend/newsletters/sendHistory')
 );

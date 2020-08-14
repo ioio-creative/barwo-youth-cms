@@ -33,6 +33,11 @@ const headers = [
     isSortEnabled: true
   },
   {
+    name: uiWordings['Newsletter.OrderLabel'],
+    value: 'orderDisplay',
+    isSortEnabled: true
+  },
+  {
     name: uiWordings['Newsletter.TitleTcLabel'],
     value: 'title_tc',
     isSortEnabled: true
@@ -160,7 +165,7 @@ const NewsletterList = _ => {
         setAlerts(
           newslettersErrors.map(newsletterError => {
             return new Alert(
-              Newsletter.newsletterResponseTypes[newsletterError].msg,
+              Newsletter.newslettersResponseTypes[newsletterError].msg,
               Alert.alertTypes.WARNING
             );
           })
@@ -227,6 +232,12 @@ const NewsletterList = _ => {
             to={routes.sendHistoryList(true)}
           >
             {uiWordings['NewsletterList.SendHistoryList']}
+          </LinkButton>
+          <LinkButton
+            className='w3-margin-right'
+            to={routes.newsletterOrder(true)}
+          >
+            {uiWordings['NewsletterList.NewslettersOrder']}
           </LinkButton>
           <LinkButton to={routes.newsletterAdd(true)}>
             {uiWordings['NewsletterList.AddNewsletter']}

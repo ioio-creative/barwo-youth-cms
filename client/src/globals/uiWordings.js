@@ -5,7 +5,7 @@ export default {
   'Navbar.Login': 'Login',
   'Navbar.Logout': 'Logout',
   'Navbar.Greeting': '你好',
-  'Navbar.PasswordEdit': 'Password Edit',
+  'Navbar.PasswordEdit': 'Password Change',
   'Navbar.Users': 'Users',
   'Navbar.Artists': 'Artists',
   'Navbar.Events': 'Events',
@@ -52,7 +52,7 @@ export default {
   'UserEdit.BackToUserList': 'Back to User List',
   'UserEdit.AddUserTitle': 'Add User',
   'UserEdit.EditUserTitle': 'Edit User',
-  'UserEdit.PasswordEdit': 'Password Edit',
+  'UserEdit.PasswordEdit': 'Password Change',
   'UserEdit.OldPasswordLabel': 'Old Password',
   'UserEdit.NewPasswordLabel': 'New Password',
   'UserEdit.ConfirmPasswordLabel': 'Confirm Password',
@@ -695,6 +695,7 @@ export default {
   'Newsletters.Title': 'Newsletters',
 
   'Newsletter.LabelLabel': 'Label',
+  'Newsletter.OrderLabel': 'Order',
   'Newsletter.TitleTcLabel': 'Title TC',
   'Newsletter.TitleScLabel': 'Title SC',
   'Newsletter.TitleEnLabel': 'Title EN',
@@ -707,6 +708,7 @@ export default {
   'Newsletter.IsEnabledLabel': 'Is Enabled?',
 
   'NewsletterList.AddNewsletter': 'Add Newsletter',
+  'NewsletterList.NewslettersOrder': 'Order Newsletters',
   'NewsletterList.SendHistoryList': 'Send History List',
   'NewsletterList.FilterTextPlaceHolder': 'Filter Newsletters by name...',
   'NewsletterList.FilterButton': 'Filter',
@@ -731,6 +733,11 @@ export default {
   'NewsletterPreview.SubjectLabel': 'Subject: ',
   'NewsletterPreview.FromLabel': 'From: ',
   'NewsletterPreview.ToLabel': 'To: ',
+
+  'NewslettersOrder.Title': 'Order Newsletters',
+  'NewslettersOrder.BackToNewsletterList': 'Back to Newsletter List',
+  'NewslettersOrder.Submit': 'Save',
+  'NewslettersOrder.OrderNewslettersSuccessMessage': 'Newsletters Order Saved',
 
   'SendHistories.Title': 'Send History',
 

@@ -15,7 +15,11 @@ import {
   CLEAR_NEWSLETTERS_ERRORS,
   DELETE_NEWSLETTER,
   SET_NEWSLETTERS_LOADING,
-  SEND_NEWSLETTER
+  SEND_NEWSLETTER,
+  GET_NEWSLETTERS_IN_ORDER,
+  CLEAR_NEWSLETTERS_IN_ORDER,
+  ORDER_NEWSLETTERS,
+  SET_NEWSLETTERS_IN_ORDER_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -24,7 +28,9 @@ const initialState = {
   newslettersPaginationMeta: null,
   newsletter: null,
   newslettersErrors: null,
-  newslettersLoading: false
+  newslettersLoading: false,
+  newslettersInOrder: null,
+  newslettersInOrderLoading: false
 };
 
 const NewslettersState = ({ children }) => {
@@ -71,7 +77,9 @@ const NewslettersState = ({ children }) => {
     if (!newsletterId) {
       dispatch({
         type: NEWSLETTERS_ERRORS,
-        payload: [Newsletter.newsletterResponseTypes.NEWSLETTER_NOT_EXISTS.type]
+        payload: [
+          Newsletter.newslettersResponseTypes.NEWSLETTER_NOT_EXISTS.type
+        ]
       });
       return;
     }
@@ -186,6 +194,47 @@ const NewslettersState = ({ children }) => {
     dispatch({ type: CLEAR_NEWSLETTERS_ERRORS });
   }, []);
 
+  // Get Newsletters in Order
+  const getNewslettersInOrder = useCallback(async _ => {
+    dispatch({ type: SET_NEWSLETTERS_IN_ORDER_LOADING });
+    try {
+      const res = await axios.get(
+        '/api/backend/newsletters/newslettersInOrder'
+      );
+      dispatch({ type: GET_NEWSLETTERS_IN_ORDER, payload: res.data });
+    } catch (err) {
+      handleServerError(err, NEWSLETTERS_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Clear Newsletters in Order
+  const clearNewslettersInOrder = useCallback(_ => {
+    dispatch({ type: CLEAR_NEWSLETTERS_IN_ORDER });
+  }, []);
+
+  // Order Newsletters
+  const orderNewsletters = useCallback(async newsletters => {
+    let isSuccess = false;
+    dispatch({ type: SET_NEWSLETTERS_IN_ORDER_LOADING });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      await axios.post(
+        '/api/backend/newsletters/newslettersInOrder',
+        { newsletters },
+        config
+      );
+      dispatch({ type: ORDER_NEWSLETTERS });
+      isSuccess = true;
+    } catch (err) {
+      handleServerError(err, NEWSLETTERS_ERRORS, dispatch);
+    }
+    return isSuccess;
+  }, []);
+
   return (
     <NewslettersContext.Provider
       value={{
@@ -194,6 +243,8 @@ const NewslettersState = ({ children }) => {
         newsletter: state.newsletter,
         newslettersErrors: state.newslettersErrors,
         newslettersLoading: state.newslettersLoading,
+        newslettersInOrder: state.newslettersInOrder,
+        newslettersInOrderLoading: state.newslettersInOrderLoading,
         getNewsletters,
         clearNewsletters,
         getNewsletter,
@@ -202,7 +253,10 @@ const NewslettersState = ({ children }) => {
         updateNewsletter,
         deleteNewsletter,
         sendNewsletter,
-        clearNewslettersErrors
+        clearNewslettersErrors,
+        getNewslettersInOrder,
+        clearNewslettersInOrder,
+        orderNewsletters
       }}
     >
       {children}

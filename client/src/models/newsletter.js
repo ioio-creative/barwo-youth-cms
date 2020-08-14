@@ -4,6 +4,7 @@ import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function Newsletter() {
   this.label = '';
+  this.order = null;
   this.title_tc = '';
   this.title_sc = '';
   this.title_en = '';
@@ -18,7 +19,7 @@ function Newsletter() {
   this.lastModifyUser = null;
 }
 
-Newsletter.newsletterResponseTypes = {
+Newsletter.newslettersResponseTypes = {
   // input validation
   LABEL_REQUIRED: {
     type: 'LABEL_REQUIRED',
@@ -75,6 +76,9 @@ Newsletter.newsletterResponseTypes = {
 Newsletter.getNewsletterForDisplay = newsletter => {
   return {
     ...newsletter,
+    orderDisplay: Number.isInteger(newsletter.order)
+      ? newsletter.order + 1
+      : '',
     lastModifyDTDisplay: formatDateTimeString(newsletter.lastModifyDT),
     lastModifyUserDisplay: newsletter.lastModifyUser
       ? newsletter.lastModifyUser.name
@@ -84,6 +88,7 @@ Newsletter.getNewsletterForDisplay = newsletter => {
 };
 
 const displayFieldNames = [
+  'orderDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',
   'isEnabledDisplay'

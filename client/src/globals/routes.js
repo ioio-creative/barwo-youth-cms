@@ -139,6 +139,9 @@ export default {
   newsletterAdd: function (isLink) {
     return '/newsletterAdd';
   },
+  newsletterOrder: function (isLink) {
+    return '/newsletterOrder';
+  },
   sendHistoryList: function (isLink) {
     return '/sendHistoryList';
   },

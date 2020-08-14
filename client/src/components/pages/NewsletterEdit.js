@@ -102,7 +102,7 @@ const NewsletterEdit = _ => {
         setAlerts(
           newslettersErrors.map(newsletterError => {
             return new Alert(
-              Newsletter.newsletterResponseTypes[newsletterError].msg,
+              Newsletter.newslettersResponseTypes[newsletterError].msg,
               Alert.alertTypes.WARNING
             );
           })
@@ -111,7 +111,7 @@ const NewsletterEdit = _ => {
 
         if (
           newslettersErrors.includes(
-            Newsletter.newsletterResponseTypes.NEWSLETTER_NOT_EXISTS.type
+            Newsletter.newslettersResponseTypes.NEWSLETTER_NOT_EXISTS.type
           )
         ) {
           setIsAbandonEdit(true);

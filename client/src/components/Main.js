@@ -97,6 +97,9 @@ const AsyncNewsletterList = asyncLoadingComponent(_ =>
 const AsyncNewsletterEdit = asyncLoadingComponent(_ =>
   import('components/pages/NewsletterEdit')
 );
+const AsyncNewsletterOrder = asyncLoadingComponent(_ =>
+  import('components/pages/NewsletterOrder')
+);
 const AsyncAboutEdit = asyncLoadingComponent(_ =>
   import('components/pages/AboutEdit')
 );
@@ -241,6 +244,10 @@ const Main = _ => {
               <Route
                 path={routes.newsletterAdd(false)}
                 component={AsyncNewsletterEdit}
+              />
+              <Route
+                path={routes.newsletterOrder(false)}
+                component={AsyncNewsletterOrder}
               />
 
               <Route

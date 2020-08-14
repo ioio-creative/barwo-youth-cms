@@ -117,6 +117,9 @@ const Navbar = ({ className }) => {
   const isNewsletterList = Boolean(useRouteMatch(routes.newsletterList(false)));
   const isNewsletterEdit = Boolean(useRouteMatch(routes.newsletterEditById));
   const isNewsletterAdd = Boolean(useRouteMatch(routes.newsletterAdd(false)));
+  const isNewsletterOrder = Boolean(
+    useRouteMatch(routes.newsletterOrder(false))
+  );
 
   const isSendHistoryList = Boolean(
     useRouteMatch(routes.sendHistoryList(false))
@@ -264,6 +267,7 @@ const Navbar = ({ className }) => {
           isNewsletterList ||
           isNewsletterEdit ||
           isNewsletterAdd ||
+          isNewsletterOrder ||
           isSendHistoryList ||
           isSendHistoryView
         }

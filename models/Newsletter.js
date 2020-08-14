@@ -7,6 +7,9 @@ const NewsletterSchema = mongoose.Schema({
     required: true,
     unique: true
   },
+  order: {
+    type: Number
+  },
   title_tc: {
     type: String,
     required: true

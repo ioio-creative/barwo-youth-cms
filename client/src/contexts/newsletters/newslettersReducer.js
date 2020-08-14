@@ -9,7 +9,11 @@ import {
   CLEAR_NEWSLETTERS_ERRORS,
   DELETE_NEWSLETTER,
   SET_NEWSLETTERS_LOADING,
-  SEND_NEWSLETTER
+  SEND_NEWSLETTER,
+  GET_NEWSLETTERS_IN_ORDER,
+  CLEAR_NEWSLETTERS_IN_ORDER,
+  ORDER_NEWSLETTERS,
+  SET_NEWSLETTERS_IN_ORDER_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -59,7 +63,8 @@ export default (state, action) => {
       return {
         ...state,
         newslettersErrors: action.payload,
-        newslettersLoading: false
+        newslettersLoading: false,
+        newslettersInOrderLoading: false
       };
     case CLEAR_NEWSLETTERS_ERRORS:
       return {
@@ -75,6 +80,28 @@ export default (state, action) => {
       return {
         ...state,
         newslettersLoading: true
+      };
+    case GET_NEWSLETTERS_IN_ORDER:
+      return {
+        ...state,
+        newslettersInOrder: action.payload,
+        newslettersInOrderLoading: false
+      };
+    case CLEAR_NEWSLETTERS_IN_ORDER:
+      return {
+        ...state,
+        newslettersInOrder: null,
+        newslettersErrors: null
+      };
+    case ORDER_NEWSLETTERS:
+      return {
+        ...state,
+        newslettersInOrderLoading: false
+      };
+    case SET_NEWSLETTERS_IN_ORDER_LOADING:
+      return {
+        ...state,
+        newslettersInOrderLoading: true
       };
     default:
       return state;

@@ -190,6 +190,8 @@ router.put(
     if (isEnabled !== undefined) newsletterFields.isEnabled = isEnabled;
     newsletterFields.lastModifyDT = new Date();
     newsletterFields.lastModifyUser = req.user._id;
+    // set order to null if disabled
+    if (isEnabled === false) newsletterFields.order = null;
 
     try {
       let newsletter = await Newsletter.findById(req.params._id);
