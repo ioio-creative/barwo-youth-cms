@@ -2,10 +2,8 @@ import React, { useCallback, useState } from 'react';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import Button from 'components/form/Button';
 
-const TestSearch = _ => {
-  const [state, setState] = useState({
-    searchText: '一点鴻'
-  });
+const TestContactAdd = _ => {
+  const [state, setState] = useState({});
 
   const onChange = useCallback(async e => {
     const name = e.target.name;
@@ -16,17 +14,18 @@ const TestSearch = _ => {
     }));
   }, []);
 
-  const onTestSearch = useCallback(
+  const onSubmitContact = useCallback(
     async _ => {
       try {
         // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-        const response = await fetch('/api/frontend/search/tc', {
+        const response = await fetch('/api/frontend/contacts/contacts', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            queryStr: state.searchText
+            emailAddress: state.email,
+            language: 'tc'
           })
         });
         console.log(await response.json());
@@ -34,21 +33,21 @@ const TestSearch = _ => {
         console.error(err);
       }
     },
-    [state.searchText]
+    [state.email]
   );
 
   return (
     <>
       <LabelInputTextPair
-        name='searchText'
-        value={state.searchText}
-        labelMessage='Search Text'
+        name='email'
+        value={state.email}
+        labelMessage='Subscription Email'
         placeholder=''
         onChange={onChange}
       />
-      <Button onClick={onTestSearch}>Test Search</Button>
+      <Button onClick={onSubmitContact}>Submit Contact</Button>
     </>
   );
 };
 
-export default TestSearch;
+export default TestContactAdd;

@@ -2,12 +2,12 @@ import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
-const contactTypes = {
-  MISS: { value: 'MISS', label: 'Miss' },
-  MR: { value: 'MR', label: 'Mr' },
-  MRS: { value: 'MRS', label: 'Mrs' },
-  NOT_SPECIFIED: { value: 'NOT_SPECIFIED', label: 'Not specified' }
-};
+// const contactTypes = {
+//   MISS: { value: 'MISS', label: 'Miss' },
+//   MR: { value: 'MR', label: 'Mr' },
+//   MRS: { value: 'MRS', label: 'Mrs' },
+//   NOT_SPECIFIED: { value: 'NOT_SPECIFIED', label: 'Not specified' }
+// };
 
 const contactLanguage = {
   TC: { value: 'TC', label: 'Traditional Chinese' },
@@ -18,7 +18,7 @@ const contactLanguage = {
 function Contact() {
   this.emailAddress = '';
   this.name = '';
-  this.type = contactTypes.NOT_SPECIFIED.value;
+  //this.type = contactTypes.NOT_SPECIFIED.value;
   this.language = contactLanguage.EN.value;
 
   this.isEnabled = true;
@@ -36,10 +36,10 @@ Contact.contactResponseTypes = {
   //   type: 'NAME_REQUIRED',
   //   msg: 'NAME_REQUIRED'
   // },
-  TYPE_REQUIRED: {
-    type: 'TYPE_REQUIRED',
-    msg: 'TYPE_REQUIRED'
-  },
+  // TYPE_REQUIRED: {
+  //   type: 'TYPE_REQUIRED',
+  //   msg: 'TYPE_REQUIRED'
+  // },
   LANGUAGE_REQUIRED: {
     type: 'LANGUAGE_REQUIRED',
     msg: 'LANGUAGE_REQUIRED'
@@ -60,16 +60,18 @@ Contact.contactResponseTypes = {
   CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
-Contact.contactTypes = contactTypes;
-Contact.contactTypeOptions = Object.values(contactTypes);
+// Contact.contactTypes = contactTypes;
+// Contact.contactTypeOptions = Object.values(contactTypes);
+
 Contact.contactLanguage = contactLanguage;
 Contact.contactLanguageOptions = Object.values(contactLanguage);
 
 Contact.getContactForDisplay = contact => {
+  console.log(contact.language);
   return {
     ...contact,
     // typeDisplay: contactTypes[contact.type].label,
-    languageDisplay: contactLanguage[contact.language].label,
+    languageDisplay: contactLanguage[contact.language.toUpperCase()].label,
     lastModifyDTDisplay: formatDateTimeString(contact.lastModifyDT),
     lastModifyUserDisplay: contact.lastModifyUser
       ? contact.lastModifyUser.name

@@ -1,6 +1,8 @@
 export default {
   'Table.IndexColumnTitle': 'Idx',
 
+  'HomePage.Title': 'Home Page',
+
   'Navbar.Title': '粵劇新秀演出系列',
   'Navbar.Login': 'Login',
   'Navbar.Logout': 'Logout',
