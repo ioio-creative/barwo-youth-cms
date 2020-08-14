@@ -3,8 +3,8 @@ import TitlebarContext from 'contexts/titlebar/titlebarContext';
 import uiWordings from 'globals/uiWordings';
 
 //import TestFileUpload from 'components/testing/TestFileUpload';
-//import TestSearch from 'components/testing/TestSearch';
-import TestContactAdd from 'components/testing/TestContactAdd';
+// import TestSearch from 'components/testing/TestSearch';
+// import TestContactAdd from 'components/testing/TestContactAdd';
 
 const Home = _ => {
   const { setTitle, removeTitle } = useContext(TitlebarContext);
@@ -22,7 +22,7 @@ const Home = _ => {
     <div className='w3-container'>
       {/* <TestFileUpload /> */}
       {/* <TestSearch /> */}
-      <TestContactAdd />
+      {/* <TestContactAdd /> */}
     </div>
   );
 };

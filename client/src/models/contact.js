@@ -67,7 +67,6 @@ Contact.contactLanguage = contactLanguage;
 Contact.contactLanguageOptions = Object.values(contactLanguage);
 
 Contact.getContactForDisplay = contact => {
-  console.log(contact.language);
   return {
     ...contact,
     // typeDisplay: contactTypes[contact.type].label,
