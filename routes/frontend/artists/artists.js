@@ -144,7 +144,8 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
     if (!isDirector) {
       // Note: somehow using label to compare works, can't use _id to compare...
       const correspondingArtistWithRole = event.artists.find(
-        artistWithRole => artistWithRole.artist.label === artist.label
+        artistWithRole =>
+          artistWithRole.artist && artistWithRole.artist.label === artist.label
       );
       if (correspondingArtistWithRole) {
         artistRoleInEvent = getEntityPropByLanguage(
