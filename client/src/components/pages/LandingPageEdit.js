@@ -17,7 +17,7 @@ import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import FileUpload from 'components/form/FileUpload';
 import SubmitButton from 'components/form/SubmitButton';
-import PageMetaEdit from 'components/pageMeta/PageMetaEdit';
+import PageMetaEditWithModal from 'components/pageMeta/PageMetaEditWithModal';
 import LandingPage from 'models/landingPage';
 import Medium from 'models/medium';
 import PageMeta from 'models/pageMeta';
@@ -315,7 +315,7 @@ const LandingPageEdit = _ => {
         </div>
         <div className='w3-rest w3-row'>
           <div className='w3-col m12'>
-            <PageMetaEdit
+            <PageMetaEditWithModal
               pageMeta={pageMeta}
               setPageMetaFunc={setPageMetaFunc}
             />

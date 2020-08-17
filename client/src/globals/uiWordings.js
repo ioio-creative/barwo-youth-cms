@@ -697,6 +697,28 @@ export default {
   'MiscellaneousInfoEdit.UpdateMiscellaneousInfoSuccessMessage':
     'Miscellaneous Info Updated',
 
+  'PageMetaMiscellaneous.Title': 'Page Meta Miscellaneous',
+
+  'PageMetaMiscellaneous.LandingPageMetaLabel': 'Landing Page Meta',
+  'PageMetaMiscellaneous.AboutMetaLabel': 'About Meta',
+  'PageMetaMiscellaneous.ArtistListMetaLabel': 'Artist List Meta',
+  'PageMetaMiscellaneous.EventListMetaLabel': 'Event List Meta',
+  'PageMetaMiscellaneous.ActivityListMetaLabel': 'Activity List Meta',
+  'PageMetaMiscellaneous.NewsListMetaLabel': 'News List Meta',
+
+  'PageMetaMiscellaneous.LastModifyDTLabel': 'Last Modify DT',
+  'PageMetaMiscellaneous.LastModifyUserLabel': 'Last Modify User',
+
+  'PageMetaMiscellaneous.LastModifyDTLabel': 'Last Modify DT',
+  'PageMetaMiscellaneous.LastModifyUserLabel': 'Last Modify User',
+
+  'PageMetaMiscellaneousEdit.EditPageMetaMiscellaneousTitle':
+    'Edit Page Meta Miscellaneous',
+  'PageMetaMiscellaneousEdit.UpdatePageMetaMiscellaneousSubmit':
+    'Update Page Meta Miscellaneous',
+  'PageMetaMiscellaneousEdit.UpdatePageMetaMiscellaneousSuccessMessage':
+    'Page Meta Miscellaneous Updated',
+
   'Newsletters.Title': 'Newsletters',
 
   'Newsletter.LabelLabel': 'Label',

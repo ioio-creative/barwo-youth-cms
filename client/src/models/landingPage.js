@@ -8,6 +8,8 @@ function LandingPage() {
   this.featuredVideo2 = '';
   this.featuredArtists = [];
   this.featuredActivities = [];
+  this.pageMeta = null;
+
   this.lastModifyDT = null;
   this.lastModifyUser = null;
 }

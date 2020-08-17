@@ -97,6 +97,10 @@ app.use(
   require('./routes/backend/miscellaneousInfo/miscellaneousInfo')
 );
 app.use(
+  '/api/backend/pageMetaMiscellaneous/pageMetaMiscellaneous',
+  require('./routes/backend/pageMetaMiscellaneous/pageMetaMiscellaneous')
+);
+app.use(
   '/api/backend/contacts/contacts',
   require('./routes/backend/contacts/contacts')
 );
@@ -160,6 +164,10 @@ app.use('/api/frontend/about', require('./routes/frontend/about/about'));
 app.use(
   '/api/frontend/miscellaneousInfo',
   require('./routes/frontend/miscellaneousInfo/miscellaneousInfo')
+);
+app.use(
+  '/api/backend/pageMetaMiscellaneous',
+  require('./routes/frontend/pageMetaMiscellaneous/pageMetaMiscellaneous')
 );
 app.use(
   '/api/frontend/contacts',

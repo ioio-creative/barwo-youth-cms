@@ -119,6 +119,9 @@ export default {
   miscellaneousInfoEdit: function (isLink) {
     return '/miscellaneousInfoEdit';
   },
+  pageMetaMiscellaneousEdit: function (isLink) {
+    return '/pageMetaMiscellaneousEdit';
+  },
   contactList: function (isLink) {
     return '/contactList';
   },

@@ -61,8 +61,11 @@ const AsyncLandingPage = asyncLoadingComponent(_ =>
 const AsyncGlobalConstantsEdit = asyncLoadingComponent(_ =>
   import('components/pages/GlobalConstantsEdit')
 );
-const AsyncMiscellaneousInfo = asyncLoadingComponent(_ =>
+const AsyncMiscellaneousInfoEdit = asyncLoadingComponent(_ =>
   import('components/pages/MiscellaneousInfoEdit')
+);
+const AsyncPageMetaMiscellaneousEdit = asyncLoadingComponent(_ =>
+  import('components/pages/PageMetaMiscellaneousEdit')
 );
 const AsyncContactList = asyncLoadingComponent(_ =>
   import('components/pages/ContactList')
@@ -217,7 +220,12 @@ const Main = _ => {
 
               <Route
                 path={routes.miscellaneousInfoEdit(false)}
-                component={AsyncMiscellaneousInfo}
+                component={AsyncMiscellaneousInfoEdit}
+              />
+
+              <Route
+                path={routes.pageMetaMiscellaneousEdit(false)}
+                component={AsyncPageMetaMiscellaneousEdit}
               />
 
               <Route

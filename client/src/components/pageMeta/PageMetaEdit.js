@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import Modal from 'components/layout/Modal';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTextAreaPair from 'components/form/LabelTextAreaPair';
 import FileUpload from 'components/form/FileUpload';
@@ -71,7 +70,7 @@ const PageMetaEdit = ({ pageMeta, setPageMetaFunc }) => {
   } = pageMeta;
 
   return (
-    <Modal contentLabel={uiWordings['PageMeta.Title']}>
+    <>
       <h4>{uiWordings['PageMeta.Title']}</h4>
       <LabelInputTextPair
         name='title_tc'
@@ -221,7 +220,7 @@ const PageMetaEdit = ({ pageMeta, setPageMetaFunc }) => {
         placeholder=''
         onChange={handleChange}
       />
-    </Modal>
+    </>
   );
 };
 
