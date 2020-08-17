@@ -915,6 +915,19 @@ const globalConstantsValidationChecks = [
   check(
     'pastEvents_en',
     globalConstantsResponseTypes.PAST_EVENTS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'termsAndConditions_tc',
+    globalConstantsResponseTypes.TERMS_AND_CONDITIONS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'termsAndConditions_sc',
+    globalConstantsResponseTypes.TERMS_AND_CONDITIONS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'termsAndConditions_en',
+    globalConstantsResponseTypes.TERMS_AND_CONDITIONS_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1273,7 +1286,11 @@ router.post(
 
       pastEvents_tc,
       pastEvents_sc,
-      pastEvents_en
+      pastEvents_en,
+
+      termsAndConditions_tc,
+      termsAndConditions_sc,
+      termsAndConditions_en
     } = req.body;
 
     // Build global constants object
@@ -1607,6 +1624,10 @@ router.post(
     globalConstantsFields.pastEvents_tc = pastEvents_tc;
     globalConstantsFields.pastEvents_sc = pastEvents_sc;
     globalConstantsFields.pastEvents_en = pastEvents_en;
+
+    globalConstantsFields.termsAndConditions_tc = termsAndConditions_tc;
+    globalConstantsFields.termsAndConditions_sc = termsAndConditions_sc;
+    globalConstantsFields.termsAndConditions_en = termsAndConditions_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

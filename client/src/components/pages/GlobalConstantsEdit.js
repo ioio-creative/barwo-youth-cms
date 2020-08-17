@@ -15,6 +15,7 @@ import scrollToTop from 'utils/ui/scrollToTop';
 
 const originalGlobalConstants = new GlobalConstants();
 const defaultState = originalGlobalConstants;
+
 const GlobalConstantsEdit = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
   const {
@@ -2213,6 +2214,31 @@ const GlobalConstantsEdit = _ => {
         name='pastEvents_en'
         value={globalConstants.pastEvents_en}
         labelMessage={uiWordings['GlobalConstants.PastEventsEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='termsAndConditions_tc'
+        value={globalConstants.termsAndConditions_tc}
+        labelMessage={uiWordings['GlobalConstants.TermsAndConditionsTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='termsAndConditions_sc'
+        value={globalConstants.termsAndConditions_sc}
+        labelMessage={uiWordings['GlobalConstants.TermsAndConditionsScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='termsAndConditions_en'
+        value={globalConstants.termsAndConditions_en}
+        labelMessage={uiWordings['GlobalConstants.TermsAndConditionsEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}

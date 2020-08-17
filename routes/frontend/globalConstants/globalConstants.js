@@ -305,6 +305,11 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'pastEvents',
         language
+      ),
+      tandc: getEntityPropByLanguage(
+        globalConstants,
+        'termsAndConditions',
+        language
       )
     };
     res.json(globalConstantsForFrontEnd);

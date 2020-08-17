@@ -1067,6 +1067,19 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  termsAndConditions_tc: {
+    type: String,
+    require: true
+  },
+  termsAndConditions_sc: {
+    type: String,
+    require: true
+  },
+  termsAndConditions_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -1417,6 +1430,10 @@ module.exports.globalConstantsResponseTypes = {
   PAST_EVENTS_TC_REQUIRED: 'PAST_EVENTS_TC_REQUIRED',
   PAST_EVENTS_SC_REQUIRED: 'PAST_EVENTS_SC_REQUIRED',
   PAST_EVENTS_EN_REQUIRED: 'PAST_EVENTS_EN_REQUIRED',
+
+  TERMS_AND_CONDITIONS_TC_REQUIRED: 'TERMS_AND_CONDITIONS_TC_REQUIRED',
+  TERMS_AND_CONDITIONS_SC_REQUIRED: 'TERMS_AND_CONDITIONS_SC_REQUIRED',
+  TERMS_AND_CONDITIONS_EN_REQUIRED: 'TERMS_AND_CONDITIONS_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

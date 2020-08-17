@@ -550,6 +550,9 @@ export default {
   'GlobalConstants.PastEventsTcLabel': 'Past Events TC',
   'GlobalConstants.PastEventsScLabel': 'Past Events SC',
   'GlobalConstants.PastEventsEnLabel': 'Past Events EN',
+  'GlobalConstants.TermsAndConditionsTcLabel': 'Terms and Conditions TC',
+  'GlobalConstants.TermsAndConditionsScLabel': 'Terms and Conditions SC',
+  'GlobalConstants.TermsAndConditionsEnLabel': 'Terms and Conditions EN',
 
   'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
   'GlobalConstants.LastModifyUserLabel': 'Last Modify User',

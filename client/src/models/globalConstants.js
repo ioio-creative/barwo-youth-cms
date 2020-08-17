@@ -330,6 +330,10 @@ function GlobalConstants() {
   this.pastEvents_sc = '';
   this.pastEvents_en = '';
 
+  this.termsAndConditions_tc = '';
+  this.termsAndConditions_sc = '';
+  this.termsAndConditions_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
