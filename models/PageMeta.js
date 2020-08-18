@@ -78,33 +78,6 @@ module.exports.PageMeta = mongoose.model('pageMeta', PageMetaSchema);
 
 module.exports.PageMetaSchema = PageMetaSchema;
 
-module.exports.getPageMetaForFrontEnd = (
-  pageMeta,
-  language,
-  defaultPageMeta = null
-) => {
-  if (!pageMeta) {
-    return {};
-  }
-  return {
-    title: getEntityPropByLanguage(pageMeta, 'title', language),
-    description: getEntityPropByLanguage(pageMeta, 'description', language),
-    ogSiteName: getEntityPropByLanguage(pageMeta, 'ogSiteName', language),
-    ogTitle: getEntityPropByLanguage(pageMeta, 'title', language),
-    ogDescription: getEntityPropByLanguage(pageMeta, 'ogDescription', language),
-    ogImage: {
-      src: pageMeta.ogImage && pageMeta.ogImage.url
-    },
-    ogImageAlt: getEntityPropByLanguage(pageMeta, 'ogImageAlt', language),
-    // TODO:
-    // ogImageWidth: 1200,
-    // ogImageHeight: 630,
-    facebookAppId: defaultPageMeta
-      ? defaultPageMeta.facebookAppId
-      : pageMeta.facebookAppId
-  };
-};
-
 const pageMetaFieldNames = [
   'title_tc',
   'title_sc',
@@ -128,6 +101,8 @@ const pageMetaFieldNames = [
   'ogDescription_sc',
   'ogDescription_en',
 
+  'ogImage',
+
   'ogImageAlt_tc',
   'ogImageAlt_sc',
   'ogImageAlt_en',
@@ -137,11 +112,47 @@ const pageMetaFieldNames = [
   'facebookAppId'
 ];
 
-module.exports.getMixedPageMetas = (pageMetaMajor, pageMetaBackup) => {
+const getMixedPageMetas = (pageMetaMajor, pageMetaBackup) => {
   const mixedPageMeta = {};
   for (const fieldName of pageMetaFieldNames) {
     mixedPageMeta[fieldName] =
-      pageMetaMajor[fieldName] || pageMetaBackup[fieldName];
+      (pageMetaMajor && pageMetaMajor[fieldName]) ||
+      (pageMetaBackup ? pageMetaBackup[fieldName] : null);
   }
   return mixedPageMeta;
+};
+
+module.exports.getMixedPageMetas = getMixedPageMetas;
+
+module.exports.getPageMetaForFrontEnd = (
+  pageMeta,
+  language,
+  defaultPageMeta = null
+) => {
+  const mixedPageMeta = getMixedPageMetas(pageMeta, defaultPageMeta);
+  return {
+    title: getEntityPropByLanguage(mixedPageMeta, 'title', language),
+    description: getEntityPropByLanguage(
+      mixedPageMeta,
+      'description',
+      language
+    ),
+    ogSiteName: getEntityPropByLanguage(mixedPageMeta, 'ogSiteName', language),
+    ogTitle: getEntityPropByLanguage(mixedPageMeta, 'title', language),
+    ogDescription: getEntityPropByLanguage(
+      mixedPageMeta,
+      'ogDescription',
+      language
+    ),
+    ogImage: {
+      src: mixedPageMeta.ogImage && mixedPageMeta.ogImage.url
+    },
+    ogImageAlt: getEntityPropByLanguage(mixedPageMeta, 'ogImageAlt', language),
+    // TODO:
+    // ogImageWidth: 1200,
+    // ogImageHeight: 630,
+    facebookAppId: defaultPageMeta
+      ? defaultPageMeta.facebookAppId
+      : pageMeta.facebookAppId
+  };
 };
