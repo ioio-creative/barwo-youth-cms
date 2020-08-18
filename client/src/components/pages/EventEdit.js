@@ -26,9 +26,11 @@ import ColorPickerModal from 'components/form/ColorPickerModal';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
+import PageMetaEditWithModal from 'components/pageMeta/PageMetaEditWithModal';
 import Artist from 'models/artist';
 import Event from 'models/event';
 import Medium from 'models/medium';
+import PageMeta from 'models/pageMeta';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
@@ -115,6 +117,9 @@ const EventEdit = _ => {
   // gallery
   const [galleryPicked, setGalleryPicked] = useState([]);
 
+  // pageMeta
+  const [pageMeta, setPageMeta] = useState(new PageMeta());
+
   // componentDidMount
   useEffect(_ => {
     getArtDirectors();
@@ -157,6 +162,10 @@ const EventEdit = _ => {
 
         setFeaturedImagePicked(fetchedEvent.featuredImage);
         setGalleryPicked(getArraySafe(fetchedEvent.gallery));
+
+        if (fetchedEvent.pageMeta) {
+          setPageMeta(fetchedEvent.pageMeta);
+        }
       }
       setIsAddMode(!fetchedEvent);
     },
@@ -304,6 +313,11 @@ const EventEdit = _ => {
     setGalleryPicked(newItemList);
   }, []);
 
+  const setPageMetaFunc = useCallback(setterFunc => {
+    setIsSubmitEnabled(true);
+    setPageMeta(setterFunc);
+  }, []);
+
   const eventDelete = useCallback(
     async _ => {
       const isSuccess = await deleteEvent(eventId);
@@ -433,6 +447,9 @@ const EventEdit = _ => {
         return medium._id;
       });
 
+      // add pageMeta
+      event.pageMeta = pageMeta;
+
       let isSuccess = validInput(event);
       let returnedEvent = null;
 
@@ -481,7 +498,8 @@ const EventEdit = _ => {
       galleryPicked,
       setAlerts,
       removeAlerts,
-      validInput
+      validInput,
+      pageMeta
     ]
   );
 
@@ -537,7 +555,7 @@ const EventEdit = _ => {
             </h4>
           </div>
           <div className='w3-rest w3-row'>
-            <div className='w3-col m6'>
+            <div className='w3-col m4'>
               <ColorPickerModal
                 name='themeColor'
                 value={event.themeColor || defaultState.themeColor}
@@ -545,7 +563,13 @@ const EventEdit = _ => {
                 onChange={onChange}
               />
             </div>
-            <div className='w3-col m6'>
+            <div className='w3-col m4'>
+              <PageMetaEditWithModal
+                pageMeta={pageMeta}
+                setPageMetaFunc={setPageMetaFunc}
+              />
+            </div>
+            <div className='w3-col m4'>
               <Label
                 htmlFor='isEnabled'
                 message={uiWordings['Event.IsEnabledLabel']}

@@ -17,8 +17,10 @@ import Button from 'components/form/Button';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
+import PageMetaEditWithModal from 'components/pageMeta/PageMetaEditWithModal';
 import Newsletter from 'models/newsletter';
 import Medium from 'models/medium';
+import PageMeta from 'models/pageMeta';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
@@ -57,6 +59,9 @@ const NewsletterEdit = _ => {
   // featuredImage
   const [featuredImagePicked, setFeaturedImagePicked] = useState(null);
 
+  // pageMeta
+  const [pageMeta, setPageMeta] = useState(new PageMeta());
+
   // componentDidMount
   useEffect(_ => {
     return _ => {
@@ -89,6 +94,9 @@ const NewsletterEdit = _ => {
       );
       if (fetchedNewsletter) {
         setFeaturedImagePicked(fetchedNewsletter.featuredImage);
+        if (fetchedNewsletter.pageMeta) {
+          setPageMeta(fetchedNewsletter.pageMeta);
+        }
       }
       setIsAddMode(!fetchedNewsletter);
     },
@@ -131,6 +139,45 @@ const NewsletterEdit = _ => {
 
   /* event handlers */
 
+  const onChange = useCallback(
+    e => {
+      setIsSubmitEnabled(true);
+      removeAlerts();
+      const name = e.target.name;
+      const value = e.target.value;
+      setNewsletter(prevNewsletter => ({ ...prevNewsletter, [name]: value }));
+    },
+    [removeAlerts]
+  );
+
+  const onGetFeaturedImagePicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setFeaturedImagePicked(firstOrDefault(newItemList, null));
+  }, []);
+
+  const setPageMetaFunc = useCallback(setterFunc => {
+    setIsSubmitEnabled(true);
+    setPageMeta(setterFunc);
+  }, []);
+
+  const newsletterDelete = useCallback(
+    async _ => {
+      const isSuccess = await deleteNewsletter(newsletterId);
+      if (isSuccess) {
+        goToUrl(routes.newsletterList(true));
+        setAlerts(
+          new Alert(
+            uiWordings['NewsletterEdit.DeleteNewsletterSuccessMessage'],
+            Alert.alertTypes.INFO
+          )
+        );
+      } else {
+        scrollToTop();
+      }
+    },
+    [newsletterId, deleteNewsletter, setAlerts]
+  );
+
   const onSendButtonClick = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -164,40 +211,6 @@ const NewsletterEdit = _ => {
     ]
   );
 
-  const onGetFeaturedImagePicked = useCallback(newItemList => {
-    setIsSubmitEnabled(true);
-    setFeaturedImagePicked(firstOrDefault(newItemList, null));
-  }, []);
-
-  const onChange = useCallback(
-    e => {
-      setIsSubmitEnabled(true);
-      removeAlerts();
-      const name = e.target.name;
-      const value = e.target.value;
-      setNewsletter(prevNewsletter => ({ ...prevNewsletter, [name]: value }));
-    },
-    [removeAlerts]
-  );
-
-  const newsletterDelete = useCallback(
-    async _ => {
-      const isSuccess = await deleteNewsletter(newsletterId);
-      if (isSuccess) {
-        goToUrl(routes.newsletterList(true));
-        setAlerts(
-          new Alert(
-            uiWordings['NewsletterEdit.DeleteNewsletterSuccessMessage'],
-            Alert.alertTypes.INFO
-          )
-        );
-      } else {
-        scrollToTop();
-      }
-    },
-    [newsletterId, deleteNewsletter, setAlerts]
-  );
-
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -208,6 +221,9 @@ const NewsletterEdit = _ => {
       newsletter.featuredImage = featuredImagePicked
         ? featuredImagePicked._id
         : null;
+
+      // add pageMeta
+      newsletter.pageMeta = pageMeta;
 
       let isSuccess = validInput(newsletter);
       let returnedNewsletter = null;
@@ -240,7 +256,8 @@ const NewsletterEdit = _ => {
       setAlerts,
       removeAlerts,
       validInput,
-      featuredImagePicked
+      featuredImagePicked,
+      pageMeta
     ]
   );
 
@@ -357,6 +374,11 @@ const NewsletterEdit = _ => {
             required={true}
           />
         </Region>
+
+        <PageMetaEditWithModal
+          pageMeta={pageMeta}
+          setPageMetaFunc={setPageMetaFunc}
+        />
 
         <LabelTogglePair
           name='isEnabled'

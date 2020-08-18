@@ -38,6 +38,7 @@ function News() {
   // this.downloadUrl_en = '';
   // this.downloadMedium = null;
   /* end of media */
+  this.pageMeta = null;
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;

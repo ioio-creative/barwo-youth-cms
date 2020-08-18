@@ -14,6 +14,7 @@ function Newsletter() {
   /* media */
   this.featuredImage = null;
   /* end of media */
+  this.pageMeta = null;
   this.isEnabled = true;
   this.lastModifyDT = null;
   this.lastModifyUser = null;

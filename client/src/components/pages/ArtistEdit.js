@@ -19,8 +19,10 @@ import LabelRichTextbox from '../form/LabelRichTextbox';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
+import PageMetaEditWithModal from 'components/pageMeta/PageMetaEditWithModal';
 import Artist from 'models/artist';
 import Medium from 'models/medium';
+import PageMeta from 'models/pageMeta';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
@@ -68,6 +70,9 @@ const ArtistEdit = _ => {
   // sound
   const [soundPicked, setSoundPicked] = useState(null);
 
+  // pageMeta
+  const [pageMeta, setPageMeta] = useState(new PageMeta());
+
   // componentDidMount
   useEffect(_ => {
     return _ => {
@@ -102,6 +107,9 @@ const ArtistEdit = _ => {
         setWithoutMaskImagePicked(fetchedArtist.withoutMaskImage);
         setGalleryPicked(getArraySafe(fetchedArtist.gallery));
         setSoundPicked(fetchedArtist.sound);
+        if (fetchedArtist.pageMeta) {
+          setPageMeta(fetchedArtist.pageMeta);
+        }
       }
       setIsAddMode(!fetchedArtist);
     },
@@ -180,6 +188,11 @@ const ArtistEdit = _ => {
     setSoundPicked(firstOrDefault(newItemList, null));
   }, []);
 
+  const setPageMetaFunc = useCallback(setterFunc => {
+    setIsSubmitEnabled(true);
+    setPageMeta(setterFunc);
+  }, []);
+
   const artistDelete = useCallback(
     async _ => {
       const isSuccess = await deleteArtist(artistId);
@@ -241,6 +254,9 @@ const ArtistEdit = _ => {
       // add sound
       artist.sound = soundPicked ? soundPicked._id : null;
 
+      // add pageMeta
+      artist.pageMeta = pageMeta;
+
       let isSuccess = validInput(artist);
       let returnedArtist = null;
       if (isSuccess) {
@@ -276,7 +292,8 @@ const ArtistEdit = _ => {
       featuredImagePicked,
       withoutMaskImagePicked,
       galleryPicked,
-      soundPicked
+      soundPicked,
+      pageMeta
     ]
   );
 
@@ -312,7 +329,13 @@ const ArtistEdit = _ => {
             </h4>
           </div>
           <div className='w3-rest w3-row'>
-            <div className='w3-col m12'>
+            <div className='w3-col m6'>
+              <PageMetaEditWithModal
+                pageMeta={pageMeta}
+                setPageMetaFunc={setPageMetaFunc}
+              />
+            </div>
+            <div className='w3-col m6'>
               <Label
                 htmlFor='isEnabled'
                 message={uiWordings['Artist.IsEnabledLabel']}

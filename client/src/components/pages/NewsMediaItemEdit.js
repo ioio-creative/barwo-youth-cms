@@ -18,9 +18,11 @@ import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
+import PageMetaEditWithModal from 'components/pageMeta/PageMetaEditWithModal';
 import TextList from 'components/form/TextList';
 import NewsMediaItem from 'models/newsMediaItem';
 import Medium from 'models/medium';
+import PageMeta from 'models/pageMeta';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
@@ -63,6 +65,9 @@ const NewsMediaItemEdit = _ => {
   // videoLinks
   const [videoLinksPicked, setVideoLinksPicked] = useState([]);
 
+  // pageMeta
+  const [pageMeta, setPageMeta] = useState(new PageMeta());
+
   // componentDidMount
   useEffect(_ => {
     return _ => {
@@ -101,6 +106,9 @@ const NewsMediaItemEdit = _ => {
             TextList.mapTextToTextItem
           )
         );
+        if (fetchedNewsMediaItem.pageMeta) {
+          setPageMeta(fetchedNewsMediaItem.pageMeta);
+        }
       }
       setIsAddMode(!fetchedNewsMediaItem);
     },
@@ -175,6 +183,11 @@ const NewsMediaItemEdit = _ => {
     setVideoLinksPicked(newItemList);
   }, []);
 
+  const setPageMetaFunc = useCallback(setterFunc => {
+    setIsSubmitEnabled(true);
+    setPageMeta(setterFunc);
+  }, []);
+
   const newsMediaItemDelete = useCallback(
     async _ => {
       const isSuccess = await deleteNewsMediaItem(newsMediaItemId);
@@ -215,6 +228,9 @@ const NewsMediaItemEdit = _ => {
         TextList.getTextFromTextItem
       );
 
+      // add pageMeta
+      newsMediaItem.pageMeta = pageMeta;
+
       let isSuccess = validInput(newsMediaItem);
       let returnedNewsMediaItem = null;
       if (isSuccess) {
@@ -250,7 +266,8 @@ const NewsMediaItemEdit = _ => {
       validInput,
       thumbnailPicked,
       galleryPicked,
-      videoLinksPicked
+      videoLinksPicked,
+      pageMeta
     ]
   );
 
@@ -286,7 +303,13 @@ const NewsMediaItemEdit = _ => {
             </h4>
           </div>
           <div className='w3-rest w3-row'>
-            <div className='w3-col m12'>
+            <div className='w3-col m6'>
+              <PageMetaEditWithModal
+                pageMeta={pageMeta}
+                setPageMetaFunc={setPageMetaFunc}
+              />
+            </div>
+            <div className='w3-col m6'>
               <Label
                 htmlFor='isEnabled'
                 message={uiWordings['NewsMediaItem.IsEnabledLabel']}

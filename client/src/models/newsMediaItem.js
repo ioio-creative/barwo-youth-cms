@@ -16,6 +16,7 @@ function NewsMediaItem() {
   this.gallery = [];
   /* end of media */
   this.videoLinks = [];
+  this.pageMeta = null;
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;

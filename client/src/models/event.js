@@ -72,6 +72,7 @@ function Event() {
   this.featuredImage = '';
   this.gallery = [];
   /* end of media */
+  this.pageMeta = null;
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;
