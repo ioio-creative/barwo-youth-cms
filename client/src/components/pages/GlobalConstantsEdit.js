@@ -2244,6 +2244,31 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
+      <LabelInputTextPair
+        name='copyright_tc'
+        value={globalConstants.copyright_tc}
+        labelMessage={uiWordings['GlobalConstants.CopyrightTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='copyright_sc'
+        value={globalConstants.copyright_sc}
+        labelMessage={uiWordings['GlobalConstants.CopyrightScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='copyright_en'
+        value={globalConstants.copyright_en}
+        labelMessage={uiWordings['GlobalConstants.CopyrightEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair

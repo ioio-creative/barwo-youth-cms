@@ -310,7 +310,8 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'termsAndConditions',
         language
-      )
+      ),
+      copyright: getEntityPropByLanguage(globalConstants, 'copyright', language)
     };
     res.json(globalConstantsForFrontEnd);
   } catch (err) {

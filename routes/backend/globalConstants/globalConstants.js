@@ -928,6 +928,19 @@ const globalConstantsValidationChecks = [
   check(
     'termsAndConditions_en',
     globalConstantsResponseTypes.TERMS_AND_CONDITIONS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'copyright_tc',
+    globalConstantsResponseTypes.COPYRIGHT_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'copyright_sc',
+    globalConstantsResponseTypes.COPYRIGHT_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'copyright_en',
+    globalConstantsResponseTypes.COPYRIGHT_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1290,7 +1303,11 @@ router.post(
 
       termsAndConditions_tc,
       termsAndConditions_sc,
-      termsAndConditions_en
+      termsAndConditions_en,
+
+      copyright_tc,
+      copyright_sc,
+      copyright_en
     } = req.body;
 
     // Build global constants object
@@ -1628,6 +1645,10 @@ router.post(
     globalConstantsFields.termsAndConditions_tc = termsAndConditions_tc;
     globalConstantsFields.termsAndConditions_sc = termsAndConditions_sc;
     globalConstantsFields.termsAndConditions_en = termsAndConditions_en;
+
+    globalConstantsFields.copyright_tc = copyright_tc;
+    globalConstantsFields.copyright_sc = copyright_sc;
+    globalConstantsFields.copyright_en = copyright_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

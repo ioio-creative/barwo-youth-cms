@@ -334,6 +334,10 @@ function GlobalConstants() {
   this.termsAndConditions_sc = '';
   this.termsAndConditions_en = '';
 
+  this.copyright_tc = '';
+  this.copyright_sc = '';
+  this.copyright_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }

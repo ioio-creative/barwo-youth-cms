@@ -554,6 +554,9 @@ export default {
   'GlobalConstants.TermsAndConditionsTcLabel': 'Terms and Conditions TC',
   'GlobalConstants.TermsAndConditionsScLabel': 'Terms and Conditions SC',
   'GlobalConstants.TermsAndConditionsEnLabel': 'Terms and Conditions EN',
+  'GlobalConstants.CopyrightTcLabel': 'Copyright TC',
+  'GlobalConstants.CopyrightScLabel': 'Copyright SC',
+  'GlobalConstants.CopyrightEnLabel': 'Copyright EN',
 
   'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
   'GlobalConstants.LastModifyUserLabel': 'Last Modify User',
