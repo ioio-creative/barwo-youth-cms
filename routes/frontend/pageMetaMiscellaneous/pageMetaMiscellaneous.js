@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const getPageMetaForFrontEnd = require('../../../utils/pageMeta/getPageMetaForFrontEnd');
 const {
   PageMetaMiscellaneous,
@@ -70,21 +68,38 @@ router.get(
         });
       }
 
+      const defaultPageMeta = pageMetaMiscellaneous.landingPageMeta;
+
       const pageMetaMiscellaneousForFrontEnd = {
         landingPageMeta: getPageMetaForFrontEnd(
-          pageMetaMiscellaneous.landingPageMeta
+          pageMetaMiscellaneous.landingPageMeta,
+          language
         ),
-        aboutMeta: getPageMetaForFrontEnd(pageMetaMiscellaneous.aboutMeta),
+        aboutMeta: getPageMetaForFrontEnd(
+          pageMetaMiscellaneous.aboutMeta,
+          language,
+          defaultPageMeta
+        ),
         artistListMeta: getPageMetaForFrontEnd(
-          pageMetaMiscellaneous.artistListMeta
+          pageMetaMiscellaneous.artistListMeta,
+          language,
+          defaultPageMeta
         ),
         eventListMeta: getPageMetaForFrontEnd(
-          pageMetaMiscellaneous.eventListMeta
+          pageMetaMiscellaneous.eventListMeta,
+          language,
+          defaultPageMeta
         ),
         activityListMeta: getPageMetaForFrontEnd(
-          pageMetaMiscellaneous.activityListMeta
+          pageMetaMiscellaneous.activityListMeta,
+          language,
+          defaultPageMeta
         ),
-        newsListMeta: getPageMetaForFrontEnd(pageMetaMiscellaneous.newsListMeta)
+        newsListMeta: getPageMetaForFrontEnd(
+          pageMetaMiscellaneous.newsListMeta,
+          language,
+          defaultPageMeta
+        )
       };
 
       res.json(pageMetaMiscellaneousForFrontEnd);

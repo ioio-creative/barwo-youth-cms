@@ -1,7 +1,7 @@
 import React, { useReducer, useCallback } from 'react';
 import axios from 'axios';
 import PageMetaMiscellaneousContext from './pageMetaMiscellaneousContext';
-import pageMetaMiscellaneousReducer from './pageMetaMiscellaneous';
+import pageMetaMiscellaneousReducer from './pageMetaMiscellaneousReducer';
 import handleServerError from '../handleServerError';
 import {
   GET_PAGE_META_MISCELLANEOUS,

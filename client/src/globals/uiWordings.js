@@ -17,6 +17,7 @@ export default {
   'Navbar.GlobalConstants': 'Global Constants',
   'Navbar.About': 'About Page',
   'Navbar.MiscellaneousInfo': 'Miscellaneous Info',
+  'Navbar.PageMetaMiscellaneous': 'Page Meta Miscellaneous',
   'Navbar.TicketingDefaultEdit': 'Ticketing Default',
   'Navbar.Contacts': 'Contacts',
   'Navbar.Newsletters': 'Newsletters',
@@ -705,9 +706,6 @@ export default {
   'PageMetaMiscellaneous.EventListMetaLabel': 'Event List Meta',
   'PageMetaMiscellaneous.ActivityListMetaLabel': 'Activity List Meta',
   'PageMetaMiscellaneous.NewsListMetaLabel': 'News List Meta',
-
-  'PageMetaMiscellaneous.LastModifyDTLabel': 'Last Modify DT',
-  'PageMetaMiscellaneous.LastModifyUserLabel': 'Last Modify User',
 
   'PageMetaMiscellaneous.LastModifyDTLabel': 'Last Modify DT',
   'PageMetaMiscellaneous.LastModifyUserLabel': 'Last Modify User',

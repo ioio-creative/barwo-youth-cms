@@ -28,4 +28,11 @@ function PageMeta() {
   this.facebookAppId = '';
 }
 
+PageMeta.cleanPageMetaBeforeSubmit = pageMetaObj => {
+  return {
+    ...pageMetaObj,
+    ogImage: pageMetaObj.ogImage ? pageMetaObj.ogImage._id : null
+  };
+};
+
 export default PageMeta;

@@ -9,7 +9,7 @@ import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import SubmitButton from 'components/form/SubmitButton';
 import PageMetaEdit from 'components/pageMeta/PageMetaEdit';
-import PageMetaMiscellaneous from 'models/PageMetaMiscellaneous';
+import PageMetaMiscellaneous from 'models/pageMetaMiscellaneous';
 import PageMeta from 'models/pageMeta';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
@@ -184,22 +184,34 @@ const PageMetaMiscellaneousEdit = _ => {
       e.preventDefault();
 
       // add landingPageMeta
-      pageMetaMiscellaneous.landingPageMeta = landingPageMeta;
+      pageMetaMiscellaneous.landingPageMeta = PageMeta.cleanPageMetaBeforeSubmit(
+        landingPageMeta
+      );
 
       // add aboutMeta
-      pageMetaMiscellaneous.aboutMeta = aboutMeta;
+      pageMetaMiscellaneous.aboutMeta = PageMeta.cleanPageMetaBeforeSubmit(
+        aboutMeta
+      );
 
       // add artistListMeta
-      pageMetaMiscellaneous.artistListMeta = artistListMeta;
+      pageMetaMiscellaneous.artistListMeta = PageMeta.cleanPageMetaBeforeSubmit(
+        artistListMeta
+      );
 
       // add eventListMeta
-      pageMetaMiscellaneous.eventListMeta = eventListMeta;
+      pageMetaMiscellaneous.eventListMeta = PageMeta.cleanPageMetaBeforeSubmit(
+        eventListMeta
+      );
 
       // add activityListMeta
-      pageMetaMiscellaneous.activityListMeta = activityListMeta;
+      pageMetaMiscellaneous.activityListMeta = PageMeta.cleanPageMetaBeforeSubmit(
+        activityListMeta
+      );
 
       // add newsListMeta
-      pageMetaMiscellaneous.newsListMeta = newsListMeta;
+      pageMetaMiscellaneous.newsListMeta = PageMeta.cleanPageMetaBeforeSubmit(
+        newsListMeta
+      );
 
       let isSuccess = validInput(pageMetaMiscellaneous);
       let returnedPageMetaMiscellaneous = null;
@@ -268,14 +280,21 @@ const PageMetaMiscellaneousEdit = _ => {
       >
         <PageMetaEdit
           pageMeta={landingPageMeta}
-          setPageMetaFunc={setLandingPageMeta}
+          setPageMetaFunc={setLandingPageMetaFunc}
+          title=''
+          isHideOptionalFields={false}
         />
       </AccordionRegion>
 
       <AccordionRegion
         title={uiWordings['PageMetaMiscellaneous.AboutMetaLabel']}
       >
-        <PageMetaEdit pageMeta={aboutMeta} setPageMetaFunc={setAboutMeta} />
+        <PageMetaEdit
+          pageMeta={aboutMeta}
+          setPageMetaFunc={setAboutMetaFunc}
+          title=''
+          isHideOptionalFields={true}
+        />
       </AccordionRegion>
 
       <AccordionRegion
@@ -283,7 +302,9 @@ const PageMetaMiscellaneousEdit = _ => {
       >
         <PageMetaEdit
           pageMeta={artistListMeta}
-          setPageMetaFunc={setArtistListMeta}
+          setPageMetaFunc={setArtistListMetaFunc}
+          title=''
+          isHideOptionalFields={true}
         />
       </AccordionRegion>
 
@@ -292,7 +313,9 @@ const PageMetaMiscellaneousEdit = _ => {
       >
         <PageMetaEdit
           pageMeta={eventListMeta}
-          setPageMetaFunc={setEventListMeta}
+          setPageMetaFunc={setEventListMetaFunc}
+          title=''
+          isHideOptionalFields={true}
         />
       </AccordionRegion>
 
@@ -301,7 +324,9 @@ const PageMetaMiscellaneousEdit = _ => {
       >
         <PageMetaEdit
           pageMeta={activityListMeta}
-          setPageMetaFunc={setActivityListMeta}
+          setPageMetaFunc={setActivityListMetaFunc}
+          title=''
+          isHideOptionalFields={true}
         />
       </AccordionRegion>
 
@@ -310,7 +335,9 @@ const PageMetaMiscellaneousEdit = _ => {
       >
         <PageMetaEdit
           pageMeta={newsListMeta}
-          setPageMetaFunc={setNewsListMeta}
+          setPageMetaFunc={setNewsListMetaFunc}
+          title=''
+          isHideOptionalFields={true}
         />
       </AccordionRegion>
 

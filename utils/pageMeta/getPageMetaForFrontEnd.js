@@ -1,6 +1,6 @@
 const { getEntityPropByLanguage } = require('../../globals/languages');
 
-module.exports = (pageMeta, language) => {
+module.exports = (pageMeta, language, defaultPageMeta = null) => {
   if (!pageMeta) {
     return {};
   }
@@ -17,6 +17,8 @@ module.exports = (pageMeta, language) => {
     // TODO:
     // ogImageWidth: 1200,
     // ogImageHeight: 630,
-    facebookAppId: pageMeta.facebookAppId
+    facebookAppId: defaultPageMeta
+      ? defaultPageMeta.facebookAppId
+      : pageMeta.facebookAppId
   };
 };

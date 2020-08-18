@@ -166,7 +166,7 @@ app.use(
   require('./routes/frontend/miscellaneousInfo/miscellaneousInfo')
 );
 app.use(
-  '/api/backend/pageMetaMiscellaneous',
+  '/api/frontend/pageMetaMiscellaneous',
   require('./routes/frontend/pageMetaMiscellaneous/pageMetaMiscellaneous')
 );
 app.use(

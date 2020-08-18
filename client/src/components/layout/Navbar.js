@@ -60,6 +60,9 @@ const Navbar = ({ className }) => {
   const isMiscellaneousInfoEdit = Boolean(
     useRouteMatch(routes.miscellaneousInfoEdit(false))
   );
+  const isPageMetaMiscellaneousEdit = Boolean(
+    useRouteMatch(routes.pageMetaMiscellaneousEdit(false))
+  );
 
   const isPhaseList = Boolean(useRouteMatch(routes.phaseList(false)));
   const isPhaseEdit = Boolean(useRouteMatch(routes.phaseEditById));
@@ -185,11 +188,18 @@ const Navbar = ({ className }) => {
         {uiWordings['Navbar.About']}
       </NavbarLink>
       <NavbarLink
-        className='w3-border-bottom'
+        //className='w3-border-bottom'
         to={routes.miscellaneousInfoEdit(true)}
         isSelected={isMiscellaneousInfoEdit}
       >
         {uiWordings['Navbar.MiscellaneousInfo']}
+      </NavbarLink>
+      <NavbarLink
+        className='w3-border-bottom'
+        to={routes.pageMetaMiscellaneousEdit(true)}
+        isSelected={isPageMetaMiscellaneousEdit}
+      >
+        {uiWordings['Navbar.PageMetaMiscellaneous']}
       </NavbarLink>
 
       <NavbarLink

@@ -12,7 +12,12 @@ const defaultState = emptyPageMeta;
 
 const mediumTypes = Medium.mediumTypes;
 
-const PageMetaEdit = ({ pageMeta, setPageMetaFunc }) => {
+const PageMetaEdit = ({
+  pageMeta,
+  setPageMetaFunc,
+  title,
+  isHideOptionalFields
+}) => {
   /* event handlers */
 
   const handleChange = useCallback(
@@ -71,7 +76,7 @@ const PageMetaEdit = ({ pageMeta, setPageMetaFunc }) => {
 
   return (
     <>
-      <h4>{uiWordings['PageMeta.Title']}</h4>
+      {title && <h4>{title}</h4>}
       <LabelInputTextPair
         name='title_tc'
         value={title_tc}
@@ -213,19 +218,23 @@ const PageMetaEdit = ({ pageMeta, setPageMetaFunc }) => {
         onChange={handleChange}
       />
 
-      <LabelInputTextPair
-        name='facebookAppId'
-        value={facebookAppId}
-        labelMessage={uiWordings['PageMeta.FacebookAppIdLabel']}
-        placeholder=''
-        onChange={handleChange}
-      />
+      {!isHideOptionalFields && (
+        <LabelInputTextPair
+          name='facebookAppId'
+          value={facebookAppId}
+          labelMessage={uiWordings['PageMeta.FacebookAppIdLabel']}
+          placeholder=''
+          onChange={handleChange}
+        />
+      )}
     </>
   );
 };
 
 PageMetaEdit.defaultProps = {
-  pageMeta: defaultState
+  pageMeta: defaultState,
+  title: uiWordings['PageMeta.Title'],
+  isHideOptionalFields: false
 };
 
 export default PageMetaEdit;

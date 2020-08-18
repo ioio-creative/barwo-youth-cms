@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import TitlebarContext from 'contexts/titlebar/titlebarContext';
-import PageMetaMiscellaneousState from 'contexts/pageMetaMiscellaneous/PageMetaMiscellaneous';
+import PageMetaMiscellaneousState from 'contexts/pageMetaMiscellaneous/PageMetaMiscellaneousState';
 import uiWordings from 'globals/uiWordings';
 
 const PageMetaMiscellaneousContainer = ({ children }) => {
