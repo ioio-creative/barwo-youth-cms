@@ -3,7 +3,7 @@ const router = express.Router();
 
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const getPageMetaForFrontEnd = require('../../../utils/pageMeta/getPageMetaForFrontEnd');
+const { getPageMetaForFrontEnd } = require('../../../models/PageMeta');
 const {
   PageMetaMiscellaneous,
   pageMetaMiscellaneousResponseTypes
@@ -44,6 +44,25 @@ const pageMetaMiscellaneousPopulationList = [
   }
 ];
 
+const getPageMetaMiscellaneousFromDb = async (
+  isResponseToClient = false,
+  res = null
+) => {
+  const pageMetaMiscellaneous = await PageMetaMiscellaneous.findOne({})
+    .select(pageMetaMiscellaneousSelect)
+    .populate(pageMetaMiscellaneousPopulationList);
+
+  if (isResponseToClient && res && !pageMetaMiscellaneous) {
+    return res.status(404).json({
+      errors: [
+        pageMetaMiscellaneousResponseTypes.PAGE_META_MISCELLANEOUS_NOT_EXISTS
+      ]
+    });
+  }
+
+  return pageMetaMiscellaneous;
+};
+
 /* end of utilities */
 
 // @route   GET api/frontend/pageMetaMiscellaneous/:lang/pageMetaMiscellaneous
@@ -56,17 +75,7 @@ router.get(
     try {
       const language = req.language;
 
-      const pageMetaMiscellaneous = await PageMetaMiscellaneous.findOne({})
-        .select(pageMetaMiscellaneousSelect)
-        .populate(pageMetaMiscellaneousPopulationList);
-
-      if (!pageMetaMiscellaneous) {
-        return res.status(404).json({
-          errors: [
-            pageMetaMiscellaneousResponseTypes.PAGE_META_MISCELLANEOUS_NOT_EXISTS
-          ]
-        });
-      }
+      const pageMetaMiscellaneous = getPageMetaMiscellaneousFromDb(true, res);
 
       const defaultPageMeta = pageMetaMiscellaneous.landingPageMeta;
 
@@ -109,4 +118,6 @@ router.get(
   }
 );
 
-module.exports = router;
+module.exports.router = router;
+
+module.exports.getPageMetaMiscellaneousFromDb = getPageMetaMiscellaneousFromDb;

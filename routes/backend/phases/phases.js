@@ -11,8 +11,11 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
-const getDerivedLabel = require('../../../utils/phases/getDerivedLabel');
-const { Phase, phaseResponseTypes } = require('../../../models/Phase');
+const {
+  Phase,
+  phaseResponseTypes,
+  getPhaseDerivedLabel
+} = require('../../../models/Phase');
 const { Event } = require('../../../models/Event');
 
 /* utilities */
@@ -164,7 +167,7 @@ router.post(
       const phase = new Phase({
         year,
         phaseNumber,
-        derivedLabel: getDerivedLabel(year, phaseNumber),
+        derivedLabel: getPhaseDerivedLabel(year, phaseNumber),
         events,
         themeColor,
         fromDate,
@@ -215,7 +218,7 @@ router.put(
     if (year) phaseFields.year = year;
     if (phaseNumber > 0) phaseFields.phaseNumber = phaseNumber;
     if (year && phaseNumber > 0) {
-      phaseFields.derivedLabel = getDerivedLabel(year, phaseNumber);
+      phaseFields.derivedLabel = getPhaseDerivedLabel(year, phaseNumber);
     }
     phaseFields.events = getArraySafe(events);
     phaseFields.themeColor = themeColor;

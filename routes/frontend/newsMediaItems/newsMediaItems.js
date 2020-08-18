@@ -8,10 +8,18 @@ const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const distinct = require('../../../utils/js/array/distinct');
 const {
+  getPageMetaForFrontEnd,
+  getMixedPageMetas
+} = require('../../../models/PageMeta');
+const {
   NewsMediaItem,
   newsMediaItemResponseTypes
 } = require('../../../models/NewsMediaItem');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
+const {
+  getPageMetaMiscellaneousFromDb
+} = require('../pageMetaMiscellaneous/pageMetaMiscellaneous');
 
 const newsMediaItemSelectForFindAll = {
   isEnabled: 0,
@@ -59,7 +67,9 @@ const newsMediaItemPopulationListForFindOne = [
 
 const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
   newsMediaItem,
-  language
+  language,
+  isRequirePageMeta,
+  defaultPageMeta
 ) => {
   return {
     label: newsMediaItem.label,
@@ -74,7 +84,10 @@ const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
         src: medium && medium.url
       };
     }),
-    videoLinks: getArraySafe(newsMediaItem.videoLinks)
+    videoLinks: getArraySafe(newsMediaItem.videoLinks),
+    pageMeta:
+      isRequirePageMeta &&
+      getPageMetaForFrontEnd(newsMediaItem.pageMeta, language, defaultPageMeta)
   };
 };
 
@@ -152,6 +165,19 @@ router.get(
     try {
       const language = req.language;
 
+      const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+        true,
+        res
+      );
+      if (!pageMetaMiscellaneous) {
+        return;
+      }
+
+      const defaultPageMeta = getMixedPageMetas(
+        pageMetaMiscellaneous.newsListMeta,
+        pageMetaMiscellaneous.landingPageMeta
+      );
+
       const newsMediaItem = await NewsMediaItem.findOne({
         label: req.params.label
       })
@@ -166,7 +192,9 @@ router.get(
 
       const newsMediaItemForFrontEnd = getNewsMediaItemForFrontEndFromDbNewsMediaItem(
         newsMediaItem,
-        language
+        language,
+        true,
+        defaultPageMeta
       );
 
       res.json(newsMediaItemForFrontEnd);

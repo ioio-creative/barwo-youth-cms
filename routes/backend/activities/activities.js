@@ -13,6 +13,7 @@ const {
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { Activity, activityResponseTypes } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -38,11 +39,12 @@ const activityPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  }
+  },
   // {
   //   path: 'downloadMedium',
   //   select: mediumSelect
   // }
+  pageMetaPopulate
 ];
 
 const activityPopulationListForFindOne = [...activityPopulationListForFindAll];
@@ -154,6 +156,7 @@ router.post(
       // downloadUrl_sc,
       // downloadUrl_en,
       // downloadMedium,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -182,6 +185,7 @@ router.post(
         // downloadUrl_sc,
         // downloadUrl_en,
         // downloadMedium,
+        pageMeta,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -228,6 +232,7 @@ router.put(
       // downloadUrl_sc,
       // downloadUrl_en,
       // downloadMedium,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -258,6 +263,7 @@ router.put(
     // activityFields.downloadUrl_sc = downloadUrl_sc;
     // activityFields.downloadUrl_en = downloadUrl_en;
     // activityFields.downloadMedium = downloadMedium;
+    activityFields.pageMeta = pageMeta;
     if (isEnabled !== undefined) activityFields.isEnabled = isEnabled;
     activityFields.lastModifyDT = new Date();
     activityFields.lastModifyUser = req.user._id;

@@ -15,6 +15,7 @@ const {
 } = require('../../../utils/js/array/isNonEmptyArray');
 const { Artist, artistResponseTypes } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -52,7 +53,8 @@ const artistPopulationListForFindAll = [
   {
     path: 'sound',
     select: mediumSelect
-  }
+  },
+  pageMetaPopulate
 ];
 
 const artistPopulationListForFindOne = [...artistPopulationListForFindAll];
@@ -205,6 +207,7 @@ router.post(
       withoutMaskImage,
       gallery,
       sound,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -230,6 +233,7 @@ router.post(
         withoutMaskImage,
         gallery: getArraySafe(gallery),
         sound,
+        pageMeta,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -266,6 +270,7 @@ router.put(
       withoutMaskImage,
       gallery,
       sound,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -293,6 +298,7 @@ router.put(
     artistFields.withoutMaskImage = withoutMaskImage;
     artistFields.gallery = getArraySafe(gallery);
     artistFields.sound = sound;
+    artistFields.pageMeta = pageMeta;
     if (isEnabled !== undefined) artistFields.isEnabled = isEnabled;
     artistFields.lastModifyDT = new Date();
     artistFields.lastModifyUser = req.user._id;

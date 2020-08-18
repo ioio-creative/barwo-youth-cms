@@ -59,3 +59,11 @@ module.exports.phaseResponseTypes = {
   PHASE_YEAR_NUMBER_COMBO_ALREADY_EXISTS:
     'PHASE_YEAR_NUMBER_COMBO_ALREADY_EXISTS'
 };
+
+module.exports.getPhaseDerivedLabel = (year, phaseNumber) => {
+  return (
+    year.toString().padStart(4, '0') +
+    '_' +
+    phaseNumber.toString().padStart(2, '0')
+  );
+};

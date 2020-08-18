@@ -9,11 +9,19 @@ const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivities');
 //const { mediumLinkTypes } = require('../../../types/mediumLink');
 const {
+  getPageMetaForFrontEnd,
+  getMixedPageMetas
+} = require('../../../models/PageMeta');
+const {
   Activity,
   activityTypesArray,
   activityResponseTypes
 } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
+const {
+  getPageMetaMiscellaneousFromDb
+} = require('../pageMetaMiscellaneous/pageMetaMiscellaneous');
 
 /* utilities */
 
@@ -34,16 +42,22 @@ const activityPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  }
+  },
   // {
   //   path: 'downloadMedium',
   //   select: mediumSelect
   // }
+  pageMetaPopulate
 ];
 
 const activityPopulationListForFindOne = [...activityPopulationListForFindAll];
 
-const getActivityForFrontEndFromDbActivity = (activity, language) => {
+const getActivityForFrontEndFromDbActivity = (
+  activity,
+  language,
+  isRequirePageMeta = false,
+  defaultPageMeta = {}
+) => {
   // let download = '';
   // switch (activity.downloadType) {
   //   case mediumLinkTypes.URL:
@@ -72,8 +86,11 @@ const getActivityForFrontEndFromDbActivity = (activity, language) => {
       return {
         src: medium && medium.url
       };
-    })
+    }),
     //download: download
+    pageMeta:
+      isRequirePageMeta &&
+      getPageMetaForFrontEnd(activity.pageMeta, language, defaultPageMeta)
   };
 };
 
@@ -128,6 +145,19 @@ router.get('/:lang/activities/:label', [languageHandling], async (req, res) => {
   try {
     const language = req.language;
 
+    const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+      true,
+      res
+    );
+    if (!pageMetaMiscellaneous) {
+      return;
+    }
+
+    const defaultPageMeta = getMixedPageMetas(
+      pageMetaMiscellaneous.activityListMeta,
+      pageMetaMiscellaneous.landingPageMeta
+    );
+
     const activity = await Activity.findOne({
       label: req.params.label
     })
@@ -142,7 +172,9 @@ router.get('/:lang/activities/:label', [languageHandling], async (req, res) => {
 
     const activityForFrontEnd = getActivityForFrontEndFromDbActivity(
       activity,
-      language
+      language,
+      true,
+      defaultPageMeta
     );
 
     res.json(activityForFrontEnd);

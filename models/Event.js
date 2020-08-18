@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const { PageMetaSchema } = require('./PageMeta');
+
 const eventTypes = {
   EVENT: 'EVENT',
   COMMUNITY_PERFORMANCE: 'COMMUNITY_PERFORMANCE'
@@ -201,10 +203,13 @@ const EventSchema = mongoose.Schema({
   },
   gallery: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
   /* end of media */
+  /* indication of relationships */
   phasesInvolved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'phase' }],
+  /* end of indication of relationships */
   themeColor: {
     type: String
   },
+  pageMeta: PageMetaSchema,
   isEnabled: {
     type: Boolean,
     default: true

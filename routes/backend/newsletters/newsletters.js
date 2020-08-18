@@ -15,6 +15,7 @@ const {
 } = require('../../../models/Newsletter');
 const { SendHistory } = require('../../../models/SendHistory');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -30,7 +31,8 @@ const newsletterPopulationListForFindAll = [
   {
     path: 'featuredImage',
     select: mediumSelect
-  }
+  },
+  pageMetaPopulate
 ];
 
 const newsletterPopulationListForFindOne = [
@@ -128,6 +130,7 @@ router.post(
       message_sc,
       message_en,
       featuredImage,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -141,6 +144,7 @@ router.post(
         message_sc,
         message_en,
         featuredImage,
+        pageMeta,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -172,6 +176,7 @@ router.put(
       message_sc,
       message_en,
       featuredImage,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -187,6 +192,7 @@ router.put(
     if (message_sc) newsletterFields.message_sc = message_sc;
     if (message_en) newsletterFields.message_en = message_en;
     newsletterFields.featuredImage = featuredImage;
+    newsletterFields.pageMeta = pageMeta;
     if (isEnabled !== undefined) newsletterFields.isEnabled = isEnabled;
     newsletterFields.lastModifyDT = new Date();
     newsletterFields.lastModifyUser = req.user._id;

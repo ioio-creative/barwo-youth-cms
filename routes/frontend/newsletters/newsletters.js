@@ -7,10 +7,18 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const {
+  getPageMetaForFrontEnd,
+  getMixedPageMetas
+} = require('../../../models/PageMeta');
+const {
   Newsletter,
   newsletterResponseTypes
 } = require('../../../models/Newsletter');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
+const {
+  getPageMetaMiscellaneousFromDb
+} = require('../pageMetaMiscellaneous/pageMetaMiscellaneous');
 
 const newsletterSelectForFindAll = {
   isEnabled: 0,
@@ -34,21 +42,30 @@ const newsletterPopulationListForFindAll = [
   {
     path: 'featuredImage',
     select: mediumSelect
-  }
+  },
+  pageMetaPopulate
 ];
 
 const newsletterPopulationListForFindOne = [
   ...newsletterPopulationListForFindAll
 ];
 
-const getNewsletterForFrontEndFromDbNewsletter = (newsletter, language) => {
+const getNewsletterForFrontEndFromDbNewsletter = (
+  newsletter,
+  language,
+  isRequirePageMeta,
+  defaultPageMeta
+) => {
   return {
     label: newsletter.label,
     title: getEntityPropByLanguage(newsletter, 'title', language),
     message: getEntityPropByLanguage(newsletter, 'message', language),
     featuredImage: {
       src: newsletter.featuredImage && newsletter.featuredImage.url
-    }
+    },
+    pageMeta:
+      isRequirePageMeta &&
+      getPageMetaForFrontEnd(newsletter.pageMeta, language, defaultPageMeta)
   };
 };
 
@@ -103,6 +120,19 @@ router.get(
     try {
       const language = req.language;
 
+      const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+        true,
+        res
+      );
+      if (!pageMetaMiscellaneous) {
+        return;
+      }
+
+      const defaultPageMeta = getMixedPageMetas(
+        pageMetaMiscellaneous.newsListMeta,
+        pageMetaMiscellaneous.landingPageMeta
+      );
+
       const newsletter = await Newsletter.findOne({
         label: req.params.label
       })
@@ -117,7 +147,9 @@ router.get(
 
       const newsletterForFrontEnd = getNewsletterForFrontEndFromDbNewsletter(
         newsletter,
-        language
+        language,
+        true,
+        defaultPageMeta
       );
 
       res.json(newsletterForFrontEnd);

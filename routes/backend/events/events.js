@@ -26,6 +26,7 @@ const {
 } = require('../../../models/Event');
 const { Artist } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -68,7 +69,8 @@ const eventPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  }
+  },
+  pageMetaPopulate
 ];
 
 const eventPopulationListForFindOne = [...eventPopulationListForFindAll];
@@ -478,6 +480,7 @@ router.post(
       // phones,
       // ticketUrl,
       themeColor,
+      pageMeta,
       featuredImage,
       gallery
     } = req.body;
@@ -532,6 +535,7 @@ router.post(
         // phones,
         // ticketUrl,
         themeColor,
+        pageMeta,
         featuredImage,
         gallery: getArraySafe(gallery)
       });
@@ -596,6 +600,7 @@ router.put(
       // phones,
       // ticketUrl,
       themeColor,
+      pageMeta,
       featuredImage,
       gallery
     } = req.body;
@@ -647,6 +652,7 @@ router.put(
     // eventFields.phones = getArraySafe(phones);
     // eventFields.ticketUrl = ticketUrl;
     eventFields.themeColor = themeColor;
+    eventFields.pageMeta = pageMeta;
     eventFields.featuredImage = featuredImage;
     eventFields.gallery = getArraySafe(gallery);
     eventFields.lastModifyDT = new Date();

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const { PageMetaSchema } = require('./PageMeta');
+
 const NewsMediaItemSchema = mongoose.Schema({
   label: {
     type: String,
@@ -43,6 +45,7 @@ const NewsMediaItemSchema = mongoose.Schema({
       require: true
     }
   ],
+  pageMeta: PageMetaSchema,
   isEnabled: {
     type: Boolean,
     default: true

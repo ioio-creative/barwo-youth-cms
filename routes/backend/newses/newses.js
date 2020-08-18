@@ -12,6 +12,7 @@ const {
 } = require('../../../utils/errorHandling');
 const { News, newsResponseTypes } = require('../../../models/News');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -27,11 +28,12 @@ const newsPopulationListForFindAll = [
   {
     path: 'featuredImage',
     select: mediumSelect
-  }
+  },
   // {
   //   path: 'downloadMedium',
   //   select: mediumSelect
   // }
+  pageMetaPopulate
 ];
 
 const newsPopulationListForFindOne = [...newsPopulationListForFindAll];
@@ -136,6 +138,7 @@ router.post(
       // downloadUrl_sc,
       // downloadUrl_en,
       // downloadMedium,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -158,6 +161,7 @@ router.post(
         // downloadUrl_sc,
         // downloadUrl_en,
         // downloadMedium,
+        pageMeta,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -198,6 +202,7 @@ router.put(
       // downloadUrl_sc,
       // downloadUrl_en,
       // downloadMedium,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -222,6 +227,7 @@ router.put(
     // newsFields.downloadUrl_sc = downloadUrl_sc;
     // newsFields.downloadUrl_en = downloadUrl_en;
     // newsFields.downloadMedium = downloadMedium;
+    newsFields.pageMeta = pageMeta;
     if (isEnabled !== undefined) newsFields.isEnabled = isEnabled;
     newsFields.lastModifyDT = new Date();
     newsFields.lastModifyUser = req.user._id;

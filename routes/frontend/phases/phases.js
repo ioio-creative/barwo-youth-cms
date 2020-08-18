@@ -12,8 +12,7 @@ const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const distinct = require('../../../utils/js/array/distinct');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const mapAndSortPhases = require('../../../utils/phases/mapAndSortPhases');
-const { Phase } = require('../../../models/Phase');
-const getDerivedLabel = require('../../../utils/phases/getDerivedLabel');
+const { Phase, getPhaseDerivedLabel } = require('../../../models/Phase');
 
 /* utilities */
 
@@ -263,7 +262,7 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
       if (phasesToReturn.length === 1) {
         const nextPhase = await Phase.findOne({
           ...phaseFindForFindAll,
-          derivedLabel: getDerivedLabel(closestYear + 1, 1)
+          derivedLabel: getPhaseDerivedLabel(closestYear + 1, 1)
         })
           .select(phaseSelectForFindAll)
           .populate(phasePopulationListForFindAll);

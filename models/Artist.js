@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const { PageMetaSchema } = require('./PageMeta');
+
 const ArtistQnaSchema = mongoose.Schema({
   question_tc: {
     type: String,
@@ -87,12 +89,15 @@ const ArtistSchema = mongoose.Schema({
     ref: 'medium'
   },
   /* end of media */
+  /* indication of relationships */
   eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   isFeaturedInLandingPage: {
     type: Boolean,
     default: false
   },
+  /* end of indication of relationships */
+  pageMeta: PageMetaSchema,
   isEnabled: {
     type: Boolean,
     default: true

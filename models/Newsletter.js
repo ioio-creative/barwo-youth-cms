@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const { PageMetaSchema } = require('./PageMeta');
+
 const NewsletterSchema = mongoose.Schema({
   label: {
     type: String,
@@ -40,6 +42,7 @@ const NewsletterSchema = mongoose.Schema({
     ref: 'medium'
   },
   /* end of media */
+  pageMeta: PageMetaSchema,
   isEnabled: {
     type: Boolean,
     default: true

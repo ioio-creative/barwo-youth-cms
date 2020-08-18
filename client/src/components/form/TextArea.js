@@ -8,7 +8,7 @@ const defaultStyle = {
   padding: '0.6rem 1rem',
   fontWeight: '400',
   fontSize: '1.3rem',
-  cursor: 'pointer',
+  //cursor: 'pointer',
   outline: '0',
   border: '1px solid #E3E9F3',
   borderRadius: '2px',

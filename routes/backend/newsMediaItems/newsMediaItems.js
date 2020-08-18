@@ -15,6 +15,7 @@ const {
   newsMediaItemResponseTypes
 } = require('../../../models/NewsMediaItem');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -36,7 +37,8 @@ const newsMediaItemPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  }
+  },
+  pageMetaPopulate
 ];
 
 const newsMediaItemPopulationListForFindOne = [
@@ -175,6 +177,7 @@ router.post(
       thumbnail,
       gallery,
       videoLinks,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -197,6 +200,7 @@ router.post(
         thumbnail,
         gallery: getArraySafe(gallery),
         videoLinks: getArraySafe(videoLinks),
+        pageMeta,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -231,6 +235,7 @@ router.put(
       thumbnail,
       gallery,
       videoLinks,
+      pageMeta,
       isEnabled
     } = req.body;
 
@@ -255,6 +260,7 @@ router.put(
     newsMediaItemFields.thumbnail = thumbnail;
     newsMediaItemFields.gallery = getArraySafe(gallery);
     newsMediaItemFields.videoLinks = getArraySafe(videoLinks);
+    newsMediaItemFields.pageMeta = pageMeta;
     if (isEnabled !== undefined) newsMediaItemFields.isEnabled = isEnabled;
     newsMediaItemFields.lastModifyDT = new Date();
     newsMediaItemFields.lastModifyUser = req.user._id;

@@ -11,6 +11,10 @@ const {
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const {
+  getPageMetaForFrontEnd,
+  getMixedPageMetas
+} = require('../../../models/PageMeta');
+const {
   Event,
   eventResponseTypes,
   defaultEventType,
@@ -19,6 +23,10 @@ const {
 } = require('../../../models/Event');
 const { Phase, phaseResponseTypes } = require('../../../models/Phase');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
+const {
+  getPageMetaMiscellaneousFromDb
+} = require('../pageMetaMiscellaneous/pageMetaMiscellaneous');
 
 /* utilities */
 
@@ -83,7 +91,8 @@ const eventPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  }
+  },
+  pageMetaPopulate
 ];
 
 const eventPopulationListForFindOne = [...eventPopulationListForFindAll];
@@ -142,7 +151,12 @@ const addThemeColorDefaultToEvents = events => {
   getArraySafe(events).forEach(addThemeColorDefaultToEvent);
 };
 
-const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
+const getEventForFrontEndFromDbEvent = (
+  dbEvent,
+  language,
+  isRequirePageMeta = false,
+  defaultPageMeta = {}
+) => {
   const event = dbEvent;
 
   let firstShowDate = null;
@@ -231,7 +245,10 @@ const getEventForFrontEndFromDbEvent = (dbEvent, language) => {
                 )
               }
       };
-    })
+    }),
+    pageMeta:
+      isRequirePageMeta &&
+      getPageMetaForFrontEnd(event.pageMeta, language, defaultPageMeta)
   };
 };
 
@@ -412,6 +429,19 @@ router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
   try {
     const language = req.language;
 
+    const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+      true,
+      res
+    );
+    if (!pageMetaMiscellaneous) {
+      return;
+    }
+
+    const defaultPageMeta = getMixedPageMetas(
+      pageMetaMiscellaneous.eventListMeta,
+      pageMetaMiscellaneous.landingPageMeta
+    );
+
     const event = await Event.findOne({
       label: req.params.label
     })
@@ -424,7 +454,12 @@ router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
         .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
     }
 
-    const eventForFrontEnd = getEventForFrontEndFromDbEvent(event, language);
+    const eventForFrontEnd = getEventForFrontEndFromDbEvent(
+      event,
+      language,
+      true,
+      defaultPageMeta
+    );
 
     /* finding related events, i.e. events in the same phase */
 

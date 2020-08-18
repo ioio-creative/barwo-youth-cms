@@ -12,6 +12,7 @@ const {
 const { Artist } = require('../../../models/Artist');
 const { Activity } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -42,10 +43,7 @@ const landingPopulationList = [
     path: 'featuredActivities',
     select: 'label'
   },
-  {
-    path: 'pageMeta.ogImage',
-    select: mediumSelect
-  }
+  pageMetaPopulate
 ];
 
 const landingPageFeaturedArtistsValidation = featuredArtists => {

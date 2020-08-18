@@ -168,6 +168,7 @@ app.use(
 app.use(
   '/api/frontend/pageMetaMiscellaneous',
   require('./routes/frontend/pageMetaMiscellaneous/pageMetaMiscellaneous')
+    .router
 );
 app.use(
   '/api/frontend/contacts',

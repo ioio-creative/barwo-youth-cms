@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
+const { PageMetaSchema } = require('./PageMeta');
+
 const ActivitySchema = mongoose.Schema({
   label: {
     type: String,
@@ -80,10 +82,13 @@ const ActivitySchema = mongoose.Schema({
   //   ref: 'medium'
   // },
   /* end of media */
+  /* indication of relationships */
   isFeaturedInLandingPage: {
     type: Boolean,
     default: false
   },
+  /* end of indication of relationships */
+  pageMeta: PageMetaSchema,
   isEnabled: {
     type: Boolean,
     default: true

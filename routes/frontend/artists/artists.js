@@ -8,6 +8,10 @@ const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const {
+  getPageMetaForFrontEnd,
+  getMixedPageMetas
+} = require('../../../models/PageMeta');
+const {
   Artist,
   artistRoles,
   artDirectorTypes,
@@ -15,6 +19,10 @@ const {
   isArtDirector
 } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
+const pageMetaPopulate = require('../common/pageMetaPopulate');
+const {
+  getPageMetaMiscellaneousFromDb
+} = require('../pageMetaMiscellaneous/pageMetaMiscellaneous');
 
 /* utilities */
 
@@ -107,12 +115,18 @@ const artistPopulationListForFindAll = [
   {
     path: 'eventsPerformed',
     ...relatedEventsSelectAndPopulationList
-  }
+  },
+  pageMetaPopulate
 ];
 
 const artistPopulationListForFindOne = [...artistPopulationListForFindAll];
 
-const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
+const getArtistForFrontEndFromDbArtist = (
+  dbArtist,
+  language,
+  isRequirePageMeta = false,
+  defaultPageMeta = {}
+) => {
   const artist = dbArtist;
 
   const isDirector = isArtDirector(artist);
@@ -252,7 +266,10 @@ const getArtistForFrontEndFromDbArtist = (dbArtist, language) => {
       answer: getEntityPropByLanguage(qna, 'answer', language)
     })),
     relatedEvents: sortedEvents,
-    relatedArtists: relatedArtists
+    relatedArtists: relatedArtists,
+    pageMeta:
+      isRequirePageMeta &&
+      getPageMetaForFrontEnd(artist.pageMeta, language, defaultPageMeta)
   };
 };
 
@@ -324,6 +341,19 @@ router.get('/:lang/artists/:label', [languageHandling], async (req, res) => {
   try {
     const language = req.language;
 
+    const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+      true,
+      res
+    );
+    if (!pageMetaMiscellaneous) {
+      return;
+    }
+
+    const defaultPageMeta = getMixedPageMetas(
+      pageMetaMiscellaneous.artistListMeta,
+      pageMetaMiscellaneous.landingPageMeta
+    );
+
     const artist = await Artist.findOne({
       label: req.params.label
     })
@@ -338,7 +368,9 @@ router.get('/:lang/artists/:label', [languageHandling], async (req, res) => {
 
     const artistForFrontEnd = getArtistForFrontEndFromDbArtist(
       artist,
-      language
+      language,
+      true,
+      defaultPageMeta
     );
 
     res.json(artistForFrontEnd);
