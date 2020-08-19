@@ -112,11 +112,11 @@ const ActivityEdit = _ => {
         //   url_en: fetchedActivity.downloadUrl_en,
         //   medium: fetchedActivity.downloadMedium
         // });
+        if (fetchedActivity.pageMeta) {
+          setPageMeta(fetchedActivity.pageMeta);
+        }
       }
       setIsAddMode(!fetchedActivity);
-      if (fetchedActivity.pageMeta) {
-        setPageMeta(fetchedActivity.pageMeta);
-      }
     },
     [fetchedActivity]
   );
