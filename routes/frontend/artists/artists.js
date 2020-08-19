@@ -4,7 +4,11 @@ const router = express.Router();
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
-const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const {
+  isNonEmptyArray,
+  getArraySafe
+} = require('../../../utils/js/array/isNonEmptyArray');
+const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const {
@@ -181,6 +185,14 @@ const getArtistForFrontEndFromDbArtist = (
       );
     }
 
+    let firstShowDate = null;
+    if (isNonEmptyArray(event.shows)) {
+      const firstShow = event.shows[0];
+      firstShowDate = firstShow.date
+        ? formatDateStringForFrontEnd(firstShow.date)
+        : null;
+    }
+
     return {
       id: event._id,
       label: event.label,
@@ -227,7 +239,8 @@ const getArtistForFrontEndFromDbArtist = (
         }
       }),
       artistRole: artistRoleInEvent,
-      shows: getArraySafe(event.shows)
+      fromDate: firstShowDate
+      //shows: getArraySafe(event.shows)
     };
   };
 
