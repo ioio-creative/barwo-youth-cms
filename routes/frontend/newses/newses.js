@@ -3,9 +3,11 @@ const router = express.Router();
 
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
+const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 //const { mediumLinkTypes } = require('../../../types/mediumLink');
 const {
   getPageMetaForFrontEnd,
@@ -67,9 +69,10 @@ const getNewsForFrontEndFromDbNews = (
   //     download = news.downloadMedium && news.downloadMedium.url;
   //     break;
   // }
+
   return {
     id: news._id,
-    label: news.label,
+    label: cleanLabelForSendingToFrontEnd(news.label),
     name: getEntityPropByLanguage(news, 'name', language),
     description: getEntityPropByLanguage(news, 'desc', language),
     featuredImage: {
@@ -127,47 +130,52 @@ router.get('/:lang/newses', [languageHandling], async (req, res) => {
 // @route   GET api/frontend/newses/:lang/newses/:label
 // @desc    Get news by label
 // @access  Public
-router.get('/:lang/newses/:label', [languageHandling], async (req, res) => {
-  try {
-    const language = req.language;
+router.get(
+  '/:lang/newses/:label',
+  [languageHandling, frontEndDetailPageApiLabelHandling],
+  async (req, res) => {
+    try {
+      const label = req.detailItemLabel;
+      const language = req.language;
 
-    const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
-      true,
-      res
-    );
-    if (!pageMetaMiscellaneous) {
-      return;
+      const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+        true,
+        res
+      );
+      if (!pageMetaMiscellaneous) {
+        return;
+      }
+
+      const defaultPageMeta = getMixedPageMetas(
+        pageMetaMiscellaneous.newsListMeta,
+        pageMetaMiscellaneous.landingPageMeta
+      );
+
+      const news = await News.findOne({
+        label: label
+      })
+        .select(newsSelectForFindOne)
+        .populate(newsPopulationListForFindOne);
+
+      if (!news) {
+        return res
+          .status(404)
+          .json({ errors: [newsResponseTypes.NEWS_NOT_EXISTS] });
+      }
+
+      const newsForFrontEnd = getNewsForFrontEndFromDbNews(
+        news,
+        language,
+        true,
+        defaultPageMeta
+      );
+
+      res.json(newsForFrontEnd);
+    } catch (err) {
+      generalErrorHandle(err, res);
     }
-
-    const defaultPageMeta = getMixedPageMetas(
-      pageMetaMiscellaneous.newsListMeta,
-      pageMetaMiscellaneous.landingPageMeta
-    );
-
-    const news = await News.findOne({
-      label: req.params.label
-    })
-      .select(newsSelectForFindOne)
-      .populate(newsPopulationListForFindOne);
-
-    if (!news) {
-      return res
-        .status(404)
-        .json({ errors: [newsResponseTypes.NEWS_NOT_EXISTS] });
-    }
-
-    const newsForFrontEnd = getNewsForFrontEndFromDbNews(
-      news,
-      language,
-      true,
-      defaultPageMeta
-    );
-
-    res.json(newsForFrontEnd);
-  } catch (err) {
-    generalErrorHandle(err, res);
   }
-});
+);
 
 module.exports.router = router;
 

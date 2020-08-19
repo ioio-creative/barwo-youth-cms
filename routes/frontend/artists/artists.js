@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
+const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const {
   isNonEmptyArray,
@@ -11,6 +12,7 @@ const {
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const {
   getPageMetaForFrontEnd,
   getMixedPageMetas
@@ -195,12 +197,12 @@ const getArtistForFrontEndFromDbArtist = (
 
     return {
       id: event._id,
-      label: event.label,
+      label: cleanLabelForSendingToFrontEnd(event.label),
       name: getEntityPropByLanguage(event, 'name', language),
       // artDirectors: getArraySafe(event.artDirectors).map(artDirector => {
       //   return {
       //     id: artDirector._id,
-      //     label: artDirector.label,
+      //     label: cleanLabelForSendingToFrontEnd(artDirector.label),
       //     name: getEntityPropByLanguage(artDirector, 'name', language)
       //   };
       // }),
@@ -210,7 +212,7 @@ const getArtistForFrontEndFromDbArtist = (
           const artist = artistWithRole.artist;
           return {
             id: artist._id,
-            label: artist.label,
+            label: cleanLabelForSendingToFrontEnd(artist.label),
             name: getEntityPropByLanguage(artist, 'name', language),
             featuredImage: {
               src: artist.featuredImage && artist.featuredImage.url
@@ -257,7 +259,7 @@ const getArtistForFrontEndFromDbArtist = (
 
   return {
     id: artist._id,
-    label: artist.label,
+    label: cleanLabelForSendingToFrontEnd(artist.label),
     name: getEntityPropByLanguage(artist, 'name', language),
     gender: gender,
     post: post,
@@ -350,46 +352,51 @@ router.get('/:lang/artDirectors', [languageHandling], async (req, res) => {
 // @route   GET api/frontend/artists/:lang/artists/:label
 // @desc    Get artist by label
 // @access  Public
-router.get('/:lang/artists/:label', [languageHandling], async (req, res) => {
-  try {
-    const language = req.language;
+router.get(
+  '/:lang/artists/:label',
+  [languageHandling, frontEndDetailPageApiLabelHandling],
+  async (req, res) => {
+    try {
+      const label = req.detailItemLabel;
+      const language = req.language;
 
-    const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
-      true,
-      res
-    );
-    if (!pageMetaMiscellaneous) {
-      return;
+      const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+        true,
+        res
+      );
+      if (!pageMetaMiscellaneous) {
+        return;
+      }
+
+      const defaultPageMeta = getMixedPageMetas(
+        pageMetaMiscellaneous.artistListMeta,
+        pageMetaMiscellaneous.landingPageMeta
+      );
+
+      const artist = await Artist.findOne({
+        label: label
+      })
+        .select(artistSelectForFindOne)
+        .populate(artistPopulationListForFindOne);
+
+      if (!artist) {
+        return res
+          .status(404)
+          .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
+      }
+
+      const artistForFrontEnd = getArtistForFrontEndFromDbArtist(
+        artist,
+        language,
+        true,
+        defaultPageMeta
+      );
+
+      res.json(artistForFrontEnd);
+    } catch (err) {
+      generalErrorHandle(err, res);
     }
-
-    const defaultPageMeta = getMixedPageMetas(
-      pageMetaMiscellaneous.artistListMeta,
-      pageMetaMiscellaneous.landingPageMeta
-    );
-
-    const artist = await Artist.findOne({
-      label: req.params.label
-    })
-      .select(artistSelectForFindOne)
-      .populate(artistPopulationListForFindOne);
-
-    if (!artist) {
-      return res
-        .status(404)
-        .json({ errors: [artistResponseTypes.ARTIST_NOT_EXISTS] });
-    }
-
-    const artistForFrontEnd = getArtistForFrontEndFromDbArtist(
-      artist,
-      language,
-      true,
-      defaultPageMeta
-    );
-
-    res.json(artistForFrontEnd);
-  } catch (err) {
-    generalErrorHandle(err, res);
   }
-});
+);
 
 module.exports = router;

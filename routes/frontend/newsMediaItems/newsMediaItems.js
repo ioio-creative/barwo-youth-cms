@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
+const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
@@ -58,7 +59,8 @@ const newsMediaItemPopulationListForFindAll = [
   {
     path: 'gallery',
     select: mediumSelect
-  }
+  },
+  pageMetaPopulate
 ];
 
 const newsMediaItemPopulationListForFindOne = [
@@ -72,7 +74,7 @@ const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
   defaultPageMeta
 ) => {
   return {
-    label: newsMediaItem.label,
+    label: cleanLabelForSendingToFrontEnd(newsMediaItem.label),
     name: getEntityPropByLanguage(newsMediaItem, 'name', language),
     fromDate: formatDateStringForFrontEnd(newsMediaItem.fromDate),
     description: getEntityPropByLanguage(newsMediaItem, 'desc', language),
@@ -160,9 +162,11 @@ router.get('/:lang/newsMediaItems', [languageHandling], async (req, res) => {
 // @access  Public
 router.get(
   '/:lang/newsMediaItems/:label',
-  [languageHandling],
+  [languageHandling, frontEndDetailPageApiLabelHandling],
   async (req, res) => {
     try {
+      const label = req.detailItemLabel;
+
       const language = req.language;
 
       const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
@@ -179,7 +183,7 @@ router.get(
       );
 
       const newsMediaItem = await NewsMediaItem.findOne({
-        label: req.params.label
+        label: label
       })
         .select(newsMediaItemSelectForFindOne)
         .populate(newsMediaItemPopulationListForFindOne);

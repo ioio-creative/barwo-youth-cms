@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
+const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const {
   isNonEmptyArray,
@@ -10,6 +11,7 @@ const {
 } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const {
   getPageMetaForFrontEnd,
   getMixedPageMetas
@@ -173,13 +175,13 @@ const getEventForFrontEndFromDbEvent = (
 
   return {
     id: event._id,
-    label: event.label,
+    label: cleanLabelForSendingToFrontEnd(event.label),
     name: getEntityPropByLanguage(event, 'name', language),
     type: event.type,
     themeColor: event.themeColor,
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
       id: artDirector._id,
-      label: artDirector.label,
+      label: cleanLabelForSendingToFrontEnd(artDirector.label),
       name: getEntityPropByLanguage(artDirector, 'name', language),
       featuredImage: {
         src: artDirector.featuredImage && artDirector.featuredImage.url
@@ -219,7 +221,7 @@ const getEventForFrontEndFromDbEvent = (
           artistWithRole.isGuestArtist !== true
             ? {
                 id: artist._id,
-                label: artist.label,
+                label: cleanLabelForSendingToFrontEnd(artist.label),
                 name: getEntityPropByLanguage(artist, 'name', language),
                 featuredImage: {
                   src: artist.featuredImage && artist.featuredImage.url
@@ -425,112 +427,118 @@ router.get('/:lang/archive', [languageHandling], async (req, res) => {
 // @route   GET api/frontend/events/:lang/events/:label
 // @desc    Get event by label
 // @access  Public
-router.get('/:lang/events/:label', [languageHandling], async (req, res) => {
-  try {
-    const language = req.language;
+router.get(
+  '/:lang/events/:label',
+  [languageHandling, frontEndDetailPageApiLabelHandling],
+  async (req, res) => {
+    try {
+      const label = req.detailItemLabel;
+      const language = req.language;
 
-    const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
-      true,
-      res
-    );
-    if (!pageMetaMiscellaneous) {
-      return;
-    }
-
-    const defaultPageMeta = getMixedPageMetas(
-      pageMetaMiscellaneous.eventListMeta,
-      pageMetaMiscellaneous.landingPageMeta
-    );
-
-    const event = await Event.findOne({
-      label: req.params.label
-    })
-      .select(eventSelectForFindOne)
-      .populate(eventPopulationListForFindOne);
-
-    if (!event) {
-      return res
-        .status(404)
-        .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
-    }
-
-    const eventForFrontEnd = getEventForFrontEndFromDbEvent(
-      event,
-      language,
-      true,
-      defaultPageMeta
-    );
-
-    /* finding related events, i.e. events in the same phase */
-
-    if (event.type === eventTypes.EVENT) {
-      const relatedEvents = [];
-
-      for (const phaseId of getArraySafe(event.phasesInvolved)) {
-        const phase = await Phase.findById(phaseId)
-          .select({
-            events: 1
-          })
-          .populate(eventPopulationListForRelatedEvents);
-
-        if (!phase) {
-          return res
-            .status(404)
-            .json({ errors: [phaseResponseTypes.PHASE_NOT_EXISTS] });
-        }
-
-        for (const relatedEvent of getArraySafe(phase.events)) {
-          if (relatedEvent.label === req.params.label) {
-            continue;
-          }
-
-          const relatedEventForFrontEnd = {
-            id: relatedEvent._id,
-            label: relatedEvent.label,
-            name: getEntityPropByLanguage(relatedEvent, 'name', language),
-            artDirectors: getArraySafe(relatedEvent.artDirectors).map(
-              artDirector => ({
-                id: artDirector._id,
-                label: artDirector.label,
-                name: getEntityPropByLanguage(artDirector, 'name', language)
-              })
-            )
-          };
-
-          if (isNonEmptyArray(relatedEvent.shows)) {
-            const firstShow = relatedEvent.shows[0];
-            const lastShow = relatedEvent.shows[relatedEvent.shows.length - 1];
-            relatedEventForFrontEnd.fromDate = firstShow.date
-              ? formatDateStringForFrontEnd(firstShow.date)
-              : null;
-            relatedEventForFrontEnd.toDate = lastShow.date
-              ? formatDateStringForFrontEnd(lastShow.date)
-              : null;
-          } else {
-            relatedEventForFrontEnd.fromDate = null;
-            relatedEventForFrontEnd.toDate = null;
-          }
-
-          relatedEvents.push(relatedEventForFrontEnd);
-        }
-
-        if (relatedEvents.length > 0) {
-          // break phase loop
-          break;
-        }
+      const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+        true,
+        res
+      );
+      if (!pageMetaMiscellaneous) {
+        return;
       }
 
-      eventForFrontEnd.relatedEvents = relatedEvents;
+      const defaultPageMeta = getMixedPageMetas(
+        pageMetaMiscellaneous.eventListMeta,
+        pageMetaMiscellaneous.landingPageMeta
+      );
+
+      const event = await Event.findOne({
+        label: label
+      })
+        .select(eventSelectForFindOne)
+        .populate(eventPopulationListForFindOne);
+
+      if (!event) {
+        return res
+          .status(404)
+          .json({ errors: [eventResponseTypes.EVENT_NOT_EXISTS] });
+      }
+
+      const eventForFrontEnd = getEventForFrontEndFromDbEvent(
+        event,
+        language,
+        true,
+        defaultPageMeta
+      );
+
+      /* finding related events, i.e. events in the same phase */
+
+      if (event.type === eventTypes.EVENT) {
+        const relatedEvents = [];
+
+        for (const phaseId of getArraySafe(event.phasesInvolved)) {
+          const phase = await Phase.findById(phaseId)
+            .select({
+              events: 1
+            })
+            .populate(eventPopulationListForRelatedEvents);
+
+          if (!phase) {
+            return res
+              .status(404)
+              .json({ errors: [phaseResponseTypes.PHASE_NOT_EXISTS] });
+          }
+
+          for (const relatedEvent of getArraySafe(phase.events)) {
+            if (relatedEvent.label === label) {
+              continue;
+            }
+
+            const relatedEventForFrontEnd = {
+              id: relatedEvent._id,
+              label: cleanLabelForSendingToFrontEnd(relatedEvent.label),
+              name: getEntityPropByLanguage(relatedEvent, 'name', language),
+              artDirectors: getArraySafe(relatedEvent.artDirectors).map(
+                artDirector => ({
+                  id: artDirector._id,
+                  label: cleanLabelForSendingToFrontEnd(artDirector.label),
+                  name: getEntityPropByLanguage(artDirector, 'name', language)
+                })
+              )
+            };
+
+            if (isNonEmptyArray(relatedEvent.shows)) {
+              const firstShow = relatedEvent.shows[0];
+              const lastShow =
+                relatedEvent.shows[relatedEvent.shows.length - 1];
+              relatedEventForFrontEnd.fromDate = firstShow.date
+                ? formatDateStringForFrontEnd(firstShow.date)
+                : null;
+              relatedEventForFrontEnd.toDate = lastShow.date
+                ? formatDateStringForFrontEnd(lastShow.date)
+                : null;
+            } else {
+              relatedEventForFrontEnd.fromDate = null;
+              relatedEventForFrontEnd.toDate = null;
+            }
+
+            relatedEvents.push(relatedEventForFrontEnd);
+          }
+
+          if (relatedEvents.length > 0) {
+            // break phase loop
+            break;
+          }
+        }
+
+        eventForFrontEnd.relatedEvents = relatedEvents;
+      }
+
+      /* end of finding related events */
+
+      addThemeColorDefaultToEvent(eventForFrontEnd);
+
+      res.json(eventForFrontEnd);
+    } catch (err) {
+      generalErrorHandle(err, res);
     }
-
-    /* end of finding related events */
-
-    addThemeColorDefaultToEvent(eventForFrontEnd);
-
-    res.json(eventForFrontEnd);
-  } catch (err) {
-    generalErrorHandle(err, res);
   }
-});
+);
 
 module.exports = router;

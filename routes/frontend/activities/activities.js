@@ -3,10 +3,12 @@ const router = express.Router();
 
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
+const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivities');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 //const { mediumLinkTypes } = require('../../../types/mediumLink');
 const {
   getPageMetaForFrontEnd,
@@ -70,7 +72,7 @@ const getActivityForFrontEndFromDbActivity = (
   // }
   return {
     id: activity._id,
-    label: activity.label,
+    label: cleanLabelForSendingToFrontEnd(activity.label),
     name: getEntityPropByLanguage(activity, 'name', language),
     section: activity.type,
     date: {
@@ -141,46 +143,51 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
 // @route   GET api/frontend/activities/:lang/activities/:label
 // @desc    Get activity by label
 // @access  Public
-router.get('/:lang/activities/:label', [languageHandling], async (req, res) => {
-  try {
-    const language = req.language;
+router.get(
+  '/:lang/activities/:label',
+  [languageHandling, frontEndDetailPageApiLabelHandling],
+  async (req, res) => {
+    try {
+      const label = req.detailItemLabel;
+      const language = req.language;
 
-    const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
-      true,
-      res
-    );
-    if (!pageMetaMiscellaneous) {
-      return;
+      const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+        true,
+        res
+      );
+      if (!pageMetaMiscellaneous) {
+        return;
+      }
+
+      const defaultPageMeta = getMixedPageMetas(
+        pageMetaMiscellaneous.activityListMeta,
+        pageMetaMiscellaneous.landingPageMeta
+      );
+
+      const activity = await Activity.findOne({
+        label: label
+      })
+        .select(activitySelectForFindOne)
+        .populate(activityPopulationListForFindOne);
+
+      if (!activity) {
+        return res
+          .status(404)
+          .json({ errors: [activityResponseTypes.ACTIVITY_NOT_EXISTS] });
+      }
+
+      const activityForFrontEnd = getActivityForFrontEndFromDbActivity(
+        activity,
+        language,
+        true,
+        defaultPageMeta
+      );
+
+      res.json(activityForFrontEnd);
+    } catch (err) {
+      generalErrorHandle(err, res);
     }
-
-    const defaultPageMeta = getMixedPageMetas(
-      pageMetaMiscellaneous.activityListMeta,
-      pageMetaMiscellaneous.landingPageMeta
-    );
-
-    const activity = await Activity.findOne({
-      label: req.params.label
-    })
-      .select(activitySelectForFindOne)
-      .populate(activityPopulationListForFindOne);
-
-    if (!activity) {
-      return res
-        .status(404)
-        .json({ errors: [activityResponseTypes.ACTIVITY_NOT_EXISTS] });
-    }
-
-    const activityForFrontEnd = getActivityForFrontEndFromDbActivity(
-      activity,
-      language,
-      true,
-      defaultPageMeta
-    );
-
-    res.json(activityForFrontEnd);
-  } catch (err) {
-    generalErrorHandle(err, res);
   }
-});
+);
 
 module.exports = router;

@@ -6,6 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const { getPageMetaForFrontEnd } = require('../../../models/PageMeta');
 const {
   LandingPage,
@@ -99,7 +100,7 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
       },
       featuredArtists: getArraySafe(landing.featuredArtists).map(artist => ({
         id: artist._id,
-        label: artist.label,
+        label: cleanLabelForSendingToFrontEnd(artist.label),
         name: getEntityPropByLanguage(artist, 'name', language),
         featuredImage: {
           src: artist.featuredImage && artist.featuredImage.url
@@ -108,7 +109,7 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
       featuredActivities: getArraySafe(landing.featuredActivities).map(
         activity => ({
           id: activity._id,
-          label: activity.label,
+          label: cleanLabelForSendingToFrontEnd(activity.label),
           name: getEntityPropByLanguage(activity, 'name', language),
           section: activity.type,
           date: {

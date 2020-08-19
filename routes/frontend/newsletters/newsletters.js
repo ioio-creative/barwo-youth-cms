@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
+const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
@@ -57,7 +58,7 @@ const getNewsletterForFrontEndFromDbNewsletter = (
   defaultPageMeta
 ) => {
   return {
-    label: newsletter.label,
+    label: cleanLabelForSendingToFrontEnd(newsletter.label),
     title: getEntityPropByLanguage(newsletter, 'title', language),
     message: getEntityPropByLanguage(newsletter, 'message', language),
     featuredImage: {
@@ -115,9 +116,11 @@ router.get('/:lang/newsletters', [languageHandling], async (req, res) => {
 // @access  Public
 router.get(
   '/:lang/newsletters/:label',
-  [languageHandling],
+  [languageHandling, frontEndDetailPageApiLabelHandling],
   async (req, res) => {
     try {
+      const label = req.detailItemLabel;
+
       const language = req.language;
 
       const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
@@ -134,7 +137,7 @@ router.get(
       );
 
       const newsletter = await Newsletter.findOne({
-        label: req.params.label
+        label: label
       })
         .select(newsletterSelectForFindOne)
         .populate(newsletterPopulationListForFindOne);
