@@ -173,15 +173,22 @@ const getEventForFrontEndFromDbEvent = (
     firstShowMonth = firstShow.date ? firstShow.date.getUTCMonth() : null;
   }
 
+  const name = getEntityPropByLanguage(event, 'name', language);
+
+  let nameForLongDisplay = getEntityPropByLanguage(
+    event,
+    'nameForLongDisplay',
+    language
+  );
+  nameForLongDisplay = nameForLongDisplay
+    ? nameForLongDisplay.replace(/\n/g, '<br>')
+    : name;
+
   return {
     id: event._id,
     label: cleanLabelForSendingToFrontEnd(event.label),
-    name: getEntityPropByLanguage(event, 'name', language),
-    nameForLongDisplay: getEntityPropByLanguage(
-      event,
-      'nameForLongDisplay',
-      language
-    ),
+    name: name,
+    nameForLongDisplay: nameForLongDisplay,
     type: event.type,
     themeColor: event.themeColor,
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
