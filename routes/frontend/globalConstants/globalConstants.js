@@ -311,7 +311,16 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'termsAndConditions',
         language
       ),
-      copyright: getEntityPropByLanguage(globalConstants, 'copyright', language)
+      copyright: getEntityPropByLanguage(
+        globalConstants,
+        'copyright',
+        language
+      ),
+      artistInfo: getEntityPropByLanguage(
+        globalConstants,
+        'artistInfo',
+        language
+      )
     };
     res.json(globalConstantsForFrontEnd);
   } catch (err) {

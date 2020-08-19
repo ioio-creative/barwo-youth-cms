@@ -560,6 +560,9 @@ export default {
   'GlobalConstants.CopyrightTcLabel': 'Copyright TC',
   'GlobalConstants.CopyrightScLabel': 'Copyright SC',
   'GlobalConstants.CopyrightEnLabel': 'Copyright EN',
+  'GlobalConstants.ArtistInfoTcLabel': 'Artist Info TC',
+  'GlobalConstants.ArtistInfoScLabel': 'Artist Info SC',
+  'GlobalConstants.ArtistInfoEnLabel': 'Artist Info EN',
 
   'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
   'GlobalConstants.LastModifyUserLabel': 'Last Modify User',

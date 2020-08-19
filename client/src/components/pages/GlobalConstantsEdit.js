@@ -2269,6 +2269,31 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
+      <LabelInputTextPair
+        name='artistInfo_tc'
+        value={globalConstants.artistInfo_tc}
+        labelMessage={uiWordings['GlobalConstants.ArtistInfoTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='artistInfo_sc'
+        value={globalConstants.artistInfo_sc}
+        labelMessage={uiWordings['GlobalConstants.ArtistInfoScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='artistInfo_en'
+        value={globalConstants.artistInfo_en}
+        labelMessage={uiWordings['GlobalConstants.ArtistInfoEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair

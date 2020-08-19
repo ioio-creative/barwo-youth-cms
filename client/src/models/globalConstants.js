@@ -338,6 +338,10 @@ function GlobalConstants() {
   this.copyright_sc = '';
   this.copyright_en = '';
 
+  this.artistInfo_tc = '';
+  this.artistInfo_sc = '';
+  this.artistInfo_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -1348,6 +1352,45 @@ GlobalConstants.globalConstantsResponseTypes = {
   PAST_EVENTS_EN_REQUIRED: {
     type: 'PAST_EVENTS_EN_REQUIRED',
     msg: 'PAST_EVENTS_EN_REQUIRED'
+  },
+
+  TERMS_AND_CONDITIONS_TC_REQUIRED: {
+    type: 'TERMS_AND_CONDITIONS_TC_REQUIRED',
+    msg: 'TERMS_AND_CONDITIONS_TC_REQUIRED'
+  },
+  TERMS_AND_CONDITIONS_SC_REQUIRED: {
+    type: 'TERMS_AND_CONDITIONS_SC_REQUIRED',
+    msg: 'TERMS_AND_CONDITIONS_SC_REQUIRED'
+  },
+  TERMS_AND_CONDITIONS_EN_REQUIRED: {
+    type: 'TERMS_AND_CONDITIONS_EN_REQUIRED',
+    msg: 'TERMS_AND_CONDITIONS_EN_REQUIRED'
+  },
+
+  COPYRIGHT_TC_REQUIRED: {
+    type: 'COPYRIGHT_TC_REQUIRED',
+    msg: 'COPYRIGHT_TC_REQUIRED'
+  },
+  COPYRIGHT_SC_REQUIRED: {
+    type: 'COPYRIGHT_SC_REQUIRED',
+    msg: 'COPYRIGHT_SC_REQUIRED'
+  },
+  COPYRIGHT_EN_REQUIRED: {
+    type: 'COPYRIGHT_EN_REQUIRED',
+    msg: 'COPYRIGHT_EN_REQUIRED'
+  },
+
+  ARTIST_INFO_TC_REQUIRED: {
+    type: 'ARTIST_INFO_TC_REQUIRED',
+    msg: 'ARTIST_INFO_TC_REQUIRED'
+  },
+  ARTIST_INFO_SC_REQUIRED: {
+    type: 'ARTIST_INFO_SC_REQUIRED',
+    msg: 'ARTIST_INFO_SC_REQUIRED'
+  },
+  ARTIST_INFO_EN_REQUIRED: {
+    type: 'ARTIST_INFO_EN_REQUIRED',
+    msg: 'ARTIST_INFO_EN_REQUIRED'
   },
 
   // db check
