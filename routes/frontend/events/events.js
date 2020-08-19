@@ -163,28 +163,28 @@ const getEventForFrontEndFromDbEvent = (
 
   let firstShowDateRaw = null;
   let firstShowDate = null;
-  // let firstShowYear = null;
-  // let firstShowMonth = null;
+  let firstShowYear = null;
+  let firstShowMonth = null;
   let lastShowDateRaw = null;
   let lastShowDate = null;
-  let lastShowYear = null;
-  let lastShowMonth = null;
+  // let lastShowYear = null;
+  // let lastShowMonth = null;
   if (isNonEmptyArray(event.shows)) {
     const firstShow = event.shows[0];
     firstShowDateRaw = firstShow.date;
     firstShowDate = firstShowDateRaw
       ? formatDateStringForFrontEnd(firstShowDateRaw)
       : null;
-    // firstShowYear = firstShowDateRaw ? firstShowDateRaw.getUTCFullYear() : null;
-    // firstShowMonth = firstShowDateRaw ? firstShowDateRaw.getUTCMonth() : null;
+    firstShowYear = firstShowDateRaw ? firstShowDateRaw.getUTCFullYear() : null;
+    firstShowMonth = firstShowDateRaw ? firstShowDateRaw.getUTCMonth() : null;
 
     const lastShow = event.shows[event.shows.length - 1];
     lastShowDateRaw = lastShow.date;
     lastShowDate = lastShowDateRaw
       ? formatDateStringForFrontEnd(lastShowDateRaw)
       : null;
-    lastShowYear = lastShowDateRaw ? lastShowDateRaw.getUTCFullYear() : null;
-    lastShowMonth = lastShowDateRaw ? lastShowDateRaw.getUTCMonth() : null;
+    // lastShowYear = lastShowDateRaw ? lastShowDateRaw.getUTCFullYear() : null;
+    // lastShowMonth = lastShowDateRaw ? lastShowDateRaw.getUTCMonth() : null;
   }
 
   const isPastEvent = lastShowDateRaw && lastShowDateRaw < new Date();
@@ -224,8 +224,8 @@ const getEventForFrontEndFromDbEvent = (
     // toYear: lastShowYear,
     // toMonth: lastShowMonth,
     isPastEvent: isPastEvent,
-    year: lastShowYear,
-    month: lastShowMonth,
+    year: firstShowYear,
+    month: firstShowMonth,
     schedule: getArraySafe(event.shows).map(show => ({
       date: {
         from: show.date ? formatDateStringForFrontEnd(show.date) : null,
