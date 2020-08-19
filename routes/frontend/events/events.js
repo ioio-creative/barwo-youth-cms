@@ -161,17 +161,33 @@ const getEventForFrontEndFromDbEvent = (
 ) => {
   const event = dbEvent;
 
+  let firstShowDateRaw = null;
   let firstShowDate = null;
-  let firstShowYear = null;
-  let firstShowMonth = null;
+  // let firstShowYear = null;
+  // let firstShowMonth = null;
+  let lastShowDateRaw = null;
+  let lastShowDate = null;
+  let lastShowYear = null;
+  let lastShowMonth = null;
   if (isNonEmptyArray(event.shows)) {
     const firstShow = event.shows[0];
-    firstShowDate = firstShow.date
-      ? formatDateStringForFrontEnd(firstShow.date)
+    firstShowDateRaw = firstShow.date;
+    firstShowDate = firstShowDateRaw
+      ? formatDateStringForFrontEnd(firstShowDateRaw)
       : null;
-    firstShowYear = firstShow.date ? firstShow.date.getUTCFullYear() : null;
-    firstShowMonth = firstShow.date ? firstShow.date.getUTCMonth() : null;
+    // firstShowYear = firstShowDateRaw ? firstShowDateRaw.getUTCFullYear() : null;
+    // firstShowMonth = firstShowDateRaw ? firstShowDateRaw.getUTCMonth() : null;
+
+    const lastShow = event.shows[event.shows.length - 1];
+    lastShowDateRaw = lastShow.date;
+    lastShowDate = lastShowDateRaw
+      ? formatDateStringForFrontEnd(lastShowDateRaw)
+      : null;
+    lastShowYear = lastShowDateRaw ? lastShowDateRaw.getUTCFullYear() : null;
+    lastShowMonth = lastShowDateRaw ? lastShowDateRaw.getUTCMonth() : null;
   }
+
+  const isPastEvent = lastShowDateRaw && lastShowDateRaw < new Date();
 
   const name = getEntityPropByLanguage(event, 'name', language);
 
@@ -200,8 +216,16 @@ const getEventForFrontEndFromDbEvent = (
       }
     })),
     fromDate: firstShowDate,
-    year: firstShowYear,
-    month: firstShowMonth,
+    // fromDateRaw: firstShowDateRaw,
+    // fromYear: firstShowYear,
+    // fromMonth: firstShowMonth,
+    // toDate: lastShowDate,
+    // toDateRaw: lastShowDateRaw,
+    // toYear: lastShowYear,
+    // toMonth: lastShowMonth,
+    isPastEvent: isPastEvent,
+    year: lastShowYear,
+    month: lastShowMonth,
     schedule: getArraySafe(event.shows).map(show => ({
       date: {
         from: show.date ? formatDateStringForFrontEnd(show.date) : null,
@@ -400,31 +424,29 @@ router.get('/:lang/archive', [languageHandling], async (req, res) => {
     const { sortedEvents } = await getSortedEvents(req, 1, true);
 
     const now = new Date();
-    const currentYear = now.getUTCFullYear();
-    const currentMonth = now.getUTCMonth();
 
     const eventsByYear = {};
-    sortedEvents.forEach((event, index) => {
-      addThemeColorDefaultToEvent(event, index);
+    // isPastEvent field added to event by getEventForFrontEndFromDbEvent()
+    sortedEvents
+      .filter(event => {
+        return event.isPastEvent;
+      })
+      .forEach((event, index) => {
+        addThemeColorDefaultToEvent(event, index);
 
-      // year field added to event by getEventForFrontEndFromDbEvent().
-      // filter out future years.
-      if (Number.isInteger(event.year) && event.year <= currentYear) {
+        // year field added to event by getEventForFrontEndFromDbEvent()
         const yearStr = event.year.toString();
         if (!eventsByYear[yearStr]) {
           eventsByYear[yearStr] = {};
         }
 
-        if (Number.isInteger(event.month) && event.month <= currentMonth) {
-          const monthStr = event.month.toString();
-          if (Array.isArray(eventsByYear[yearStr][monthStr])) {
-            eventsByYear[yearStr][monthStr].push(event);
-          } else {
-            eventsByYear[yearStr][monthStr] = [event];
-          }
+        const monthStr = event.month.toString();
+        if (Array.isArray(eventsByYear[yearStr][monthStr])) {
+          eventsByYear[yearStr][monthStr].push(event);
+        } else {
+          eventsByYear[yearStr][monthStr] = [event];
         }
-      }
-    });
+      });
 
     // descending year here
     const eventsByYearArray = Object.keys(eventsByYear)
