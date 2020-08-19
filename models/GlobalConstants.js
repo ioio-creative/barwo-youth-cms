@@ -1106,6 +1106,19 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  communityPerformanceIndicator_tc: {
+    type: String,
+    require: true
+  },
+  communityPerformanceIndicator_sc: {
+    type: String,
+    require: true
+  },
+  communityPerformanceIndicator_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -1468,6 +1481,13 @@ module.exports.globalConstantsResponseTypes = {
   ARTIST_INFO_TC_REQUIRED: 'ARTIST_INFO_TC_REQUIRED',
   ARTIST_INFO_SC_REQUIRED: 'ARTIST_INFO_SC_REQUIRED',
   ARTIST_INFO_EN_REQUIRED: 'ARTIST_INFO_EN_REQUIRED',
+
+  COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED:
+    'COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED',
+  COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED:
+    'COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED',
+  COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED:
+    'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

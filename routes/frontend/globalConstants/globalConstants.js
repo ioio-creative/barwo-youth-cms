@@ -320,6 +320,11 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'artistInfo',
         language
+      ),
+      communityPerformanceIndicator: getEntityPropByLanguage(
+        globalConstants,
+        'communityPerformanceIndicator',
+        language
       )
     };
     res.json(globalConstantsForFrontEnd);

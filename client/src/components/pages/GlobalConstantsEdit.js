@@ -2294,6 +2294,37 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
+      <LabelInputTextPair
+        name='communityPerformanceIndicator_tc'
+        value={globalConstants.communityPerformanceIndicator_tc}
+        labelMessage={
+          uiWordings['GlobalConstants.CommunityPerformanceIndicatorTcLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='communityPerformanceIndicator_sc'
+        value={globalConstants.communityPerformanceIndicator_sc}
+        labelMessage={
+          uiWordings['GlobalConstants.CommunityPerformanceIndicatorScLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='communityPerformanceIndicator_en'
+        value={globalConstants.communityPerformanceIndicator_en}
+        labelMessage={
+          uiWordings['GlobalConstants.CommunityPerformanceIndicatorEnLabel']
+        }
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair

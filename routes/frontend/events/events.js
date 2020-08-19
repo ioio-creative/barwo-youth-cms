@@ -266,7 +266,7 @@ const getEventForFrontEndFromDbEvent = (
   };
 };
 
-const getSortedEvents = async (req, sortOrder = 1) => {
+const getSortedEvents = async (req, sortOrder = 1, isGetAllTypes = false) => {
   // query
   const query = req.query;
   let type = query.type && query.type.toUpperCase();
@@ -275,14 +275,19 @@ const getSortedEvents = async (req, sortOrder = 1) => {
     type = defaultEventType;
   }
 
-  const language = req.language;
-
-  const events = await Event.find({
+  const findOptions = {
     isEnabled: {
       $ne: false
-    },
-    type
-  })
+    }
+  };
+
+  if (!isGetAllTypes) {
+    findOptions.type = type;
+  }
+
+  const language = req.language;
+
+  const events = await Event.find(findOptions)
     .select(eventSelectForFindAll)
     .populate(eventPopulationListForFindAll);
 
@@ -392,9 +397,11 @@ router.get('/:lang/pastEvents', [languageHandling], async (req, res) => {
 // @query   type=EVENT or COMMUNITY_PERFORMANCE
 router.get('/:lang/archive', [languageHandling], async (req, res) => {
   try {
-    const { sortedEvents } = await getSortedEvents(req);
+    const { sortedEvents } = await getSortedEvents(req, 1, true);
 
-    const currentYear = new Date().getUTCFullYear();
+    const now = new Date();
+    const currentYear = now.getUTCFullYear();
+    const currentMonth = now.getUTCMonth();
 
     const eventsByYear = {};
     sortedEvents.forEach((event, index) => {
@@ -402,13 +409,13 @@ router.get('/:lang/archive', [languageHandling], async (req, res) => {
 
       // year field added to event by getEventForFrontEndFromDbEvent().
       // filter out future years.
-      if (event.year && event.year <= currentYear) {
+      if (Number.isInteger(event.year) && event.year <= currentYear) {
         const yearStr = event.year.toString();
         if (!eventsByYear[yearStr]) {
           eventsByYear[yearStr] = {};
         }
 
-        if (Number.isInteger(event.month)) {
+        if (Number.isInteger(event.month) && event.month <= currentMonth) {
           const monthStr = event.month.toString();
           if (Array.isArray(eventsByYear[yearStr][monthStr])) {
             eventsByYear[yearStr][monthStr].push(event);

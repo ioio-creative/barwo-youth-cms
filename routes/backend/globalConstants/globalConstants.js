@@ -954,6 +954,19 @@ const globalConstantsValidationChecks = [
   check(
     'artistInfo_en',
     globalConstantsResponseTypes.ARTIST_INFO_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'communityPerformanceIndicator_tc',
+    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'communityPerformanceIndicator_sc',
+    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'communityPerformanceIndicator_en',
+    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1324,7 +1337,11 @@ router.post(
 
       artistInfo_tc,
       artistInfo_sc,
-      artistInfo_en
+      artistInfo_en,
+
+      communityPerformanceIndicator_tc,
+      communityPerformanceIndicator_sc,
+      communityPerformanceIndicator_en
     } = req.body;
 
     // Build global constants object
@@ -1670,6 +1687,10 @@ router.post(
     globalConstantsFields.artistInfo_tc = artistInfo_tc;
     globalConstantsFields.artistInfo_sc = artistInfo_sc;
     globalConstantsFields.artistInfo_en = artistInfo_en;
+
+    globalConstantsFields.communityPerformanceIndicator_tc = communityPerformanceIndicator_tc;
+    globalConstantsFields.communityPerformanceIndicator_sc = communityPerformanceIndicator_sc;
+    globalConstantsFields.communityPerformanceIndicator_en = communityPerformanceIndicator_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;
