@@ -80,6 +80,18 @@ const eventValidationChecks = [
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).notEmpty(),
   check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty(),
+  check(
+    'nameForLongDisplay_tc',
+    eventResponseTypes.NAME_FOR_LONG_DISPLAY_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'nameForLongDisplay_sc',
+    eventResponseTypes.NAME_FOR_LONG_DISPLAY_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'nameForLongDisplay_en',
+    eventResponseTypes.NAME_FOR_LONG_DISPLAY_EN_REQUIRED
+  ).notEmpty(),
   check('type', eventResponseTypes.TYPE_REQUIRED)
   // check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).notEmpty(),
   // check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).notEmpty(),
@@ -455,6 +467,9 @@ router.post(
       name_tc,
       name_sc,
       name_en,
+      nameForLongDisplay_tc,
+      nameForLongDisplay_sc,
+      nameForLongDisplay_en,
       type,
       descHeadline_tc,
       descHeadline_sc,
@@ -509,6 +524,9 @@ router.post(
         name_tc,
         name_sc,
         name_en,
+        nameForLongDisplay_tc,
+        nameForLongDisplay_sc,
+        nameForLongDisplay_en,
         type,
         descHeadline_tc,
         descHeadline_sc,
@@ -575,6 +593,9 @@ router.put(
       name_tc,
       name_sc,
       name_en,
+      nameForLongDisplay_tc,
+      nameForLongDisplay_sc,
+      nameForLongDisplay_en,
       type,
       descHeadline_tc,
       descHeadline_sc,
@@ -627,6 +648,12 @@ router.put(
     if (name_tc) eventFields.name_tc = name_tc;
     if (name_sc) eventFields.name_sc = name_sc;
     if (name_en) eventFields.name_en = name_en;
+    if (nameForLongDisplay_tc)
+      eventFields.nameForLongDisplay_tc = nameForLongDisplay_tc;
+    if (nameForLongDisplay_sc)
+      eventFields.nameForLongDisplay_sc = nameForLongDisplay_sc;
+    if (nameForLongDisplay_en)
+      eventFields.nameForLongDisplay_en = nameForLongDisplay_en;
     if (type) eventFields.type = type;
     eventFields.descHeadline_tc = descHeadline_tc;
     eventFields.descHeadline_sc = descHeadline_sc;

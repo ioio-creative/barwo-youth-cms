@@ -255,8 +255,7 @@ const ArtistEdit = _ => {
       artist.sound = soundPicked ? soundPicked._id : null;
 
       // add pageMeta
-      artist.pageMeta = pageMeta;
-
+      artist.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
       let isSuccess = validInput(artist);
       let returnedArtist = null;
       if (isSuccess) {
@@ -321,7 +320,7 @@ const ArtistEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <div className='w3-row'>
-          <div className='w3-col m10'>
+          <div className='w3-col m6'>
             <h4>
               {isAddMode
                 ? uiWordings['ArtistEdit.AddArtistTitle']

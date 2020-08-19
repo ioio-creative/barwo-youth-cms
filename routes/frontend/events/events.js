@@ -177,6 +177,11 @@ const getEventForFrontEndFromDbEvent = (
     id: event._id,
     label: cleanLabelForSendingToFrontEnd(event.label),
     name: getEntityPropByLanguage(event, 'name', language),
+    nameForLongDisplay: getEntityPropByLanguage(
+      event,
+      'nameForLongDisplay',
+      language
+    ),
     type: event.type,
     themeColor: event.themeColor,
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({

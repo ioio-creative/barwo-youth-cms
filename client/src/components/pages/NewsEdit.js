@@ -218,8 +218,7 @@ const NewsEdit = _ => {
       // news.downloadMedium = medium ? medium._id : null;
 
       // add pageMeta
-      news.pageMeta = pageMeta;
-
+      news.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
       let isSuccess = validInput(news);
       let returnedNews = null;
       if (isSuccess) {

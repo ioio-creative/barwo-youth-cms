@@ -133,6 +133,18 @@ const EventSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  nameForLongDisplay_tc: {
+    type: String,
+    require: true
+  },
+  nameForLongDisplay_sc: {
+    type: String,
+    require: true
+  },
+  nameForLongDisplay_en: {
+    type: String,
+    require: true
+  },
   type: {
     type: String,
     default: eventTypes.EVENT
@@ -246,6 +258,9 @@ module.exports.eventResponseTypes = {
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  NAME_FOR_LONG_DISPLAY_TC_REQUIRED: 'NAME_FOR_LONG_DISPLAY_TC_REQUIRED',
+  NAME_FOR_LONG_DISPLAY_SC_REQUIRED: 'NAME_FOR_LONG_DISPLAY_SC_REQUIRED',
+  NAME_FOR_LONG_DISPLAY_EN_REQUIRED: 'NAME_FOR_LONG_DISPLAY_EN_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
   EVENT_ART_DIRECTOR_REQUIRED: 'EVENT_ART_DIRECTOR_REQUIRED',
   EVENT_ARTIST_ROLE_TC_REQUIRED: 'EVENT_ARTIST_ROLE_TC_REQUIRED',

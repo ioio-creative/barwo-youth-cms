@@ -258,14 +258,14 @@ const PhaseEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <div className='w3-row'>
-          <div className='w3-col m8'>
+          <div className='w3-col m6'>
             <h4>
               {isAddMode
                 ? uiWordings['PhaseEdit.AddPhaseTitle']
                 : uiWordings['PhaseEdit.EditPhaseTitle']}
             </h4>
           </div>
-          <div className='w3-col m4 w3-row'>
+          <div className='w3-rest w3-row'>
             <div className='w3-col m6'>
               <ColorPickerModal
                 name='themeColor'

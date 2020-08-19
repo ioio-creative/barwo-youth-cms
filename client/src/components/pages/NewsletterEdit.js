@@ -223,8 +223,7 @@ const NewsletterEdit = _ => {
         : null;
 
       // add pageMeta
-      newsletter.pageMeta = pageMeta;
-
+      newsletter.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
       let isSuccess = validInput(newsletter);
       let returnedNewsletter = null;
       if (isSuccess) {

@@ -17,6 +17,7 @@ import AccordionRegion from 'components/layout/AccordionRegion';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
+import LabelTextAreaPair from 'components/form/LabelTextAreaPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import Label from 'components/form/Label';
 import Toggle from 'components/form/Toggle';
@@ -448,8 +449,7 @@ const EventEdit = _ => {
       });
 
       // add pageMeta
-      event.pageMeta = pageMeta;
-
+      event.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
       let isSuccess = validInput(event);
       let returnedEvent = null;
 
@@ -535,7 +535,7 @@ const EventEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <div className='w3-row'>
-          <div className='w3-col m8'>
+          <div className='w3-col m4'>
             <h4>
               {isAddMode
                 ? uiWordings[
@@ -591,6 +591,7 @@ const EventEdit = _ => {
           onChange={onChange}
           required={true}
         />
+
         <LabelInputTextPair
           name='name_tc'
           value={event.name_tc}
@@ -614,6 +615,37 @@ const EventEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
+        />
+
+        <LabelTextAreaPair
+          name='nameForLongDisplay_tc'
+          value={event.nameForLongDisplay_tc}
+          labelMessage={uiWordings['Event.NameForLongDisplayTcLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+          textAreaStyle={LabelTextAreaPair.threeRowStyle}
+          isHalf={true}
+        />
+        <LabelTextAreaPair
+          name='nameForLongDisplay_sc'
+          value={event.nameForLongDisplay_sc}
+          labelMessage={uiWordings['Event.NameForLongDisplayScLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+          textAreaStyle={LabelTextAreaPair.threeRowStyle}
+          isHalf={true}
+        />
+        <LabelTextAreaPair
+          name='nameForLongDisplay_en'
+          value={event.nameForLongDisplay_en}
+          labelMessage={uiWordings['Event.NameForLongDisplayEnLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+          textAreaStyle={LabelTextAreaPair.threeRowStyle}
+          isHalf={true}
         />
 
         <AccordionRegion title={uiWordings['EventEdit.MediaRegionTitle']}>

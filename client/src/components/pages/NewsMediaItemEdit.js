@@ -229,8 +229,7 @@ const NewsMediaItemEdit = _ => {
       );
 
       // add pageMeta
-      newsMediaItem.pageMeta = pageMeta;
-
+      newsMediaItem.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
       let isSuccess = validInput(newsMediaItem);
       let returnedNewsMediaItem = null;
       if (isSuccess) {
@@ -295,7 +294,7 @@ const NewsMediaItemEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <div className='w3-row'>
-          <div className='w3-col m10'>
+          <div className='w3-col m6'>
             <h4>
               {isAddMode
                 ? uiWordings['NewsMediaItemEdit.AddNewsMediaItemTitle']

@@ -246,8 +246,7 @@ const ActivityEdit = _ => {
       // activity.downloadMedium = medium ? medium._id : null;
 
       // add pageMeta
-      activity.pageMeta = pageMeta;
-
+      activity.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
       let isSuccess = validInput(activity);
       let returnedActivity = null;
       if (isSuccess) {
@@ -310,7 +309,7 @@ const ActivityEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <div className='w3-row'>
-          <div className='w3-col m8'>
+          <div className='w3-col m6'>
             <h4>
               {isAddMode
                 ? uiWordings['ActivityEdit.AddActivityTitle']

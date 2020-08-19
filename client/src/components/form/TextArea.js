@@ -17,6 +17,10 @@ const defaultStyle = {
   lineHeight: '18px'
 };
 
+const threeRowStyle = {
+  height: '7.5rem'
+};
+
 // https://www.buffetjs.io/storybook/?path=/story/components--inputtext
 const MyTextArea = ({
   className,
@@ -44,7 +48,10 @@ const MyTextArea = ({
   return (
     <textarea
       className={`${disabled ? 'w3-light-grey' : ''} ${className}`}
-      style={style}
+      style={{
+        ...defaultStyle,
+        ...style
+      }}
       name={name}
       value={cleanValueForTextInput(value)}
       placeholder={placeholder}
@@ -64,5 +71,7 @@ MyTextArea.defaultProps = {
   wrap: 'hard',
   style: defaultStyle
 };
+
+MyTextArea.threeRowStyle = threeRowStyle;
 
 export default MyTextArea;

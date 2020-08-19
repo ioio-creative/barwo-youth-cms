@@ -16,6 +16,9 @@ function Event() {
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
+  this.nameForLongDisplay_tc = '';
+  this.nameForLongDisplay_sc = '';
+  this.nameForLongDisplay_en = '';
   //this.type = '';  // front-end actually does not need to know the type
   this.themeColor = '';
   this.artDirectors = [];
@@ -98,6 +101,18 @@ Event.eventsResponseTypes = {
   NAME_EN_REQUIRED: {
     type: 'NAME_EN_REQUIRED',
     msg: 'NAME_EN_REQUIRED'
+  },
+  NAME_FOR_LONG_DISPLAY_TC_REQUIRED: {
+    type: 'NAME_FOR_LONG_DISPLAY_TC_REQUIRED',
+    msg: 'NAME_FOR_LONG_DISPLAY_TC_REQUIRED'
+  },
+  NAME_FOR_LONG_DISPLAY_SC_REQUIRED: {
+    type: 'NAME_FOR_LONG_DISPLAY_SC_REQUIRED',
+    msg: 'NAME_FOR_LONG_DISPLAY_SC_REQUIRED'
+  },
+  NAME_FOR_LONG_DISPLAY_EN_REQUIRED: {
+    type: 'NAME_FOR_LONG_DISPLAY_EN_REQUIRED',
+    msg: 'NAME_FOR_LONG_DISPLAY_EN_REQUIRED'
   },
   TYPE_REQUIRED: {
     type: 'TYPE_REQUIRED',
