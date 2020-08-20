@@ -8,6 +8,7 @@ const { isNonEmptyArray } = require('./js/array/isNonEmptyArray');
 // https://day.js.org/docs/en/parse/string-format
 const defaultDateFormat = 'YYYY-MM-DD';
 const frontEndDateFormat = 'DD. MM. YYYY';
+const frontEndDateFormatForMongoDb = '%d. %m %Y';
 //const defaultTimeLongFormat = 'HH:mm:ss';
 const defaultTimeShortFormat = 'HH:mm';
 const defaultDateTimeFormat = `${defaultDateFormat} ${defaultTimeShortFormat}`;
@@ -86,6 +87,8 @@ module.exports.formatDateTimeString = formatDateTimeString;
 module.exports.formatDateString = formatDateString;
 
 module.exports.formatDateStringForFrontEnd = formatDateStringForFrontEnd;
+
+module.exports.frontEndDateFormatForMongoDb = frontEndDateFormatForMongoDb;
 
 module.exports.compareForDatesAscending = compareForDatesAscending;
 
