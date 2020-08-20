@@ -5,6 +5,7 @@ const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
 const {

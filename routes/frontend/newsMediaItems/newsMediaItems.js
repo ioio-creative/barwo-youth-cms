@@ -6,6 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const distinct = require('../../../utils/js/array/distinct');
 const {
