@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
-import LabelSortableListPair from 'components/form/LabelSortableListPair';
+import LabelGridDndPair from 'components/layout/gridDnd/LabelGridDndPair';
 import ModalFileManager from 'components/form/ModalFileManager';
 import uiWordings from 'globals/uiWordings';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
@@ -11,39 +10,15 @@ import './FileUpload.css';
 
 /* constants */
 
+const gridBackgroundColor = 'rgba(64, 201, 178, 1)';
+
 const mapFileToListItem = file => {
   return {
     ...file,
-    // TODO: can't use file._id here as users may choose a file more than once??
-    draggableId: file.draggableId /*|| file._id*/ || guid()
+    // Note: can't use file._id here as users may choose a file more than once??
+    draggableId: file.draggableId || guid()
   };
 };
-
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 ${grid}px ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
-  position: 'relative',
-
-  // width: '100%',
-
-  // styles we need to apply on draggables
-  ...draggableStyle
-});
-
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  display: 'flex',
-  padding: grid,
-  overflow: 'auto',
-  flexWrap: 'wrap'
-});
 
 /* end of constants */
 
@@ -61,81 +36,56 @@ const Item = ({ file, handleItemRemoved, index }) => {
 
   /* end of event handlers */
 
-  const { /*name,*/ alternativeText, type, /*tags,*/ url, draggableId } = file;
+  const { /*name,*/ alternativeText, type, /*tags,*/ url } = file;
 
   return (
-    <Draggable key={draggableId} draggableId={draggableId} index={index}>
-      {(provided, snapshot) => (
-        <div
-          className='file-upload-item w3-third'
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          style={getItemStyle(
-            snapshot.isDragging,
-            provided.draggableProps.style
-          )}
-        >
-          <div className=''>
-            <div className='medium-wrapper'>
-              {
-                {
-                  IMAGE: (
-                    <img
-                      className='media-preview'
-                      src={url}
-                      alt={alternativeText}
-                    />
-                  ),
-                  VIDEO: (
-                    <video
-                      className='media-preview'
-                      src={url}
-                      alt={alternativeText}
-                      preload='metadata'
-                    />
-                  ),
-                  AUDIO: (
-                    <audio
-                      className='media-preview'
-                      src={url}
-                      alt={alternativeText}
-                      controls
-                      controlsList='nodownload'
-                    />
-                  ),
-                  PDF: (
-                    <div className='media-preview pdf'>
-                      <i className='fa fa-file-pdf-o fa-2x'></i>
-                    </div>
-                  )
-                }[type]
-              }
-            </div>
-          </div>
-          <div className='close-btn'>
-            {isFunction(handleItemRemoved) ? (
-              <LabelSortableListPair.ItemRemoveButton
-                onClick={onRemoveButtonClick}
+    <div className='file-upload-item'>
+      <div className='medium-wrapper'>
+        {
+          {
+            IMAGE: (
+              <img className='media-preview' src={url} alt={alternativeText} />
+            ),
+            VIDEO: (
+              <video
+                className='media-preview'
+                src={url}
+                alt={alternativeText}
+                preload='metadata'
               />
-            ) : null}
-          </div>
-        </div>
-      )}
-    </Draggable>
+            ),
+            AUDIO: (
+              <audio
+                className='media-preview'
+                src={url}
+                alt={alternativeText}
+                controls
+                controlsList='nodownload'
+              />
+            ),
+            PDF: (
+              <div className='media-preview pdf'>
+                <i className='fa fa-file-pdf-o fa-2x'></i>
+              </div>
+            )
+          }[type]
+        }
+      </div>
+      <div className='close-btn'>
+        {isFunction(handleItemRemoved) ? (
+          <LabelGridDndPair.ItemRemoveButton onClick={onRemoveButtonClick} />
+        ) : null}
+      </div>
+    </div>
   );
 };
 
-const itemRender = (
-  { handleItemRemoved, handleItemChange, ...file },
-  index
-) => {
+const itemRender = ({ handleItemRemoved, ...file }, index) => {
   return (
     <Item
       key={index}
       file={file}
       handleItemRemoved={handleItemRemoved}
-      handleItemChange={handleItemChange}
       index={index}
     />
   );
@@ -149,8 +99,7 @@ const FileUpload = ({
   files,
   onGetFiles,
   mediumType,
-  isMultiple,
-  orderDirection
+  isMultiple
 }) => {
   const filesInPickedList = useMemo(
     _ => {
@@ -212,21 +161,17 @@ const FileUpload = ({
 
   return (
     <div className='file-upload'>
-      <LabelSortableListPair
+      <LabelGridDndPair
         isHalf={false}
         isShowAddButton={
           isMultiple || getArraySafe(filesInPickedList).length === 0
         }
         addButtonRender={addButtonRender}
-        name={name}
         labelMessage={labelMessage}
-        pickedItemRender={itemRender}
-        getListStyle={getListStyle}
-        pickedItems={filesInPickedList}
-        getPickedItems={onGetPickedItems}
-        isMultiple={isMultiple}
-        mediaType={mediumType.apiRoute}
-        orderDirection={orderDirection}
+        items={filesInPickedList}
+        itemRender={itemRender}
+        onChange={onGetPickedItems}
+        gridBackgroundColor={gridBackgroundColor}
       />
     </div>
   );

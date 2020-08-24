@@ -99,7 +99,6 @@ const PickValues = ({
         items={selectedOptions}
         listWidth={listWidth}
         itemRender={pickedItemRender}
-        isShowRemoveButton={true}
         onDragEnd={handleSortableListDragEnd}
         onItemRemoved={handleSortableListItemRemoved}
       />

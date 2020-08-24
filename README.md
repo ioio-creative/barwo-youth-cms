@@ -53,4 +53,5 @@ npm run client  # React Client Only :3000
 * @fortawesome/react-fontawesome
 * admin-lte
 * react-router-global-history
+* react-beautiful-dnd
 * react-dnd

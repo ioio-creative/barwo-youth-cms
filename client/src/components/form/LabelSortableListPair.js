@@ -98,7 +98,6 @@ const LabelSortableListPair = ({
           items={pickedItems}
           listWidth={listWidth}
           itemRender={pickedItemRender}
-          isShowRemoveButton={true}
           getListStyle={getListStyle}
           onDragEnd={handleSortableListDragEnd}
           onItemRemoved={handleSortableListItemRemoved}
@@ -122,7 +121,7 @@ LabelSortableListPair.defaultProps = {
   getPickedItems: items => {
     console.log(items);
   },
-  onAddButtonClicked: _ => {
+  onAddButtonClick: _ => {
     console.log('LabelSortableListPair add button clicked.');
   }
 };

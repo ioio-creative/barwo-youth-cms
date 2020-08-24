@@ -3,9 +3,7 @@
 } */
 .file-upload .file-upload-item {
   position: relative;
-  flex: 0 0 100%;
-
-  padding: 8px;
+  flex: 0 0 24%;
 }
 .file-upload .file-upload-item .medium-wrapper {
   padding-top: 100%;
@@ -35,6 +33,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  /* width: 100%; */
 }
 .file-upload .file-upload-item .close-btn {
   position: absolute;
