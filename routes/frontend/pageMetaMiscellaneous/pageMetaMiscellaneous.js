@@ -75,7 +75,10 @@ router.get(
     try {
       const language = req.language;
 
-      const pageMetaMiscellaneous = getPageMetaMiscellaneousFromDb(true, res);
+      const pageMetaMiscellaneous = await getPageMetaMiscellaneousFromDb(
+        true,
+        res
+      );
 
       const defaultPageMeta = pageMetaMiscellaneous.landingPageMeta;
 
