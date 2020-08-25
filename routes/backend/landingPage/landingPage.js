@@ -12,7 +12,6 @@ const {
 const { Artist } = require('../../../models/Artist');
 const { Activity } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
-const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -42,8 +41,7 @@ const landingPopulationList = [
   {
     path: 'featuredActivities',
     select: 'label'
-  },
-  pageMetaPopulate
+  }
 ];
 
 const landingPageFeaturedArtistsValidation = featuredArtists => {
@@ -185,8 +183,7 @@ router.post('/', [auth], async (req, res) => {
     featuredVideo1,
     featuredVideo2,
     featuredArtists,
-    featuredActivities,
-    pageMeta
+    featuredActivities
   } = req.body;
 
   // customed validations
@@ -208,7 +205,6 @@ router.post('/', [auth], async (req, res) => {
   landingFields.featuredVideo2 = featuredVideo2;
   landingFields.featuredArtists = getArraySafe(featuredArtists);
   landingFields.featuredActivities = getArraySafe(featuredActivities);
-  landingFields.pageMeta = pageMeta;
   landingFields.lastModifyDT = new Date();
   landingFields.lastModifyUser = req.user._id;
 

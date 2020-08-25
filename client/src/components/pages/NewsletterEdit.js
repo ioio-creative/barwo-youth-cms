@@ -11,7 +11,8 @@ import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import LabelTogglePair from 'components/form/LabelTogglePair';
+import Label from 'components/form/Label';
+import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import Button from 'components/form/Button';
 import SubmitButton from 'components/form/SubmitButton';
@@ -290,7 +291,31 @@ const NewsletterEdit = _ => {
         )}
 
         <div className='w3-container w3-right'>
+          <NewsletterPreview newsletterId={newsletterId} />
+        </div>
+
+        <div className='w3-container w3-right'>
           <SendOutList newsletterId={newsletter._id} />
+        </div>
+
+        <div className='w3-container w3-right'>
+          <Label
+            htmlFor='isEnabled'
+            message={uiWordings['Newsletter.IsEnabledLabel']}
+          />
+          <Toggle
+            name='isEnabled'
+            value={newsletter.isEnabled}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className='w3-container w3-right'>
+          <PageMetaEditWithModal
+            pageMeta={pageMeta}
+            setPageMetaFunc={setPageMetaFunc}
+            isHideOptionalFields={true}
+          />
         </div>
 
         <h4>
@@ -374,18 +399,6 @@ const NewsletterEdit = _ => {
           />
         </Region>
 
-        <PageMetaEditWithModal
-          pageMeta={pageMeta}
-          setPageMetaFunc={setPageMetaFunc}
-        />
-
-        <LabelTogglePair
-          name='isEnabled'
-          value={newsletter.isEnabled}
-          labelMessage={uiWordings['Newsletter.IsEnabledLabel']}
-          onChange={onChange}
-        />
-
         {!isAddMode && (
           <>
             <LabelLabelPair
@@ -416,9 +429,6 @@ const NewsletterEdit = _ => {
             >
               {uiWordings['NewsletterEdit.DeleteNewsletter']}
             </DeleteWithConfirmButton>
-            <div className='w3-container w3-right'>
-              <NewsletterPreview newsletterId={newsletterId} />
-            </div>
           </>
         )}
       </Form>

@@ -17,10 +17,8 @@ import Form from 'components/form/Form';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import FileUpload from 'components/form/FileUpload';
 import SubmitButton from 'components/form/SubmitButton';
-import PageMetaEditWithModal from 'components/pageMeta/PageMetaEditWithModal';
 import LandingPage from 'models/landingPage';
 import Medium from 'models/medium';
-import PageMeta from 'models/pageMeta';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
@@ -74,9 +72,6 @@ const LandingPageEdit = _ => {
   // featuredActivities
   const [featuredActivitiesPicked, setFeaturedActivitiesPicked] = useState([]);
 
-  // pageMeta
-  const [pageMeta, setPageMeta] = useState(new PageMeta());
-
   // componentDidMount
   useEffect(_ => {
     getLandingPage();
@@ -109,9 +104,6 @@ const LandingPageEdit = _ => {
         setFeaturedActivitiesPicked(
           getArraySafe(fetchedLandingPage.featuredActivities)
         );
-        if (fetchedLandingPage.pageMeta) {
-          setPageMeta(fetchedLandingPage.pageMeta);
-        }
       }
       setIsAddMode(!fetchedLandingPage);
     },
@@ -225,11 +217,6 @@ const LandingPageEdit = _ => {
     setFeaturedActivitiesPicked(newItemList);
   }, []);
 
-  const setPageMetaFunc = useCallback(setterFunc => {
-    setIsSubmitEnabled(true);
-    setPageMeta(setterFunc);
-  }, []);
-
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -263,8 +250,6 @@ const LandingPageEdit = _ => {
         featuredActivitiesPicked
       ).map(activity => activity._id);
 
-      // add pageMeta
-      landingPage.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
       let isSuccess = validInput(landingPage);
       let returnedLandingPage = null;
       if (isSuccess) {
@@ -295,8 +280,7 @@ const LandingPageEdit = _ => {
       featuredVideo1Picked,
       featuredVideo2Picked,
       featuredArtistsPicked,
-      featuredActivitiesPicked,
-      pageMeta
+      featuredActivitiesPicked
     ]
   );
 
@@ -313,12 +297,7 @@ const LandingPageEdit = _ => {
           <h4>{uiWordings['LandingPageEdit.EditLandingPageTitle']}</h4>
         </div>
         <div className='w3-rest w3-row'>
-          <div className='w3-col m12'>
-            <PageMetaEditWithModal
-              pageMeta={pageMeta}
-              setPageMetaFunc={setPageMetaFunc}
-            />
-          </div>
+          <div className='w3-col m12'></div>
         </div>
       </div>
 

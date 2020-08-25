@@ -7,13 +7,11 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
-const { getPageMetaForFrontEnd } = require('../../../models/PageMeta');
 const {
   LandingPage,
   landingPageResponseTypes
 } = require('../../../models/LandingPage');
 const mediumSelect = require('../common/mediumSelect');
-const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 /* utilities */
 
@@ -65,8 +63,7 @@ const landingPopulationList = [
       path: 'featuredImage',
       select: mediumSelect
     }
-  },
-  pageMetaPopulate
+  }
 ];
 
 /* end of utilities */
@@ -120,8 +117,7 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
             src: activity.featuredImage && activity.featuredImage.url
           }
         })
-      ),
-      pageMeta: getPageMetaForFrontEnd(landing.pageMeta, language)
+      )
     };
 
     res.json(landingForFrontEnd);

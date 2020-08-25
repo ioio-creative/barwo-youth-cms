@@ -306,6 +306,7 @@ const NewsMediaItemEdit = _ => {
               <PageMetaEditWithModal
                 pageMeta={pageMeta}
                 setPageMetaFunc={setPageMetaFunc}
+                isHideOptionalFields={true}
               />
             </div>
             <div className='w3-col m6'>

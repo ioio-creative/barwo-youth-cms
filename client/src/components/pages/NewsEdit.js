@@ -280,7 +280,7 @@ const NewsEdit = _ => {
 
       <Form onSubmit={onSubmit}>
         <div className='w3-row'>
-          <div className='w3-col m10'>
+          <div className='w3-col m8'>
             <h4>
               {isAddMode
                 ? uiWordings['NewsEdit.AddNewsTitle']
@@ -292,6 +292,7 @@ const NewsEdit = _ => {
               <PageMetaEditWithModal
                 pageMeta={pageMeta}
                 setPageMetaFunc={setPageMetaFunc}
+                isHideOptionalFields={true}
               />
             </div>
             <div className='w3-col m6'>
