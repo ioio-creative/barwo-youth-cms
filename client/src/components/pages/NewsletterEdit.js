@@ -284,11 +284,9 @@ const NewsletterEdit = _ => {
       {backToNewsletterListButton}
 
       <Form onSubmit={onSubmit}>
-        {!isSubmitEnabled && (
-          <Button onClick={onSendButtonClick} className='w3-container w3-right'>
-            {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
-          </Button>
-        )}
+        <Button onClick={onSendButtonClick} className='w3-container w3-right'>
+          {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
+        </Button>
 
         <div className='w3-container w3-right'>
           <NewsletterPreview newsletterId={newsletterId} />
