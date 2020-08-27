@@ -46,6 +46,11 @@ const handleContactLabelDuplicateKeyError = (err, res) => {
   return isErrorHandled;
 };
 
+/* end of utilities */
+
+// @route   GET api/backend/contacts/contacts
+// @desc    Get all contacts
+// @access  Private
 router.get('/', [auth, listingHandling], async (req, res) => {
   try {
     const options = {

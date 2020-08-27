@@ -612,6 +612,7 @@ export default {
   'ContactList.FilterTextPlaceHolder': 'Filter Contacts by name...',
   'ContactList.FilterButton': 'Filter',
   'ContactList.ClearFilterButton': 'Clear Filter',
+  'ContactList.ExportButton': 'Export',
 
   'ContactEdit.BackToContactList': 'Back to Contact List',
   'ContactEdit.AddContactTitle': 'Add Contact',

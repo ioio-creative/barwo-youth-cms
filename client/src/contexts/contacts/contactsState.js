@@ -17,7 +17,9 @@ import {
   DELETE_CONTACT,
   GET_GROUPS,
   CLEAR_GROUPS,
-  SET_GROUPS_LOADING
+  SET_GROUPS_LOADING,
+  EXPORT_CONTACTS,
+  SET_CONTACTS_EXPORT_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -28,7 +30,8 @@ const initialState = {
   contactsErrors: null,
   contactsLoading: false,
   groups: null,
-  groupsLoading: null
+  groupsLoading: null,
+  contactsExportLoading: false
 };
 
 const ContactsState = ({ children }) => {
@@ -169,7 +172,6 @@ const ContactsState = ({ children }) => {
         type: GET_GROUPS,
         payload: res.data
       });
-      console.log('setGroup');
     } catch (err) {
       handleServerError(err, CONTACTS_ERRORS, dispatch);
     }
@@ -178,6 +180,23 @@ const ContactsState = ({ children }) => {
   // Clear Groups
   const clearGroups = useCallback(_ => {
     dispatch({ type: CLEAR_GROUPS });
+  }, []);
+
+  // Export Contacts
+  const exportContacts = useCallback(async _ => {
+    dispatch({ type: SET_CONTACTS_EXPORT_LOADING });
+    try {
+      const res = await axios.get(
+        'api/backend/contacts/exportAndImport/export'
+      );
+      dispatch({
+        type: EXPORT_CONTACTS,
+        payload: res.data
+      });
+      console.log(res.data);
+    } catch (err) {
+      handleServerError(err, CONTACTS_ERRORS, dispatch);
+    }
   }, []);
 
   return (
@@ -190,6 +209,7 @@ const ContactsState = ({ children }) => {
         contactsLoading: state.contactsLoading,
         groups: state.groups,
         groupsLoading: state.groupsLoading,
+        contactsExportLoading: state.contactsExportLoading,
         getContacts,
         clearContacts,
         getContact,
@@ -199,7 +219,8 @@ const ContactsState = ({ children }) => {
         clearContactsErrors,
         deleteContact,
         getGroups,
-        clearGroups
+        clearGroups,
+        exportContacts
       }}
     >
       {children}

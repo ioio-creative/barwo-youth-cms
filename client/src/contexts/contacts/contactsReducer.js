@@ -11,7 +11,9 @@ import {
   SET_CONTACTS_LOADING,
   GET_GROUPS,
   CLEAR_GROUPS,
-  SET_GROUPS_LOADING
+  SET_GROUPS_LOADING,
+  EXPORT_CONTACTS,
+  SET_CONTACTS_EXPORT_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -56,7 +58,9 @@ export default (state, action) => {
       return {
         ...state,
         contactsErrors: action.payload,
-        contactsLoading: false
+        contactsLoading: false,
+        groupsLoading: false,
+        contactsExportLoading: false
       };
     case CLEAR_CONTACTS_ERRORS:
       return {
@@ -89,6 +93,16 @@ export default (state, action) => {
       return {
         ...state,
         groupsLoading: true
+      };
+    case EXPORT_CONTACTS:
+      return {
+        ...state,
+        contactsExportLoading: false
+      };
+    case SET_CONTACTS_EXPORT_LOADING:
+      return {
+        ...state,
+        contactsExportLoading: true
       };
     default:
       return state;

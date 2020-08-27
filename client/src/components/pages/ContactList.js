@@ -75,9 +75,11 @@ const ContactList = _ => {
     contacts,
     contactsPaginationMeta,
     contactsLoading,
+    contactsExportLoading,
     contactsErrors,
     clearContactsErrors,
-    getContacts
+    getContacts,
+    exportContacts
   } = useContext(ContactsContext);
   const {
     // qsPage: { qsPage, setQsPage },
@@ -174,6 +176,13 @@ const ContactList = _ => {
     [setFilterText]
   );
 
+  const onExport = useCallback(
+    async _ => {
+      await exportContacts();
+    },
+    [exportContacts]
+  );
+
   /* end of event handlers */
 
   const rows = useMemo(
@@ -183,7 +192,7 @@ const ContactList = _ => {
     [contacts]
   );
 
-  if (contacts === null || contactsLoading) {
+  if (contacts === null || contactsLoading || contactsExportLoading) {
     return <Loading />;
   }
 
@@ -209,10 +218,15 @@ const ContactList = _ => {
             </Button>
           </div>
         </div>
-        <div className='w3-right'>
+        <div className='w3-right w3-margin-left'>
           <LinkButton to={routes.contactAdd(true)}>
             {uiWordings['ContactList.AddContact']}
           </LinkButton>
+        </div>
+        <div className='w3-right'>
+          <Button className='' onClick={onExport}>
+            {uiWordings['ContactList.ExportButton']}
+          </Button>
         </div>
       </Form>
       <Table
