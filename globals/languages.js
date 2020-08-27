@@ -27,6 +27,8 @@ const getEntityPropByLanguage = (
   return entity ? entity[propName + language.entityPropSuffix] : '';
 };
 
+module.exports.languages = languages;
+
 module.exports.getLanguageByRouteParam = getLanguageByRouteParam;
 
 module.exports.getEntityPropByLanguage = getEntityPropByLanguage;

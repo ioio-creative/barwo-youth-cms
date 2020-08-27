@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ContactsContext from 'contexts/contacts/contactsContext';
 import ContactsPageContainer from 'components/contacts/ContactsPageContainer';
-import ContactEditGroupSelect from 'components/contacts/ContactEditGroupSelect';
+import ContactEditGroupSelect, {
+  mapContactToListItem
+} from 'components/contacts/ContactEditGroupSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import GroupContainer from 'components/layout/GroupContainer';
@@ -72,7 +74,10 @@ const ContactEdit = _ => {
   useEffect(
     _ => {
       if (fetchedContact) {
-        setGroupsPicked(getArraySafe(fetchedContact.groups));
+        console.log(fetchedContact.groups);
+        setGroupsPicked(
+          getArraySafe(fetchedContact.groups.map(mapContactToListItem))
+        );
       }
       setContact(
         fetchedContact
@@ -163,7 +168,8 @@ const ContactEdit = _ => {
       contact.groups = getArraySafe(groupsPicked)
         .filter(x => x)
         .map(group => group._id);
-      //console.log(contact);
+
+      console.log(contact);
 
       let isSuccess = validInput(contact);
       let returnedContact = null;

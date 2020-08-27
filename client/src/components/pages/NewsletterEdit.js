@@ -184,7 +184,7 @@ const NewsletterEdit = _ => {
       setIsSubmitEnabled(false);
       removeAlerts();
 
-      console.log(groups);
+      // console.log(groups);
 
       let isSuccess = validInput(newsletter);
       if (isSuccess) {

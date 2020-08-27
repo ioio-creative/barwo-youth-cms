@@ -93,10 +93,6 @@ Contact.getContactForDisplay = contact => {
     groupsDisplay: getArraySafe(contact.groups)
       .filter(x => x)
       .map(group => {
-        // console.log(contact.groups);
-        if (!contactGroups[group]) {
-          debugger;
-        }
         return contactGroups[group].label;
       }),
     lastModifyDTDisplay: formatDateTimeString(contact.lastModifyDT),
@@ -110,7 +106,7 @@ Contact.getContactForDisplay = contact => {
 const displayFieldNames = [
   'typeDisplay',
   'languageDisplay',
-  // 'groupsDisplay',
+  'groupsDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',
   'isEnabledDisplay'

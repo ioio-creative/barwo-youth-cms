@@ -785,6 +785,7 @@ export default {
   'SendHistories.Title': 'Send History',
 
   'SendHistory.LabelLabel': 'Label',
+  'SendHistory.RecipientsLabel': 'Recipients',
   'SendHistory.TitleTcLabel': 'Title TC',
   'SendHistory.TitleScLabel': 'Title SC',
   'SendHistory.TitleEnLabel': 'Title EN',
@@ -988,13 +989,9 @@ export default {
 
   'SendWithConfirmButton.ConfirmTitle': 'Confirm to submit',
   'SendWithConfirmButton.ConfirmMessage':
-    'Which group do you want to send the email to? If you want to send to everyone, you can leave it unchecked.',
-  'SendWithConfirmButton.ConfirmMessage1':
-    'Which group do you want to send the email to?',
-  'SendWithConfirmButton.ConfirmMessage2':
-    'If you want to send to everyone, you can leave it unchecked',
-  'SendWithConfirmButton.ConfirmYesLabel': 'Yes',
-  'SendWithConfirmButton.ConfirmNoLabel': 'No',
+    'Which group(s) do you want to send the email to? If you want to send to everyone, please leave it unchecked.',
+  'SendWithConfirmButton.ConfirmYesLabel': 'Send',
+  'SendWithConfirmButton.ConfirmNoLabel': 'Cancel',
 
   'LabelColorPickerPair.OpenButton': 'Open Color Picker',
 
