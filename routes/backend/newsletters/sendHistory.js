@@ -109,10 +109,15 @@ router.post(
       console.error(err);
     }
 
+    // if groupsArray.length === 0 => no picked group => send to all
+    const groupsArray = groups.map(group => {
+      return group._id;
+    });
+
     try {
       const sendHistory = new SendHistory({
         label: label.trim(),
-        recipientGroups: groups._id,
+        recipients: groupsArray,
         title_tc,
         title_sc,
         title_en,
@@ -123,46 +128,45 @@ router.post(
         sender: req.user._id
       });
 
-      groupsArray = groups.map(group => {
-        return group._id;
-      });
-      await Promise.all(
-        getArraySafe(contacts)
-          .filter(
-            contact =>
-              contact.isEnabled !== false &&
-              groupsArray.some(r => contact.groups.includes(r))
-          )
-          .map(async contact => {
-            console.log(contact);
-            if (contact.language === languages.TC._id) {
-              return await emailSend(
-                contact,
-                sender.emailAddress,
-                sender.name_tc,
-                title_tc,
-                message_tc
-              );
-            } else if (contact.language === languages.SC._id) {
-              return await emailSend(
-                contact,
-                sender.emailAddress,
-                sender.name_sc,
-                title_sc,
-                message_sc
-              );
-            } else if (contact.language === languages.EN._id) {
-              return await emailSend(
-                contact,
-                sender.emailAddress,
-                sender.name_en,
-                title_en,
-                message_en
-              );
-            }
-            return null;
-          })
-      );
+      // await Promise.all(
+      //   getArraySafe(contacts)
+      //     .filter(
+      //       contact =>
+      //         contact.isEnabled !== false &&
+      //         (groupsArray.some(r => contact.groups.includes(r)) ||
+      //           groupsArray.length === 0)
+      //     )
+      //     .map(async contact => {
+      //       // console.log(contact);
+
+      //       if (contact.language === languages.TC._id) {
+      //         return await emailSend(
+      //           contact,
+      //           sender.emailAddress,
+      //           sender.name_tc,
+      //           title_tc,
+      //           message_tc
+      //         );
+      //       } else if (contact.language === languages.SC._id) {
+      //         return await emailSend(
+      //           contact,
+      //           sender.emailAddress,
+      //           sender.name_sc,
+      //           title_sc,
+      //           message_sc
+      //         );
+      //       } else if (contact.language === languages.EN._id) {
+      //         return await emailSend(
+      //           contact,
+      //           sender.emailAddress,
+      //           sender.name_en,
+      //           title_en,
+      //           message_en
+      //         );
+      //       }
+      //       return null;
+      //     })
+      // );
 
       await sendHistory.save();
 

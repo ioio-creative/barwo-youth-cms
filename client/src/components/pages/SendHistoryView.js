@@ -58,6 +58,7 @@ const SendHistoryView = _ => {
   // fetchedSendHistory
   useEffect(
     _ => {
+      console.log('getSendHistoryForDisplay');
       setSendHistory(
         fetchedSendHistory
           ? SendHistory.getSendHistoryForDisplay(fetchedSendHistory)
@@ -129,8 +130,8 @@ const SendHistoryView = _ => {
         />
 
         <LabelLabelPair
-          value={sendHistory.recipientGroups}
-          labelMessage={uiWordings['SendHistory.RecipientGroupsLabel']}
+          value={sendHistory.recipientsDisplay}
+          labelMessage={uiWordings['SendHistory.RecipientsLabel']}
         />
 
         <Region>

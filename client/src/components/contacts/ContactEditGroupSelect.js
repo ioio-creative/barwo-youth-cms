@@ -4,16 +4,6 @@ import uiWordings from 'globals/uiWordings';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import Contact from 'models/contact';
 
-const mapContactToListItem = inputContact => {
-  // console.log(inputContact);
-  if (typeof inputContact === 'string') {
-    const contact = Contact.contactGroups[inputContact];
-    return { _id: contact._id, value: contact.value, label: contact.label };
-  }
-
-  return inputContact;
-};
-
 const fetchedOptions = [
   { _id: 'MEDIA', value: 'MEDIA', label: 'Media/Press' },
   { _id: 'EDM', value: 'EDM', label: 'EDM Subscribers' },
@@ -28,6 +18,16 @@ const fetchedOptions = [
   { _id: 'UNIVERSITY', value: 'UNIVERSITY', label: 'University' },
   { _id: 'FAMILY', value: 'FAMILY', label: 'Family' }
 ];
+
+export const mapContactToListItem = inputContact => {
+  // console.log(inputContact);
+  if (typeof inputContact === 'string') {
+    const contact = Contact.contactGroups[inputContact];
+    return { _id: contact._id, value: contact.value, label: contact.label };
+  }
+
+  return inputContact;
+};
 
 const ContactEditGroupSelect = ({ groupsPicked, onGetGroupsPicked }) => {
   // fetched options

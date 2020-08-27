@@ -1,10 +1,11 @@
 import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
+import { getArraySafe } from '../utils/js/array/isNonEmptyArray';
 
 function SendHistory() {
   this.label = '';
-  this.recipientGroups = [];
+  this.recipients = [];
   this.title_tc = '';
   this.message_tc = '';
   this.title_sc = '';
@@ -15,6 +16,21 @@ function SendHistory() {
   this.sendDT = null;
   this.sender = null;
 }
+
+const recipientGroups = {
+  MEDIA: { value: 'MEDIA', _id: 'MEDIA', label: 'Media/Press' },
+  EDM: { value: 'EDM', _id: 'EDM', label: 'EDM Subscribers' },
+  YMT: { value: 'YMT', _id: 'YMT', label: 'Committee (YMT)' },
+  BARWO: { value: 'BARWO', _id: 'BARWO', label: 'Committee (BARWO)' },
+  PRIMANY: { value: 'PRIMANY', _id: 'PRIMANY', label: 'Primary School' },
+  SECONDARY: {
+    value: 'SECONDARY',
+    _id: 'SECONDARY',
+    label: 'Secondary School'
+  },
+  UNIVERSITY: { value: 'UNIVERSITY', _id: 'UNIVERSITY', label: 'University' },
+  FAMILY: { value: 'FAMILY', _id: 'FAMILY', label: 'Family' }
+};
 
 SendHistory.sendHistoryResponseTypes = {
   // input validation
@@ -66,11 +82,23 @@ SendHistory.getSendHistoryForDisplay = sendHistory => {
   return {
     ...sendHistory,
     sendDTDisplay: formatDateTimeString(sendHistory.sendDT),
-    senderDisplay: sendHistory.sender ? sendHistory.sender.name : ''
+    senderDisplay: sendHistory.sender ? sendHistory.sender.name : '',
+    recipientsDisplay:
+      !sendHistory.recipients || sendHistory.recipients.length === 0
+        ? 'All'
+        : getArraySafe(sendHistory.recipients)
+            .filter(x => x)
+            .map(group => {
+              return recipientGroups[group].label;
+            })
   };
 };
 
-const displayFieldNames = ['sendDTDisplay', 'senderDisplay'];
+const displayFieldNames = [
+  'sendDTDisplay',
+  'senderDisplay',
+  'recipientsDisplay'
+];
 
 SendHistory.cleanSortByString = cleanSortByStringFuncGen(displayFieldNames);
 

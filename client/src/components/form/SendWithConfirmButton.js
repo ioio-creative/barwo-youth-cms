@@ -14,6 +14,7 @@ const AlertMessage = ({ setOutside }) => {
       setGroupsPicked(newItemList);
       setOutside(newItemList);
     },
+    // eslint-disable-next-line
     [groupsPicked, setOutside]
   );
   return (
@@ -39,11 +40,11 @@ const SendWithConfirmButton = ({
   onConfirmYes,
   onConfirmNo
 }) => {
+  // eslint-disable-next-line
   const [groupsPicked, setGroupsPicked] = useState([]);
 
   const handleConfirmYes = useCallback(
     _ => {
-      console.log('yes');
       setGroupsPicked(prevGroupPicked => {
         invokeIfIsFunction(onConfirmYes, prevGroupPicked);
         return prevGroupPicked;
@@ -81,6 +82,7 @@ const SendWithConfirmButton = ({
     },
     [
       confirmTitle,
+      confirmMessage,
       confirmYesLabel,
       confirmNoLabel,
       handleConfirmYes,

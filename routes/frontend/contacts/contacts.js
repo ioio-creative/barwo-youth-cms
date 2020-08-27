@@ -38,7 +38,7 @@ router.post(
   '/contacts',
   [constactValidationChecks, validationHandling],
   async (req, res) => {
-    const { emailAddress, name, groups = 'EDM', language } = req.body;
+    const { emailAddress, name, groups = ['EDM'], language } = req.body;
     try {
       const contact = new Contact({
         emailAddress,
@@ -47,6 +47,7 @@ router.post(
         language
       });
 
+      console.log(contact);
       await contact.save();
 
       res.json(contact);
