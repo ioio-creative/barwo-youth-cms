@@ -82,7 +82,7 @@ const GridDnd = ({
   // it's like componentDidMount.
   // gridId is set only when the component is initiated.
   // used to set type in DragItem, to specify items in the same grid
-  const [gridId, setGridId] = useState(guid());
+  const gridId = useState(guid())[0];
 
   /* methods */
 
