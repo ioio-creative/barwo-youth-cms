@@ -165,14 +165,16 @@ const NewslettersState = ({ children }) => {
   }, []);
 
   // Send newsletter
-  const sendNewsletter = useCallback(async newsletter => {
+  const sendNewsletter = useCallback(async (newsletter, groups) => {
     let newNewsletter = null;
+    console.log(groups);
     dispatch({ type: SET_NEWSLETTERS_LOADING });
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     };
+    newsletter.groups = groups;
     try {
       const res = await axios.post(
         '/api/backend/newsletters/sendHistory',
@@ -180,7 +182,7 @@ const NewslettersState = ({ children }) => {
         config
       );
       dispatch({ type: SEND_NEWSLETTER, payload: res.data });
-      // console.log(res.data);
+
       newNewsletter = res.data;
     } catch (err) {
       handleServerError(err, NEWSLETTERS_ERRORS, dispatch);

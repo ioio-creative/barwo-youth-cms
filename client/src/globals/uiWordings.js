@@ -987,11 +987,7 @@ export default {
 
   'SendWithConfirmButton.ConfirmTitle': 'Confirm to submit',
   'SendWithConfirmButton.ConfirmMessage':
-    'Which group do you want to send the email to? If you want to send to everyone, you can leave it unchecked.',
-  'SendWithConfirmButton.ConfirmMessage1':
     'Which group do you want to send the email to?',
-  'SendWithConfirmButton.ConfirmMessage2':
-    'If you want to send to everyone, you can leave it unchecked',
   'SendWithConfirmButton.ConfirmYesLabel': 'Yes',
   'SendWithConfirmButton.ConfirmNoLabel': 'No',
 

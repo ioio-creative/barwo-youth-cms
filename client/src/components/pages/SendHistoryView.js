@@ -128,6 +128,11 @@ const SendHistoryView = _ => {
           labelMessage={uiWordings['SendHistory.LabelLabel']}
         />
 
+        <LabelLabelPair
+          value={sendHistory.recipientGroups}
+          labelMessage={uiWordings['SendHistory.RecipientGroupsLabel']}
+        />
+
         <Region>
           <LabelLabelPair
             value={sendHistory.title_tc}

@@ -69,7 +69,6 @@ const emailSend = async (contact, emailAddress, name, title, message) => {
     subject: title, // Subject line
     html: message // html body
   });
-  //console.log(info);
 };
 
 // @route   POST api/backend/newsletters/sendHistory
@@ -81,7 +80,7 @@ router.post(
   async (req, res) => {
     const {
       label,
-      recipientGroups,
+      groups,
       title_tc,
       title_sc,
       title_en,
@@ -95,7 +94,6 @@ router.post(
     try {
       // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
       contacts = await Contact.find({});
-      // console.log(contacts);
     } catch (err) {
       // TODO:
       console.error(err);
@@ -114,7 +112,7 @@ router.post(
     try {
       const sendHistory = new SendHistory({
         label: label.trim(),
-        recipientGroups,
+        recipientGroups: groups._id,
         title_tc,
         title_sc,
         title_en,
@@ -125,14 +123,18 @@ router.post(
         sender: req.user._id
       });
 
+      groupsArray = groups.map(group => {
+        return group._id;
+      });
       await Promise.all(
         getArraySafe(contacts)
           .filter(
             contact =>
               contact.isEnabled !== false &&
-              recipientGroups.some(r => contact.groups.includes(r))
+              groupsArray.some(r => contact.groups.includes(r))
           )
           .map(async contact => {
+            console.log(contact);
             if (contact.language === languages.TC._id) {
               return await emailSend(
                 contact,
@@ -158,7 +160,6 @@ router.post(
                 message_en
               );
             }
-
             return null;
           })
       );
