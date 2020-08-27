@@ -15,6 +15,9 @@ const ContactSchema = mongoose.Schema({
   //   type: String,
   //   required: true
   // },
+  groups: {
+    type: [String]
+  },
   language: {
     type: String,
     require: true
@@ -37,23 +40,37 @@ ContactSchema.plugin(mongoosePaginate);
 
 module.exports.Contact = mongoose.model('contact', ContactSchema);
 
-module.exports.contactTypes = {
-  MISS: 'MISS',
-  MR: 'MR',
-  MRS: 'MRS',
-  NOT_SPECIFIED: 'NOT_SPECIFIED'
-};
+// module.exports.contactTypes = {
+//   MISS: 'MISS',
+//   MR: 'MR',
+//   MRS: 'MRS',
+//   NOT_SPECIFIED: 'NOT_SPECIFIED'
+// };
 
-module.exports.contactLanguage = {
+const contactLanguage = {
   TC: 'TC',
   SC: 'SC',
   EN: 'EN'
 };
 
+const contactGroups = {
+  MEDIA: 'MEDIA',
+  EDM: 'EDM',
+  YMT: 'YMT',
+  BARWO: 'BARWO',
+  PRIMANY: 'PRIMANY',
+  SECONDARY: 'SECONDARY',
+  UNIVERSITY: 'UNIVERSITY',
+  FAMILY: 'FAMILY'
+};
+
+module.exports.contactLanguage = contactLanguage;
+module.exports.contactGroups = contactGroups;
+
 module.exports.contactResponseTypes = {
   EMAIL_ADDRESS_INVALID: 'EMAIL_ADDRESS_INVALID',
   // NAME_REQUIRED: 'NAME_REQUIRED',
-  //TYPE_REQUIRED: 'TYPE_REQUIRED',
+  // TYPE_REQUIRED: 'TYPE_REQUIRED',
   LANGUAGE_REQUIRED: 'LANGUAGE_REQUIRED',
 
   // db check

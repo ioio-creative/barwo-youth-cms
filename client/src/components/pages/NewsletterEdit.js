@@ -14,10 +14,10 @@ import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import Label from 'components/form/Label';
 import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
-import Button from 'components/form/Button';
 import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
+import SendWithConfirmButton from 'components/form/SendWithConfirmButton';
 import PageMetaEditWithModal from 'components/pageMeta/PageMetaEditWithModal';
 import Newsletter from 'models/newsletter';
 import Medium from 'models/medium';
@@ -180,14 +180,15 @@ const NewsletterEdit = _ => {
   );
 
   const onSendButtonClick = useCallback(
-    async e => {
+    async groups => {
       setIsSubmitEnabled(false);
       removeAlerts();
-      e.preventDefault();
+
+      console.log(groups);
 
       let isSuccess = validInput(newsletter);
       if (isSuccess) {
-        isSuccess = await sendNewsletter(newsletter);
+        isSuccess = await sendNewsletter(newsletter, groups);
 
         goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
         getNewsletter(newsletter._id);
@@ -284,9 +285,12 @@ const NewsletterEdit = _ => {
       {backToNewsletterListButton}
 
       <Form onSubmit={onSubmit}>
-        <Button onClick={onSendButtonClick} className='w3-container w3-right'>
+        <SendWithConfirmButton
+          className='w3-container w3-right'
+          onConfirmYes={onSendButtonClick}
+        >
           {uiWordings['NewsletterEdit.SendNewsletterSubmit']}
-        </Button>
+        </SendWithConfirmButton>
 
         <div className='w3-container w3-right'>
           <NewsletterPreview newsletterId={newsletterId} />

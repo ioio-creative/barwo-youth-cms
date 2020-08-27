@@ -29,7 +29,7 @@ const PickValues = ({
 
   const selectedOptionValues = useMemo(
     _ => {
-      return selectedOptions.map(option => option.value);
+      return selectedOptions.filter(x => x).map(option => option.value);
     },
     [selectedOptions]
   );

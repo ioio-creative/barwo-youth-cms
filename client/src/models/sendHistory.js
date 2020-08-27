@@ -4,6 +4,7 @@ import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function SendHistory() {
   this.label = '';
+  this.recipientGroups = [];
   this.title_tc = '';
   this.message_tc = '';
   this.title_sc = '';

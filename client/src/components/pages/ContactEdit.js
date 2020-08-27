@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import ContactsContext from 'contexts/contacts/contactsContext';
 import ContactsPageContainer from 'components/contacts/ContactsPageContainer';
+import ContactEditGroupSelect from 'components/contacts/ContactEditGroupSelect';
 import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import GroupContainer from 'components/layout/GroupContainer';
@@ -18,7 +19,7 @@ import Contact from 'models/contact';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
-import isNonEmptyArray from 'utils/js/array/isNonEmptyArray';
+import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyContact = new Contact();
@@ -43,6 +44,7 @@ const ContactEdit = _ => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
+  const [groupsPicked, setGroupsPicked] = useState([]);
 
   // componentDidMount
   useEffect(_ => {
@@ -69,6 +71,9 @@ const ContactEdit = _ => {
   // fetchedContact
   useEffect(
     _ => {
+      if (fetchedContact) {
+        setGroupsPicked(getArraySafe(fetchedContact.groups));
+      }
       setContact(
         fetchedContact
           ? Contact.getContactForDisplay(fetchedContact)
@@ -113,7 +118,12 @@ const ContactEdit = _ => {
 
   /* end of methods */
 
-  /* event handlers */
+  /* contact handlers */
+
+  const onGetGroupsPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setGroupsPicked(newItemList);
+  }, []);
 
   const onChange = useCallback(
     e => {
@@ -150,6 +160,11 @@ const ContactEdit = _ => {
       removeAlerts();
       e.preventDefault();
 
+      contact.groups = getArraySafe(groupsPicked)
+        .filter(x => x)
+        .map(group => group._id);
+      //console.log(contact);
+
       let isSuccess = validInput(contact);
       let returnedContact = null;
       if (isSuccess) {
@@ -179,6 +194,7 @@ const ContactEdit = _ => {
       updateContact,
       addContact,
       getContact,
+      groupsPicked,
       contact,
       setAlerts,
       removeAlerts,
@@ -186,7 +202,7 @@ const ContactEdit = _ => {
     ]
   );
 
-  /* end of event handlers */
+  /* end of contact handlers */
 
   if (contactsLoading) {
     return <Loading />;
@@ -238,6 +254,10 @@ const ContactEdit = _ => {
           labelMessage={uiWordings['Contact.TypeLabel']}
           onChange={onChange}
         /> */}
+        <ContactEditGroupSelect
+          groupsPicked={groupsPicked}
+          onGetGroupsPicked={onGetGroupsPicked}
+        />
         <LabelSelectPair
           name='language'
           value={contact.language}

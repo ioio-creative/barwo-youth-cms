@@ -6,6 +6,9 @@ const SendHistorySchema = mongoose.Schema({
     type: String,
     required: true
   },
+  recipientGroups: {
+    type: [String]
+  },
   title_tc: {
     type: String,
     required: true

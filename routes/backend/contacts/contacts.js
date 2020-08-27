@@ -10,6 +10,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { Contact, contactResponseTypes } = require('../../../models/Contact');
+const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 
 /* utilities */
 
@@ -101,15 +102,16 @@ router.post(
   '/',
   [auth, contactValidationChecks, validationHandling],
   async (req, res) => {
-    const { emailAddress, name, language, isEnabled } = req.body;
+    const { emailAddress, name, groups, language, isEnabled } = req.body;
     // const { emailAddress, name, type, language, isEnabled } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
       const contact = new Contact({
         emailAddress,
         name,
         // type,
+        groups: getArraySafe(groups),
         language,
         isEnabled,
         lastModifyUser: req.user._id
@@ -132,7 +134,9 @@ router.put(
   '/:_id',
   [auth, contactValidationChecks, validationHandling],
   async (req, res) => {
-    const { emailAddress, name, language, isEnabled } = req.body;
+    const { emailAddress, name, groups, language, isEnabled } = req.body;
+    // console.log(req.body);
+
     // const { emailAddress, name, type, language, isEnabled } = req.body;
 
     // Build contact object
@@ -142,6 +146,7 @@ router.put(
     if (emailAddress) contactFields.emailAddress = emailAddress;
     if (name) contactFields.name = name;
     // contactFields.type = type;
+    contactFields.groups = getArraySafe(groups);
     contactFields.language = language;
     if (isEnabled !== undefined) contactFields.isEnabled = isEnabled;
     contactFields.lastModifyDT = new Date();

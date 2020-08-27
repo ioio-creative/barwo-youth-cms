@@ -1,6 +1,7 @@
 import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
+import { getArraySafe } from '../utils/js/array/isNonEmptyArray';
 
 // const contactTypes = {
 //   MISS: { value: 'MISS', label: 'Miss' },
@@ -15,11 +16,27 @@ const contactLanguage = {
   EN: { value: 'EN', label: 'English' }
 };
 
+const contactGroups = {
+  MEDIA: { value: 'MEDIA', _id: 'MEDIA', label: 'Media/Press' },
+  EDM: { value: 'EDM', _id: 'EDM', label: 'EDM Subscribers' },
+  YMT: { value: 'YMT', _id: 'YMT', label: 'Committee (YMT)' },
+  BARWO: { value: 'BARWO', _id: 'BARWO', label: 'Committee (BARWO)' },
+  PRIMANY: { value: 'PRIMANY', _id: 'PRIMANY', label: 'Primary School' },
+  SECONDARY: {
+    value: 'SECONDARY',
+    _id: 'SECONDARY',
+    label: 'Secondary School'
+  },
+  UNIVERSITY: { value: 'UNIVERSITY', _id: 'UNIVERSITY', label: 'University' },
+  FAMILY: { value: 'FAMILY', _id: 'FAMILY', label: 'Family' }
+};
+
 function Contact() {
   this.emailAddress = '';
   this.name = '';
   //this.type = contactTypes.NOT_SPECIFIED.value;
   this.language = contactLanguage.EN.value;
+  this.groups = [contactGroups.EDM.value];
 
   this.isEnabled = true;
   this.lastModifyDT = null;
@@ -62,15 +79,26 @@ Contact.contactResponseTypes = {
 
 // Contact.contactTypes = contactTypes;
 // Contact.contactTypeOptions = Object.values(contactTypes);
-
 Contact.contactLanguage = contactLanguage;
 Contact.contactLanguageOptions = Object.values(contactLanguage);
+
+Contact.contactGroups = contactGroups;
+Contact.contactGroupOptions = Object.values(contactGroups);
 
 Contact.getContactForDisplay = contact => {
   return {
     ...contact,
     // typeDisplay: contactTypes[contact.type].label,
     languageDisplay: contactLanguage[contact.language.toUpperCase()].label,
+    groupsDisplay: getArraySafe(contact.groups)
+      .filter(x => x)
+      .map(group => {
+        // console.log(contact.groups);
+        if (!contactGroups[group]) {
+          debugger;
+        }
+        return contactGroups[group].label;
+      }),
     lastModifyDTDisplay: formatDateTimeString(contact.lastModifyDT),
     lastModifyUserDisplay: contact.lastModifyUser
       ? contact.lastModifyUser.name
@@ -82,6 +110,7 @@ Contact.getContactForDisplay = contact => {
 const displayFieldNames = [
   'typeDisplay',
   'languageDisplay',
+  // 'groupsDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',
   'isEnabledDisplay'

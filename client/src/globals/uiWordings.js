@@ -602,6 +602,7 @@ export default {
   'Contact.EmailAddressLabel': 'Email Address',
   'Contact.NameLabel': 'Name',
   'Contact.TypeLabel': 'Type',
+  'Contact.GroupsLabel': 'Groups',
   'Contact.LanguageLabel': 'Language',
   'Contact.LastModifyDTLabel': 'Last Modify DT',
   'Contact.LastModifyUserLabel': 'Last Modify User',
@@ -621,6 +622,7 @@ export default {
   'ContactEdit.AddContactSuccessMessage': 'Contact Added',
   'ContactEdit.UpdateContactSuccessMessage': 'Contact Updated',
   'ContactEdit.DeleteContactSuccessMessage': 'Contact Deleted',
+  'ContactEdit.SelectGroupsPlaceholder': ' Select Groups',
 
   'About.Title': 'About Page',
 
@@ -982,6 +984,16 @@ export default {
   'DeleteWithConfirmButton.ConfirmMessage': 'Are you sure to delete?',
   'DeleteWithConfirmButton.ConfirmYesLabel': 'Yes',
   'DeleteWithConfirmButton.ConfirmNoLabel': 'No',
+
+  'SendWithConfirmButton.ConfirmTitle': 'Confirm to submit',
+  'SendWithConfirmButton.ConfirmMessage':
+    'Which group do you want to send the email to? If you want to send to everyone, you can leave it unchecked.',
+  'SendWithConfirmButton.ConfirmMessage1':
+    'Which group do you want to send the email to?',
+  'SendWithConfirmButton.ConfirmMessage2':
+    'If you want to send to everyone, you can leave it unchecked',
+  'SendWithConfirmButton.ConfirmYesLabel': 'Yes',
+  'SendWithConfirmButton.ConfirmNoLabel': 'No',
 
   'LabelColorPickerPair.OpenButton': 'Open Color Picker',
 

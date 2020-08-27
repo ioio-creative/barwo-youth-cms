@@ -81,6 +81,7 @@ router.post(
   async (req, res) => {
     const {
       label,
+      recipientGroups,
       title_tc,
       title_sc,
       title_en,
@@ -113,6 +114,7 @@ router.post(
     try {
       const sendHistory = new SendHistory({
         label: label.trim(),
+        recipientGroups,
         title_tc,
         title_sc,
         title_en,
@@ -125,7 +127,11 @@ router.post(
 
       await Promise.all(
         getArraySafe(contacts)
-          .filter(contact => contact.isEnabled !== false)
+          .filter(
+            contact =>
+              contact.isEnabled !== false &&
+              recipientGroups.some(r => contact.groups.includes(r))
+          )
           .map(async contact => {
             if (contact.language === languages.TC._id) {
               return await emailSend(

@@ -37,11 +37,16 @@ const headers = [
   //   value: 'name',
   //   isSortEnabled: true
   // },
-  {
-    name: uiWordings['Contact.TypeLabel'],
-    value: 'typeDisplay',
-    isSortEnabled: true
-  },
+  // {
+  //   name: uiWordings['Contact.TypeLabel'],
+  //   value: 'typeDisplay',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Contact.GroupsLabel'],
+  //   value: 'groupsDisplay',
+  //   isSortEnabled: true
+  // },
   {
     name: uiWordings['Contact.LanguageLabel'],
     value: 'languageDisplay',

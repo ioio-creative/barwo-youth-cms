@@ -14,7 +14,10 @@ import {
   CONTACTS_ERRORS,
   CLEAR_CONTACTS_ERRORS,
   SET_CONTACTS_LOADING,
-  DELETE_CONTACT
+  DELETE_CONTACT,
+  GET_GROUPS,
+  CLEAR_GROUPS,
+  SET_GROUPS_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -23,7 +26,9 @@ const initialState = {
   contactsPaginationMeta: null,
   contact: null,
   contactsErrors: null,
-  contactsLoading: false
+  contactsLoading: false,
+  groups: null,
+  groupsLoading: null
 };
 
 const ContactsState = ({ children }) => {
@@ -155,6 +160,26 @@ const ContactsState = ({ children }) => {
     return isSuccess;
   }, []);
 
+  // Get Groups
+  const getGroups = useCallback(async _ => {
+    dispatch({ type: SET_GROUPS_LOADING });
+    try {
+      const res = await axios.get('/api/backend/contacts/groups');
+      dispatch({
+        type: GET_GROUPS,
+        payload: res.data
+      });
+      console.log('setGroup');
+    } catch (err) {
+      handleServerError(err, CONTACTS_ERRORS, dispatch);
+    }
+  }, []);
+
+  // Clear Groups
+  const clearGroups = useCallback(_ => {
+    dispatch({ type: CLEAR_GROUPS });
+  }, []);
+
   return (
     <ContactsContext.Provider
       value={{
@@ -163,6 +188,8 @@ const ContactsState = ({ children }) => {
         contact: state.contact,
         contactsErrors: state.contactsErrors,
         contactsLoading: state.contactsLoading,
+        groups: state.groups,
+        groupsLoading: state.groupsLoading,
         getContacts,
         clearContacts,
         getContact,
@@ -170,7 +197,9 @@ const ContactsState = ({ children }) => {
         addContact,
         updateContact,
         clearContactsErrors,
-        deleteContact
+        deleteContact,
+        getGroups,
+        clearGroups
       }}
     >
       {children}
