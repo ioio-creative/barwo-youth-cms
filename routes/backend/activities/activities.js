@@ -11,6 +11,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const translateAllFieldsFromTcToSc = require('../../../utils/translate/translateAllFieldsFromTcToSc');
 const { Activity, activityResponseTypes } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
 const pageMetaPopulate = require('../common/pageMetaPopulate');
@@ -158,7 +159,7 @@ router.post(
       // downloadMedium,
       pageMeta,
       isEnabled
-    } = req.body;
+    } = await translateAllFieldsFromTcToSc(req.body);
 
     try {
       const activity = new Activity({
