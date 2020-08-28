@@ -49,7 +49,8 @@ router.get('/export', [auth], async (req, res) => {
     };
 
     let contactsOutput =
-      'emailAddress,name,groups,language,isEnabled,lastModifyDT,lastModifyUser';
+      'emailAddress,name,groups,language,isEnabled,lastModifyDT,lastModifyUser' +
+      lineBreak;
     contacts.forEach(contact => {
       contactsOutput +=
         cleanStringFieldForCsv(contact.emailAddress) +
@@ -68,13 +69,17 @@ router.get('/export', [auth], async (req, res) => {
         lineBreak;
     });
 
-    console.log(contactsOutput);
+    //console.log(contactsOutput);
 
-    res.header('Content-Type', 'text/csv');
     // https://medium.com/@aitchkhan/downloading-csv-files-from-express-server-7a3beb3ae52c
     const fileName = 'contacts-' + formatDateString(new Date()) + '.csv';
-    res.attachment(fileName);
-    res.send(contactsOutput);
+    const mimeType = 'text/csv';
+
+    res.json({
+      data: contactsOutput,
+      fileName,
+      mimeType
+    });
   } catch (err) {
     generalErrorHandle(err, res);
   }

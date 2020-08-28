@@ -13,6 +13,7 @@ import Form from 'components/form/Form';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import { goToUrl } from 'utils/history';
 import addIdx from 'utils/js/array/addIdx';
+import download from 'utils/download';
 import routes from 'globals/routes';
 import uiWordings from 'globals/uiWordings';
 import Contact from 'models/contact';
@@ -178,7 +179,14 @@ const ContactList = _ => {
 
   const onExport = useCallback(
     async _ => {
-      await exportContacts();
+      const contactsExport = await exportContacts();
+      if (contactsExport) {
+        download(
+          contactsExport.data,
+          contactsExport.fileName,
+          contactsExport.mimeType
+        );
+      }
     },
     [exportContacts]
   );

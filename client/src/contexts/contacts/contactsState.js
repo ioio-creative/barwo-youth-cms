@@ -184,19 +184,20 @@ const ContactsState = ({ children }) => {
 
   // Export Contacts
   const exportContacts = useCallback(async _ => {
+    let contactsExport = null;
     dispatch({ type: SET_CONTACTS_EXPORT_LOADING });
     try {
       const res = await axios.get(
         'api/backend/contacts/exportAndImport/export'
       );
       dispatch({
-        type: EXPORT_CONTACTS,
-        payload: res.data
+        type: EXPORT_CONTACTS
       });
-      console.log(res.data);
+      contactsExport = res.data;
     } catch (err) {
       handleServerError(err, CONTACTS_ERRORS, dispatch);
     }
+    return contactsExport;
   }, []);
 
   return (
