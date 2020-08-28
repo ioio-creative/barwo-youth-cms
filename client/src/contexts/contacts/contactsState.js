@@ -19,7 +19,9 @@ import {
   CLEAR_GROUPS,
   SET_GROUPS_LOADING,
   EXPORT_CONTACTS,
-  SET_CONTACTS_EXPORT_LOADING
+  SET_CONTACTS_EXPORT_LOADING,
+  IMPORT_CONTACTS,
+  SET_CONTACTS_IMPORT_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -200,6 +202,25 @@ const ContactsState = ({ children }) => {
     return contactsExport;
   }, []);
 
+  // Import Contacts
+  const importContacts = useCallback(async file => {
+    let isSuccess = false;
+    dispatch({ type: SET_CONTACTS_IMPORT_LOADING });
+    try {
+      const formData = new FormData();
+      formData.append('fileImport', file);
+
+      await axios.post('api/backend/contacts/exportAndImport/import', formData);
+      dispatch({
+        type: IMPORT_CONTACTS
+      });
+      isSuccess = true;
+    } catch (err) {
+      handleServerError(err, CONTACTS_ERRORS, dispatch);
+    }
+    return isSuccess;
+  }, []);
+
   return (
     <ContactsContext.Provider
       value={{
@@ -211,6 +232,7 @@ const ContactsState = ({ children }) => {
         groups: state.groups,
         groupsLoading: state.groupsLoading,
         contactsExportLoading: state.contactsExportLoading,
+        contactsImportLoading: state.contactsImportLoading,
         getContacts,
         clearContacts,
         getContact,
@@ -221,7 +243,8 @@ const ContactsState = ({ children }) => {
         deleteContact,
         getGroups,
         clearGroups,
-        exportContacts
+        exportContacts,
+        importContacts
       }}
     >
       {children}

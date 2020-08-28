@@ -169,8 +169,6 @@ const ContactEdit = _ => {
         .filter(x => x)
         .map(group => group._id);
 
-      console.log(contact);
-
       let isSuccess = validInput(contact);
       let returnedContact = null;
       if (isSuccess) {

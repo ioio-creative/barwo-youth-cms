@@ -1,0 +1,9 @@
+.file-upload-button {
+  position: relative;
+}
+
+.file-upload-button input[type='file'] {
+  position: absolute;
+  bottom: 100%;
+  right: 100%;
+}

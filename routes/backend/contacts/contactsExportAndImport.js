@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const auth = require('../../../middleware/auth');
+const fileUploadHandling = require('../../../middleware/fileUploadHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { formatDateString } = require('../../../utils/datetime');
-const { Contact } = require('../../../models/Contact');
+const { Contact, contactResponseTypes } = require('../../../models/Contact');
 const { lastModifyUser } = require('../common/mediumSelect');
 
 /* utilities */
@@ -83,6 +84,26 @@ router.get('/export', [auth], async (req, res) => {
   } catch (err) {
     generalErrorHandle(err, res);
   }
+});
+
+// @route   POST api/backend/contacts/exportAndImport/import
+// @desc    Get all contacts as csv
+// @access  Private
+router.post('/import', [auth, fileUploadHandling], async (req, res) => {
+  if (
+    !req.files ||
+    Object.keys(req.files).length === 0 ||
+    !req.files.fileImport
+  ) {
+    // 400 bad request
+    return res.status(400).json({
+      errors: [contactResponseTypes.NO_FILE_UPLOADED_OR_FILE_INVALID_FOR_IMPORT]
+    });
+  }
+
+  console.log(req.files.fileImport);
+
+  res.send('File uploaded');
 });
 
 module.exports = router;

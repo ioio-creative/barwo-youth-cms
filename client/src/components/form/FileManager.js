@@ -360,7 +360,6 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
         );
       }
       const newQueue = filesArray.slice(0, maxFileUploadCount).map(file => {
-        console.log(file);
         if (!mediumTypeObj.allowedMimeTypes.includes(file.type)) {
           setAlerts(
             [
@@ -588,7 +587,8 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
               Medium.mediaResponseTypes[mediaError].msg,
               Alert.alertTypes.WARNING
             );
-          })
+          }),
+          fileUploadAlertTimeout
         );
         clearMediaErrors();
       }

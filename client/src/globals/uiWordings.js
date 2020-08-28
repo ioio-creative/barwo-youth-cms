@@ -613,6 +613,8 @@ export default {
   'ContactList.FilterButton': 'Filter',
   'ContactList.ClearFilterButton': 'Clear Filter',
   'ContactList.ExportButton': 'Export',
+  'ContactList.ImportButton': 'Import',
+  'ContactList.ImportSuccessMessage': 'Contacts Imported',
 
   'ContactEdit.BackToContactList': 'Back to Contact List',
   'ContactEdit.AddContactTitle': 'Add Contact',
