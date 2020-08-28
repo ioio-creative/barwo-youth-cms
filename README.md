@@ -40,7 +40,7 @@ npm run client  # React Client Only :3000
 I encountered the "/bin/sh: python: not found" issue when I ran "npm install opencc" on my ubunty server. The following solved it for me.
 Unable to set default python version to python3 in ubuntu
 https://stackoverflow.com/questions/41986507/unable-to-set-default-python-version-to-python3-in-ubuntu
-update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 ## Backend dev dependencies:
 * nodemon
