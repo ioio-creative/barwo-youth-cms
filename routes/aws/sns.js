@@ -77,28 +77,30 @@ const handleResponse = async (topicArn, req, res) => {
 
 router.post('/handle-bounces', async function (req, res) {
   try {
-    await handleResponse(topicArnBounce, req, res);
+    if (req.body) {
+      await handleResponse(topicArnBounce, req, res);
 
-    console.log('handle-bounces');
+      console.log('handle-bounces');
 
-    if (req.body.Message) {
-      const emailAddresses = req.body.bounce.bouncedRecipients.map(
-        bouncedRecipient => {
-          return bouncedRecipient.emailAddress;
-        }
-      );
-
-      for (const emailAddress of emailAddresses) {
-        await Contact.findOneAndUpdate(
-          { emailAddress: emailAddress },
-          { $set: { isEnabled: false } },
-          { new: true }
+      if (req.body.Message) {
+        const emailAddresses = req.body.bounce.bouncedRecipients.map(
+          bouncedRecipient => {
+            return bouncedRecipient.emailAddress;
+          }
         );
+
+        for (const emailAddress of emailAddresses) {
+          await Contact.findOneAndUpdate(
+            { emailAddress: emailAddress },
+            { $set: { isEnabled: false } },
+            { new: true }
+          );
+        }
+        res.status(200).json({
+          success: true,
+          message: 'Successfully received message'
+        });
       }
-      res.status(200).json({
-        success: true,
-        message: 'Successfully received message'
-      });
     }
   } catch (err) {
     console.error(err);
@@ -112,29 +114,31 @@ router.post('/handle-bounces', async function (req, res) {
 
 router.post('/handle-complaints', async function (req, res) {
   try {
-    handleResponse(topicArnComplaint, req, res);
+    if (req.body) {
+      await handleResponse(topicArnComplaint, req, res);
 
-    console.log('handle-complaints');
+      console.log('handle-complaints');
 
-    if (req.body.Message) {
-      const emailAddresses = req.body.complaints.complaintsdRecipients.map(
-        complaintsdRecipient => {
-          return complaintsdRecipient.emailAddress;
-        }
-      );
-
-      for (const emailAddress of emailAddresses) {
-        await Contact.findOneAndUpdate(
-          { emailAddress: emailAddress },
-          { $set: { isEnabled: false } },
-          { new: true }
+      if (req.body.Message) {
+        const emailAddresses = req.body.complaints.complaintsdRecipients.map(
+          complaintsdRecipient => {
+            return complaintsdRecipient.emailAddress;
+          }
         );
-      }
 
-      res.status(200).json({
-        success: true,
-        message: 'Successfully received message.'
-      });
+        for (const emailAddress of emailAddresses) {
+          await Contact.findOneAndUpdate(
+            { emailAddress: emailAddress },
+            { $set: { isEnabled: false } },
+            { new: true }
+          );
+        }
+
+        res.status(200).json({
+          success: true,
+          message: 'Successfully received message.'
+        });
+      }
     }
   } catch (err) {
     console.error(err);
