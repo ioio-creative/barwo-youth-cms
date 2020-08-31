@@ -89,6 +89,19 @@ const MiscellaneousInfoSchema = mongoose.Schema({
     }
   ],
 
+  facebookLink: {
+    type: String
+  },
+  youtubeLink: {
+    type: String
+  },
+  instagramLink: {
+    type: String
+  },
+  wechatLink: {
+    type: String
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now

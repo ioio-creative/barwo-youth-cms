@@ -93,7 +93,11 @@ router.get('/:lang/miscellaneousInfo', [languageHandling], async (req, res) => {
           logo => ({
             src: logo && logo.url
           })
-        )
+        ),
+        facebookLink: miscellaneousInfo.facebookLink,
+        youtubeLink: miscellaneousInfo.youtubeLink,
+        instagramLink: miscellaneousInfo.instagramLink,
+        wechatLink: miscellaneousInfo.wechatLink
       }
     };
 

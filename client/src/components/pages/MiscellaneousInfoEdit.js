@@ -322,6 +322,34 @@ const MiscellaneousInfoEdit = _ => {
           isMultiple={true}
           mediumType={mediumTypes.IMAGE}
         />
+        <LabelInputTextPair
+          name='facebookLink'
+          value={miscellaneousInfo.facebookLink}
+          labelMessage={uiWordings['MiscellaneousInfo.FacebookLinkLabel']}
+          onChange={onChange}
+          placeholder=''
+        />
+        <LabelInputTextPair
+          name='youtubeLink'
+          value={miscellaneousInfo.youtubeLink}
+          labelMessage={uiWordings['MiscellaneousInfo.YoutubeLink']}
+          onChange={onChange}
+          placeholder=''
+        />
+        <LabelInputTextPair
+          name='instagramLink'
+          value={miscellaneousInfo.instagramLink}
+          labelMessage={uiWordings['MiscellaneousInfo.InstagramLink']}
+          onChange={onChange}
+          placeholder=''
+        />
+        <LabelInputTextPair
+          name='wechatLink'
+          value={miscellaneousInfo.wechatLink}
+          labelMessage={uiWordings['MiscellaneousInfo.WechatLink']}
+          placeholder=''
+          onChange={onChange}
+        />
       </AccordionRegion>
 
       <AccordionRegion

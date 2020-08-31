@@ -30,6 +30,11 @@ function MiscellaneousInfo() {
   this.footerOrganizerLogos = [];
   this.footerSponsorLogos = [];
 
+  this.facebookLink = '';
+  this.youtubeLink = '';
+  this.instagramLink = '';
+  this.wechatLink = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
