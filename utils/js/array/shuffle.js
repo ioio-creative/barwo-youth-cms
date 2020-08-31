@@ -1,5 +1,6 @@
 const { isNonEmptyArray } = require('./isNonEmptyArray');
 
+// https://medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
 const shuffleInPlace = array => {
   if (!isNonEmptyArray(array)) {
     return [];
