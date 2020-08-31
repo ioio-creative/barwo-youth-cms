@@ -51,26 +51,27 @@ const handleSnsNotification = async (req, res) => {
 };
 
 const handleResponse = async (topicArn, req, res) => {
-  if (
-    req.headers['x-amz-sns-message-type'] === 'Notification' &&
-    req.body.Message
-  ) {
-    // console.log(req.body.Message);
-    await handleSnsNotification(req, res);
-  } else if (
-    req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation'
-  ) {
-    console.log(req.body);
-
-    var params = {
-      Token: req.body.Token,
-      TopicArn: topicArn
-    };
-    sns.confirmSubscription(params, function (err, data) {
-      if (err) throw err; // an error occurred
-      console.error(data);
-      generalErrorHandle(err, res);
-    });
+  if (req.body) {
+    if (
+      req.headers['x-amz-sns-message-type'] === 'Notification' &&
+      req.body.Message
+    ) {
+      // console.log(req.body.Message);
+      await handleSnsNotification(req, res);
+    } else if (
+      req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation'
+    ) {
+      console.log(req.body);
+      var params = {
+        Token: req.body.Token,
+        TopicArn: topicArn
+      };
+      sns.confirmSubscription(params, function (err, data) {
+        if (err) throw err; // an error occurred
+        console.error(data);
+        generalErrorHandle(err, res);
+      });
+    }
   }
 };
 
@@ -78,24 +79,27 @@ router.post('/handle-bounces', async function (req, res) {
   try {
     await handleResponse(topicArnBounce, req, res);
 
-    const emailAddresses = req.body.bounce.bouncedRecipients.map(
-      bouncedRecipient => {
-        return bouncedRecipient.emailAddress;
-      }
-    );
+    console.log('handle-bounces');
 
-    for (const emailAddress of emailAddresses) {
-      await Contact.findOneAndUpdate(
-        { emailAddress: emailAddress },
-        { $set: { isEnabled: false } },
-        { new: true }
+    if (req.body.Message) {
+      const emailAddresses = req.body.bounce.bouncedRecipients.map(
+        bouncedRecipient => {
+          return bouncedRecipient.emailAddress;
+        }
       );
-    }
 
-    res.status(200).json({
-      success: true,
-      message: 'Successfully received message'
-    });
+      for (const emailAddress of emailAddresses) {
+        await Contact.findOneAndUpdate(
+          { emailAddress: emailAddress },
+          { $set: { isEnabled: false } },
+          { new: true }
+        );
+      }
+      res.status(200).json({
+        success: true,
+        message: 'Successfully received message'
+      });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({
