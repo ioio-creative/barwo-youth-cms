@@ -1,15 +1,15 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import AlertContext from 'contexts/alert/alertContext';
-import ArtistsState from 'contexts/artists/ArtistsState';
-import ArtistsContext from 'contexts/artists/artistsContext';
+// import ArtistsState from 'contexts/artists/ArtistsState';
+// import ArtistsContext from 'contexts/artists/artistsContext';
 import ActivitiesState from 'contexts/activities/ActivitiesState';
 import ActivitiesContext from 'contexts/activities/activitiesContext';
 import LandingPageContext from 'contexts/landingPage/landingPageContext';
 import LandingPageContainer from 'components/landingPage/LandingPageContainer';
-import LandingPageEditFeaturedArtistSelect from 'components/landingPage/LandingPageEditFeaturedArtistSelect';
+// import LandingPageEditFeaturedArtistSelect from 'components/landingPage/LandingPageEditFeaturedArtistSelect';
 import LandingPageEditFeaturedActivitySelect from 'components/landingPage/LandingPageEditFeaturedActivitySelect';
 import Alert from 'models/alert';
-import Artist from 'models/artist';
+//import Artist from 'models/artist';
 import Activity from 'models/activity';
 import Loading from 'components/layout/loading/DefaultLoading';
 import AccordionRegion from 'components/layout/AccordionRegion';
@@ -31,12 +31,12 @@ const mediumTypes = Medium.mediumTypes;
 
 const LandingPageEdit = _ => {
   const { setAlerts, removeAlerts } = useContext(AlertContext);
-  const {
-    artistsErrors,
-    clearArtistsErrors,
-    getEventArtists,
-    clearEventArtists
-  } = useContext(ArtistsContext);
+  // const {
+  //   artistsErrors,
+  //   clearArtistsErrors,
+  //   getEventArtists,
+  //   clearEventArtists
+  // } = useContext(ArtistsContext);
   const {
     activitiesErrors,
     clearActivitiesErrors,
@@ -63,11 +63,11 @@ const LandingPageEdit = _ => {
   // featuredVideo1
   const [featuredVideo1Picked, setFeaturedVideo1Picked] = useState(null);
 
-  // featuredVideo2
-  const [featuredVideo2Picked, setFeaturedVideo2Picked] = useState(null);
+  // // featuredVideo2
+  // const [featuredVideo2Picked, setFeaturedVideo2Picked] = useState(null);
 
-  // featuredArtists
-  const [featuredArtistsPicked, setFeaturedArtistsPicked] = useState([]);
+  // // featuredArtists
+  // const [featuredArtistsPicked, setFeaturedArtistsPicked] = useState([]);
 
   // featuredActivities
   const [featuredActivitiesPicked, setFeaturedActivitiesPicked] = useState([]);
@@ -75,11 +75,11 @@ const LandingPageEdit = _ => {
   // componentDidMount
   useEffect(_ => {
     getLandingPage();
-    getEventArtists();
+    //getEventArtists();
     getActivitiesForSelect();
     return _ => {
       clearLandingPage();
-      clearEventArtists();
+      //clearEventArtists();
       clearActivitiesForSelect();
       removeAlerts();
     };
@@ -97,10 +97,10 @@ const LandingPageEdit = _ => {
       if (fetchedLandingPage) {
         setLandingVideosPicked(getArraySafe(fetchedLandingPage.landingVideos));
         setFeaturedVideo1Picked(fetchedLandingPage.featuredVideo1);
-        setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
-        setFeaturedArtistsPicked(
-          getArraySafe(fetchedLandingPage.featuredArtists)
-        );
+        //setFeaturedVideo2Picked(fetchedLandingPage.featuredVideo2);
+        // setFeaturedArtistsPicked(
+        //   getArraySafe(fetchedLandingPage.featuredArtists)
+        // );
         setFeaturedActivitiesPicked(
           getArraySafe(fetchedLandingPage.featuredActivities)
         );
@@ -135,23 +135,23 @@ const LandingPageEdit = _ => {
     [landingPageErrors, setAlerts, clearLandingPageErrors]
   );
 
-  // artistsErrors
-  useEffect(
-    _ => {
-      if (isNonEmptyArray(artistsErrors)) {
-        setAlerts(
-          artistsErrors.map(artistsError => {
-            return new Alert(
-              Artist.artistsResponseTypes[artistsError].msg,
-              Alert.alertTypes.WARNING
-            );
-          })
-        );
-        clearArtistsErrors();
-      }
-    },
-    [artistsErrors, setAlerts, clearArtistsErrors]
-  );
+  // // artistsErrors
+  // useEffect(
+  //   _ => {
+  //     if (isNonEmptyArray(artistsErrors)) {
+  //       setAlerts(
+  //         artistsErrors.map(artistsError => {
+  //           return new Alert(
+  //             Artist.artistsResponseTypes[artistsError].msg,
+  //             Alert.alertTypes.WARNING
+  //           );
+  //         })
+  //       );
+  //       clearArtistsErrors();
+  //     }
+  //   },
+  //   [artistsErrors, setAlerts, clearArtistsErrors]
+  // );
 
   // activitiesErrors
   useEffect(
@@ -202,15 +202,15 @@ const LandingPageEdit = _ => {
     setFeaturedVideo1Picked(firstOrDefault(newItemList, null));
   }, []);
 
-  const onGetFeaturedVideo2Picked = useCallback(newItemList => {
-    setIsSubmitEnabled(true);
-    setFeaturedVideo2Picked(firstOrDefault(newItemList, null));
-  }, []);
+  // const onGetFeaturedVideo2Picked = useCallback(newItemList => {
+  //   setIsSubmitEnabled(true);
+  //   setFeaturedVideo2Picked(firstOrDefault(newItemList, null));
+  // }, []);
 
-  const onGetFeaturedArtistsPicked = useCallback(newItemList => {
-    setIsSubmitEnabled(true);
-    setFeaturedArtistsPicked(newItemList);
-  }, []);
+  // const onGetFeaturedArtistsPicked = useCallback(newItemList => {
+  //   setIsSubmitEnabled(true);
+  //   setFeaturedArtistsPicked(newItemList);
+  // }, []);
 
   const onGetFeaturedActivitiesPicked = useCallback(newItemList => {
     setIsSubmitEnabled(true);
@@ -235,15 +235,15 @@ const LandingPageEdit = _ => {
         ? featuredVideo1Picked._id
         : null;
 
-      // add featuredVideo2
-      landingPage.featuredVideo2 = featuredVideo2Picked
-        ? featuredVideo2Picked._id
-        : null;
+      // // add featuredVideo2
+      // landingPage.featuredVideo2 = featuredVideo2Picked
+      //   ? featuredVideo2Picked._id
+      //   : null;
 
-      // add featuredArtists
-      landingPage.featuredArtists = getArraySafe(featuredArtistsPicked).map(
-        artist => artist._id
-      );
+      // // add featuredArtists
+      // landingPage.featuredArtists = getArraySafe(featuredArtistsPicked).map(
+      //   artist => artist._id
+      // );
 
       // add featuredActivities
       landingPage.featuredActivities = getArraySafe(
@@ -278,8 +278,8 @@ const LandingPageEdit = _ => {
       validInput,
       landingVideosPicked,
       featuredVideo1Picked,
-      featuredVideo2Picked,
-      featuredArtistsPicked,
+      // featuredVideo2Picked,
+      // featuredArtistsPicked,
       featuredActivitiesPicked
     ]
   );
@@ -318,20 +318,20 @@ const LandingPageEdit = _ => {
           isMultiple={false}
           mediumType={mediumTypes.VIDEO}
         />
-        <FileUpload
+        {/* <FileUpload
           name='featuredVideo2'
           labelMessage={uiWordings['LandingPage.FeaturedVideo2Label']}
           files={featuredVideo2Picked ? [featuredVideo2Picked] : null}
           onGetFiles={onGetFeaturedVideo2Picked}
           isMultiple={false}
           mediumType={mediumTypes.VIDEO}
-        />
+        /> */}
       </AccordionRegion>
 
-      <LandingPageEditFeaturedArtistSelect
+      {/* <LandingPageEditFeaturedArtistSelect
         featuredArtistsPicked={featuredArtistsPicked}
         onGetFeaturedArtistsPicked={onGetFeaturedArtistsPicked}
-      />
+      /> */}
 
       <LandingPageEditFeaturedActivitySelect
         featuredActivitiesPicked={featuredActivitiesPicked}
@@ -360,11 +360,11 @@ const LandingPageEdit = _ => {
 
 const LandingPageEditWithContainer = _ => (
   <LandingPageContainer>
-    <ArtistsState>
-      <ActivitiesState>
-        <LandingPageEdit />
-      </ActivitiesState>
-    </ArtistsState>
+    {/* <ArtistsState> */}
+    <ActivitiesState>
+      <LandingPageEdit />
+    </ActivitiesState>
+    {/* </ArtistsState> */}
   </LandingPageContainer>
 );
 

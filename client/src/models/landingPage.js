@@ -5,8 +5,8 @@ import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 function LandingPage() {
   this.landingVideos = [];
   this.featuredVideo1 = '';
-  this.featuredVideo2 = '';
-  this.featuredArtists = [];
+  // this.featuredVideo2 = '';
+  // this.featuredArtists = [];
   this.featuredActivities = [];
   this.pageMeta = null;
 
@@ -18,10 +18,10 @@ function LandingPage() {
 
 LandingPage.landingPageResponseTypes = {
   // input validation
-  LANDING_PAGE_ARTIST_REQUIRED: {
-    type: 'LANDING_PAGE_ARTIST_REQUIRED',
-    msg: 'LANDING_PAGE_ARTIST_REQUIRED'
-  },
+  // LANDING_PAGE_ARTIST_REQUIRED: {
+  //   type: 'LANDING_PAGE_ARTIST_REQUIRED',
+  //   msg: 'LANDING_PAGE_ARTIST_REQUIRED'
+  // },
   LANDING_PAGE_ACTIVITY_REQUIRED: {
     type: 'LANDING_PAGE_ACTIVITY_REQUIRED',
     msg: 'LANDING_PAGE_ACTIVITY_REQUIRED'

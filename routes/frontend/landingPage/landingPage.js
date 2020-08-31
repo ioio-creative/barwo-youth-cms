@@ -5,12 +5,14 @@ const { getEntityPropByLanguage } = require('../../../globals/languages');
 const languageHandling = require('../../../middleware/languageHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const { shuffleInPlace } = require('../../../utils/js/array/shuffle');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const {
   LandingPage,
   landingPageResponseTypes
 } = require('../../../models/LandingPage');
+const { Artist } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -29,24 +31,24 @@ const landingPopulationList = [
     path: 'featuredVideo1',
     select: mediumSelect
   },
-  {
-    path: 'featuredVideo2',
-    select: mediumSelect
-  },
-  {
-    path: 'featuredArtists',
-    select: {
-      label: 1,
-      name_tc: 1,
-      name_sc: 1,
-      name_en: 1,
-      featuredImage: 1
-    },
-    populate: {
-      path: 'featuredImage',
-      select: mediumSelect
-    }
-  },
+  // {
+  //   path: 'featuredVideo2',
+  //   select: mediumSelect
+  // },
+  // {
+  //   path: 'featuredArtists',
+  //   select: {
+  //     label: 1,
+  //     name_tc: 1,
+  //     name_sc: 1,
+  //     name_en: 1,
+  //     featuredImage: 1
+  //   },
+  //   populate: {
+  //     path: 'featuredImage',
+  //     select: mediumSelect
+  //   }
+  // },
   {
     path: 'featuredActivities',
     select: {
@@ -63,6 +65,21 @@ const landingPopulationList = [
       path: 'featuredImage',
       select: mediumSelect
     }
+  }
+];
+
+const artistSelect = {
+  label: 1,
+  name_tc: 1,
+  name_sc: 1,
+  name_en: 1,
+  featuredImage: 1
+};
+
+const artistPopulationList = [
+  {
+    path: 'featuredImage',
+    select: mediumSelect
   }
 ];
 
@@ -85,6 +102,16 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
         .json({ errors: [landingPageResponseTypes.LANDING_PAGE_NOT_EXISTS] });
     }
 
+    const featuredArtists = await Artist.find({
+      isEnabled: {
+        $ne: false
+      }
+    })
+      .select(artistSelect)
+      .populate(artistPopulationList);
+
+    shuffleInPlace(featuredArtists);
+
     const landingForFrontEnd = {
       landingVideos: getArraySafe(landing.landingVideos).map(video => ({
         src: video && video.url
@@ -92,10 +119,12 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
       featuredVideo1: {
         src: landing.featuredVideo1 && landing.featuredVideo1.url
       },
-      featuredVideo2: {
-        src: landing.featuredVideo2 && landing.featuredVideo2.url
-      },
-      featuredArtists: getArraySafe(landing.featuredArtists).map(artist => ({
+      // featuredVideo2: {
+      //   src: landing.featuredVideo2 && landing.featuredVideo2.url
+      // },
+      featuredArtists: getArraySafe(
+        /*landing.featuredArtists*/ featuredArtists
+      ).map(artist => ({
         id: artist._id,
         label: cleanLabelForSendingToFrontEnd(artist.label),
         name: getEntityPropByLanguage(artist, 'name', language),
