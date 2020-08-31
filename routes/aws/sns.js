@@ -51,7 +51,7 @@ const handleSnsNotification = async (req, res) => {
 };
 
 const handleResponse = async (topicArn, req, res) => {
-  if (req.body) {
+  if (Object.keys(req.body).length) {
     if (
       req.headers['x-amz-sns-message-type'] === 'Notification' &&
       req.body.Message
@@ -77,7 +77,7 @@ const handleResponse = async (topicArn, req, res) => {
 
 router.post('/handle-bounces', async function (req, res) {
   try {
-    if (req.body) {
+    if (Object.keys(req.body).length) {
       await handleResponse(topicArnBounce, req, res);
 
       console.log('handle-bounces');
@@ -114,7 +114,7 @@ router.post('/handle-bounces', async function (req, res) {
 
 router.post('/handle-complaints', async function (req, res) {
   try {
-    if (req.body) {
+    if (Object.keys(req.body).length) {
       await handleResponse(topicArnComplaint, req, res);
 
       console.log('handle-complaints');
