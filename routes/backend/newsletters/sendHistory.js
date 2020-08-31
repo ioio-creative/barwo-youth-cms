@@ -52,6 +52,9 @@ const sendHistoryPopulationListForFindOne = [
   ...sendHistoryPopulationListForFindAll
 ];
 
+const unsub =
+  '<br/><p><button onclick = "(function(){confirm(\'Confirm\')})()">取消訂閱</button></p>';
+
 const emailSend = async (contact, emailAddress, name, title, message) => {
   const transporter = nodemailer.createTransport({
     host: 'email-smtp.ap-southeast-1.amazonaws.com',
@@ -67,8 +70,9 @@ const emailSend = async (contact, emailAddress, name, title, message) => {
     from: `"${name}" ${emailAddress}`, // sender address
     to: contact.emailAddress, // Receivers
     subject: title, // Subject line
-    html: message // html body
+    html: message + unsub // html body
   });
+  console.log(info);
 };
 
 // @route   POST api/backend/newsletters/sendHistory
@@ -128,45 +132,45 @@ router.post(
         sender: req.user._id
       });
 
-      // await Promise.all(
-      //   getArraySafe(contacts)
-      //     .filter(
-      //       contact =>
-      //         contact.isEnabled !== false &&
-      //         (groupsArray.some(r => contact.groups.includes(r)) ||
-      //           groupsArray.length === 0)
-      //     )
-      //     .map(async contact => {
-      //       // console.log(contact);
+      await Promise.all(
+        getArraySafe(contacts)
+          .filter(
+            contact =>
+              contact.isEnabled !== false &&
+              (groupsArray.some(r => contact.groups.includes(r)) ||
+                groupsArray.length === 0)
+          )
+          .map(async contact => {
+            // console.log(contact);
 
-      //       if (contact.language === languages.TC._id) {
-      //         return await emailSend(
-      //           contact,
-      //           sender.emailAddress,
-      //           sender.name_tc,
-      //           title_tc,
-      //           message_tc
-      //         );
-      //       } else if (contact.language === languages.SC._id) {
-      //         return await emailSend(
-      //           contact,
-      //           sender.emailAddress,
-      //           sender.name_sc,
-      //           title_sc,
-      //           message_sc
-      //         );
-      //       } else if (contact.language === languages.EN._id) {
-      //         return await emailSend(
-      //           contact,
-      //           sender.emailAddress,
-      //           sender.name_en,
-      //           title_en,
-      //           message_en
-      //         );
-      //       }
-      //       return null;
-      //     })
-      // );
+            if (contact.language === languages.TC._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_tc,
+                title_tc,
+                message_tc
+              );
+            } else if (contact.language === languages.SC._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_sc,
+                title_sc,
+                message_sc
+              );
+            } else if (contact.language === languages.EN._id) {
+              return await emailSend(
+                contact,
+                sender.emailAddress,
+                sender.name_en,
+                title_en,
+                message_en
+              );
+            }
+            return null;
+          })
+      );
 
       await sendHistory.save();
 

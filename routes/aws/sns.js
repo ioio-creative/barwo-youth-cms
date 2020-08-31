@@ -60,6 +60,8 @@ const handleResponse = async (topicArn, req, res) => {
   } else if (
     req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation'
   ) {
+    console.log(req.body);
+
     var params = {
       Token: req.body.Token,
       TopicArn: topicArn
@@ -76,7 +78,7 @@ router.post('/handle-bounces', async function (req, res) {
   try {
     await handleResponse(topicArnBounce, req, res);
 
-    const emailAddresses = req.body.Message.bounce.bouncedRecipients.map(
+    const emailAddresses = req.body.bounce.bouncedRecipients.map(
       bouncedRecipient => {
         return bouncedRecipient.emailAddress;
       }
@@ -111,7 +113,7 @@ router.post('/handle-complaints', async function (req, res) {
     console.log('handle-complaints');
 
     if (req.body.Message) {
-      const emailAddresses = req.body.Message.complaints.complaintsdRecipients.map(
+      const emailAddresses = req.body.complaints.complaintsdRecipients.map(
         complaintsdRecipient => {
           return complaintsdRecipient.emailAddress;
         }
