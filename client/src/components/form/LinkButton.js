@@ -36,10 +36,6 @@ const LinkButton = ({
 };
 
 LinkButton.defaultProps = {
-  className: '',
-  color: 'blue',
-  textColor: 'white',
-  icon: null,
   to: '/'
 };
 

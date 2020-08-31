@@ -34,11 +34,22 @@ npm run client  # React Client Only :3000
 * express-validator
 * mongoose
 
+## Backend not-too-important dependencies
+* opencc
+
+I encountered the "make: not found" issue when I ran "npm install opencc" on my ubunty server. The following solved it for me.
+Make Command Not Found in ubuntu
+https://askubuntu.com/questions/192645/make-command-not-found
+sudo apt-get install build-essential
+
+I also encountered the "/bin/sh: python: not found" issue when I ran "npm install opencc" on my ubunty server. The following solved it for me.
+Unable to set default python version to python3 in ubuntu
+https://stackoverflow.com/questions/41986507/unable-to-set-default-python-version-to-python3-in-ubuntu
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 ## Backend dev dependencies:
 * nodemon
 * concurrently
-
 
 ## Frontend dependencies:
 * react

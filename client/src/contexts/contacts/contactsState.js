@@ -19,7 +19,9 @@ import {
   CLEAR_GROUPS,
   SET_GROUPS_LOADING,
   EXPORT_CONTACTS,
-  SET_CONTACTS_EXPORT_LOADING
+  SET_CONTACTS_EXPORT_LOADING,
+  IMPORT_CONTACTS,
+  SET_CONTACTS_IMPORT_LOADING
 } from '../types';
 import { setQueryStringValues } from 'utils/queryString';
 
@@ -184,19 +186,39 @@ const ContactsState = ({ children }) => {
 
   // Export Contacts
   const exportContacts = useCallback(async _ => {
+    let contactsExport = null;
     dispatch({ type: SET_CONTACTS_EXPORT_LOADING });
     try {
       const res = await axios.get(
         'api/backend/contacts/exportAndImport/export'
       );
       dispatch({
-        type: EXPORT_CONTACTS,
-        payload: res.data
+        type: EXPORT_CONTACTS
       });
-      console.log(res.data);
+      contactsExport = res.data;
     } catch (err) {
       handleServerError(err, CONTACTS_ERRORS, dispatch);
     }
+    return contactsExport;
+  }, []);
+
+  // Import Contacts
+  const importContacts = useCallback(async file => {
+    let isSuccess = false;
+    dispatch({ type: SET_CONTACTS_IMPORT_LOADING });
+    try {
+      const formData = new FormData();
+      formData.append('fileImport', file);
+
+      await axios.post('api/backend/contacts/exportAndImport/import', formData);
+      dispatch({
+        type: IMPORT_CONTACTS
+      });
+      isSuccess = true;
+    } catch (err) {
+      handleServerError(err, CONTACTS_ERRORS, dispatch);
+    }
+    return isSuccess;
   }, []);
 
   return (
@@ -210,6 +232,7 @@ const ContactsState = ({ children }) => {
         groups: state.groups,
         groupsLoading: state.groupsLoading,
         contactsExportLoading: state.contactsExportLoading,
+        contactsImportLoading: state.contactsImportLoading,
         getContacts,
         clearContacts,
         getContact,
@@ -220,7 +243,8 @@ const ContactsState = ({ children }) => {
         deleteContact,
         getGroups,
         clearGroups,
-        exportContacts
+        exportContacts,
+        importContacts
       }}
     >
       {children}
