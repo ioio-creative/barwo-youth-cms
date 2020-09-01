@@ -130,7 +130,7 @@ const artistPopulationListForFindOne = [...artistPopulationListForFindAll];
 const getArtistForFrontEndFromDbArtist = (
   dbArtist,
   language,
-  isRequirePageMeta = false,
+  isRequireDetail = false,
   defaultPageMeta = {}
 ) => {
   const artist = dbArtist;
@@ -153,108 +153,137 @@ const getArtistForFrontEndFromDbArtist = (
     post = 'art director';
   }
 
-  const relatedEvents = getArraySafe(
-    isDirector ? artist.eventsDirected : artist.eventsPerformed
-  );
+  let detailData = {};
 
-  const eventForFrontEndMapFunc = event => {
-    // find the corresponding role of the artist in the event
-    let artistRoleInEvent = null;
+  if (isRequireDetail) {
+    const relatedEvents = getArraySafe(
+      isDirector ? artist.eventsDirected : artist.eventsPerformed
+    );
 
-    if (!isDirector) {
-      // Note: somehow using label to compare works, can't use _id to compare...
-      const correspondingArtistWithRole = event.artists.find(
-        artistWithRole =>
-          artistWithRole.artist && artistWithRole.artist.label === artist.label
-      );
-      if (correspondingArtistWithRole) {
+    const eventForFrontEndMapFunc = event => {
+      // find the corresponding role of the artist in the event
+      let artistRoleInEvent = null;
+
+      if (!isDirector) {
+        // Note: somehow using label to compare works, can't use _id to compare...
+        const correspondingArtistWithRole = event.artists.find(
+          artistWithRole =>
+            artistWithRole.artist &&
+            artistWithRole.artist.label === artist.label
+        );
+        if (correspondingArtistWithRole) {
+          artistRoleInEvent = getEntityPropByLanguage(
+            correspondingArtistWithRole,
+            'role',
+            language
+          );
+        }
+      } else {
+        // TODO: this is hard-coded...
         artistRoleInEvent = getEntityPropByLanguage(
-          correspondingArtistWithRole,
+          {
+            role_tc: '藝術總監',
+            role_sc: '艺术总监',
+            role_en: 'Artistic Director'
+          },
           'role',
           language
         );
       }
-    } else {
-      // TODO: this is hard-coded...
-      artistRoleInEvent = getEntityPropByLanguage(
-        {
-          role_tc: '藝術總監',
-          role_sc: '艺术总监',
-          role_en: 'Artistic Director'
-        },
-        'role',
-        language
-      );
-    }
 
-    let firstShowDate = null;
-    if (isNonEmptyArray(event.shows)) {
-      const firstShow = event.shows[0];
-      firstShowDate = firstShow.date
-        ? formatDateStringForFrontEnd(firstShow.date)
-        : null;
-    }
+      let firstShowDate = null;
+      if (isNonEmptyArray(event.shows)) {
+        const firstShow = event.shows[0];
+        firstShowDate = firstShow.date
+          ? formatDateStringForFrontEnd(firstShow.date)
+          : null;
+      }
 
-    return {
-      id: event._id,
-      label: cleanLabelForSendingToFrontEnd(event.label),
-      name: getEntityPropByLanguage(event, 'name', language),
-      // artDirectors: getArraySafe(event.artDirectors).map(artDirector => {
-      //   return {
-      //     id: artDirector._id,
-      //     label: cleanLabelForSendingToFrontEnd(artDirector.label),
-      //     name: getEntityPropByLanguage(artDirector, 'name', language)
-      //   };
-      // }),
-      // still need artists for related artists field
-      artists: getArraySafe(event.artists).map(artistWithRole => {
-        if (artistWithRole.isGuestArtist !== true) {
-          const artist = artistWithRole.artist;
-          return {
-            id: artist._id,
-            label: cleanLabelForSendingToFrontEnd(artist.label),
-            name: getEntityPropByLanguage(artist, 'name', language),
-            featuredImage: {
-              src: artist.featuredImage && artist.featuredImage.url
-            }
-          };
-        } else {
-          return {
-            id: null,
-            label: null,
-            name: getEntityPropByLanguage(
-              artistWithRole,
-              'guestArtistName',
-              language
-            ),
-            featuredImage: {
-              src:
-                artistWithRole.guestArtistImage &&
-                artistWithRole.guestArtistImage.url
-            },
-            remarks: getEntityPropByLanguage(
-              artistWithRole,
-              'guestArtistRemarks',
-              language
-            )
-          };
-        }
-      }),
-      artistRole: artistRoleInEvent,
-      fromDate: firstShowDate
-      //shows: getArraySafe(event.shows)
+      return {
+        id: event._id,
+        label: cleanLabelForSendingToFrontEnd(event.label),
+        name: getEntityPropByLanguage(event, 'name', language),
+        // artDirectors: getArraySafe(event.artDirectors).map(artDirector => {
+        //   return {
+        //     id: artDirector._id,
+        //     label: cleanLabelForSendingToFrontEnd(artDirector.label),
+        //     name: getEntityPropByLanguage(artDirector, 'name', language)
+        //   };
+        // }),
+        // still need artists for related artists field
+        artists: getArraySafe(event.artists).map(artistWithRole => {
+          if (artistWithRole.isGuestArtist !== true) {
+            const artist = artistWithRole.artist;
+            return {
+              id: artist._id,
+              label: cleanLabelForSendingToFrontEnd(artist.label),
+              name: getEntityPropByLanguage(artist, 'name', language),
+              featuredImage: {
+                src: artist.featuredImage && artist.featuredImage.url
+              }
+            };
+          } else {
+            return {
+              id: null,
+              label: null,
+              name: getEntityPropByLanguage(
+                artistWithRole,
+                'guestArtistName',
+                language
+              ),
+              featuredImage: {
+                src:
+                  artistWithRole.guestArtistImage &&
+                  artistWithRole.guestArtistImage.url
+              },
+              remarks: getEntityPropByLanguage(
+                artistWithRole,
+                'guestArtistRemarks',
+                language
+              )
+            };
+          }
+        }),
+        artistRole: artistRoleInEvent,
+        fromDate: firstShowDate
+        //shows: getArraySafe(event.shows)
+      };
     };
-  };
 
-  const { sortedEvents, closestEvent } = mapAndSortEvents(
-    relatedEvents,
-    eventForFrontEndMapFunc
-  );
+    const { sortedEvents, closestEvent } = mapAndSortEvents(
+      relatedEvents,
+      eventForFrontEndMapFunc
+    );
 
-  // set relatedArtists
-  let relatedArtists = [];
-  if (closestEvent) {
-    relatedArtists = getArraySafe(closestEvent.artists);
+    // set relatedArtists
+    let relatedArtists = [];
+    if (closestEvent) {
+      relatedArtists = getArraySafe(closestEvent.artists);
+    }
+
+    detailData = {
+      withoutMaskImage: {
+        src: artist.withoutMaskImage && artist.withoutMaskImage.url
+      },
+      gallery: getArraySafe(artist.gallery).map(medium => {
+        return {
+          src: medium && medium.url
+        };
+      }),
+      sound: artist.sound ? artist.sound.url : null,
+      description: getEntityPropByLanguage(artist, 'desc', language),
+      questions: getArraySafe(artist.qnas).map(qna => ({
+        title: getEntityPropByLanguage(qna, 'question', language),
+        answer: getEntityPropByLanguage(qna, 'answer', language)
+      })),
+      relatedEvents: sortedEvents,
+      relatedArtists: relatedArtists,
+      pageMeta: getPageMetaForFrontEnd(
+        artist.pageMeta,
+        language,
+        defaultPageMeta
+      )
+    };
   }
 
   return {
@@ -266,25 +295,7 @@ const getArtistForFrontEndFromDbArtist = (
     featuredImage: {
       src: artist.featuredImage && artist.featuredImage.url
     },
-    withoutMaskImage: {
-      src: artist.withoutMaskImage && artist.withoutMaskImage.url
-    },
-    gallery: getArraySafe(artist.gallery).map(medium => {
-      return {
-        src: medium && medium.url
-      };
-    }),
-    sound: artist.sound && artist.sound.url,
-    description: getEntityPropByLanguage(artist, 'desc', language),
-    questions: getArraySafe(artist.qnas).map(qna => ({
-      title: getEntityPropByLanguage(qna, 'question', language),
-      answer: getEntityPropByLanguage(qna, 'answer', language)
-    })),
-    relatedEvents: sortedEvents,
-    relatedArtists: relatedArtists,
-    pageMeta:
-      isRequirePageMeta &&
-      getPageMetaForFrontEnd(artist.pageMeta, language, defaultPageMeta)
+    ...detailData
   };
 };
 
@@ -318,14 +329,6 @@ const artistsGetHandling = async (req, res, isFindArtDirectors = false) => {
     const artistsForFrontEnd = getArraySafe(artists).map(artist => {
       return getArtistForFrontEndFromDbArtist(artist, language);
     });
-
-    // for (let i = 0; i < artistsForFrontEnd.length; i++) {
-    //   console.log('');
-    //   console.log('');
-    //   console.log(i + ':');
-    //   console.log(JSON.stringify(artistsForFrontEnd[i].relatedEvents, null, 2));
-    //   console.log(artistsForFrontEnd[i].closestRelatedEvent);
-    // }
 
     res.json(artistsForFrontEnd);
   } catch (err) {
