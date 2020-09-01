@@ -12,11 +12,10 @@ const { getNewsMediaItemList } = require('../newsMediaItems/newsMediaItems');
 // @access  Public
 router.get('/:lang', [languageHandling], async (req, res) => {
   try {
-    const language = req.language;
     const newsCombined = {
-      newsesByType: await getNewsList(language),
-      newsletters: await getNewsletterList(language),
-      newsMediaItemsByYear: await getNewsMediaItemList(language)
+      newsesByType: await getNewsList(req),
+      newsletters: await getNewsletterList(req),
+      newsMediaItemsByYear: await getNewsMediaItemList(req)
     };
     res.json(newsCombined);
   } catch (err) {

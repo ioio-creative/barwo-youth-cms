@@ -100,7 +100,9 @@ const getNewsesInOrderFromDb = async newsType => {
   );
 };
 
-const getNewsList = async language => {
+const getNewsList = async req => {
+  const language = req.language;
+
   const newsesByType = {};
 
   for (const type of newsTypesArray) {
@@ -121,7 +123,7 @@ const getNewsList = async language => {
 // @access  Public
 router.get('/:lang/newses', [languageHandling], async (req, res) => {
   try {
-    res.json(await getNewsList(req.language));
+    res.json(await getNewsList(req));
   } catch (err) {
     generalErrorHandle(err, res);
   }

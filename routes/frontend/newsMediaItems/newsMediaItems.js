@@ -15,7 +15,10 @@ const {
 } = require('../../../models/PageMeta');
 const {
   NewsMediaItem,
-  newsMediaItemResponseTypes
+  newsMediaItemResponseTypes,
+  newsMediaItemTypes,
+  defaultNewsMediaItemType,
+  isValidNewsMediaItemType
 } = require('../../../models/NewsMediaItem');
 const mediumSelect = require('../common/mediumSelect');
 const pageMetaPopulate = require('../common/pageMetaPopulate');
@@ -82,24 +85,46 @@ const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
     thumbnail: {
       src: newsMediaItem.thumbnail && newsMediaItem.thumbnail.url
     },
-    gallery: getArraySafe(newsMediaItem.gallery).map(medium => {
-      return {
-        src: medium && medium.url
-      };
-    }),
-    videoLinks: getArraySafe(newsMediaItem.videoLinks),
+    gallery:
+      newsMediaItem.type === newsMediaItemTypes.IMAGE
+        ? getArraySafe(newsMediaItem.gallery).map(medium => {
+            return {
+              src: medium && medium.url
+            };
+          })
+        : null,
+    videoLinks:
+      newsMediaItem.type === newsMediaItemTypes.VIDEO
+        ? getArraySafe(newsMediaItem.videoLinks)
+        : null,
     pageMeta:
       isRequirePageMeta &&
       getPageMetaForFrontEnd(newsMediaItem.pageMeta, language, defaultPageMeta)
   };
 };
 
-const getNewsMediaItemList = async language => {
-  const newsMediaItems = await NewsMediaItem.find({
+const getNewsMediaItemList = async (req, isGetAllTypes = false) => {
+  const language = req.language;
+
+  // query
+  const query = req.query;
+  let type = query.type && query.type.toUpperCase();
+
+  if (!isValidNewsMediaItemType(type)) {
+    type = defaultNewsMediaItemType;
+  }
+
+  const findOptions = {
     isEnabled: {
       $ne: false
     }
-  })
+  };
+
+  if (!isGetAllTypes) {
+    findOptions.type = type;
+  }
+
+  const newsMediaItems = await NewsMediaItem.find(findOptions)
     .select(newsMediaItemSelectForFindAll)
     .populate(newsMediaItemPopulationListForFindAll)
     .sort({
@@ -150,9 +175,10 @@ const getNewsMediaItemList = async language => {
 // @route   GET api/frontend/newsMediaItems/:lang/newsMediaItems
 // @desc    Get all news media items
 // @access  Public
+// @query type=IMAGE or VIDEO
 router.get('/:lang/newsMediaItems', [languageHandling], async (req, res) => {
   try {
-    res.json(await getNewsMediaItemList(req.language));
+    res.json(await getNewsMediaItemList(req));
   } catch (err) {
     generalErrorHandle(err, res);
   }

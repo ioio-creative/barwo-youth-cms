@@ -17,6 +17,8 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
+const maxNumOfFeaturedArtists = 10;
+
 const landingSelect = {
   lastModifyDT: 0,
   lastModifyUser: 0
@@ -102,7 +104,7 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
         .json({ errors: [landingPageResponseTypes.LANDING_PAGE_NOT_EXISTS] });
     }
 
-    const featuredArtists = await Artist.find({
+    let featuredArtists = await Artist.find({
       isEnabled: {
         $ne: false
       }
@@ -110,7 +112,12 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
       .select(artistSelect)
       .populate(artistPopulationList);
 
-    shuffleInPlace(featuredArtists);
+    featuredArtists = getArraySafe(featuredArtists).splice(
+      0,
+      maxNumOfFeaturedArtists
+    );
+
+    featuredArtists = shuffleInPlace(featuredArtists);
 
     const landingForFrontEnd = {
       landingVideos: getArraySafe(landing.landingVideos).map(video => ({

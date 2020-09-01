@@ -50,6 +50,7 @@ const newsMediaItemValidationChecks = [
   check('name_tc', newsMediaItemResponseTypes.NAME_TC_REQUIRED).notEmpty(),
   check('name_sc', newsMediaItemResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', newsMediaItemResponseTypes.NAME_EN_REQUIRED).notEmpty(),
+  check('type', newsMediaItemResponseTypes.TYPE_REQUIRED).notEmpty(),
   check('fromDate', newsMediaItemResponseTypes.FROM_DATE_REQUIRED).notEmpty()
 ];
 
@@ -170,6 +171,7 @@ router.post(
       name_tc,
       name_sc,
       name_en,
+      type,
       fromDate,
       desc_tc,
       desc_sc,
@@ -193,6 +195,7 @@ router.post(
         name_tc,
         name_sc,
         name_en,
+        type,
         fromDate,
         desc_tc,
         desc_sc,
@@ -228,6 +231,7 @@ router.put(
       name_tc,
       name_sc,
       name_en,
+      type,
       fromDate,
       desc_tc,
       desc_sc,
@@ -253,6 +257,7 @@ router.put(
     if (name_tc) newsMediaItemFields.name_tc = name_tc;
     if (name_sc) newsMediaItemFields.name_sc = name_sc;
     if (name_en) newsMediaItemFields.name_en = name_en;
+    if (type) newsMediaItemFields.type = type;
     if (fromDate) newsMediaItemFields.fromDate = fromDate;
     newsMediaItemFields.desc_tc = desc_tc;
     newsMediaItemFields.desc_sc = desc_sc;

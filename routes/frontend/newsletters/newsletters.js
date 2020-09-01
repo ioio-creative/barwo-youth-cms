@@ -71,7 +71,9 @@ const getNewsletterForFrontEndFromDbNewsletter = (
   };
 };
 
-const getNewsletterList = async language => {
+const getNewsletterList = async req => {
+  const language = req.language;
+
   // const newsletters = await Newsletter.find({
   //   isEnabled: {
   //     $ne: false
@@ -106,7 +108,7 @@ const getNewsletterList = async language => {
 // @access  Public
 router.get('/:lang/newsletters', [languageHandling], async (req, res) => {
   try {
-    res.json(await getNewsletterList(req.language));
+    res.json(await getNewsletterList(req));
   } catch (err) {
     generalErrorHandle(err, res);
   }

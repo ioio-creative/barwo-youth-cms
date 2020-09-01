@@ -21,6 +21,10 @@ const NewsMediaItemSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  type: {
+    type: String,
+    require: true
+  },
   fromDate: {
     type: Date,
     require: true
@@ -71,12 +75,28 @@ module.exports.NewsMediaItem = mongoose.model(
   NewsMediaItemSchema
 );
 
+const newsMediaItemTypes = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+};
+
+const newsMediaItemTypesArray = Object.values(newsMediaItemTypes);
+
+module.exports.newsMediaItemTypes = newsMediaItemTypes;
+
+module.exports.defaultNewsMediaItemType = newsMediaItemTypes.IMAGE;
+
+module.exports.isValidNewsMediaItemType = type => {
+  return newsMediaItemTypesArray.includes(type && type.toUpperCase());
+};
+
 module.exports.newsMediaItemResponseTypes = {
   // input validation
   LABEL_REQUIRED: 'LABEL_REQUIRED',
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  TYPE_REQUIRED: 'TYPE_REQUIRED',
   FROM_DATE_REQUIRED: 'FROM_DATE_REQUIRED',
   VIDEO_LINK_REQUIRED: 'VIDEO_LINK_REQUIRED',
 
