@@ -931,6 +931,7 @@ export default {
   'NewsMediaItem.NameTcLabel': 'Name TC',
   'NewsMediaItem.NameScLabel': 'Name SC',
   'NewsMediaItem.NameEnLabel': 'Name EN',
+  'NewsMediaItem.TypeLabel': 'Type',
   'NewsMediaItem.FromDateLabel': 'From Date',
   'NewsMediaItem.DescTcLabel': 'Desc TC',
   'NewsMediaItem.DescScLabel': 'Desc SC',

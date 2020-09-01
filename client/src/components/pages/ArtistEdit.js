@@ -421,7 +421,6 @@ const ArtistEdit = _ => {
             onGetFiles={onGetGalleryPicked}
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
-            orderDirection='horizontal'
           />
           <FileUpload
             name='sound'

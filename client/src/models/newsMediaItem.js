@@ -2,11 +2,17 @@ import { formatDateString, formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
+const newsMediaItemTypes = {
+  IMAGE: { value: 'IMAGE', label: 'IMAGE' },
+  VIDEO: { value: 'VIDEO', label: 'VIDEO' }
+};
+
 function NewsMediaItem() {
   this.label = '';
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
+  this.type = newsMediaItemTypes.IMAGE;
   this.fromDate = null;
   this.desc_tc = '';
   this.desc_sc = '';
@@ -31,6 +37,7 @@ NewsMediaItem.newsMediaItemsResponseTypes = {
   NAME_TC_REQUIRED: { type: 'NAME_TC_REQUIRED', msg: 'NAME_TC_REQUIRED' },
   NAME_SC_REQUIRED: { type: 'NAME_SC_REQUIRED', msg: 'NAME_SC_REQUIRED' },
   NAME_EN_REQUIRED: { type: 'NAME_EN_REQUIRED', msg: 'NAME_EN_REQUIRED' },
+  TYPE_REQUIRED: { type: 'TYPE_REQUIRED', msg: 'TYPE_REQUIRED' },
   FROM_DATE_REQUIRED: {
     type: 'FROM_DATE_REQUIRED',
     msg: 'FROM_DATE_REQUIRED'
@@ -55,9 +62,13 @@ NewsMediaItem.newsMediaItemsResponseTypes = {
   CLIENT_ERROR: generalResponseTypes.CLIENT_ERROR
 };
 
+NewsMediaItem.newsMediaItemTypes = newsMediaItemTypes;
+NewsMediaItem.newsMediaItemTypeOptions = Object.values(newsMediaItemTypes);
+
 NewsMediaItem.getNewsMediaItemForDisplay = newsMediaItem => {
   return {
     ...newsMediaItem,
+    typeDisplay: newsMediaItemTypes[newsMediaItem.type].label,
     fromDateDisplay: newsMediaItem.fromDate
       ? formatDateString(newsMediaItem.fromDate)
       : null,
@@ -71,6 +82,7 @@ NewsMediaItem.getNewsMediaItemForDisplay = newsMediaItem => {
 };
 
 const displayFieldNames = [
+  'typeDisplay',
   'fromDateDisplay',
   'createDTDisplay',
   'lastModifyDTDisplay',

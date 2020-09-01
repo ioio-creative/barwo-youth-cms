@@ -48,6 +48,11 @@ const headers = [
   //   isSortEnabled: true
   // },
   {
+    name: uiWordings['NewsMediaItem.TypeLabel'],
+    value: 'typeDisplay',
+    isSortEnabled: true
+  },
+  {
     name: uiWordings['NewsMediaItem.FromDateLabel'],
     value: 'fromDateDisplay',
     isSortEnabled: true

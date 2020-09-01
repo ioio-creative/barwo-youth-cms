@@ -9,6 +9,7 @@ import AccordionRegion from 'components/layout/AccordionRegion';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
+import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import Label from 'components/form/Label';
 import Toggle from 'components/form/Toggle';
@@ -35,6 +36,7 @@ const emptyNewsMediaItem = new NewsMediaItem();
 const defaultState = emptyNewsMediaItem;
 
 const mediumTypes = Medium.mediumTypes;
+const newsMediaItemTypes = NewsMediaItem.newsMediaItemTypes;
 
 const NewsMediaItemEdit = _ => {
   const { newsMediaItemId } = useParams();
@@ -377,21 +379,45 @@ const NewsMediaItemEdit = _ => {
             isMultiple={false}
             mediumType={mediumTypes.IMAGE}
           />
-          <FileUpload
-            name='gallery'
-            labelMessage={uiWordings['NewsMediaItem.GalleryLabel']}
-            files={getArraySafe(galleryPicked)}
-            onGetFiles={onGetGalleryPicked}
-            isMultiple={true}
-            mediumType={mediumTypes.IMAGE}
-            orderDirection='horizontal'
+
+          <LabelSelectPair
+            name='type'
+            value={newsMediaItem.type}
+            options={NewsMediaItem.newsMediaItemTypeOptions}
+            labelMessage={uiWordings['NewsMediaItem.TypeLabel']}
+            onChange={onChange}
           />
-          <TextList
-            name='videoLinks'
-            labelMessage={uiWordings['NewsMediaItem.VideoLinksLabel']}
-            textItems={videoLinksPicked}
-            onGetTextItems={onGetVideoLinksPicked}
-          />
+
+          <div
+            className={`${
+              newsMediaItem.type === newsMediaItemTypes.IMAGE.value
+                ? ''
+                : 'w3-hide'
+            }`}
+          >
+            <FileUpload
+              name='gallery'
+              labelMessage={uiWordings['NewsMediaItem.GalleryLabel']}
+              files={getArraySafe(galleryPicked)}
+              onGetFiles={onGetGalleryPicked}
+              isMultiple={true}
+              mediumType={mediumTypes.IMAGE}
+            />
+          </div>
+          <div
+            className={`${
+              newsMediaItem.type === newsMediaItemTypes.VIDEO.value
+                ? ''
+                : 'w3-hide'
+            }`}
+          >
+            <TextList
+              name='videoLinks'
+              labelMessage={uiWordings['NewsMediaItem.VideoLinksLabel']}
+              textItems={videoLinksPicked}
+              onGetTextItems={onGetVideoLinksPicked}
+            />
+          </div>
         </AccordionRegion>
 
         <AccordionRegion
