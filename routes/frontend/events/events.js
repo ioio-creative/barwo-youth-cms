@@ -219,7 +219,7 @@ const getEventForFrontEndFromDbEvent = (
     // fromDateRaw: firstShowDateRaw,
     // fromYear: firstShowYear,
     // fromMonth: firstShowMonth,
-    // toDate: lastShowDate,
+    toDate: lastShowDate,
     // toDateRaw: lastShowDateRaw,
     // toYear: lastShowYear,
     // toMonth: lastShowMonth,
@@ -422,8 +422,6 @@ router.get('/:lang/pastEvents', [languageHandling], async (req, res) => {
 router.get('/:lang/archive', [languageHandling], async (req, res) => {
   try {
     const { sortedEvents } = await getSortedEvents(req, 1, true);
-
-    const now = new Date();
 
     const eventsByYear = {};
     // isPastEvent field added to event by getEventForFrontEndFromDbEvent()

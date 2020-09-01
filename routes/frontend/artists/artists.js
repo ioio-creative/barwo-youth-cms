@@ -191,18 +191,50 @@ const getArtistForFrontEndFromDbArtist = (
         );
       }
 
+      let firstShowDateRaw = null;
       let firstShowDate = null;
+      let firstShowYear = null;
+      let firstShowMonth = null;
+      let lastShowDateRaw = null;
+      let lastShowDate = null;
+      // let lastShowYear = null;
+      // let lastShowMonth = null;
       if (isNonEmptyArray(event.shows)) {
         const firstShow = event.shows[0];
-        firstShowDate = firstShow.date
-          ? formatDateStringForFrontEnd(firstShow.date)
+        firstShowDateRaw = firstShow.date;
+        firstShowDate = firstShowDateRaw
+          ? formatDateStringForFrontEnd(firstShowDateRaw)
           : null;
+        firstShowYear = firstShowDateRaw
+          ? firstShowDateRaw.getUTCFullYear()
+          : null;
+        firstShowMonth = firstShowDateRaw
+          ? firstShowDateRaw.getUTCMonth()
+          : null;
+
+        const lastShow = event.shows[event.shows.length - 1];
+        lastShowDateRaw = lastShow.date;
+        lastShowDate = lastShowDateRaw
+          ? formatDateStringForFrontEnd(lastShowDateRaw)
+          : null;
+        // lastShowYear = lastShowDateRaw ? lastShowDateRaw.getUTCFullYear() : null;
+        // lastShowMonth = lastShowDateRaw ? lastShowDateRaw.getUTCMonth() : null;
       }
 
       return {
         id: event._id,
         label: cleanLabelForSendingToFrontEnd(event.label),
         name: getEntityPropByLanguage(event, 'name', language),
+        fromDate: firstShowDate,
+        // fromDateRaw: firstShowDateRaw,
+        // fromYear: firstShowYear,
+        // fromMonth: firstShowMonth,
+        toDate: lastShowDate,
+        // toDateRaw: lastShowDateRaw,
+        // toYear: lastShowYear,
+        // toMonth: lastShowMonth,
+        year: firstShowYear,
+        month: firstShowMonth,
         // artDirectors: getArraySafe(event.artDirectors).map(artDirector => {
         //   return {
         //     id: artDirector._id,
@@ -252,7 +284,8 @@ const getArtistForFrontEndFromDbArtist = (
 
     const { sortedEvents, closestEvent } = mapAndSortEvents(
       relatedEvents,
-      eventForFrontEndMapFunc
+      eventForFrontEndMapFunc,
+      -1 // descending
     );
 
     // set relatedArtists
@@ -260,6 +293,29 @@ const getArtistForFrontEndFromDbArtist = (
     if (closestEvent) {
       relatedArtists = getArraySafe(closestEvent.artists);
     }
+
+    // set relatedEvents
+    const eventsByYear = {};
+
+    sortedEvents.forEach(event => {
+      // year field added to event by eventForFrontEndMapFunc()
+      const yearStr = event.year.toString();
+      if (Array.isArray(eventsByYear[yearStr])) {
+        eventsByYear[yearStr].push(event);
+      } else {
+        eventsByYear[yearStr] = [event];
+      }
+    });
+
+    const eventsByYearArray = Object.keys(eventsByYear)
+      .sort()
+      .reverse()
+      .map(year => {
+        return {
+          year: year,
+          events: eventsByYear[year]
+        };
+      });
 
     detailData = {
       withoutMaskImage: {
@@ -276,7 +332,7 @@ const getArtistForFrontEndFromDbArtist = (
         title: getEntityPropByLanguage(qna, 'question', language),
         answer: getEntityPropByLanguage(qna, 'answer', language)
       })),
-      relatedEvents: sortedEvents,
+      relatedEvents: eventsByYearArray,
       relatedArtists: relatedArtists,
       pageMeta: getPageMetaForFrontEnd(
         artist.pageMeta,
