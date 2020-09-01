@@ -156,7 +156,7 @@ const addThemeColorDefaultToEvents = events => {
 const getEventForFrontEndFromDbEvent = (
   dbEvent,
   language,
-  isRequirePageMeta = false,
+  isRequireDetail = false,
   defaultPageMeta = {}
 ) => {
   const event = dbEvent;
@@ -191,20 +191,72 @@ const getEventForFrontEndFromDbEvent = (
 
   const name = getEntityPropByLanguage(event, 'name', language);
 
-  let nameForLongDisplay = getEntityPropByLanguage(
-    event,
-    'nameForLongDisplay',
-    language
-  );
-  nameForLongDisplay = nameForLongDisplay
-    ? nameForLongDisplay.replace(/\n/g, '<br>')
-    : name;
+  let detailData = {};
+
+  if (isRequireDetail) {
+    let nameForLongDisplay = getEntityPropByLanguage(
+      event,
+      'nameForLongDisplay',
+      language
+    );
+    nameForLongDisplay = nameForLongDisplay
+      ? nameForLongDisplay.replace(/\n/g, '<br>')
+      : name;
+
+    detailData = {
+      nameForLongDisplay: nameForLongDisplay,
+      gallery: getArraySafe(event.gallery).map(medium => {
+        return {
+          src: medium && medium.url
+        };
+      }),
+      relatedActors: getArraySafe(event.artists).map(artistWithRole => {
+        const artist = artistWithRole.artist;
+        return {
+          role: getEntityPropByLanguage(artistWithRole, 'role', language),
+          artist:
+            artistWithRole.isGuestArtist !== true
+              ? {
+                  id: artist._id,
+                  label: cleanLabelForSendingToFrontEnd(artist.label),
+                  name: getEntityPropByLanguage(artist, 'name', language),
+                  featuredImage: {
+                    src: artist.featuredImage && artist.featuredImage.url
+                  }
+                }
+              : {
+                  id: null,
+                  label: null,
+                  name: getEntityPropByLanguage(
+                    artistWithRole,
+                    'guestArtistName',
+                    language
+                  ),
+                  featuredImage: {
+                    src:
+                      artistWithRole.guestArtistImage &&
+                      artistWithRole.guestArtistImage.url
+                  },
+                  remarks: getEntityPropByLanguage(
+                    artistWithRole,
+                    'guestArtistRemarks',
+                    language
+                  )
+                }
+        };
+      }),
+      pageMeta: getPageMetaForFrontEnd(
+        event.pageMeta,
+        language,
+        defaultPageMeta
+      )
+    };
+  }
 
   return {
     id: event._id,
     label: cleanLabelForSendingToFrontEnd(event.label),
     name: name,
-    nameForLongDisplay: nameForLongDisplay,
     type: event.type,
     themeColor: event.themeColor,
     artDirector: getArraySafe(event.artDirectors).map(artDirector => ({
@@ -244,49 +296,7 @@ const getEventForFrontEndFromDbEvent = (
     featuredImage: {
       src: event.featuredImage && event.featuredImage.url
     },
-    gallery: getArraySafe(event.gallery).map(medium => {
-      return {
-        src: medium && medium.url
-      };
-    }),
-    relatedActors: getArraySafe(event.artists).map(artistWithRole => {
-      const artist = artistWithRole.artist;
-      return {
-        role: getEntityPropByLanguage(artistWithRole, 'role', language),
-        artist:
-          artistWithRole.isGuestArtist !== true
-            ? {
-                id: artist._id,
-                label: cleanLabelForSendingToFrontEnd(artist.label),
-                name: getEntityPropByLanguage(artist, 'name', language),
-                featuredImage: {
-                  src: artist.featuredImage && artist.featuredImage.url
-                }
-              }
-            : {
-                id: null,
-                label: null,
-                name: getEntityPropByLanguage(
-                  artistWithRole,
-                  'guestArtistName',
-                  language
-                ),
-                featuredImage: {
-                  src:
-                    artistWithRole.guestArtistImage &&
-                    artistWithRole.guestArtistImage.url
-                },
-                remarks: getEntityPropByLanguage(
-                  artistWithRole,
-                  'guestArtistRemarks',
-                  language
-                )
-              }
-      };
-    }),
-    pageMeta:
-      isRequirePageMeta &&
-      getPageMetaForFrontEnd(event.pageMeta, language, defaultPageMeta)
+    ...detailData
   };
 };
 

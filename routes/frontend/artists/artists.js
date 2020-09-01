@@ -282,17 +282,17 @@ const getArtistForFrontEndFromDbArtist = (
       };
     };
 
-    const { sortedEvents, closestEvent } = mapAndSortEvents(
+    const { sortedEvents /*, closestEvent*/ } = mapAndSortEvents(
       relatedEvents,
       eventForFrontEndMapFunc,
       -1 // descending
     );
 
-    // set relatedArtists
-    let relatedArtists = [];
-    if (closestEvent) {
-      relatedArtists = getArraySafe(closestEvent.artists);
-    }
+    // // set relatedArtists
+    // let relatedArtists = [];
+    // if (closestEvent) {
+    //   relatedArtists = getArraySafe(closestEvent.artists);
+    // }
 
     // set relatedEvents
     const eventsByYear = {};
@@ -333,7 +333,7 @@ const getArtistForFrontEndFromDbArtist = (
         answer: getEntityPropByLanguage(qna, 'answer', language)
       })),
       relatedEvents: eventsByYearArray,
-      relatedArtists: relatedArtists,
+      //relatedArtists: relatedArtists,
       pageMeta: getPageMetaForFrontEnd(
         artist.pageMeta,
         language,
