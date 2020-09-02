@@ -967,6 +967,114 @@ const globalConstantsValidationChecks = [
   check(
     'communityPerformanceIndicator_en',
     globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'otherShow_tc',
+    globalConstantsResponseTypes.OTHER_SHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'otherShow_sc',
+    globalConstantsResponseTypes.OTHER_SHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'otherShow_en',
+    globalConstantsResponseTypes.OTHER_SHOW_EN_REQUIRED
+  ).notEmpty(),
+
+  check('sound_tc', globalConstantsResponseTypes.SOUND_TC_REQUIRED).notEmpty(),
+  check('sound_sc', globalConstantsResponseTypes.SOUND_SC_REQUIRED).notEmpty(),
+  check('sound_en', globalConstantsResponseTypes.SOUND_EN_REQUIRED).notEmpty(),
+
+  check(
+    'searching_tc',
+    globalConstantsResponseTypes.SEARCHING_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'searching_sc',
+    globalConstantsResponseTypes.SEARCHING_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'searching_en',
+    globalConstantsResponseTypes.SEARCHING_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'notfound_tc',
+    globalConstantsResponseTypes.NOTFOUND_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'notfound_sc',
+    globalConstantsResponseTypes.NOTFOUND_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'notfound_en',
+    globalConstantsResponseTypes.NOTFOUND_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'found1_tc',
+    globalConstantsResponseTypes.FOUND1_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'found1_sc',
+    globalConstantsResponseTypes.FOUND1_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'found1_en',
+    globalConstantsResponseTypes.FOUND1_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'found2_tc',
+    globalConstantsResponseTypes.FOUND2_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'found2_sc',
+    globalConstantsResponseTypes.FOUND2_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'found2_en',
+    globalConstantsResponseTypes.FOUND2_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'galleryOfShow_tc',
+    globalConstantsResponseTypes.GALLERY_OF_SHOW_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'galleryOfShow_sc',
+    globalConstantsResponseTypes.GALLERY_OF_SHOW_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'galleryOfShow_en',
+    globalConstantsResponseTypes.GALLERY_OF_SHOW_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'exhibitionImages_tc',
+    globalConstantsResponseTypes.EXHIBITION_IMAGES_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'exhibitionImages_sc',
+    globalConstantsResponseTypes.EXHIBITION_IMAGES_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'exhibitionImages_en',
+    globalConstantsResponseTypes.EXHIBITION_IMAGES_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'artDirectorVisiting_tc',
+    globalConstantsResponseTypes.ART_DIRECTOR_VISITING_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'artDirectorVisiting_sc',
+    globalConstantsResponseTypes.ART_DIRECTOR_VISITING_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'artDirectorVisiting_en',
+    globalConstantsResponseTypes.ART_DIRECTOR_VISITING_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1341,7 +1449,43 @@ router.post(
 
       communityPerformanceIndicator_tc,
       communityPerformanceIndicator_sc,
-      communityPerformanceIndicator_en
+      communityPerformanceIndicator_en,
+
+      otherShow_tc,
+      otherShow_sc,
+      otherShow_en,
+
+      sound_tc,
+      sound_sc,
+      sound_en,
+
+      searching_tc,
+      searching_sc,
+      searching_en,
+
+      notfound_tc,
+      notfound_sc,
+      notfound_en,
+
+      found1_tc,
+      found1_sc,
+      found1_en,
+
+      found2_tc,
+      found2_sc,
+      found2_en,
+
+      galleryOfShow_tc,
+      galleryOfShow_sc,
+      galleryOfShow_en,
+
+      exhibitionImages_tc,
+      exhibitionImages_sc,
+      exhibitionImages_en,
+
+      artDirectorVisiting_tc,
+      artDirectorVisiting_sc,
+      artDirectorVisiting_en
     } = req.body;
 
     // Build global constants object
@@ -1691,6 +1835,42 @@ router.post(
     globalConstantsFields.communityPerformanceIndicator_tc = communityPerformanceIndicator_tc;
     globalConstantsFields.communityPerformanceIndicator_sc = communityPerformanceIndicator_sc;
     globalConstantsFields.communityPerformanceIndicator_en = communityPerformanceIndicator_en;
+
+    globalConstantsFields.otherShow_tc = otherShow_tc;
+    globalConstantsFields.otherShow_sc = otherShow_sc;
+    globalConstantsFields.otherShow_en = otherShow_en;
+
+    globalConstantsFields.sound_tc = sound_tc;
+    globalConstantsFields.sound_sc = sound_sc;
+    globalConstantsFields.sound_en = sound_en;
+
+    globalConstantsFields.searching_tc = searching_tc;
+    globalConstantsFields.searching_sc = searching_sc;
+    globalConstantsFields.searching_en = searching_en;
+
+    globalConstantsFields.notfound_tc = notfound_tc;
+    globalConstantsFields.notfound_sc = notfound_sc;
+    globalConstantsFields.notfound_en = notfound_en;
+
+    globalConstantsFields.found1_tc = found1_tc;
+    globalConstantsFields.found1_sc = found1_sc;
+    globalConstantsFields.found1_en = found1_en;
+
+    globalConstantsFields.found2_tc = found2_tc;
+    globalConstantsFields.found2_sc = found2_sc;
+    globalConstantsFields.found2_en = found2_en;
+
+    globalConstantsFields.galleryOfShow_tc = galleryOfShow_tc;
+    globalConstantsFields.galleryOfShow_sc = galleryOfShow_sc;
+    globalConstantsFields.galleryOfShow_en = galleryOfShow_en;
+
+    globalConstantsFields.exhibitionImages_tc = exhibitionImages_tc;
+    globalConstantsFields.exhibitionImages_sc = exhibitionImages_sc;
+    globalConstantsFields.exhibitionImages_en = exhibitionImages_en;
+
+    globalConstantsFields.artDirectorVisiting_tc = artDirectorVisiting_tc;
+    globalConstantsFields.artDirectorVisiting_sc = artDirectorVisiting_sc;
+    globalConstantsFields.artDirectorVisiting_en = artDirectorVisiting_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

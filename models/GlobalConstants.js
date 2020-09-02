@@ -1119,6 +1119,123 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  otherShow_tc: {
+    type: String,
+    require: true
+  },
+  otherShow_sc: {
+    type: String,
+    require: true
+  },
+  otherShow_en: {
+    type: String,
+    require: true
+  },
+
+  sound_tc: {
+    type: String,
+    require: true
+  },
+  sound_sc: {
+    type: String,
+    require: true
+  },
+  sound_en: {
+    type: String,
+    require: true
+  },
+
+  searching_tc: {
+    type: String,
+    require: true
+  },
+  searching_sc: {
+    type: String,
+    require: true
+  },
+  searching_en: {
+    type: String,
+    require: true
+  },
+
+  notfound_tc: {
+    type: String,
+    require: true
+  },
+  notfound_sc: {
+    type: String,
+    require: true
+  },
+  notfound_en: {
+    type: String,
+    require: true
+  },
+
+  found1_tc: {
+    type: String,
+    require: true
+  },
+  found1_sc: {
+    type: String,
+    require: true
+  },
+  found1_en: {
+    type: String,
+    require: true
+  },
+
+  found2_tc: {
+    type: String,
+    require: true
+  },
+  found2_sc: {
+    type: String,
+    require: true
+  },
+  found2_en: {
+    type: String,
+    require: true
+  },
+
+  galleryOfShow_tc: {
+    type: String,
+    require: true
+  },
+  galleryOfShow_sc: {
+    type: String,
+    require: true
+  },
+  galleryOfShow_en: {
+    type: String,
+    require: true
+  },
+
+  exhibitionImages_tc: {
+    type: String,
+    require: true
+  },
+  exhibitionImages_sc: {
+    type: String,
+    require: true
+  },
+  exhibitionImages_en: {
+    type: String,
+    require: true
+  },
+
+  artDirectorVisiting_tc: {
+    type: String,
+    require: true
+  },
+  artDirectorVisiting_sc: {
+    type: String,
+    require: true
+  },
+  artDirectorVisiting_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -1488,6 +1605,42 @@ module.exports.globalConstantsResponseTypes = {
     'COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED',
   COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED:
     'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED',
+
+  OTHER_SHOW_TC_REQUIRED: 'OTHER_SHOW_TC_REQUIRED',
+  OTHER_SHOW_SC_REQUIRED: 'OTHER_SHOW_SC_REQUIRED',
+  OTHER_SHOW_EN_REQUIRED: 'OTHER_SHOW_EN_REQUIRED',
+
+  SOUND_TC_REQUIRED: 'SOUND_TC_REQUIRED',
+  SOUND_SC_REQUIRED: 'SOUND_SC_REQUIRED',
+  SOUND_EN_REQUIRED: 'SOUND_EN_REQUIRED',
+
+  SEARCHING_TC_REQUIRED: 'SEARCHING_TC_REQUIRED',
+  SEARCHING_SC_REQUIRED: 'SEARCHING_SC_REQUIRED',
+  SEARCHING_EN_REQUIRED: 'SEARCHING_EN_REQUIRED',
+
+  NOTFOUND_TC_REQUIRED: 'NOTFOUND_TC_REQUIRED',
+  NOTFOUND_SC_REQUIRED: 'NOTFOUND_SC_REQUIRED',
+  NOTFOUND_EN_REQUIRED: 'NOTFOUND_EN_REQUIRED',
+
+  FOUND1_TC_REQUIRED: 'FOUND1_TC_REQUIRED',
+  FOUND1_SC_REQUIRED: 'FOUND1_SC_REQUIRED',
+  FOUND1_EN_REQUIRED: 'FOUND1_EN_REQUIRED',
+
+  FOUND2_TC_REQUIRED: 'FOUND2_TC_REQUIRED',
+  FOUND2_SC_REQUIRED: 'FOUND2_SC_REQUIRED',
+  FOUND2_EN_REQUIRED: 'FOUND2_EN_REQUIRED',
+
+  GALLERY_OF_SHOW_TC_REQUIRED: 'GALLERY_OF_SHOW_TC_REQUIRED',
+  GALLERY_OF_SHOW_SC_REQUIRED: 'GALLERY_OF_SHOW_SC_REQUIRED',
+  GALLERY_OF_SHOW_EN_REQUIRED: 'GALLERY_OF_SHOW_EN_REQUIRED',
+
+  EXHIBITION_IMAGES_TC_REQUIRED: 'EXHIBITION_IMAGES_TC_REQUIRED',
+  EXHIBITION_IMAGES_SC_REQUIRED: 'EXHIBITION_IMAGES_SC_REQUIRED',
+  EXHIBITION_IMAGES_EN_REQUIRED: 'EXHIBITION_IMAGES_EN_REQUIRED',
+
+  ART_DIRECTOR_VISITING_TC_REQUIRED: 'ART_DIRECTOR_VISITING_TC_REQUIRED',
+  ART_DIRECTOR_VISITING_SC_REQUIRED: 'ART_DIRECTOR_VISITING_SC_REQUIRED',
+  ART_DIRECTOR_VISITING_EN_REQUIRED: 'ART_DIRECTOR_VISITING_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

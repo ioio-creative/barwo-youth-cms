@@ -346,6 +346,42 @@ function GlobalConstants() {
   this.communityPerformanceIndicator_sc = '';
   this.communityPerformanceIndicator_en = '';
 
+  this.otherShow_tc = '';
+  this.otherShow_sc = '';
+  this.otherShow_en = '';
+
+  this.sound_tc = '';
+  this.sound_sc = '';
+  this.sound_en = '';
+
+  this.searching_tc = '';
+  this.searching_sc = '';
+  this.searching_en = '';
+
+  this.notfound_tc = '';
+  this.notfound_sc = '';
+  this.notfound_en = '';
+
+  this.found1_tc = '';
+  this.found1_sc = '';
+  this.found1_en = '';
+
+  this.found2_tc = '';
+  this.found2_sc = '';
+  this.found2_en = '';
+
+  this.galleryOfShow_tc = '';
+  this.galleryOfShow_sc = '';
+  this.galleryOfShow_en = '';
+
+  this.exhibitionImages_tc = '';
+  this.exhibitionImages_sc = '';
+  this.exhibitionImages_en = '';
+
+  this.artDirectorVisiting_tc = '';
+  this.artDirectorVisiting_sc = '';
+  this.artDirectorVisiting_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -1408,6 +1444,123 @@ GlobalConstants.globalConstantsResponseTypes = {
   COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED: {
     type: 'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED',
     msg: 'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED'
+  },
+
+  OTHER_SHOW_TC_REQUIRED: {
+    type: 'OTHER_SHOW_TC_REQUIRED',
+    msg: 'OTHER_SHOW_TC_REQUIRED'
+  },
+  OTHER_SHOW_SC_REQUIRED: {
+    type: 'OTHER_SHOW_SC_REQUIRED',
+    msg: 'OTHER_SHOW_SC_REQUIRED'
+  },
+  OTHER_SHOW_EN_REQUIRED: {
+    type: 'OTHER_SHOW_EN_REQUIRED',
+    msg: 'OTHER_SHOW_EN_REQUIRED'
+  },
+
+  SOUND_TC_REQUIRED: {
+    type: 'SOUND_TC_REQUIRED',
+    msg: 'SOUND_TC_REQUIRED'
+  },
+  SOUND_SC_REQUIRED: {
+    type: 'SOUND_SC_REQUIRED',
+    msg: 'SOUND_SC_REQUIRED'
+  },
+  SOUND_EN_REQUIRED: {
+    type: 'SOUND_EN_REQUIRED',
+    msg: 'SOUND_EN_REQUIRED'
+  },
+
+  SEARCHING_TC_REQUIRED: {
+    type: 'SEARCHING_TC_REQUIRED',
+    msg: 'SEARCHING_TC_REQUIRED'
+  },
+  SEARCHING_SC_REQUIRED: {
+    type: 'SEARCHING_SC_REQUIRED',
+    msg: 'SEARCHING_SC_REQUIRED'
+  },
+  SEARCHING_EN_REQUIRED: {
+    type: 'SEARCHING_EN_REQUIRED',
+    msg: 'SEARCHING_EN_REQUIRED'
+  },
+
+  NOTFOUND_TC_REQUIRED: {
+    type: 'NOTFOUND_TC_REQUIRED',
+    msg: 'NOTFOUND_TC_REQUIRED'
+  },
+  NOTFOUND_SC_REQUIRED: {
+    type: 'NOTFOUND_SC_REQUIRED',
+    msg: 'NOTFOUND_SC_REQUIRED'
+  },
+  NOTFOUND_EN_REQUIRED: {
+    type: 'NOTFOUND_EN_REQUIRED',
+    msg: 'NOTFOUND_EN_REQUIRED'
+  },
+
+  FOUND1_TC_REQUIRED: {
+    type: 'FOUND1_TC_REQUIRED',
+    msg: 'FOUND1_TC_REQUIRED'
+  },
+  FOUND1_SC_REQUIRED: {
+    type: 'FOUND1_SC_REQUIRED',
+    msg: 'FOUND1_SC_REQUIRED'
+  },
+  FOUND1_EN_REQUIRED: {
+    type: 'FOUND1_EN_REQUIRED',
+    msg: 'FOUND1_EN_REQUIRED'
+  },
+
+  FOUND2_TC_REQUIRED: {
+    type: 'FOUND2_TC_REQUIRED',
+    msg: 'FOUND2_TC_REQUIRED'
+  },
+  FOUND2_SC_REQUIRED: {
+    type: 'FOUND2_SC_REQUIRED',
+    msg: 'FOUND2_SC_REQUIRED'
+  },
+  FOUND2_EN_REQUIRED: {
+    type: 'FOUND2_EN_REQUIRED',
+    msg: 'FOUND2_EN_REQUIRED'
+  },
+
+  GALLERY_OF_SHOW_TC_REQUIRED: {
+    type: 'GALLERY_OF_SHOW_TC_REQUIRED',
+    msg: 'GALLERY_OF_SHOW_TC_REQUIRED'
+  },
+  GALLERY_OF_SHOW_SC_REQUIRED: {
+    type: 'GALLERY_OF_SHOW_SC_REQUIRED',
+    msg: 'GALLERY_OF_SHOW_SC_REQUIRED'
+  },
+  GALLERY_OF_SHOW_EN_REQUIRED: {
+    type: 'GALLERY_OF_SHOW_EN_REQUIRED',
+    msg: 'GALLERY_OF_SHOW_EN_REQUIRED'
+  },
+
+  EXHIBITION_IMAGES_TC_REQUIRED: {
+    type: 'EXHIBITION_IMAGES_TC_REQUIRED',
+    msg: 'EXHIBITION_IMAGES_TC_REQUIRED'
+  },
+  EXHIBITION_IMAGES_SC_REQUIRED: {
+    type: 'EXHIBITION_IMAGES_SC_REQUIRED',
+    msg: 'EXHIBITION_IMAGES_SC_REQUIRED'
+  },
+  EXHIBITION_IMAGES_EN_REQUIRED: {
+    type: 'EXHIBITION_IMAGES_EN_REQUIRED',
+    msg: 'EXHIBITION_IMAGES_EN_REQUIRED'
+  },
+
+  ART_DIRECTOR_VISITING_TC_REQUIRED: {
+    type: 'ART_DIRECTOR_VISITING_TC_REQUIRED',
+    msg: 'ART_DIRECTOR_VISITING_TC_REQUIRED'
+  },
+  ART_DIRECTOR_VISITING_SC_REQUIRED: {
+    type: 'ART_DIRECTOR_VISITING_SC_REQUIRED',
+    msg: 'ART_DIRECTOR_VISITING_SC_REQUIRED'
+  },
+  ART_DIRECTOR_VISITING_EN_REQUIRED: {
+    type: 'ART_DIRECTOR_VISITING_EN_REQUIRED',
+    msg: 'ART_DIRECTOR_VISITING_EN_REQUIRED'
   },
 
   // db check

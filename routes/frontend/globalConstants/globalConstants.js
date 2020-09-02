@@ -325,6 +325,35 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'communityPerformanceIndicator',
         language
+      ),
+      otherShow: getEntityPropByLanguage(
+        globalConstants,
+        'otherShow',
+        language
+      ),
+      sound: getEntityPropByLanguage(globalConstants, 'sound', language),
+      searching: getEntityPropByLanguage(
+        globalConstants,
+        'searching',
+        language
+      ),
+      notfound: getEntityPropByLanguage(globalConstants, 'notfound', language),
+      found1: getEntityPropByLanguage(globalConstants, 'found1', language),
+      found2: getEntityPropByLanguage(globalConstants, 'found2', language),
+      galleryOfShow: getEntityPropByLanguage(
+        globalConstants,
+        'galleryOfShow',
+        language
+      ),
+      exhibitionImages: getEntityPropByLanguage(
+        globalConstants,
+        'exhibitionImages',
+        language
+      ),
+      artDirectorVisiting: getEntityPropByLanguage(
+        globalConstants,
+        'artDirectorVisiting',
+        language
       )
     };
     res.json(globalConstantsForFrontEnd);
