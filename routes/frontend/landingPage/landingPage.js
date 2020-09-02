@@ -12,7 +12,7 @@ const {
   LandingPage,
   landingPageResponseTypes
 } = require('../../../models/LandingPage');
-const { Artist } = require('../../../models/Artist');
+const { Artist, artDirectorTypes } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
@@ -107,6 +107,11 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
     let featuredArtists = await Artist.find({
       isEnabled: {
         $ne: false
+      },
+      type: {
+        $not: {
+          $in: artDirectorTypes
+        }
       }
     })
       .select(artistSelect)

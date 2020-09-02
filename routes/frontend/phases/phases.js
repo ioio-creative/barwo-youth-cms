@@ -12,6 +12,7 @@ const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const distinct = require('../../../utils/js/array/distinct');
 const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const mapAndSortPhases = require('../../../utils/phases/mapAndSortPhases');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const { Phase, getPhaseDerivedLabel } = require('../../../models/Phase');
 
 /* utilities */
@@ -115,11 +116,11 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
     }
     return {
       id: event._id,
-      label: event.label,
+      label: cleanLabelForSendingToFrontEnd(event.label),
       name: getEntityPropByLanguage(event, 'name', language),
       artDirectors: getArraySafe(event.artDirectors).map(artDirector => ({
         id: artDirector._id,
-        label: artDirector.label,
+        label: cleanLabelForSendingToFrontEnd(artDirector.label),
         name: getEntityPropByLanguage(artDirector, 'name', language)
       })),
       fromDate: minDate,

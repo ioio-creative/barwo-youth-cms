@@ -55,15 +55,15 @@ const relatedEventsSelectAndPopulationList = {
     shows: 1
   },
   populate: [
-    // {
-    //   path: 'artDirectors',
-    //   select: {
-    //     label: 1,
-    //     name_tc: 1,
-    //     name_sc: 1,
-    //     name_en: 1
-    //   }
-    // },
+    {
+      path: 'artDirectors',
+      select: {
+        label: 1,
+        name_tc: 1,
+        name_sc: 1,
+        name_en: 1
+      }
+    },
     {
       path: 'artists',
       select: {
@@ -80,17 +80,17 @@ const relatedEventsSelectAndPopulationList = {
             label: 1,
             name_tc: 1,
             name_sc: 1,
-            name_en: 1,
-            featuredImage: 1
-          },
-          populate: [
-            {
-              path: 'featuredImage',
-              select: {
-                url: 1
-              }
-            }
-          ]
+            name_en: 1
+            //featuredImage: 1
+          }
+          // populate: [
+          //   {
+          //     path: 'featuredImage',
+          //     select: {
+          //       url: 1
+          //     }
+          //   }
+          // ]
         }
       ]
     }
@@ -235,47 +235,46 @@ const getArtistForFrontEndFromDbArtist = (
         // toMonth: lastShowMonth,
         year: firstShowYear,
         month: firstShowMonth,
-        // artDirectors: getArraySafe(event.artDirectors).map(artDirector => {
-        //   return {
-        //     id: artDirector._id,
-        //     label: cleanLabelForSendingToFrontEnd(artDirector.label),
-        //     name: getEntityPropByLanguage(artDirector, 'name', language)
-        //   };
-        // }),
-        // still need artists for related artists field
-        artists: getArraySafe(event.artists).map(artistWithRole => {
-          if (artistWithRole.isGuestArtist !== true) {
-            const artist = artistWithRole.artist;
-            return {
-              id: artist._id,
-              label: cleanLabelForSendingToFrontEnd(artist.label),
-              name: getEntityPropByLanguage(artist, 'name', language),
-              featuredImage: {
-                src: artist.featuredImage && artist.featuredImage.url
-              }
-            };
-          } else {
-            return {
-              id: null,
-              label: null,
-              name: getEntityPropByLanguage(
-                artistWithRole,
-                'guestArtistName',
-                language
-              ),
-              featuredImage: {
-                src:
-                  artistWithRole.guestArtistImage &&
-                  artistWithRole.guestArtistImage.url
-              },
-              remarks: getEntityPropByLanguage(
-                artistWithRole,
-                'guestArtistRemarks',
-                language
-              )
-            };
-          }
+        artDirectors: getArraySafe(event.artDirectors).map(artDirector => {
+          return {
+            id: artDirector._id,
+            label: cleanLabelForSendingToFrontEnd(artDirector.label),
+            name: getEntityPropByLanguage(artDirector, 'name', language)
+          };
         }),
+        // artists: getArraySafe(event.artists).map(artistWithRole => {
+        //   if (artistWithRole.isGuestArtist !== true) {
+        //     const artist = artistWithRole.artist;
+        //     return {
+        //       id: artist._id,
+        //       label: cleanLabelForSendingToFrontEnd(artist.label),
+        //       name: getEntityPropByLanguage(artist, 'name', language),
+        //       featuredImage: {
+        //         src: artist.featuredImage && artist.featuredImage.url
+        //       }
+        //     };
+        //   } else {
+        //     return {
+        //       id: null,
+        //       label: null,
+        //       name: getEntityPropByLanguage(
+        //         artistWithRole,
+        //         'guestArtistName',
+        //         language
+        //       ),
+        //       featuredImage: {
+        //         src:
+        //           artistWithRole.guestArtistImage &&
+        //           artistWithRole.guestArtistImage.url
+        //       },
+        //       remarks: getEntityPropByLanguage(
+        //         artistWithRole,
+        //         'guestArtistRemarks',
+        //         language
+        //       )
+        //     };
+        //   }
+        // }),
         artistRole: artistRoleInEvent,
         fromDate: firstShowDate
         //shows: getArraySafe(event.shows)
