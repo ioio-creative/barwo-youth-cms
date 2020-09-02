@@ -20,6 +20,7 @@ const {
 const {
   Artist,
   artistRoles,
+  artistTypes,
   artDirectorTypes,
   artistResponseTypes,
   isArtDirector
@@ -149,8 +150,10 @@ const getArtistForFrontEndFromDbArtist = (
 
   // post
   let post = 'actor';
-  if (isDirector) {
+  if (artist.type === artistTypes.ART_DIRECTOR) {
     post = 'art director';
+  } else if (artist.type === artistTypes.ART_DIRECTOR_VISITING) {
+    post = 'art director visiting';
   }
 
   let detailData = {};
