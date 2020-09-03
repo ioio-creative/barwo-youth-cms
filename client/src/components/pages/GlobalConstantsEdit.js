@@ -2526,25 +2526,75 @@ const GlobalConstantsEdit = _ => {
       />
 
       <LabelInputTextPair
-        name='artDirectorVisiting_tc'
-        value={globalConstants.artDirectorVisiting_tc}
-        labelMessage={uiWordings['GlobalConstants.ArtDirectorVisitingTcLabel']}
+        name='page404Message_tc'
+        value={globalConstants.page404Message_tc}
+        labelMessage={uiWordings['GlobalConstants.Page404MessageTcLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='artDirectorVisiting_sc'
-        value={globalConstants.artDirectorVisiting_sc}
-        labelMessage={uiWordings['GlobalConstants.ArtDirectorVisitingScLabel']}
+        name='page404Message_sc'
+        value={globalConstants.page404Message_sc}
+        labelMessage={uiWordings['GlobalConstants.Page404MessageScLabel']}
         placeholder=''
         onChange={onChange}
         required={true}
       />
       <LabelInputTextPair
-        name='artDirectorVisiting_en'
-        value={globalConstants.artDirectorVisiting_en}
-        labelMessage={uiWordings['GlobalConstants.ArtDirectorVisitingEnLabel']}
+        name='page404Message_en'
+        value={globalConstants.page404Message_en}
+        labelMessage={uiWordings['GlobalConstants.Page404MessageEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='media_tc'
+        value={globalConstants.media_tc}
+        labelMessage={uiWordings['GlobalConstants.MediaTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='media_sc'
+        value={globalConstants.media_sc}
+        labelMessage={uiWordings['GlobalConstants.MediaScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='media_en'
+        value={globalConstants.media_en}
+        labelMessage={uiWordings['GlobalConstants.MediaEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='privacypolicies_tc'
+        value={globalConstants.privacypolicies_tc}
+        labelMessage={uiWordings['GlobalConstants.PrivacypoliciesTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='privacypolicies_sc'
+        value={globalConstants.privacypolicies_sc}
+        labelMessage={uiWordings['GlobalConstants.PrivacypoliciesScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='privacypolicies_en'
+        value={globalConstants.privacypolicies_en}
+        labelMessage={uiWordings['GlobalConstants.PrivacypoliciesEnLabel']}
         placeholder=''
         onChange={onChange}
         required={true}

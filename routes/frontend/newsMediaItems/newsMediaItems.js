@@ -16,9 +16,7 @@ const {
 const {
   NewsMediaItem,
   newsMediaItemResponseTypes,
-  newsMediaItemTypes,
-  defaultNewsMediaItemType,
-  isValidNewsMediaItemType
+  newsMediaItemTypes
 } = require('../../../models/NewsMediaItem');
 const mediumSelect = require('../common/mediumSelect');
 const pageMetaPopulate = require('../common/pageMetaPopulate');
@@ -103,26 +101,14 @@ const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
   };
 };
 
-const getNewsMediaItemList = async (req, isGetAllTypes = false) => {
+const getNewsMediaItemList = async req => {
   const language = req.language;
-
-  // query
-  const query = req.query;
-  let type = query.type && query.type.toUpperCase();
-
-  if (!isValidNewsMediaItemType(type)) {
-    type = defaultNewsMediaItemType;
-  }
 
   const findOptions = {
     isEnabled: {
       $ne: false
     }
   };
-
-  if (!isGetAllTypes) {
-    findOptions.type = type;
-  }
 
   const newsMediaItems = await NewsMediaItem.find(findOptions)
     .select(newsMediaItemSelectForFindAll)
@@ -143,31 +129,41 @@ const getNewsMediaItemList = async (req, isGetAllTypes = false) => {
     return newsMediaItem;
   });
 
-  const years = distinct(
-    safeNewsMediaItems.map(newsMediaItem => newsMediaItem.year)
-  ); //.sort();
+  const newsMediaItemsByTypeByYear = {};
 
-  const newsMediaItemsByYear = [];
+  const types = distinct(safeNewsMediaItems.map(x => x.type));
 
-  // descending year here
-  for (let i = years.length - 1; i >= 0; i--) {
-    const year = years[i];
-    const newsMediaItemsOfYear = safeNewsMediaItems
-      .filter(newsMediaItem => newsMediaItem.year === year)
-      .map(newsMediaItem => {
-        return getNewsMediaItemForFrontEndFromDbNewsMediaItem(
-          newsMediaItem,
-          language
-        );
-      });
+  for (const type of types) {
+    const newsMediaItemsOfTheType = newsMediaItems.filter(x => x.type === type);
 
-    newsMediaItemsByYear.push({
-      year: year,
-      newsMediaItems: newsMediaItemsOfYear
-    });
+    const years = distinct(newsMediaItemsOfTheType.map(x => x.year)); //.sort();
+
+    // descending year here
+    for (let i = years.length - 1; i >= 0; i--) {
+      const year = years[i];
+      const newsMediaItemsOfYear = newsMediaItemsOfTheType
+        .filter(x => x.year === year)
+        .map(newsMediaItem => {
+          return getNewsMediaItemForFrontEndFromDbNewsMediaItem(
+            newsMediaItem,
+            language
+          );
+        });
+
+      const newsMediaItemsOfYearObj = {
+        year: year,
+        newsMediaItems: newsMediaItemsOfYear
+      };
+
+      if (Array.isArray(newsMediaItemsByTypeByYear[type])) {
+        newsMediaItemsByTypeByYear[type].push(newsMediaItemsOfYearObj);
+      } else {
+        newsMediaItemsByTypeByYear[type] = [newsMediaItemsOfYearObj];
+      }
+    }
   }
 
-  return newsMediaItemsByYear;
+  return newsMediaItemsByTypeByYear;
 };
 
 /* end of utilities */
@@ -175,7 +171,6 @@ const getNewsMediaItemList = async (req, isGetAllTypes = false) => {
 // @route   GET api/frontend/newsMediaItems/:lang/newsMediaItems
 // @desc    Get all news media items
 // @access  Public
-// @query type=IMAGE or VIDEO
 router.get('/:lang/newsMediaItems', [languageHandling], async (req, res) => {
   try {
     res.json(await getNewsMediaItemList(req));

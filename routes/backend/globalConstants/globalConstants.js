@@ -1065,16 +1065,33 @@ const globalConstantsValidationChecks = [
   ).notEmpty(),
 
   check(
-    'artDirectorVisiting_tc',
-    globalConstantsResponseTypes.ART_DIRECTOR_VISITING_TC_REQUIRED
+    'page404Message_tc',
+    globalConstantsResponseTypes.PAGE_404_MESSAGE_TC_REQUIRED
   ).notEmpty(),
   check(
-    'artDirectorVisiting_sc',
-    globalConstantsResponseTypes.ART_DIRECTOR_VISITING_SC_REQUIRED
+    'page404Message_sc',
+    globalConstantsResponseTypes.PAGE_404_MESSAGE_SC_REQUIRED
   ).notEmpty(),
   check(
-    'artDirectorVisiting_en',
-    globalConstantsResponseTypes.ART_DIRECTOR_VISITING_EN_REQUIRED
+    'page404Message_en',
+    globalConstantsResponseTypes.PAGE_404_MESSAGE_EN_REQUIRED
+  ).notEmpty(),
+
+  check('media_tc', globalConstantsResponseTypes.MEDIA_TC_REQUIRED).notEmpty(),
+  check('media_sc', globalConstantsResponseTypes.MEDIA_SC_REQUIRED).notEmpty(),
+  check('media_en', globalConstantsResponseTypes.MEDIA_EN_REQUIRED).notEmpty(),
+
+  check(
+    'privacypolicies_tc',
+    globalConstantsResponseTypes.PRIVACYPOLICIES_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'privacypolicies_sc',
+    globalConstantsResponseTypes.PRIVACYPOLICIES_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'privacypolicies_en',
+    globalConstantsResponseTypes.PRIVACYPOLICIES_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1483,9 +1500,17 @@ router.post(
       exhibitionImages_sc,
       exhibitionImages_en,
 
-      artDirectorVisiting_tc,
-      artDirectorVisiting_sc,
-      artDirectorVisiting_en
+      page404Message_tc,
+      page404Message_sc,
+      page404Message_en,
+
+      media_tc,
+      media_sc,
+      media_en,
+
+      privacypolicies_tc,
+      privacypolicies_sc,
+      privacypolicies_en
     } = req.body;
 
     // Build global constants object
@@ -1868,9 +1893,17 @@ router.post(
     globalConstantsFields.exhibitionImages_sc = exhibitionImages_sc;
     globalConstantsFields.exhibitionImages_en = exhibitionImages_en;
 
-    globalConstantsFields.artDirectorVisiting_tc = artDirectorVisiting_tc;
-    globalConstantsFields.artDirectorVisiting_sc = artDirectorVisiting_sc;
-    globalConstantsFields.artDirectorVisiting_en = artDirectorVisiting_en;
+    globalConstantsFields.page404Message_tc = page404Message_tc;
+    globalConstantsFields.page404Message_sc = page404Message_sc;
+    globalConstantsFields.page404Message_en = page404Message_en;
+
+    globalConstantsFields.media_tc = media_tc;
+    globalConstantsFields.media_sc = media_sc;
+    globalConstantsFields.media_en = media_en;
+
+    globalConstantsFields.privacypolicies_tc = privacypolicies_tc;
+    globalConstantsFields.privacypolicies_sc = privacypolicies_sc;
+    globalConstantsFields.privacypolicies_en = privacypolicies_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

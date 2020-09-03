@@ -1223,15 +1223,41 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
-  artDirectorVisiting_tc: {
+  page404Message_tc: {
     type: String,
     require: true
   },
-  artDirectorVisiting_sc: {
+  page404Message_sc: {
     type: String,
     require: true
   },
-  artDirectorVisiting_en: {
+  page404Message_en: {
+    type: String,
+    require: true
+  },
+
+  media_tc: {
+    type: String,
+    require: true
+  },
+  media_sc: {
+    type: String,
+    require: true
+  },
+  media_en: {
+    type: String,
+    require: true
+  },
+
+  privacypolicies_tc: {
+    type: String,
+    require: true
+  },
+  privacypolicies_sc: {
+    type: String,
+    require: true
+  },
+  privacypolicies_en: {
     type: String,
     require: true
   },
@@ -1638,9 +1664,17 @@ module.exports.globalConstantsResponseTypes = {
   EXHIBITION_IMAGES_SC_REQUIRED: 'EXHIBITION_IMAGES_SC_REQUIRED',
   EXHIBITION_IMAGES_EN_REQUIRED: 'EXHIBITION_IMAGES_EN_REQUIRED',
 
-  ART_DIRECTOR_VISITING_TC_REQUIRED: 'ART_DIRECTOR_VISITING_TC_REQUIRED',
-  ART_DIRECTOR_VISITING_SC_REQUIRED: 'ART_DIRECTOR_VISITING_SC_REQUIRED',
-  ART_DIRECTOR_VISITING_EN_REQUIRED: 'ART_DIRECTOR_VISITING_EN_REQUIRED',
+  PAGE_404_MESSAGE_TC_REQUIRED: 'PAGE_404_MESSAGE_TC_REQUIRED',
+  PAGE_404_MESSAGE_SC_REQUIRED: 'PAGE_404_MESSAGE_SC_REQUIRED',
+  PAGE_404_MESSAGE_EN_REQUIRED: 'PAGE_404_MESSAGE_EN_REQUIRED',
+
+  MEDIA_TC_REQUIRED: 'MEDIA_TC_REQUIRED',
+  MEDIA_SC_REQUIRED: 'MEDIA_SC_REQUIRED',
+  MEDIA_EN_REQUIRED: 'MEDIA_EN_REQUIRED',
+
+  PRIVACYPOLICIES_TC_REQUIRED: 'PRIVACYPOLICIES_TC_REQUIRED',
+  PRIVACYPOLICIES_SC_REQUIRED: 'PRIVACYPOLICIES_SC_REQUIRED',
+  PRIVACYPOLICIES_EN_REQUIRED: 'PRIVACYPOLICIES_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'

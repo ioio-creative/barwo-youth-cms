@@ -197,11 +197,14 @@ router.post(
       name_tc,
       name_sc,
       name_en,
+      type,
+      role,
+      directorRemarks_tc,
+      directorRemarks_sc,
+      directorRemarks_en,
       desc_tc,
       desc_sc,
       desc_en,
-      type,
-      role,
       qnas,
       featuredImage,
       withoutMaskImage,
@@ -223,11 +226,14 @@ router.post(
         name_tc,
         name_sc,
         name_en,
+        type,
+        role,
+        directorRemarks_tc,
+        directorRemarks_sc,
+        directorRemarks_en,
         desc_tc,
         desc_sc,
         desc_en,
-        type,
-        role,
         qnas,
         featuredImage,
         withoutMaskImage,
@@ -260,11 +266,14 @@ router.put(
       name_tc,
       name_sc,
       name_en,
+      type,
+      role,
+      directorRemarks_tc,
+      directorRemarks_sc,
+      directorRemarks_en,
       desc_tc,
       desc_sc,
       desc_en,
-      type,
-      role,
       qnas,
       featuredImage,
       withoutMaskImage,
@@ -288,11 +297,14 @@ router.put(
     if (name_tc) artistFields.name_tc = name_tc;
     if (name_sc) artistFields.name_sc = name_sc;
     if (name_en) artistFields.name_en = name_en;
+    if (type) artistFields.type = type;
+    if (role) artistFields.role = role;
+    artistFields.directorRemarks_tc = directorRemarks_tc;
+    artistFields.directorRemarks_sc = directorRemarks_sc;
+    artistFields.directorRemarks_en = directorRemarks_en;
     if (desc_tc) artistFields.desc_tc = desc_tc;
     if (desc_sc) artistFields.desc_sc = desc_sc;
     if (desc_en) artistFields.desc_en = desc_en;
-    if (type) artistFields.type = type;
-    if (role) artistFields.role = role;
     artistFields.qnas = getArraySafe(qnas);
     artistFields.featuredImage = featuredImage;
     artistFields.withoutMaskImage = withoutMaskImage;

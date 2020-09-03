@@ -59,6 +59,15 @@ const ArtistSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  directorRemarks_tc: {
+    type: String
+  },
+  directorRemarks_sc: {
+    type: String
+  },
+  directorRemarks_en: {
+    type: String
+  },
   desc_tc: {
     type: String
   },
@@ -129,14 +138,14 @@ module.exports.artistRoles = {
 
 const artistTypes = {
   ART_DIRECTOR: 'ART_DIRECTOR',
-  ART_DIRECTOR_VISITING: 'ART_DIRECTOR_VISITING',
+  //ART_DIRECTOR_VISITING: 'ART_DIRECTOR_VISITING',
   ACTOR: 'ACTOR'
   //ACTOR_PAST: 'ACTOR_PAST'
 };
 
 const artDirectorTypes = [
-  artistTypes.ART_DIRECTOR,
-  artistTypes.ART_DIRECTOR_VISITING
+  artistTypes.ART_DIRECTOR
+  //artistTypes.ART_DIRECTOR_VISITING
 ];
 
 module.exports.artistTypes = artistTypes;

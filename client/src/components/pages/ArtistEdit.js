@@ -389,13 +389,43 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.TypeLabel']}
           onChange={onChange}
         />
-        <LabelSelectPair
-          name='role'
-          value={artist.role}
-          options={Artist.artistRoleOptions}
-          labelMessage={uiWordings['Artist.RoleLabel']}
-          onChange={onChange}
-        />
+
+        <div className={`${Artist.isArtDirector(artist) ? 'w3-hide' : ''}`}>
+          <LabelSelectPair
+            name='role'
+            value={artist.role}
+            options={Artist.artistRoleOptions}
+            labelMessage={uiWordings['Artist.RoleLabel']}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className={`${Artist.isArtDirector(artist) ? '' : 'w3-hide'}`}>
+          <LabelInputTextPair
+            name='directorRemarks_tc'
+            value={artist.directorRemarks_tc}
+            labelMessage={uiWordings['Artist.DirectorRemarksTcLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+          <LabelInputTextPair
+            name='directorRemarks_sc'
+            value={artist.directorRemarks_sc}
+            labelMessage={uiWordings['Artist.DirectorRemarksScLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+          <LabelInputTextPair
+            name='directorRemarks_en'
+            value={artist.directorRemarks_en}
+            labelMessage={uiWordings['Artist.DirectorRemarksEnLabel']}
+            placeholder=''
+            onChange={onChange}
+            required={true}
+          />
+        </div>
 
         <AccordionRegion title={uiWordings['ArtistEdit.MediaRegionTitle']}>
           <FileUpload

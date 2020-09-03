@@ -20,7 +20,6 @@ const {
 const {
   Artist,
   artistRoles,
-  artistTypes,
   artDirectorTypes,
   artistResponseTypes,
   isArtDirector
@@ -150,10 +149,8 @@ const getArtistForFrontEndFromDbArtist = (
 
   // post
   let post = 'actor';
-  if (artist.type === artistTypes.ART_DIRECTOR) {
+  if (isDirector) {
     post = 'art director';
-  } else if (artist.type === artistTypes.ART_DIRECTOR_VISITING) {
-    post = 'art director visiting';
   }
 
   let detailData = {};
@@ -348,8 +345,11 @@ const getArtistForFrontEndFromDbArtist = (
     id: artist._id,
     label: cleanLabelForSendingToFrontEnd(artist.label),
     name: getEntityPropByLanguage(artist, 'name', language),
-    gender: gender,
     post: post,
+    gender: isDirector ? null : gender,
+    directorRemarks: isDirector
+      ? getEntityPropByLanguage(artist, 'directorRemarks', language)
+      : null,
     featuredImage: {
       src: artist.featuredImage && artist.featuredImage.url
     },

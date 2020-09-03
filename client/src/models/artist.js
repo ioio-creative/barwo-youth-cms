@@ -2,13 +2,14 @@ import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
+import ArtistsOrderWithContainer from 'components/pages/ArtistsOrder';
 
 const artistTypes = {
   ART_DIRECTOR: { value: 'ART_DIRECTOR', label: 'Artistic director' },
-  ART_DIRECTOR_VISITING: {
-    value: 'ART_DIRECTOR_VISITING',
-    label: 'Artistic director visiting'
-  },
+  // ART_DIRECTOR_VISITING: {
+  //   value: 'ART_DIRECTOR_VISITING',
+  //   label: 'Artistic director visiting'
+  // },
   ACTOR: { value: 'ACTOR', label: 'Actor' }
   // ACTOR_PAST: { value: 'ACTOR_PAST', label: 'Actor past' }
 };
@@ -20,6 +21,17 @@ const artistRoles = {
   //BOTH: { value: 'BOTH', label: 'Both' }
 };
 
+const artDirectorTypes = [
+  artistTypes.ART_DIRECTOR
+  //artistTypes.ART_DIRECTOR_VISITING
+];
+
+const artDirectoryTypeValues = artDirectorTypes.map(type => type.value);
+
+const isArtDirector = artist => {
+  return artDirectoryTypeValues.includes(artist.type);
+};
+
 function Artist() {
   this.label = '';
   this.order = null;
@@ -28,6 +40,9 @@ function Artist() {
   this.name_en = '';
   this.type = artistTypes.ACTOR.value;
   this.role = artistRoles.MALE.value;
+  this.directorRemarks_tc = '';
+  this.directorRemarks_sc = '';
+  this.directorRemarks_en = '';
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
@@ -130,6 +145,8 @@ Artist.artistTypeOptions = Object.values(artistTypes);
 
 Artist.artistRoles = artistRoles;
 Artist.artistRoleOptions = Object.values(artistRoles);
+
+Artist.isArtDirector = isArtDirector;
 
 Artist.getArtistForDisplay = artist => {
   return {

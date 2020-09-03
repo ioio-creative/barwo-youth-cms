@@ -350,9 +350,15 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'exhibitionImages',
         language
       ),
-      artDirectorVisiting: getEntityPropByLanguage(
+      _404: getEntityPropByLanguage(
         globalConstants,
-        'artDirectorVisiting',
+        'page404Message',
+        language
+      ),
+      media: getEntityPropByLanguage(globalConstants, 'media', language),
+      privacypolicies: getEntityPropByLanguage(
+        globalConstants,
+        'privacypolicies',
         language
       )
     };

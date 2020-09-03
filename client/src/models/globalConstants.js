@@ -378,9 +378,17 @@ function GlobalConstants() {
   this.exhibitionImages_sc = '';
   this.exhibitionImages_en = '';
 
-  this.artDirectorVisiting_tc = '';
-  this.artDirectorVisiting_sc = '';
-  this.artDirectorVisiting_en = '';
+  this.page404Message_tc = '';
+  this.page404Message_sc = '';
+  this.page404Message_en = '';
+
+  this.media_tc = '';
+  this.media_sc = '';
+  this.media_en = '';
+
+  this.privacypolicies_tc = '';
+  this.privacypolicies_sc = '';
+  this.privacypolicies_en = '';
 
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
@@ -1550,17 +1558,34 @@ GlobalConstants.globalConstantsResponseTypes = {
     msg: 'EXHIBITION_IMAGES_EN_REQUIRED'
   },
 
-  ART_DIRECTOR_VISITING_TC_REQUIRED: {
-    type: 'ART_DIRECTOR_VISITING_TC_REQUIRED',
-    msg: 'ART_DIRECTOR_VISITING_TC_REQUIRED'
+  PAGE_404_MESSAGE_TC_REQUIRED: {
+    type: 'PAGE_404_MESSAGE_TC_REQUIRED',
+    msg: 'PAGE_404_MESSAGE_TC_REQUIRED'
   },
-  ART_DIRECTOR_VISITING_SC_REQUIRED: {
-    type: 'ART_DIRECTOR_VISITING_SC_REQUIRED',
-    msg: 'ART_DIRECTOR_VISITING_SC_REQUIRED'
+  PAGE_404_MESSAGE_SC_REQUIRED: {
+    type: 'PAGE_404_MESSAGE_SC_REQUIRED',
+    msg: 'PAGE_404_MESSAGE_SC_REQUIRED'
   },
-  ART_DIRECTOR_VISITING_EN_REQUIRED: {
-    type: 'ART_DIRECTOR_VISITING_EN_REQUIRED',
-    msg: 'ART_DIRECTOR_VISITING_EN_REQUIRED'
+  PAGE_404_MESSAGE_EN_REQUIRED: {
+    type: 'PAGE_404_MESSAGE_EN_REQUIRED',
+    msg: 'PAGE_404_MESSAGE_EN_REQUIRED'
+  },
+
+  MEDIA_TC_REQUIRED: { type: 'MEDIA_TC_REQUIRED', msg: 'MEDIA_TC_REQUIRED' },
+  MEDIA_SC_REQUIRED: { type: 'MEDIA_SC_REQUIRED', msg: 'MEDIA_SC_REQUIRED' },
+  MEDIA_EN_REQUIRED: { type: 'MEDIA_EN_REQUIRED', msg: 'MEDIA_EN_REQUIRED' },
+
+  PRIVACYPOLICIES_TC_REQUIRED: {
+    type: 'PRIVACYPOLICIES_TC_REQUIRED',
+    msg: 'PRIVACYPOLICIES_TC_REQUIRED'
+  },
+  PRIVACYPOLICIES_SC_REQUIRED: {
+    type: 'PRIVACYPOLICIES_SC_REQUIRED',
+    msg: 'PRIVACYPOLICIES_SC_REQUIRED'
+  },
+  PRIVACYPOLICIES_EN_REQUIRED: {
+    type: 'PRIVACYPOLICIES_EN_REQUIRED',
+    msg: 'PRIVACYPOLICIES_EN_REQUIRED'
   },
 
   // db check
