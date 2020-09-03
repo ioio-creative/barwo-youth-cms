@@ -83,6 +83,7 @@ const getActivityForFrontEndFromDbActivity = (
           src: medium && medium.url
         };
       }),
+      videoLinks: getArraySafe(activity.videoLinks),
       //download: download,
       pageMeta: getPageMetaForFrontEnd(
         activity.pageMeta,

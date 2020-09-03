@@ -21,6 +21,7 @@ import SubmitButton from 'components/form/SubmitButton';
 import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import PageMetaEditWithModal from 'components/pageMeta/PageMetaEditWithModal';
+import TextList from 'components/form/TextList';
 import Activity from 'models/activity';
 import Medium from 'models/medium';
 import PageMeta from 'models/pageMeta';
@@ -63,6 +64,9 @@ const ActivityEdit = _ => {
   // gallery
   const [galleryPicked, setGalleryPicked] = useState([]);
 
+  // videoLinks
+  const [videoLinksPicked, setVideoLinksPicked] = useState([]);
+
   // // download data
   // const [downloadData, setDownloadData] = useState({});
 
@@ -102,6 +106,11 @@ const ActivityEdit = _ => {
       if (fetchedActivity) {
         setFeaturedImagePicked(fetchedActivity.featuredImage);
         setGalleryPicked(getArraySafe(fetchedActivity.gallery));
+        setVideoLinksPicked(
+          getArraySafe(fetchedActivity.videoLinks).map(
+            TextList.mapTextToTextItem
+          )
+        );
         // setDownloadData({
         //   name_tc: fetchedActivity.downloadName_tc,
         //   name_sc: fetchedActivity.downloadName_sc,
@@ -178,6 +187,11 @@ const ActivityEdit = _ => {
     setGalleryPicked(newItemList);
   }, []);
 
+  const onGetVideoLinksPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setVideoLinksPicked(newItemList);
+  }, []);
+
   // const onDownloadDataChange = useCallback(newData => {
   //   setDownloadData(newData);
   // }, []);
@@ -219,6 +233,11 @@ const ActivityEdit = _ => {
       activity.featuredImage = featuredImagePicked
         ? featuredImagePicked._id
         : null;
+
+      // add videoLinks
+      activity.videoLinks = getArraySafe(videoLinksPicked).map(
+        TextList.getTextFromTextItem
+      );
 
       // add gallery
       activity.gallery = getArraySafe(galleryPicked).map(medium => {
@@ -280,7 +299,8 @@ const ActivityEdit = _ => {
       validInput,
       featuredImagePicked,
       galleryPicked,
-      //downloadData
+      videoLinksPicked,
+      //downloadData,
       pageMeta
     ]
   );
@@ -410,6 +430,12 @@ const ActivityEdit = _ => {
             onGetFiles={onGetGalleryPicked}
             isMultiple={true}
             mediumType={mediumTypes.IMAGE}
+          />
+          <TextList
+            name='videoLinks'
+            labelMessage={uiWordings['Activity.VideoLinksLabel']}
+            textItems={videoLinksPicked}
+            onGetTextItems={onGetVideoLinksPicked}
           />
           {/* <FileUploadOrUrl
             nameTcLabelMessage={uiWordings['Activity.DownloadNameTcLabel']}

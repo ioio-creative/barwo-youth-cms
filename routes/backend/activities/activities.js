@@ -59,6 +59,41 @@ const activityValidationChecks = [
   check('fromDate', activityResponseTypes.FROM_DATE_REQUIRED).notEmpty()
 ];
 
+const activityVideoLinkValidation = videoLinks => {
+  for (const videoLink of getArraySafe(videoLinks)) {
+    let errorType = null;
+
+    if (!videoLink) {
+      errorType = activityResponseTypes.VIDEO_LINK_REQUIRED;
+    }
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
+const handleActivityRelationshipsValidationError = (errorType, res) => {
+  // 400 bad request
+  res.status(400).json({
+    errors: [errorType]
+  });
+};
+
+const activityRelationshipsValidation = (videoLinks, res) => {
+  let errorType = null;
+
+  errorType = activityVideoLinkValidation(videoLinks);
+  if (errorType) {
+    handleActivityRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  return true;
+};
+
 const handleActivityLabelDuplicateKeyError = (err, res) => {
   const isErrorHandled = duplicateKeyErrorHandle(
     err,
@@ -149,6 +184,7 @@ router.post(
       desc_en,
       featuredImage,
       gallery,
+      videoLinks,
       // downloadName_tc,
       // downloadName_sc,
       // downloadName_en,
@@ -160,6 +196,12 @@ router.post(
       pageMeta,
       isEnabled
     } = await translateAllFieldsFromTcToSc(req.body);
+
+    // customed validations
+    let isSuccess = activityRelationshipsValidation(videoLinks, res);
+    if (!isSuccess) {
+      return;
+    }
 
     try {
       const activity = new Activity({
@@ -178,6 +220,7 @@ router.post(
         desc_en,
         featuredImage,
         gallery: getArraySafe(gallery),
+        videoLinks: getArraySafe(videoLinks),
         // downloadName_tc,
         // downloadName_sc,
         // downloadName_en,
@@ -225,6 +268,7 @@ router.put(
       desc_en,
       featuredImage,
       gallery,
+      videoLinks,
       // downloadName_tc,
       // downloadName_sc,
       // downloadName_en,
@@ -236,6 +280,12 @@ router.put(
       pageMeta,
       isEnabled
     } = req.body;
+
+    // customed validations
+    let isSuccess = activityRelationshipsValidation(videoLinks, res);
+    if (!isSuccess) {
+      return;
+    }
 
     // Build activity object
     // Note:
@@ -256,6 +306,7 @@ router.put(
     activityFields.desc_en = desc_en;
     activityFields.featuredImage = featuredImage;
     activityFields.gallery = getArraySafe(gallery);
+    activityFields.videoLinks = getArraySafe(videoLinks);
     // activityFields.downloadName_tc = downloadName_tc;
     // activityFields.downloadName_sc = downloadName_sc;
     // activityFields.downloadName_en = downloadName_en;

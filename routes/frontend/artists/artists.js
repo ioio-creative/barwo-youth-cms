@@ -33,7 +33,7 @@ const {
 /* utilities */
 
 const artistSelectForFindAll = {
-  isFeaturedInLandingPage: 0,
+  //isFeaturedInLandingPage: 0,
   isEnabled: 0,
   createDT: 0,
   lastModifyDT: 0,

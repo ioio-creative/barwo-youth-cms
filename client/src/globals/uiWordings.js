@@ -880,6 +880,7 @@ export default {
   'Activity.DescEnLabel': 'Desc EN',
   'Activity.FeaturedImageLabel': 'Featured Image',
   'Activity.GalleryLabel': 'Gallery',
+  'Activity.VideoLinksLabel': 'Video Links',
   'Activity.DownloadNameTcLabel': 'Download Name TC',
   'Activity.DownloadNameScLabel': 'Download Name SC',
   'Activity.DownloadNameEnLabel': 'Download Name EN',

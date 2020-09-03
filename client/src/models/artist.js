@@ -130,10 +130,10 @@ Artist.artistsResponseTypes = {
     type: 'ARTIST_DIRECTED_IN_EVENTS',
     msg: "ARTIST_DIRECTED_IN_EVENTS, hence can't be deleted"
   },
-  ARTIST_FEATURED_IN_LANDING: {
-    type: 'ARTIST_FEATURED_IN_LANDING',
-    msg: "ARTIST_FEATURED_IN_LANDING, hence can't be deleted"
-  },
+  // ARTIST_FEATURED_IN_LANDING: {
+  //   type: 'ARTIST_FEATURED_IN_LANDING',
+  //   msg: "ARTIST_FEATURED_IN_LANDING, hence can't be deleted"
+  // },
 
   // general
   SERVER_ERROR: generalResponseTypes.SERVER_ERROR,

@@ -42,6 +42,7 @@ function Activity() {
   /* media */
   this.featuredImage = null;
   this.gallery = [];
+  this.videoLinks = [];
   // this.downloadName_tc = '';
   // this.downloadName_sc = '';
   // this.downloadName_en = '';
@@ -86,6 +87,7 @@ Activity.activitiesResponseTypes = {
     type: 'FROM_DATE_REQUIRED',
     msg: 'FROM_DATE_REQUIRED'
   },
+  VIDEO_LINK_REQUIRED: 'VIDEO_LINK_REQUIRED',
 
   // db check
   ACTIVITY_NOT_EXISTS: {

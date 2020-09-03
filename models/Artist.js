@@ -101,10 +101,10 @@ const ArtistSchema = mongoose.Schema({
   /* indication of relationships */
   eventsDirected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
   eventsPerformed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'event' }],
-  isFeaturedInLandingPage: {
-    type: Boolean,
-    default: false
-  },
+  // isFeaturedInLandingPage: {
+  //   type: Boolean,
+  //   default: false
+  // },
   /* end of indication of relationships */
   pageMeta: PageMetaSchema,
   isEnabled: {
@@ -175,6 +175,6 @@ module.exports.artistResponseTypes = {
   ARTIST_NOT_EXISTS: 'ARTIST_NOT_EXISTS',
   LABEL_ALREADY_EXISTS: 'LABEL_ALREADY_EXISTS',
   ARTIST_PERFORMED_IN_EVENTS: 'ARTIST_PERFORMED_IN_EVENTS',
-  ARTIST_DIRECTED_IN_EVENTS: 'ARTIST_DIRECTED_IN_EVENTS',
-  ARTIST_FEATURED_IN_LANDING: 'ARTIST_FEATURED_IN_LANDING'
+  ARTIST_DIRECTED_IN_EVENTS: 'ARTIST_DIRECTED_IN_EVENTS'
+  //ARTIST_FEATURED_IN_LANDING: 'ARTIST_FEATURED_IN_LANDING'
 };

@@ -21,16 +21,16 @@ const pageMetaPopulate = require('../common/pageMetaPopulate');
 
 const artistSelectForFindAll = {
   eventsDirected: 0,
-  eventsPerformed: 0,
-  isFeaturedInLandingPage: 0
+  eventsPerformed: 0
+  //isFeaturedInLandingPage: 0
 };
 
 const artistSelectForFindOne = { ...artistSelectForFindAll };
 
 const artistSelectForDeleteOne = {
   eventsDirected: 1,
-  eventsPerformed: 1,
-  isFeaturedInLandingPage: 1
+  eventsPerformed: 1
+  //isFeaturedInLandingPage: 1
 };
 
 const artistPopulationListForFindAll = [
@@ -375,11 +375,11 @@ router.delete('/:_id', [auth], async (req, res) => {
       );
     }
 
-    if (artist.isFeaturedInLandingPage) {
-      return deleteCheckFailResponse(
-        artistResponseTypes.ARTIST_FEATURED_IN_LANDING
-      );
-    }
+    // if (artist.isFeaturedInLandingPage) {
+    //   return deleteCheckFailResponse(
+    //     artistResponseTypes.ARTIST_FEATURED_IN_LANDING
+    //   );
+    // }
 
     /* end of delete check */
 

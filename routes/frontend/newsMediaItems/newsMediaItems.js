@@ -57,7 +57,12 @@ const newsMediaItemPopulationListForFindAll = [
   {
     path: 'thumbnail',
     select: mediumSelect
-  },
+  }
+];
+
+const newsMediaItemPopulationListForFindOne = [
+  ...newsMediaItemPopulationListForFindAll,
+  ,
   {
     path: 'gallery',
     select: mediumSelect
@@ -65,39 +70,45 @@ const newsMediaItemPopulationListForFindAll = [
   pageMetaPopulate
 ];
 
-const newsMediaItemPopulationListForFindOne = [
-  ...newsMediaItemPopulationListForFindAll
-];
-
 const getNewsMediaItemForFrontEndFromDbNewsMediaItem = (
   newsMediaItem,
   language,
-  isRequirePageMeta,
-  defaultPageMeta
+  isRequireDetail = false,
+  defaultPageMeta = {}
 ) => {
+  let detailData = {};
+
+  if (isRequireDetail) {
+    detailData = {
+      description: getEntityPropByLanguage(newsMediaItem, 'desc', language),
+      gallery:
+        newsMediaItem.type === newsMediaItemTypes.IMAGE
+          ? getArraySafe(newsMediaItem.gallery).map(medium => {
+              return {
+                src: medium && medium.url
+              };
+            })
+          : null,
+      videoLinks:
+        newsMediaItem.type === newsMediaItemTypes.VIDEO
+          ? getArraySafe(newsMediaItem.videoLinks)
+          : null,
+      pageMeta: getPageMetaForFrontEnd(
+        newsMediaItem.pageMeta,
+        language,
+        defaultPageMeta
+      )
+    };
+  }
+
   return {
     label: cleanLabelForSendingToFrontEnd(newsMediaItem.label),
     name: getEntityPropByLanguage(newsMediaItem, 'name', language),
     fromDate: formatDateStringForFrontEnd(newsMediaItem.fromDate),
-    description: getEntityPropByLanguage(newsMediaItem, 'desc', language),
     thumbnail: {
       src: newsMediaItem.thumbnail && newsMediaItem.thumbnail.url
     },
-    gallery:
-      newsMediaItem.type === newsMediaItemTypes.IMAGE
-        ? getArraySafe(newsMediaItem.gallery).map(medium => {
-            return {
-              src: medium && medium.url
-            };
-          })
-        : null,
-    videoLinks:
-      newsMediaItem.type === newsMediaItemTypes.VIDEO
-        ? getArraySafe(newsMediaItem.videoLinks)
-        : null,
-    pageMeta:
-      isRequirePageMeta &&
-      getPageMetaForFrontEnd(newsMediaItem.pageMeta, language, defaultPageMeta)
+    ...detailData
   };
 };
 

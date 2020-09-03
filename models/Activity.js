@@ -56,6 +56,12 @@ const ActivitySchema = mongoose.Schema({
     ref: 'medium'
   },
   gallery: [{ type: mongoose.Schema.Types.ObjectId, ref: 'medium' }],
+  videoLinks: [
+    {
+      type: String,
+      require: true
+    }
+  ],
   // downloadName_tc: {
   //   type: String
   // },
@@ -140,6 +146,7 @@ module.exports.activityResponseTypes = {
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
   FROM_DATE_REQUIRED: 'FROM_DATE_REQUIRED',
+  VIDEO_LINK_REQUIRED: 'VIDEO_LINK_REQUIRED',
 
   // db check
   ACTIVITY_NOT_EXISTS: 'ACTIVITY_NOT_EXISTS',
