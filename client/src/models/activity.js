@@ -16,7 +16,7 @@ const activityTypes = {
     value: 'CANTONESE_OPERA_KNOWLEDGE',
     label: 'CANTONESE_OPERA_KNOWLEDGE'
   },
-  COLLEGE_SHOW: { value: 'COLLEGE_SHOW', label: 'COLLEGE_SHOW' },
+  //COLLEGE_SHOW: { value: 'COLLEGE_SHOW', label: 'COLLEGE_SHOW' },
   EXHIBITION: {
     value: 'EXHIBITION',
     label: 'EXHIBITION'

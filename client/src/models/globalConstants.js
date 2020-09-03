@@ -206,9 +206,9 @@ function GlobalConstants() {
   this.cantoneseOperaKnowledge_sc = '';
   this.cantoneseOperaKnowledge_en = '';
 
-  this.collegeShow_tc = '';
-  this.collegeShow_sc = '';
-  this.collegeShow_en = '';
+  // this.collegeShow_tc = '';
+  // this.collegeShow_sc = '';
+  // this.collegeShow_en = '';
 
   this.exhibition_tc = '';
   this.exhibition_sc = '';
@@ -1026,18 +1026,18 @@ GlobalConstants.globalConstantsResponseTypes = {
     msg: 'CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED'
   },
 
-  COLLEGE_SHOW_TC_REQUIRED: {
-    type: 'COLLEGE_SHOW_TC_REQUIRED',
-    msg: 'COLLEGE_SHOW_TC_REQUIRED'
-  },
-  COLLEGE_SHOW_SC_REQUIRED: {
-    type: 'COLLEGE_SHOW_SC_REQUIRED',
-    msg: 'COLLEGE_SHOW_SC_REQUIRED'
-  },
-  COLLEGE_SHOW_EN_REQUIRED: {
-    type: 'COLLEGE_SHOW_EN_REQUIRED',
-    msg: 'COLLEGE_SHOW_EN_REQUIRED'
-  },
+  // COLLEGE_SHOW_TC_REQUIRED: {
+  //   type: 'COLLEGE_SHOW_TC_REQUIRED',
+  //   msg: 'COLLEGE_SHOW_TC_REQUIRED'
+  // },
+  // COLLEGE_SHOW_SC_REQUIRED: {
+  //   type: 'COLLEGE_SHOW_SC_REQUIRED',
+  //   msg: 'COLLEGE_SHOW_SC_REQUIRED'
+  // },
+  // COLLEGE_SHOW_EN_REQUIRED: {
+  //   type: 'COLLEGE_SHOW_EN_REQUIRED',
+  //   msg: 'COLLEGE_SHOW_EN_REQUIRED'
+  // },
 
   EXHIBITION_TC_REQUIRED: {
     type: 'EXHIBITION_TC_REQUIRED',

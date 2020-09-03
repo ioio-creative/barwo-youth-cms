@@ -664,18 +664,18 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
-  collegeShow_tc: {
-    type: String,
-    require: true
-  },
-  collegeShow_sc: {
-    type: String,
-    require: true
-  },
-  collegeShow_en: {
-    type: String,
-    require: true
-  },
+  // collegeShow_tc: {
+  //   type: String,
+  //   require: true
+  // },
+  // collegeShow_sc: {
+  //   type: String,
+  //   require: true
+  // },
+  // collegeShow_en: {
+  //   type: String,
+  //   require: true
+  // },
 
   exhibition_tc: {
     type: String,
@@ -1486,9 +1486,9 @@ module.exports.globalConstantsResponseTypes = {
   CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED:
     'CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED',
 
-  COLLEGE_SHOW_TC_REQUIRED: 'COLLEGE_SHOW_TC_REQUIRED',
-  COLLEGE_SHOW_SC_REQUIRED: 'COLLEGE_SHOW_SC_REQUIRED',
-  COLLEGE_SHOW_EN_REQUIRED: 'COLLEGE_SHOW_EN_REQUIRED',
+  // COLLEGE_SHOW_TC_REQUIRED: 'COLLEGE_SHOW_TC_REQUIRED',
+  // COLLEGE_SHOW_SC_REQUIRED: 'COLLEGE_SHOW_SC_REQUIRED',
+  // COLLEGE_SHOW_EN_REQUIRED: 'COLLEGE_SHOW_EN_REQUIRED',
 
   EXHIBITION_TC_REQUIRED: 'EXHIBITION_TC_REQUIRED',
   EXHIBITION_SC_REQUIRED: 'EXHIBITION_SC_REQUIRED',

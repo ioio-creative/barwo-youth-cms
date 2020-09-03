@@ -194,11 +194,11 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'cantoneseOperaKnowledge',
         language
       ),
-      COLLEGE_SHOW: getEntityPropByLanguage(
-        globalConstants,
-        'collegeShow',
-        language
-      ),
+      // COLLEGE_SHOW: getEntityPropByLanguage(
+      //   globalConstants,
+      //   'collegeShow',
+      //   language
+      // ),
       EXHIBITION: getEntityPropByLanguage(
         globalConstants,
         'exhibition',

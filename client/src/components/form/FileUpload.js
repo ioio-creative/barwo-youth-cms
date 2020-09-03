@@ -55,7 +55,7 @@ const Item = ({ file, handleItemRemoved, index }) => {
               />
             ),
             AUDIO: (
-              <div className='media-preview audio'>
+              <div className='media-preview'>
                 <audio
                   src={url}
                   alt={alternativeText}

@@ -465,9 +465,9 @@ export default {
     'Cantonese Opera Knowledge SC',
   'GlobalConstants.CantoneseOperaKnowledgeEnLabel':
     'Cantonese Opera Knowledge EN',
-  'GlobalConstants.CollegeShowTcLabel': 'College Show TC',
-  'GlobalConstants.CollegeShowScLabel': 'College Show SC',
-  'GlobalConstants.CollegeShowEnLabel': 'College Show EN',
+  // 'GlobalConstants.CollegeShowTcLabel': 'College Show TC',
+  // 'GlobalConstants.CollegeShowScLabel': 'College Show SC',
+  // 'GlobalConstants.CollegeShowEnLabel': 'College Show EN',
   'GlobalConstants.ExhibitionTcLabel': 'Exhibition TC',
   'GlobalConstants.ExhibitionScLabel': 'Exhibition SC',
   'GlobalConstants.ExhibitionEnLabel': 'Exhibition EN',

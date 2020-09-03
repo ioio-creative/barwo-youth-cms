@@ -1432,7 +1432,7 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
-      <LabelInputTextPair
+      {/* <LabelInputTextPair
         name='collegeShow_tc'
         value={globalConstants.collegeShow_tc}
         labelMessage={uiWordings['GlobalConstants.CollegeShowTcLabel']}
@@ -1455,7 +1455,7 @@ const GlobalConstantsEdit = _ => {
         placeholder=''
         onChange={onChange}
         required={true}
-      />
+      /> */}
 
       <LabelInputTextPair
         name='exhibition_tc'
