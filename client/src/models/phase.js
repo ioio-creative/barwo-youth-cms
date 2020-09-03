@@ -13,6 +13,10 @@ function Phase() {
   this.themeColor = null;
   this.fromDate = null;
   this.toDate = null;
+  this.downloadName_tc = '';
+  this.downloadName_sc = '';
+  this.downloadName_en = '';
+  this.downloadMedium = '';
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;

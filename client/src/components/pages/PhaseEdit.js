@@ -10,6 +10,8 @@ import Alert from 'models/alert';
 import Loading from 'components/layout/loading/DefaultLoading';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
+import FileUpload from 'components/form/FileUpload';
+import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import ColorPickerModal from 'components/form/ColorPickerModal';
 import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
@@ -21,15 +23,19 @@ import LinkButton from 'components/form/LinkButton';
 import DeleteWithConfirmButton from 'components/form/DeleteWithConfirmButton';
 import Event from 'models/event';
 import Phase from 'models/phase';
+import Medium from 'models/medium';
 import uiWordings from 'globals/uiWordings';
 import routes from 'globals/routes';
 import { goToUrl } from 'utils/history';
 import { formatDateString } from 'utils/datetime';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
+import firstOrDefault from 'utils/js/array/firstOrDefault';
 import scrollToTop from 'utils/ui/scrollToTop';
 
 const emptyPhase = new Phase();
 const defaultState = emptyPhase;
+
+const mediumTypes = Medium.mediumTypes;
 
 const PhaseEdit = _ => {
   const { phaseId } = useParams();
@@ -57,6 +63,9 @@ const PhaseEdit = _ => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
+
+  // downloadMedium
+  const [downloadMediumPicked, setDownloadMediumPicked] = useState(null);
 
   // events in phase
   const [eventsPicked, setEventsPicked] = useState([]);
@@ -92,6 +101,7 @@ const PhaseEdit = _ => {
         fetchedPhase ? Phase.getPhaseForDisplay(fetchedPhase) : defaultState
       );
       if (fetchedPhase) {
+        setDownloadMediumPicked(fetchedPhase.downloadMedium);
         setEventsPicked(getArraySafe(fetchedPhase.events));
       }
       setIsAddMode(!fetchedPhase);
@@ -162,6 +172,11 @@ const PhaseEdit = _ => {
     [removeAlerts]
   );
 
+  const onGetDownloadMediumPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setDownloadMediumPicked(firstOrDefault(newItemList, null));
+  }, []);
+
   const onGetEventsPicked = useCallback(newItemList => {
     setIsSubmitEnabled(true);
     setEventsPicked(newItemList);
@@ -190,6 +205,11 @@ const PhaseEdit = _ => {
       setIsSubmitEnabled(false);
       removeAlerts();
       e.preventDefault();
+
+      // add downloadMedium
+      phase.downloadMedium = downloadMediumPicked
+        ? downloadMediumPicked._id
+        : null;
 
       // add events
       phase.events = getArraySafe(eventsPicked).map(event => event._id);
@@ -230,7 +250,8 @@ const PhaseEdit = _ => {
       eventsPicked,
       setAlerts,
       removeAlerts,
-      validInput
+      validInput,
+      downloadMediumPicked
     ]
   );
 
@@ -316,6 +337,37 @@ const PhaseEdit = _ => {
           labelMessage={uiWordings['Phase.ToDateLabel']}
           placeholder={uiWordings['PhaseEdit.SelectToDatePlaceholder']}
           onChange={onChange}
+        />
+
+        <LabelInputTextPair
+          name='downloadName_tc'
+          value={phase.downloadName_tc}
+          labelMessage={uiWordings['Phase.DownloadNameTcLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='downloadName_sc'
+          value={phase.downloadName_sc}
+          labelMessage={uiWordings['Phase.DownloadNameScLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+        <LabelInputTextPair
+          name='downloadName_en'
+          value={phase.downloadName_en}
+          labelMessage={uiWordings['Phase.DownloadNameEnLabel']}
+          placeholder=''
+          onChange={onChange}
+        />
+
+        <FileUpload
+          name='downloadMedium'
+          labelMessage={uiWordings['Phase.DownloadMediumLabel']}
+          files={downloadMediumPicked ? [downloadMediumPicked] : null}
+          onGetFiles={onGetDownloadMediumPicked}
+          isMultiple={false}
+          mediumType={mediumTypes.PDF}
         />
 
         <PhaseEditEventSelect

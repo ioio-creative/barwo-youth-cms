@@ -26,6 +26,19 @@ const PhaseSchema = mongoose.Schema({
   toDate: {
     type: Date
   },
+  downloadName_tc: {
+    type: String
+  },
+  downloadName_sc: {
+    type: String
+  },
+  downloadName_en: {
+    type: String
+  },
+  downloadMedium: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'medium'
+  },
   isEnabled: {
     type: Boolean,
     default: true

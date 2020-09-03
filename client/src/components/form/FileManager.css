@@ -89,7 +89,7 @@
 }
 .fileManager .medium-wrapper .fa {
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -138,7 +138,7 @@
 }
 .fileManager .media-details .media-preview.pdf .fa {
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

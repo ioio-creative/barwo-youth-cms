@@ -17,6 +17,7 @@ const {
   getPhaseDerivedLabel
 } = require('../../../models/Phase');
 const { Event } = require('../../../models/Event');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -36,6 +37,10 @@ const phasePopulationListForFindAll = [
   {
     path: 'events',
     select: 'label'
+  },
+  {
+    path: 'downloadMedium',
+    select: mediumSelect
   }
 ];
 
@@ -157,6 +162,10 @@ router.post(
       themeColor,
       fromDate,
       toDate,
+      downloadName_tc,
+      downloadName_sc,
+      downloadName_en,
+      downloadMedium,
       isEnabled
     } = req.body;
 
@@ -172,6 +181,10 @@ router.post(
         themeColor,
         fromDate,
         toDate,
+        downloadName_tc,
+        downloadName_sc,
+        downloadName_en,
+        downloadMedium,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -208,6 +221,10 @@ router.put(
       themeColor,
       fromDate,
       toDate,
+      downloadName_tc,
+      downloadName_sc,
+      downloadName_en,
+      downloadMedium,
       isEnabled
     } = req.body;
 
@@ -224,6 +241,10 @@ router.put(
     phaseFields.themeColor = themeColor;
     if (fromDate) phaseFields.fromDate = fromDate;
     phaseFields.toDate = toDate;
+    phaseFields.downloadName_tc = downloadName_tc;
+    phaseFields.downloadName_sc = downloadName_sc;
+    phaseFields.downloadName_en = downloadName_en;
+    phaseFields.downloadMedium = downloadMedium;
     if (isEnabled !== undefined) phaseFields.isEnabled = isEnabled;
     phaseFields.lastModifyDT = new Date();
     phaseFields.lastModifyUser = req.user._id;

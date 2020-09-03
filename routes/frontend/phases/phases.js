@@ -14,6 +14,7 @@ const mapAndSortEvents = require('../../../utils/events/mapAndSortEvents');
 const mapAndSortPhases = require('../../../utils/phases/mapAndSortPhases');
 const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const { Phase, getPhaseDerivedLabel } = require('../../../models/Phase');
+const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
@@ -35,6 +36,10 @@ const phaseSelectForFindAll = {
 // };
 
 const phasePopulationListForFindAll = [
+  {
+    path: 'downloadMedium',
+    select: mediumSelect
+  },
   {
     path: 'events',
     select: {
@@ -141,6 +146,10 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
   return {
     phaseNumber: phase.phaseNumber,
     themeColor: phase.themeColor,
+    downloadName: getEntityPropByLanguage(phase, 'downloadName', language),
+    downloadMedium: {
+      src: phase.downloadMedium && phase.downloadMedium.url
+    },
     schedule: {
       date: {
         from: formatDateStringForFrontEnd(phase.fromDate),

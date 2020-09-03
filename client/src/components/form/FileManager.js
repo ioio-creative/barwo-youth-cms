@@ -109,7 +109,9 @@ const MediumElement = ({
             PDF: <i className='fa fa-file-pdf-o fa-2x'></i>
           }[medium.type]
         }
-        <div className='media-name'>{medium.name}</div>
+        <div className='media-name'>
+          <a href={medium.url}>{medium.name}</a>
+        </div>
       </div>
     </div>
   );
@@ -693,7 +695,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
           <>
             <div className='w3-container'>
               <div className='w3-row w3-section'>
-                <Label message='Media Preview' />
+                <Label message={uiWordings['FileManager.MediaPreview']} />
                 <br />
                 {
                   {
@@ -732,7 +734,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
                 }
               </div>
               <div className='w3-row w3-section'>
-                <Label message='Media Url' />
+                <Label message={uiWordings['FileManager.MediaUrl']} />
                 <a
                   href={selectedFetchedMedium.url}
                   target='_blank'
@@ -784,7 +786,7 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
           <>
             <div className='w3-container'>
               <div className='w3-row w3-section'>
-                <Label message='Media Preview' />
+                <Label message={uiWordings['FileManager.MediaPreview']} />
                 <br />
                 {`${selectedFile.length} ${uiWordings['FileManager.NumberOfFilesSelectedSuffix']}`}
               </div>

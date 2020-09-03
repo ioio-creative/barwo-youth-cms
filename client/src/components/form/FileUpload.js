@@ -36,7 +36,7 @@ const Item = ({ file, handleItemRemoved, index }) => {
 
   /* end of event handlers */
 
-  const { /*name,*/ alternativeText, type, /*tags,*/ url } = file;
+  const { name, alternativeText, type, /*tags,*/ url } = file;
 
   return (
     <div className='file-upload-item'>
@@ -55,13 +55,14 @@ const Item = ({ file, handleItemRemoved, index }) => {
               />
             ),
             AUDIO: (
-              <audio
-                className='media-preview'
-                src={url}
-                alt={alternativeText}
-                controls
-                controlsList='nodownload'
-              />
+              <div className='media-preview audio'>
+                <audio
+                  src={url}
+                  alt={alternativeText}
+                  controls
+                  controlsList='nodownload'
+                />
+              </div>
             ),
             PDF: (
               <div className='media-preview pdf'>
@@ -70,6 +71,9 @@ const Item = ({ file, handleItemRemoved, index }) => {
             )
           }[type]
         }
+        <div className='media-name'>
+          <a href={url}>{name}</a>
+        </div>
       </div>
       <div className='close-btn'>
         {isFunction(handleItemRemoved) ? (
@@ -160,7 +164,7 @@ const FileUpload = ({
   /* end of event handlers */
 
   return (
-    <div className='file-upload'>
+    <div className={`file-upload ${mediumType.apiRoute}`}>
       <LabelGridDndPair
         isHalf={false}
         isShowAddButton={

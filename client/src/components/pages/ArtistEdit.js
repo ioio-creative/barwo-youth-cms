@@ -407,7 +407,6 @@ const ArtistEdit = _ => {
             labelMessage={uiWordings['Artist.DirectorRemarksTcLabel']}
             placeholder=''
             onChange={onChange}
-            required={true}
           />
           <LabelInputTextPair
             name='directorRemarks_sc'
@@ -415,7 +414,6 @@ const ArtistEdit = _ => {
             labelMessage={uiWordings['Artist.DirectorRemarksScLabel']}
             placeholder=''
             onChange={onChange}
-            required={true}
           />
           <LabelInputTextPair
             name='directorRemarks_en'
@@ -423,7 +421,6 @@ const ArtistEdit = _ => {
             labelMessage={uiWordings['Artist.DirectorRemarksEnLabel']}
             placeholder=''
             onChange={onChange}
-            required={true}
           />
         </div>
 
