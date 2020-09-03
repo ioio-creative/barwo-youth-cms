@@ -101,7 +101,11 @@ const artistPopulationListForFindAll = [
   {
     path: 'featuredImage',
     select: mediumSelect
-  },
+  }
+];
+
+const artistPopulationListForFindOne = [
+  ...artistPopulationListForFindAll,
   {
     path: 'withoutMaskImage',
     select: mediumSelect
@@ -124,8 +128,6 @@ const artistPopulationListForFindAll = [
   },
   pageMetaPopulate
 ];
-
-const artistPopulationListForFindOne = [...artistPopulationListForFindAll];
 
 const getArtistForFrontEndFromDbArtist = (
   dbArtist,

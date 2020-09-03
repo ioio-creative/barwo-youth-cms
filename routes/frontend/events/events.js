@@ -65,6 +65,14 @@ const eventPopulationListForFindAll = [
     }
   },
   {
+    path: 'featuredImage',
+    select: mediumSelect
+  }
+];
+
+const eventPopulationListForFindOne = [
+  ...eventPopulationListForFindAll,
+  {
     path: 'artists.artist',
     select: {
       label: 1,
@@ -87,17 +95,11 @@ const eventPopulationListForFindAll = [
     }
   },
   {
-    path: 'featuredImage',
-    select: mediumSelect
-  },
-  {
     path: 'gallery',
     select: mediumSelect
   },
   pageMetaPopulate
 ];
-
-const eventPopulationListForFindOne = [...eventPopulationListForFindAll];
 
 const eventPopulationListForRelatedEvents = [
   {

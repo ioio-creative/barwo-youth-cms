@@ -40,7 +40,11 @@ const activityPopulationListForFindAll = [
   {
     path: 'featuredImage',
     select: mediumSelect
-  },
+  }
+];
+
+const activityPopulationListForFindOne = [
+  ...activityPopulationListForFindAll,
   {
     path: 'gallery',
     select: mediumSelect
@@ -48,11 +52,9 @@ const activityPopulationListForFindAll = [
   // {
   //   path: 'downloadMedium',
   //   select: mediumSelect
-  // }
+  // },
   pageMetaPopulate
 ];
-
-const activityPopulationListForFindOne = [...activityPopulationListForFindAll];
 
 const getActivityForFrontEndFromDbActivity = (
   activity,
