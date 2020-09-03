@@ -57,19 +57,39 @@ const activityPopulationListForFindOne = [...activityPopulationListForFindAll];
 const getActivityForFrontEndFromDbActivity = (
   activity,
   language,
-  isRequirePageMeta = false,
+  isRequireDetail = false,
   defaultPageMeta = {}
 ) => {
-  // let download = '';
-  // switch (activity.downloadType) {
-  //   case mediumLinkTypes.URL:
-  //     download = getEntityPropByLanguage(activity, 'downloadUrl', language);
-  //     break;
-  //   case mediumLinkTypes.MEDIUM:
-  //   default:
-  //     download = activity.downloadMedium && activity.downloadMedium.url;
-  //     break;
-  // }
+  let detailData = {};
+
+  if (isRequireDetail) {
+    // let download = '';
+    // switch (activity.downloadType) {
+    //   case mediumLinkTypes.URL:
+    //     download = getEntityPropByLanguage(activity, 'downloadUrl', language);
+    //     break;
+    //   case mediumLinkTypes.MEDIUM:
+    //   default:
+    //     download = activity.downloadMedium && activity.downloadMedium.url;
+    //     break;
+    // }
+
+    detailData = {
+      description: getEntityPropByLanguage(activity, 'desc', language),
+      gallery: getArraySafe(activity.gallery).map(medium => {
+        return {
+          src: medium && medium.url
+        };
+      }),
+      //download: download,
+      pageMeta: getPageMetaForFrontEnd(
+        activity.pageMeta,
+        language,
+        defaultPageMeta
+      )
+    };
+  }
+
   return {
     id: activity._id,
     label: cleanLabelForSendingToFrontEnd(activity.label),
@@ -80,19 +100,10 @@ const getActivityForFrontEndFromDbActivity = (
       to: formatDateStringForFrontEnd(activity.toDate)
     },
     location: getEntityPropByLanguage(activity, 'location', language),
-    description: getEntityPropByLanguage(activity, 'desc', language),
     featuredImage: {
       src: activity.featuredImage && activity.featuredImage.url
     },
-    gallery: getArraySafe(activity.gallery).map(medium => {
-      return {
-        src: medium && medium.url
-      };
-    }),
-    //download: download
-    pageMeta:
-      isRequirePageMeta &&
-      getPageMetaForFrontEnd(activity.pageMeta, language, defaultPageMeta)
+    ...detailData
   };
 };
 
