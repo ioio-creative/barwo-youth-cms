@@ -16,7 +16,7 @@ const {
 } = require('../../../models/PageMeta');
 const {
   Activity,
-  activityTypesArray,
+  activityTypesInOrder,
   activityResponseTypes
 } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
@@ -115,9 +115,9 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
 
     const safeActivities = getArraySafe(activities);
 
-    const jsonToReturn = {};
+    const activitiesByTypeInTypeOrder = [];
 
-    for (const type of activityTypesArray) {
+    for (const type of activityTypesInOrder) {
       const activitiesOfType = safeActivities.filter(
         activity => activity.type === type
       );
@@ -131,10 +131,13 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
         -1
       );
 
-      jsonToReturn[type] = sortedActivities;
+      activitiesByTypeInTypeOrder.push({
+        type,
+        activities: sortedActivities
+      });
     }
 
-    res.json(jsonToReturn);
+    res.json(activitiesByTypeInTypeOrder);
   } catch (err) {
     generalErrorHandle(err, res);
   }

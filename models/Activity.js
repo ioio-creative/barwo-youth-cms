@@ -119,9 +119,18 @@ const activityTypes = {
   EXHIBITION: 'EXHIBITION'
 };
 
+const activityTypesInOrder = [
+  activityTypes.YOUTH_PROGRAMME,
+  activityTypes.GUIDED_TALK,
+  activityTypes.EXHIBITION,
+  activityTypes.CANTONESE_OPERA_KNOWLEDGE
+];
+
 module.exports.activityTypes = activityTypes;
 
 module.exports.activityTypesArray = Object.values(activityTypes);
+
+module.exports.activityTypesInOrder = activityTypesInOrder;
 
 module.exports.activityResponseTypes = {
   // input validation
