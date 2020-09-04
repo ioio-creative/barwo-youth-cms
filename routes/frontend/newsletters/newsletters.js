@@ -55,19 +55,29 @@ const newsletterPopulationListForFindOne = [
 const getNewsletterForFrontEndFromDbNewsletter = (
   newsletter,
   language,
-  isRequirePageMeta,
-  defaultPageMeta
+  isRequireDetail = false,
+  defaultPageMeta = {}
 ) => {
+  let detailData = {};
+
+  if (isRequireDetail) {
+    detailData = {
+      message: getEntityPropByLanguage(newsletter, 'message', language),
+      pageMeta: getPageMetaForFrontEnd(
+        newsletter.pageMeta,
+        language,
+        defaultPageMeta
+      )
+    };
+  }
+
   return {
     label: cleanLabelForSendingToFrontEnd(newsletter.label),
     title: getEntityPropByLanguage(newsletter, 'title', language),
-    message: getEntityPropByLanguage(newsletter, 'message', language),
     featuredImage: {
       src: newsletter.featuredImage && newsletter.featuredImage.url
     },
-    pageMeta:
-      isRequirePageMeta &&
-      getPageMetaForFrontEnd(newsletter.pageMeta, language, defaultPageMeta)
+    ...detailData
   };
 };
 

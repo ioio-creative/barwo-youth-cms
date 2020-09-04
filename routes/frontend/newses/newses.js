@@ -39,49 +39,53 @@ const newsPopulationListForFindAll = [
   {
     path: 'featuredImage',
     select: mediumSelect
-  },
-  {
-    path: 'gallery',
-    select: mediumSelect
-  },
+  }
+];
+
+const newsPopulationListForFindOne = [
+  ...newsPopulationListForFindAll,
   // {
   //   path: 'downloadMedium',
   //   select: mediumSelect
-  // }
+  // },
   pageMetaPopulate
 ];
-
-const newsPopulationListForFindOne = [...newsPopulationListForFindAll];
 
 const getNewsForFrontEndFromDbNews = (
   news,
   language,
-  isRequirePageMeta = false,
-  defaultPageMeta
+  isRequireDetail = false,
+  defaultPageMeta = {}
 ) => {
-  // let download = '';
-  // switch (news.downloadType) {
-  //   case mediumLinkTypes.URL:
-  //     download = getEntityPropByLanguage(news, 'downloadUrl', language);
-  //     break;
-  //   case mediumLinkTypes.MEDIUM:
-  //   default:
-  //     download = news.downloadMedium && news.downloadMedium.url;
-  //     break;
-  // }
+  let detailData = {};
+
+  if (isRequireDetail) {
+    // let download = '';
+    // switch (news.downloadType) {
+    //   case mediumLinkTypes.URL:
+    //     download = getEntityPropByLanguage(news, 'downloadUrl', language);
+    //     break;
+    //   case mediumLinkTypes.MEDIUM:
+    //   default:
+    //     download = news.downloadMedium && news.downloadMedium.url;
+    //     break;
+    // }
+
+    detailData = {
+      description: getEntityPropByLanguage(news, 'desc', language),
+      //download: download,
+      pageMeta: getPageMetaForFrontEnd(news.pageMeta, language, defaultPageMeta)
+    };
+  }
 
   return {
     id: news._id,
     label: cleanLabelForSendingToFrontEnd(news.label),
     name: getEntityPropByLanguage(news, 'name', language),
-    description: getEntityPropByLanguage(news, 'desc', language),
     featuredImage: {
       src: news.featuredImage && news.featuredImage.url
     },
-    //download: download
-    pageMeta:
-      isRequirePageMeta &&
-      getPageMetaForFrontEnd(news.pageMeta, language, defaultPageMeta)
+    ...detailData
   };
 };
 
