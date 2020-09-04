@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef
+} from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import NewsesContext from 'contexts/newses/newsesContext';
 import NewsesPageContainer from 'components/newses/NewsesPageContainer';
@@ -139,27 +145,34 @@ const NewsList = _ => {
     []
   );
 
-  // set query string and getNewses
-  useEffect(
-    _ => {
-      getNewses(prepareGetOptionsForPaginationAndSort());
-    },
-    [prepareGetOptionsForPaginationAndSort, getNewses]
-  );
-
   // filter and getNewses
+  const lastFilterText = useRef(filterText);
   useEffect(
     _ => {
-      if (isUseFilter) {
-        const getOptions = {
-          ...prepareGetOptionsForPaginationAndSort(),
+      let getOptions = {};
+
+      if (isUseFilter || filterText) {
+        getOptions = {
+          ...getOptions,
           ...prepareGetOptionsForFilter()
         };
-        getNewses(getOptions);
         setIsUseFilter(false);
       }
+
+      // useEffect caused by pagination and sort
+      if (lastFilterText.current === filterText) {
+        getOptions = {
+          ...getOptions,
+          ...prepareGetOptionsForPaginationAndSort()
+        };
+
+        getNewses(getOptions);
+      }
+
+      lastFilterText.current = filterText;
     },
     [
+      filterText,
       isUseFilter,
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,

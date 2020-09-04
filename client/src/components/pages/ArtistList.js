@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef
+} from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import ArtistsContext from 'contexts/artists/artistsContext';
 import ArtistsPageContainer from 'components/artists/ArtistsPageContainer';
@@ -149,27 +155,34 @@ const ArtistList = _ => {
     []
   );
 
-  // set query string and getArtists
-  useEffect(
-    _ => {
-      getArtists(prepareGetOptionsForPaginationAndSort());
-    },
-    [prepareGetOptionsForPaginationAndSort, getArtists]
-  );
-
   // filter and getArtists
+  const lastFilterText = useRef(filterText);
   useEffect(
     _ => {
-      if (isUseFilter) {
-        const getOptions = {
-          ...prepareGetOptionsForPaginationAndSort(),
+      let getOptions = {};
+
+      if (isUseFilter || filterText) {
+        getOptions = {
+          ...getOptions,
           ...prepareGetOptionsForFilter()
         };
-        getArtists(getOptions);
         setIsUseFilter(false);
       }
+
+      // useEffect caused by pagination and sort
+      if (lastFilterText.current === filterText) {
+        getOptions = {
+          ...getOptions,
+          ...prepareGetOptionsForPaginationAndSort()
+        };
+
+        getArtists(getOptions);
+      }
+
+      lastFilterText.current = filterText;
     },
     [
+      filterText,
       isUseFilter,
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,

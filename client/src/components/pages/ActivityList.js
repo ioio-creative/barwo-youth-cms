@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef
+} from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import ActivitiesContext from 'contexts/activities/activitiesContext';
 import ActivitiesPageContainer from 'components/activities/ActivitiesPageContainer';
@@ -159,27 +165,34 @@ const ActivityList = _ => {
     []
   );
 
-  // set query string and getActivities
-  useEffect(
-    _ => {
-      getActivities(prepareGetOptionsForPaginationAndSort());
-    },
-    [prepareGetOptionsForPaginationAndSort, getActivities]
-  );
-
   // filter and getActivities
+  const lastFilterText = useRef(filterText);
   useEffect(
     _ => {
-      if (isUseFilter) {
-        const getOptions = {
-          ...prepareGetOptionsForPaginationAndSort(),
+      let getOptions = {};
+
+      if (isUseFilter || filterText) {
+        getOptions = {
+          ...getOptions,
           ...prepareGetOptionsForFilter()
         };
-        getActivities(getOptions);
         setIsUseFilter(false);
       }
+
+      // useEffect caused by pagination and sort
+      if (lastFilterText.current === filterText) {
+        getOptions = {
+          ...getOptions,
+          ...prepareGetOptionsForPaginationAndSort()
+        };
+
+        getActivities(getOptions);
+      }
+
+      lastFilterText.current = filterText;
     },
     [
+      filterText,
       isUseFilter,
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,

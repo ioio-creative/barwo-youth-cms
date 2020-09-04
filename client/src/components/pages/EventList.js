@@ -257,9 +257,8 @@ const EventList = _ => {
     []
   );
 
-  const lastFilterText = useRef(filterText);
-
   // filter and getEvents
+  const lastFilterText = useRef(filterText);
   useEffect(
     _ => {
       let getOptions = {};

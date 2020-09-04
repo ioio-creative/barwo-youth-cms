@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef
+} from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import ContactsContext from 'contexts/contacts/contactsContext';
 import ContactsPageContainer from 'components/contacts/ContactsPageContainer';
@@ -119,27 +125,34 @@ const ContactList = _ => {
     []
   );
 
-  // set query string and getContacts
-  useEffect(
-    _ => {
-      getContacts(prepareGetOptionsForPaginationAndSort());
-    },
-    [prepareGetOptionsForPaginationAndSort, getContacts]
-  );
-
   // filter and getContacts
+  const lastFilterText = useRef(filterText);
   useEffect(
     _ => {
-      if (isUseFilter) {
-        const getOptions = {
-          ...prepareGetOptionsForPaginationAndSort(),
+      let getOptions = {};
+
+      if (isUseFilter || filterText) {
+        getOptions = {
+          ...getOptions,
           ...prepareGetOptionsForFilter()
         };
-        getContacts(getOptions);
         setIsUseFilter(false);
       }
+
+      // useEffect caused by pagination and sort
+      if (lastFilterText.current === filterText) {
+        getOptions = {
+          ...getOptions,
+          ...prepareGetOptionsForPaginationAndSort()
+        };
+
+        getContacts(getOptions);
+      }
+
+      lastFilterText.current = filterText;
     },
     [
+      filterText,
       isUseFilter,
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,

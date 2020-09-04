@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef
+} from 'react';
 import AlertContext from 'contexts/alert/alertContext';
 import SendHistoriesContext from 'contexts/sendHistories/sendHistoriesContext';
 import SendHistoriesPageContainer from 'components/sendhistory/sendHistoryPageContainer';
@@ -119,6 +125,7 @@ const SendHistoryList = ({ filter = undefined }) => {
     []
   );
 
+  // TODO:
   useEffect(
     _ => {
       if (filter !== undefined && !isUseFilter) {
@@ -138,26 +145,34 @@ const SendHistoryList = ({ filter = undefined }) => {
     ]
   );
 
-  // set query string and getSendHistories
-  useEffect(
-    _ => {
-      getSendHistories(prepareGetOptionsForPaginationAndSort());
-    },
-    [prepareGetOptionsForPaginationAndSort, getSendHistories]
-  );
-
   // filter and getSendHistories
+  const lastFilterText = useRef(filterText);
   useEffect(
     _ => {
-      if (isUseFilter) {
-        const getOptions = {
-          ...prepareGetOptionsForPaginationAndSort(),
+      let getOptions = {};
+
+      if (isUseFilter || filterText) {
+        getOptions = {
+          ...getOptions,
           ...prepareGetOptionsForFilter()
         };
-        getSendHistories(getOptions).then(_ => setIsUseFilter(false));
+        setIsUseFilter(false);
       }
+
+      // useEffect caused by pagination and sort
+      if (lastFilterText.current === filterText) {
+        getOptions = {
+          ...getOptions,
+          ...prepareGetOptionsForPaginationAndSort()
+        };
+
+        getSendHistories(getOptions);
+      }
+
+      lastFilterText.current = filterText;
     },
     [
+      filterText,
       isUseFilter,
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,
