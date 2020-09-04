@@ -2,7 +2,6 @@ import { formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 import firstOrDefault from 'utils/js/array/firstOrDefault';
-import ArtistsOrderWithContainer from 'components/pages/ArtistsOrder';
 
 const artistTypes = {
   ART_DIRECTOR: { value: 'ART_DIRECTOR', label: 'Artistic director' },

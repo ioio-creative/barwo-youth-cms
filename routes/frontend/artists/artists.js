@@ -245,6 +245,16 @@ const getArtistForFrontEndFromDbArtist = (
           };
         }),
         // artists: getArraySafe(event.artists).map(artistWithRole => {
+        //   /**
+        //    * !!!Important!!!
+        //    * guestArtistRemarks is now used by both guest and non-guest artists
+        //    */
+        //   const artistRemarks = getEntityPropByLanguage(
+        //     artistWithRole,
+        //     'guestArtistRemarks',
+        //     language
+        //   );
+
         //   if (artistWithRole.isGuestArtist !== true) {
         //     const artist = artistWithRole.artist;
         //     return {
@@ -253,7 +263,8 @@ const getArtistForFrontEndFromDbArtist = (
         //       name: getEntityPropByLanguage(artist, 'name', language),
         //       featuredImage: {
         //         src: artist.featuredImage && artist.featuredImage.url
-        //       }
+        //       },
+        //       remarks: artistRemarks
         //     };
         //   } else {
         //     return {
@@ -269,11 +280,7 @@ const getArtistForFrontEndFromDbArtist = (
         //           artistWithRole.guestArtistImage &&
         //           artistWithRole.guestArtistImage.url
         //       },
-        //       remarks: getEntityPropByLanguage(
-        //         artistWithRole,
-        //         'guestArtistRemarks',
-        //         language
-        //       )
+        //       remarks: artistRemarks
         //     };
         //   }
         // }),

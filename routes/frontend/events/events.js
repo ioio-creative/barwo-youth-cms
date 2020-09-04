@@ -214,6 +214,17 @@ const getEventForFrontEndFromDbEvent = (
       }),
       relatedActors: getArraySafe(event.artists).map(artistWithRole => {
         const artist = artistWithRole.artist;
+
+        /**
+         * !!!Important!!!
+         * guestArtistRemarks is now used by both guest and non-guest artists
+         */
+        const artistRemarks = getEntityPropByLanguage(
+          artistWithRole,
+          'guestArtistRemarks',
+          language
+        );
+
         return {
           role: getEntityPropByLanguage(artistWithRole, 'role', language),
           artist:
@@ -224,7 +235,8 @@ const getEventForFrontEndFromDbEvent = (
                   name: getEntityPropByLanguage(artist, 'name', language),
                   featuredImage: {
                     src: artist.featuredImage && artist.featuredImage.url
-                  }
+                  },
+                  remarks: artistRemarks
                 }
               : {
                   id: null,
@@ -239,11 +251,7 @@ const getEventForFrontEndFromDbEvent = (
                       artistWithRole.guestArtistImage &&
                       artistWithRole.guestArtistImage.url
                   },
-                  remarks: getEntityPropByLanguage(
-                    artistWithRole,
-                    'guestArtistRemarks',
-                    language
-                  )
+                  remarks: artistRemarks
                 }
         };
       }),

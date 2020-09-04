@@ -40,6 +40,10 @@ const EventArtistSchema = mongoose.Schema({
   guestArtistName_en: {
     type: String
   },
+  /**
+   * !!!Important!!!
+   * guestArtistRemarks is now used by both guest and non-guest artists
+   */
   guestArtistRemarks_tc: {
     type: String
   },

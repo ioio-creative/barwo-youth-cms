@@ -178,6 +178,11 @@ const Item = ({
 
   /* end of event handlers */
 
+  /**
+   * !!!Important!!!
+   * guestArtistRemarks is now used by both guest and non-guest artists
+   */
+
   // artist is _id
   const {
     role_tc,
@@ -309,7 +314,25 @@ const Item = ({
               </div>
             </div>
 
-            <div className={`${!isShowGuestStuff ? 'w3-hide' : ''}`}>
+            {/**
+             * !!!Important!!!
+             * guestArtistRemarks is now used by both guest and non-guest artists
+             */}
+            {/* <div className={`${!isShowGuestStuff ? 'w3-hide' : ''}`}> */}
+            <div>
+              <div
+                className={`w3-row w3-margin-top ${
+                  !isShowGuestStuff ? 'w3-hide' : ''
+                }`}
+              >
+                <SimpleFileUpload
+                  buttonLabel={
+                    uiWordings['EventEdit.Artist.GuestArtistImageAdd']
+                  }
+                  file={guestArtistImage}
+                  onGetFile={onGetGuestArtistImage}
+                />
+              </div>
               <div className='w3-row w3-margin-top'>
                 <div className='w3-col m2' />
                 <div className='w3-col m3'>
@@ -351,15 +374,6 @@ const Item = ({
                     onChange={onChange}
                   />
                 </div>
-              </div>
-              <div className='w3-row w3-margin-top'>
-                <SimpleFileUpload
-                  buttonLabel={
-                    uiWordings['EventEdit.Artist.GuestArtistImageAdd']
-                  }
-                  file={guestArtistImage}
-                  onGetFile={onGetGuestArtistImage}
-                />
               </div>
             </div>
           </div>

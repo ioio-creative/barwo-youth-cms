@@ -358,6 +358,11 @@ const EventEdit = _ => {
         artDirector => artDirector._id
       );
 
+      /**
+       * !!!Important!!!
+       * guestArtistRemarks is now used by both guest and non-guest artists
+       */
+
       // add artists
       event.artists = getArraySafe(
         artistsPicked.map(
