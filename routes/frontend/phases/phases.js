@@ -15,6 +15,7 @@ const mapAndSortPhases = require('../../../utils/phases/mapAndSortPhases');
 const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const { Phase, getPhaseDerivedLabel } = require('../../../models/Phase');
 const mediumSelect = require('../common/mediumSelect');
+const { addThemeColorDefaultToEvents } = require('../events/events');
 
 /* utilities */
 
@@ -167,11 +168,11 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
   // make closestEventsInPresentOrFuture of length 2
   if (closestEventsInPresentOrFutureIdxToUse >= 0) {
     closestEventsInPresentOrFuture.push(
-      sortedEvents[closestEventInPresentOrFutureIdx]
+      sortedEvents[closestEventsInPresentOrFutureIdxToUse]
     );
-    if (closestEventInPresentOrFutureIdx + 1 < sortedEvents.length) {
+    if (closestEventsInPresentOrFutureIdxToUse + 1 < sortedEvents.length) {
       closestEventsInPresentOrFuture.push(
-        sortedEvents[closestEventInPresentOrFutureIdx + 1]
+        sortedEvents[closestEventsInPresentOrFutureIdxToUse + 1]
       );
     }
   }
@@ -192,7 +193,9 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
       }
     },
     selectedEvents: sortedEvents,
-    closestEventsInPresentOrFuture: closestEventsInPresentOrFuture
+    closestEventsInPresentOrFuture: addThemeColorDefaultToEvents(
+      closestEventsInPresentOrFuture
+    )
   };
 };
 

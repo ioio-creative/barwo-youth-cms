@@ -134,7 +134,10 @@ app.use('/api/backend/media', require('./routes/backend/media/media'));
 
 // frontend apis
 app.use('/api/frontend/artists', require('./routes/frontend/artists/artists'));
-app.use('/api/frontend/events', require('./routes/frontend/events/events'));
+app.use(
+  '/api/frontend/events',
+  require('./routes/frontend/events/events').router
+);
 app.use(
   '/api/frontend/events/ticketingDefault',
   require('./routes/frontend/events/ticketingDefault')
