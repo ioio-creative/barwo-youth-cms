@@ -139,6 +139,13 @@ const getEventForFrontEndFromDbEvent = (event, language) => {
     })),
     fromDate: minDate,
     toDate: maxDate,
+    schedule: getArraySafe(event.shows).map(show => ({
+      date: {
+        from: show.date ? formatDateStringForFrontEnd(show.date) : null,
+        to: null
+      },
+      time: show.startTime
+    })),
     featuredImage: {
       url: event.featuredImage && event.featuredImage.url
     }

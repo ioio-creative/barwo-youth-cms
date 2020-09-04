@@ -360,6 +360,7 @@ const getSortedEvents = async (req, sortOrder = 1, isGetAllTypes = false) => {
 
 /* end of utilities */
 
+// Note: this api route is currently not used
 // @route   GET api/frontend/events/:lang/events
 // @desc    Get all events
 // @access  Public
@@ -407,6 +408,7 @@ router.get(
   }
 );
 
+// Note: this api route is currently not used
 // @route   GET api/frontend/events/:lang/pastEvents
 // @desc    Get all events - past
 // @access  Public
