@@ -430,7 +430,7 @@ const AboutEdit = _ => {
           labelMessage={uiWordings['About.TheaterTrafficEnLabel']}
           onChange={onChange}
         />
-        <LabelInputTextPair
+        {/* <LabelInputTextPair
           name='contactWebsite'
           value={about.contactWebsite}
           labelMessage={uiWordings['About.ContactWebsiteLabel']}
@@ -457,7 +457,7 @@ const AboutEdit = _ => {
           labelMessage={uiWordings['About.ContactEmailLabel']}
           placeholder=''
           onChange={onChange}
-        />
+        /> */}
       </AccordionRegion>
 
       <AccordionRegion title={uiWordings['About.AdminsRegionLabel']}>

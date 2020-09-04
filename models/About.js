@@ -110,18 +110,18 @@ const AboutSchema = mongoose.Schema({
   theaterTraffic_en: {
     type: String
   },
-  contactWebsite: {
-    type: String
-  },
-  contactTel: {
-    type: String
-  },
-  contactFax: {
-    type: String
-  },
-  contactEmail: {
-    type: String
-  },
+  // contactWebsite: {
+  //   type: String
+  // },
+  // contactTel: {
+  //   type: String
+  // },
+  // contactFax: {
+  //   type: String
+  // },
+  // contactEmail: {
+  //   type: String
+  // },
   admins: [AboutStaffPersonSchema],
   productionPersons: [AboutStaffPersonSchema],
 

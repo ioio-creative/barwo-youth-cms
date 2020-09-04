@@ -35,10 +35,10 @@ function About() {
   this.theaterTraffic_sc = '';
   this.theaterTraffic_en = '';
 
-  this.contactWebsite = '';
-  this.contactTel = '';
-  this.contactFax = '';
-  this.contactEmail = '';
+  // this.contactWebsite = '';
+  // this.contactTel = '';
+  // this.contactFax = '';
+  // this.contactEmail = '';
 
   this.admins = [];
 

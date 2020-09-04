@@ -82,13 +82,13 @@ router.get('/:lang/about', [languageHandling], async (req, res) => {
             language
           )
         },
-        traffic: getEntityPropByLanguage(about, 'theaterTraffic', language),
-        contact: {
-          website: about.contactWebsite,
-          tel: about.contactTel,
-          fax: about.contactFax,
-          email: about.contactEmail
-        }
+        traffic: getEntityPropByLanguage(about, 'theaterTraffic', language)
+        // contact: {
+        //   website: about.contactWebsite,
+        //   tel: about.contactTel,
+        //   fax: about.contactFax,
+        //   email: about.contactEmail
+        // }
       },
       admins: getArraySafe(about.admins).map(mapStaffPersonFunc),
       productionPersons: getArraySafe(about.productionPersons).map(
