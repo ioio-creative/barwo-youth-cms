@@ -177,6 +177,8 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
     }
   }
 
+  addThemeColorDefaultToEvents(closestEventsInPresentOrFuture);
+
   /* end of events */
 
   return {
@@ -193,9 +195,7 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
       }
     },
     selectedEvents: sortedEvents,
-    closestEventsInPresentOrFuture: addThemeColorDefaultToEvents(
-      closestEventsInPresentOrFuture
-    )
+    closestEventsInPresentOrFuture: closestEventsInPresentOrFuture
   };
 };
 
