@@ -70,7 +70,8 @@ const emailSend = async (contact, emailAddress, name, title, message) => {
     from: `"${name}" ${emailAddress}`, // sender address
     to: contact.emailAddress, // Receivers
     subject: title, // Subject line
-    html: message + unsub // html body
+    html: message // html body
+    // html: message + unsub // html body
   });
   console.log(info);
 };
