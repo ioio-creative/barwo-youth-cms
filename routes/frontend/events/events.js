@@ -163,6 +163,17 @@ const getEventForFrontEndFromDbEvent = (
 ) => {
   const event = dbEvent;
 
+  const name = getEntityPropByLanguage(event, 'name', language);
+
+  let nameForLongDisplay = getEntityPropByLanguage(
+    event,
+    'nameForLongDisplay',
+    language
+  );
+  nameForLongDisplay = nameForLongDisplay
+    ? nameForLongDisplay.replace(/\n/g, '<br>')
+    : name;
+
   let firstShowDateRaw = null;
   let firstShowDate = null;
   let firstShowYear = null;
@@ -190,17 +201,6 @@ const getEventForFrontEndFromDbEvent = (
   }
 
   const isPastEvent = lastShowDateRaw && lastShowDateRaw < new Date();
-
-  const name = getEntityPropByLanguage(event, 'name', language);
-
-  let nameForLongDisplay = getEntityPropByLanguage(
-    event,
-    'nameForLongDisplay',
-    language
-  );
-  nameForLongDisplay = nameForLongDisplay
-    ? nameForLongDisplay.replace(/\n/g, '<br>')
-    : name;
 
   let detailData = {};
 
@@ -393,7 +393,7 @@ router.get(
       let eventsToReturn = [];
       if (closestEventInPresentOrFutureIdx >= 0) {
         eventsToReturn = sortedEvents.slice(closestEventInPresentOrFutureIdx);
-      } else if (closestEventIdx > 0) {
+      } else if (closestEventIdx >= 0) {
         eventsToReturn = sortedEvents.slice(closestEventIdx);
       } else {
         eventsToReturn = sortedEvents;

@@ -18,12 +18,6 @@ const mediumSelect = require('../common/mediumSelect');
 
 /* utilities */
 
-const phaseFindForFindAll = {
-  isEnabled: {
-    $ne: false
-  }
-};
-
 const phaseSelectForFindAll = {
   isEnabled: 0,
   createDT: 0,
@@ -112,48 +106,75 @@ const mapYearToYearForFrontEnd = year => {
   return `${year} - ${year + 1}`;
 };
 
+const getEventForFrontEndFromDbEvent = (event, language) => {
+  const name = getEntityPropByLanguage(event, 'name', language);
+  let nameForLongDisplay = getEntityPropByLanguage(
+    event,
+    'nameForLongDisplay',
+    language
+  );
+  nameForLongDisplay = nameForLongDisplay
+    ? nameForLongDisplay.replace(/\n/g, '<br>')
+    : name;
+
+  const dates = getArraySafe(event.shows).map(show => show.date);
+  let minDate = null;
+  let maxDate = null;
+  if (dates.length > 0) {
+    minDate = formatDateStringForFrontEnd(dates[0]);
+    maxDate = formatDateStringForFrontEnd(dates[dates.length - 1]);
+  }
+
+  return {
+    id: event._id,
+    label: cleanLabelForSendingToFrontEnd(event.label),
+    name: name,
+    nameForLongDisplay: nameForLongDisplay,
+    themeColor: event.themeColor,
+    artDirectors: getArraySafe(event.artDirectors).map(artDirector => ({
+      id: artDirector._id,
+      label: cleanLabelForSendingToFrontEnd(artDirector.label),
+      name: getEntityPropByLanguage(artDirector, 'name', language)
+    })),
+    fromDate: minDate,
+    toDate: maxDate,
+    featuredImage: {
+      url: event.featuredImage && event.featuredImage.url
+    }
+  };
+};
+
 const getPhaseForFrontEndFromDbPhase = (phase, language) => {
   /* events */
-  const eventForFrontEndMapFunc = event => {
-    const name = getEntityPropByLanguage(event, 'name', language);
-    let nameForLongDisplay = getEntityPropByLanguage(
-      event,
-      'nameForLongDisplay',
-      language
-    );
-    nameForLongDisplay = nameForLongDisplay
-      ? nameForLongDisplay.replace(/\n/g, '<br>')
-      : name;
-
-    const dates = getArraySafe(event.shows).map(show => show.date);
-    let minDate = null;
-    let maxDate = null;
-    if (dates.length > 0) {
-      minDate = formatDateStringForFrontEnd(dates[0]);
-      maxDate = formatDateStringForFrontEnd(dates[dates.length - 1]);
-    }
-    return {
-      id: event._id,
-      label: cleanLabelForSendingToFrontEnd(event.label),
-      name: name,
-      nameForLongDisplay: nameForLongDisplay,
-      artDirectors: getArraySafe(event.artDirectors).map(artDirector => ({
-        id: artDirector._id,
-        label: cleanLabelForSendingToFrontEnd(artDirector.label),
-        name: getEntityPropByLanguage(artDirector, 'name', language)
-      })),
-      fromDate: minDate,
-      toDate: maxDate,
-      featuredImage: {
-        url: event.featuredImage && event.featuredImage.url
-      }
-    };
-  };
-
-  const { sortedEvents } = mapAndSortEvents(
-    phase.events,
-    eventForFrontEndMapFunc
+  const {
+    sortedEvents,
+    closestEventIdx,
+    closestEventInPresentOrFutureIdx
+  } = mapAndSortEvents(phase.events, event =>
+    getEventForFrontEndFromDbEvent(event, language)
   );
+
+  // set closestEventsInPresentOrFuture
+  let closestEventsInPresentOrFuture = [];
+
+  let closestEventsInPresentOrFutureIdxToUse = -1;
+  if (closestEventInPresentOrFutureIdx >= 0) {
+    closestEventsInPresentOrFutureIdxToUse = closestEventInPresentOrFutureIdx;
+  } else if (closestEventIdx >= 0) {
+    closestEventsInPresentOrFutureIdxToUse = closestEventIdx;
+  }
+
+  // make closestEventsInPresentOrFuture of length 2
+  if (closestEventsInPresentOrFutureIdxToUse >= 0) {
+    closestEventsInPresentOrFuture.push(
+      sortedEvents[closestEventInPresentOrFutureIdx]
+    );
+    if (closestEventInPresentOrFutureIdx + 1 < sortedEvents.length) {
+      closestEventsInPresentOrFuture.push(
+        sortedEvents[closestEventInPresentOrFutureIdx + 1]
+      );
+    }
+  }
 
   /* end of events */
 
@@ -170,7 +191,8 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
         to: formatDateStringForFrontEnd(phase.toDate)
       }
     },
-    selectedEvents: sortedEvents
+    selectedEvents: sortedEvents,
+    closestEventsInPresentOrFuture: closestEventsInPresentOrFuture
   };
 };
 
@@ -184,7 +206,11 @@ router.get('/:lang/phases', [languageHandling], async (req, res) => {
   try {
     const language = req.language;
 
-    const phases = await Phase.find(phaseFindForFindAll)
+    const phases = await Phase.find({
+      isEnabled: {
+        $ne: false
+      }
+    })
       .select(phaseSelectForFindAll)
       .populate(phasePopulationListForFindAll)
       .sort({
@@ -235,7 +261,16 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
 
     const language = req.language;
 
-    const phases = await Phase.find(phaseFindForFindAll)
+    const findOptions = {};
+
+    // Yearly Schedule 年度演期表 still need to show all phases in the year including disabled phases
+    if (!isShowAllPhases) {
+      findOptions.isEnabled = {
+        $ne: false
+      };
+    }
+
+    const phases = await Phase.find(findOptions)
       .select(phaseSelectForFindAll)
       .populate(phasePopulationListForFindAll)
       .sort({
