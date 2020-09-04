@@ -62,6 +62,17 @@ const getActivityForFrontEndFromDbActivity = (
   isRequireDetail = false,
   defaultPageMeta = {}
 ) => {
+  const name = getEntityPropByLanguage(activity, 'name', language);
+
+  let nameForLongDisplay = getEntityPropByLanguage(
+    activity,
+    'nameForLongDisplay',
+    language
+  );
+  nameForLongDisplay = nameForLongDisplay
+    ? nameForLongDisplay.replace(/\n/g, '<br>')
+    : name;
+
   let detailData = {};
 
   if (isRequireDetail) {
@@ -96,7 +107,8 @@ const getActivityForFrontEndFromDbActivity = (
   return {
     id: activity._id,
     label: cleanLabelForSendingToFrontEnd(activity.label),
-    name: getEntityPropByLanguage(activity, 'name', language),
+    name: name,
+    nameForLongDisplay: nameForLongDisplay,
     section: activity.type,
     date: {
       from: formatDateStringForFrontEnd(activity.fromDate),

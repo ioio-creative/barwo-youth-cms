@@ -58,6 +58,9 @@ const landingPopulationList = [
       name_tc: 1,
       name_sc: 1,
       name_en: 1,
+      nameForLongDisplay_tc: 1,
+      nameForLongDisplay_sc: 1,
+      nameForLongDisplay_en: 1,
       type: 1,
       fromDate: 1,
       toDate: 1,
@@ -145,19 +148,31 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
         }
       })),
       featuredActivities: getArraySafe(landing.featuredActivities).map(
-        activity => ({
-          id: activity._id,
-          label: cleanLabelForSendingToFrontEnd(activity.label),
-          name: getEntityPropByLanguage(activity, 'name', language),
-          section: activity.type,
-          date: {
-            from: formatDateStringForFrontEnd(activity.fromDate),
-            to: formatDateStringForFrontEnd(activity.toDate)
-          },
-          featuredImage: {
-            src: activity.featuredImage && activity.featuredImage.url
-          }
-        })
+        activity => {
+          const name = getEntityPropByLanguage(activity, 'name', language);
+          let nameForLongDisplay = getEntityPropByLanguage(
+            activity,
+            'nameForLongDisplay',
+            language
+          );
+          nameForLongDisplay = nameForLongDisplay
+            ? nameForLongDisplay.replace(/\n/g, '<br>')
+            : name;
+          return {
+            id: activity._id,
+            label: cleanLabelForSendingToFrontEnd(activity.label),
+            name: name,
+            nameForLongDisplay: nameForLongDisplay,
+            section: activity.type,
+            date: {
+              from: formatDateStringForFrontEnd(activity.fromDate),
+              to: formatDateStringForFrontEnd(activity.toDate)
+            },
+            featuredImage: {
+              src: activity.featuredImage && activity.featuredImage.url
+            }
+          };
+        }
       )
     };
 

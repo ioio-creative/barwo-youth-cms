@@ -9,6 +9,7 @@ import AccordionRegion from 'components/layout/AccordionRegion';
 import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
+import LabelTextAreaPair from 'components/form/LabelTextAreaPair';
 //import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
@@ -389,6 +390,37 @@ const ActivityEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
+        />
+
+        <LabelTextAreaPair
+          name='nameForLongDisplay_tc'
+          value={activity.nameForLongDisplay_tc}
+          labelMessage={uiWordings['Activity.NameForLongDisplayTcLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+          textAreaStyle={LabelTextAreaPair.threeRowStyle}
+          isHalf={true}
+        />
+        <LabelTextAreaPair
+          name='nameForLongDisplay_sc'
+          value={activity.nameForLongDisplay_sc}
+          labelMessage={uiWordings['Activity.NameForLongDisplayScLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+          textAreaStyle={LabelTextAreaPair.threeRowStyle}
+          isHalf={true}
+        />
+        <LabelTextAreaPair
+          name='nameForLongDisplay_en'
+          value={activity.nameForLongDisplay_en}
+          labelMessage={uiWordings['Activity.NameForLongDisplayEnLabel']}
+          placeholder=''
+          onChange={onChange}
+          required={true}
+          textAreaStyle={LabelTextAreaPair.threeRowStyle}
+          isHalf={true}
         />
 
         <LabelSelectPair

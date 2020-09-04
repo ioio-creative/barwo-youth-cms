@@ -48,6 +48,9 @@ const phasePopulationListForFindAll = [
       name_tc: 1,
       name_sc: 1,
       name_en: 1,
+      nameForLongDisplay_tc: 1,
+      nameForLongDisplay_sc: 1,
+      nameForLongDisplay_en: 1,
       shows: 1,
       artDirectors: 1,
       featuredImage: 1
@@ -112,6 +115,16 @@ const mapYearToYearForFrontEnd = year => {
 const getPhaseForFrontEndFromDbPhase = (phase, language) => {
   /* events */
   const eventForFrontEndMapFunc = event => {
+    const name = getEntityPropByLanguage(event, 'name', language);
+    let nameForLongDisplay = getEntityPropByLanguage(
+      event,
+      'nameForLongDisplay',
+      language
+    );
+    nameForLongDisplay = nameForLongDisplay
+      ? nameForLongDisplay.replace(/\n/g, '<br>')
+      : name;
+
     const dates = getArraySafe(event.shows).map(show => show.date);
     let minDate = null;
     let maxDate = null;
@@ -122,7 +135,8 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
     return {
       id: event._id,
       label: cleanLabelForSendingToFrontEnd(event.label),
-      name: getEntityPropByLanguage(event, 'name', language),
+      name: name,
+      nameForLongDisplay: nameForLongDisplay,
       artDirectors: getArraySafe(event.artDirectors).map(artDirector => ({
         id: artDirector._id,
         label: cleanLabelForSendingToFrontEnd(artDirector.label),

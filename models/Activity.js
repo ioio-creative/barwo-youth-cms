@@ -21,6 +21,18 @@ const ActivitySchema = mongoose.Schema({
     type: String,
     require: true
   },
+  nameForLongDisplay_tc: {
+    type: String,
+    require: true
+  },
+  nameForLongDisplay_sc: {
+    type: String,
+    require: true
+  },
+  nameForLongDisplay_en: {
+    type: String,
+    require: true
+  },
   type: {
     type: String,
     require: true
@@ -144,6 +156,9 @@ module.exports.activityResponseTypes = {
   NAME_TC_REQUIRED: 'NAME_TC_REQUIRED',
   NAME_SC_REQUIRED: 'NAME_SC_REQUIRED',
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
+  NAME_FOR_LONG_DISPLAY_TC_REQUIRED: 'NAME_FOR_LONG_DISPLAY_TC_REQUIRED',
+  NAME_FOR_LONG_DISPLAY_SC_REQUIRED: 'NAME_FOR_LONG_DISPLAY_SC_REQUIRED',
+  NAME_FOR_LONG_DISPLAY_EN_REQUIRED: 'NAME_FOR_LONG_DISPLAY_EN_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
   FROM_DATE_REQUIRED: 'FROM_DATE_REQUIRED',
   VIDEO_LINK_REQUIRED: 'VIDEO_LINK_REQUIRED',

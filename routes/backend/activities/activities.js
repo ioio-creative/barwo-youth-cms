@@ -55,6 +55,18 @@ const activityValidationChecks = [
   check('name_tc', activityResponseTypes.NAME_TC_REQUIRED).notEmpty(),
   check('name_sc', activityResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', activityResponseTypes.NAME_EN_REQUIRED).notEmpty(),
+  check(
+    'nameForLongDisplay_tc',
+    activityResponseTypes.NAME_FOR_LONG_DISPLAY_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'nameForLongDisplay_sc',
+    activityResponseTypes.NAME_FOR_LONG_DISPLAY_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'nameForLongDisplay_en',
+    activityResponseTypes.NAME_FOR_LONG_DISPLAY_EN_REQUIRED
+  ).notEmpty(),
   check('type', activityResponseTypes.TYPE_REQUIRED).notEmpty(),
   check('fromDate', activityResponseTypes.FROM_DATE_REQUIRED).notEmpty()
 ];
@@ -173,6 +185,9 @@ router.post(
       name_tc,
       name_sc,
       name_en,
+      nameForLongDisplay_tc,
+      nameForLongDisplay_sc,
+      nameForLongDisplay_en,
       type,
       fromDate,
       toDate,
@@ -209,6 +224,9 @@ router.post(
         name_tc,
         name_sc,
         name_en,
+        nameForLongDisplay_tc,
+        nameForLongDisplay_sc,
+        nameForLongDisplay_en,
         type,
         fromDate,
         toDate,
@@ -257,6 +275,9 @@ router.put(
       name_tc,
       name_sc,
       name_en,
+      nameForLongDisplay_tc,
+      nameForLongDisplay_sc,
+      nameForLongDisplay_en,
       type,
       fromDate,
       toDate,
@@ -295,6 +316,12 @@ router.put(
     if (name_tc) activityFields.name_tc = name_tc;
     if (name_sc) activityFields.name_sc = name_sc;
     if (name_en) activityFields.name_en = name_en;
+    if (nameForLongDisplay_tc)
+      activityFields.nameForLongDisplay_tc = nameForLongDisplay_tc;
+    if (nameForLongDisplay_sc)
+      activityFields.nameForLongDisplay_sc = nameForLongDisplay_sc;
+    if (nameForLongDisplay_en)
+      activityFields.nameForLongDisplay_en = nameForLongDisplay_en;
     if (type) activityFields.type = type;
     if (fromDate) activityFields.fromDate = fromDate;
     activityFields.toDate = toDate;
