@@ -64,6 +64,8 @@ const EventsState = ({ children }) => {
       );
     }
 
+    console.log(url + queryString);
+
     try {
       const res = await axios.get(url + queryString);
       const { docs, ...meta } = res.data;

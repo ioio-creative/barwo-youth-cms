@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef
+} from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import AlertContext from 'contexts/alert/alertContext';
 import EventsContext from 'contexts/events/eventsContext';
@@ -251,28 +257,35 @@ const EventList = _ => {
     []
   );
 
-  // set query string and getEvents
-  useEffect(
-    _ => {
-      const getOptions = prepareGetOptionsForPaginationAndSort();
-      getEventsWithType(getOptions);
-    },
-    [prepareGetOptionsForPaginationAndSort, getEventsWithType]
-  );
+  const lastFilterText = useRef(filterText);
 
   // filter and getEvents
   useEffect(
     _ => {
-      if (isUseFilter) {
-        const getOptions = {
-          ...prepareGetOptionsForPaginationAndSort(),
+      let getOptions = {};
+
+      if (isUseFilter || filterText) {
+        getOptions = {
+          ...getOptions,
           ...prepareGetOptionsForFilter()
         };
-        getEventsWithType(getOptions);
         setIsUseFilter(false);
       }
+
+      // useEffect caused by pagination and sort
+      if (lastFilterText.current === filterText) {
+        getOptions = {
+          ...getOptions,
+          ...prepareGetOptionsForPaginationAndSort()
+        };
+
+        getEventsWithType(getOptions);
+      }
+
+      lastFilterText.current = filterText;
     },
     [
+      filterText,
       isUseFilter,
       setIsUseFilter,
       prepareGetOptionsForPaginationAndSort,
