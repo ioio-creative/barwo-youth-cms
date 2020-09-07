@@ -6,192 +6,290 @@ const languageHandling = require('../../../middleware/languageHandling');
 
 const { frontEndDateFormatForMongoDb } = require('../../../utils/datetime');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
+const orderBy = require('../../../utils/js/array/orderBy');
 const { Event } = require('../../../models/Event');
 const { Artist } = require('../../../models/Artist');
 const { News } = require('../../../models/News');
 const { Activity } = require('../../../models/Activity');
+const { NewsMediaItem } = require('../../../models/NewsMediaItem');
+//const { Newsletter } = require('../../../models/Newsletter');
 const { Medium } = require('../../../models/Medium');
 
+/* utilities */
+
+const collectionNames = {
+  Event: 'Event',
+  Artist: 'Artist',
+  News: 'News',
+  Activity: 'Activity',
+  NewsMediaItem: 'NewsMediaItem'
+  //Newsletter: 'Newsletter'
+};
+
+const collectionNamesArray = Object.values(collectionNames);
+
+// https://youtu.be/kZ77X67GUfk
+const getSearchArray = language => [
+  {
+    model: Event,
+    search: [
+      {
+        score: 2,
+        path: ['label', 'name_tc', 'name_sc', 'name_en']
+      },
+      {
+        score: 1,
+        path: ['desc_tc', 'desc_sc', 'desc_en']
+      },
+      {
+        score: 1,
+        path: [
+          'artDirectors.name_tc',
+          'artDirectors.name_sc',
+          'artDirectors.name_en'
+        ]
+      },
+      {
+        score: 1,
+        path: [
+          'artists.artist.name_tc',
+          'artists.artist.name_sc',
+          'artists.artist.name_en'
+        ]
+      },
+      {
+        score: 1,
+        path: ['scenarists.name_tc', 'scenarists.name_sc', 'scenarists.name_en']
+      }
+    ],
+    lookup: 'featuredImage',
+    project: {
+      collectionName: collectionNames.Event,
+      ['name' + language.entityPropSuffix]: 1,
+      ['desc' + language.entityPropSuffix]: 1,
+      label: 1,
+      image: {
+        $ifNull: [
+          {
+            $arrayElemAt: ['$imageData.url', 0]
+          },
+          null
+        ]
+      },
+      score: {
+        $meta: 'searchScore'
+      },
+      /**
+       * https://docs.mongodb.com/manual/reference/operator/aggregation/arrayElemAt/
+       * https://stackoverflow.com/questions/19174895/mongodb-query-to-find-property-of-first-element-of-array
+       * https://docs.mongodb.com/manual/reference/operator/aggregation/dateToString/
+       *
+       */
+      // firstShow: {
+      //   $arrayElemAt: ['$shows', 0]
+      // }
+      fromDate: {
+        $dateToString: {
+          format: frontEndDateFormatForMongoDb,
+          date: {
+            $arrayElemAt: ['$shows.date', 0]
+          }
+        }
+      },
+      toDate: {
+        $dateToString: {
+          format: frontEndDateFormatForMongoDb,
+          date: {
+            $arrayElemAt: ['$shows.date', -1]
+          }
+        }
+      }
+    }
+  },
+  {
+    model: Artist,
+    search: [
+      {
+        score: 2,
+        path: ['label', 'name_tc', 'name_sc', 'name_en']
+      },
+      {
+        score: 1,
+        path: ['desc_tc', 'desc_sc', 'desc_en']
+      }
+    ],
+    lookup: 'featuredImage',
+    project: {
+      collectionName: collectionNames.Artist,
+      ['name' + language.entityPropSuffix]: 1,
+      ['desc' + language.entityPropSuffix]: 1,
+      label: 1,
+      image: {
+        $ifNull: [
+          {
+            $arrayElemAt: ['$imageData.url', 0]
+          },
+          null
+        ]
+      },
+      score: {
+        $meta: 'searchScore'
+      }
+    }
+  },
+  {
+    model: News,
+    search: [
+      {
+        score: 2,
+        path: ['label', 'name_tc', 'name_sc', 'name_en']
+      },
+      {
+        score: 1,
+        path: ['desc_tc', 'desc_sc', 'desc_en']
+      }
+    ],
+    lookup: 'featuredImage',
+    project: {
+      collectionName: collectionNames.News,
+      ['name' + language.entityPropSuffix]: 1,
+      ['desc' + language.entityPropSuffix]: 1,
+      label: 1,
+      image: {
+        $ifNull: [
+          {
+            $arrayElemAt: ['$imageData.url', 0]
+          },
+          null
+        ]
+      },
+      score: {
+        $meta: 'searchScore'
+      }
+    }
+  },
+  {
+    model: Activity,
+    search: [
+      {
+        score: 2,
+        path: ['label', 'name_tc', 'name_sc', 'name_en']
+      },
+      {
+        score: 1,
+        path: ['desc_tc', 'desc_sc', 'desc_en']
+      }
+    ],
+    lookup: 'featuredImage',
+    project: {
+      collectionName: collectionNames.Activity,
+      ['name' + language.entityPropSuffix]: 1,
+      ['desc' + language.entityPropSuffix]: 1,
+      label: 1,
+      image: {
+        $ifNull: [
+          {
+            $arrayElemAt: ['$imageData.url', 0]
+          },
+          null
+        ]
+      },
+      score: {
+        $meta: 'searchScore'
+      },
+      fromDate: {
+        $dateToString: {
+          format: frontEndDateFormatForMongoDb,
+          date: '$fromDate'
+        }
+      },
+      toDate: {
+        $dateToString: {
+          format: frontEndDateFormatForMongoDb,
+          date: '$toDate'
+        }
+      }
+    }
+  },
+  {
+    model: NewsMediaItem,
+    search: [
+      {
+        score: 2,
+        path: ['label', 'name_tc', 'name_sc', 'name_en']
+      },
+      {
+        score: 1,
+        path: ['desc_tc', 'desc_sc', 'desc_en']
+      }
+    ],
+    lookup: 'thumbnail',
+    project: {
+      collectionName: collectionNames.NewsMediaItem,
+      ['name' + language.entityPropSuffix]: 1,
+      ['desc' + language.entityPropSuffix]: 1,
+      label: 1,
+      image: {
+        $ifNull: [
+          {
+            $arrayElemAt: ['$imageData.url', 0]
+          },
+          null
+        ]
+      },
+      score: {
+        $meta: 'searchScore'
+      },
+      type: 1
+    }
+  }
+  // {
+  //   model: Newsletter,
+  //   search: [
+  //     {
+  //       score: 2,
+  //       path: ['label', 'title_tc', 'title_sc', 'title_en']
+  //     },
+  //     {
+  //       score: 1,
+  //       path: ['message_tc', 'message_sc', 'message_en']
+  //     }
+  //   ],
+  //   lookup: 'featuredImage',
+  //   project: {
+  //     collectionName: collectionNames.Newsletter,
+  //     ['name' + language.entityPropSuffix]:
+  //       '$' + 'title' + language.entityPropSuffix,
+  //     ['desc' + language.entityPropSuffix]:
+  //       '$' + 'message' + language.entityPropSuffix,
+  //     label: 1,
+  //     image: {
+  //       $ifNull: [
+  //         {
+  //           $arrayElemAt: ['$imageData.url', 0]
+  //         },
+  //         null
+  //       ]
+  //     },
+  //     score: {
+  //       $meta: 'searchScore'
+  //     }
+  //   }
+  // }
+];
+
+/* end of utilities */
+
 // @route   POST api/frontend/search
-// @desc    Search the "queryStr" in Event, Artist, News, Activity and return result in "language"
+// @desc    Search the "queryStr" in Event, Artist, News, Activity, NewsMediaItem, Newsletter and return result in "language"
 // @access  Public // TODO:
 router.post('/:lang?', [languageHandling], async (req, res) => {
   const { queryStr } = req.body;
   const language = req.language;
 
   try {
-    const searchArray = [
-      {
-        model: Event,
-        search: [
-          {
-            score: 3,
-            path: ['name_tc', 'name_sc', 'name_en']
-          },
-          {
-            score: 2,
-            path: ['desc_tc', 'desc_sc', 'desc_en']
-          },
-          {
-            score: 1,
-            path: [
-              'artDirectors.name_tc',
-              'artDirectors.name_sc',
-              'artDirectors.name_en'
-            ]
-          },
-          {
-            score: 1,
-            path: [
-              'artists.artist.name_tc',
-              'artists.artist.name_sc',
-              'artists.artist.name_en'
-            ]
-          },
-          {
-            score: 1,
-            path: [
-              'scenarists.name_tc',
-              'scenarists.name_sc',
-              'scenarists.name_en'
-            ]
-          }
-        ],
-        lookup: 'featuredImage',
-        project: {
-          ['name' + language.entityPropSuffix]: 1,
-          ['desc' + language.entityPropSuffix]: 1,
-          label: 1,
-          image: {
-            $ifNull: [
-              {
-                $arrayElemAt: ['$imageData.url', 0]
-              },
-              null
-            ]
-          },
-          score: {
-            $meta: 'searchScore'
-          },
-          /**
-           * https://docs.mongodb.com/manual/reference/operator/aggregation/arrayElemAt/
-           * https://stackoverflow.com/questions/19174895/mongodb-query-to-find-property-of-first-element-of-array
-           * https://docs.mongodb.com/manual/reference/operator/aggregation/dateToString/
-           *
-           */
-          // firstShow: {
-          //   $arrayElemAt: ['$shows', 0]
-          // }
-          fromDate: {
-            $dateToString: {
-              format: frontEndDateFormatForMongoDb,
-              date: {
-                $arrayElemAt: ['$shows.date', 0]
-              }
-            }
-          }
-        }
-      },
-      {
-        model: Artist,
-        search: [
-          {
-            score: 2,
-            path: ['name_tc', 'name_sc', 'name_en']
-          },
-          {
-            score: 1,
-            path: ['desc_tc', 'desc_sc', 'desc_en']
-          }
-        ],
-        lookup: 'featuredImage',
-        project: {
-          ['name' + language.entityPropSuffix]: 1,
-          ['desc' + language.entityPropSuffix]: 1,
-          label: 1,
-          image: {
-            $ifNull: [
-              {
-                $arrayElemAt: ['$imageData.url', 0]
-              },
-              null
-            ]
-          },
-          score: {
-            $meta: 'searchScore'
-          }
-        }
-      },
-      {
-        model: News,
-        search: [
-          {
-            score: 2,
-            path: ['name_tc', 'name_sc', 'name_en']
-          },
-          {
-            score: 1,
-            path: ['desc_tc', 'desc_sc', 'desc_en']
-          }
-        ],
-        lookup: 'featuredImage',
-        project: {
-          ['name' + language.entityPropSuffix]: 1,
-          ['desc' + language.entityPropSuffix]: 1,
-          label: 1,
-          image: {
-            $ifNull: [
-              {
-                $arrayElemAt: ['$imageData.url', 0]
-              },
-              null
-            ]
-          },
-          score: {
-            $meta: 'searchScore'
-          }
-        }
-      },
-      {
-        model: Activity,
-        search: [
-          {
-            score: 2,
-            path: ['name_tc', 'name_sc', 'name_en']
-          },
-          {
-            score: 1,
-            path: ['desc_tc', 'desc_sc', 'desc_en']
-          }
-        ],
-        lookup: 'featuredImage',
-        project: {
-          ['name' + language.entityPropSuffix]: 1,
-          ['desc' + language.entityPropSuffix]: 1,
-          label: 1,
-          image: {
-            $ifNull: [
-              {
-                $arrayElemAt: ['$imageData.url', 0]
-              },
-              null
-            ]
-          },
-          score: {
-            $meta: 'searchScore'
-          },
-          fromDate: {
-            $dateToString: {
-              format: frontEndDateFormatForMongoDb,
-              date: '$fromDate'
-            }
-          }
-        }
-      }
-    ];
-
-    const result = Promise.all(
-      searchArray.map(async data => {
+    const resultsByCollectionPromise = Promise.all(
+      getSearchArray(language).map(async data => {
         // const returnFields = {};
         // data.return.forEach(key => (returnFields[key] = 1));
         // returnFields['score'] = {
@@ -201,6 +299,17 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
         //   $arrayElemAt: [ "$company_data.uuid", 0 ]
         // }
         //console.log(returnFields);
+
+        // https://www.forwardadvance.com/course/mongo/mongo-aggregation/aggregation-with-match
+        // filter out disabled
+        const matchIsEnabledStage = {
+          $match: {
+            isEnabled: {
+              $ne: false
+            }
+          }
+        };
+
         const searchStage = {
           $search: {
             compound: {
@@ -220,11 +329,17 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
             }
           }
         };
+
         const projectStage = {
           $project: data.project
         };
+
         const aggregateStageArray = [];
+        // Error if searchStage is not the first stage in the pipeline:
+        // MongoError: $_internalSearchBetaMongotRemote is only valid as the first stage in a pipeline.
         aggregateStageArray.push(searchStage);
+        aggregateStageArray.push(matchIsEnabledStage);
+
         if (data.lookup) {
           // lookup stage
           const lookupStage = {
@@ -237,28 +352,40 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
           };
           aggregateStageArray.push(lookupStage);
         }
+
         aggregateStageArray.push(projectStage);
+
         return await data.model.aggregate(aggregateStageArray);
       })
     );
 
-    const dataArray = await result;
+    const resultsByCollection = await resultsByCollectionPromise;
 
-    const resultCollectionName = ['Event', 'Artist', 'News', 'Activity'];
-    const resultArray = {};
-    dataArray.forEach((data, idx) => {
-      resultArray[resultCollectionName[idx]] = data.map(dat => {
-        Object.keys(dat).forEach(key => {
-          if (key.endsWith(language.entityPropSuffix)) {
-            dat[key.replace(language.entityPropSuffix, '')] = dat[key];
-            delete dat[key];
-          }
-        });
-        return dat;
+    // flatten resultsByCollection into results
+    let results = [];
+    for (const collection of resultsByCollection) {
+      results = results.concat(collection);
+    }
+
+    // clean up some fields for each result obj -> resultsCleaned
+    const resultsCleaned = results.map(result => {
+      Object.keys(result).forEach(key => {
+        if (key.endsWith(language.entityPropSuffix)) {
+          result[key.replace(language.entityPropSuffix, '')] = result[key];
+          delete result[key];
+        }
       });
+      return result;
     });
 
-    res.json(resultArray);
+    // order resultsSpecificToLang by score desc -> resultsSortedByScore
+    const resultsSortedByScore = orderBy(
+      resultsCleaned,
+      ['score', 'toTimestamp', 'fromTimestamp'],
+      ['desc']
+    );
+
+    res.json(resultsSortedByScore);
   } catch (err) {
     generalErrorHandle(err, res);
   }
