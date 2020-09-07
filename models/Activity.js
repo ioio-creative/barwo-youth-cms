@@ -137,6 +137,8 @@ const activityTypes = {
   EXHIBITION: 'EXHIBITION'
 };
 
+const activityTypesArray = Object.values(activityTypes);
+
 const activityTypesInOrder = [
   activityTypes.YOUTH_PROGRAMME,
   activityTypes.GUIDED_TALK,
@@ -146,9 +148,15 @@ const activityTypesInOrder = [
 
 module.exports.activityTypes = activityTypes;
 
-module.exports.activityTypesArray = Object.values(activityTypes);
+module.exports.activityTypesArray = activityTypesArray;
 
 module.exports.activityTypesInOrder = activityTypesInOrder;
+
+module.exports.defaultActivityType = activityTypesInOrder[0];
+
+module.exports.isValidActivityType = type => {
+  return activityTypesArray.includes(type && type.toUpperCase());
+};
 
 module.exports.activityResponseTypes = {
   // input validation

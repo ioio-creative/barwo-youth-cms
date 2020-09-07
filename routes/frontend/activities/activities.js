@@ -6,6 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const distinct = require('../../../utils/js/array/distinct');
 const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const mapAndSortActivities = require('../../../utils/activities/mapAndSortActivities');
 const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
@@ -17,6 +18,8 @@ const {
 const {
   Activity,
   activityTypesInOrder,
+  defaultActivityType,
+  isValidActivityType,
   activityResponseTypes
 } = require('../../../models/Activity');
 const mediumSelect = require('../common/mediumSelect');
@@ -164,6 +167,88 @@ router.get('/:lang/activities', [languageHandling], async (req, res) => {
     }
 
     res.json(activitiesByTypeInTypeOrder);
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
+
+// @route   GET api/frontend/activities/:lang/activityTypes
+// @desc    Get all activity types, to which some activities belong
+// @access  Public
+router.get('/:lang/activityTypes', [languageHandling], async (req, res) => {
+  try {
+    //const language = req.language;
+
+    const activities = await Activity.find({
+      isEnabled: {
+        $ne: false
+      }
+    })
+      .select(activitySelectForFindAll)
+      .populate(activityPopulationListForFindAll);
+
+    const safeActivities = getArraySafe(activities);
+
+    const types = distinct(safeActivities.map(activity => activity.type));
+
+    const activityTypesToInclude = activityTypesInOrder.map(type => ({
+      type,
+      isIncluded: false
+    }));
+
+    activityTypesToInclude.forEach((activityTypeToInclude, idx) => {
+      activityTypeToInclude.isIncluded = types.includes(
+        activityTypeToInclude.type
+      );
+    });
+
+    const activityTypesToReturn = activityTypesToInclude
+      .filter(x => x.isIncluded)
+      .map(x => x.type);
+
+    res.json(activityTypesToReturn);
+  } catch (err) {
+    generalErrorHandle(err, res);
+  }
+});
+
+// @route   GET api/frontend/activities/:lang/activitiesByType
+// @desc    Get all activities of a specific type
+// @access  Public
+// @query   type=YOUTH_PROGRAMME or GUIDED_TALK, etc.
+router.get('/:lang/activitiesByType', [languageHandling], async (req, res) => {
+  try {
+    const language = req.language;
+
+    // query
+    const query = req.query;
+    let type = query.type && query.type.toUpperCase();
+
+    if (!isValidActivityType(type)) {
+      type = defaultActivityType;
+    }
+
+    const activities = await Activity.find({
+      isEnabled: {
+        $ne: false
+      },
+      type
+    })
+      .select(activitySelectForFindAll)
+      .populate(activityPopulationListForFindAll);
+
+    const safeActivities = getArraySafe(activities);
+
+    // set activitiesOfTypeForFrontEnd
+    const { sortedActivities } = mapAndSortActivities(
+      safeActivities,
+      activity => {
+        return getActivityForFrontEndFromDbActivity(activity, language);
+      },
+      -1
+    );
+
+    res.json(sortedActivities);
   } catch (err) {
     generalErrorHandle(err, res);
   }
