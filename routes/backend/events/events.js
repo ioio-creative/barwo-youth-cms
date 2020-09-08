@@ -516,9 +516,6 @@ router.post(
       getArraySafe(artists).map(translateAllFieldsFromTcToSc)
     );
 
-    console.log(artists);
-    console.log(artistsTranslated);
-
     const scenaristsTranslated = await Promise.all(
       getArraySafe(scenarists).map(translateAllFieldsFromTcToSc)
     );

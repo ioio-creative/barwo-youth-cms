@@ -323,7 +323,11 @@ const EventEdit = _ => {
     async _ => {
       const isSuccess = await deleteEvent(eventId);
       if (isSuccess) {
-        goToUrl(routes.eventList(true));
+        goToUrl(
+          isCommunityPerformance
+            ? routes.communityPerformanceList(true)
+            : routes.eventList(true)
+        );
         setAlerts(
           new Alert(
             uiWordings[
@@ -395,8 +399,6 @@ const EventEdit = _ => {
           })
         )
       );
-
-      console.log(event.artists);
 
       // add shows
       const cleanedShows = getArraySafe(
@@ -518,7 +520,13 @@ const EventEdit = _ => {
 
   const backToEventListButton = (
     <GroupContainer>
-      <LinkButton to={routes.eventList(true)}>
+      <LinkButton
+        to={
+          isCommunityPerformance
+            ? routes.communityPerformanceList(true)
+            : routes.eventList(true)
+        }
+      >
         {
           uiWordings[
             `${
