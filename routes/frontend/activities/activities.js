@@ -127,6 +127,7 @@ const getActivityForFrontEndFromDbActivity = (
 
 /* end of utilities */
 
+// Note: this api route is currently not used
 // @route   GET api/frontend/activities/:lang/activities
 // @desc    Get all activities
 // @access  Public
