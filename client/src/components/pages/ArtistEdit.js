@@ -315,8 +315,6 @@ const ArtistEdit = _ => {
     return <>{backToArtistListButton}</>;
   }
 
-  console.log(Artist.artistTypeOptions);
-
   return (
     <>
       {backToArtistListButton}
