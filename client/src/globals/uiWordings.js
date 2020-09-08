@@ -224,9 +224,9 @@ export default {
   'EventEdit.Artist.GuestArtistNameTcPlaceholder': 'Guest Name TC',
   'EventEdit.Artist.GuestArtistNameScPlaceholder': 'Guest Name SC',
   'EventEdit.Artist.GuestArtistNameEnPlaceholder': 'Guest Name EN',
-  'EventEdit.Artist.GuestArtistRemarksTcPlaceholder': 'Guest Remarks TC',
-  'EventEdit.Artist.GuestArtistRemarksScPlaceholder': 'Guest Remarks SC',
-  'EventEdit.Artist.GuestArtistRemarksEnPlaceholder': 'Guest Remarks EN',
+  'EventEdit.Artist.GuestArtistRemarksTcPlaceholder': 'Remarks TC',
+  'EventEdit.Artist.GuestArtistRemarksScPlaceholder': 'Remarks SC',
+  'EventEdit.Artist.GuestArtistRemarksEnPlaceholder': 'Remarks EN',
   'EventEdit.Artist.GuestArtistImageAdd': 'Guest Image',
 
   'EventEdit.Scenarist.NameTcPlaceholder': 'Name TC',

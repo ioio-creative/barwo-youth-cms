@@ -28,7 +28,11 @@ const emptyArtistInEventForAdd = {
   artist: { _id: '' },
   guestArtistName_tc: '',
   guestArtistName_sc: '',
-  guestArtistName_en: ''
+  guestArtistName_en: '',
+  guestArtistRemarks_tc: '',
+  guestArtistRemarks_sc: '',
+  guestArtistRemarks_en: '',
+  guestArtistImage: null
 };
 
 const mapArtistToListItem = artist => {
@@ -121,6 +125,7 @@ const getListStyle = isDraggingOver => ({
 
 const Item = ({
   artistInEvent,
+  isAddEventMode,
   handleItemRemoved,
   handleItemChange,
   index
@@ -234,7 +239,7 @@ const Item = ({
                   value={role_sc}
                   placeholder={uiWordings['EventEdit.Artist.RoleScPlaceholder']}
                   onChange={onChange}
-                  required={true}
+                  required={/*true*/ !isAddEventMode}
                 />
               </div>
               <div className='w3-col m3'>
@@ -392,13 +397,14 @@ const Item = ({
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...artistInEvent },
+  { handleItemRemoved, handleItemChange, isAddEventMode, ...artistInEvent },
   index
 ) => {
   return (
     <Item
       key={index}
       artistInEvent={artistInEvent}
+      isAddEventMode={isAddEventMode}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -406,7 +412,11 @@ const itemRender = (
   );
 };
 
-const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
+const EventEditArtistSelect = ({
+  artistsPicked,
+  onGetArtistsPicked,
+  isAddEventMode
+}) => {
   const artistsInPickedList = useMemo(
     _ => {
       return getArraySafe(artistsPicked).map(mapArtistInEventToListItem);
@@ -463,12 +473,20 @@ const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
 
   /* end of event handlers */
 
+  const customDataForItem = useMemo(
+    _ => ({
+      isAddEventMode
+    }),
+    [isAddEventMode]
+  );
+
   return (
     <div className='event-edit-artist-select'>
       <LabelSortableListPair
         name='artists'
         labelMessage={uiWordings['Event.ArtistsLabel']}
         pickedItemRender={itemRender}
+        customDataForItem={customDataForItem}
         getListStyle={getListStyle}
         pickedItems={artistsInPickedList}
         getPickedItems={onGetPickedItems}
@@ -476,6 +494,10 @@ const EventEditArtistSelect = ({ artistsPicked, onGetArtistsPicked }) => {
       />
     </div>
   );
+};
+
+EventEditArtistSelect.defaultProps = {
+  isAddEventMode: false
 };
 
 export default EventEditArtistSelect;

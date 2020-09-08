@@ -36,7 +36,13 @@ const getListStyle = isDraggingOver => ({
 
 /* item */
 
-const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({
+  scenarist,
+  isAddEventMode,
+  handleItemRemoved,
+  handleItemChange,
+  index
+}) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
@@ -105,7 +111,7 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
                 placeholder={
                   uiWordings['EventEdit.Scenarist.NameScPlaceholder']
                 }
-                required={true}
+                required={/*true*/ !isAddEventMode}
               />
             </div>
             <div className='w3-col m4'>
@@ -135,13 +141,14 @@ const Item = ({ scenarist, handleItemRemoved, handleItemChange, index }) => {
 };
 
 const itemRender = (
-  { handleItemRemoved, handleItemChange, ...scenarist },
+  { handleItemRemoved, handleItemChange, isAddEventMode, ...scenarist },
   index
 ) => {
   return (
     <Item
       key={index}
       scenarist={scenarist}
+      isAddEventMode={isAddEventMode}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -151,7 +158,11 @@ const itemRender = (
 
 /* end of item */
 
-const EventEditScenaristSelect = ({ scenarists, onGetScenarists }) => {
+const EventEditScenaristSelect = ({
+  scenarists,
+  onGetScenarists,
+  isAddEventMode
+}) => {
   const scenaristsInPickedList = useMemo(
     _ => {
       return getArraySafe(scenarists).map(mapScenaristToListItem);
@@ -208,17 +219,29 @@ const EventEditScenaristSelect = ({ scenarists, onGetScenarists }) => {
 
   /* end of event handlers */
 
+  const customDataForItem = useMemo(
+    _ => ({
+      isAddEventMode
+    }),
+    [isAddEventMode]
+  );
+
   return (
     <LabelSortableListPair
       name='scenarists'
       labelMessage={uiWordings['Event.ScenaristsLabel']}
       pickedItemRender={itemRender}
+      customDataForItem={customDataForItem}
       getListStyle={getListStyle}
       pickedItems={scenaristsInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
+};
+
+EventEditScenaristSelect.defaultProps = {
+  isAddEventMode: false
 };
 
 export default EventEditScenaristSelect;

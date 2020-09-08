@@ -227,7 +227,7 @@ const EventEdit = _ => {
           if (!artist.guestArtistName_tc) {
             errorType =
               Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_TC_REQUIRED;
-          } else if (!artist.guestArtistName_sc) {
+          } else if (!artist.guestArtistName_sc && !isAddMode) {
             errorType =
               Event.eventsResponseTypes.EVENT_GUEST_ARTIST_NAME_SC_REQUIRED;
           } /*else if (!artist.guestArtistName_en) {
@@ -252,7 +252,7 @@ const EventEdit = _ => {
       }
       return true;
     },
-    [setAlerts]
+    [setAlerts, isAddMode]
   );
 
   /* end of methods */
@@ -395,6 +395,8 @@ const EventEdit = _ => {
           })
         )
       );
+
+      console.log(event.artists);
 
       // add shows
       const cleanedShows = getArraySafe(
@@ -612,7 +614,7 @@ const EventEdit = _ => {
           labelMessage={uiWordings['Event.NameScLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
+          required={/*true*/ !isAddMode}
         />
         <LabelInputTextPair
           name='name_en'
@@ -639,7 +641,7 @@ const EventEdit = _ => {
           labelMessage={uiWordings['Event.NameForLongDisplayScLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
+          required={/*true*/ !isAddMode}
           textAreaStyle={LabelTextAreaPair.threeRowStyle}
           isHalf={true}
         />
@@ -681,10 +683,12 @@ const EventEdit = _ => {
           <EventEditScenaristSelect
             scenarists={scenaristsPicked}
             onGetScenarists={onGetScenaristsPicked}
+            isAddEventMode={isAddMode}
           />
           <EventEditArtistSelect
             artistsPicked={artistsPicked}
             onGetArtistsPicked={onGetArtistsPicked}
+            isAddEventMode={isAddMode}
           />
         </AccordionRegion>
 

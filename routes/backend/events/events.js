@@ -24,6 +24,7 @@ const {
   defaultEventType,
   isValidEventType
 } = require('../../../models/Event');
+const translateAllFieldsFromTcToSc = require('../../../utils/translate/translateAllFieldsFromTcToSc');
 const { Artist } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
 const pageMetaPopulate = require('../common/pageMetaPopulate');
@@ -75,19 +76,19 @@ const eventPopulationListForFindAll = [
 
 const eventPopulationListForFindOne = [...eventPopulationListForFindAll];
 
-const eventValidationChecks = [
+const eventValidationChecksForCreate = [
   check('label', eventResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('name_tc', eventResponseTypes.NAME_TC_REQUIRED).notEmpty(),
-  check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  //check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', eventResponseTypes.NAME_EN_REQUIRED).notEmpty(),
   check(
     'nameForLongDisplay_tc',
     eventResponseTypes.NAME_FOR_LONG_DISPLAY_TC_REQUIRED
   ).notEmpty(),
-  check(
-    'nameForLongDisplay_sc',
-    eventResponseTypes.NAME_FOR_LONG_DISPLAY_SC_REQUIRED
-  ).notEmpty(),
+  // check(
+  //   'nameForLongDisplay_sc',
+  //   eventResponseTypes.NAME_FOR_LONG_DISPLAY_SC_REQUIRED
+  // ).notEmpty(),
   check(
     'nameForLongDisplay_en',
     eventResponseTypes.NAME_FOR_LONG_DISPLAY_EN_REQUIRED
@@ -96,6 +97,16 @@ const eventValidationChecks = [
   // check('venue_tc', eventResponseTypes.VENUE_TC_REQUIRED).notEmpty(),
   // check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).notEmpty(),
   // check('venue_en', eventResponseTypes.VENUE_EN_REQUIRED).notEmpty()
+];
+
+const eventValidationChecksForUpdate = [
+  ...eventValidationChecksForCreate,
+  check('name_sc', eventResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  check(
+    'nameForLongDisplay_sc',
+    eventResponseTypes.NAME_FOR_LONG_DISPLAY_SC_REQUIRED
+  ).notEmpty()
+  // check('venue_sc', eventResponseTypes.VENUE_SC_REQUIRED).notEmpty()
 ];
 
 const eventArtDirectorsValidation = artDirectors => {
@@ -460,7 +471,7 @@ router.get('/:_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [auth, eventValidationChecks, validationHandling],
+  [auth, eventValidationChecksForCreate, validationHandling],
   async (req, res) => {
     const {
       label,
@@ -498,16 +509,36 @@ router.post(
       pageMeta,
       featuredImage,
       gallery
-    } = req.body;
+    } = await translateAllFieldsFromTcToSc(req.body);
+
+    // translate "inner" objects
+    const artistsTranslated = await Promise.all(
+      getArraySafe(artists).map(translateAllFieldsFromTcToSc)
+    );
+
+    console.log(artists);
+    console.log(artistsTranslated);
+
+    const scenaristsTranslated = await Promise.all(
+      getArraySafe(scenarists).map(translateAllFieldsFromTcToSc)
+    );
+
+    // const pricesTranslated = await Promise.all(
+    //   getArraySafe(prices).map(translateAllFieldsFromTcToSc)
+    // );
+
+    // const phonesTranslated = await Promise.all(
+    //   getArraySafe(phones).map(translateAllFieldsFromTcToSc)
+    // );
 
     // customed validations
     let isSuccess = eventRelationshipsValidation(
       artDirectors,
-      artists,
+      artistsTranslated,
       shows,
-      scenarists,
-      // prices,
-      // phones,
+      scenaristsTranslated,
+      // pricesTranslated,
+      // phonesTranslated,
       res
     );
     if (!isSuccess) {
@@ -540,17 +571,17 @@ router.post(
         isEnabled,
         lastModifyUser: req.user._id,
         artDirectors: getArraySafe(artDirectors),
-        artists: getCleanedEventArtists(artists),
+        artists: getCleanedEventArtists(artistsTranslated),
         shows: sortShows(shows),
-        scenarists: getArraySafe(scenarists),
+        scenarists: scenaristsTranslated,
         // venue_tc,
         // venue_sc,
         // venue_en,
-        // prices,
+        // prices: pricesTranslated,
         // priceRemarks_tc,
         // priceRemarks_sc,
         // priceRemarks_en,
-        // phones,
+        // phones: phonesTranslated,
         // ticketUrl,
         themeColor,
         pageMeta,
@@ -586,7 +617,7 @@ router.post(
 // @access  Private
 router.put(
   '/:_id',
-  [auth, eventValidationChecks, validationHandling],
+  [auth, eventValidationChecksForUpdate, validationHandling],
   async (req, res) => {
     const {
       label,
