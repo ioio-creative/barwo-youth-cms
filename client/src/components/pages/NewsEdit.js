@@ -331,7 +331,7 @@ const NewsEdit = _ => {
           labelMessage={uiWordings['News.NameScLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
+          required={/*true*/ !isAddMode}
         />
         <LabelInputTextPair
           name='name_en'

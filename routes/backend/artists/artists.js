@@ -78,8 +78,6 @@ const artistQnasValidation = qnas => {
   for (const qna of getArraySafe(qnas)) {
     let errorType = null;
 
-    console.log(qna);
-
     if (!qna.question_tc) {
       errorType = artistResponseTypes.ARTIST_QnA_QUESTION_TC_REQUIRED;
     } else if (!qna.answer_tc) {
@@ -227,6 +225,8 @@ router.post(
       getArraySafe(qnas).map(translateAllFieldsFromTcToSc)
     );
 
+    const pageMetaTranslated = await translateAllFieldsFromTcToSc(pageMeta);
+
     // customed validations
     let isSuccess = artistRelationshipsValidation(qnasTranslated, res);
     if (!isSuccess) {
@@ -252,7 +252,7 @@ router.post(
         withoutMaskImage,
         gallery: getArraySafe(gallery),
         sound,
-        pageMeta,
+        pageMeta: pageMetaTranslated,
         isEnabled,
         lastModifyUser: req.user._id
       });

@@ -256,6 +256,7 @@ const ArtistEdit = _ => {
 
       // add pageMeta
       artist.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
+
       let isSuccess = validInput(artist);
       let returnedArtist = null;
       if (isSuccess) {
@@ -313,6 +314,8 @@ const ArtistEdit = _ => {
   if (isAbandonEdit) {
     return <>{backToArtistListButton}</>;
   }
+
+  console.log(Artist.artistTypeOptions);
 
   return (
     <>

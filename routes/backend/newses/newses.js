@@ -10,6 +10,7 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
+const translateAllFieldsFromTcToSc = require('../../../utils/translate/translateAllFieldsFromTcToSc');
 const { News, newsResponseTypes } = require('../../../models/News');
 const mediumSelect = require('../common/mediumSelect');
 const pageMetaPopulate = require('../common/pageMetaPopulate');
@@ -38,12 +39,17 @@ const newsPopulationListForFindAll = [
 
 const newsPopulationListForFindOne = [...newsPopulationListForFindAll];
 
-const newsValidationChecks = [
+const newsValidationChecksForCreate = [
   check('label', newsResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('name_tc', newsResponseTypes.NAME_TC_REQUIRED).notEmpty(),
-  check('name_sc', newsResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  //check('name_sc', newsResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', newsResponseTypes.NAME_EN_REQUIRED).notEmpty(),
   check('type', newsResponseTypes.TYPE_REQUIRED).notEmpty()
+];
+
+const newsValidationChecksForUpdate = [
+  ...newsValidationChecksForCreate,
+  check('name_sc', newsResponseTypes.NAME_SC_REQUIRED).notEmpty()
 ];
 
 const handleNewsLabelDuplicateKeyError = (err, res) => {
@@ -118,7 +124,7 @@ router.get('/:_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [auth, newsValidationChecks, validationHandling],
+  [auth, newsValidationChecksForCreate, validationHandling],
   async (req, res) => {
     const {
       label,
@@ -140,7 +146,10 @@ router.post(
       // downloadMedium,
       pageMeta,
       isEnabled
-    } = req.body;
+    } = await translateAllFieldsFromTcToSc(req.body);
+
+    // translate "inner" objects
+    const pageMetaTranslated = await translateAllFieldsFromTcToSc(pageMeta);
 
     try {
       const news = new News({
@@ -161,7 +170,7 @@ router.post(
         // downloadUrl_sc,
         // downloadUrl_en,
         // downloadMedium,
-        pageMeta,
+        pageMeta: pageMetaTranslated,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -182,7 +191,7 @@ router.post(
 // @access  Private
 router.put(
   '/:_id',
-  [auth, newsValidationChecks, validationHandling],
+  [auth, newsValidationChecksForUpdate, validationHandling],
   async (req, res) => {
     const {
       label,

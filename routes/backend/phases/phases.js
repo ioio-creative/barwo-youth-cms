@@ -11,6 +11,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const translateAllFieldsFromTcToSc = require('../../../utils/translate/translateAllFieldsFromTcToSc');
 const {
   Phase,
   phaseResponseTypes,
@@ -167,7 +168,7 @@ router.post(
       downloadName_en,
       downloadMedium,
       isEnabled
-    } = req.body;
+    } = await translateAllFieldsFromTcToSc(req.body);
 
     const session = await mongoose.startSession();
     session.startTransaction();

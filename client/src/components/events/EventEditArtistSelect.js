@@ -32,7 +32,7 @@ const emptyArtistInEventForAdd = {
   guestArtistRemarks_tc: '',
   guestArtistRemarks_sc: '',
   guestArtistRemarks_en: '',
-  guestArtistImage: null
+  guestArtistImage: ''
 };
 
 const mapArtistToListItem = artist => {

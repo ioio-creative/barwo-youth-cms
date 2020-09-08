@@ -528,6 +528,8 @@ router.post(
     //   getArraySafe(phones).map(translateAllFieldsFromTcToSc)
     // );
 
+    const pageMetaTranslated = await translateAllFieldsFromTcToSc(pageMeta);
+
     // customed validations
     let isSuccess = eventRelationshipsValidation(
       artDirectors,
@@ -581,7 +583,7 @@ router.post(
         // phones: phonesTranslated,
         // ticketUrl,
         themeColor,
-        pageMeta,
+        pageMeta: pageMetaTranslated,
         featuredImage,
         gallery: getArraySafe(gallery)
       });

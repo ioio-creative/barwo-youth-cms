@@ -232,6 +232,7 @@ const NewsMediaItemEdit = _ => {
 
       // add pageMeta
       newsMediaItem.pageMeta = PageMeta.cleanPageMetaBeforeSubmit(pageMeta);
+
       let isSuccess = validInput(newsMediaItem);
       let returnedNewsMediaItem = null;
       if (isSuccess) {
@@ -347,7 +348,7 @@ const NewsMediaItemEdit = _ => {
           labelMessage={uiWordings['NewsMediaItem.NameScLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
+          required={/*true*/ !isAddMode}
         />
         <LabelInputTextPair
           name='name_en'

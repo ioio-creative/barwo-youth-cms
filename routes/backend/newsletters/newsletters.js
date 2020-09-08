@@ -9,6 +9,7 @@ const {
   generalErrorHandle,
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
+const translateAllFieldsFromTcToSc = require('../../../utils/translate/translateAllFieldsFromTcToSc');
 const {
   Newsletter,
   newsletterResponseTypes
@@ -39,14 +40,20 @@ const newsletterPopulationListForFindOne = [
   ...newsletterPopulationListForFindAll
 ];
 
-const newsletterValidationChecks = [
+const newsletterValidationChecksForCreate = [
   check('label', newsletterResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('title_tc', newsletterResponseTypes.TITLE_TC_REQUIRED).notEmpty(),
-  check('title_sc', newsletterResponseTypes.TITLE_SC_REQUIRED).notEmpty(),
+  //check('title_sc', newsletterResponseTypes.TITLE_SC_REQUIRED).notEmpty(),
   check('title_en', newsletterResponseTypes.TITLE_EN_REQUIRED).notEmpty(),
   check('message_tc', newsletterResponseTypes.MESSAGE_TC_REQUIRED).notEmpty(),
-  check('message_sc', newsletterResponseTypes.MESSAGE_SC_REQUIRED).notEmpty(),
+  //check('message_sc', newsletterResponseTypes.MESSAGE_SC_REQUIRED).notEmpty(),
   check('message_en', newsletterResponseTypes.MESSAGE_EN_REQUIRED).notEmpty()
+];
+
+const newsletterValidationChecksForUpdate = [
+  ...newsletterValidationChecksForCreate,
+  check('title_sc', newsletterResponseTypes.TITLE_SC_REQUIRED).notEmpty(),
+  check('message_sc', newsletterResponseTypes.MESSAGE_SC_REQUIRED).notEmpty()
 ];
 
 const handleNewsletterLabelDuplicateKeyError = (err, res) => {
@@ -119,7 +126,7 @@ router.get('/:_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [auth, newsletterValidationChecks, validationHandling],
+  [auth, newsletterValidationChecksForCreate, validationHandling],
   async (req, res) => {
     const {
       label,
@@ -132,7 +139,10 @@ router.post(
       featuredImage,
       pageMeta,
       isEnabled
-    } = req.body;
+    } = await translateAllFieldsFromTcToSc(req.body);
+
+    // translate "inner" objects
+    const pageMetaTranslated = await translateAllFieldsFromTcToSc(pageMeta);
 
     try {
       const newsletter = new Newsletter({
@@ -144,7 +154,7 @@ router.post(
         message_sc,
         message_en,
         featuredImage,
-        pageMeta,
+        pageMeta: pageMetaTranslated,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -165,7 +175,7 @@ router.post(
 // @access  Private
 router.put(
   '/:_id',
-  [auth, newsletterValidationChecks, validationHandling],
+  [auth, newsletterValidationChecksForUpdate, validationHandling],
   async (req, res) => {
     const {
       label,

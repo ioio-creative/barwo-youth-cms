@@ -370,7 +370,7 @@ const NewsletterEdit = _ => {
             labelMessage={uiWordings['Newsletter.TitleScLabel']}
             placeholder=''
             onChange={onChange}
-            required={true}
+            required={/*true*/ !isAddMode}
           />
           <LabelRichTextbox
             name='message_sc'
@@ -378,7 +378,7 @@ const NewsletterEdit = _ => {
             labelMessage={uiWordings['Newsletter.MessageScLabel']}
             placeholder=''
             onChange={onChange}
-            required={true}
+            required={/*true*/ !isAddMode}
           />
         </Region>
 

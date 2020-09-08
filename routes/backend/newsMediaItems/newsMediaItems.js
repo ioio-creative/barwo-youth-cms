@@ -10,6 +10,7 @@ const {
   duplicateKeyErrorHandle
 } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
+const translateAllFieldsFromTcToSc = require('../../../utils/translate/translateAllFieldsFromTcToSc');
 const {
   NewsMediaItem,
   newsMediaItemResponseTypes
@@ -45,13 +46,18 @@ const newsMediaItemPopulationListForFindOne = [
   ...newsMediaItemPopulationListForFindAll
 ];
 
-const newsMediaItemValidationChecks = [
+const newsMediaItemValidationChecksForCreate = [
   check('label', newsMediaItemResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('name_tc', newsMediaItemResponseTypes.NAME_TC_REQUIRED).notEmpty(),
-  check('name_sc', newsMediaItemResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  //check('name_sc', newsMediaItemResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', newsMediaItemResponseTypes.NAME_EN_REQUIRED).notEmpty(),
   check('type', newsMediaItemResponseTypes.TYPE_REQUIRED).notEmpty(),
   check('fromDate', newsMediaItemResponseTypes.FROM_DATE_REQUIRED).notEmpty()
+];
+
+const newsMediaItemValidationChecksForUpdate = [
+  ...newsMediaItemValidationChecksForCreate,
+  check('name_sc', newsMediaItemResponseTypes.NAME_SC_REQUIRED).notEmpty()
 ];
 
 const newsMediaItemVideoLinkValidation = videoLinks => {
@@ -164,7 +170,7 @@ router.get('/:_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [auth, newsMediaItemValidationChecks, validationHandling],
+  [auth, newsMediaItemValidationChecksForCreate, validationHandling],
   async (req, res) => {
     const {
       label,
@@ -181,7 +187,10 @@ router.post(
       videoLinks,
       pageMeta,
       isEnabled
-    } = req.body;
+    } = await translateAllFieldsFromTcToSc(req.body);
+
+    // translate "inner" objects
+    const pageMetaTranslated = await translateAllFieldsFromTcToSc(pageMeta);
 
     // customed validations
     let isSuccess = newsMediaItemRelationshipsValidation(videoLinks, res);
@@ -203,7 +212,7 @@ router.post(
         thumbnail,
         gallery: getArraySafe(gallery),
         videoLinks: getArraySafe(videoLinks),
-        pageMeta,
+        pageMeta: pageMetaTranslated,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -224,7 +233,7 @@ router.post(
 // @access  Private
 router.put(
   '/:_id',
-  [auth, newsMediaItemValidationChecks, validationHandling],
+  [auth, newsMediaItemValidationChecksForUpdate, validationHandling],
   async (req, res) => {
     const {
       label,

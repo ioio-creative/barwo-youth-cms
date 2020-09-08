@@ -221,6 +221,9 @@ router.post(
       isEnabled
     } = await translateAllFieldsFromTcToSc(req.body);
 
+    // transtate "inner" objects
+    const pageMetaTranslated = await translateAllFieldsFromTcToSc(pageMeta);
+
     // customed validations
     let isSuccess = activityRelationshipsValidation(videoLinks, res);
     if (!isSuccess) {
@@ -256,7 +259,7 @@ router.post(
         // downloadUrl_sc,
         // downloadUrl_en,
         // downloadMedium,
-        pageMeta,
+        pageMeta: pageMetaTranslated,
         isEnabled,
         lastModifyUser: req.user._id
       });
