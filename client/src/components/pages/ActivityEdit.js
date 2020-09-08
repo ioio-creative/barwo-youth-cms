@@ -381,7 +381,7 @@ const ActivityEdit = _ => {
           labelMessage={uiWordings['Activity.NameScLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
+          required={/*true*/ !isAddMode}
         />
         <LabelInputTextPair
           name='name_en'
@@ -408,7 +408,7 @@ const ActivityEdit = _ => {
           labelMessage={uiWordings['Activity.NameForLongDisplayScLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
+          required={/*true*/ !isAddMode}
           textAreaStyle={LabelTextAreaPair.threeRowStyle}
           isHalf={true}
         />

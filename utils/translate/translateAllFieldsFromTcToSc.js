@@ -1,7 +1,8 @@
+const { languages } = require('../../globals/languages');
 const convertTcToSc = require('./convertTcToSc');
 
-const scFieldSuffix = '_sc';
-const tcFieldSuffix = '_tc';
+const scFieldSuffix = languages.SC.entityPropSuffix;
+const tcFieldSuffix = languages.TC.entityPropSuffix;
 
 module.exports = async obj => {
   const newObj = {

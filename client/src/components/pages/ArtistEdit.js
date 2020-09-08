@@ -371,7 +371,7 @@ const ArtistEdit = _ => {
           labelMessage={uiWordings['Artist.NameScLabel']}
           placeholder=''
           onChange={onChange}
-          required={true}
+          required={/*true*/ !isAddMode}
         />
         <LabelInputTextPair
           name='name_en'
@@ -484,7 +484,11 @@ const ArtistEdit = _ => {
         </AccordionRegion>
 
         <AccordionRegion title={uiWordings['ArtistEdit.QnasRegionTitle']}>
-          <ArtistEditQnaSelect qnas={qnasPicked} onGetQnas={onGetQnasPicked} />
+          <ArtistEditQnaSelect
+            qnas={qnasPicked}
+            onGetQnas={onGetQnasPicked}
+            isAddArtistMode={isAddMode}
+          />
         </AccordionRegion>
 
         {!isAddMode && (

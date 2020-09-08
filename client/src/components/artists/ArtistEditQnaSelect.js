@@ -39,7 +39,13 @@ const getListStyle = isDraggingOver => ({
 
 /* item */
 
-const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
+const Item = ({
+  qna,
+  isAddArtistMode,
+  handleItemRemoved,
+  handleItemChange,
+  index
+}) => {
   /* methods */
 
   const dealWithItemChange = useCallback(
@@ -129,7 +135,7 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
                   placeholder={
                     uiWordings['ArtistEdit.Qna.QuestionScPlaceholder']
                   }
-                  required={true}
+                  required={/*true*/ !isAddArtistMode}
                 />
               </div>
               <div className='w3-col m6'>
@@ -139,7 +145,7 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
                   value={answer_sc}
                   onChange={onChange}
                   placeholder={uiWordings['ArtistEdit.Qna.AnswerScPlaceholder']}
-                  required={true}
+                  required={/*true*/ !isAddArtistMode}
                 />
               </div>
             </div>
@@ -181,11 +187,15 @@ const Item = ({ qna, handleItemRemoved, handleItemChange, index }) => {
   );
 };
 
-const itemRender = ({ handleItemRemoved, handleItemChange, ...qna }, index) => {
+const itemRender = (
+  { handleItemRemoved, handleItemChange, isAddArtistMode, ...qna },
+  index
+) => {
   return (
     <Item
       key={index}
       qna={qna}
+      isAddArtistMode={isAddArtistMode}
       handleItemRemoved={handleItemRemoved}
       handleItemChange={handleItemChange}
       index={index}
@@ -195,7 +205,7 @@ const itemRender = ({ handleItemRemoved, handleItemChange, ...qna }, index) => {
 
 /* end of item */
 
-const ArtistEditQnaSelect = ({ qnas, onGetQnas }) => {
+const ArtistEditQnaSelect = ({ qnas, onGetQnas, isAddArtistMode }) => {
   const qnasInPickedList = useMemo(
     _ => {
       return getArraySafe(qnas).map(mapQnaToListItem);
@@ -249,17 +259,29 @@ const ArtistEditQnaSelect = ({ qnas, onGetQnas }) => {
 
   /* end of event handlers */
 
+  const customDataForItem = useMemo(
+    _ => ({
+      isAddArtistMode
+    }),
+    [isAddArtistMode]
+  );
+
   return (
     <LabelSortableListPair
       name='qnas'
       labelMessage={uiWordings['Artist.QnasLabel']}
       pickedItemRender={itemRender}
+      customDataForItem={customDataForItem}
       getListStyle={getListStyle}
       pickedItems={qnasInPickedList}
       getPickedItems={onGetPickedItems}
       onAddButtonClick={onAddButtonClick}
     />
   );
+};
+
+ArtistEditQnaSelect.defaultProps = {
+  isAddArtistMode: false
 };
 
 export default ArtistEditQnaSelect;

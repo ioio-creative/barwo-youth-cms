@@ -154,13 +154,14 @@ const SortableList = ({
   items,
   listWidth,
   itemRender,
+  customDataForItem,
   getListStyle,
   onDragEnd,
   onItemRemoved,
   onItemChange,
   onItemToFirst,
   onItemToLast,
-  orderDirection = "vertical"
+  orderDirection
 }) => {
   /* event handlers */
 
@@ -186,9 +187,9 @@ const SortableList = ({
     _ => {
       return isFunction(onItemRemoved)
         ? idxRemoved => {
-          const newItems = items.filter((_, idx) => idx !== idxRemoved);
-          onItemRemoved(newItems);
-        }
+            const newItems = items.filter((_, idx) => idx !== idxRemoved);
+            onItemRemoved(newItems);
+          }
         : null;
     },
     [items, onItemRemoved]
@@ -198,14 +199,14 @@ const SortableList = ({
     _ => {
       return isFunction(onItemChange)
         ? (newItem, newItemIdx) => {
-          const newItems = items.map((item, idx) => {
-            if (idx !== newItemIdx) {
-              return item;
-            }
-            return newItem;
-          });
-          onItemChange(newItems);
-        }
+            const newItems = items.map((item, idx) => {
+              if (idx !== newItemIdx) {
+                return item;
+              }
+              return newItem;
+            });
+            onItemChange(newItems);
+          }
         : null;
     },
     [items, onItemChange]
@@ -215,10 +216,10 @@ const SortableList = ({
     _ => {
       return isFunction(onItemToFirst)
         ? itemIdx => {
-          const newItems = items.filter((_, idx) => idx !== itemIdx);
-          newItems.unshift(items[itemIdx]);
-          onItemToFirst(newItems);
-        }
+            const newItems = items.filter((_, idx) => idx !== itemIdx);
+            newItems.unshift(items[itemIdx]);
+            onItemToFirst(newItems);
+          }
         : null;
     },
     [items, onItemToFirst]
@@ -228,10 +229,10 @@ const SortableList = ({
     _ => {
       return isFunction(onItemToLast)
         ? itemIdx => {
-          const newItems = items.filter((_, idx) => idx !== itemIdx);
-          newItems.push(items[itemIdx]);
-          onItemToLast(newItems);
-        }
+            const newItems = items.filter((_, idx) => idx !== itemIdx);
+            newItems.push(items[itemIdx]);
+            onItemToLast(newItems);
+          }
         : null;
     },
     [items, onItemToLast]
@@ -263,6 +264,7 @@ const SortableList = ({
   const expandedItems = useMemo(
     _ => {
       return items.map(item => ({
+        ...customDataForItem,
         ...item,
         handleItemRemoved,
         handleItemChange,
@@ -272,6 +274,7 @@ const SortableList = ({
     },
     [
       items,
+      customDataForItem,
       handleItemRemoved,
       handleItemChange,
       handleItemToFirst,
@@ -309,8 +312,10 @@ SortableList.defaultProps = {
   items: getItemsExample(10),
   //listWidth: listWidthDefault,
   itemRender: itemRenderExample,
+  customDataForItem: {},
   //getListStyle: getListStyleExample,
-  onDragEnd: onDragEndExample
+  onDragEnd: onDragEndExample,
+  orderDirection: 'vertical'
 };
 
 SortableList.getListStyleDefault = getListStyleExample;

@@ -13,6 +13,7 @@ const {
   getArraySafe,
   isNonEmptyArray
 } = require('../../../utils/js/array/isNonEmptyArray');
+const translateAllFieldsFromTcToSc = require('../../../utils/translate/translateAllFieldsFromTcToSc');
 const { Artist, artistResponseTypes } = require('../../../models/Artist');
 const mediumSelect = require('../common/mediumSelect');
 const pageMetaPopulate = require('../common/pageMetaPopulate');
@@ -59,18 +60,25 @@ const artistPopulationListForFindAll = [
 
 const artistPopulationListForFindOne = [...artistPopulationListForFindAll];
 
-const artistValidationChecks = [
+const artistValidationChecksForCreate = [
   check('label', artistResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('name_tc', artistResponseTypes.NAME_TC_REQUIRED).notEmpty(),
-  check('name_sc', artistResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  //check('name_sc', artistResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', artistResponseTypes.NAME_EN_REQUIRED).notEmpty(),
   check('type', artistResponseTypes.TYPE_REQUIRED).notEmpty(),
   check('role', artistResponseTypes.ROLE_REQUIRED).notEmpty()
 ];
 
-const eventQnasValidation = qnas => {
+const artistValidationChecksForUpdate = [
+  ...artistValidationChecksForCreate,
+  check('name_sc', artistResponseTypes.NAME_SC_REQUIRED).notEmpty()
+];
+
+const artistQnasValidation = qnas => {
   for (const qna of getArraySafe(qnas)) {
     let errorType = null;
+
+    console.log(qna);
 
     if (!qna.question_tc) {
       errorType = artistResponseTypes.ARTIST_QnA_QUESTION_TC_REQUIRED;
@@ -114,7 +122,7 @@ const handleArtistRelationshipsValidationError = (errorType, res) => {
 const artistRelationshipsValidation = (qnas, res) => {
   let errorType = null;
 
-  errorType = eventQnasValidation(qnas);
+  errorType = artistQnasValidation(qnas);
   if (errorType) {
     handleArtistRelationshipsValidationError(errorType, res);
     return false;
@@ -190,7 +198,7 @@ router.get('/:_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [auth, artistValidationChecks, validationHandling],
+  [auth, artistValidationChecksForCreate, validationHandling],
   async (req, res) => {
     const {
       label,
@@ -212,10 +220,15 @@ router.post(
       sound,
       pageMeta,
       isEnabled
-    } = req.body;
+    } = await translateAllFieldsFromTcToSc(req.body);
+
+    // translate "inner" objects
+    const qnasTranslated = await Promise.all(
+      getArraySafe(qnas).map(translateAllFieldsFromTcToSc)
+    );
 
     // customed validations
-    let isSuccess = artistRelationshipsValidation(qnas, res);
+    let isSuccess = artistRelationshipsValidation(qnasTranslated, res);
     if (!isSuccess) {
       return;
     }
@@ -234,7 +247,7 @@ router.post(
         desc_tc,
         desc_sc,
         desc_en,
-        qnas,
+        qnas: qnasTranslated,
         featuredImage,
         withoutMaskImage,
         gallery: getArraySafe(gallery),
@@ -259,7 +272,7 @@ router.post(
 // @access  Private
 router.put(
   '/:_id',
-  [auth, artistValidationChecks, validationHandling],
+  [auth, artistValidationChecksForUpdate, validationHandling],
   async (req, res) => {
     const {
       label,

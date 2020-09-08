@@ -15,6 +15,7 @@ const LabelSortableListPair = ({
   name,
   labelMessage,
   pickedItemRender,
+  customDataForItem,
   getListStyle,
   pickedItems,
   getPickedItems,
@@ -98,6 +99,7 @@ const LabelSortableListPair = ({
           items={pickedItems}
           listWidth={listWidth}
           itemRender={pickedItemRender}
+          customDataForItem={customDataForItem}
           getListStyle={getListStyle}
           onDragEnd={handleSortableListDragEnd}
           onItemRemoved={handleSortableListItemRemoved}

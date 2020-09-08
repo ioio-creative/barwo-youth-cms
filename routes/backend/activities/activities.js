@@ -50,25 +50,34 @@ const activityPopulationListForFindAll = [
 
 const activityPopulationListForFindOne = [...activityPopulationListForFindAll];
 
-const activityValidationChecks = [
+const activityValidationChecksForCreate = [
   check('label', activityResponseTypes.LABEL_REQUIRED).notEmpty(),
   check('name_tc', activityResponseTypes.NAME_TC_REQUIRED).notEmpty(),
-  check('name_sc', activityResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  //check('name_sc', activityResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', activityResponseTypes.NAME_EN_REQUIRED).notEmpty(),
   check(
     'nameForLongDisplay_tc',
     activityResponseTypes.NAME_FOR_LONG_DISPLAY_TC_REQUIRED
   ).notEmpty(),
-  check(
-    'nameForLongDisplay_sc',
-    activityResponseTypes.NAME_FOR_LONG_DISPLAY_SC_REQUIRED
-  ).notEmpty(),
+  // check(
+  //   'nameForLongDisplay_sc',
+  //   activityResponseTypes.NAME_FOR_LONG_DISPLAY_SC_REQUIRED
+  // ).notEmpty(),
   check(
     'nameForLongDisplay_en',
     activityResponseTypes.NAME_FOR_LONG_DISPLAY_EN_REQUIRED
   ).notEmpty(),
   check('type', activityResponseTypes.TYPE_REQUIRED).notEmpty(),
   check('fromDate', activityResponseTypes.FROM_DATE_REQUIRED).notEmpty()
+];
+
+const activityValidationChecksForUpdate = [
+  ...activityValidationChecksForCreate,
+  check('name_sc', activityResponseTypes.NAME_SC_REQUIRED).notEmpty(),
+  check(
+    'nameForLongDisplay_sc',
+    activityResponseTypes.NAME_FOR_LONG_DISPLAY_SC_REQUIRED
+  ).notEmpty()
 ];
 
 const activityVideoLinkValidation = videoLinks => {
@@ -178,7 +187,7 @@ router.get('/:_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [auth, activityValidationChecks, validationHandling],
+  [auth, activityValidationChecksForCreate, validationHandling],
   async (req, res) => {
     const {
       label,
@@ -268,7 +277,7 @@ router.post(
 // @access  Private
 router.put(
   '/:_id',
-  [auth, activityValidationChecks, validationHandling],
+  [auth, activityValidationChecksForUpdate, validationHandling],
   async (req, res) => {
     const {
       label,
