@@ -24,6 +24,7 @@ function Event() {
   this.artDirectors = [];
   this.shows = [];
   this.scenarists = [];
+  this.scriptMasters = [];
   this.descHeadline_tc = '';
   this.descHeadline_sc = '';
   this.descHeadline_en = '';
@@ -170,6 +171,18 @@ Event.eventsResponseTypes = {
   //   type: 'EVENT_SCENARIST_NAME_EN_REQUIRED',
   //   msg: 'EVENT_SCENARIST_NAME_EN_REQUIRED'
   // },
+  EVENT_SCRIPT_MASTER_NAME_TC_REQUIRED: {
+    type: 'EVENT_SCRIPT_MASTER_NAME_TC_REQUIRED',
+    msg: 'EVENT_SCRIPT_MASTER_NAME_TC_REQUIRED'
+  },
+  EVENT_SCRIPT_MASTER_NAME_SC_REQUIRED: {
+    type: 'EVENT_SCRIPT_MASTER_NAME_SC_REQUIRED',
+    msg: 'EVENT_SCRIPT_MASTER_NAME_SC_REQUIRED'
+  },
+  // EVENT_SCRIPT_MASTER_NAME_EN_REQUIRED: {
+  //   type: 'EVENT_SCRIPT_MASTER_NAME_EN_REQUIRED',
+  //   msg: 'EVENT_SCRIPT_MASTER_NAME_EN_REQUIRED'
+  // },
   // VENUE_TC_REQUIRED: { type: 'VENUE_TC_REQUIRED', msg: 'VENUE_TC_REQUIRED' },
   // VENUE_SC_REQUIRED: { type: 'VENUE_SC_REQUIRED', msg: 'VENUE_SC_REQUIRED' },
   // VENUE_EN_REQUIRED: { type: 'VENUE_EN_REQUIRED', msg: 'VENUE_EN_REQUIRED' },
@@ -248,7 +261,10 @@ Event.getEventForDisplay = event => {
     showsDisplay: formatDateString(
       firstOrDefault(event.shows, { date: null }).date
     ),
-    scenaristsDisplay: firstOrDefault(event.scenarists, { name_tc: '' }).name_tc
+    scenaristsDisplay: firstOrDefault(event.scenarists, { name_tc: '' })
+      .name_tc,
+    scriptMastersDisplay: firstOrDefault(event.scriptMasters, { name_tc: '' })
+      .name_tc
     // pricesDisplay: firstOrDefault(event.prices, { price_tc: '' }).price_tc,
     // phonesDisplay: firstOrDefault(event.phones, { phone: '' }).phone
   };
@@ -262,7 +278,8 @@ const displayFieldNames = [
   'artDirectorsDisplay',
   'artistsDisplay',
   'showsDisplay',
-  'scenaristsDisplay'
+  'scenaristsDisplay',
+  'scriptMastersDisplay'
   // 'pricesDisplay',
   // 'phonesDisplay'
 ];

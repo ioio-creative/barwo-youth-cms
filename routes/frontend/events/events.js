@@ -206,6 +206,17 @@ const getEventForFrontEndFromDbEvent = (
 
   if (isRequireDetail) {
     detailData = {
+      info: {
+        scenarist: getArraySafe(event.scenarists).map(scenarist => {
+          return getEntityPropByLanguage(scenarist, 'name', language);
+        }),
+        scriptMasters: getArraySafe(event.scriptMasters).map(scriptMaster => {
+          return getEntityPropByLanguage(scriptMaster, 'name', language);
+        }),
+        heading: getEntityPropByLanguage(event, 'descHeadline', language),
+        description: getEntityPropByLanguage(event, 'desc', language),
+        remark: getEntityPropByLanguage(event, 'remarks', language)
+      },
       gallery: getArraySafe(event.gallery).map(medium => {
         return {
           src: medium && medium.url
@@ -295,14 +306,6 @@ const getEventForFrontEndFromDbEvent = (
       },
       time: show.startTime
     })),
-    info: {
-      scenarist: getArraySafe(event.scenarists).map(scenarist => {
-        return getEntityPropByLanguage(scenarist, 'name', language);
-      }),
-      heading: getEntityPropByLanguage(event, 'descHeadline', language),
-      description: getEntityPropByLanguage(event, 'desc', language),
-      remark: getEntityPropByLanguage(event, 'remarks', language)
-    },
     featuredImage: {
       src: event.featuredImage && event.featuredImage.url
     },

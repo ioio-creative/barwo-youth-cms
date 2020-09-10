@@ -85,6 +85,21 @@ const EventScenaristSchema = mongoose.Schema({
   }
 });
 
+const EventScriptMasterSchema = mongoose.Schema({
+  name_tc: {
+    type: String,
+    require: true
+  },
+  name_sc: {
+    type: String,
+    require: true
+  },
+  name_en: {
+    type: String
+    //require: true
+  }
+});
+
 // const EventPriceSchema = mongoose.Schema({
 //   price_tc: {
 //     type: String,
@@ -155,6 +170,7 @@ const EventSchema = mongoose.Schema({
   },
   shows: [EventShowSchema],
   scenarists: [EventScenaristSchema],
+  scriptMasters: [EventScriptMasterSchema],
   descHeadline_tc: {
     type: String
   },
@@ -279,6 +295,9 @@ module.exports.eventResponseTypes = {
   EVENT_SCENARIST_NAME_TC_REQUIRED: 'EVENT_SCENARIST_NAME_TC_REQUIRED',
   EVENT_SCENARIST_NAME_SC_REQUIRED: 'EVENT_SCENARIST_NAME_SC_REQUIRED',
   //EVENT_SCENARIST_NAME_EN_REQUIRED: 'EVENT_SCENARIST_NAME_EN_REQUIRED',
+  EVENT_SCRIPT_MASTER_NAME_TC_REQUIRED: 'EVENT_SCRIPT_MASTER_NAME_TC_REQUIRED',
+  EVENT_SCRIPT_MASTER_NAME_SC_REQUIRED: 'EVENT_SCRIPT_MASTER_NAME_SC_REQUIRED',
+  //EVENT_SCRIPT_MASTER_NAME_EN_REQUIRED: 'EVENT_SCRIPT_MASTER_NAME_EN_REQUIRED',
   // VENUE_TC_REQUIRED: 'VENUE_TC_REQUIRED',
   // VENUE_SC_REQUIRED: 'VENUE_SC_REQUIRED',
   // VENUE_EN_REQUIRED: 'VENUE_EN_REQUIRED',

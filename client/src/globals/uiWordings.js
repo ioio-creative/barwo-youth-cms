@@ -149,6 +149,7 @@ export default {
   'Event.ArtDirectorsLabel': 'Art Directors',
   'Event.ShowsLabel': 'Shows',
   'Event.ScenaristsLabel': 'Scenarists',
+  'Event.ScriptMastersLabel': 'Script Masters',
   'Event.DescHeadlineTcLabel': 'Desc Headline TC',
   'Event.DescHeadlineScLabel': 'Desc Headline SC',
   'Event.DescHeadlineEnLabel': 'Desc Headline EN',
@@ -232,6 +233,10 @@ export default {
   'EventEdit.Scenarist.NameTcPlaceholder': 'Name TC',
   'EventEdit.Scenarist.NameScPlaceholder': 'Name SC',
   'EventEdit.Scenarist.NameEnPlaceholder': 'Name EN',
+
+  'EventEdit.ScriptMaster.NameTcPlaceholder': 'Name TC',
+  'EventEdit.ScriptMaster.NameScPlaceholder': 'Name SC',
+  'EventEdit.ScriptMaster.NameEnPlaceholder': 'Name EN',
 
   'EventEdit.Price.PriceTcPlaceholder': 'Price TC',
   'EventEdit.Price.PriceScPlaceholder': 'Price SC',

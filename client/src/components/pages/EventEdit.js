@@ -9,6 +9,7 @@ import EventEditArtDirectorSelect from 'components/events/EventEditArtDirectorSe
 import EventEditArtistSelect from 'components/events/EventEditArtistSelect';
 import EventEditShowSelect from 'components/events/EventEditShowSelect';
 import EventEditScenaristSelect from 'components/events/EventEditScenaristSelect';
+import EventEditScriptMasterSelect from 'components/events/EventEditScriptMasterSelect';
 // import EventEditPriceSelect from 'components/events/EventEditPriceSelect';
 // import EventEditPhoneSelect from 'components/events/EventEditPhoneSelect';
 import Alert from 'models/alert';
@@ -94,7 +95,7 @@ const EventEdit = _ => {
   const [isAddMode, setIsAddMode] = useState(false);
   const [isAbandonEdit, setIsAbandonEdit] = useState(false);
 
-  // art directors in event
+  // artDirectors in event
   const [artDirectorsPicked, setArtDirectorsPicked] = useState([]);
 
   // artists in event
@@ -105,6 +106,9 @@ const EventEdit = _ => {
 
   // scenarists in event
   const [scenaristsPicked, setScenaristsPicked] = useState([]);
+
+  // scriptMasters in event
+  const [scriptMastersPicked, setScriptMastersPicked] = useState([]);
 
   // // prices in event
   // const [pricesPicked, setPricesPicked] = useState([]);
@@ -158,6 +162,7 @@ const EventEdit = _ => {
         setArtistsPicked(getArraySafe(fetchedEvent.artists));
         setShowsPicked(getArraySafe(fetchedEvent.shows));
         setScenaristsPicked(getArraySafe(fetchedEvent.scenarists));
+        setScriptMastersPicked(getArraySafe(fetchedEvent.scriptMasters));
         // setPricesPicked(getArraySafe(fetchedEvent.prices));
         // setPhonesPicked(getArraySafe(fetchedEvent.phones));
 
@@ -294,6 +299,11 @@ const EventEdit = _ => {
     setScenaristsPicked(newItemList);
   }, []);
 
+  const onGetScriptMastersPicked = useCallback(newItemList => {
+    setIsSubmitEnabled(true);
+    setScriptMastersPicked(newItemList);
+  }, []);
+
   // const onGetPricesPicked = useCallback(newItemList => {
   //   setIsSubmitEnabled(true);
   //   setPricesPicked(newItemList);
@@ -424,6 +434,17 @@ const EventEdit = _ => {
         }
       );
 
+      // add scriptMasters
+      event.scriptMasters = getArraySafe(scriptMastersPicked).map(
+        ({ name_tc, name_sc, name_en }) => {
+          return {
+            name_tc,
+            name_sc,
+            name_en
+          };
+        }
+      );
+
       // // add prices
       // event.prices = getArraySafe(pricesPicked).map(
       //   ({ price_tc, price_sc, price_en }) => {
@@ -501,6 +522,7 @@ const EventEdit = _ => {
       artistsPicked,
       showsPicked,
       scenaristsPicked,
+      scriptMastersPicked,
       // pricesPicked,
       // phonesPicked,
       featuredImagePicked,
@@ -691,6 +713,11 @@ const EventEdit = _ => {
           <EventEditScenaristSelect
             scenarists={scenaristsPicked}
             onGetScenarists={onGetScenaristsPicked}
+            isAddEventMode={isAddMode}
+          />
+          <EventEditScriptMasterSelect
+            scriptMasters={scriptMastersPicked}
+            onGetScriptMasters={onGetScriptMastersPicked}
             isAddEventMode={isAddMode}
           />
           <EventEditArtistSelect

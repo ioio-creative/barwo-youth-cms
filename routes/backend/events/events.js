@@ -192,6 +192,26 @@ const eventScenaristsValidation = scenarists => {
   return null;
 };
 
+const eventScriptMastersValidation = scriptMasters => {
+  for (const scriptMaster of getArraySafe(scriptMasters)) {
+    let errorType = null;
+
+    if (!scriptMaster.name_tc) {
+      errorType = eventResponseTypes.EVENT_SCRIPT_MASTER_NAME_TC_REQUIRED;
+    } else if (!scriptMaster.name_sc) {
+      errorType = eventResponseTypes.EVENT_SCRIPT_MASTER_NAME_SC_REQUIRED;
+    } /*else if (!scriptMaster.name_en) {
+      errorType = eventResponseTypes.EVENT_SCRIPT_MASTER_NAME_EN_REQUIRED;
+    }*/
+
+    if (errorType) {
+      return errorType;
+    }
+  }
+
+  return null;
+};
+
 // const eventPricesValidation = prices => {
 //   for (const price of getArraySafe(prices)) {
 //     let errorType = null;
@@ -246,6 +266,7 @@ const eventRelationshipsValidation = (
   artists,
   shows,
   scenarists,
+  scriptMasters,
   // prices,
   // phones,
   res
@@ -271,6 +292,12 @@ const eventRelationshipsValidation = (
   }
 
   errorType = eventScenaristsValidation(scenarists);
+  if (errorType) {
+    handleEventRelationshipsValidationError(errorType, res);
+    return false;
+  }
+
+  errorType = eventScriptMastersValidation(scriptMasters);
   if (errorType) {
     handleEventRelationshipsValidationError(errorType, res);
     return false;
@@ -496,6 +523,7 @@ router.post(
       artists,
       shows,
       scenarists,
+      scriptMasters,
       // venue_tc,
       // venue_sc,
       // venue_en,
@@ -520,6 +548,10 @@ router.post(
       getArraySafe(scenarists).map(translateAllFieldsFromTcToSc)
     );
 
+    const scriptMastersTranslated = await Promise.all(
+      getArraySafe(scriptMasters).map(translateAllFieldsFromTcToSc)
+    );
+
     // const pricesTranslated = await Promise.all(
     //   getArraySafe(prices).map(translateAllFieldsFromTcToSc)
     // );
@@ -536,6 +568,7 @@ router.post(
       artistsTranslated,
       shows,
       scenaristsTranslated,
+      scriptMastersTranslated,
       // pricesTranslated,
       // phonesTranslated,
       res
@@ -573,6 +606,7 @@ router.post(
         artists: getCleanedEventArtists(artistsTranslated),
         shows: sortShows(shows),
         scenarists: scenaristsTranslated,
+        scriptMasters: scriptMastersTranslated,
         // venue_tc,
         // venue_sc,
         // venue_en,
@@ -641,6 +675,7 @@ router.put(
       artists,
       shows,
       scenarists,
+      scriptMasters,
       // venue_tc,
       // venue_sc,
       // venue_en,
@@ -662,6 +697,7 @@ router.put(
       artists,
       shows,
       scenarists,
+      scriptMasters,
       // prices,
       // phones,
       res
@@ -699,6 +735,7 @@ router.put(
     eventFields.artists = getCleanedEventArtists(artists);
     eventFields.shows = sortShows(shows);
     eventFields.scenarists = getArraySafe(scenarists);
+    eventFields.scriptMasters = getArraySafe(scriptMasters);
     // if (venue_tc) eventFields.venue_tc = venue_tc;
     // if (venue_sc) eventFields.venue_sc = venue_sc;
     // if (venue_en) eventFields.venue_en = venue_en;
