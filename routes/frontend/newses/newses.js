@@ -6,6 +6,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEndDetailPageApiLabelHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const getOrderingHandling = require('../../../utils/ordering/getHandling');
+const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 //const { mediumLinkTypes } = require('../../../types/mediumLink');
@@ -82,6 +83,7 @@ const getNewsForFrontEndFromDbNews = (
     id: news._id,
     label: cleanLabelForSendingToFrontEnd(news.label),
     name: getEntityPropByLanguage(news, 'name', language),
+    fromDate: formatDateStringForFrontEnd(news.fromDate),
     featuredImage: {
       src: news.featuredImage && news.featuredImage.url
     },
@@ -90,18 +92,30 @@ const getNewsForFrontEndFromDbNews = (
 };
 
 const getNewsesInOrderFromDb = async newsType => {
-  return await getOrderingHandling(
-    null,
-    News,
-    false,
-    {
-      type: newsType
+  // return await getOrderingHandling(
+  //   null,
+  //   News,
+  //   false,
+  //   {
+  //     type: newsType
+  //   },
+  //   newsSelectForFindAll,
+  //   {},
+  //   newsPopulationListForFindAll,
+  //   true
+  // );
+
+  return await News.find({
+    isEnabled: {
+      $ne: false
     },
-    newsSelectForFindAll,
-    {},
-    newsPopulationListForFindAll,
-    true
-  );
+    type: newsType
+  })
+    .select(newsSelectForFindAll)
+    .populate(newsPopulationListForFindAll)
+    .sort({
+      fromDate: -1
+    });
 };
 
 const getNewsList = async req => {

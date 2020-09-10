@@ -7,7 +7,8 @@ const frontEndDetailPageApiLabelHandling = require('../../../middleware/frontEnd
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
-const getOrderingHandling = require('../../../utils/ordering/getHandling');
+// const getOrderingHandling = require('../../../utils/ordering/getHandling');
+const { formatDateStringForFrontEnd } = require('../../../utils/datetime');
 const {
   getPageMetaForFrontEnd,
   getMixedPageMetas
@@ -73,6 +74,7 @@ const getNewsletterForFrontEndFromDbNewsletter = (
 
   return {
     label: cleanLabelForSendingToFrontEnd(newsletter.label),
+    fromDate: formatDateStringForFrontEnd(newsletter.fromDate),
     title: getEntityPropByLanguage(newsletter, 'title', language),
     featuredImage: {
       src: newsletter.featuredImage && newsletter.featuredImage.url
@@ -95,16 +97,27 @@ const getNewsletterList = async req => {
   //     createDT: 1
   //   });
 
-  const newsletters = await getOrderingHandling(
-    null,
-    Newsletter,
-    false,
-    null,
-    newsletterSelectForFindAll,
-    null,
-    newsletterPopulationListForFindAll,
-    true
-  );
+  // const newsletters = await getOrderingHandling(
+  //   null,
+  //   Newsletter,
+  //   false,
+  //   null,
+  //   newsletterSelectForFindAll,
+  //   null,
+  //   newsletterPopulationListForFindAll,
+  //   true
+  // );
+
+  const newsletters = await Newsletter.find({
+    isEnabled: {
+      $ne: false
+    }
+  })
+    .select(newsletterSelectForFindAll)
+    .populate(newsletterPopulationListForFindAll)
+    .sort({
+      fromDate: -1
+    });
 
   return getArraySafe(newsletters).map(newsletter =>
     getNewsletterForFrontEndFromDbNewsletter(newsletter, language)
