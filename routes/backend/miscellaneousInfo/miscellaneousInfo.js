@@ -140,6 +140,11 @@ router.post(
   [auth, miscellaneousInfoValidationChecks, validationHandling],
   async (req, res) => {
     const {
+      isShowLandingPopup,
+      landingPopupMessage_tc,
+      landingPopupMessage_sc,
+      landingPopupMessage_en,
+
       termsAndConditionsTitle_tc,
       termsAndConditionsTitle_sc,
       termsAndConditionsTitle_en,
@@ -177,6 +182,11 @@ router.post(
     // Note:
     // non-required fields do not need null check
     const miscellaneousFields = {};
+
+    miscellaneousFields.isShowLandingPopup = isShowLandingPopup;
+    miscellaneousFields.landingPopupMessage_tc = landingPopupMessage_tc;
+    miscellaneousFields.landingPopupMessage_sc = landingPopupMessage_sc;
+    miscellaneousFields.landingPopupMessage_en = landingPopupMessage_en;
 
     if (termsAndConditionsTitle_tc)
       miscellaneousFields.termsAndConditionsTitle_tc = termsAndConditionsTitle_tc;

@@ -3,6 +3,11 @@ import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function MiscellaneousInfo() {
+  this.isShowLandingPopup = false;
+  this.landingPopupMessage_tc = '';
+  this.landingPopupMessage_sc = '';
+  this.landingPopupMessage_en = '';
+
   this.termsAndConditionsTitle_tc = '';
   this.termsAndConditionsTitle_sc = '';
   this.termsAndConditionsTitle_en = '';

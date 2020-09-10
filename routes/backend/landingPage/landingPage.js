@@ -183,11 +183,7 @@ router.post('/', [auth], async (req, res) => {
     featuredVideo1,
     // featuredVideo2,
     // featuredArtists,
-    featuredActivities,
-    isShowLandingPopup,
-    landingPopupMessage_tc,
-    landingPopupMessage_sc,
-    landingPopupMessage_en
+    featuredActivities
   } = req.body;
 
   // customed validations
@@ -209,10 +205,6 @@ router.post('/', [auth], async (req, res) => {
   // landingFields.featuredVideo2 = featuredVideo2;
   // landingFields.featuredArtists = getArraySafe(featuredArtists);
   landingFields.featuredActivities = getArraySafe(featuredActivities);
-  landingFields.isShowLandingPopup = isShowLandingPopup;
-  landingFields.landingPopupMessage_tc = landingPopupMessage_tc;
-  landingFields.landingPopupMessage_sc = landingPopupMessage_sc;
-  landingFields.landingPopupMessage_en = landingPopupMessage_en;
   landingFields.lastModifyDT = new Date();
   landingFields.lastModifyUser = req.user._id;
 

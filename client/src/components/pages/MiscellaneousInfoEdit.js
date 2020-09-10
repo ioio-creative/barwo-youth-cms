@@ -7,6 +7,7 @@ import MiscellaneousInfoContainer from 'components/miscellaneousInfo/Miscellaneo
 import Loading from 'components/layout/loading/DefaultLoading';
 import AccordionRegion from 'components/layout/AccordionRegion';
 import Form from 'components/form/Form';
+import Checkbox from 'components/form/Checkbox';
 import LabelRichTextbox from 'components/form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -247,6 +248,47 @@ const MiscellaneousInfoEdit = _ => {
   return (
     <Form onSubmit={onSubmit}>
       <h4>{uiWordings['MiscellaneousInfoEdit.EditMiscellaneousInfoTitle']}</h4>
+
+      <AccordionRegion
+        title={uiWordings['MiscellaneousInfo.LandingPopupRegionLabel']}
+      >
+        <div className='w3-section'>
+          <Checkbox
+            message={uiWordings['MiscellaneousInfo.IsShowLandingPopupLabel']}
+            name='isShowLandingPopup'
+            value={miscellaneousInfo.isShowLandingPopup}
+            onChange={onChange}
+          />
+        </div>
+        <div
+          className={`${miscellaneousInfo.isShowLandingPopup ? '' : 'w3-hide'}`}
+        >
+          <LabelRichTextbox
+            name='landingPopupMessage_tc'
+            value={miscellaneousInfo.landingPopupMessage_tc}
+            labelMessage={
+              uiWordings['MiscellaneousInfo.LandingPopupMessageTcLabel']
+            }
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='landingPopupMessage_sc'
+            value={miscellaneousInfo.landingPopupMessage_sc}
+            labelMessage={
+              uiWordings['MiscellaneousInfo.LandingPopupMessageScLabel']
+            }
+            onChange={onChange}
+          />
+          <LabelRichTextbox
+            name='landingPopupMessage_en'
+            value={miscellaneousInfo.landingPopupMessage_en}
+            labelMessage={
+              uiWordings['MiscellaneousInfo.LandingPopupMessageEnLabel']
+            }
+            onChange={onChange}
+          />
+        </div>
+      </AccordionRegion>
 
       <AccordionRegion
         title={uiWordings['MiscellaneousInfo.ContactRegionLabel']}

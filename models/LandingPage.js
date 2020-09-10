@@ -10,19 +10,6 @@ const LandingPageSchema = mongoose.Schema({
   featuredActivities: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'activity' }
   ],
-  isShowLandingPopup: {
-    type: Boolean,
-    default: false
-  },
-  landingPopupMessage_tc: {
-    type: String
-  },
-  landingPopupMessage_sc: {
-    type: String
-  },
-  landingPopupMessage_en: {
-    type: String
-  },
   pageMeta: PageMetaSchema,
   lastModifyDT: {
     type: Date,

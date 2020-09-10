@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 
 const MiscellaneousInfoSchema = mongoose.Schema({
+  isShowLandingPopup: {
+    type: Boolean,
+    default: false
+  },
+  landingPopupMessage_tc: {
+    type: String
+  },
+  landingPopupMessage_sc: {
+    type: String
+  },
+  landingPopupMessage_en: {
+    type: String
+  },
+
   termsAndConditionsTitle_tc: {
     type: String,
     require: true

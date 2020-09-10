@@ -173,10 +173,7 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
             }
           };
         }
-      ),
-      landingPopupMessage: landing.isShowLandingPopup
-        ? getEntityPropByLanguage(landing, 'landingPopupMessage', language)
-        : ''
+      )
     };
 
     res.json(landingForFrontEnd);

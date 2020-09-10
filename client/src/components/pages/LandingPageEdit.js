@@ -14,8 +14,6 @@ import Activity from 'models/activity';
 import Loading from 'components/layout/loading/DefaultLoading';
 import AccordionRegion from 'components/layout/AccordionRegion';
 import Form from 'components/form/Form';
-import Checkbox from 'components/form/Checkbox';
-import LabelRichTextbox from 'components/form/LabelRichTextbox';
 import LabelLabelPair from 'components/form/LabelLabelPair';
 import FileUpload from 'components/form/FileUpload';
 import SubmitButton from 'components/form/SubmitButton';
@@ -183,16 +181,16 @@ const LandingPageEdit = _ => {
 
   /* event handlers */
 
-  const onChange = useCallback(
-    e => {
-      setIsSubmitEnabled(true);
-      removeAlerts();
-      const name = e.target.name;
-      const value = e.target.value;
-      setLandingPage(prevLanding => ({ ...prevLanding, [name]: value }));
-    },
-    [removeAlerts]
-  );
+  // const onChange = useCallback(
+  //   e => {
+  //     setIsSubmitEnabled(true);
+  //     removeAlerts();
+  //     const name = e.target.name;
+  //     const value = e.target.value;
+  //     setLandingPage(prevLanding => ({ ...prevLanding, [name]: value }));
+  //   },
+  //   [removeAlerts]
+  // );
 
   const onGetLandingVideosPicked = useCallback(newItemList => {
     setIsSubmitEnabled(true);
@@ -328,39 +326,6 @@ const LandingPageEdit = _ => {
           isMultiple={false}
           mediumType={mediumTypes.VIDEO}
         /> */}
-      </AccordionRegion>
-
-      <AccordionRegion
-        title={uiWordings['LandingPageEdit.LandingPopupRegionTitle']}
-      >
-        <div className='w3-section'>
-          <Checkbox
-            message={uiWordings['LandingPage.IsShowLandingPopupLabel']}
-            name='isShowLandingPopup'
-            value={landingPage.isShowLandingPopup}
-            onChange={onChange}
-          />
-        </div>
-        <div className={`${landingPage.isShowLandingPopup ? '' : 'w3-hide'}`}>
-          <LabelRichTextbox
-            name='landingPopupMessage_tc'
-            value={landingPage.landingPopupMessage_tc}
-            labelMessage={uiWordings['LandingPage.LandingPopupMessageTcLabel']}
-            onChange={onChange}
-          />
-          <LabelRichTextbox
-            name='landingPopupMessage_sc'
-            value={landingPage.landingPopupMessage_sc}
-            labelMessage={uiWordings['LandingPage.LandingPopupMessageScLabel']}
-            onChange={onChange}
-          />
-          <LabelRichTextbox
-            name='landingPopupMessage_en'
-            value={landingPage.landingPopupMessage_en}
-            labelMessage={uiWordings['LandingPage.LandingPopupMessageEnLabel']}
-            onChange={onChange}
-          />
-        </div>
       </AccordionRegion>
 
       {/* <LandingPageEditFeaturedArtistSelect

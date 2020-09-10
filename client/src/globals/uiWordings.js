@@ -302,10 +302,6 @@ export default {
   'LandingPage.FeaturedVideo2Label': 'Featured Video 2',
   //'LandingPage.FeaturedArtistsLabel': 'Featured Artists',
   'LandingPage.FeaturedActivitiesLabel': 'Featured Activities',
-  'LandingPage.IsShowLandingPopupLabel': 'Show Pop-up?',
-  'LandingPage.LandingPopupMessageTcLabel': 'Pop-up Message TC',
-  'LandingPage.LandingPopupMessageScLabel': 'Pop-up Message SC',
-  'LandingPage.LandingPopupMessageEnLabel': 'Pop-up Message EN',
   'LandingPage.LastModifyDTLabel': 'Last Modify DT',
   'LandingPage.LastModifyUserLabel': 'Last Modify User',
 
@@ -318,7 +314,6 @@ export default {
     'Select Featured Activities...',
 
   'LandingPageEdit.MediaRegionTitle': 'Media',
-  'LandingPageEdit.LandingPopupRegionTitle': 'Pop-up',
 
   'GlobalConstants.Title': 'Global Constants',
 
@@ -737,6 +732,11 @@ export default {
 
   'MiscellaneousInfo.Title': 'Miscellaneous Info',
 
+  'MiscellaneousInfo.LandingPopupRegionLabel': 'Landing Page Pop-up',
+  'MiscellaneousInfo.IsShowLandingPopupLabel': 'Show Pop-up?',
+  'MiscellaneousInfo.LandingPopupMessageTcLabel': 'Pop-up Message TC',
+  'MiscellaneousInfo.LandingPopupMessageScLabel': 'Pop-up Message SC',
+  'MiscellaneousInfo.LandingPopupMessageEnLabel': 'Pop-up Message EN',
   'MiscellaneousInfo.ContactRegionLabel': 'Contact Us',
   'MiscellaneousInfo.ContactAddressTcLabel': 'Address TC',
   'MiscellaneousInfo.ContactAddressScLabel': 'Address SC',
