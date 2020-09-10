@@ -297,8 +297,12 @@ export default {
   'LandingPage.LandingVideosLabel': 'Landing Videos',
   'LandingPage.FeaturedVideo1Label': 'Featured Video 1',
   'LandingPage.FeaturedVideo2Label': 'Featured Video 2',
-  'LandingPage.FeaturedArtistsLabel': 'Featured Artists',
+  //'LandingPage.FeaturedArtistsLabel': 'Featured Artists',
   'LandingPage.FeaturedActivitiesLabel': 'Featured Activities',
+  'LandingPage.IsShowLandingPopupLabel': 'Show Pop-up?',
+  'LandingPage.LandingPopupMessageTcLabel': 'Pop-up Message TC',
+  'LandingPage.LandingPopupMessageScLabel': 'Pop-up Message SC',
+  'LandingPage.LandingPopupMessageEnLabel': 'Pop-up Message EN',
   'LandingPage.LastModifyDTLabel': 'Last Modify DT',
   'LandingPage.LastModifyUserLabel': 'Last Modify User',
 
@@ -311,6 +315,7 @@ export default {
     'Select Featured Activities...',
 
   'LandingPageEdit.MediaRegionTitle': 'Media',
+  'LandingPageEdit.LandingPopupRegionTitle': 'Pop-up',
 
   'GlobalConstants.Title': 'Global Constants',
 

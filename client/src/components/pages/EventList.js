@@ -122,6 +122,11 @@ const headers = [
   //   isSortEnabled: true
   // },
   // {
+  //   name: uiWordings['Event.ScriptMastersLabel'],
+  //   value: 'scriptMastersDisplay',
+  //   isSortEnabled: true
+  // },
+  // {
   //   name: uiWordings['Event.VenueTcLabel'],
   //   value: 'venue_tc',
   //   isSortEnabled: true
