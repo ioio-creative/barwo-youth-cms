@@ -195,6 +195,11 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
     downloadMedium: {
       src: phase.downloadMedium && phase.downloadMedium.url
     },
+    ticketSaleRemarks: getEntityPropByLanguage(
+      phase,
+      'ticketSaleRemarks',
+      language
+    ).replace(/\n/g, '<br>'),
     schedule: {
       date: {
         from: formatDateStringForFrontEnd(phase.fromDate),

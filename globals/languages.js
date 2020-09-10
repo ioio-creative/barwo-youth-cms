@@ -24,7 +24,8 @@ const getEntityPropByLanguage = (
   propName,
   language = defaultLanguage
 ) => {
-  return entity ? entity[propName + language.entityPropSuffix] : '';
+  const requiredPropName = propName + language.entityPropSuffix;
+  return entity && entity[requiredPropName] ? entity[requiredPropName] : '';
 };
 
 module.exports.languages = languages;

@@ -40,6 +40,7 @@ LabelTextAreaPair.defaultProps = {
   isHalf: false
 };
 
+LabelTextAreaPair.twoRowStyle = TextArea.twoRowStyle;
 LabelTextAreaPair.threeRowStyle = TextArea.threeRowStyle;
 
 export default LabelTextAreaPair;

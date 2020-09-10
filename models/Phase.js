@@ -39,6 +39,15 @@ const PhaseSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'medium'
   },
+  ticketSaleRemarks_tc: {
+    type: String
+  },
+  ticketSaleRemarks_sc: {
+    type: String
+  },
+  ticketSaleRemarks_en: {
+    type: String
+  },
   isEnabled: {
     type: Boolean,
     default: true

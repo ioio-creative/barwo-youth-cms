@@ -17,6 +17,9 @@ function Phase() {
   this.downloadName_sc = '';
   this.downloadName_en = '';
   this.downloadMedium = '';
+  this.ticketSaleRemarks_tc = '';
+  this.ticketSaleRemarks_sc = '';
+  this.ticketSaleRemarks_en = '';
   this.isEnabled = true;
   this.createDT = null;
   this.lastModifyDT = null;

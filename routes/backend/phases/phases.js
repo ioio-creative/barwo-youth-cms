@@ -167,6 +167,9 @@ router.post(
       downloadName_sc,
       downloadName_en,
       downloadMedium,
+      ticketSaleRemarks_tc,
+      ticketSaleRemarks_sc,
+      ticketSaleRemarks_en,
       isEnabled
     } = await translateAllFieldsFromTcToSc(req.body);
 
@@ -186,6 +189,9 @@ router.post(
         downloadName_sc,
         downloadName_en,
         downloadMedium,
+        ticketSaleRemarks_tc,
+        ticketSaleRemarks_sc,
+        ticketSaleRemarks_en,
         isEnabled,
         lastModifyUser: req.user._id
       });
@@ -226,6 +232,9 @@ router.put(
       downloadName_sc,
       downloadName_en,
       downloadMedium,
+      ticketSaleRemarks_tc,
+      ticketSaleRemarks_sc,
+      ticketSaleRemarks_en,
       isEnabled
     } = req.body;
 
@@ -246,6 +255,9 @@ router.put(
     phaseFields.downloadName_sc = downloadName_sc;
     phaseFields.downloadName_en = downloadName_en;
     phaseFields.downloadMedium = downloadMedium;
+    phaseFields.ticketSaleRemarks_tc = ticketSaleRemarks_tc;
+    phaseFields.ticketSaleRemarks_sc = ticketSaleRemarks_sc;
+    phaseFields.ticketSaleRemarks_en = ticketSaleRemarks_en;
     if (isEnabled !== undefined) phaseFields.isEnabled = isEnabled;
     phaseFields.lastModifyDT = new Date();
     phaseFields.lastModifyUser = req.user._id;

@@ -17,6 +17,10 @@ const defaultStyle = {
   lineHeight: '18px'
 };
 
+const twoRowStyle = {
+  height: '5rem'
+};
+
 const threeRowStyle = {
   height: '7.5rem'
 };
@@ -72,6 +76,7 @@ MyTextArea.defaultProps = {
   style: defaultStyle
 };
 
+MyTextArea.twoRowStyle = twoRowStyle;
 MyTextArea.threeRowStyle = threeRowStyle;
 
 export default MyTextArea;
