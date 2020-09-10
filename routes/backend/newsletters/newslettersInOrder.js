@@ -20,6 +20,7 @@ const newsletterSort = {
 
 /* end of utilities */
 
+// Obsolete
 // @route   GET api/backend/newsletters/newslettersInOrder
 // @desc    Get all newsletters in order
 // @access  Private
@@ -37,6 +38,7 @@ router.get('/', auth, async (req, res) => {
   );
 });
 
+// Obsolete
 // @route   POST api/backend/newsletters/newslettersInOrder
 // @desc    Update all newsletters' order
 // @access  Private

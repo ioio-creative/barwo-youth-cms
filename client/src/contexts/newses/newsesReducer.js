@@ -8,11 +8,11 @@ import {
   NEWSES_ERRORS,
   CLEAR_NEWSES_ERRORS,
   DELETE_NEWS,
-  SET_NEWSES_LOADING,
-  GET_NEWSES_IN_ORDER,
-  CLEAR_NEWSES_IN_ORDER,
-  ORDER_NEWSES,
-  SET_NEWSES_IN_ORDER_LOADING
+  SET_NEWSES_LOADING
+  // GET_NEWSES_IN_ORDER,
+  // CLEAR_NEWSES_IN_ORDER,
+  // ORDER_NEWSES,
+  // SET_NEWSES_IN_ORDER_LOADING
 } from '../types';
 
 export default (state, action) => {
@@ -56,8 +56,8 @@ export default (state, action) => {
       return {
         ...state,
         newsesErrors: action.payload,
-        newsesLoading: false,
-        newsesInOrderLoading: false
+        newsesLoading: false
+        //newsesInOrderLoading: false
       };
     case CLEAR_NEWSES_ERRORS:
       return {
@@ -74,28 +74,28 @@ export default (state, action) => {
         ...state,
         newsesLoading: true
       };
-    case GET_NEWSES_IN_ORDER:
-      return {
-        ...state,
-        newsesInOrder: action.payload,
-        newsesInOrderLoading: false
-      };
-    case CLEAR_NEWSES_IN_ORDER:
-      return {
-        ...state,
-        newsesInOrder: null,
-        newsesErrors: null
-      };
-    case ORDER_NEWSES:
-      return {
-        ...state,
-        newsesInOrderLoading: false
-      };
-    case SET_NEWSES_IN_ORDER_LOADING:
-      return {
-        ...state,
-        newsesInOrderLoading: true
-      };
+    // case GET_NEWSES_IN_ORDER:
+    //   return {
+    //     ...state,
+    //     newsesInOrder: action.payload,
+    //     newsesInOrderLoading: false
+    //   };
+    // case CLEAR_NEWSES_IN_ORDER:
+    //   return {
+    //     ...state,
+    //     newsesInOrder: null,
+    //     newsesErrors: null
+    //   };
+    // case ORDER_NEWSES:
+    //   return {
+    //     ...state,
+    //     newsesInOrderLoading: false
+    //   };
+    // case SET_NEWSES_IN_ORDER_LOADING:
+    //   return {
+    //     ...state,
+    //     newsesInOrderLoading: true
+    //   };
     default:
       return state;
   }

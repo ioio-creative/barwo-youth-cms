@@ -85,9 +85,9 @@ const AsyncNewsList = asyncLoadingComponent(_ =>
 const AsyncNewsEdit = asyncLoadingComponent(_ =>
   import('components/pages/NewsEdit')
 );
-const AsyncNewsesOrder = asyncLoadingComponent(_ =>
-  import('components/pages/NewsesOrder')
-);
+// const AsyncNewsesOrder = asyncLoadingComponent(_ =>
+//   import('components/pages/old/NewsesOrder')
+// );
 const AsyncNewsMediaItemList = asyncLoadingComponent(_ =>
   import('components/pages/NewsMediaItemList')
 );
@@ -100,9 +100,9 @@ const AsyncNewsletterList = asyncLoadingComponent(_ =>
 const AsyncNewsletterEdit = asyncLoadingComponent(_ =>
   import('components/pages/NewsletterEdit')
 );
-const AsyncNewsletterOrder = asyncLoadingComponent(_ =>
-  import('components/pages/NewsletterOrder')
-);
+// const AsyncNewslettersOrder = asyncLoadingComponent(_ =>
+//   import('components/pages/old/NewslettersOrder')
+// );
 const AsyncAboutEdit = asyncLoadingComponent(_ =>
   import('components/pages/AboutEdit')
 );
@@ -253,10 +253,10 @@ const Main = _ => {
                 path={routes.newsletterAdd(false)}
                 component={AsyncNewsletterEdit}
               />
-              <Route
-                path={routes.newsletterOrder(false)}
-                component={AsyncNewsletterOrder}
-              />
+              {/* <Route
+                path={routes.newslettersOrder(false)}
+                component={AsyncNewslettersOrder}
+              /> */}
 
               <Route
                 path={routes.sendHistoryList(false)}
@@ -291,10 +291,10 @@ const Main = _ => {
               <Route path={routes.newsList(false)} component={AsyncNewsList} />
               <Route path={routes.newsEditById} component={AsyncNewsEdit} />
               <Route path={routes.newsAdd(false)} component={AsyncNewsEdit} />
-              <Route
+              {/* <Route
                 path={routes.newsesOrder(false)}
                 component={AsyncNewsesOrder}
-              />
+              /> */}
 
               <Route
                 path={routes.newsMediaItemList(false)}

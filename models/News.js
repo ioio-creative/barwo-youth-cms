@@ -9,9 +9,9 @@ const NewsSchema = mongoose.Schema({
     require: true,
     unique: true
   },
-  order: {
-    type: Number
-  },
+  // order: {
+  //   type: Number
+  // },
   name_tc: {
     type: String,
     require: true
@@ -29,6 +29,10 @@ const NewsSchema = mongoose.Schema({
     require: true
   },
   //category: [String],
+  fromDate: {
+    type: Date,
+    require: true
+  },
   desc_tc: {
     type: String
   },
@@ -116,6 +120,7 @@ module.exports.newsResponseTypes = {
   NAME_EN_REQUIRED: 'NAME_EN_REQUIRED',
   TYPE_REQUIRED: 'TYPE_REQUIRED',
   TYPE_INVALID: 'TYPE_INVALID',
+  FROM_DATE_REQUIRED: 'FROM_DATE_REQUIRED',
 
   // db check
   NEWS_NOT_EXISTS: 'NEWS_NOT_EXISTS',

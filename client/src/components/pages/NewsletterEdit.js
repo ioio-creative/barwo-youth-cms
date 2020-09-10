@@ -11,6 +11,7 @@ import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelRichTextbox from '../form/LabelRichTextbox';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
+import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import Label from 'components/form/Label';
 import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -342,6 +343,14 @@ const NewsletterEdit = _ => {
           placeholder=''
           onChange={onChange}
           required={true}
+        />
+
+        <LabelDatePickerPair
+          name='fromDate'
+          value={newsletter.fromDate}
+          labelMessage={uiWordings['Newsletter.FromDateLabel']}
+          placeholder={uiWordings['NewsletterEdit.SelectFromDatePlaceholder']}
+          onChange={onChange}
         />
 
         <Region>

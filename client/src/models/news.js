@@ -1,4 +1,4 @@
-import { formatDateTimeString } from 'utils/datetime';
+import { formatDateString, formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 //import { defaultMediumLinkType } from 'types/mediumLink';
@@ -19,11 +19,12 @@ const defaultNewsType = newsTypes.SPECIAL_NOTICE;
 
 function News() {
   this.label = '';
-  this.order = null;
+  //this.order = null;
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
   this.type = defaultNewsType.value;
+  this.fromDate = null;
   this.desc_tc = '';
   this.desc_sc = '';
   this.desc_en = '';
@@ -73,6 +74,10 @@ News.newsesResponseTypes = {
     type: 'TYPE_INVALID',
     msg: 'TYPE_INVALID'
   },
+  FROM_DATE_REQUIRED: {
+    type: 'FROM_DATE_REQUIRED',
+    msg: 'FROM_DATE_REQUIRED'
+  },
 
   // db check
   NEWS_NOT_EXISTS: {
@@ -96,8 +101,9 @@ News.defaultNewsType = defaultNewsType;
 News.getNewsForDisplay = news => {
   return {
     ...news,
-    orderDisplay: Number.isInteger(news.order) ? news.order + 1 : '',
+    //orderDisplay: Number.isInteger(news.order) ? news.order + 1 : '',
     typeDisplay: newsTypes[news.type].label,
+    fromDateDisplay: news.fromDate ? formatDateString(news.fromDate) : null,
     createDTDisplay: formatDateTimeString(news.createDT),
     lastModifyDTDisplay: formatDateTimeString(news.lastModifyDT),
     lastModifyUserDisplay: news.lastModifyUser ? news.lastModifyUser.name : '',
@@ -106,8 +112,9 @@ News.getNewsForDisplay = news => {
 };
 
 const displayFieldNames = [
-  'orderDisplay',
+  //'orderDisplay',
   'typeDisplay',
+  'fromDateDisplay',
   'createDTDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',

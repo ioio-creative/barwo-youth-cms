@@ -101,7 +101,7 @@ const Navbar = ({ className }) => {
   const isNewsList = Boolean(useRouteMatch(routes.newsList(false)));
   const isNewsEdit = Boolean(useRouteMatch(routes.newsEditById));
   const isNewsAdd = Boolean(useRouteMatch(routes.newsAdd(false)));
-  const isNewsesOrder = Boolean(useRouteMatch(routes.newsesOrder(false)));
+  //const isNewsesOrder = Boolean(useRouteMatch(routes.newsesOrder(false)));
 
   const isNewsMediaItemList = Boolean(
     useRouteMatch(routes.newsMediaItemList(false))
@@ -120,9 +120,9 @@ const Navbar = ({ className }) => {
   const isNewsletterList = Boolean(useRouteMatch(routes.newsletterList(false)));
   const isNewsletterEdit = Boolean(useRouteMatch(routes.newsletterEditById));
   const isNewsletterAdd = Boolean(useRouteMatch(routes.newsletterAdd(false)));
-  const isNewsletterOrder = Boolean(
-    useRouteMatch(routes.newsletterOrder(false))
-  );
+  // const isNewslettersOrder = Boolean(
+  //   useRouteMatch(routes.newslettersOrder(false))
+  // );
 
   const isSendHistoryList = Boolean(
     useRouteMatch(routes.sendHistoryList(false))
@@ -257,7 +257,7 @@ const Navbar = ({ className }) => {
       <NavbarLink
         //className='w3-border-bottom'
         to={routes.newsList(true)}
-        isSelected={isNewsList || isNewsEdit || isNewsAdd || isNewsesOrder}
+        isSelected={isNewsList || isNewsEdit || isNewsAdd /*|| isNewsesOrder*/}
       >
         {uiWordings['Navbar.Newses']}
       </NavbarLink>
@@ -277,7 +277,7 @@ const Navbar = ({ className }) => {
           isNewsletterList ||
           isNewsletterEdit ||
           isNewsletterAdd ||
-          isNewsletterOrder ||
+          //isNewslettersOrder ||
           isSendHistoryList ||
           isSendHistoryView
         }

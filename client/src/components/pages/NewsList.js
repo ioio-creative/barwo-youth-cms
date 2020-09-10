@@ -63,6 +63,11 @@ const headers = [
     value: 'typeDisplay',
     isSortEnabled: true
   },
+  {
+    name: uiWordings['News.FromDateLabel'],
+    value: 'fromDateDisplay',
+    isSortEnabled: true
+  },
   // {
   //   name: uiWordings['News.DescTcLabel'],
   //   value: 'desc_tc',
@@ -248,9 +253,9 @@ const NewsList = _ => {
           </div>
         </div>
         <div className='w3-right'>
-          <LinkButton className='w3-margin-right' to={routes.newsesOrder(true)}>
+          {/* <LinkButton className='w3-margin-right' to={routes.newsesOrder(true)}>
             {uiWordings['NewsList.NewsesOrder']}
-          </LinkButton>
+          </LinkButton> */}
           <LinkButton to={routes.newsAdd(true)}>
             {uiWordings['NewsList.AddNews']}
           </LinkButton>

@@ -44,7 +44,8 @@ const newsValidationChecksForCreate = [
   check('name_tc', newsResponseTypes.NAME_TC_REQUIRED).notEmpty(),
   //check('name_sc', newsResponseTypes.NAME_SC_REQUIRED).notEmpty(),
   check('name_en', newsResponseTypes.NAME_EN_REQUIRED).notEmpty(),
-  check('type', newsResponseTypes.TYPE_REQUIRED).notEmpty()
+  check('type', newsResponseTypes.TYPE_REQUIRED).notEmpty(),
+  check('fromDate', newsResponseTypes.FROM_DATE_REQUIRED).notEmpty()
 ];
 
 const newsValidationChecksForUpdate = [
@@ -132,6 +133,7 @@ router.post(
       name_sc,
       name_en,
       type,
+      fromDate,
       desc_tc,
       desc_sc,
       desc_en,
@@ -158,6 +160,7 @@ router.post(
         name_sc,
         name_en,
         type,
+        fromDate,
         desc_tc,
         desc_sc,
         desc_en,
@@ -199,6 +202,7 @@ router.put(
       name_sc,
       name_en,
       type,
+      fromDate,
       desc_tc,
       desc_sc,
       desc_en,
@@ -224,6 +228,7 @@ router.put(
     if (name_sc) newsFields.name_sc = name_sc;
     if (name_en) newsFields.name_en = name_en;
     if (type) newsFields.type = type;
+    if (fromDate) newsFields.fromDate = fromDate;
     newsFields.desc_tc = desc_tc;
     newsFields.desc_sc = desc_sc;
     newsFields.desc_en = desc_en;
@@ -240,8 +245,8 @@ router.put(
     if (isEnabled !== undefined) newsFields.isEnabled = isEnabled;
     newsFields.lastModifyDT = new Date();
     newsFields.lastModifyUser = req.user._id;
-    // set order to null if disabled
-    if (isEnabled === false) newsFields.order = null;
+    // // set order to null if disabled
+    // if (isEnabled === false) newsFields.order = null;
 
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -255,10 +260,10 @@ router.put(
           .status(404)
           .json({ errors: [newsResponseTypes.NEWS_NOT_EXISTS] });
 
-      // set order to null if disabled or type changed
-      if (isEnabled === false || type !== oldNews.type) {
-        newsFields.order = null;
-      }
+      // // set order to null if disabled or type changed
+      // if (isEnabled === false || type !== oldNews.type) {
+      //   newsFields.order = null;
+      // }
 
       const newNews = await News.findByIdAndUpdate(
         newsId,

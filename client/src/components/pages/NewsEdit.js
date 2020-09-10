@@ -12,6 +12,7 @@ import FileUpload from 'components/form/FileUpload';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 //import FileUploadOrUrl from 'components/form/FileUploadOrUrl';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
+import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
 import Label from 'components/form/Label';
 import Toggle from 'components/form/Toggle';
 import LabelLabelPair from 'components/form/LabelLabelPair';
@@ -346,7 +347,15 @@ const NewsEdit = _ => {
           name='type'
           value={news.type}
           options={News.newsTypeOptions}
-          labelMessage={uiWordings['Activity.TypeLabel']}
+          labelMessage={uiWordings['News.TypeLabel']}
+          onChange={onChange}
+        />
+
+        <LabelDatePickerPair
+          name='fromDate'
+          value={news.fromDate}
+          labelMessage={uiWordings['News.FromDateLabel']}
+          placeholder={uiWordings['NewsEdit.SelectFromDatePlaceholder']}
           onChange={onChange}
         />
 

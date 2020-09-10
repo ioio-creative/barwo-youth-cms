@@ -75,10 +75,10 @@ app.use(
   '/api/backend/newses/newses',
   require('./routes/backend/newses/newses')
 );
-app.use(
-  '/api/backend/newses/newsesInOrder',
-  require('./routes/backend/newses/newsesInOrder')
-);
+// app.use(
+//   '/api/backend/newses/newsesInOrder',
+//   require('./routes/backend/newses/newsesInOrder')
+// );
 app.use(
   '/api/backend/newsMediaItems/newsMediaItems',
   require('./routes/backend/newsMediaItems/newsMediaItems')
@@ -116,10 +116,10 @@ app.use(
   '/api/backend/newsletters/newsletters',
   require('./routes/backend/newsletters/newsletters')
 );
-app.use(
-  '/api/backend/newsletters/newslettersInOrder',
-  require('./routes/backend/newsletters/newslettersInOrder')
-);
+// app.use(
+//   '/api/backend/newsletters/newslettersInOrder',
+//   require('./routes/backend/newsletters/newslettersInOrder')
+// );
 app.use(
   '/api/backend/newsletters/sendHistory',
   require('./routes/backend/newsletters/sendHistory')

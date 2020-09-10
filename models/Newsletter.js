@@ -9,8 +9,12 @@ const NewsletterSchema = mongoose.Schema({
     required: true,
     unique: true
   },
-  order: {
-    type: Number
+  // order: {
+  //   type: Number
+  // },
+  fromDate: {
+    type: Date,
+    require: true
   },
   title_tc: {
     type: String,
@@ -67,6 +71,7 @@ module.exports.Newsletter = mongoose.model('newsletter', NewsletterSchema);
 
 module.exports.newsletterResponseTypes = {
   LABEL_REQUIRED: 'LABEL_REQUIRED',
+  FROM_DATE_REQUIRED: 'FROM_DATE_REQUIRED',
   TITLE_TC_REQUIRED: 'TITLE_TC_REQUIRED',
   TITLE_SC_REQUIRED: 'TITLE_SC_REQUIRED',
   TITLE_EN_REQUIRED: 'TITLE_EN_REQUIRED',

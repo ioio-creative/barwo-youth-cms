@@ -24,6 +24,7 @@ const newsSort = {
 
 /* end of utilities */
 
+// Obsolete
 // @route   GET api/backend/newses/newsesInOrder/:type
 // @desc    Get all newses in order of a particular type
 // @access  Private
@@ -47,6 +48,7 @@ router.get('/:type', auth, async (req, res) => {
   );
 });
 
+// Obsolete
 // @route   POST api/backend/newses/newsesInOrder
 // @desc    Update all newses in order
 // @access  Private

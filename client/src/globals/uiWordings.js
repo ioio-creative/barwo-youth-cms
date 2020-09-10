@@ -794,7 +794,8 @@ export default {
   'Newsletters.Title': 'Newsletters',
 
   'Newsletter.LabelLabel': 'Label',
-  'Newsletter.OrderLabel': 'Order',
+  //'Newsletter.OrderLabel': 'Order',
+  'Newsletter.FromDateLabel': 'From Date',
   'Newsletter.TitleTcLabel': 'Title TC',
   'Newsletter.TitleScLabel': 'Title SC',
   'Newsletter.TitleEnLabel': 'Title EN',
@@ -807,7 +808,7 @@ export default {
   'Newsletter.IsEnabledLabel': 'Is Enabled?',
 
   'NewsletterList.AddNewsletter': 'Add Newsletter',
-  'NewsletterList.NewslettersOrder': 'Order Newsletters',
+  //'NewsletterList.NewslettersOrder': 'Order Newsletters',
   'NewsletterList.SendHistoryList': 'Send History List',
   'NewsletterList.FilterTextPlaceHolder': 'Filter Newsletters by name...',
   'NewsletterList.FilterButton': 'Filter',
@@ -824,6 +825,8 @@ export default {
   'NewsletterEdit.UpdateNewsletterSuccessMessage': 'Newsletter Updated',
   'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sended',
   'NewsletterEdit.DeleteNewsletterSuccessMessage': 'Newsletter Deleted',
+
+  'NewsletterEdit.SelectFromDatePlaceholder': 'Click to select date',
 
   'NewsletterPreview.Title': 'Newsletter Preview',
   'NewsletterPreview.TcLabel': 'Traditional Chinese',
@@ -935,8 +938,9 @@ export default {
   'News.NameTcLabel': 'Name TC',
   'News.NameScLabel': 'Name SC',
   'News.NameEnLabel': 'Name EN',
-  'News.OrderLabel': 'Order',
+  //'News.OrderLabel': 'Order',
   'News.TypeLabel': 'Type',
+  'News.FromDateLabel': 'From Date',
   'News.DescTcLabel': 'Desc TC',
   'News.DescScLabel': 'Desc SC',
   'News.DescEnLabel': 'Desc EN',
@@ -959,7 +963,7 @@ export default {
   'NewsList.FilterButton': 'Filter',
   'NewsList.ClearFilterButton': 'Clear Filter',
 
-  'NewsList.NewsesOrder': 'Order News',
+  //'NewsList.NewsesOrder': 'Order News',
 
   'NewsEdit.BackToNewsList': 'Back to News List',
   'NewsEdit.AddNewsTitle': 'Add News',
@@ -973,6 +977,8 @@ export default {
 
   'NewsEdit.MediaRegionTitle': 'Media',
   'NewsEdit.DescriptionRegionTitle': 'Description',
+
+  'NewsEdit.SelectFromDatePlaceholder': 'Click to select date',
 
   'NewsesOrder.Title': 'Order News',
   'NewsesOrder.BackToNewsList': 'Back to News List',

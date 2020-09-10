@@ -42,6 +42,7 @@ const newsletterPopulationListForFindOne = [
 
 const newsletterValidationChecksForCreate = [
   check('label', newsletterResponseTypes.LABEL_REQUIRED).notEmpty(),
+  check('fromDate', newsletterResponseTypes.FROM_DATE_REQUIRED).notEmpty(),
   check('title_tc', newsletterResponseTypes.TITLE_TC_REQUIRED).notEmpty(),
   //check('title_sc', newsletterResponseTypes.TITLE_SC_REQUIRED).notEmpty(),
   check('title_en', newsletterResponseTypes.TITLE_EN_REQUIRED).notEmpty(),
@@ -130,6 +131,7 @@ router.post(
   async (req, res) => {
     const {
       label,
+      fromDate,
       title_tc,
       title_sc,
       title_en,
@@ -147,6 +149,7 @@ router.post(
     try {
       const newsletter = new Newsletter({
         label: label.trim(),
+        fromDate,
         title_tc,
         title_sc,
         title_en,
@@ -179,6 +182,7 @@ router.put(
   async (req, res) => {
     const {
       label,
+      fromDate,
       title_tc,
       title_sc,
       title_en,
@@ -195,6 +199,7 @@ router.put(
     // non-required fields do not need null check
     const newsletterFields = {};
     if (label) newsletterFields.label = label.trim();
+    if (fromDate) newsletterFields.fromDate = fromDate;
     if (title_tc) newsletterFields.title_tc = title_tc;
     if (title_sc) newsletterFields.title_sc = title_sc;
     if (title_en) newsletterFields.title_en = title_en;
@@ -206,8 +211,8 @@ router.put(
     if (isEnabled !== undefined) newsletterFields.isEnabled = isEnabled;
     newsletterFields.lastModifyDT = new Date();
     newsletterFields.lastModifyUser = req.user._id;
-    // set order to null if disabled
-    if (isEnabled === false) newsletterFields.order = null;
+    // // set order to null if disabled
+    // if (isEnabled === false) newsletterFields.order = null;
 
     try {
       let newsletter = await Newsletter.findById(req.params._id);

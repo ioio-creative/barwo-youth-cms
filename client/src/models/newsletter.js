@@ -1,10 +1,11 @@
-import { formatDateTimeString } from 'utils/datetime';
+import { formatDateString, formatDateTimeString } from 'utils/datetime';
 import generalResponseTypes from 'types/responses/general';
 import cleanSortByStringFuncGen from './utils/cleanSortByStringFuncGen';
 
 function Newsletter() {
   this.label = '';
-  this.order = null;
+  //this.order = null;
+  this.fromDate = null;
   this.title_tc = '';
   this.title_sc = '';
   this.title_en = '';
@@ -25,6 +26,10 @@ Newsletter.newslettersResponseTypes = {
   LABEL_REQUIRED: {
     type: 'LABEL_REQUIRED',
     msg: 'LABEL_REQUIRED'
+  },
+  FROM_DATE_REQUIRED: {
+    type: 'FROM_DATE_REQUIRED',
+    msg: 'FROM_DATE_REQUIRED'
   },
   TITLE_TC_REQUIRED: {
     type: 'TITLE_TC_REQUIRED',
@@ -77,9 +82,12 @@ Newsletter.newslettersResponseTypes = {
 Newsletter.getNewsletterForDisplay = newsletter => {
   return {
     ...newsletter,
-    orderDisplay: Number.isInteger(newsletter.order)
-      ? newsletter.order + 1
-      : '',
+    // orderDisplay: Number.isInteger(newsletter.order)
+    //   ? newsletter.order + 1
+    //   : '',
+    fromDateDisplay: newsletter.fromDate
+      ? formatDateString(newsletter.fromDate)
+      : null,
     lastModifyDTDisplay: formatDateTimeString(newsletter.lastModifyDT),
     lastModifyUserDisplay: newsletter.lastModifyUser
       ? newsletter.lastModifyUser.name
@@ -89,7 +97,8 @@ Newsletter.getNewsletterForDisplay = newsletter => {
 };
 
 const displayFieldNames = [
-  'orderDisplay',
+  //'orderDisplay',
+  'fromDateDisplay',
   'lastModifyDTDisplay',
   'lastModifyUserDisplay',
   'isEnabledDisplay'

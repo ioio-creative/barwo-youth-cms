@@ -38,9 +38,14 @@ const headers = [
     value: 'label',
     isSortEnabled: true
   },
+  // {
+  //   name: uiWordings['Newsletter.OrderLabel'],
+  //   value: 'orderDisplay',
+  //   isSortEnabled: true
+  // },
   {
-    name: uiWordings['Newsletter.OrderLabel'],
-    value: 'orderDisplay',
+    name: uiWordings['Newsletter.FromDateLabel'],
+    value: 'fromDateDisplay',
     isSortEnabled: true
   },
   {
@@ -246,12 +251,12 @@ const NewsletterList = _ => {
           >
             {uiWordings['NewsletterList.SendHistoryList']}
           </LinkButton>
-          <LinkButton
+          {/* <LinkButton
             className='w3-margin-right'
-            to={routes.newsletterOrder(true)}
+            to={routes.newslettersOrder(true)}
           >
             {uiWordings['NewsletterList.NewslettersOrder']}
-          </LinkButton>
+          </LinkButton> */}
           <LinkButton to={routes.newsletterAdd(true)}>
             {uiWordings['NewsletterList.AddNewsletter']}
           </LinkButton>

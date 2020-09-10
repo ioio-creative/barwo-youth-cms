@@ -94,9 +94,9 @@ export default {
   newsAdd: function (isLink) {
     return '/newsAdd';
   },
-  newsesOrder: function (isLink) {
-    return '/newsesOrder';
-  },
+  // newsesOrder: function (isLink) {
+  //   return '/newsesOrder';
+  // },
   newsMediaItemList: function (isLink) {
     return '/newsMediaItemList';
   },
@@ -142,9 +142,9 @@ export default {
   newsletterAdd: function (isLink) {
     return '/newsletterAdd';
   },
-  newsletterOrder: function (isLink) {
-    return '/newsletterOrder';
-  },
+  // newslettersOrder: function (isLink) {
+  //   return '/newslettersOrder';
+  // },
   sendHistoryList: function (isLink) {
     return '/sendHistoryList';
   },
