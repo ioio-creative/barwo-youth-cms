@@ -63,6 +63,21 @@ const headers = [
     value: 'toDateDisplay',
     isSortEnabled: true
   },
+  // {
+  //   name: uiWordings['Phase.TicketSaleRemarksTcLabel'],
+  //   value: 'ticketSaleRemarks_tc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Phase.TicketSaleRemarksScLabel'],
+  //   value: 'ticketSaleRemarks_sc',
+  //   isSortEnabled: true
+  // },
+  // {
+  //   name: uiWordings['Phase.TicketSaleRemarksEnLabel'],
+  //   value: 'ticketSaleRemarks_en',
+  //   isSortEnabled: true
+  // },
   {
     name: uiWordings['Phase.EventsLabel'],
     value: 'eventsDisplay',
