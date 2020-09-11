@@ -13,7 +13,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run client-install-build",
     "deploy-to-heroku": "git push heroku master",
-    "deploy-in-ec2": "git pull && pm2 delete 0 && npm run client-build && pm2 start npm -- start"
+    "deploy-in-ec2": "git pull && (pm2 delete 0 || true) && npm run client-build && pm2 start npm -- start"
   },
   "keywords": [],
   "author": "",
