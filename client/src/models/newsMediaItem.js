@@ -12,7 +12,7 @@ function NewsMediaItem() {
   this.name_tc = '';
   this.name_sc = '';
   this.name_en = '';
-  this.type = newsMediaItemTypes.IMAGE;
+  this.type = newsMediaItemTypes.IMAGE.value;
   this.fromDate = null;
   this.desc_tc = '';
   this.desc_sc = '';

@@ -9,9 +9,6 @@ import {
   CLEAR_CONTACTS_ERRORS,
   DELETE_CONTACT,
   SET_CONTACTS_LOADING,
-  GET_GROUPS,
-  CLEAR_GROUPS,
-  SET_GROUPS_LOADING,
   EXPORT_CONTACTS,
   SET_CONTACTS_EXPORT_LOADING,
   IMPORT_CONTACTS,
@@ -61,7 +58,6 @@ export default (state, action) => {
         ...state,
         contactsErrors: action.payload,
         contactsLoading: false,
-        groupsLoading: false,
         contactsExportLoading: false,
         contactsImportLoading: false
       };
@@ -79,23 +75,6 @@ export default (state, action) => {
       return {
         ...state,
         contactsLoading: true
-      };
-    case GET_GROUPS:
-      return {
-        ...state,
-        groups: action.payload,
-        groupsLoading: false
-      };
-    case CLEAR_GROUPS:
-      return {
-        ...state,
-        groups: null,
-        contactsErrors: null
-      };
-    case SET_GROUPS_LOADING:
-      return {
-        ...state,
-        groupsLoading: true
       };
     case EXPORT_CONTACTS:
       return {

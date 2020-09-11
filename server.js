@@ -105,10 +105,6 @@ app.use(
   require('./routes/backend/contacts/contacts')
 );
 app.use(
-  '/api/backend/contacts/groups',
-  require('./routes/backend/contacts/groups')
-);
-app.use(
   '/api/backend/contacts/exportAndImport',
   require('./routes/backend/contacts/contactsExportAndImport')
 );

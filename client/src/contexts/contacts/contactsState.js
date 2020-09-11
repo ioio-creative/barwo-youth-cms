@@ -15,9 +15,6 @@ import {
   CLEAR_CONTACTS_ERRORS,
   SET_CONTACTS_LOADING,
   DELETE_CONTACT,
-  GET_GROUPS,
-  CLEAR_GROUPS,
-  SET_GROUPS_LOADING,
   EXPORT_CONTACTS,
   SET_CONTACTS_EXPORT_LOADING,
   IMPORT_CONTACTS,
@@ -31,8 +28,6 @@ const initialState = {
   contact: null,
   contactsErrors: null,
   contactsLoading: false,
-  groups: null,
-  groupsLoading: null,
   contactsExportLoading: false
 };
 
@@ -165,25 +160,6 @@ const ContactsState = ({ children }) => {
     return isSuccess;
   }, []);
 
-  // Get Groups
-  const getGroups = useCallback(async _ => {
-    dispatch({ type: SET_GROUPS_LOADING });
-    try {
-      const res = await axios.get('/api/backend/contacts/groups');
-      dispatch({
-        type: GET_GROUPS,
-        payload: res.data
-      });
-    } catch (err) {
-      handleServerError(err, CONTACTS_ERRORS, dispatch);
-    }
-  }, []);
-
-  // Clear Groups
-  const clearGroups = useCallback(_ => {
-    dispatch({ type: CLEAR_GROUPS });
-  }, []);
-
   // Export Contacts
   const exportContacts = useCallback(async _ => {
     let contactsExport = null;
@@ -229,8 +205,6 @@ const ContactsState = ({ children }) => {
         contact: state.contact,
         contactsErrors: state.contactsErrors,
         contactsLoading: state.contactsLoading,
-        groups: state.groups,
-        groupsLoading: state.groupsLoading,
         contactsExportLoading: state.contactsExportLoading,
         contactsImportLoading: state.contactsImportLoading,
         getContacts,
@@ -241,8 +215,6 @@ const ContactsState = ({ children }) => {
         updateContact,
         clearContactsErrors,
         deleteContact,
-        getGroups,
-        clearGroups,
         exportContacts,
         importContacts
       }}

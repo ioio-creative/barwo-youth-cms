@@ -50,11 +50,11 @@ const headers = [
   //   value: 'typeDisplay',
   //   isSortEnabled: true
   // },
-  // {
-  //   name: uiWordings['Contact.GroupsLabel'],
-  //   value: 'groupsDisplay',
-  //   isSortEnabled: true
-  // },
+  {
+    name: uiWordings['Contact.GroupsLabel'],
+    value: 'groupsDisplay',
+    isSortEnabled: true
+  },
   {
     name: uiWordings['Contact.LanguageLabel'],
     value: 'languageDisplay',

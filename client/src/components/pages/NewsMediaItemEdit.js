@@ -291,6 +291,8 @@ const NewsMediaItemEdit = _ => {
     return <>{backToNewsMediaItemListButton}</>;
   }
 
+  console.log(newsMediaItem.type);
+
   return (
     <>
       {backToNewsMediaItemListButton}
