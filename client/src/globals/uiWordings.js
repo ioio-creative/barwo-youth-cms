@@ -617,6 +617,12 @@ export default {
   'GlobalConstants.PrivacypoliciesTcLabel': 'Privacy Policies TC',
   'GlobalConstants.PrivacypoliciesScLabel': 'Privacy Policies SC',
   'GlobalConstants.PrivacypoliciesEnLabel': 'Privacy Policies EN',
+  'GlobalConstants.DateTcLabel': 'Date TC',
+  'GlobalConstants.DateScLabel': 'Date SC',
+  'GlobalConstants.DateEnLabel': 'Date EN',
+  'GlobalConstants.ScriptArrangementTcLabel': 'Script Master TC',
+  'GlobalConstants.ScriptArrangementScLabel': 'Script Master SC',
+  'GlobalConstants.ScriptArrangementEnLabel': 'Script Master EN',
 
   'GlobalConstants.LastModifyDTLabel': 'Last Modify DT',
   'GlobalConstants.LastModifyUserLabel': 'Last Modify User',

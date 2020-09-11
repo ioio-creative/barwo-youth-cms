@@ -1092,6 +1092,23 @@ const globalConstantsValidationChecks = [
   check(
     'privacypolicies_en',
     globalConstantsResponseTypes.PRIVACYPOLICIES_EN_REQUIRED
+  ).notEmpty(),
+
+  check('date_tc', globalConstantsResponseTypes.DATE_TC_REQUIRED).notEmpty(),
+  check('date_sc', globalConstantsResponseTypes.DATE_SC_REQUIRED).notEmpty(),
+  check('date_en', globalConstantsResponseTypes.DATE_EN_REQUIRED).notEmpty(),
+
+  check(
+    'scriptArrangement_tc',
+    globalConstantsResponseTypes.SCRIPT_ARRANGEMENT_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'scriptArrangement_sc',
+    globalConstantsResponseTypes.SCRIPT_ARRANGEMENT_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'scriptArrangement_en',
+    globalConstantsResponseTypes.SCRIPT_ARRANGEMENT_EN_REQUIRED
   ).notEmpty()
 ];
 
@@ -1510,7 +1527,15 @@ router.post(
 
       privacypolicies_tc,
       privacypolicies_sc,
-      privacypolicies_en
+      privacypolicies_en,
+
+      date_tc,
+      date_sc,
+      date_en,
+
+      scriptArrangement_tc,
+      scriptArrangement_sc,
+      scriptArrangement_en
     } = req.body;
 
     // Build global constants object
@@ -1904,6 +1929,14 @@ router.post(
     globalConstantsFields.privacypolicies_tc = privacypolicies_tc;
     globalConstantsFields.privacypolicies_sc = privacypolicies_sc;
     globalConstantsFields.privacypolicies_en = privacypolicies_en;
+
+    globalConstantsFields.date_tc = date_tc;
+    globalConstantsFields.date_sc = date_sc;
+    globalConstantsFields.date_en = date_en;
+
+    globalConstantsFields.scriptArrangement_tc = scriptArrangement_tc;
+    globalConstantsFields.scriptArrangement_sc = scriptArrangement_sc;
+    globalConstantsFields.scriptArrangement_en = scriptArrangement_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

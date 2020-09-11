@@ -2600,6 +2600,56 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
+      <LabelInputTextPair
+        name='date_tc'
+        value={globalConstants.date_tc}
+        labelMessage={uiWordings['GlobalConstants.DateTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='date_sc'
+        value={globalConstants.date_sc}
+        labelMessage={uiWordings['GlobalConstants.DateScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='date_en'
+        value={globalConstants.date_en}
+        labelMessage={uiWordings['GlobalConstants.DateEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='scriptArrangement_tc'
+        value={globalConstants.scriptArrangement_tc}
+        labelMessage={uiWordings['GlobalConstants.ScriptArrangementTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='scriptArrangement_sc'
+        value={globalConstants.scriptArrangement_sc}
+        labelMessage={uiWordings['GlobalConstants.ScriptArrangementScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='scriptArrangement_en'
+        value={globalConstants.scriptArrangement_en}
+        labelMessage={uiWordings['GlobalConstants.ScriptArrangementEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair

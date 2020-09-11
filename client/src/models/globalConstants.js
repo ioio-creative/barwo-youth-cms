@@ -390,6 +390,14 @@ function GlobalConstants() {
   this.privacypolicies_sc = '';
   this.privacypolicies_en = '';
 
+  this.date_tc = '';
+  this.date_sc = '';
+  this.date_en = '';
+
+  this.scriptArrangement_tc = '';
+  this.scriptArrangement_sc = '';
+  this.scriptArrangement_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -1586,6 +1594,32 @@ GlobalConstants.globalConstantsResponseTypes = {
   PRIVACYPOLICIES_EN_REQUIRED: {
     type: 'PRIVACYPOLICIES_EN_REQUIRED',
     msg: 'PRIVACYPOLICIES_EN_REQUIRED'
+  },
+
+  DATE_TC_REQUIRED: {
+    type: 'DATE_TC_REQUIRED',
+    msg: 'DATE_TC_REQUIRED'
+  },
+  DATE_SC_REQUIRED: {
+    type: 'DATE_SC_REQUIRED',
+    msg: 'DATE_SC_REQUIRED'
+  },
+  DATE_EN_REQUIRED: {
+    type: 'DATE_EN_REQUIRED',
+    msg: 'DATE_EN_REQUIRED'
+  },
+
+  SCRIPT_ARRANGEMENT_TC_REQUIRED: {
+    type: 'SCRIPT_ARRANGEMENT_TC_REQUIRED',
+    msg: 'SCRIPT_ARRANGEMENT_TC_REQUIRED'
+  },
+  SCRIPT_ARRANGEMENT_SC_REQUIRED: {
+    type: 'SCRIPT_ARRANGEMENT_SC_REQUIRED',
+    msg: 'SCRIPT_ARRANGEMENT_SC_REQUIRED'
+  },
+  SCRIPT_ARRANGEMENT_EN_REQUIRED: {
+    type: 'SCRIPT_ARRANGEMENT_EN_REQUIRED',
+    msg: 'SCRIPT_ARRANGEMENT_EN_REQUIRED'
   },
 
   // db check

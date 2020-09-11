@@ -360,6 +360,12 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'privacypolicies',
         language
+      ),
+      date: getEntityPropByLanguage(globalConstants, 'date', language),
+      scriptArrangement: getEntityPropByLanguage(
+        globalConstants,
+        'scriptArrangement',
+        language
       )
     };
     res.json(globalConstantsForFrontEnd);
