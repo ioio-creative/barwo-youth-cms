@@ -120,12 +120,10 @@ router.get('/:lang/landingPage', [languageHandling], async (req, res) => {
       .select(artistSelect)
       .populate(artistPopulationList);
 
-    featuredArtists = getArraySafe(featuredArtists).splice(
+    featuredArtists = shuffleInPlace(getArraySafe(featuredArtists)).splice(
       0,
       maxNumOfFeaturedArtists
     );
-
-    featuredArtists = shuffleInPlace(featuredArtists);
 
     const landingForFrontEnd = {
       landingVideos: getArraySafe(landing.landingVideos).map(video => ({
