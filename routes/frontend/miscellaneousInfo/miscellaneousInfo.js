@@ -49,14 +49,15 @@ router.get('/:lang/miscellaneousInfo', [languageHandling], async (req, res) => {
     }
 
     const miscellaneousInfoForFrontEnd = {
-      landingPopupMessage: miscellaneousInfo.isShowLandingPopup
-        ? getEntityPropByLanguage(
-            miscellaneousInfo,
-            'landingPopupMessage',
-            language
-          )
-        : '',
-
+      landingPopup: {
+        message: miscellaneousInfo.isShowLandingPopup
+          ? getEntityPropByLanguage(
+              miscellaneousInfo,
+              'landingPopupMessage',
+              language
+            )
+          : ''
+      },
       termsAndConditions: {
         title: getEntityPropByLanguage(
           miscellaneousInfo,
