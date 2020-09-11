@@ -12,7 +12,6 @@ import GroupContainer from 'components/layout/GroupContainer';
 import Form from 'components/form/Form';
 import FileUpload from 'components/form/FileUpload';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
-import LabelTextAreaPair from 'components/form/LabelTextAreaPair';
 import LabelSelectPair from 'components/form/LabelSelectPair';
 import ColorPickerModal from 'components/form/ColorPickerModal';
 import LabelDatePickerPair from 'components/form/LabelDatePickerPair';
@@ -340,32 +339,26 @@ const PhaseEdit = _ => {
           onChange={onChange}
         />
 
-        <LabelTextAreaPair
+        <LabelInputTextPair
           name='ticketSaleRemarks_tc'
           value={phase.ticketSaleRemarks_tc}
           labelMessage={uiWordings['Phase.TicketSaleRemarksTcLabel']}
           placeholder=''
           onChange={onChange}
-          textAreaStyle={LabelTextAreaPair.twoRowStyle}
-          isHalf={true}
         />
-        <LabelTextAreaPair
+        <LabelInputTextPair
           name='ticketSaleRemarks_sc'
           value={phase.ticketSaleRemarks_sc}
           labelMessage={uiWordings['Phase.TicketSaleRemarksScLabel']}
           placeholder=''
           onChange={onChange}
-          textAreaStyle={LabelTextAreaPair.twoRowStyle}
-          isHalf={true}
         />
-        <LabelTextAreaPair
+        <LabelInputTextPair
           name='ticketSaleRemarks_en'
           value={phase.ticketSaleRemarks_en}
           labelMessage={uiWordings['Phase.TicketSaleRemarksEnLabel']}
           placeholder=''
           onChange={onChange}
-          textAreaStyle={LabelTextAreaPair.twoRowStyle}
-          isHalf={true}
         />
 
         <LabelInputTextPair

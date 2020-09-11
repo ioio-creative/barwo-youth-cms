@@ -7,8 +7,8 @@ function Sender() {
   this.name_sc = '';
   this.name_en = '';
 
-  this.lastModifyDTDisplay = null;
-  this.lastModifyUserDisplay = null;
+  this.lastModifyDT = null;
+  this.lastModifyUser = null;
 }
 
 /* statics */

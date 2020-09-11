@@ -832,7 +832,7 @@ export default {
   'NewsletterEdit.SendNewsletterSubmit': 'Send Newsletter',
   'NewsletterEdit.AddNewsletterSuccessMessage': 'Newsletter Added',
   'NewsletterEdit.UpdateNewsletterSuccessMessage': 'Newsletter Updated',
-  'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sended',
+  'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sent',
   'NewsletterEdit.DeleteNewsletterSuccessMessage': 'Newsletter Deleted',
 
   'NewsletterEdit.SelectFromDatePlaceholder': 'Click to select date',

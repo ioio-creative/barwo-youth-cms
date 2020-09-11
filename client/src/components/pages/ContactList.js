@@ -239,6 +239,12 @@ const ContactList = _ => {
     return <Loading />;
   }
 
+  // contacts.forEach(contact => {
+  //   if (contact.groups.length > 0) {
+  //     console.log(contact.groups);
+  //   }
+  // });
+
   return (
     <>
       <Form onSubmit={turnOnFilter}>

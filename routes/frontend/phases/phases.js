@@ -199,7 +199,7 @@ const getPhaseForFrontEndFromDbPhase = (phase, language) => {
       phase,
       'ticketSaleRemarks',
       language
-    ).replace(/\n/g, '<br>'),
+    ),
     schedule: {
       date: {
         from: formatDateStringForFrontEnd(phase.fromDate),

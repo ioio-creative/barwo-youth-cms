@@ -94,7 +94,8 @@ Contact.getContactForDisplay = contact => {
       .filter(x => x)
       .map(group => {
         return contactGroups[group].label;
-      }),
+      })
+      .join(', '),
     lastModifyDTDisplay: formatDateTimeString(contact.lastModifyDT),
     lastModifyUserDisplay: contact.lastModifyUser
       ? contact.lastModifyUser.name

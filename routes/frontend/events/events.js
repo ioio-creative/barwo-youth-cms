@@ -205,6 +205,10 @@ const getEventForFrontEndFromDbEvent = (
   let detailData = {};
 
   if (isRequireDetail) {
+    console.log(
+      'descHeadline',
+      getEntityPropByLanguage(event, 'descHeadline', language)
+    );
     detailData = {
       info: {
         scenarist: getArraySafe(event.scenarists).map(scenarist => {

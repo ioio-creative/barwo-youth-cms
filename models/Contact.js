@@ -47,7 +47,7 @@ module.exports.Contact = mongoose.model('contact', ContactSchema);
 //   NOT_SPECIFIED: 'NOT_SPECIFIED'
 // };
 
-const contactLanguage = {
+const contactLanguages = {
   TC: 'TC',
   SC: 'SC',
   EN: 'EN'
@@ -64,7 +64,7 @@ const contactGroups = {
   FAMILY: 'FAMILY'
 };
 
-module.exports.contactLanguage = contactLanguage;
+module.exports.contactLanguages = contactLanguages;
 module.exports.contactGroups = contactGroups;
 
 module.exports.contactResponseTypes = {
