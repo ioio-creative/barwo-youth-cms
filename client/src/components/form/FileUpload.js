@@ -72,7 +72,9 @@ const Item = ({ file, handleItemRemoved, index }) => {
           }[type]
         }
         <div className='media-name'>
-          <a href={url}>{name}</a>
+          <a href={url} target='_blank' rel='noopener noreferrer'>
+            {name}
+          </a>
         </div>
       </div>
       <div className='close-btn'>

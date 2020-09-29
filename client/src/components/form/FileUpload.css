@@ -10,6 +10,8 @@
 .file-upload .file-upload-item .medium-wrapper {
   padding-top: 100%;
   position: relative;
+
+  cursor: auto;
 }
 /* 
 .file-upload .file-upload-item .medium-wrapper .media-preview {

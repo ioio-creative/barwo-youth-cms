@@ -38,7 +38,7 @@ function MiscellaneousInfo() {
   this.facebookLink = '';
   this.youtubeLink = '';
   this.instagramLink = '';
-  this.wechatLink = '';
+  //this.wechatLink = '';
 
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;

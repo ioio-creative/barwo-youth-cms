@@ -756,7 +756,7 @@ export default {
   'MiscellaneousInfo.FacebookLinkLabel': 'Facebook Link',
   'MiscellaneousInfo.YoutubeLink': 'Youtube Link',
   'MiscellaneousInfo.InstagramLink': 'Instagram Link',
-  'MiscellaneousInfo.WechatLink': 'Wechat Link',
+  //'MiscellaneousInfo.WechatLink': 'Wechat Link',
   'MiscellaneousInfo.TermsAndConditionsRegionLabel': 'Terms And Conditions',
   'MiscellaneousInfo.TermsAndConditionsTitleTcLabel': 'Title TC',
   'MiscellaneousInfo.TermsAndConditionsTitleScLabel': 'Title SC',

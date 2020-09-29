@@ -105,8 +105,8 @@ router.get('/:lang/miscellaneousInfo', [languageHandling], async (req, res) => {
         ),
         facebookLink: miscellaneousInfo.facebookLink,
         youtubeLink: miscellaneousInfo.youtubeLink,
-        instagramLink: miscellaneousInfo.instagramLink,
-        wechatLink: miscellaneousInfo.wechatLink
+        instagramLink: miscellaneousInfo.instagramLink
+        //wechatLink: miscellaneousInfo.wechatLink
       }
     };
 

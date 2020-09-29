@@ -174,8 +174,8 @@ router.post(
 
       facebookLink,
       youtubeLink,
-      instagramLink,
-      wechatLink
+      instagramLink
+      //wechatLink
     } = req.body;
 
     // Build miscellaneous info object
@@ -235,7 +235,7 @@ router.post(
     miscellaneousFields.facebookLink = facebookLink;
     miscellaneousFields.youtubeLink = youtubeLink;
     miscellaneousFields.instagramLink = instagramLink;
-    miscellaneousFields.wechatLink = wechatLink;
+    //miscellaneousFields.wechatLink = wechatLink;
 
     miscellaneousFields.lastModifyDT = new Date();
     miscellaneousFields.lastModifyUser = req.user._id;

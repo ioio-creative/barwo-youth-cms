@@ -385,13 +385,13 @@ const MiscellaneousInfoEdit = _ => {
           onChange={onChange}
           placeholder=''
         />
-        <LabelInputTextPair
+        {/* <LabelInputTextPair
           name='wechatLink'
           value={miscellaneousInfo.wechatLink}
           labelMessage={uiWordings['MiscellaneousInfo.WechatLink']}
           placeholder=''
           onChange={onChange}
-        />
+        /> */}
       </AccordionRegion>
 
       <AccordionRegion

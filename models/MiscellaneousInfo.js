@@ -112,9 +112,9 @@ const MiscellaneousInfoSchema = mongoose.Schema({
   instagramLink: {
     type: String
   },
-  wechatLink: {
-    type: String
-  },
+  // wechatLink: {
+  //   type: String
+  // },
 
   lastModifyDT: {
     type: Date,
