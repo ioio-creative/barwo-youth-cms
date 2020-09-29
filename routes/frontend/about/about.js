@@ -51,7 +51,10 @@ router.get('/:lang/about', [languageHandling], async (req, res) => {
 
     const mapStaffPersonFunc = staffPerson => ({
       title: getEntityPropByLanguage(staffPerson, 'title', language),
-      name: getEntityPropByLanguage(staffPerson, 'name', language)
+      name: getEntityPropByLanguage(staffPerson, 'name', language).replace(
+        /\n/g,
+        '<br>'
+      )
     });
 
     const aboutForFrontEnd = {
