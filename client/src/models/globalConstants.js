@@ -398,6 +398,18 @@ function GlobalConstants() {
   this.scriptArrangement_sc = '';
   this.scriptArrangement_en = '';
 
+  this.viewOurTeam_tc = '';
+  this.viewOurTeam_sc = '';
+  this.viewOurTeam_en = '';
+
+  this.photos_tc = '';
+  this.photos_sc = '';
+  this.photos_en = '';
+
+  this.videos_tc = '';
+  this.videos_sc = '';
+  this.videos_en = '';
+
   this.lastModifyDTDisplay = null;
   this.lastModifyUserDisplay = null;
 }
@@ -1620,6 +1632,45 @@ GlobalConstants.globalConstantsResponseTypes = {
   SCRIPT_ARRANGEMENT_EN_REQUIRED: {
     type: 'SCRIPT_ARRANGEMENT_EN_REQUIRED',
     msg: 'SCRIPT_ARRANGEMENT_EN_REQUIRED'
+  },
+
+  VIEW_OUR_TEAM_TC_REQUIRED: {
+    type: 'VIEW_OUR_TEAM_TC_REQUIRED',
+    msg: 'VIEW_OUR_TEAM_TC_REQUIRED'
+  },
+  VIEW_OUR_TEAM_SC_REQUIRED: {
+    type: 'VIEW_OUR_TEAM_SC_REQUIRED',
+    msg: 'VIEW_OUR_TEAM_SC_REQUIRED'
+  },
+  VIEW_OUR_TEAM_EN_REQUIRED: {
+    type: 'VIEW_OUR_TEAM_EN_REQUIRED',
+    msg: 'VIEW_OUR_TEAM_EN_REQUIRED'
+  },
+
+  PHOTOS_TC_REQUIRED: {
+    type: 'PHOTOS_TC_REQUIRED',
+    msg: 'PHOTOS_TC_REQUIRED'
+  },
+  PHOTOS_SC_REQUIRED: {
+    type: 'PHOTOS_SC_REQUIRED',
+    msg: 'PHOTOS_SC_REQUIRED'
+  },
+  PHOTOS_EN_REQUIRED: {
+    type: 'PHOTOS_EN_REQUIRED',
+    msg: 'PHOTOS_EN_REQUIRED'
+  },
+
+  VIDEOS_TC_REQUIRED: {
+    type: 'VIDEOS_TC_REQUIRED',
+    msg: 'VIDEOS_TC_REQUIRED'
+  },
+  VIDEOS_SC_REQUIRED: {
+    type: 'VIDEOS_SC_REQUIRED',
+    msg: 'VIDEOS_SC_REQUIRED'
+  },
+  VIDEOS_EN_REQUIRED: {
+    type: 'VIDEOS_EN_REQUIRED',
+    msg: 'VIDEOS_EN_REQUIRED'
   },
 
   // db check

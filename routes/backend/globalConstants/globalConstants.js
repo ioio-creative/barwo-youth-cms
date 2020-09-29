@@ -1109,7 +1109,43 @@ const globalConstantsValidationChecks = [
   check(
     'scriptArrangement_en',
     globalConstantsResponseTypes.SCRIPT_ARRANGEMENT_EN_REQUIRED
-  ).notEmpty()
+  ).notEmpty(),
+
+  check(
+    'viewOurTeam_tc',
+    globalConstantsResponseTypes.VIEW_OUR_TEAM_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'viewOurTeam_sc',
+    globalConstantsResponseTypes.VIEW_OUR_TEAM_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'viewOurTeam_en',
+    globalConstantsResponseTypes.VIEW_OUR_TEAM_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'photos_tc',
+    globalConstantsResponseTypes.PHOTOS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'photos_sc',
+    globalConstantsResponseTypes.PHOTOS_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'photos_en',
+    globalConstantsResponseTypes.PHOTOS_EN_REQUIRED
+  ).notEmpty(),
+
+  check(
+    'videos_tc',
+    globalConstantsResponseTypes.VIDEOS_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'videos_sc',
+    globalConstantsResponseTypes.VIDEOS_SC_REQUIRED
+  ).notEmpty(),
+  check('videos_en', globalConstantsResponseTypes.VIDEOS_EN_REQUIRED).notEmpty()
 ];
 
 /* end of utilities */
@@ -1535,7 +1571,19 @@ router.post(
 
       scriptArrangement_tc,
       scriptArrangement_sc,
-      scriptArrangement_en
+      scriptArrangement_en,
+
+      viewOurTeam_tc,
+      viewOurTeam_sc,
+      viewOurTeam_en,
+
+      photos_tc,
+      photos_sc,
+      photos_en,
+
+      videos_tc,
+      videos_sc,
+      videos_en
     } = req.body;
 
     // Build global constants object
@@ -1937,6 +1985,18 @@ router.post(
     globalConstantsFields.scriptArrangement_tc = scriptArrangement_tc;
     globalConstantsFields.scriptArrangement_sc = scriptArrangement_sc;
     globalConstantsFields.scriptArrangement_en = scriptArrangement_en;
+
+    globalConstantsFields.viewOurTeam_tc = viewOurTeam_tc;
+    globalConstantsFields.viewOurTeam_sc = viewOurTeam_sc;
+    globalConstantsFields.viewOurTeam_en = viewOurTeam_en;
+
+    globalConstantsFields.photos_tc = photos_tc;
+    globalConstantsFields.photos_sc = photos_sc;
+    globalConstantsFields.photos_en = photos_en;
+
+    globalConstantsFields.videos_tc = videos_tc;
+    globalConstantsFields.videos_sc = videos_sc;
+    globalConstantsFields.videos_en = videos_en;
 
     globalConstantsFields.lastModifyDT = new Date();
     globalConstantsFields.lastModifyUser = req.user._id;

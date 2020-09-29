@@ -2650,6 +2650,81 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
+      <LabelInputTextPair
+        name='viewOurTeam_tc'
+        value={globalConstants.viewOurTeam_tc}
+        labelMessage={uiWordings['GlobalConstants.ViewOurTeamTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='viewOurTeam_sc'
+        value={globalConstants.viewOurTeam_sc}
+        labelMessage={uiWordings['GlobalConstants.ViewOurTeamScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='viewOurTeam_en'
+        value={globalConstants.viewOurTeam_en}
+        labelMessage={uiWordings['GlobalConstants.ViewOurTeamEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='photos_tc'
+        value={globalConstants.photos_tc}
+        labelMessage={uiWordings['GlobalConstants.PhotosTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='photos_sc'
+        value={globalConstants.photos_sc}
+        labelMessage={uiWordings['GlobalConstants.PhotosScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='photos_en'
+        value={globalConstants.photos_en}
+        labelMessage={uiWordings['GlobalConstants.PhotosEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
+      <LabelInputTextPair
+        name='videos_tc'
+        value={globalConstants.videos_tc}
+        labelMessage={uiWordings['GlobalConstants.VideosTcLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='videos_sc'
+        value={globalConstants.videos_sc}
+        labelMessage={uiWordings['GlobalConstants.VideosScLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+      <LabelInputTextPair
+        name='videos_en'
+        value={globalConstants.videos_en}
+        labelMessage={uiWordings['GlobalConstants.VideosEnLabel']}
+        placeholder=''
+        onChange={onChange}
+        required={true}
+      />
+
       {!isAddMode && (
         <>
           <LabelLabelPair

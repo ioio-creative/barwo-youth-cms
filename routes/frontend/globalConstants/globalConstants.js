@@ -366,7 +366,14 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         globalConstants,
         'scriptArrangement',
         language
-      )
+      ),
+      viewOurTeam: getEntityPropByLanguage(
+        globalConstants,
+        'viewOurTeam',
+        language
+      ),
+      photos: getEntityPropByLanguage(globalConstants, 'photos', language),
+      videos: getEntityPropByLanguage(globalConstants, 'videos', language)
     };
     res.json(globalConstantsForFrontEnd);
   } catch (err) {

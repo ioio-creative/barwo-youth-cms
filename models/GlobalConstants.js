@@ -1288,6 +1288,45 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  viewOurTeam_tc: {
+    type: String,
+    require: true
+  },
+  viewOurTeam_sc: {
+    type: String,
+    require: true
+  },
+  viewOurTeam_en: {
+    type: String,
+    require: true
+  },
+
+  photos_tc: {
+    type: String,
+    require: true
+  },
+  photos_sc: {
+    type: String,
+    require: true
+  },
+  photos_en: {
+    type: String,
+    require: true
+  },
+
+  videos_tc: {
+    type: String,
+    require: true
+  },
+  videos_sc: {
+    type: String,
+    require: true
+  },
+  videos_en: {
+    type: String,
+    require: true
+  },
+
   lastModifyDT: {
     type: Date,
     default: Date.now
@@ -1709,6 +1748,18 @@ module.exports.globalConstantsResponseTypes = {
   SCRIPT_ARRANGEMENT_TC_REQUIRED: 'SCRIPT_ARRANGEMENT_TC_REQUIRED',
   SCRIPT_ARRANGEMENT_SC_REQUIRED: 'SCRIPT_ARRANGEMENT_SC_REQUIRED',
   SCRIPT_ARRANGEMENT_EN_REQUIRED: 'SCRIPT_ARRANGEMENT_EN_REQUIRED',
+
+  VIEW_OUR_TEAM_TC_REQUIRED: 'VIEW_OUR_TEAM_TC_REQUIRED',
+  VIEW_OUR_TEAM_SC_REQUIRED: 'VIEW_OUR_TEAM_SC_REQUIRED',
+  VIEW_OUR_TEAM_EN_REQUIRED: 'VIEW_OUR_TEAM_EN_REQUIRED',
+
+  PHOTOS_TC_REQUIRED: 'PHOTOS_TC_REQUIRED',
+  PHOTOS_SC_REQUIRED: 'PHOTOS_SC_REQUIRED',
+  PHOTOS_EN_REQUIRED: 'PHOTOS_EN_REQUIRED',
+
+  VIDEOS_TC_REQUIRED: 'VIDEOS_TC_REQUIRED',
+  VIDEOS_SC_REQUIRED: 'VIDEOS_SC_REQUIRED',
+  VIDEOS_EN_REQUIRED: 'VIDEOS_EN_REQUIRED',
 
   // db check
   GLOBAL_CONSTANTS_NOT_EXISTS: 'GLOBAL_CONSTANTS_NOT_EXISTS'
