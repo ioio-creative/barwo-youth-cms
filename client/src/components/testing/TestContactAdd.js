@@ -28,7 +28,19 @@ const TestContactAdd = _ => {
             language: 'tc'
           })
         });
-        console.log(await response.json());
+
+        const responseJson = await response.json();
+        console.log(responseJson);
+        if (
+          Array.isArray(responseJson.errors) &&
+          responseJson.errors.length > 0
+        ) {
+          console.log(responseJson.errors[0]);
+        } else if (response.status !== 200) {
+          console.log('Adding contact failed.');
+        } else {
+          console.log('Adding contact succeeded.');
+        }
       } catch (err) {
         console.error(err);
       }

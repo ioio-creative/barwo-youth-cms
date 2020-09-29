@@ -47,7 +47,6 @@ router.post(
         language
       });
 
-      console.log(contact);
       await contact.save();
 
       res.json(contact);
@@ -59,20 +58,17 @@ router.post(
   }
 );
 
-// @route   DELETE api/frontend/contacts/unsubscribe/:_id
-// @desc    Delete contact
-
-router.delete(
-  '/unsubscribe/:_id',
-  [constactValidationChecks, validationHandling],
-  async (req, res) => {
-    try {
-      await Contact.findByIdAndDelete(req.params._id);
-      res.sendStatus(200);
-    } catch (err) {
-      generalErrorHandle(err, res);
-    }
+// @route   POST api/frontend/contacts/unsubscribe
+// @desc    Unsubscribe contact by id
+// @access  Public // TODO:
+router.post('/unsubscribe', async (req, res) => {
+  const { _id } = req.body;
+  try {
+    await Contact.findByIdAndDelete(_id);
+    res.sendStatus(200);
+  } catch (err) {
+    generalErrorHandle(err, res);
   }
-);
+});
 
 module.exports = router;

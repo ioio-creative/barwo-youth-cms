@@ -2,9 +2,9 @@ import React, { useCallback, useState } from 'react';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import Button from 'components/form/Button';
 
-const TestSearch = _ => {
+const TestContactUnsubscribe = _ => {
   const [state, setState] = useState({
-    searchText: '一点鴻'
+    contactId: ''
   });
 
   const onChange = useCallback(async e => {
@@ -16,46 +16,44 @@ const TestSearch = _ => {
     }));
   }, []);
 
-  const onTestSearch = useCallback(
+  const onSubscribeContact = useCallback(
     async _ => {
       try {
         // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-        const response = await fetch('/api/frontend/search/tc', {
+        const response = await fetch('/api/frontend/contacts/unsubscribe', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            queryStr: state.searchText
+            _id: state.contactId
           })
         });
 
-        const responseJson = await response.json();
-        if (responseJson.errors || response.status !== 200) {
-          console.log('Search failed.');
+        if (response.status !== 200) {
+          console.log('Unsubscribing contact failed.');
         } else {
-          console.log('Search succeeded.');
+          console.log('Unsubscribing contact succeeded.');
         }
       } catch (err) {
-        console.error('reach here');
         console.error(err);
       }
     },
-    [state.searchText]
+    [state.contactId]
   );
 
   return (
     <>
       <LabelInputTextPair
-        name='searchText'
-        value={state.searchText}
-        labelMessage='Search Text'
+        name='contactId'
+        value={state.contactId}
+        labelMessage='Contact ID'
         placeholder=''
         onChange={onChange}
       />
-      <Button onClick={onTestSearch}>Test Search</Button>
+      <Button onClick={onSubscribeContact}>Unsubscribe</Button>
     </>
   );
 };
 
-export default TestSearch;
+export default TestContactUnsubscribe;
