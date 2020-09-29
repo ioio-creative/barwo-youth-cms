@@ -18,6 +18,7 @@ import Alert from 'models/alert';
 import LabelInputTextPair from './LabelInputTextPair';
 import Label from './Label';
 import InputText from './InputText';
+import Anchor from './Anchor';
 import uiWordings from 'globals/uiWordings';
 import isNonEmptyArray, { getArraySafe } from 'utils/js/array/isNonEmptyArray';
 import getImageFromFile from 'utils/image/getImageFromFile';
@@ -110,7 +111,7 @@ const MediumElement = ({
           }[medium.type]
         }
         <div className='media-name'>
-          <a href={medium.url}>{medium.name}</a>
+          <Anchor href={medium.url}>{medium.name}</Anchor>
         </div>
       </div>
     </div>
@@ -735,14 +736,12 @@ const FileManager = ({ multiple, mediumType, onSelect }) => {
               </div>
               <div className='w3-row w3-section'>
                 <Label message={uiWordings['FileManager.MediaUrl']} />
-                <a
+                <Anchor
                   href={selectedFetchedMedium.url}
-                  target='_blank'
-                  rel='noopener noreferrer'
                   className='w3-bar w3-button w3-white w3-border media-link'
                 >
                   {selectedFetchedMedium.url}
-                </a>
+                </Anchor>
               </div>
               <LabelInputTextPair
                 labelMessage='Name'

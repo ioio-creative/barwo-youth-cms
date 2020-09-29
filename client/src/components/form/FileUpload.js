@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import LabelGridDndPair from 'components/layout/gridDnd/LabelGridDndPair';
+import Anchor from 'components/form/Anchor';
 import ModalFileManager from 'components/form/ModalFileManager';
 import uiWordings from 'globals/uiWordings';
 import { getArraySafe } from 'utils/js/array/isNonEmptyArray';
@@ -72,9 +73,7 @@ const Item = ({ file, handleItemRemoved, index }) => {
           }[type]
         }
         <div className='media-name'>
-          <a href={url} target='_blank' rel='noopener noreferrer'>
-            {name}
-          </a>
+          <Anchor href={url}>{name}</Anchor>
         </div>
       </div>
       <div className='close-btn'>
