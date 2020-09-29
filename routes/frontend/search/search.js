@@ -7,6 +7,7 @@ const languageHandling = require('../../../middleware/languageHandling');
 const { frontEndDateFormatForMongoDb } = require('../../../utils/datetime');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const orderBy = require('../../../utils/js/array/orderBy');
+const cleanLabelForSendingToFrontEnd = require('../../../utils/label/cleanLabelForSendingToFrontEnd');
 const { Event } = require('../../../models/Event');
 const { Artist } = require('../../../models/Artist');
 const { News } = require('../../../models/News');
@@ -373,6 +374,10 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
         if (key.endsWith(language.entityPropSuffix)) {
           result[key.replace(language.entityPropSuffix, '')] = result[key];
           delete result[key];
+        }
+
+        if (key === 'label') {
+          result[key] = cleanLabelForSendingToFrontEnd(result[key]);
         }
       });
       return result;
