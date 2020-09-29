@@ -67,7 +67,8 @@ const handleNewsletterLabelDuplicateKeyError = (err, res) => {
   return isErrorHandled;
 };
 
-// @desc    Get newsletter
+// @route   GET api/backend/newsletters/newsletters
+// @desc    Get newsletters
 // @access  Private
 router.get('/', [auth, listingHandling], async (req, res) => {
   try {
@@ -100,6 +101,7 @@ router.get('/', [auth, listingHandling], async (req, res) => {
   }
 });
 
+// @route   GET api/backend/newsletters/newsletters/:_id
 // @desc    Get newsletter by id
 // @access  Private
 router.get('/:_id', auth, async (req, res) => {

@@ -52,10 +52,47 @@ const sendHistoryPopulationListForFindOne = [
   ...sendHistoryPopulationListForFindAll
 ];
 
-const unsub =
-  '<br/><p><button onclick = "(function(){confirm(\'Confirm\')})()">取消訂閱</button></p>';
+const getEmailFooter = contactId => {
+  console.log(contactId);
+  const barwoContactInfo =
+    '<div style="color:#666;font-size:10pt;text-align:left;line-height:1.3em;border-top:2px solid #f071bf;margin-top:1.3em">' +
+    '<br>' +
+    '<table width="640" cellspacing="0" cellpadding="0" border="0">' +
+    '<tbody>' +
+    '<tr>' +
+    '<td style="font-size:10pt;color:#666" colspan="2" width="50" valign="top">香港八和會館</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td style="font-size:10pt;color:#666" width="50" valign="top">地址：</td>' +
+    '<td style="font-size:10pt;color:#666" valign="top">香港油麻地彌敦道493號展望大廈4字樓A座</td></tr>' +
+    '<tr>' +
+    '<td style="font-size:10pt;color:#666" width="50" valign="top">電話：</td>' +
+    '<td style="font-size:10pt;color:#666" valign="top">(852) 2384 2939</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td style="font-size:10pt;color:#666" width="50" valign="top">傳真：</td>' +
+    '<td style="font-size:10pt;color:#666" valign="top">(852) 2770 7956</td></tr>' +
+    '<tr>' +
+    '<td style="font-size:10pt;color:#666" width="50" valign="top">電郵：</td>' +
+    '<td style="font-size:10pt;color:#666" valign="top"><a href="mailto:ymtinfo@hkbarwo.com" target="_blank">ymtinfo@hkbarwo.com</a></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td style="font-size:10pt;color:#666" width="50" valign="top">網址：</td>' +
+    '<td style="font-size:10pt;color:#666" valign="top"><a href="http://www.hkbarwoymt.com/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://www.hkbarwoymt.com/&amp;source=gmail&amp;ust=1601470342638000&amp;usg=AFQjCNFzBA-DIPl1lfmpXwLlVP7gXO6OQA">http://www.hkbarwoymt.com/</a></td>' +
+    '</tr>' +
+    '</tbody>' +
+    '</table>' +
+    '</div>';
+  const unsubscriptionMsg =
+    '<div style="color:#666;font-size:8pt;text-align:left;line-height:1.3em">' +
+    '<br>' +
+    '如欲停止接收我們的最新電子消息，請<a href="http://www.hkbarwoymt.com/?a=unsubscribe&amp;email=christopher.wong@ioiocreative.com&amp;lang=tc" target="_blank">按此</a>。' +
+    '<br>' +
+    '</div>';
+  return barwoContactInfo + unsubscriptionMsg;
+};
 
-const emailSend = async (contact, emailAddress, name, title, message) => {
+const sendEmail = async (contact, emailAddress, name, title, message) => {
   const transporter = nodemailer.createTransport({
     host: 'email-smtp.ap-southeast-1.amazonaws.com',
     port: 587,
@@ -66,14 +103,14 @@ const emailSend = async (contact, emailAddress, name, title, message) => {
     }
   });
   // send mail with defined transport object
-  const info = await transporter.sendMail({
+  const sendEmailInfo = await transporter.sendMail({
     from: `"${name}" ${emailAddress}`, // sender address
     to: contact.emailAddress, // Receivers
     subject: title, // Subject line
-    html: message // html body
-    // html: message + unsub // html body
+    //html: message // html body
+    html: '<div>' + message + '<br>' + getEmailFooter(contact._id) + '</div>' // html body
   });
-  console.log(info);
+  console.log('sendHistory sendEmail info:', sendEmailInfo);
 };
 
 // @route   POST api/backend/newsletters/sendHistory
@@ -92,8 +129,10 @@ router.post(
       message_tc,
       message_sc,
       message_en,
-      _id
+      _id: newsletterId
     } = req.body;
+
+    console.log(newsletterId);
 
     let contacts = [];
     try {
@@ -129,7 +168,7 @@ router.post(
         message_tc,
         message_sc,
         message_en,
-        email: _id,
+        email: newsletterId,
         sender: req.user._id
       });
 
@@ -145,7 +184,7 @@ router.post(
             // console.log(contact);
 
             if (contact.language === languages.TC._id) {
-              return await emailSend(
+              return await sendEmail(
                 contact,
                 sender.emailAddress,
                 sender.name_tc,
@@ -153,7 +192,7 @@ router.post(
                 message_tc
               );
             } else if (contact.language === languages.SC._id) {
-              return await emailSend(
+              return await sendEmail(
                 contact,
                 sender.emailAddress,
                 sender.name_sc,
@@ -161,7 +200,7 @@ router.post(
                 message_sc
               );
             } else if (contact.language === languages.EN._id) {
-              return await emailSend(
+              return await sendEmail(
                 contact,
                 sender.emailAddress,
                 sender.name_en,

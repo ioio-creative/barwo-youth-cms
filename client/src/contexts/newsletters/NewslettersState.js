@@ -167,7 +167,6 @@ const NewslettersState = ({ children }) => {
   // Send newsletter
   const sendNewsletter = useCallback(async (newsletter, groups) => {
     let newNewsletter = null;
-    console.log(groups);
     dispatch({ type: SET_NEWSLETTERS_LOADING });
     const config = {
       headers: {
