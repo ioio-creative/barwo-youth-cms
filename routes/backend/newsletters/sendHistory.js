@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const config = require('config');
-const em = config.get('Email.smtp');
 const nodemailer = require('nodemailer');
 const objectID = require('mongodb').ObjectId;
 const { check } = require('express-validator');
@@ -12,14 +11,33 @@ const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { getArraySafe } = require('../../../utils/js/array/isNonEmptyArray');
 const { newsletterResponseTypes } = require('../../../models/Newsletter');
 const { Contact } = require('../../../models/Contact');
+const { MiscellaneousInfo } = require('../../../models/MiscellaneousInfo');
 const { Sender } = require('../../../models/Sender');
 const {
   SendHistory,
   sendHistoryResponseTypes
 } = require('../../../models/SendHistory');
-const { languages } = require('../../../globals/languages');
+const {
+  languages,
+  defaultLanguage,
+  getLanguageById,
+  getEntityPropByLanguage
+} = require('../../../globals/languages');
+
+/* constants */
+
+/* end of constants */
 
 /* utilities */
+
+const miscellaneousInfoSelect = {
+  contactAddress_tc: 1,
+  contactAddress_sc: 1,
+  contactAddress_en: 1,
+  contactTel: 1,
+  contactFax: 1,
+  contactEmail: 1
+};
 
 const senderSelect = {};
 const senderPopulationList = [
@@ -52,54 +70,127 @@ const sendHistoryPopulationListForFindOne = [
   ...sendHistoryPopulationListForFindAll
 ];
 
-const getEmailFooter = contactId => {
-  console.log(contactId);
+// TODO: this is hard-coded...
+const emailFooterMetasByLanguage = {
+  TC: {
+    _id: 'TC',
+    companyName: '香港八和會館',
+    contactAddressLabel: '地址：',
+    contactPhoneLabel: '電話：',
+    contactFaxLabel: '傳真：',
+    contactEmailLabel: '電郵：',
+    contactEmailAddress: 'ymtinfo@hkbarwo.com',
+    contactWebsiteLabel: '網址：',
+    unsubscriptionMsg1: '如欲停止接收我們的最新電子消息，請',
+    unsubscriptionMsg2: '按此',
+    unsubscriptionMsg3: '。'
+  },
+  SC: {
+    _id: 'SC',
+    companyName: '香港八和会馆',
+    contactAddressLabel: '地址：',
+    contactPhoneLabel: '电话：',
+    contactFaxLabel: '传真：',
+    contactEmailLabel: '电邮：',
+    contactEmailAddress: 'ymtinfo@hkbarwo.com',
+    contactWebsiteLabel: '网址：',
+    unsubscriptionMsg1: '如欲停止接收我们的最新电子消息，请',
+    unsubscriptionMsg2: '按此',
+    unsubscriptionMsg3: '。'
+  },
+  EN: {
+    _id: 'EN',
+    companyName: 'The Chinese Artists Association of Hong Kong',
+    contactAddressLabel: 'Address:',
+    contactPhoneLabel: 'Phone:',
+    contactFaxLabel: 'Fax:',
+    contactEmailLabel: 'Email:',
+    contactEmailAddress: 'ymtinfo@hkbarwo.com',
+    contactWebsiteLabel: 'Website:',
+    unsubscriptionMsg1:
+      'If you want to stop receiving our e-newsletters, please ',
+    unsubscriptionMsg2: 'unsubscribe',
+    unsubscriptionMsg3: '.'
+  }
+};
+
+const emailFooterMetasByLanguageArray = Object.values(
+  emailFooterMetasByLanguage
+);
+
+const getEmailFooterMeta = (langId = defaultLanguage._id) => {
+  const langIdCleaned = langId.toUpperCase();
+  return emailFooterMetasByLanguageArray.find(emailFooterMeta => {
+    return emailFooterMeta._id === langIdCleaned;
+  });
+};
+
+const getEmailFooter = (contact, miscellaneousInfo, websiteFrontendRoot) => {
+  const contactLangId = contact.language;
+  const contactLangObj = getLanguageById(contactLangId);
+  const emailFooterMeta = getEmailFooterMeta(contactLangId);
+
   const barwoContactInfo =
     '<div style="color:#666;font-size:10pt;text-align:left;line-height:1.3em;border-top:2px solid #f071bf;margin-top:1.3em">' +
     '<br>' +
     '<table width="640" cellspacing="0" cellpadding="0" border="0">' +
     '<tbody>' +
     '<tr>' +
-    '<td style="font-size:10pt;color:#666" colspan="2" width="50" valign="top">香港八和會館</td>' +
+    `<td style="font-size:10pt;color:#666" colspan="2" width="75" valign="top">${emailFooterMeta.companyName}</td>` +
     '</tr>' +
     '<tr>' +
-    '<td style="font-size:10pt;color:#666" width="50" valign="top">地址：</td>' +
-    '<td style="font-size:10pt;color:#666" valign="top">香港油麻地彌敦道493號展望大廈4字樓A座</td></tr>' +
+    `<td style="font-size:10pt;color:#666" width="75" valign="top">${emailFooterMeta.contactAddressLabel}</td>` +
+    `<td style="font-size:10pt;color:#666" valign="top">${getEntityPropByLanguage(
+      miscellaneousInfo,
+      'contactAddress',
+      contactLangObj
+    )}</td></tr>` +
     '<tr>' +
-    '<td style="font-size:10pt;color:#666" width="50" valign="top">電話：</td>' +
-    '<td style="font-size:10pt;color:#666" valign="top">(852) 2384 2939</td>' +
+    `<td style="font-size:10pt;color:#666" width="75" valign="top">${emailFooterMeta.contactPhoneLabel}</td>` +
+    `<td style="font-size:10pt;color:#666" valign="top">${miscellaneousInfo.contactTel}</td>` +
     '</tr>' +
     '<tr>' +
-    '<td style="font-size:10pt;color:#666" width="50" valign="top">傳真：</td>' +
-    '<td style="font-size:10pt;color:#666" valign="top">(852) 2770 7956</td></tr>' +
+    `<td style="font-size:10pt;color:#666" width="75" valign="top">${emailFooterMeta.contactFaxLabel}</td>` +
+    `<td style="font-size:10pt;color:#666" valign="top">${miscellaneousInfo.contactFax}</td></tr>` +
     '<tr>' +
-    '<td style="font-size:10pt;color:#666" width="50" valign="top">電郵：</td>' +
-    '<td style="font-size:10pt;color:#666" valign="top"><a href="mailto:ymtinfo@hkbarwo.com" target="_blank">ymtinfo@hkbarwo.com</a></td>' +
+    `<td style="font-size:10pt;color:#666" width="75" valign="top">${emailFooterMeta.contactEmailLabel}</td>` +
+    `<td style="font-size:10pt;color:#666" valign="top"><a href="mailto:${emailFooterMeta.contactEmailAddress}" target="_blank" rel="noopener noreferrer">${emailFooterMeta.contactEmailAddress}</a></td>` +
     '</tr>' +
     '<tr>' +
-    '<td style="font-size:10pt;color:#666" width="50" valign="top">網址：</td>' +
-    '<td style="font-size:10pt;color:#666" valign="top"><a href="http://www.hkbarwoymt.com/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://www.hkbarwoymt.com/&amp;source=gmail&amp;ust=1601470342638000&amp;usg=AFQjCNFzBA-DIPl1lfmpXwLlVP7gXO6OQA">http://www.hkbarwoymt.com/</a></td>' +
+    `<td style="font-size:10pt;color:#666" width="75" valign="top">${emailFooterMeta.contactWebsiteLabel}</td>` +
+    `<td style="font-size:10pt;color:#666" valign="top"><a href="${websiteFrontendRoot}" target="_blank" rel="noopener noreferrer">${websiteFrontendRoot}</a></td>` +
     '</tr>' +
     '</tbody>' +
     '</table>' +
     '</div>';
+
   const unsubscriptionMsg =
     '<div style="color:#666;font-size:8pt;text-align:left;line-height:1.3em">' +
     '<br>' +
-    '如欲停止接收我們的最新電子消息，請<a href="http://www.hkbarwoymt.com/?a=unsubscribe&amp;email=christopher.wong@ioiocreative.com&amp;lang=tc" target="_blank">按此</a>。' +
+    `${emailFooterMeta.unsubscriptionMsg1}<a href="${websiteFrontendRoot}?status=unsubscribe&amp;contactId=${contact._id}&amp;lang=${contactLangObj.routeParam}" target="_blank" rel="noopener noreferrer">${emailFooterMeta.unsubscriptionMsg2}</a>${emailFooterMeta.unsubscriptionMsg3}` +
     '<br>' +
     '</div>';
+
   return barwoContactInfo + unsubscriptionMsg;
 };
 
-const sendEmail = async (contact, emailAddress, name, title, message) => {
+const sendEmail = async (
+  smtpCredentials,
+  websiteFrontendRoot,
+  miscellaneousInfo,
+  contact,
+  emailAddress,
+  name,
+  title,
+  message
+) => {
   const transporter = nodemailer.createTransport({
     host: 'email-smtp.ap-southeast-1.amazonaws.com',
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: em.username, // generated ethereal user
-      pass: em.password // generated ethereal password
+      user: smtpCredentials.username, // generated ethereal user
+      pass: smtpCredentials.password // generated ethereal password
     }
   });
   // send mail with defined transport object
@@ -108,7 +199,12 @@ const sendEmail = async (contact, emailAddress, name, title, message) => {
     to: contact.emailAddress, // Receivers
     subject: title, // Subject line
     //html: message // html body
-    html: '<div>' + message + '<br>' + getEmailFooter(contact._id) + '</div>' // html body
+    html:
+      '<div>' +
+      message +
+      '<br>' +
+      getEmailFooter(contact, miscellaneousInfo, websiteFrontendRoot) +
+      '</div>' // html body
   });
   console.log('sendHistory sendEmail info:', sendEmailInfo);
 };
@@ -132,7 +228,12 @@ router.post(
       _id: newsletterId
     } = req.body;
 
-    console.log(newsletterId);
+    /* config */
+
+    const smtpCredentials = config.get('Email.smtp');
+    const websiteFrontendRoot = config.get('WebsiteFrontend.root');
+
+    /* end of config */
 
     let contacts = [];
     try {
@@ -153,12 +254,15 @@ router.post(
       console.error(err);
     }
 
-    // if groupsArray.length === 0 => no picked group => send to all
     const groupsArray = groups.map(group => {
       return group._id;
     });
 
     try {
+      const miscellaneousInfo = await MiscellaneousInfo.findOne({}).select(
+        miscellaneousInfoSelect
+      );
+
       const sendHistory = new SendHistory({
         label: label.trim(),
         recipients: groupsArray,
@@ -174,6 +278,7 @@ router.post(
 
       await Promise.all(
         getArraySafe(contacts)
+          // if groupsArray.length === 0 => no picked group => send to all
           .filter(
             contact =>
               contact.isEnabled !== false &&
@@ -181,34 +286,36 @@ router.post(
                 groupsArray.length === 0)
           )
           .map(async contact => {
-            // console.log(contact);
+            let senderName = sender.name_tc;
+            let title = title_tc;
+            let message = message_tc;
 
-            if (contact.language === languages.TC._id) {
-              return await sendEmail(
-                contact,
-                sender.emailAddress,
-                sender.name_tc,
-                title_tc,
-                message_tc
-              );
-            } else if (contact.language === languages.SC._id) {
-              return await sendEmail(
-                contact,
-                sender.emailAddress,
-                sender.name_sc,
-                title_sc,
-                message_sc
-              );
-            } else if (contact.language === languages.EN._id) {
-              return await sendEmail(
-                contact,
-                sender.emailAddress,
-                sender.name_en,
-                title_en,
-                message_en
-              );
+            const contactLanguageId = contact.language.toUpperCase();
+
+            if (contactLanguageId === languages.TC._id) {
+              senderName = sender.name_tc;
+              title = title_tc;
+              message = message_tc;
+            } else if (contactLanguageId === languages.SC._id) {
+              senderName = sender.name_sc;
+              title = title_sc;
+              message = message_sc;
+            } else if (contactLanguageId === languages.EN._id) {
+              senderName = sender.name_en;
+              title = title_en;
+              message = message_en;
             }
-            return null;
+
+            return await sendEmail(
+              smtpCredentials,
+              websiteFrontendRoot,
+              miscellaneousInfo,
+              contact,
+              sender.emailAddress,
+              senderName,
+              title,
+              message
+            );
           })
       );
 

@@ -12,9 +12,18 @@ const getLanguagePropArray = propName => {
   return languageArray.map(language => language[propName]);
 };
 
-const getLanguageByRouteParam = (langParam = defaultLanguage.routeParam) => {
+const getLanguageById = (langId = defaultLanguage._id) => {
+  const langIdCleaned = langId.toUpperCase();
   const langToReturn = languageArray.find(
-    language => language.routeParam === langParam.toLowerCase()
+    language => language._id === langIdCleaned
+  );
+  return langToReturn || defaultLanguage;
+};
+
+const getLanguageByRouteParam = (langParam = defaultLanguage.routeParam) => {
+  const langParamCleaned = langParam.toLowerCase();
+  const langToReturn = languageArray.find(
+    language => language.routeParam === langParamCleaned
   );
   return langToReturn || defaultLanguage;
 };
@@ -29,6 +38,10 @@ const getEntityPropByLanguage = (
 };
 
 module.exports.languages = languages;
+
+module.exports.defaultLanguage = defaultLanguage;
+
+module.exports.getLanguageById = getLanguageById;
 
 module.exports.getLanguageByRouteParam = getLanguageByRouteParam;
 

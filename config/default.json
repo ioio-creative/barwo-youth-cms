@@ -1,12 +1,4 @@
 {
-  "Network": {
-    "port": 5000,
-    "sslport": 443
-  },
-  "Database": {
-    "isDebug": false,
-    "connectionString": "mongodb+srv://IoioSa:<password>@barwocluster0-3phxk.azure.mongodb.net/<dbname>?retryWrites=true&w=majority"
-  },
   "Aws": {
     "accessKeyId": "XXXXXXXXXXXXXXXXXXXX",
     "secretAccessKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -25,11 +17,31 @@
       "region": "ap-southeast-1"
     }
   },
+  "Database": {
+    "isDebug": false,
+    "connectionString": "mongodb+srv://IoioSa:<password>@barwocluster0-3phxk.azure.mongodb.net/<dbname>?retryWrites=true&w=majority"
+  },
+  "Email": {
+    "smtp": {
+      "username": "XXXXXXXXXXXXXXXXXXXX",
+      "password": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    }
+  },
   "Jwt": {
     "secret": "secret",
     /* https://www.npmjs.com/package/jsonwebtoken
      in seconds */
     "expireIn": 86400
+  },
+  "Media": {
+    "image": {
+      "widthCeiling": 1920,
+      "heightCeiling": 1920
+    }
+  },
+  "Network": {
+    "port": 5000,
+    "sslport": 443
   },
   "Pagination": {
     "elementsPerPage": 10
@@ -39,10 +51,7 @@
       "minLength": 6
     }
   },
-  "Media": {
-    "image": {
-      "widthCeiling": 1920,
-      "heightCeiling": 1920
-    }
+  "WebsiteFrontend": {
+    "root": "http://xxx.com/"
   }
 }
