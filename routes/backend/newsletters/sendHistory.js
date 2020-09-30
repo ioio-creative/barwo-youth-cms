@@ -119,9 +119,9 @@ const emailFooterMetasByLanguageArray = Object.values(
 );
 
 const getEmailFooterMeta = (langId = defaultLanguage._id) => {
-  const langIdCleaned = langId.toUpperCase();
+  const langIdCleaned = langId.toLowerCase();
   return emailFooterMetasByLanguageArray.find(emailFooterMeta => {
-    return emailFooterMeta._id === langIdCleaned;
+    return emailFooterMeta._id.toLowerCase() === langIdCleaned;
   });
 };
 

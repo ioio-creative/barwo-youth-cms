@@ -13,9 +13,9 @@ const getLanguagePropArray = propName => {
 };
 
 const getLanguageById = (langId = defaultLanguage._id) => {
-  const langIdCleaned = langId.toUpperCase();
+  const langIdCleaned = langId.toLowerCase();
   const langToReturn = languageArray.find(
-    language => language._id === langIdCleaned
+    language => language._id.toLowerCase() === langIdCleaned
   );
   return langToReturn || defaultLanguage;
 };
@@ -23,7 +23,7 @@ const getLanguageById = (langId = defaultLanguage._id) => {
 const getLanguageByRouteParam = (langParam = defaultLanguage.routeParam) => {
   const langParamCleaned = langParam.toLowerCase();
   const langToReturn = languageArray.find(
-    language => language.routeParam === langParamCleaned
+    language => language.toLowerCase() === langParamCleaned
   );
   return langToReturn || defaultLanguage;
 };
