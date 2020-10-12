@@ -87,6 +87,14 @@ const getSearchArray = language => [
       // firstShow: {
       //   $arrayElemAt: ['$shows', 0]
       // }
+      /**
+       * https://www.tutorialspoint.com/how-to-convert-date-to-timestamp-in-mongodb
+       */
+      fromTimestamp: {
+        $toLong: {
+          $arrayElemAt: ['$shows.date', 0]
+        }
+      },
       fromDate: {
         $dateToString: {
           format: frontEndDateFormatForMongoDb,
@@ -164,6 +172,15 @@ const getSearchArray = language => [
       },
       score: {
         $meta: 'searchScore'
+      },
+      fromTimestamp: {
+        $toLong: '$fromDate'
+      },
+      fromDate: {
+        $dateToString: {
+          format: frontEndDateFormatForMongoDb,
+          date: '$fromDate'
+        }
       }
     }
   },
@@ -195,6 +212,9 @@ const getSearchArray = language => [
       },
       score: {
         $meta: 'searchScore'
+      },
+      fromTimestamp: {
+        $toLong: '$fromDate'
       },
       fromDate: {
         $dateToString: {
@@ -239,7 +259,16 @@ const getSearchArray = language => [
       score: {
         $meta: 'searchScore'
       },
-      type: 1
+      type: 1,
+      fromTimestamp: {
+        $toLong: '$fromDate'
+      },
+      fromDate: {
+        $dateToString: {
+          format: frontEndDateFormatForMongoDb,
+          date: '$fromDate'
+        }
+      }
     }
   }
   // {
@@ -384,13 +413,33 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
     });
 
     // order resultsSpecificToLang by score desc -> resultsSortedByScore
-    const resultsSortedByScore = orderBy(
-      resultsCleaned,
-      ['score', 'toTimestamp', 'fromTimestamp'],
-      ['desc', 'desc', 'desc']
-    );
+    const resultsSortedByScore = orderBy(resultsCleaned, 'score', 'desc');
 
-    res.json(resultsSortedByScore);
+    // group related results of the same type
+    // list them adjacent to each other
+    // e.g. "帝女花"
+    let groupedResultsSortedByScore = [];
+    for (const result of resultsSortedByScore) {
+      const relatedResultCheck = x =>
+        x.name === result.name && x.collectionName === result.collectionName;
+
+      const relatedResults = resultsSortedByScore.filter(relatedResultCheck);
+
+      // if no related results have been added to groupedResultsSortedByScore yet
+      if (!groupedResultsSortedByScore.some(relatedResultCheck)) {
+        /**
+         * !!!Important!!!
+         * sorting by fromTimestamp (long) works but
+         * sorting by fromTime (string) does not
+         */
+        groupedResultsSortedByScore = groupedResultsSortedByScore.concat(
+          // orderBy(relatedResults, 'fromDate', 'desc')
+          orderBy(relatedResults, 'fromTimestamp', 'desc')
+        );
+      }
+    }
+
+    res.json(groupedResultsSortedByScore);
   } catch (err) {
     generalErrorHandle(err, res);
   }

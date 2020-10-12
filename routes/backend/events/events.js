@@ -463,6 +463,7 @@ router.get('/', [auth, listingHandling], async (req, res) => {
 
     // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
     const events = await Event.paginate(findOptions, options);
+
     res.json(events);
   } catch (err) {
     generalErrorHandle(err, res);
