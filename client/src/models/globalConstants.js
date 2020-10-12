@@ -342,9 +342,9 @@ function GlobalConstants() {
   this.artistInfo_sc = '';
   this.artistInfo_en = '';
 
-  this.communityPerformanceIndicator_tc = '';
-  this.communityPerformanceIndicator_sc = '';
-  this.communityPerformanceIndicator_en = '';
+  // this.communityPerformanceIndicator_tc = '';
+  // this.communityPerformanceIndicator_sc = '';
+  // this.communityPerformanceIndicator_en = '';
 
   this.otherShow_tc = '';
   this.otherShow_sc = '';
@@ -1461,18 +1461,18 @@ GlobalConstants.globalConstantsResponseTypes = {
     msg: 'ARTIST_INFO_EN_REQUIRED'
   },
 
-  COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED: {
-    type: 'COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED',
-    msg: 'COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED'
-  },
-  COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED: {
-    type: 'COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED',
-    msg: 'COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED'
-  },
-  COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED: {
-    type: 'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED',
-    msg: 'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED'
-  },
+  // COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED: {
+  //   type: 'COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED',
+  //   msg: 'COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED'
+  // },
+  // COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED: {
+  //   type: 'COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED',
+  //   msg: 'COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED'
+  // },
+  // COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED: {
+  //   type: 'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED',
+  //   msg: 'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED'
+  // },
 
   OTHER_SHOW_TC_REQUIRED: {
     type: 'OTHER_SHOW_TC_REQUIRED',

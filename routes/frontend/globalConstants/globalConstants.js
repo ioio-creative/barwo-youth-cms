@@ -321,11 +321,11 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'artistInfo',
         language
       ),
-      communityPerformanceIndicator: getEntityPropByLanguage(
-        globalConstants,
-        'communityPerformanceIndicator',
-        language
-      ),
+      // communityPerformanceIndicator: getEntityPropByLanguage(
+      //   globalConstants,
+      //   'communityPerformanceIndicator',
+      //   language
+      // ),
       otherShow: getEntityPropByLanguage(
         globalConstants,
         'otherShow',

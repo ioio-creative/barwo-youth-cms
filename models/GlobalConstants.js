@@ -1106,18 +1106,18 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
-  communityPerformanceIndicator_tc: {
-    type: String,
-    require: true
-  },
-  communityPerformanceIndicator_sc: {
-    type: String,
-    require: true
-  },
-  communityPerformanceIndicator_en: {
-    type: String,
-    require: true
-  },
+  // communityPerformanceIndicator_tc: {
+  //   type: String,
+  //   require: true
+  // },
+  // communityPerformanceIndicator_sc: {
+  //   type: String,
+  //   require: true
+  // },
+  // communityPerformanceIndicator_en: {
+  //   type: String,
+  //   require: true
+  // },
 
   otherShow_tc: {
     type: String,
@@ -1690,12 +1690,12 @@ module.exports.globalConstantsResponseTypes = {
   ARTIST_INFO_SC_REQUIRED: 'ARTIST_INFO_SC_REQUIRED',
   ARTIST_INFO_EN_REQUIRED: 'ARTIST_INFO_EN_REQUIRED',
 
-  COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED:
-    'COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED',
-  COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED:
-    'COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED',
-  COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED:
-    'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED',
+  // COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED:
+  //   'COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED',
+  // COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED:
+  //   'COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED',
+  // COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED:
+  //   'COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED',
 
   OTHER_SHOW_TC_REQUIRED: 'OTHER_SHOW_TC_REQUIRED',
   OTHER_SHOW_SC_REQUIRED: 'OTHER_SHOW_SC_REQUIRED',

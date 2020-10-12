@@ -23,7 +23,7 @@ const getLanguageById = (langId = defaultLanguage._id) => {
 const getLanguageByRouteParam = (langParam = defaultLanguage.routeParam) => {
   const langParamCleaned = langParam.toLowerCase();
   const langToReturn = languageArray.find(
-    language => language.toLowerCase() === langParamCleaned
+    language => language.routeParam.toLowerCase() === langParamCleaned
   );
   return langToReturn || defaultLanguage;
 };

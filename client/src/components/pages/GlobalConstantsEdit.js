@@ -2294,7 +2294,7 @@ const GlobalConstantsEdit = _ => {
         required={true}
       />
 
-      <LabelInputTextPair
+      {/* <LabelInputTextPair
         name='communityPerformanceIndicator_tc'
         value={globalConstants.communityPerformanceIndicator_tc}
         labelMessage={
@@ -2323,7 +2323,7 @@ const GlobalConstantsEdit = _ => {
         placeholder=''
         onChange={onChange}
         required={true}
-      />
+      /> */}
 
       <LabelInputTextPair
         name='otherShow_tc'

@@ -578,12 +578,12 @@ export default {
   'GlobalConstants.ArtistInfoTcLabel': 'Artist Info TC',
   'GlobalConstants.ArtistInfoScLabel': 'Artist Info SC',
   'GlobalConstants.ArtistInfoEnLabel': 'Artist Info EN',
-  'GlobalConstants.CommunityPerformanceIndicatorTcLabel':
-    'Community Performance Indicator TC',
-  'GlobalConstants.CommunityPerformanceIndicatorScLabel':
-    'Community Performance Indicator SC',
-  'GlobalConstants.CommunityPerformanceIndicatorEnLabel':
-    'Community Performance Indicator EN',
+  // 'GlobalConstants.CommunityPerformanceIndicatorTcLabel':
+  //   'Community Performance Indicator TC',
+  // 'GlobalConstants.CommunityPerformanceIndicatorScLabel':
+  //   'Community Performance Indicator SC',
+  // 'GlobalConstants.CommunityPerformanceIndicatorEnLabel':
+  //   'Community Performance Indicator EN',
   'GlobalConstants.OtherShowTcLabel': 'Other Shows TC',
   'GlobalConstants.OtherShowScLabel': 'Other Shows SC',
   'GlobalConstants.OtherShowEnLabel': 'Other Shows EN',

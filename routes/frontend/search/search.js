@@ -27,8 +27,6 @@ const collectionNames = {
   //Newsletter: 'Newsletter'
 };
 
-const collectionNamesArray = Object.values(collectionNames);
-
 // https://youtu.be/kZ77X67GUfk
 const getSearchArray = language => [
   {
@@ -336,6 +334,8 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
         };
 
         const aggregateStageArray = [];
+        // $search must be the first stage of any pipeline it appears in. $search cannot be used in
+        // https://docs.atlas.mongodb.com/reference/atlas-search/query-syntax/#query-syntax-ref
         // Error if searchStage is not the first stage in the pipeline:
         // MongoError: $_internalSearchBetaMongotRemote is only valid as the first stage in a pipeline.
         aggregateStageArray.push(searchStage);
@@ -387,7 +387,7 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
     const resultsSortedByScore = orderBy(
       resultsCleaned,
       ['score', 'toTimestamp', 'fromTimestamp'],
-      ['desc']
+      ['desc', 'desc', 'desc']
     );
 
     res.json(resultsSortedByScore);

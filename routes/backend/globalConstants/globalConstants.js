@@ -956,18 +956,18 @@ const globalConstantsValidationChecks = [
     globalConstantsResponseTypes.ARTIST_INFO_EN_REQUIRED
   ).notEmpty(),
 
-  check(
-    'communityPerformanceIndicator_tc',
-    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED
-  ).notEmpty(),
-  check(
-    'communityPerformanceIndicator_sc',
-    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED
-  ).notEmpty(),
-  check(
-    'communityPerformanceIndicator_en',
-    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED
-  ).notEmpty(),
+  // check(
+  //   'communityPerformanceIndicator_tc',
+  //   globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_TC_REQUIRED
+  // ).notEmpty(),
+  // check(
+  //   'communityPerformanceIndicator_sc',
+  //   globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_SC_REQUIRED
+  // ).notEmpty(),
+  // check(
+  //   'communityPerformanceIndicator_en',
+  //   globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_INDICATOR_EN_REQUIRED
+  // ).notEmpty(),
 
   check(
     'otherShow_tc',
@@ -1517,9 +1517,9 @@ router.post(
       artistInfo_sc,
       artistInfo_en,
 
-      communityPerformanceIndicator_tc,
-      communityPerformanceIndicator_sc,
-      communityPerformanceIndicator_en,
+      // communityPerformanceIndicator_tc,
+      // communityPerformanceIndicator_sc,
+      // communityPerformanceIndicator_en,
 
       otherShow_tc,
       otherShow_sc,
@@ -1930,9 +1930,9 @@ router.post(
     globalConstantsFields.artistInfo_sc = artistInfo_sc;
     globalConstantsFields.artistInfo_en = artistInfo_en;
 
-    globalConstantsFields.communityPerformanceIndicator_tc = communityPerformanceIndicator_tc;
-    globalConstantsFields.communityPerformanceIndicator_sc = communityPerformanceIndicator_sc;
-    globalConstantsFields.communityPerformanceIndicator_en = communityPerformanceIndicator_en;
+    // globalConstantsFields.communityPerformanceIndicator_tc = communityPerformanceIndicator_tc;
+    // globalConstantsFields.communityPerformanceIndicator_sc = communityPerformanceIndicator_sc;
+    // globalConstantsFields.communityPerformanceIndicator_en = communityPerformanceIndicator_en;
 
     globalConstantsFields.otherShow_tc = otherShow_tc;
     globalConstantsFields.otherShow_sc = otherShow_sc;

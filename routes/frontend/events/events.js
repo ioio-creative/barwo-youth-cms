@@ -446,7 +446,7 @@ router.get('/:lang/pastEvents', [languageHandling], async (req, res) => {
 // @query   type=EVENT or COMMUNITY_PERFORMANCE
 router.get('/:lang/archive', [languageHandling], async (req, res) => {
   try {
-    const { sortedEvents } = await getSortedEvents(req, 1, true);
+    const { sortedEvents } = await getSortedEvents(req);
 
     const eventsByYear = {};
     // isPastEvent field added to event by getEventForFrontEndFromDbEvent()
