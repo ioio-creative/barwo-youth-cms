@@ -423,10 +423,10 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
       const relatedResultCheck = x =>
         x.name === result.name && x.collectionName === result.collectionName;
 
-      const relatedResults = resultsSortedByScore.filter(relatedResultCheck);
-
       // if no related results have been added to groupedResultsSortedByScore yet
       if (!groupedResultsSortedByScore.some(relatedResultCheck)) {
+        const relatedResults = resultsSortedByScore.filter(relatedResultCheck);
+
         /**
          * !!!Important!!!
          * sorting by fromTimestamp (long) works but
