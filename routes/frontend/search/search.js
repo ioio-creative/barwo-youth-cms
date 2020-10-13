@@ -419,18 +419,23 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
     // list them adjacent to each other
     // e.g. "帝女花"
     let groupedResultsSortedByScore = [];
+    const groupedResultIdentifiers = new Set();
     for (const result of resultsSortedByScore) {
+      const groupedResultIdentifier = result.name + '_' + result.collectionName;
       const relatedResultCheck = x =>
         x.name === result.name && x.collectionName === result.collectionName;
 
       // if no related results have been added to groupedResultsSortedByScore yet
-      if (!groupedResultsSortedByScore.some(relatedResultCheck)) {
+      if (!groupedResultIdentifiers.has(groupedResultIdentifier)) {
+        groupedResultIdentifiers.add(groupedResultIdentifier);
+
         const relatedResults = resultsSortedByScore.filter(relatedResultCheck);
 
         /**
          * !!!Important!!!
-         * sorting by fromTimestamp (long) works but
-         * sorting by fromTime (string) does not
+         * sorting by fromTimestamp (long) correctly but
+         * sorting by fromTime (string) does not coz fromTime is a formatted string,
+         * e.g. DD-MM-YYYY, so DD may come first compared to YYYY in fromTime
          */
         groupedResultsSortedByScore = groupedResultsSortedByScore.concat(
           // orderBy(relatedResults, 'fromDate', 'desc')
