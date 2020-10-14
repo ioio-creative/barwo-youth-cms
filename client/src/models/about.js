@@ -31,9 +31,9 @@ function About() {
   this.theaterLocationDesc2_sc = '';
   this.theaterLocationDesc2_en = '';
 
-  this.theaterTraffic_tc = '';
-  this.theaterTraffic_sc = '';
-  this.theaterTraffic_en = '';
+  // this.theaterTraffic_tc = '';
+  // this.theaterTraffic_sc = '';
+  // this.theaterTraffic_en = '';
 
   // this.contactWebsite = '';
   // this.contactTel = '';

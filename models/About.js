@@ -101,15 +101,15 @@ const AboutSchema = mongoose.Schema({
   theaterLocationDesc2_en: {
     type: String
   },
-  theaterTraffic_tc: {
-    type: String
-  },
-  theaterTraffic_sc: {
-    type: String
-  },
-  theaterTraffic_en: {
-    type: String
-  },
+  // theaterTraffic_tc: {
+  //   type: String
+  // },
+  // theaterTraffic_sc: {
+  //   type: String
+  // },
+  // theaterTraffic_en: {
+  //   type: String
+  // },
   // contactWebsite: {
   //   type: String
   // },

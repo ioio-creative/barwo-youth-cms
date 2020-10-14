@@ -175,9 +175,9 @@ router.post(
       theaterLocationDesc2_tc,
       theaterLocationDesc2_sc,
       theaterLocationDesc2_en,
-      theaterTraffic_tc,
-      theaterTraffic_sc,
-      theaterTraffic_en,
+      // theaterTraffic_tc,
+      // theaterTraffic_sc,
+      // theaterTraffic_en,
       // contactWebsite,
       // contactTel,
       // contactFax,
@@ -224,9 +224,9 @@ router.post(
     aboutFields.theaterLocationDesc2_tc = theaterLocationDesc2_tc;
     aboutFields.theaterLocationDesc2_sc = theaterLocationDesc2_sc;
     aboutFields.theaterLocationDesc2_en = theaterLocationDesc2_en;
-    aboutFields.theaterTraffic_tc = theaterTraffic_tc;
-    aboutFields.theaterTraffic_sc = theaterTraffic_sc;
-    aboutFields.theaterTraffic_en = theaterTraffic_en;
+    // aboutFields.theaterTraffic_tc = theaterTraffic_tc;
+    // aboutFields.theaterTraffic_sc = theaterTraffic_sc;
+    // aboutFields.theaterTraffic_en = theaterTraffic_en;
     // aboutFields.contactWebsite = contactWebsite;
     // aboutFields.contactTel = contactTel;
     // aboutFields.contactFax = contactFax;
