@@ -125,9 +125,7 @@ const getNewsMediaItemList = async req => {
     .select(newsMediaItemSelectForFindAll)
     .populate(newsMediaItemPopulationListForFindAll)
     .sort({
-      // sort in ascending order here
-      // coz within a year, the items should be ascending according to fromDate
-      fromDate: 1
+      fromDate: -1
     });
 
   const safeNewsMediaItems = getArraySafe(newsMediaItems).map(newsMediaItem => {
