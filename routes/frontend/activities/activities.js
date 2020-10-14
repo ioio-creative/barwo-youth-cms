@@ -107,16 +107,24 @@ const getActivityForFrontEndFromDbActivity = (
     };
   }
 
+  const date = {
+    from: formatDateStringForFrontEnd(activity.fromDate)
+  };
+
+  if (activity.toDate) {
+    const toDateStr = formatDateStringForFrontEnd(activity.toDate);
+    if (toDateStr !== date.from) {
+      date.to = toDateStr;
+    }
+  }
+
   return {
     id: activity._id,
     label: cleanLabelForSendingToFrontEnd(activity.label),
     name: name,
     nameForLongDisplay: nameForLongDisplay,
     section: activity.type,
-    date: {
-      from: formatDateStringForFrontEnd(activity.fromDate),
-      to: formatDateStringForFrontEnd(activity.toDate)
-    },
+    date: date,
     location: getEntityPropByLanguage(activity, 'location', language),
     featuredImage: {
       src: activity.featuredImage && activity.featuredImage.url

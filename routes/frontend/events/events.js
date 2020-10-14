@@ -292,7 +292,7 @@ const getEventForFrontEndFromDbEvent = (
     // fromDateRaw: firstShowDateRaw,
     // fromYear: firstShowYear,
     // fromMonth: firstShowMonth,
-    toDate: lastShowDate,
+    toDate: firstShowDate !== lastShowDate ? lastShowDate : undefined,
     // toDateRaw: lastShowDateRaw,
     // toYear: lastShowYear,
     // toMonth: lastShowMonth,
