@@ -166,7 +166,7 @@ const NewslettersState = ({ children }) => {
 
   // Send newsletter
   const sendNewsletter = useCallback(async (newsletter, groups) => {
-    let newNewsletter = null;
+    let isSuccess = false;
     dispatch({ type: SET_NEWSLETTERS_LOADING });
     const config = {
       headers: {
@@ -175,19 +175,18 @@ const NewslettersState = ({ children }) => {
     };
     newsletter.groups = groups;
     try {
-      const res = await axios.post(
+      await axios.post(
         '/api/backend/newsletters/sendHistory',
         newsletter,
         config
       );
-      dispatch({ type: SEND_NEWSLETTER, payload: res.data });
+      dispatch({ type: SEND_NEWSLETTER });
 
-      newNewsletter = res.data;
+      isSuccess = true;
     } catch (err) {
       handleServerError(err, NEWSLETTERS_ERRORS, dispatch);
-      console.error(err);
     }
-    return newNewsletter;
+    return isSuccess;
   }, []);
 
   // Clear Newsletters Error

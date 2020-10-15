@@ -839,6 +839,8 @@ export default {
   'NewsletterEdit.AddNewsletterSuccessMessage': 'Newsletter Added',
   'NewsletterEdit.UpdateNewsletterSuccessMessage': 'Newsletter Updated',
   'NewsletterEdit.SendNewsletterSuccessMessage': 'Newsletter Sent',
+  'NewsletterEdit.SendNewsletterFailureMessage':
+    'There was an error when sending emails. Please contact support.',
   'NewsletterEdit.DeleteNewsletterSuccessMessage': 'Newsletter Deleted',
 
   'NewsletterEdit.SelectFromDatePlaceholder': 'Click to select date',

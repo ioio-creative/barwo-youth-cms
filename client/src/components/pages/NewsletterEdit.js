@@ -194,12 +194,18 @@ const NewsletterEdit = _ => {
         goToUrl(routes.newsletterEditByIdWithValue(true, newsletter._id));
         getNewsletter(newsletter._id);
         scrollToTop();
-        setAlerts(
-          new Alert(
-            uiWordings['NewsletterEdit.SendNewsletterSuccessMessage'],
-            Alert.alertTypes.INFO
-          )
-        );
+
+        const alert = isSuccess
+          ? new Alert(
+              uiWordings['NewsletterEdit.SendNewsletterSuccessMessage'],
+              Alert.alertTypes.INFO
+            )
+          : new Alert(
+              uiWordings['NewsletterEdit.SendNewsletterFailureMessage'],
+              Alert.alertTypes.WARNING
+            );
+
+        setAlerts(alert);
       } else {
         scrollToTop();
       }

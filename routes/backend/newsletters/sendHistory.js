@@ -235,37 +235,25 @@ router.post(
 
     /* end of config */
 
-    let contacts = [];
-    try {
-      // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
-      contacts = await Contact.find({});
-    } catch (err) {
-      // TODO:
-      console.error(err);
-    }
-
-    let sender = {};
-    try {
-      sender = await Sender.findOne({})
-        .select(senderSelect)
-        .populate(senderPopulationList);
-    } catch (err) {
-      // TODO:
-      console.error(err);
-    }
-
-    const groupsArray = groups.map(group => {
+    const groupIds = groups.map(group => {
       return group._id;
     });
 
     try {
+      // https://stackoverflow.com/questions/54360506/how-to-use-populate-with-mongoose-paginate-while-selecting-limited-values-from-p
+      const contacts = await Contact.find({});
+
+      const sender = await Sender.findOne({})
+        .select(senderSelect)
+        .populate(senderPopulationList);
+
       const miscellaneousInfo = await MiscellaneousInfo.findOne({}).select(
         miscellaneousInfoSelect
       );
 
       const sendHistory = new SendHistory({
         label: label.trim(),
-        recipients: groupsArray,
+        recipients: groupIds,
         title_tc,
         title_sc,
         title_en,
@@ -278,12 +266,12 @@ router.post(
 
       await Promise.all(
         getArraySafe(contacts)
-          // if groupsArray.length === 0 => no picked group => send to all
+          // if groupIds.length === 0 => no picked group => send to all
           .filter(
             contact =>
               contact.isEnabled !== false &&
-              (groupsArray.some(r => contact.groups.includes(r)) ||
-                groupsArray.length === 0)
+              (groupIds.length === 0 ||
+                groupIds.some(r => contact.groups.includes(r)))
           )
           .map(async contact => {
             let senderName = sender.name_tc;

@@ -6,6 +6,7 @@ const SendHistorySchema = mongoose.Schema({
     type: String,
     required: true
   },
+  // contact groups
   recipients: {
     type: [String]
   },

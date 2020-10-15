@@ -17,7 +17,7 @@ Sender.senderResponseTypes = {
   // input validation
   EMAILADDRESS_INVALID: {
     type: 'EMAILADDRESS_INVALID',
-    msh: 'EMAILADDRESS_INVALID'
+    msg: 'EMAILADDRESS_INVALID'
   },
   NAME_TC_REQUIRED: {
     type: 'NAME_TC_REQUIRED',
