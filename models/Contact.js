@@ -64,8 +64,11 @@ const contactGroups = {
   FAMILY: 'FAMILY'
 };
 
+const contactGroupArray = Object.values(contactGroups);
+
 module.exports.contactLanguages = contactLanguages;
 module.exports.contactGroups = contactGroups;
+module.exports.contactGroupArray = contactGroupArray;
 
 module.exports.contactResponseTypes = {
   EMAIL_ADDRESS_INVALID: 'EMAIL_ADDRESS_INVALID',

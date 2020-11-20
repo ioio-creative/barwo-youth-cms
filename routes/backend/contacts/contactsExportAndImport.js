@@ -5,7 +5,11 @@ const auth = require('../../../middleware/auth');
 const fileUploadHandling = require('../../../middleware/fileUploadHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { formatDateString } = require('../../../utils/datetime');
-const { Contact, contactResponseTypes } = require('../../../models/Contact');
+const {
+  Contact,
+  contactResponseTypes,
+  contactGroupArray
+} = require('../../../models/Contact');
 const { lastModifyUser } = require('../common/mediumSelect');
 
 /* utilities */
@@ -44,21 +48,19 @@ router.get('/export', [auth], async (req, res) => {
     // https://gist.github.com/nulltask/2056783
     const csvDelimiter = ',';
     const lineBreak = '\r\n';
-    const contactGroupDelimiter = '-';
     const cleanStringFieldForCsv = str => {
       return str ? '"' + str.replace(/\"/g, '""') + '"' : '';
     };
 
     let contactsOutput =
-      'emailAddress,name,groups,language,isEnabled,lastModifyDT,lastModifyUser' +
+      'emailAddress,name,language,isEnabled,lastModifyDT,lastModifyUser,' +
+      contactGroupArray.join(',') +
       lineBreak;
     contacts.forEach(contact => {
       contactsOutput +=
         cleanStringFieldForCsv(contact.emailAddress) +
         csvDelimiter +
         cleanStringFieldForCsv(contact.name) +
-        csvDelimiter +
-        contact.groups.join(contactGroupDelimiter) +
         csvDelimiter +
         contact.language +
         csvDelimiter +
@@ -67,6 +69,10 @@ router.get('/export', [auth], async (req, res) => {
         (contact.lastModifyDT ? formatDateString(contact.lastModifyDT) : '') +
         csvDelimiter +
         cleanStringFieldForCsv(lastModifyUser.name) +
+        csvDelimiter +
+        contactGroupArray
+          .map(group => contact.groups.includes(group))
+          .join(csvDelimiter) +
         lineBreak;
     });
 
