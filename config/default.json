@@ -53,5 +53,8 @@
   },
   "WebsiteFrontend": {
     "root": "http://xxx.com/"
+  },
+  "WebsiteBackend": {
+    "root": "http://xxx.com/"
   }
 }
