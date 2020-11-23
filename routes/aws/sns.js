@@ -21,19 +21,21 @@ const sns = new AWS.SNS();
 const topicArnBounce =
   'arn:aws:sns:ap-southeast-1:697502200750:ses-bounces-topic-prod';
 
-var paramsTopicBounces = {
+const websiteBackendRoot = config.get('WebsiteBackend.root');
+
+const paramsTopicBounces = {
   Protocol: 'http',
   TopicArn: topicArnBounce,
-  Endpoint: 'http://testbarwocms.ioiocreative.com/api/aws/sns/handle-bounces'
+  Endpoint: `${websiteBackendRoot}api/aws/sns/handle-bounces`
 };
 
 const topicArnComplaint =
   'arn:aws:sns:ap-southeast-1:697502200750:ses-complaints-topic-prod';
 
-var paramsTopicComplaints = {
+const paramsTopicComplaints = {
   Protocol: 'http',
   TopicArn: topicArnComplaint,
-  Endpoint: 'http://testbarwocms.ioiocreative.com/api/aws/sns/handle-complaints'
+  Endpoint: `${websiteBackendRoot}api/aws/sns/handle-complaints`
 };
 
 sns.subscribe(paramsTopicBounces, function (error, data) {
