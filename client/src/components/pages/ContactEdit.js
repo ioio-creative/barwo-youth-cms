@@ -74,7 +74,6 @@ const ContactEdit = _ => {
   useEffect(
     _ => {
       if (fetchedContact) {
-        console.log(fetchedContact.groups);
         setGroupsPicked(
           getArraySafe(fetchedContact.groups.map(mapContactToListItem))
         );

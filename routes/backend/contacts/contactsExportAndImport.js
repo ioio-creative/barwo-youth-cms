@@ -5,6 +5,7 @@ const auth = require('../../../middleware/auth');
 const fileUploadHandling = require('../../../middleware/fileUploadHandling');
 const { generalErrorHandle } = require('../../../utils/errorHandling');
 const { formatDateString } = require('../../../utils/datetime');
+const { extnameWithDot } = require('../../../utils/fileSystem');
 const {
   Contact,
   contactResponseTypes,
@@ -13,6 +14,17 @@ const {
 const { lastModifyUser } = require('../common/mediumSelect');
 
 /* utilities */
+
+const csvExtensionWithDot = '.csv';
+const csvExportMimeType = 'text/csv';
+const csvAllowedMimeTypes = [csvExportMimeType, 'application/vnd.ms-excel'];
+
+const isValidCsvFileImport = fileImport => {
+  return (
+    extnameWithDot(fileImport.name) === csvExtensionWithDot &&
+    csvAllowedMimeTypes.includes(fileImport.mimetype)
+  );
+};
 
 const contactSelectForFindAll = {};
 
@@ -79,8 +91,9 @@ router.get('/export', [auth], async (req, res) => {
     //console.log(contactsOutput);
 
     // https://medium.com/@aitchkhan/downloading-csv-files-from-express-server-7a3beb3ae52c
-    const fileName = 'contacts-' + formatDateString(new Date()) + '.csv';
-    const mimeType = 'text/csv';
+    const fileName =
+      'contacts-' + formatDateString(new Date()) + csvExtensionWithDot;
+    const mimeType = csvExportMimeType;
 
     res.json({
       data: contactsOutput,
@@ -96,10 +109,12 @@ router.get('/export', [auth], async (req, res) => {
 // @desc    Get all contacts as csv
 // @access  Private
 router.post('/import', [auth, fileUploadHandling], async (req, res) => {
+  const reqFiles = req.files;
   if (
-    !req.files ||
-    Object.keys(req.files).length === 0 ||
-    !req.files.fileImport
+    !reqFiles ||
+    Object.keys(reqFiles).length === 0 ||
+    !reqFiles.fileImport ||
+    !isValidCsvFileImport(reqFiles.fileImport)
   ) {
     // 400 bad request
     return res.status(400).json({
@@ -107,7 +122,9 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
     });
   }
 
-  console.log(req.files.fileImport);
+  const fileImport = req.files.fileImport;
+
+  console.log(Boolean(fileImport.data.toString()));
 
   res.send('File uploaded');
 });

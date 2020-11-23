@@ -62,6 +62,11 @@ Contact.contactResponseTypes = {
     msg: 'LANGUAGE_REQUIRED'
   },
 
+  NO_FILE_UPLOADED_OR_FILE_INVALID_FOR_IMPORT: {
+    type: 'NO_FILE_UPLOADED_OR_FILE_INVALID_FOR_IMPORT',
+    msg: 'Uploaded file format should be csv.'
+  },
+
   // db check
   CONTACT_NOT_EXISTS: {
     type: 'CONTACT_NOT_EXISTS',

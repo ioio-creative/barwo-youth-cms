@@ -181,19 +181,25 @@ const ContactList = _ => {
 
   /* event handlers */
 
-  const onEdit = useCallback(contact => {
-    goToUrl(routes.contactEditByIdWithValue(true, contact._id));
-  }, []);
+  const onEdit = useCallback(
+    contact => {
+      removeAlerts();
+      goToUrl(routes.contactEditByIdWithValue(true, contact._id));
+    },
+    [removeAlerts]
+  );
 
   const onFilterChange = useCallback(
     e => {
+      removeAlerts();
       setFilterText(e.target.value);
     },
-    [setFilterText]
+    [removeAlerts, setFilterText]
   );
 
   const onExport = useCallback(
     async _ => {
+      removeAlerts();
       const contactsExport = await exportContacts();
       if (contactsExport) {
         download(
@@ -203,11 +209,12 @@ const ContactList = _ => {
         );
       }
     },
-    [exportContacts]
+    [removeAlerts, exportContacts]
   );
 
   const onImport = useCallback(
     async files => {
+      removeAlerts();
       if (!isNonEmptyArray(files)) {
         return;
       }
@@ -223,7 +230,7 @@ const ContactList = _ => {
         getContacts();
       }
     },
-    [importContacts, setAlerts, getContacts]
+    [removeAlerts, importContacts, setAlerts, getContacts]
   );
 
   /* end of event handlers */
