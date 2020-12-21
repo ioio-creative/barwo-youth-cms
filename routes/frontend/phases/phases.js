@@ -26,9 +26,9 @@ const phaseSelectForFindAll = {
   lastModifyUser: 0
 };
 
-// const phaseSelectForFindOne = {
-//   ...phaseSelectForFindAll
-// };
+const phaseSelectForFindOne = {
+  ...phaseSelectForFindAll
+};
 
 const phasePopulationListForFindAll = [
   {
@@ -333,9 +333,10 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
 
       // cater for last phase of the year case,
       // add one phase from the next year
+      console.log('phasesToReturn.length', phasesToReturn.length);
       if (phasesToReturn.length === 1) {
         const nextPhase = await Phase.findOne({
-          ...phaseSelectForFindAll,
+          // ...phaseSelectForFindOne,
           derivedLabel: getPhaseDerivedLabel(closestYear + 1, 1)
         })
           .select(phaseSelectForFindAll)
