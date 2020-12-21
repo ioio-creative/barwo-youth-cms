@@ -335,7 +335,7 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
       // add one phase from the next year
       if (phasesToReturn.length === 1) {
         const nextPhase = await Phase.findOne({
-          ...phaseFindForFindAll,
+          ...phaseSelectForFindAll,
           derivedLabel: getPhaseDerivedLabel(closestYear + 1, 1)
         })
           .select(phaseSelectForFindAll)
