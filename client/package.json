@@ -9,7 +9,7 @@
     "@ckeditor/ckeditor5-build-decoupled-document": "^19.0.2",
     "@ckeditor/ckeditor5-ckfinder": "^19.0.1",
     "@ckeditor/ckeditor5-react": "^2.1.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "ckeditor4-react": "^1.1.1",
     "dayjs": "^1.8.28",
     "downloadjs": "^1.4.7",
