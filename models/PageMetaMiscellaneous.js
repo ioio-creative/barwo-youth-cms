@@ -9,6 +9,7 @@ const PageMetaMiscellaneousSchema = mongoose.Schema({
   eventListMeta: PageMetaSchema,
   activityListMeta: PageMetaSchema,
   newsListMeta: PageMetaSchema,
+  mediaListMeta: PageMetaSchema,
 
   lastModifyDT: {
     type: Date,
