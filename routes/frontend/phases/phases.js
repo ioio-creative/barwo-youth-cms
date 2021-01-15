@@ -321,6 +321,7 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
       if (!isShowAllPhases) {
         // only show present and future phases of the year
         if (closestPhaseInPresentAndFutureIdx >= 0) {
+          console.log('closestPhaseInPresentAndFutureIdx >= 0');
           // HUNG ADDED, to get the 補場 event in non-current phase
           const allEventsInAllPhases = [].concat.apply(
             [], 
@@ -340,10 +341,12 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
           phasesToReturn = sortedPhases.slice(
             closestPhaseInPresentAndFutureIdx
           );
-          phasesToReturn['closestEventsInPresentOrFuture'] = displayEvents;
+          phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
         } else if (closestPhaseIdx > 0) {
+          console.log('closestPhaseIdx > 0');
           phasesToReturn = sortedPhases.slice(closestPhaseIdx);
         } else {
+          console.log('else');
           phasesToReturn = sortedPhases;
         }
       }
