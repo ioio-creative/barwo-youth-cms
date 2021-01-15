@@ -318,6 +318,9 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
       // sortedPhases contain all phases of the year
       let phasesToReturn = sortedPhases;
 
+      console.log(safePhases);
+      console.log(phasesToReturn);
+
       if (!isShowAllPhases) {
         // only show present and future phases of the year
         if (closestPhaseInPresentAndFutureIdx >= 0) {
