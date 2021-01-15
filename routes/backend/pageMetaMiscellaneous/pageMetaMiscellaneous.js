@@ -42,6 +42,10 @@ const pageMetaMiscellaneousPopulationList = [
   {
     path: 'newsListMeta.ogImage',
     select: mediumSelect
+  },
+  {
+    path: 'mediaListMeta.ogImage',
+    select: mediumSelect
   }
 ];
 
@@ -78,7 +82,8 @@ router.post('/', [auth], async (req, res) => {
     artistListMeta,
     eventListMeta,
     activityListMeta,
-    newsListMeta
+    newsListMeta,
+    mediaListMeta
   } = req.body;
 
   // Build page meta miscellaneous object
@@ -91,6 +96,7 @@ router.post('/', [auth], async (req, res) => {
   pageMetaMiscellaneousFields.eventListMeta = eventListMeta;
   pageMetaMiscellaneousFields.activityListMeta = activityListMeta;
   pageMetaMiscellaneousFields.newsListMeta = newsListMeta;
+  pageMetaMiscellaneousFields.mediaListMeta = mediaListMeta;
 
   pageMetaMiscellaneousFields.lastModifyDT = new Date();
   pageMetaMiscellaneousFields.lastModifyUser = req.user._id;
