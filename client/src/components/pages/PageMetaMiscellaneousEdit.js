@@ -54,6 +54,9 @@ const PageMetaMiscellaneousEdit = _ => {
   // newsListMeta
   const [newsListMeta, setNewsListMeta] = useState(new PageMeta());
 
+  // mediaListMeta
+  const [mediaListMeta, setMediaListMeta] = useState(new PageMeta());
+
   // componentDidMount
   useEffect(_ => {
     getPageMetaMiscellaneous();
@@ -92,6 +95,9 @@ const PageMetaMiscellaneousEdit = _ => {
         }
         if (fetchedPageMetaMiscellaneous.newsListMeta) {
           setNewsListMeta(fetchedPageMetaMiscellaneous.newsListMeta);
+        }
+        if (fetchedPageMetaMiscellaneous.mediaListMeta) {
+          setMediaListMeta(fetchedPageMetaMiscellaneous.mediaListMeta);
         }
       }
       setIsAddMode(!fetchedPageMetaMiscellaneous);
@@ -175,6 +181,11 @@ const PageMetaMiscellaneousEdit = _ => {
   const setNewsListMetaFunc = useCallback(setterFunc => {
     setIsSubmitEnabled(true);
     setNewsListMeta(setterFunc);
+  }, []);
+  
+  const setMediaListMetaFunc = useCallback(setterFunc => {
+    setIsSubmitEnabled(true);
+    setMediaListMeta(setterFunc);
   }, []);
 
   const onSubmit = useCallback(
@@ -336,6 +347,17 @@ const PageMetaMiscellaneousEdit = _ => {
         <PageMetaEdit
           pageMeta={newsListMeta}
           setPageMetaFunc={setNewsListMetaFunc}
+          title=''
+          isHideOptionalFields={true}
+        />
+      </AccordionRegion>
+
+      <AccordionRegion
+        title={uiWordings['PageMetaMiscellaneous.MediaListMetaLabel']}
+      >
+        <PageMetaEdit
+          pageMeta={mediaListMeta}
+          setPageMetaFunc={setMediaListMetaFunc}
           title=''
           isHideOptionalFields={true}
         />
