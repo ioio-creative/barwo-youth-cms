@@ -317,10 +317,7 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
 
       // sortedPhases contain all phases of the year
       let phasesToReturn = sortedPhases;
-
-      console.log(safePhases);
-      console.log(phasesToReturn);
-
+      
       if (!isShowAllPhases) {
         // only show present and future phases of the year
         if (closestPhaseInPresentAndFutureIdx >= 0) {
@@ -333,6 +330,9 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
           const sortedEvents = allEventsInAllPhases.sort((a,b) => {
             return a['minShowTimestamp'] - b['minShowTimestamp'];
           });
+          console.log('sortedEvents');
+          console.log(sortedEvents);
+
           const currentTimeStamp = Date.now();
           const allPresentAndFutureEvents = sortedEvents.filter(event => {
             return event['maxShowTimestamp'] > currentTimeStamp;
@@ -344,8 +344,6 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
           phasesToReturn = sortedPhases.slice(
             closestPhaseInPresentAndFutureIdx
           );
-          console.log(phasesToReturn);
-          console.log(displayEvents);
           phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
         } else if (closestPhaseIdx > 0) {
           console.log('closestPhaseIdx > 0');
