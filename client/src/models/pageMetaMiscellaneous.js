@@ -9,6 +9,7 @@ function PageMetaMiscellaneous() {
   this.eventListMeta = null;
   this.activityListMeta = null;
   this.newsListMeta = null;
+  this.mediaListMeta = null;
 
   this.lastModifyDT = null;
   this.lastModifyUser = null;

@@ -224,6 +224,11 @@ const PageMetaMiscellaneousEdit = _ => {
         newsListMeta
       );
 
+      // add mediaListMeta
+      pageMetaMiscellaneous.mediaListMeta = PageMeta.cleanPageMetaBeforeSubmit(
+        mediaListMeta
+      );
+
       let isSuccess = validInput(pageMetaMiscellaneous);
       let returnedPageMetaMiscellaneous = null;
       if (isSuccess) {
@@ -259,7 +264,8 @@ const PageMetaMiscellaneousEdit = _ => {
       artistListMeta,
       eventListMeta,
       activityListMeta,
-      newsListMeta
+      newsListMeta,
+      mediaListMeta
     ]
   );
 
