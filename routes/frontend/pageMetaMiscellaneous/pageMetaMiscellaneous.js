@@ -41,6 +41,10 @@ const pageMetaMiscellaneousPopulationList = [
   {
     path: 'newsListMeta.ogImage',
     select: mediumSelect
+  },
+  {
+    path: 'mediaListMeta.ogImage',
+    select: mediumSelect
   }
 ];
 
@@ -109,6 +113,11 @@ router.get(
         ),
         newsListMeta: getPageMetaForFrontEnd(
           pageMetaMiscellaneous.newsListMeta,
+          language,
+          defaultPageMeta
+        ),
+        mediaListMeta: getPageMetaForFrontEnd(
+          pageMetaMiscellaneous.mediaListMeta,
           language,
           defaultPageMeta
         )
