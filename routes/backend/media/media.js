@@ -60,9 +60,19 @@ const getNewFileName = originalName => {
   const nameWithoutExt = originalName.substr(0, originalName.lastIndexOf('.'));
   return `${nameWithoutExt}-${Date.now()}${extWithDot}`;
 };
+const getNewCoverName = originalName => {
+  const extWithDot = path.extname(originalName);
+  const nameWithoutExt = originalName.substr(0, originalName.lastIndexOf('.'));
+  return `${nameWithoutExt}-cover-${Date.now()}${extWithDot}`;
+};
 
 const getFileKey = (mediumTypeObj, fileOriginalName) => {
   const newFileName = getNewFileName(fileOriginalName);
+  return `files/${mediumTypeObj.route}/${newFileName}`;
+};
+
+const getCoverFileKey = (mediumTypeObj, fileOriginalName) => {
+  const newFileName = getNewCoverName(fileOriginalName);
   return `files/${mediumTypeObj.route}/${newFileName}`;
 };
 
@@ -169,7 +179,7 @@ const upload = multer({
       {
         id: resizeCoverTransformId,
         key: function (req, file, cb) {
-          const fullPath = getFileKey(req.mediumType, file.originalname);
+          const fullPath = getCoverFileKey(req.mediumType, file.originalname);
           cb(null, fullPath);
         },
         transform: function (req, file, cb) {
