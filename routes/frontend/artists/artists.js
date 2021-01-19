@@ -133,7 +133,8 @@ const getArtistForFrontEndFromDbArtist = (
   dbArtist,
   language,
   isRequireDetail = false,
-  defaultPageMeta = {}
+  defaultPageMeta = {},
+  isFromListing = false
 ) => {
   const artist = dbArtist;
 
@@ -360,7 +361,10 @@ const getArtistForFrontEndFromDbArtist = (
       ? getEntityPropByLanguage(artist, 'directorRemarks', language)
       : null,
     featuredImage: {
-      src: artist.featuredImage && artist.featuredImage.url
+      // HUNG edited
+      // try serve cover image if have
+      src: artist.featuredImage && ((isFromListing && artist.featuredImage.coverUrl)? artist.featuredImage.coverUrl: artist.featuredImage.url)
+      // src: artist.featuredImage && artist.featuredImage.url
     },
     ...detailData
   };
@@ -394,7 +398,7 @@ const artistsGetHandling = async (req, res, isFindArtDirectors = false) => {
     );
 
     const artistsForFrontEnd = getArraySafe(artists).map(artist => {
-      return getArtistForFrontEndFromDbArtist(artist, language);
+      return getArtistForFrontEndFromDbArtist(artist, language, false, {}, true);
     });
 
     res.json(artistsForFrontEnd);
