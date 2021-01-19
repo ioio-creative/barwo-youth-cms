@@ -363,7 +363,7 @@ const getArtistForFrontEndFromDbArtist = (
     featuredImage: {
       // HUNG edited
       // try serve cover image if have
-      src: artist.featuredImage && ((isFromListing && artist.featuredImage.coverUrl)? artist.featuredImage.coverUrl: artist.featuredImage.url)
+      src: artist.featuredImage && ((isFromListing && artist.featuredImage.thumbUrl)? artist.featuredImage.thumbUrl: artist.featuredImage.url)
       // src: artist.featuredImage && artist.featuredImage.url
     },
     ...detailData
