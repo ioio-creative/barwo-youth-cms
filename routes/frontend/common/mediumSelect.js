@@ -1,3 +1,4 @@
 module.exports = {
-  url: 1
+  url: 1,
+  thumbUrl: 1
 };

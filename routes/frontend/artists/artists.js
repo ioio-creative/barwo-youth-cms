@@ -355,7 +355,7 @@ const getArtistForFrontEndFromDbArtist = (
   // } else {
   //   console.log()
   // }
-  console.log(artist.featuredImage);
+  // console.log(artist.featuredImage);
 
   return {
     id: artist._id,
