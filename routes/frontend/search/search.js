@@ -33,7 +33,7 @@ const getSearchArray = language => [
     model: Event,
     search: [
       {
-        score: 3,
+        score: 2,
         path: ['label', 'name_tc', 'name_sc', 'name_en']
       },
       {
@@ -49,11 +49,11 @@ const getSearchArray = language => [
         ]
       },
       {
-        score: 2,
+        score: 5,
         path: [
-          'artists.artist.name_tc',
-          'artists.artist.name_sc',
-          'artists.artist.name_en'
+          'artists.role_tc',
+          'artists.role_sc',
+          'artists.role_en'
         ]
       },
       {
