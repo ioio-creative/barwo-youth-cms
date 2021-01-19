@@ -134,6 +134,7 @@ const activityTypes = {
   YOUTH_PROGRAMME: 'YOUTH_PROGRAMME',
   CANTONESE_OPERA_KNOWLEDGE: 'CANTONESE_OPERA_KNOWLEDGE',
   //COLLEGE_SHOW: 'COLLEGE_SHOW',
+  COMMUNITY_PERFORMANCE: 'COMMUNITY_PERFORMANCE',
   EXHIBITION: 'EXHIBITION'
 };
 
@@ -143,7 +144,8 @@ const activityTypesInOrder = [
   activityTypes.YOUTH_PROGRAMME,
   activityTypes.GUIDED_TALK,
   activityTypes.EXHIBITION,
-  activityTypes.CANTONESE_OPERA_KNOWLEDGE
+  activityTypes.CANTONESE_OPERA_KNOWLEDGE,
+  activityTypes.COMMUNITY_PERFORMANCE
 ];
 
 module.exports.activityTypes = activityTypes;

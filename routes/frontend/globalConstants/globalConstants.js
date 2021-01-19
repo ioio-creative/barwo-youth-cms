@@ -194,6 +194,13 @@ router.get('/:lang/globalConstants', [languageHandling], async (req, res) => {
         'cantoneseOperaKnowledge',
         language
       ),
+      COMMUNITY_PERFORMANCE: getEntityPropByLanguage(
+        globalConstants,
+        'communityPerformance',
+        language
+      ),
+
+      
       // COLLEGE_SHOW: getEntityPropByLanguage(
       //   globalConstants,
       //   'collegeShow',
