@@ -350,7 +350,9 @@ const getArtistForFrontEndFromDbArtist = (
       )
     };
   }
-
+  if (artist._id === "5f03f069889ea3813902b0be") {
+    console.log(artist.featuredImage);
+  }
   return {
     id: artist._id,
     label: cleanLabelForSendingToFrontEnd(artist.label),
