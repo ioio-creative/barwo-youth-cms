@@ -42,7 +42,11 @@ const awsS3LimitsFiles = config.get('Aws.s3.limits.files');
 const imageWidthCeiling = config.get('Media.image.widthCeiling');
 const imageHeightCeiling = config.get('Media.image.heightCeiling');
 
+const coverWidthCeiling = 500;
+const coverHeightCeiling = 500;
+
 const resizeImageTransformId = 'resizeImage';
+const resizeCoverTransformId = 'resizeCover';
 
 /* end of constants */
 
@@ -114,14 +118,20 @@ const upload = multer({
         req.mediumType.type === mediumTypes.IMAGE.type &&
         mediumTypes.IMAGE.resizableMimeTypes.includes(file.mimetype)
       ) {
-        const width = req.query.width;
-        const height = req.query.height;
-        if (width && height) {
-          const isHorizontal = width >= height;
-          isTransformRequired =
-            (isHorizontal && width > imageWidthCeiling) ||
-            (!isHorizontal && height > imageHeightCeiling);
-        }
+        // const width = req.query.width;
+        // const height = req.query.height;
+        // if (width && height) {
+        //   const isHorizontal = width >= height;
+        //   isTransformRequired =
+        //     (isHorizontal && width > imageWidthCeiling) ||
+        //     (!isHorizontal && height > imageHeightCeiling);
+        // }
+
+        /**
+         * HUNG EDITED
+         * force transform when image for the thumbnail use in cover
+         */
+        isTransformRequired = true;
       }
 
       cb(null, isTransformRequired);
@@ -148,6 +158,34 @@ const upload = multer({
               transformFunc = sharp().resize({
                 width: isHorizontal ? imageWidthCeiling : null,
                 height: !isHorizontal ? imageHeightCeiling : null,
+                fit: 'contain'
+              });
+            }
+          }
+
+          cb(null, transformFunc);
+        }
+      },
+      {
+        id: resizeCoverTransformId,
+        key: function (req, file, cb) {
+          const fullPath = getFileKey(req.mediumType, file.originalname);
+          cb(null, fullPath);
+        },
+        transform: function (req, file, cb) {
+          let transformFunc = null;
+
+          if (
+            req.mediumType.type === mediumTypes.IMAGE.type &&
+            mediumTypes.IMAGE.resizableMimeTypes.includes(file.mimetype)
+          ) {
+            const width = req.query.width;
+            const height = req.query.height;
+            if (width && height) {
+              isHorizontal = width >= height;
+              transformFunc = sharp().resize({
+                width: isHorizontal ? coverWidthCeiling : null,
+                height: !isHorizontal ? coverHeightCeiling : null,
                 fit: 'contain'
               });
             }
@@ -388,6 +426,13 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
       null
     );
 
+    const resizeCoverTransform = firstOrDefault(
+      getArraySafe(file.transforms).filter(
+        transform => transform.id === resizeCoverTransformId
+      ),
+      null
+    );
+
     const name = path.basename(
       file.key || (resizeImageTransform ? resizeImageTransform.key : '')
     );
@@ -395,6 +440,9 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
     const url =
       file.location ||
       (resizeImageTransform ? resizeImageTransform.location : '');
+    const thumbUrl =
+      file.location ||
+      (resizeCoverTransform ? resizeCoverTransform.location : '');
 
     // const session = await mongoose.startSession();
     // session.startTransaction();
@@ -405,6 +453,7 @@ router.post('/:mediumType', [mediumTypeValidate, auth], async (req, res) => {
         //alernativeText,
         type,
         url,
+        thumbUrl,
         //tags: getArraySafe(tags),
         //usages,
         //isEnabled,

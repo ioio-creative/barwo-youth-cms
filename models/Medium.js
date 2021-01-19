@@ -33,6 +33,10 @@ const MediumSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  thumbUrl: {
+    type: String,
+    require: true
+  },
   usages: [MediumUsageSchema],
   isEnabled: {
     type: Boolean,
