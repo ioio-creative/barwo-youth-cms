@@ -51,9 +51,13 @@ const getSearchArray = language => [
       {
         score: 5,
         path: [
-          'artists.role_tc',
-          'artists.role_sc',
-          'artists.role_en'
+          // 'artists.role_tc',
+          // 'artists.role_sc',
+          // 'artists.role_en'
+          'artistinfo.name_tc',
+          'artistinfo.name_sc',
+          'artistinfo.name_en'
+
         ]
       },
       {
@@ -62,6 +66,29 @@ const getSearchArray = language => [
       }
     ],
     lookup: 'featuredImage',
+    presearch: [
+      {
+        $unwind: {
+          path: '$artists',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $lookup: {
+          from: 'artists',
+          localField: 'artists.artist',
+          foreignField: '_id',
+          as: 'artistinfo',
+        }
+      },
+      {
+        $unwind: {
+          path: '$artistinfo',
+          preserveNullAndEmptyArrays: true
+        }
+      }
+
+    ],
     project: {
       collectionName: collectionNames.Event,
       ['name' + language.entityPropSuffix]: 1,
@@ -367,6 +394,11 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
         // https://docs.atlas.mongodb.com/reference/atlas-search/query-syntax/#query-syntax-ref
         // Error if searchStage is not the first stage in the pipeline:
         // MongoError: $_internalSearchBetaMongotRemote is only valid as the first stage in a pipeline.
+        if (data.presearch) {
+          data.presearch.forEach(action => {
+            aggregateStageArray.push(action);
+          })
+        }
         aggregateStageArray.push(searchStage);
         aggregateStageArray.push(matchIsEnabledStage);
 
