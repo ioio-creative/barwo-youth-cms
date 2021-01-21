@@ -117,7 +117,7 @@ const getSearchArray = language => [
     model: Artist,
     search: [
       {
-        score: 2,
+        score: 6,
         path: ['label', 'name_tc', 'name_sc', 'name_en']
       },
       {
