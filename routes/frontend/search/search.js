@@ -497,7 +497,9 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
           aggregateStageArray.push(matchStage);
           if (data.addFields) {
             aggregateStageArray.push({
-              $addFields: data.addFields
+              $addFields: {
+                score: data.addFields.score * queryStr.length
+              }
             });
           }
           // aggregateStageArray.push(searchStage);
