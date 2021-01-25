@@ -48,14 +48,14 @@ const getSearchArray = language => [
           'artDirectors.name_en'
         ]
       },
-      {
-        score: 5,
-        path: [
-          'artists.role_tc',
-          'artists.role_sc',
-          'artists.role_en'
-        ]
-      },
+      // {
+      //   score: 5,
+      //   path: [
+      //     'artists.role_tc',
+      //     'artists.role_sc',
+      //     'artists.role_en'
+      //   ]
+      // },
       {
         score: 1,
         path: ['scenarists.name_tc', 'scenarists.name_sc', 'scenarists.name_en']
@@ -77,6 +77,83 @@ const getSearchArray = language => [
       },
       score: {
         $meta: 'searchScore'
+      },
+      /**
+       * https://docs.mongodb.com/manual/reference/operator/aggregation/arrayElemAt/
+       * https://stackoverflow.com/questions/19174895/mongodb-query-to-find-property-of-first-element-of-array
+       * https://docs.mongodb.com/manual/reference/operator/aggregation/dateToString/
+       *
+       */
+      // firstShow: {
+      //   $arrayElemAt: ['$shows', 0]
+      // }
+      /**
+       * https://www.tutorialspoint.com/how-to-convert-date-to-timestamp-in-mongodb
+       */
+      fromTimestamp: {
+        $toLong: {
+          $arrayElemAt: ['$shows.date', 0]
+        }
+      },
+      fromDate: {
+        $dateToString: {
+          format: frontEndDateFormatForMongoDb,
+          date: {
+            $arrayElemAt: ['$shows.date', 0]
+          }
+        }
+      },
+      toDate: {
+        $dateToString: {
+          format: frontEndDateFormatForMongoDb,
+          date: {
+            $arrayElemAt: ['$shows.date', -1]
+          }
+        }
+      }
+    }
+  },
+  {
+    model: Event,
+    search: [],
+    unwind: {
+      path: '$artists',
+      preserveNullAndEmptyArrays: true
+    },
+    lookup: {
+      from: 'artists',
+      localField: 'artists.artist',
+      foreignField: '_id',
+      as: 'artistsDetails'
+    },
+    match: [
+      "artistsDetails.name_tc",
+      "artistsDetails.name_sc",
+      "artistsDetails.name_en"
+    ],
+    addFields: {
+      // "$meta.searchScore": 5,
+      score: 5
+    },
+    project: {
+      collectionName: collectionNames.Event,
+      ['name' + language.entityPropSuffix]: 1,
+      ['desc' + language.entityPropSuffix]: 1,
+      label: 1,
+      image: {
+        $ifNull: [
+          {
+            $arrayElemAt: ['$imageData.url', 0]
+          },
+          null
+        ]
+      },
+      score: {
+        $cond: [
+          {$not: ["$score"]}, 
+          {$meta: 'searchScore'}, 
+          "$score"
+        ] 
       },
       /**
        * https://docs.mongodb.com/manual/reference/operator/aggregation/arrayElemAt/
@@ -330,47 +407,48 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
 
         // https://www.forwardadvance.com/course/mongo/mongo-aggregation/aggregation-with-match
         // filter out disabled
-        const matchIsEnabledStage = {
-          $match: {
-            isEnabled: {
-              $ne: false
+        
+        if (data.search.length) {
+          const matchIsEnabledStage = {
+            $match: {
+              isEnabled: {
+                $ne: false
+              }
             }
-          }
-        };
+          };
 
-        const searchStage = {
-          $search: {
-            compound: {
-              should: data.search.map(searchItem => {
-                return {
-                  search: {
-                    query: queryStr,
-                    path: searchItem.path,
-                    score: {
-                      boost: {
-                        value: searchItem.score
+          const searchStage = {
+            $search: {
+              compound: {
+                should: data.search.map(searchItem => {
+                  return {
+                    search: {
+                      query: queryStr,
+                      path: searchItem.path,
+                      score: {
+                        boost: {
+                          value: searchItem.score
+                        }
                       }
                     }
-                  }
-                };
-              })
+                  };
+                })
+              }
             }
-          }
-        };
+          };
 
-        const projectStage = {
-          $project: data.project
-        };
+          const projectStage = {
+            $project: data.project
+          };
 
-        const aggregateStageArray = [];
-        // $search must be the first stage of any pipeline it appears in. $search cannot be used in
-        // https://docs.atlas.mongodb.com/reference/atlas-search/query-syntax/#query-syntax-ref
-        // Error if searchStage is not the first stage in the pipeline:
-        // MongoError: $_internalSearchBetaMongotRemote is only valid as the first stage in a pipeline.
-        aggregateStageArray.push(searchStage);
-        aggregateStageArray.push(matchIsEnabledStage);
+          const aggregateStageArray = [];
+          // $search must be the first stage of any pipeline it appears in. $search cannot be used in
+          // https://docs.atlas.mongodb.com/reference/atlas-search/query-syntax/#query-syntax-ref
+          // Error if searchStage is not the first stage in the pipeline:
+          // MongoError: $_internalSearchBetaMongotRemote is only valid as the first stage in a pipeline.
+          aggregateStageArray.push(searchStage);
+          aggregateStageArray.push(matchIsEnabledStage);
 
-        if (data.lookup) {
           // lookup stage
           const lookupStage = {
             $lookup: {
@@ -381,11 +459,62 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
             }
           };
           aggregateStageArray.push(lookupStage);
+
+          aggregateStageArray.push(projectStage);
+
+          return await data.model.aggregate(aggregateStageArray);
+        } else if (data.match.length) {
+          const matchStage = {
+            $match: {
+              isEnabled: {
+                $ne: false
+              },
+              $or: data.match.map(matchPath => {
+                return {[matchPath]: queryStr}
+              })
+            }
+          };
+
+          const projectStage = {
+            $project: data.project
+          };
+
+          const aggregateStageArray = [];
+          // $search must be the first stage of any pipeline it appears in. $search cannot be used in
+          // https://docs.atlas.mongodb.com/reference/atlas-search/query-syntax/#query-syntax-ref
+          // Error if searchStage is not the first stage in the pipeline:
+          // MongoError: $_internalSearchBetaMongotRemote is only valid as the first stage in a pipeline.
+          if (data.unwind) {
+            aggregateStageArray.push(data.unwind);
+          }
+          if (data.lookup) {
+            aggregateStageArray.push(data.lookup);
+          }
+          aggregateStageArray.push(matchStage);
+          if (data.addFields) {
+            aggregateStageArray.push(data.addFields);
+          }
+          // aggregateStageArray.push(searchStage);
+          // aggregateStageArray.push(matchIsEnabledStage);
+
+          // if (data.lookup) {
+          //   // lookup stage
+          //   const lookupStage = {
+          //     $lookup: {
+          //       from: Medium.collection.collectionName,
+          //       localField: data.lookup,
+          //       foreignField: '_id',
+          //       as: 'imageData'
+          //     }
+          //   };
+          //   aggregateStageArray.push(lookupStage);
+          // }
+
+          aggregateStageArray.push(projectStage);
+
+          return await data.model.aggregate(aggregateStageArray);
+
         }
-
-        aggregateStageArray.push(projectStage);
-
-        return await data.model.aggregate(aggregateStageArray);
       })
     );
 
