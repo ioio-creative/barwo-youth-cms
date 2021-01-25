@@ -135,6 +135,9 @@ const getSearchArray = language => [
       // "$meta.searchScore": 5,
       score: 5
     },
+    sort: {
+      fromTimestamp: -1
+    },
     project: {
       collectionName: collectionNames.Event,
       ['name' + language.entityPropSuffix]: 1,
@@ -520,6 +523,12 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
 
           aggregateStageArray.push(projectStage);
 
+          
+          if (data.sort) {
+            aggregateStageArray.push({
+              $sort: data.sort
+            });
+          }
           return await data.model.aggregate(aggregateStageArray);
 
         }
