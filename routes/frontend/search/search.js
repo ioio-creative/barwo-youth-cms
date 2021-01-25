@@ -485,14 +485,20 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
           // Error if searchStage is not the first stage in the pipeline:
           // MongoError: $_internalSearchBetaMongotRemote is only valid as the first stage in a pipeline.
           if (data.unwind) {
-            aggregateStageArray.push(data.unwind);
+            aggregateStageArray.push({
+              $unwind: data.unwind
+            });
           }
           if (data.lookup) {
-            aggregateStageArray.push(data.lookup);
+            aggregateStageArray.push({
+              $lookup: data.lookup
+            });
           }
           aggregateStageArray.push(matchStage);
           if (data.addFields) {
-            aggregateStageArray.push(data.addFields);
+            aggregateStageArray.push({
+              $addFields: data.addFields
+            });
           }
           // aggregateStageArray.push(searchStage);
           // aggregateStageArray.push(matchIsEnabledStage);
