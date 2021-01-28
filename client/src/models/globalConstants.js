@@ -206,6 +206,9 @@ function GlobalConstants() {
   this.cantoneseOperaKnowledge_sc = '';
   this.cantoneseOperaKnowledge_en = '';
 
+  this.communityPerformance_tc = '';
+  this.communityPerformance_sc = '';
+  this.communityPerformance_en = '';
   // this.collegeShow_tc = '';
   // this.collegeShow_sc = '';
   // this.collegeShow_en = '';

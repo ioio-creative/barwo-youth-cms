@@ -473,6 +473,12 @@ export default {
     'Cantonese Opera Knowledge SC',
   'GlobalConstants.CantoneseOperaKnowledgeEnLabel':
     'Cantonese Opera Knowledge EN',
+  'GlobalConstants.CommunityPerformanceTcLabel':
+    'Community Performance TC',
+  'GlobalConstants.CommunityPerformanceScLabel':
+    'Community Performance SC',
+  'GlobalConstants.CommunityPerformanceEnLabel':
+    'Community Performance EN',
   // 'GlobalConstants.CollegeShowTcLabel': 'College Show TC',
   // 'GlobalConstants.CollegeShowScLabel': 'College Show SC',
   // 'GlobalConstants.CollegeShowEnLabel': 'College Show EN',
