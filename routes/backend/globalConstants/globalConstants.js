@@ -559,6 +559,19 @@ const globalConstantsValidationChecks = [
     globalConstantsResponseTypes.CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED
   ).notEmpty(),
 
+  check(
+    'communityPerformance_tc',
+    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_TC_REQUIRED
+  ).notEmpty(),
+  check(
+    'communityPerformance_sc',
+    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_SC_REQUIRED
+  ).notEmpty(),
+  check(
+    'communityPerformance_en',
+    globalConstantsResponseTypes.COMMUNITY_PERFORMANCE_EN_REQUIRED
+  ).notEmpty(),
+
   // check(
   //   'collegeShow_tc',
   //   globalConstantsResponseTypes.COLLEGE_SHOW_TC_REQUIRED
@@ -1381,6 +1394,9 @@ router.post(
       cantoneseOperaKnowledge_sc,
       cantoneseOperaKnowledge_en,
 
+      communityPerformance_tc,
+      communityPerformance_sc,
+      communityPerformance_en,
       // collegeShow_tc,
       // collegeShow_sc,
       // collegeShow_en,
@@ -1793,6 +1809,12 @@ router.post(
     globalConstantsFields.cantoneseOperaKnowledge_tc = cantoneseOperaKnowledge_tc;
     globalConstantsFields.cantoneseOperaKnowledge_sc = cantoneseOperaKnowledge_sc;
     globalConstantsFields.cantoneseOperaKnowledge_en = cantoneseOperaKnowledge_en;
+    
+    globalConstantsFields.communityPerformance_tc = communityPerformance_tc;
+    globalConstantsFields.communityPerformance_sc = communityPerformance_sc;
+    globalConstantsFields.communityPerformance_en = communityPerformance_en;
+
+    
 
     // globalConstantsFields.collegeShow_tc = collegeShow_tc;
     // globalConstantsFields.collegeShow_sc = collegeShow_sc;
