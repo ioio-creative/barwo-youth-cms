@@ -505,24 +505,8 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
               }
             });
           }
-          // aggregateStageArray.push(searchStage);
-          // aggregateStageArray.push(matchIsEnabledStage);
-
-          // if (data.lookup) {
-          //   // lookup stage
-          //   const lookupStage = {
-          //     $lookup: {
-          //       from: Medium.collection.collectionName,
-          //       localField: data.lookup,
-          //       foreignField: '_id',
-          //       as: 'imageData'
-          //     }
-          //   };
-          //   aggregateStageArray.push(lookupStage);
-          // }
-
+          
           aggregateStageArray.push(projectStage);
-
           
           if (data.sort) {
             aggregateStageArray.push({

@@ -664,6 +664,19 @@ const GlobalConstantsSchema = mongoose.Schema({
     require: true
   },
 
+  communityPerformance_tc: {
+    type: String,
+    require: true
+  },
+  communityPerformance_sc: {
+    type: String,
+    require: true
+  },
+  communityPerformance_en: {
+    type: String,
+    require: true
+  },
+
   // collegeShow_tc: {
   //   type: String,
   //   require: true
@@ -1550,6 +1563,7 @@ module.exports.globalConstantsResponseTypes = {
     'CANTONESE_OPERA_KNOWLEDGE_SC_REQUIRED',
   CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED:
     'CANTONESE_OPERA_KNOWLEDGE_EN_REQUIRED',
+    
   COMMUNITY_PERFORMANCE_TC_REQUIRED:
     'COMMUNITY_PERFORMANCE_TC_REQUIRED',
   COMMUNITY_PERFORMANCE_SC_REQUIRED:
