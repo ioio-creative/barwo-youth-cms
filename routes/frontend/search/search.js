@@ -281,6 +281,7 @@ const getSearchArray = language => [
       collectionName: collectionNames.Activity,
       ['name' + language.entityPropSuffix]: 1,
       ['desc' + language.entityPropSuffix]: 1,
+      type: 1,
       label: 1,
       image: {
         $ifNull: [
@@ -505,7 +506,7 @@ router.post('/:lang?', [languageHandling], async (req, res) => {
               }
             });
           }
-          
+
           aggregateStageArray.push(projectStage);
           
           if (data.sort) {
