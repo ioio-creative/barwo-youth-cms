@@ -341,7 +341,11 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
           phasesToReturn = sortedPhases.slice(
             closestPhaseInPresentAndFutureIdx
           );
-          phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
+          if (Array.isArray(displayEvents)) {
+            phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
+          } else {
+            phasesToReturn[0]['closestEventsInPresentOrFuture'] = [displayEvents];
+          }
         } else if (closestPhaseIdx > 0) {
           phasesToReturn = sortedPhases.slice(closestPhaseIdx);
         } else {
