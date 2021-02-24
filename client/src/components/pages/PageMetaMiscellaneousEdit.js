@@ -194,9 +194,9 @@ const PageMetaMiscellaneousEdit = _ => {
     setMediaListMeta(setterFunc);
   }, []);
 
-  const setRecuritmentMetaFunc = useCallback(setterFunc => {
+  const setRecruitmentMetaFunc = useCallback(setterFunc => {
     setIsSubmitEnabled(true);
-    setRecuritmentMeta(setterFunc);
+    setRecruitmentMeta(setterFunc);
   }, []);
 
   const onSubmit = useCallback(
