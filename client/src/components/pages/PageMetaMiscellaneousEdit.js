@@ -281,7 +281,8 @@ const PageMetaMiscellaneousEdit = _ => {
       eventListMeta,
       activityListMeta,
       newsListMeta,
-      mediaListMeta
+      mediaListMeta,
+      recruitmentMeta
     ]
   );
 
