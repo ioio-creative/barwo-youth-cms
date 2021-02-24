@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import LabelInputTextPair from 'components/form/LabelInputTextPair';
 import LabelTextAreaPair from 'components/form/LabelTextAreaPair';
+import LabelRichTextbox from 'components/form/LabelRichTextbox';
 import FileUpload from 'components/form/FileUpload';
 import uiWordings from 'globals/uiWordings';
 import Medium from 'models/medium';
@@ -16,7 +17,8 @@ const PageMetaEdit = ({
   pageMeta,
   setPageMetaFunc,
   title,
-  isHideOptionalFields
+  isHideOptionalFields,
+  rftDescription = false
 }) => {
   /* event handlers */
 
@@ -120,28 +122,53 @@ const PageMetaEdit = ({
         placeholder=''
         onChange={handleChange}
       />
-
-      <LabelTextAreaPair
-        name='description_tc'
-        value={description_tc}
-        labelMessage={uiWordings['PageMeta.DescriptionTcLabel']}
-        onChange={handleChange}
-        placeholder=''
-      />
-      <LabelTextAreaPair
-        name='description_sc'
-        value={description_sc}
-        labelMessage={uiWordings['PageMeta.DescriptionScLabel']}
-        onChange={handleChange}
-        placeholder=''
-      />
-      <LabelTextAreaPair
-        name='description_en'
-        value={description_en}
-        labelMessage={uiWordings['PageMeta.DescriptionEnLabel']}
-        onChange={handleChange}
-        placeholder=''
-      />
+      {rftDescription? 
+      <>
+        <LabelRichTextbox
+          name='description_tc'
+          value={description_tc}
+          labelMessage={uiWordings['PageMeta.DescriptionTcLabel']}
+          onChange={handleChange}
+          placeholder=''
+        />
+        <LabelRichTextbox
+          name='description_sc'
+          value={description_sc}
+          labelMessage={uiWordings['PageMeta.DescriptionScLabel']}
+          onChange={handleChange}
+          placeholder=''
+        />
+        <LabelRichTextbox
+          name='description_en'
+          value={description_en}
+          labelMessage={uiWordings['PageMeta.DescriptionEnLabel']}
+          onChange={handleChange}
+          placeholder=''
+        />
+      </>:
+      <>
+        <LabelTextAreaPair
+          name='description_tc'
+          value={description_tc}
+          labelMessage={uiWordings['PageMeta.DescriptionTcLabel']}
+          onChange={handleChange}
+          placeholder=''
+        />
+        <LabelTextAreaPair
+          name='description_sc'
+          value={description_sc}
+          labelMessage={uiWordings['PageMeta.DescriptionScLabel']}
+          onChange={handleChange}
+          placeholder=''
+        />
+        <LabelTextAreaPair
+          name='description_en'
+          value={description_en}
+          labelMessage={uiWordings['PageMeta.DescriptionEnLabel']}
+          onChange={handleChange}
+          placeholder=''
+        />
+      </>}
 
       <LabelTextAreaPair
         name='ogDescription_tc'

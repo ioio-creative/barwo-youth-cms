@@ -393,6 +393,7 @@ const PageMetaMiscellaneousEdit = _ => {
           setPageMetaFunc={setRecruitmentMetaFunc}
           title=''
           isHideOptionalFields={true}
+          rftDescription={true}
         />
       </AccordionRegion>
 
