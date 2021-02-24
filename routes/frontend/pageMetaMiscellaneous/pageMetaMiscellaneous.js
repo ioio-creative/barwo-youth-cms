@@ -121,11 +121,11 @@ router.get(
           language,
           defaultPageMeta
         ),
-        recruitmentMeta: getPageMetaForFrontEnd(
-          pageMetaMiscellaneous.recruitmentMeta,
-          language,
-          defaultPageMeta
-        )
+        // recruitmentMeta: getPageMetaForFrontEnd(
+        //   pageMetaMiscellaneous.recruitmentMeta,
+        //   language,
+        //   defaultPageMeta
+        // )
       };
 
       res.json(pageMetaMiscellaneousForFrontEnd);

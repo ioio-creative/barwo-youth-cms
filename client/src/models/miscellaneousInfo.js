@@ -24,11 +24,6 @@ function MiscellaneousInfo() {
   this.privacyPolicyDesc_sc = '';
   this.privacyPolicyDesc_en = '';
 
-  this.contactAddress_tc = '';
-  this.contactAddress_sc = '';
-  this.contactAddress_en = '';
-
-  
   this.recruitmentTitle_tc = '';
   this.recruitmentTitle_sc = '';
   this.recruitmentTitle_en = '';
@@ -36,6 +31,11 @@ function MiscellaneousInfo() {
   this.recruitmentDesc_tc = '';
   this.recruitmentDesc_sc = '';
   this.recruitmentDesc_en = '';
+
+  this.contactAddress_tc = '';
+  this.contactAddress_sc = '';
+  this.contactAddress_en = '';
+
 
   this.contactTel = '';
   this.contactFax = '';
@@ -107,6 +107,32 @@ MiscellaneousInfo.miscellaneousInfoResponseTypes = {
   PRIVACY_POLICY_DESC_EN_REQUIRED: {
     type: 'PRIVACY_POLICY_DESC_EN_REQUIRED',
     msg: 'PRIVACY_POLICY_DESC_EN_REQUIRED'
+  },
+
+  RECRUITMENT_TITLE_TC_REQUIRED: {
+    type: 'RECRUITMENT_TITLE_TC_REQUIRED',
+    msg: 'RECRUITMENT_TITLE_TC_REQUIRED'
+  },
+  RECRUITMENT_TITLE_SC_REQUIRED: {
+    type: 'RECRUITMENT_TITLE_SC_REQUIRED',
+    msg: 'RECRUITMENT_TITLE_SC_REQUIRED'
+  },
+  RECRUITMENT_TITLE_EN_REQUIRED: {
+    type: 'RECRUITMENT_TITLE_EN_REQUIRED',
+    msg: 'RECRUITMENT_TITLE_EN_REQUIRED'
+  },
+
+  RECRUITMENT_DESC_TC_REQUIRED: {
+    type: 'RECRUITMENT_DESC_TC_REQUIRED',
+    msg: 'RECRUITMENT_DESC_TC_REQUIRED'
+  },
+  RECRUITMENT_DESC_SC_REQUIRED: {
+    type: 'RECRUITMENT_DESC_SC_REQUIRED',
+    msg: 'RECRUITMENT_DESC_SC_REQUIRED'
+  },
+  RECRUITMENT_DESC_EN_REQUIRED: {
+    type: 'RECRUITMENT_DESC_EN_REQUIRED',
+    msg: 'RECRUITMENT_DESC_EN_REQUIRED'
   },
 
   CONTACT_ADDRESS_TC_REQUIRED: {

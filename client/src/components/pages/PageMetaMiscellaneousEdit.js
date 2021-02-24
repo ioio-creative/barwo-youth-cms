@@ -386,18 +386,6 @@ const PageMetaMiscellaneousEdit = _ => {
         />
       </AccordionRegion>
 
-      <AccordionRegion
-        title={uiWordings['PageMetaMiscellaneous.RecruitmentMetaLabel']}
-      >
-        <PageMetaEdit
-          pageMeta={recruitmentMeta}
-          setPageMetaFunc={setRecruitmentMetaFunc}
-          title=''
-          isHideOptionalFields={true}
-          rftDescription={true}
-        />
-      </AccordionRegion>
-
       {!isAddMode && (
         <>
           <LabelLabelPair
