@@ -120,6 +120,11 @@ router.get(
           pageMetaMiscellaneous.mediaListMeta,
           language,
           defaultPageMeta
+        ),
+        recruitmentMeta: getPageMetaForFrontEnd(
+          pageMetaMiscellaneous.recruitmentMeta,
+          language,
+          defaultPageMeta
         )
       };
 
