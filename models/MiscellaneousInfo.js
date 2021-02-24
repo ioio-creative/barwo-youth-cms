@@ -65,6 +65,31 @@ const MiscellaneousInfoSchema = mongoose.Schema({
     require: true
   },
 
+  recruitmentTitle_tc: {
+    type: String,
+    require: true
+  },
+  recruitmentTitle_sc: {
+    type: String,
+    require: true
+  },
+  recruitmentTitle_en: {
+    type: String,
+    require: true
+  },
+  recruitmentDesc_tc: {
+    type: String,
+    require: true
+  },
+  recruitmentDesc_sc: {
+    type: String,
+    require: true
+  },
+  recruitmentDesc_en: {
+    type: String,
+    require: true
+  },
+
   contactAddress_tc: {
     type: String,
     require: true

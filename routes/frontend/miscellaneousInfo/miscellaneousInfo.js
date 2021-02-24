@@ -82,6 +82,18 @@ router.get('/:lang/miscellaneousInfo', [languageHandling], async (req, res) => {
           language
         )
       },
+      recruitment: {
+        title: getEntityPropByLanguage(
+          miscellaneousInfo,
+          'recruitmentTitle',
+          language
+        ),
+        description: getEntityPropByLanguage(
+          miscellaneousInfo,
+          'recruitmentDesc',
+          language
+        )
+      },
       contact: {
         address: getEntityPropByLanguage(
           miscellaneousInfo,

@@ -783,6 +783,13 @@ export default {
   'MiscellaneousInfo.PrivacyPolicyDescTcLabel': 'Description TC',
   'MiscellaneousInfo.PrivacyPolicyDescScLabel': 'Description SC',
   'MiscellaneousInfo.PrivacyPolicyDescEnLabel': 'Description EN',
+  'MiscellaneousInfo.RecruitmentRegionLabel': 'Recruitment',
+  'MiscellaneousInfo.RecruitmentTitleTcLabel': 'Title TC',
+  'MiscellaneousInfo.RecruitmentTitleScLabel': 'Title SC',
+  'MiscellaneousInfo.RecruitmentTitleEnLabel': 'Title EN',
+  'MiscellaneousInfo.RecruitmentDescTcLabel': 'Description TC',
+  'MiscellaneousInfo.RecruitmentDescScLabel': 'Description SC',
+  'MiscellaneousInfo.RecruitmentDescEnLabel': 'Description EN',
 
   'MiscellaneousInfo.LastModifyDTLabel': 'Last Modify DT',
   'MiscellaneousInfo.LastModifyUserLabel': 'Last Modify User',

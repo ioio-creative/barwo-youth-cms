@@ -518,6 +518,68 @@ const MiscellaneousInfoEdit = _ => {
         />
       </AccordionRegion>
 
+      <AccordionRegion
+        title={uiWordings['MiscellaneousInfo.RecruitmentRegionLabel']}
+      >
+        <LabelInputTextPair
+          name='recruitmentTitle_tc'
+          value={miscellaneousInfo.recruitmentTitle_tc}
+          labelMessage={
+            uiWordings['MiscellaneousInfo.RecruitmentTitleTcLabel']
+          }
+          onChange={onChange}
+          placeholder=''
+          required={true}
+        />
+        <LabelInputTextPair
+          name='recruitmentTitle_sc'
+          value={miscellaneousInfo.recruitmentTitle_sc}
+          labelMessage={
+            uiWordings['MiscellaneousInfo.RecruitmentTitleScLabel']
+          }
+          onChange={onChange}
+          placeholder=''
+          required={true}
+        />
+        <LabelInputTextPair
+          name='recruitmentTitle_en'
+          value={miscellaneousInfo.recruitmentTitle_en}
+          labelMessage={
+            uiWordings['MiscellaneousInfo.RecruitmentTitleEnLabel']
+          }
+          onChange={onChange}
+          placeholder=''
+          required={true}
+        />
+        <LabelRichTextbox
+          name='recruitmentDesc_tc'
+          value={miscellaneousInfo.recruitmentDesc_tc}
+          labelMessage={
+            uiWordings['MiscellaneousInfo.RecruitmentDescTcLabel']
+          }
+          onChange={onChange}
+          required={true}
+        />
+        <LabelRichTextbox
+          name='recruitmentDesc_sc'
+          value={miscellaneousInfo.recruitmentDesc_sc}
+          labelMessage={
+            uiWordings['MiscellaneousInfo.RecruitmentDescScLabel']
+          }
+          onChange={onChange}
+          required={true}
+        />
+        <LabelRichTextbox
+          name='recruitmentDesc_en'
+          value={miscellaneousInfo.recruitmentDesc_en}
+          labelMessage={
+            uiWordings['MiscellaneousInfo.RecruitmentDescEnLabel']
+          }
+          onChange={onChange}
+          required={true}
+        />
+      </AccordionRegion>
+
       {!isAddMode && (
         <>
           <LabelLabelPair

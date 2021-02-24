@@ -28,6 +28,15 @@ function MiscellaneousInfo() {
   this.contactAddress_sc = '';
   this.contactAddress_en = '';
 
+  
+  this.recruitmentTitle_tc = '';
+  this.recruitmentTitle_sc = '';
+  this.recruitmentTitle_en = '';
+
+  this.recruitmentDesc_tc = '';
+  this.recruitmentDesc_sc = '';
+  this.recruitmentDesc_en = '';
+
   this.contactTel = '';
   this.contactFax = '';
   this.contactEmail = '';

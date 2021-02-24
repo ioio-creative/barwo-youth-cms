@@ -161,6 +161,14 @@ router.post(
       privacyPolicyDesc_sc,
       privacyPolicyDesc_en,
 
+      recruitmentTitle_tc,
+      recruitmentTitle_sc,
+      recruitmentTitle_en,
+
+      recruitmentDesc_tc,
+      recruitmentDesc_sc,
+      recruitmentDesc_en,
+
       contactAddress_tc,
       contactAddress_sc,
       contactAddress_en,
@@ -215,6 +223,20 @@ router.post(
       miscellaneousFields.privacyPolicyDesc_sc = privacyPolicyDesc_sc;
     if (privacyPolicyDesc_en)
       miscellaneousFields.privacyPolicyDesc_en = privacyPolicyDesc_en;
+
+    if (recruitmentTitle_tc)
+      miscellaneousFields.recruitmentTitle_tc = recruitmentTitle_tc;
+    if (recruitmentTitle_sc)
+      miscellaneousFields.recruitmentTitle_sc = recruitmentTitle_sc;
+    if (recruitmentTitle_en)
+      miscellaneousFields.recruitmentTitle_en = recruitmentTitle_en;
+
+    if (recruitmentDesc_tc)
+      miscellaneousFields.recruitmentDesc_tc = recruitmentDesc_tc;
+    if (recruitmentDesc_sc)
+      miscellaneousFields.recruitmentDesc_sc = recruitmentDesc_sc;
+    if (recruitmentDesc_en)
+      miscellaneousFields.recruitmentDesc_en = recruitmentDesc_en;
 
     if (contactAddress_tc)
       miscellaneousFields.contactAddress_tc = contactAddress_tc;
