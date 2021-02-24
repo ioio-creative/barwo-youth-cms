@@ -57,6 +57,9 @@ const PageMetaMiscellaneousEdit = _ => {
   // mediaListMeta
   const [mediaListMeta, setMediaListMeta] = useState(new PageMeta());
 
+  // recruitmentMeta
+  const [recruitmentMeta, setRecruitmentMeta] = useState(new PageMeta());
+
   // componentDidMount
   useEffect(_ => {
     getPageMetaMiscellaneous();
@@ -98,6 +101,9 @@ const PageMetaMiscellaneousEdit = _ => {
         }
         if (fetchedPageMetaMiscellaneous.mediaListMeta) {
           setMediaListMeta(fetchedPageMetaMiscellaneous.mediaListMeta);
+        }
+        if (fetchedPageMetaMiscellaneous.recruitmentMeta) {
+          setRecruitmentMeta(fetchedPageMetaMiscellaneous.recruitmentMeta);
         }
       }
       setIsAddMode(!fetchedPageMetaMiscellaneous);
@@ -188,6 +194,11 @@ const PageMetaMiscellaneousEdit = _ => {
     setMediaListMeta(setterFunc);
   }, []);
 
+  const setRecuritmentMetaFunc = useCallback(setterFunc => {
+    setIsSubmitEnabled(true);
+    setRecuritmentMeta(setterFunc);
+  }, []);
+
   const onSubmit = useCallback(
     async e => {
       setIsSubmitEnabled(false);
@@ -227,6 +238,11 @@ const PageMetaMiscellaneousEdit = _ => {
       // add mediaListMeta
       pageMetaMiscellaneous.mediaListMeta = PageMeta.cleanPageMetaBeforeSubmit(
         mediaListMeta
+      );
+
+      // add recruitmentMeta
+      pageMetaMiscellaneous.recruitmentMeta = PageMeta.cleanPageMetaBeforeSubmit(
+        recruitmentMeta
       );
 
       let isSuccess = validInput(pageMetaMiscellaneous);
@@ -364,6 +380,17 @@ const PageMetaMiscellaneousEdit = _ => {
         <PageMetaEdit
           pageMeta={mediaListMeta}
           setPageMetaFunc={setMediaListMetaFunc}
+          title=''
+          isHideOptionalFields={true}
+        />
+      </AccordionRegion>
+
+      <AccordionRegion
+        title={uiWordings['PageMetaMiscellaneous.RecruitmentMetaLabel']}
+      >
+        <PageMetaEdit
+          pageMeta={recruitmentMeta}
+          setPageMetaFunc={setRecruitmentMetaFunc}
           title=''
           isHideOptionalFields={true}
         />

@@ -802,6 +802,7 @@ export default {
   'PageMetaMiscellaneous.ActivityListMetaLabel': 'Activity List Meta',
   'PageMetaMiscellaneous.NewsListMetaLabel': 'News List Meta',
   'PageMetaMiscellaneous.MediaListMetaLabel': 'Media List Meta',
+  'PageMetaMiscellaneous.recruitmentMetaLabel': 'Recruitment Meta',
 
   'PageMetaMiscellaneous.LastModifyDTLabel': 'Last Modify DT',
   'PageMetaMiscellaneous.LastModifyUserLabel': 'Last Modify User',

@@ -346,7 +346,7 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
           } else {
             phasesToReturn[0]['closestEventsInPresentOrFuture'] = [displayEvents];
           }
-          phasesToReturn[0]['sortedEvents'] = sortedEvents;
+          // phasesToReturn[0]['sortedEvents'] = sortedEvents;
         } else if (closestPhaseIdx > 0) {
           // HUNG ADDED, to get the 補場 event in non-current phase
           const allEventsInAllPhases = [].concat.apply(
@@ -372,11 +372,11 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
           } else {
             phasesToReturn[0]['closestEventsInPresentOrFuture'] = [displayEvents];
           }
-          phasesToReturn[0]['sortedEvents'] = sortedEvents;
+          // phasesToReturn[0]['sortedEvents'] = sortedEvents;
 
         } else {
           phasesToReturn = sortedPhases;
-          phasesToReturn[0]['sortedEvents'] = 'else';
+          // phasesToReturn[0]['sortedEvents'] = 'else';
         }
       }
 
