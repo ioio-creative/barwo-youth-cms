@@ -351,9 +351,12 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
         }
         if (Array.isArray(displayEvents)) {
           phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
+          phasesToReturn[0]['closestEventsInPresentOrFutureType'] = 'array';
         } else {
           phasesToReturn[0]['closestEventsInPresentOrFuture'] = [displayEvents];
+          phasesToReturn[0]['closestEventsInPresentOrFutureType'] = 'one';
         }
+        phasesToReturn[0]['allSortedEvents'] = sortedEvents;
       }
 
       // cater for last phase of the year case,
