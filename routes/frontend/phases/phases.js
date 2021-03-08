@@ -340,23 +340,24 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
           phasesToReturn = sortedPhases.slice(
             closestPhaseInPresentAndFutureIdx
           );
-          phasesToReturn[0]['sortedEvents'] = 'closestPhaseInPresentAndFutureIdx';
+          // phasesToReturn[0]['sortedEvents'] = 'closestPhaseInPresentAndFutureIdx';
         } else if (closestPhaseIdx > 0) {
           phasesToReturn = sortedPhases.slice(closestPhaseIdx);
-          phasesToReturn[0]['sortedEvents'] = 'closestPhaseIdx';
+          // phasesToReturn[0]['sortedEvents'] = 'closestPhaseIdx';
 
         } else {
           phasesToReturn = sortedPhases[0];
-          phasesToReturn[0]['sortedEvents'] = 'else';
+          // phasesToReturn[0]['sortedEvents'] = 'else';
         }
         if (Array.isArray(displayEvents)) {
           phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
-          phasesToReturn[0]['closestEventsInPresentOrFutureType'] = 'array';
+          // phasesToReturn[0]['closestEventsInPresentOrFutureType'] = 'array';
         } else {
           phasesToReturn[0]['closestEventsInPresentOrFuture'] = [displayEvents];
-          phasesToReturn[0]['closestEventsInPresentOrFutureType'] = 'one';
+          // phasesToReturn[0]['closestEventsInPresentOrFutureType'] = 'one';
         }
-        phasesToReturn[0]['allSortedEvents'] = sortedEvents;
+        // phasesToReturn[0]['allSortedEvents'] = sortedEvents;
+        // phasesToReturn[0]['allEvents'] = sortedEvents;
       }
 
       // cater for last phase of the year case,
