@@ -319,64 +319,40 @@ router.get('/:lang/closestYearPhases', [languageHandling], async (req, res) => {
       let phasesToReturn = sortedPhases;
       
       if (!isShowAllPhases) {
+        // HUNG ADDED, to get the 補場 event in non-current phase
+        const allEventsInAllPhases = [].concat.apply(
+          [], 
+          sortedPhases.map(phase => phase['closestEventsInPresentOrFuture'])
+        );
+        const sortedEvents = allEventsInAllPhases.sort((a,b) => {
+          return a['minShowTimestamp'] - b['minShowTimestamp'];
+        });
+        const currentTimeStamp = Date.now();
+        const allPresentAndFutureEvents = sortedEvents.filter(event => {
+          return event['maxShowTimestamp'] > currentTimeStamp;
+        });
+        let displayEvents = sortedEvents[sortedEvents.length - 1];
+        if (allPresentAndFutureEvents.length > 0) {
+          displayEvents = allPresentAndFutureEvents.slice(0, 2);
+        }
         // only show present and future phases of the year
         if (closestPhaseInPresentAndFutureIdx >= 0) {
-          // HUNG ADDED, to get the 補場 event in non-current phase
-          const allEventsInAllPhases = [].concat.apply(
-            [], 
-            sortedPhases.map(phase => phase['closestEventsInPresentOrFuture'])
-          );
-          const sortedEvents = allEventsInAllPhases.sort((a,b) => {
-            return a['minShowTimestamp'] - b['minShowTimestamp'];
-          });
-
-          const currentTimeStamp = Date.now();
-          const allPresentAndFutureEvents = sortedEvents.filter(event => {
-            return event['maxShowTimestamp'] > currentTimeStamp;
-          });
-          let displayEvents = sortedEvents[sortedEvents.length - 1];
-          if (allPresentAndFutureEvents.length > 0) {
-            displayEvents = allPresentAndFutureEvents.slice(0, 2);
-          }
           phasesToReturn = sortedPhases.slice(
             closestPhaseInPresentAndFutureIdx
           );
-          if (Array.isArray(displayEvents)) {
-            phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
-          } else {
-            phasesToReturn[0]['closestEventsInPresentOrFuture'] = [displayEvents];
-          }
-          // phasesToReturn[0]['sortedEvents'] = sortedEvents;
+          phasesToReturn[0]['sortedEvents'] = 'closestPhaseInPresentAndFutureIdx';
         } else if (closestPhaseIdx > 0) {
-          // HUNG ADDED, to get the 補場 event in non-current phase
-          const allEventsInAllPhases = [].concat.apply(
-            [], 
-            sortedPhases.map(phase => phase['closestEventsInPresentOrFuture'])
-          );
-          const sortedEvents = allEventsInAllPhases.sort((a,b) => {
-            return a['minShowTimestamp'] - b['minShowTimestamp'];
-          });
-
-          const currentTimeStamp = Date.now();
-          const allPresentAndFutureEvents = sortedEvents.filter(event => {
-            return event['maxShowTimestamp'] > currentTimeStamp;
-          });
-          let displayEvents = sortedEvents[sortedEvents.length - 1];
-          if (allPresentAndFutureEvents.length > 0) {
-            displayEvents = allPresentAndFutureEvents.slice(0, 2);
-          }
-
           phasesToReturn = sortedPhases.slice(closestPhaseIdx);
-          if (Array.isArray(displayEvents)) {
-            phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
-          } else {
-            phasesToReturn[0]['closestEventsInPresentOrFuture'] = [displayEvents];
-          }
-          // phasesToReturn[0]['sortedEvents'] = sortedEvents;
+          phasesToReturn[0]['sortedEvents'] = 'closestPhaseIdx';
 
         } else {
-          phasesToReturn = sortedPhases;
-          // phasesToReturn[0]['sortedEvents'] = 'else';
+          phasesToReturn = sortedPhases[0];
+          phasesToReturn[0]['sortedEvents'] = 'else';
+        }
+        if (Array.isArray(displayEvents)) {
+          phasesToReturn[0]['closestEventsInPresentOrFuture'] = displayEvents;
+        } else {
+          phasesToReturn[0]['closestEventsInPresentOrFuture'] = [displayEvents];
         }
       }
 
