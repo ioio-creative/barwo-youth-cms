@@ -232,7 +232,7 @@ router.post(
 
     try {
       const activity = new Activity({
-        label: label.trim(),
+        label: label.toString().replace(/[\s\/]/g, '-').trim(),
         name_tc,
         name_sc,
         name_en,
@@ -324,7 +324,7 @@ router.put(
     // Note:
     // non-required fields do not need null check
     const activityFields = {};
-    if (label) activityFields.label = label.trim();
+    if (label) activityFields.label = label.toString().replace(/[\s\/]/g, '-').trim();
     if (name_tc) activityFields.name_tc = name_tc;
     if (name_sc) activityFields.name_sc = name_sc;
     if (name_en) activityFields.name_en = name_en;
