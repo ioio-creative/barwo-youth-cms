@@ -16,7 +16,7 @@ const { lastModifyUser } = require('../common/mediumSelect');
 /* utilities */
 
 const csvExtensionWithDot = '.csv';
-const csvExportMimeType = 'text/csv';
+const csvExportMimeType = 'text/csv; charset=utf-8';
 const csvAllowedMimeTypes = [csvExportMimeType, 'application/vnd.ms-excel'];
 
 const isValidCsvFileImport = fileImport => {
@@ -35,6 +35,7 @@ const contactPopulationListForFindAll = [
   }
 ];
 
+const universalBOM = "\uFEFF";
 /* end of utilities */
 
 // @route   GET api/backend/contacts/exportAndImport/export
@@ -65,6 +66,7 @@ router.get('/export', [auth], async (req, res) => {
     };
 
     let contactsOutput =
+      universalBOM +
       'emailAddress,name,language,isEnabled,lastModifyDT,lastModifyUser,' +
       contactGroupArray.join(',') +
       lineBreak;
