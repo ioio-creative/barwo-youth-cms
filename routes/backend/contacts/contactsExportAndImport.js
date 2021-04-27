@@ -128,8 +128,9 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
   }
 
   const fileImport = req.files.fileImport;
+  console.log(req.files);
 
-  const csvStr = fileImport.data.toString();
+  const csvStr = fileImport.toString();
   console.log(csvStr);
 
   // Contact.deleteMany();
