@@ -114,6 +114,7 @@ router.get('/export', [auth], async (req, res) => {
 // @access  Private
 router.post('/import', [auth, fileUploadHandling], async (req, res) => {
   const reqFiles = req.files;
+  console.log('!!! IMPORT !!!');
   if (
     !reqFiles ||
     Object.keys(reqFiles).length === 0 ||
@@ -134,7 +135,7 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
   // Contact.deleteMany();
 
   // res.send('File uploaded');
-  res.send(csvStr);
+  res.status(200).json({"data": csvStr});
 });
 
 module.exports = router;
