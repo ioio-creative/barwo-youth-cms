@@ -16,8 +16,9 @@ const { lastModifyUser } = require('../common/mediumSelect');
 /* utilities */
 
 const csvExtensionWithDot = '.csv';
+const csvMimeType = 'text/csv';
 const csvExportMimeType = 'text/csv; charset=utf-8';
-const csvAllowedMimeTypes = [csvExportMimeType, 'application/vnd.ms-excel'];
+const csvAllowedMimeTypes = [csvMimeType, 'application/vnd.ms-excel'];
 
 const isValidCsvFileImport = fileImport => {
   return (
@@ -35,7 +36,8 @@ const contactPopulationListForFindAll = [
   }
 ];
 
-const universalBOM = "\uFEFF";
+// const universalBOM = "\uFEFF";
+const universalBOM = "";
 /* end of utilities */
 
 // @route   GET api/backend/contacts/exportAndImport/export
@@ -126,9 +128,13 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
 
   const fileImport = req.files.fileImport;
 
-  console.log(Boolean(fileImport.data.toString()));
+  const csvStr = fileImport.data.toString();
+  console.log(csvStr);
 
-  res.send('File uploaded');
+  // Contact.deleteMany();
+
+  // res.send('File uploaded');
+  res.send(csvStr);
 });
 
 module.exports = router;
