@@ -186,7 +186,15 @@ const ContactsState = ({ children }) => {
       const formData = new FormData();
       formData.append('fileImport', file);
 
-      await axios.post('api/backend/contacts/exportAndImport/import', formData);
+      await axios.post(
+        'api/backend/contacts/exportAndImport/import',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
       dispatch({
         type: IMPORT_CONTACTS
       });
