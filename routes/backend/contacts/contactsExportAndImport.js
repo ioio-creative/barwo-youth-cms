@@ -139,9 +139,9 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
   // console.log(csvStr);
   console.log("-----");
   console.log('csvArray');
-  console.log(csvArray[314]);
+  console.log(csvArray[2438]);
   console.log("-----");
-  console.log(csvArray[315]);
+  console.log(csvArray[2439]);
   console.log("-----");
   console.log('csvArray length');
   console.log(csvArray.length);
