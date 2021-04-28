@@ -42,14 +42,14 @@ app.use(
   router.post(
     '/import', (req, res) => {
       const reqFiles = req.files;
-      const fileImport = reqFiles.fileImport;
       console.log(reqFiles);
+      // const fileImport = reqFiles.fileImport;
 
-      const csvData = fileImport.data;
-      const csvStr = fileImport.data.toString();
-      const csvArray = csvStr.split(/[^\r\n]+/g);
-      console.log(csvData);
-      console.log(csvArray);
+      // const csvData = fileImport.data;
+      // const csvStr = fileImport.data.toString();
+      // const csvArray = csvStr.split(/[^\r\n]+/g);
+      // console.log(csvData);
+      // console.log(csvArray);
       console.log('end');
     }
   )
