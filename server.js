@@ -12,12 +12,10 @@ const app = express();
 connectDB();
 
 
-app.use(
-  '/api/backend/contacts/exportAndImport',
-  require('./routes/backend/contacts/contactsExportAndImport')
-);
+
 
 // Init Middleware
+app.use(express.raw({ type: 'application/vnd.ms-excel' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -36,7 +34,12 @@ app.use(function (req, res, next) {
   next();
 });
 
+
 // Define Routes
+app.use(
+  '/api/backend/contacts/exportAndImport',
+  require('./routes/backend/contacts/contactsExportAndImport')
+);
 
 // backend apis
 app.use('/api/backend/auth/auth', require('./routes/backend/auth/auth'));
