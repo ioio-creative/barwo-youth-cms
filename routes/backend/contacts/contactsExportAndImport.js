@@ -36,8 +36,9 @@ const contactPopulationListForFindAll = [
   }
 ];
 
-// const universalBOM = "\uFEFF";
-const universalBOM = "";
+// this char is necessary for excel display chinese correctly
+const universalBOM = "\uFEFF";
+// const universalBOM = "";
 /* end of utilities */
 
 // @route   GET api/backend/contacts/exportAndImport/export
@@ -139,6 +140,9 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
   console.log("-----");
   console.log('csvArray');
   console.log(csvArray[0]);
+  console.log("-----");
+  console.log('csvArray length');
+  console.log(csvArray.length);
   console.log("-----");
 
   // Contact.deleteMany();
