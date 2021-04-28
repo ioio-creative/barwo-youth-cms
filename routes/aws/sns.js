@@ -24,7 +24,7 @@ const topicArnBounce =
 const websiteBackendRoot = config.get('WebsiteBackend.root');
 
 const paramsTopicBounces = {
-  Protocol: 'https',
+  Protocol: 'http',
   TopicArn: topicArnBounce,
   Endpoint: `${websiteBackendRoot}api/aws/sns/handle-bounces`
 };
@@ -33,7 +33,7 @@ const topicArnComplaint =
   'arn:aws:sns:ap-southeast-1:697502200750:ses-complaints-topic-prod';
 
 const paramsTopicComplaints = {
-  Protocol: 'https',
+  Protocol: 'http',
   TopicArn: topicArnComplaint,
   Endpoint: `${websiteBackendRoot}api/aws/sns/handle-complaints`
 };
