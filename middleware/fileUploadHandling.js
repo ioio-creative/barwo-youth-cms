@@ -8,6 +8,6 @@ module.exports = fileUpload({
   limits: {
     fileSize: config.get('Aws.s3.limits.fileSizeInMBs') * 1024 * 1024
   },
-  useTempFiles: true,
+  useTempFiles: false,
   tempFileDir: '/tmp'
 });

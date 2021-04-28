@@ -16,11 +16,11 @@ connectDB();
 
 
 // Init Middleware
-app.use(express.raw({ type: 'application/vnd.ms-excel' }));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
+// app.use(express.raw({ type: 'application/vnd.ms-excel' }));
+// app.use(express.urlencoded({ extended: true }));
 // app.use(express.json());
+
+app.use(express.json({ extended: false }));
 // app.use(express.urlencoded({ extended: false }));
 
 // Allow CORS
@@ -37,27 +37,22 @@ app.use(function (req, res, next) {
 
 
 // Define Routes
-app.use(
-  '/api/backend/contacts/exportAndImport',
-  router.post(
-    '/import', (req, res) => {
-      const reqFiles = req.files;
-      console.log(reqFiles);
-      // const fileImport = reqFiles.fileImport;
-
-      // const csvData = fileImport.data;
-      // const csvStr = fileImport.data.toString();
-      // const csvArray = csvStr.split(/[^\r\n]+/g);
-      // console.log(csvData);
-      // console.log(csvArray);
-      console.log('end');
-    }
-  )
-);
-
 // app.use(
 //   '/api/backend/contacts/exportAndImport',
-//   require('./routes/backend/contacts/contactsExportAndImport')
+//   router.post(
+//     '/import', (req, res) => {
+//       const reqFiles = req.files;
+//       console.log(reqFiles);
+//       // const fileImport = reqFiles.fileImport;
+
+//       // const csvData = fileImport.data;
+//       // const csvStr = fileImport.data.toString();
+//       // const csvArray = csvStr.split(/[^\r\n]+/g);
+//       // console.log(csvData);
+//       // console.log(csvArray);
+//       console.log('end');
+//     }
+//   )
 // );
 
 // backend apis
@@ -135,6 +130,10 @@ app.use(
 app.use(
   '/api/backend/contacts/contacts',
   require('./routes/backend/contacts/contacts')
+);
+app.use(
+  '/api/backend/contacts/exportAndImport',
+  require('./routes/backend/contacts/contactsExportAndImport')
 );
 app.use(
   '/api/backend/newsletters/newsletters',
