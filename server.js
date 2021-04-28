@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 const config = require('config');
 
@@ -11,6 +10,12 @@ const app = express();
 
 // Connect Database
 connectDB();
+
+
+app.use(
+  '/api/backend/contacts/exportAndImport',
+  require('./routes/backend/contacts/contactsExportAndImport')
+);
 
 // Init Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -108,10 +113,6 @@ app.use(
 app.use(
   '/api/backend/contacts/contacts',
   require('./routes/backend/contacts/contacts')
-);
-app.use(
-  '/api/backend/contacts/exportAndImport',
-  require('./routes/backend/contacts/contactsExportAndImport')
 );
 app.use(
   '/api/backend/newsletters/newsletters',
