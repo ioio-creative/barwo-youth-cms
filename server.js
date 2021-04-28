@@ -13,7 +13,7 @@ connectDB();
 
 // Init Middleware
 app.use(express.json({ extended: false }));
-
+app.use(express.urlencoded({ extended: false }));
 // Allow CORS
 // https://enable-cors.org/server_expressjs.html
 // TODO:

@@ -171,6 +171,7 @@ const ContactsState = ({ children }) => {
       dispatch({
         type: EXPORT_CONTACTS
       });
+      console.log(res);
       contactsExport = res.data;
     } catch (err) {
       handleServerError(err, CONTACTS_ERRORS, dispatch);
