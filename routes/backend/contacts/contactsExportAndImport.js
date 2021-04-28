@@ -132,7 +132,7 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
 
   const csvData = fileImport.data;
   const csvStr = fileImport.data.toString();
-  const csvArray = csvStr.split(/[\r\n]/g);
+  const csvArray = csvStr.split(/\r\n|\n\r|\n|\r/g);
   console.log("csvData");
   console.log(csvData.length);
   // console.log("csvStr");
