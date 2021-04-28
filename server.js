@@ -12,9 +12,9 @@ const app = express();
 connectDB();
 
 // Init Middleware
-// app.use(express.bodyParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.bodyParser());
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 
 // Allow CORS
 // https://enable-cors.org/server_expressjs.html
