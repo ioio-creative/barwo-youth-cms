@@ -13,8 +13,8 @@ const app = express();
 connectDB();
 
 // Init Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
