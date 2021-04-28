@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const config = require('config');
+const router = express.Router();
 
 const connectDB = require('./config/db');
 const { generalErrorHandle } = require('./utils/errorHandling');
@@ -38,8 +39,26 @@ app.use(function (req, res, next) {
 // Define Routes
 app.use(
   '/api/backend/contacts/exportAndImport',
-  require('./routes/backend/contacts/contactsExportAndImport')
+  router.post(
+    '/import', (req, res) => {
+      const reqFiles = req.files;
+      const fileImport = reqFiles.fileImport;
+      console.log(reqFiles);
+
+      const csvData = fileImport.data;
+      const csvStr = fileImport.data.toString();
+      const csvArray = csvStr.split(/[^\r\n]+/g);
+      console.log(csvData);
+      console.log(csvArray);
+      console.log('end');
+    }
+  )
 );
+
+// app.use(
+//   '/api/backend/contacts/exportAndImport',
+//   require('./routes/backend/contacts/contactsExportAndImport')
+// );
 
 // backend apis
 app.use('/api/backend/auth/auth', require('./routes/backend/auth/auth'));
