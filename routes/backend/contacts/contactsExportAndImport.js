@@ -150,9 +150,10 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
         resolve(0);
       } else {
         const record = csvRow.split(csvDelimiter);
-        if (record.length === 14) {
+        if (record.length !== 14) {
           // malform data, skip it
-          continue;
+          resolve(0);
+          // continue;
         } else {
           const groupArray = [];
           for (let i = 6; i < record.length; i++) {
