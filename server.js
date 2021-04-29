@@ -37,23 +37,6 @@ app.use(function (req, res, next) {
 
 
 // Define Routes
-// app.use(
-//   '/api/backend/contacts/exportAndImport',
-//   router.post(
-//     '/import', (req, res) => {
-//       const reqFiles = req.files;
-//       console.log(reqFiles);
-//       // const fileImport = reqFiles.fileImport;
-
-//       // const csvData = fileImport.data;
-//       // const csvStr = fileImport.data.toString();
-//       // const csvArray = csvStr.split(/[^\r\n]+/g);
-//       // console.log(csvData);
-//       // console.log(csvArray);
-//       console.log('end');
-//     }
-//   )
-// );
 
 // backend apis
 app.use('/api/backend/auth/auth', require('./routes/backend/auth/auth'));

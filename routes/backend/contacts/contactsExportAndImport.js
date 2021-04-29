@@ -131,26 +131,113 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
   // console.log(req.files);
 
   const csvData = fileImport.data;
-  const csvStr = fileImport.data.toString();
+  const csvStr = csvData.toString();
   const csvArray = csvStr.split(/\r\n|\n\r|\n|\r/g);
-  console.log("csvData");
-  console.log(csvData.length);
-  // console.log("csvStr");
-  // console.log(csvStr);
-  console.log("-----");
-  console.log('csvArray');
-  console.log(csvArray[2438]);
-  console.log("-----");
-  console.log(csvArray[2439]);
-  console.log("-----");
-  console.log('csvArray length');
-  console.log(csvArray.length);
-  console.log("-----");
 
-  // Contact.deleteMany();
+  const groupString = [
+    'MEDIA','EDM','YMT','BARWO','PRIMANY','SECONDARY','UNIVERSITY','FAMILY'
+  ];
+  // start import process
+  // delete all existing records
+  // Contact.deleteMany({});
+  // loop through all records to insert
+  // /*
+  // let totalRecords = 0;
+  // let importedRecords = 0;
+  const allImports = csvArray.map((csvRow, idx) => {
+    return new Promise((resolve, reject) => {
+      if (idx === 0 && (csvRow[0] === universalBOM || csvRow[0] === "e" || csvRow.trim().length === 0)) {
+        resolve(0);
+      } else {
+        const record = csvRow.split(csvDelimiter);
+        if (record.length === 14) {
+          // malform data, skip it
+          continue;
+        } else {
+          const groupArray = [];
+          for (let i = 6; i < record.length; i++) {
+            if (String(record[3]).toLowerCase() === 'true') {
+              groupArray.push(groupString[i - 6]);
+            }
+          }
+          // try {
+            const contact = new Contact({
+              emailAddress: record[0],
+              name: record[1],
+              // type,
+              groups: groupArray,
+              language: record[2],
+              isEnabled: String(record[3]).toLowerCase() === 'true',
+              // lastModifyUser: req.user._id
+            });
+            contact.save().then(_ => {
+              resolve(1);
+            }).catch(_ => {
+              resolve(0);
+            });
+            // maybe promise is a better solution?
+            // await contact.save();
+        
+            // res.json(contact);
+          // } catch (err) {
+          //   resolve(0);
+          //   // if (!handleContactLabelDuplicateKeyError(err, res)) {
+          //   //   generalErrorHandle(err, res);
+          //   // }
+          // }
+        }
+      }
+    })
+  })
+  Promise.all(allImports).then(resultArray => {
+    const recordInserted = resultArray.reduce((accumulate, current) => accumulate + current, 0);
+    res.send(`${recordInserted} records imported.`);
+  })
+  // for (let i = 0; i < csvArray.length; i++) {
+  //   if (i === 0 && (csvArray[i][0] === universalBOM || csvArray[i][0] === "e" || csvArray[i].trim().length === 0)) {
+  //     // should be header row or empty row
+  //     continue;
+  //   } else {
+  //     // should be record
+  //     totalRecords++;
+  //     const record = csvArray[i].split(csvDelimiter);
+  //     if (record.length === 14) {
+  //       // malform data, skip it
+  //       continue;
+  //     } else {
+  //       const groupArray = [];
+  
+  //       try {
+  //         const contact = new Contact({
+  //           emailAddress: record[0],
+  //           name: record[1],
+  //           // type,
+  //           groups: groupArray,
+  //           language: record[2],
+  //           isEnabled: String(record[3]).toLowerCase() === 'true',
+  //           // lastModifyUser: req.user._id
+  //         });
+  
+  //         // maybe promise is a better solution?
+  //         // await contact.save();
+      
+  //         // res.json(contact);
+  //       } catch (err) {
+  //         if (!handleContactLabelDuplicateKeyError(err, res)) {
+  //           generalErrorHandle(err, res);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+  
+  
+  
+  // */
+
 
   // res.send('File uploaded');
-  res.status(200).json({"data": csvStr});
+  // res.status(200).json({"data": csvStr});
 });
 
 module.exports = router;
