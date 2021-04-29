@@ -127,6 +127,15 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
     });
   }
 
+  const revertCleanStringFieldForCsv = str => {
+    if (str && str[0] === '"') {
+      const mainStr = str.substr(1, str.length - 2);
+      return mainStr.replace(/\"\"/g, '"');
+    } else {
+      return str;
+    }
+  };
+
   const fileImport = req.files.fileImport;
   // console.log(req.files);
 
@@ -157,14 +166,14 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
         } else {
           const groupArray = [];
           for (let i = 6; i < record.length; i++) {
-            if (String(record[3]).toLowerCase() === 'true') {
+            if (String(record[i]).toLowerCase() === 'true') {
               groupArray.push(groupString[i - 6]);
             }
           }
           // try {
             const contact = new Contact({
-              emailAddress: record[0],
-              name: record[1],
+              emailAddress: revertCleanStringFieldForCsv(record[0]),
+              name: revertCleanStringFieldForCsv(record[1]),
               // type,
               groups: groupArray,
               language: record[2],
