@@ -148,7 +148,7 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
   ];
   // start import process
   // delete all existing records
-  // Contact.deleteMany({});
+  Contact.deleteMany({});
   // loop through all records to insert
   // /*
   // let totalRecords = 0;
