@@ -83,7 +83,7 @@ router.get('/export', [auth], async (req, res) => {
         csvDelimiter +
         contact.isEnabled.toString() +
         csvDelimiter +
-        (contact.lastModifyDT ? formatDateString(contact.lastModifyDT) : '') +
+        (contact.lastModifyDT ? formatDateString(contact.lastModifyDT, 'YYYY-MM-DD HH:mm') : '') +
         csvDelimiter +
         cleanStringFieldForCsv(lastModifyUser.name) +
         csvDelimiter +
