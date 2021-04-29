@@ -133,7 +133,7 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
   const csvData = fileImport.data;
   const csvStr = csvData.toString();
   const csvArray = csvStr.split(/\r\n|\n\r|\n|\r/g);
-
+  const csvDelimiter = ',';
   const groupString = [
     'MEDIA','EDM','YMT','BARWO','PRIMANY','SECONDARY','UNIVERSITY','FAMILY'
   ];
