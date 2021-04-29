@@ -178,6 +178,7 @@ router.post('/import', [auth, fileUploadHandling], async (req, res) => {
               groups: groupArray,
               language: record[2],
               isEnabled: String(record[3]).toLowerCase() === 'true',
+              lastModifyDT: String(record[4])
               // lastModifyUser: req.user._id
             });
             contact.save().then(_ => {
