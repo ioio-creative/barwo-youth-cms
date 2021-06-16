@@ -31,7 +31,7 @@ mongoose.Query.prototype.exec = async function() {
 
   this.time = config.get("Redis.cacheTime");
   this.hashKey = this.mongooseCollection.name;
-  
+
   const key = JSON.stringify({
     ...this.getQuery()
   });
@@ -48,7 +48,7 @@ mongoose.Query.prototype.exec = async function() {
   }
 
   const result = await exec.apply(this, arguments);
-  console.log(this.time);
+  console.log(this.hashKey, key, JSON.stringify(result));
   client.hset(this.hashKey, key, JSON.stringify(result));
   client.expire(this.hashKey, this.time);
 
