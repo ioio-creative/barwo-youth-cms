@@ -29,6 +29,9 @@ mongoose.Query.prototype.exec = async function() {
   //   return await exec.apply(this, arguments);
   // }
 
+  this.time = config.get("Redis.cacheTime");
+  this.hashKey = this.mongooseCollection.name;
+  
   const key = JSON.stringify({
     ...this.getQuery()
   });
@@ -45,8 +48,6 @@ mongoose.Query.prototype.exec = async function() {
   }
 
   const result = await exec.apply(this, arguments);
-  this.time = config.get("Redis.cacheTime");
-  this.hashKey = this.mongooseCollection.name;
   console.log(this.time);
   client.hset(this.hashKey, key, JSON.stringify(result));
   client.expire(this.hashKey, this.time);
