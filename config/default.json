@@ -56,5 +56,10 @@
   },
   "WebsiteBackend": {
     "root": "http://xxx.com/"
+  },
+  "Redis": {
+    "host": "localhost",
+    "port": 6379,
+    "cacheTime": 60
   }
 }
