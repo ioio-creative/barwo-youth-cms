@@ -7,11 +7,14 @@ const redis = require("redis");
 const util = require("util");
 const config = require("config");
 
+
 const client = redis.createClient({
   host: config.get("Redis.host"),
   port: config.get("Redis.port"),
   retry_strategy: () => 1000
 });
+console.log("redis started");
+console.log(client);
 client.hget = util.promisify(client.hget);
 const exec = mongoose.Query.prototype.exec;
 
