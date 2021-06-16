@@ -31,31 +31,34 @@ mongoose.Query.prototype.exec = async function() {
   // if (!this.useCache) {
   //   return await exec.apply(this, arguments);
   // }
-
-  this.time = config.get("Redis.cacheTime");
-  this.hashKey = this.mongooseCollection.name;
+  
+  const expireTime = config.get("Redis.cacheTime");
+  const hashKey = this.mongooseCollection.name;
 
   const key = JSON.stringify({
     ...this.getQuery()
   });
 
-  const cacheValue = await client.hget(this.hashKey, key);
+  const cacheValue = await client.hget(hashKey, key);
 
   if (cacheValue) {
     const doc = JSON.parse(cacheValue);
 
-    // console.log("Response from Redis");
-    return Array.isArray(doc)
-      ? doc.map(d => new this.model(d))
-      : new this.model(doc);
+    console.log("Response from Redis");
+    return doc;
+    // Array.isArray(doc)
+    //   ? doc.map(d => new this.model(d))
+    //   : new this.model(doc);
+  } else {
+    console.log('hihi')
   }
 
   const result = await exec.apply(this, arguments);
-  // console.log(this.hashKey, key, "" + JSON.stringify(result));
-  client.hset(this.hashKey, key, result? JSON.stringify(result): "");
-  client.expire(this.hashKey, this.time);
+  // console.log(hashKey, key, "" + JSON.stringify(result));
+  client.hset(hashKey, key, result? JSON.stringify(result): "");
+  client.expire(hashKey, expireTime);
 
-  // console.log("Response from MongoDB");
+  console.log("Response from MongoDB");
   return result;
 };
 
