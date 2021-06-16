@@ -9,6 +9,7 @@ const { generalErrorHandle } = require('./utils/errorHandling');
 
 const app = express();
 
+require("./utils/cache/cache");
 // Connect Database
 connectDB();
 
