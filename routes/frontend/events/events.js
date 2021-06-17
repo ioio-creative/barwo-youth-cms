@@ -188,8 +188,9 @@ const getEventForFrontEndFromDbEvent = (
     firstShowDate = firstShowDateRaw
       ? formatDateStringForFrontEnd(firstShowDateRaw)
       : null;
-    firstShowYear = firstShowDateRaw ? firstShowDateRaw.getUTCFullYear() : null;
-    firstShowMonth = firstShowDateRaw ? firstShowDateRaw.getUTCMonth() : null;
+    // console.log(firstShowDateRaw);
+    firstShowYear = firstShowDateRaw ? new Date(firstShowDateRaw).getUTCFullYear() : null;
+    firstShowMonth = firstShowDateRaw ? new Date(firstShowDateRaw).getUTCMonth() : null;
 
     const lastShow = event.shows[event.shows.length - 1];
     lastShowDateRaw = lastShow.date;
