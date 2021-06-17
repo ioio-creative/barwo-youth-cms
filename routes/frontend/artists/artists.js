@@ -174,9 +174,9 @@ const getArtistForFrontEndFromDbArtist = (
           artistWithRole.artist &&
           artistWithRole.artist.label === artist.label
         );
-        if (event.artists === undefined) {
-          console.log('artist undefined', correspondingArtistWithRole);
-        }
+        // if (event.artists === undefined) {
+        //   console.log('artist undefined', correspondingArtistWithRole);
+        // }
         if (correspondingArtistWithRole) {
           artistRoleInEvent = getEntityPropByLanguage(
             correspondingArtistWithRole,
@@ -212,10 +212,10 @@ const getArtistForFrontEndFromDbArtist = (
           ? formatDateStringForFrontEnd(firstShowDateRaw)
           : null;
         firstShowYear = firstShowDateRaw
-          ? firstShowDateRaw.getUTCFullYear()
+          ? new Date(firstShowDateRaw).getUTCFullYear()
           : null;
         firstShowMonth = firstShowDateRaw
-          ? firstShowDateRaw.getUTCMonth()
+          ? new Date(firstShowDateRaw).getUTCMonth()
           : null;
 
         const lastShow = event.shows[event.shows.length - 1];
