@@ -134,7 +134,7 @@ const getNewsMediaItemList = async req => {
     //   ...newsMediaItem,
     //   year: newsMediaItem.fromDate.getUTCFullYear()
     // }
-    newsMediaItem.year = newsMediaItem.fromDate.getUTCFullYear();
+    newsMediaItem.year = new Date(newsMediaItem.fromDate).getUTCFullYear();
     return newsMediaItem;
   });
 
